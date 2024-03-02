@@ -47,7 +47,11 @@
     inputs.alejandra.defaultPackage.${pkgs.system}
     # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
-    (pkgs.writeShellScriptBin "apply-nixos-changes" ''
+    (pkgs.writeShellScriptBin "regen-nixos" ''
+      # todo find some way to find the location of the flake
+      nixFlakeDir=/etc/nixos/
+
+
       # make sure is root
       if [ "$EUID" -ne 0 ]
         then echo "This requires root to run"
@@ -56,21 +60,20 @@
 
       # make sure that user has selected a profile
       # for example "deafult"
-      # if [ $# -eq 0 ]
-      #   then echo "NixOs profile not supplied"
-      #   exit
-      # fi
+      if [ $# -eq 0 ]
+        then echo "NixOs profile not supplied"
+        exit
+      fi
 
       # make sure that we have a commit msg
       # for example "firefox is now in dark mode"
-      if [ $# -eq 0 ]
+      if [ $# -eq 1 ]
         then echo "Generation note / msg not supplied"
         exit
       fi
 
-
       # goto where the nix configs are
-      pushd /etc/nixos/ > /dev/null
+      pushd nixFlakeDir > /dev/null
 
 
       # formatt code
@@ -84,9 +87,9 @@
 
 
       # rebuild ignore everything except errors
-      echo -e "\n\nRebuilding NixOS..."
+      echo -e "\n\nRebuilding NixOS... (profile: $1)"
       # if this fails dont commit
-      nixos-rebuild switch --flake ".#" || exit 1
+      nixos-rebuild switch --flake ".#$1" || exit 1
 
 
       # comit changes

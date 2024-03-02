@@ -142,7 +142,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    kitty # remove when i can config the hyprland.conf
     alacritty
 
     rofi-wayland
@@ -154,6 +153,8 @@
 
     swww # wallpaper daemions
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+
+    tree # show file system tree
   ];
 
   # setup neovim as the desfault editor

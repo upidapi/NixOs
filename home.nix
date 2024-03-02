@@ -75,7 +75,7 @@
 
       # formatt code
       echo "Formatting Files..."
-      alejandra . || true  # &>/dev/null
+      alejandra . || true
 
 
       # show git diff
@@ -97,14 +97,16 @@
       git commit -am "$2 ($gen)"  # --author="upidapi <videw@icloud.com>"
 
 
-      echo -e "\n\nPushing code to github"
+      echo -e "\n\nPushing code to github..."
       # todo put this in sops
       pat="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"
       git push https://$pat@github.com/upidapi/NixOs.git main
-      echo -e "\n\nSuccessfully regened nixos"
 
 
       popd > /dev/null
+
+
+      echo -e "\n\nSuccessfully regened nixos"
     '')
   ];
 

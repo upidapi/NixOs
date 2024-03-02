@@ -43,8 +43,62 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
 
+    # used to formatt nix code
     inputs.alejandra.defaultPackage.${pkgs.system}
     # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
+
+    (pkgs.writeShellScriptBin "regen-nixos" ''
+      # exit immediately if a command exits with a non-zero status
+      set -e
+
+      # make sure is root
+      if [ "$EUID" -ne 0 ]
+        then echo "This requires root to run"
+        exit
+      fi
+
+      # make sure that user has selected a profile
+      # for example "deafult"
+      if [ $# -eq 0 ]
+        then echo "NixOs profile not supplied"
+        exit
+      fi
+
+
+      # hide new dir
+      pushd /etc/nixos/ > /dev/null
+
+      # formatt code
+      echo "Formatting Files..."
+      alejandra . || true  # &>/dev/null
+
+
+      # show git diff
+      echo -e "\n\nFile Diff:"
+      git diff
+
+
+      # rebuild ignore everything except errors
+      echo -e "\n\nRebuilding NixOS (profile: $1)..."
+      nixos-rebuild switch --flake /etc/nixos#$1
+
+      # &>nixos-switch.log || (
+      #  cat nixos-switch.log | grep --color error && false)
+
+
+      echo -e "\n\nCommiting changes..."
+      echo "does this print"
+      # -am := add all staged changes, and a msg for the commit
+      $gen=$(nixos-rebuild list-generations | grep current)
+      echo "test"
+      git commit -am "$2 ($gen)"  # --author="upidapi <videw@icloud.com>"
+      echo "hi"
+      echo -e "\n\nSuccessfully regened nixos"
+      popd
+      echo "edn"
+    '')
+
+    # git push https://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@github.com/upidapi/NixOs.git main
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

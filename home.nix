@@ -49,7 +49,7 @@
 
     (pkgs.writeShellScriptBin "regen-nixos" ''
       # exit immediately if a command exits with a non-zero status
-      set -e
+      # set -e
 
       # make sure is root
       if [ "$EUID" -ne 0 ]
@@ -89,7 +89,7 @@
       echo -e "\n\nCommiting changes..."
       echo "does this print"
       # -am := add all staged changes, and a msg for the commit
-      $gen=$(nixos-rebuild list-generations | grep current)
+      gen=$(nixos-rebuild list-generations | grep current)
       echo "test"
       git commit -am "$2 ($gen)"  # --author="upidapi <videw@icloud.com>"
       echo "hi"

@@ -70,7 +70,7 @@
 
 
       # goto where the nix configs are
-      pushd /etc/nixos/ > /dev/null  # dont print the new dir to stdout
+      pushd /etc/nixos/ > /dev/null
 
 
       # formatt code
@@ -103,7 +103,8 @@
       git push https://$pat@github.com/upidapi/NixOs.git main
       echo -e "\n\nSuccessfully regened nixos"
 
-      popd
+
+      popd > /dev/null
     '')
   ];
 

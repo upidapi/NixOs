@@ -48,9 +48,6 @@
     # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
     (pkgs.writeShellScriptBin "regen-nixos" ''
-      # exit immediately if a command exits with a non-zero status
-      # set -e
-
       # make sure is root
       if [ "$EUID" -ne 0 ]
         then echo "This requires root to run"
@@ -64,9 +61,17 @@
         exit
       fi
 
+      # make sure that we have a commit msg
+      # for example "firefox is now in dark mode"
+      if [ $# -eq 1 ]
+        then echo "Generation note / msg not supplied"
+        exit
+      fi
 
-      # hide new dir
-      pushd /etc/nixos/ > /dev/null
+
+      # goto where the nix configs are
+      pushd /etc/nixos/ > /dev/null  # dont print the new dir to stdout
+
 
       # formatt code
       echo "Formatting Files..."
@@ -80,25 +85,26 @@
 
       # rebuild ignore everything except errors
       echo -e "\n\nRebuilding NixOS (profile: $1)..."
-      nixos-rebuild switch --flake /etc/nixos#$1
-
-      # &>nixos-switch.log || (
-      #  cat nixos-switch.log | grep --color error && false)
+      # if this fails dont commit
+      nixos-rebuild switch --flake /etc/nixos#$1 || exit 1
 
 
+      # comit changes
       echo -e "\n\nCommiting changes..."
-      echo "does this print"
+
       # -am := add all staged changes, and a msg for the commit
       gen=$(nixos-rebuild list-generations | grep current)
-      echo "test"
       git commit -am "$2 ($gen)"  # --author="upidapi <videw@icloud.com>"
-      echo "hi"
-      echo -e "\n\nSuccessfully regened nixos"
-      popd
-      echo "edn"
-    '')
 
-    # git push https://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@github.com/upidapi/NixOs.git main
+
+      echo -e "\n\nPushing code to github"
+      # todo put this in sops
+      pat="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"
+      git push https://$pat@github.com/upidapi/NixOs.git main
+      echo -e "\n\nSuccessfully regened nixos"
+
+      popd
+    '')
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

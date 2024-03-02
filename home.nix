@@ -47,7 +47,7 @@
     inputs.alejandra.defaultPackage.${pkgs.system}
     # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
-    (pkgs.writeShellScriptBin "regen-nixos" ''
+    (pkgs.writeShellScriptBin "apply-nixos-changes" ''
       # make sure is root
       if [ "$EUID" -ne 0 ]
         then echo "This requires root to run"
@@ -56,14 +56,14 @@
 
       # make sure that user has selected a profile
       # for example "deafult"
-      if [ $# -eq 0 ]
-        then echo "NixOs profile not supplied"
-        exit
-      fi
+      # if [ $# -eq 0 ]
+      #   then echo "NixOs profile not supplied"
+      #   exit
+      # fi
 
       # make sure that we have a commit msg
       # for example "firefox is now in dark mode"
-      if [ $# -eq 1 ]
+      if [ $# -eq 0 ]
         then echo "Generation note / msg not supplied"
         exit
       fi
@@ -84,9 +84,9 @@
 
 
       # rebuild ignore everything except errors
-      echo -e "\n\nRebuilding NixOS (profile: $1)..."
+      echo -e "\n\nRebuilding NixOS..."
       # if this fails dont commit
-      nixos-rebuild switch --flake /etc/nixos#$1 || exit 1
+      nixos-rebuild switch --flake ".#" || exit 1
 
 
       # comit changes
@@ -106,7 +106,7 @@
       popd > /dev/null
 
 
-      echo -e "\n\nSuccessfully regened nixos"
+      echo -e "\n\nSuccessfully applied nixos configuration changes"
     '')
   ];
 

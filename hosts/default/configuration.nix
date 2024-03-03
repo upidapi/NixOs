@@ -11,7 +11,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./bth.nix
+    ../../modules/nixos/bth.nix
     inputs.home-manager.nixosModules.default
   ];
 

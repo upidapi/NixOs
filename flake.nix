@@ -35,6 +35,7 @@
   } @ inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+    # rootPath = ./.;
   in {
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
@@ -42,7 +43,10 @@
         # {
         #   environment.systemPackages = [alejandra.defaultPackage.${system}];
         # }
-        ./configuration.nix
+        # ./configuration.nix  <--- works
+        # ./testsdafj.nix
+        ./hosts/default/configuration.nix
+        # ./test  # <---- fails
         inputs.home-manager.nixosModules.default
       ];
     };

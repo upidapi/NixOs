@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    ./monitors.nix
+    ../../modules/home-manager/monitors.nix
     # ./nixvim.nix
   ];
 

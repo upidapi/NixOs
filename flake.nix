@@ -40,13 +40,9 @@
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
-        # {
-        #   environment.systemPackages = [alejandra.defaultPackage.${system}];
-        # }
-        # ./configuration.nix  <--- works
-        # ./testsdafj.nix
+        # note: modules are not added unless added to git
+        # https://discourse.nixos.org/t/error-no-such-file-or-directory-when-trying-to-add-new-modules/31986/3
         ./hosts/default/configuration.nix
-        # ./test  # <---- fails
         inputs.home-manager.nixosModules.default
       ];
     };

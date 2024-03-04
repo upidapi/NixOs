@@ -17,7 +17,7 @@ Each module is supplied with "mod_options"
     {mod_options, ...} : {
         mod_options.enabled = true
     }
-
+:
     => (is the same as)
 
     {options, ...} : {
@@ -35,6 +35,13 @@ since nix doesn't have getAtte overload we have to predefine our category's
 
     groups = {a = [z, y, z],  b = 
 
+
+no_op = {x, ...}: x
+# no_op_set = x: map ((y: ))
+struct =  {
+    modules = no_op;
+    options = 
+}
 
 we supply the function mod_path: 
     

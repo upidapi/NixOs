@@ -57,6 +57,10 @@ in {
           -> ((lib.length (lib.filter (m: m.primary) config.monitors)) == 1);
         message = "Exactly one monitor must be set to primary.";
       }
+      {
+        assertion = (lib.length config.monitors) != 0;
+        message = "No monitors configured";
+      }
     ];
   };
 }

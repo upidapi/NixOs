@@ -39,14 +39,16 @@ rec {
     rec {
       modules = builtins.mapAttrs (
         (name: module:
-	  if builtins.typeOf (module) == "lambda"
-	    then (import module) {inherit modules;}
-	    else (
-	      get-module-scope-struct (module)
-	      # the default.nix file gets added to the modules scope
-	      # {some_path}/{name}/default.nix == {some_path}/{name}.nix
-	      // module."default.nix" or {}  
+	  /* rec {
+	    res = */ if builtins.typeOf (module) == "lambda"
+	      then (import module) {inherit modules}  # ; res.config;}
+  	      else (
+	        get-module-scope-struct (module)
+	        # the default.nix file gets added to the modules scope
+	        # {some_path}/{name}/default.nix == {some_path}/{name}.nix
+	        // module."default.nix" or {}  
 	    )
+	  # }
         )
         nix-file-struct;
       )

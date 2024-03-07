@@ -47,9 +47,7 @@ example
             mkProfile = {...}: ...
         }
     }
-    
-    # is the same as 
-    
+        
     {options, lib, ...} : {
         options.modules.discord = {
             enabled = mkOptions bool
@@ -60,6 +58,49 @@ example
         }
     }
 
+
 # note options."option" = "value" should still be used to set options
     m_opt is only for defining options
+
+
+how it shuld work
+    # /{project_root}/modules/discord/default.nix
+    # or
+    # /{project_root}/modules/discord.nix
+
+    {modules, ...} : {
+        ifEnabled
+            "whether to load the monitors to wayland or not"
+            {hyprland.monitors = modules.nixos.hardware.monitors}
+    }
+
+
+    # is the same as 
+    {modules, cfg, ...} : {
+        options = {
+            enabled = mkOpt
+                types.bool
+                "whether to load the monitors to wayland or not"
+        }
+
+        config = mkIf cfg.enabled {
+            {hyprland.monitors = modules.nixos.hardware.monitors}
+        }
+    }
+
+
+    # is the same as 
+    # (except that you have to imoport this when / where you whant to use it)
+    {config, ...} : {
+        options.modules.discord = {
+            enabled = mkOpt
+                types.bool
+                "whether to load the monitors to wayland or not"
+        }
+
+        config = mkIf config.modules.discord.enabled {
+            {hyprland.monitors = modules.nixos.hardware.monitors}
+        }
+    }
+
 """

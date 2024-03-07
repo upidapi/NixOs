@@ -1,3 +1,4 @@
-{res}: {
-  res.a = "a_with${res.b}";
+{modules}: {
+  inp = "the inp for a";
+  data = "a_with (${modules.b.data})";
 }

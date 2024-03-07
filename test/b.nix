@@ -1,3 +1,4 @@
-{res}: {
-  res.b = "b_data";
+{modules}: {
+  data = "in b (${modules.a.inp})";
 }
+ 

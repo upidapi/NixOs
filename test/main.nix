@@ -1,17 +1,18 @@
-{
-  res = {data = "data";};
-
-  modules = {
-    a = ./a;
-    b = ./b;
+rec {
+  module_paths = {
+    a = ./a.nix;
+    b = ./b.nix;
   };
-
-  res = builtins.mapAttrs (
-    (key: val:
-      import val {res = res;}
+  modules = builtins.mapAttrs 
+    (_: module:
+      (import module) {inherit modules;}
     )
-    modules
-  );
-
-  res = builtins.trace res res;
+    module_paths;
 }
+
+
+/* rec {
+  inp = 0;
+  self = import ./main.nix;
+  out = self.inp + 1;
+} */

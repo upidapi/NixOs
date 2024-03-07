@@ -1,18 +1,18 @@
-
-let 
+{...}: {
+inherit let 
+rec {
   nixpkgs = import <nixpkgs> {};
   inherit (builtins) readDir baseNameOf match mapAttrs;
   inherit (nixpkgs.lib) filterAttrs; 
-  
-  get-rec-nix-file-struct = let 
-    is-file-kind = kind: kind == "regular";
-    is-symlink-kind = kind: kind == "symlink";
-    is-directory-kind = kind: kind == "directory";
-    is-unknown-kind = kind: kind == "unknown";
 
-    is-nix-file = name: kind: if is-file-kind kind then nixpkgs.lib.hasSuffix ".nix" name else false;
-  
-    get-rec-nix-file-struct = path:
+  is-file-kind = kind: kind == "regular";
+  is-symlink-kind = kind: kind == "symlink";
+  is-directory-kind = kind: kind == "directory";
+  is-unknown-kind = kind: kind == "unknown";
+
+  is-nix-file = name: kind: if is-file-kind kind then nixpkgs.lib.hasSuffix ".nix" name else false;
+
+  get-rec-nix-file-struct = path:
       filterAttrs (
         (name: contens: contens != null)
         mapAttrs (
@@ -26,6 +26,31 @@ let
           readDir path
         )
     );
+  
+  only-config = module-scope-struct: 
+    builtins.mapAttrs (
+      (name: module:
+        if builtins.typeOf (module) == "lambda"
+	  then 
+      module-scope-struct
+    ); 
+
+  get-module-scope-stuct = nix-file-struct: 
+    rec {
+      modules = builtins.mapAttrs (
+        (name: module:
+	  if builtins.typeOf (module) == "lambda"
+	    then (import module) {inherit modules;}
+	    else (
+	      get-module-scope-struct (module)
+	      # the default.nix file gets added to the modules scope
+	      # {some_path}/{name}/default.nix == {some_path}/{name}.nix
+	      // module."default.nix" or {}  
+	    )
+        )
+        nix-file-struct;
+      )
+    }.modules;
 
   get-rec-combined-mod-opts = nix-file-struct: 
     map (
@@ -51,5 +76,9 @@ let
   combined-opts = get-rec-combined-opts nix-file-struct
 
   };
-in 
-  
+};
+in {
+  options = ...;
+  config = ...;
+};
+}

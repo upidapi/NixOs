@@ -48,7 +48,7 @@
       modules = [
         # note: modules are not added unless added to git
         # https://discourse.nixos.org/t/error-no-such-file-or-directory-when-trying-to-add-new-modules/31986/3
-        ./hosts/default/configuration.nix
+        ./hosts/default/config.nix
         inputs.home-manager.nixosModules.default
       ];
     };

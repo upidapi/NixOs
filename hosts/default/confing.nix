@@ -10,7 +10,7 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    ./hardware.nix
     ../../modules/nixos/bth.nix
     ../../modules/nixos/pipewire.nix
     inputs.home-manager.nixosModules.default

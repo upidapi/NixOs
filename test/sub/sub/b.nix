@@ -1,5 +1,5 @@
 {
-  module,  # referancees to all other modules
+  modules,  # referancees to all other modules
   mod_cfg  # referance to this mods own config 
 }: {
   # signals that this is a module

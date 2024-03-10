@@ -44,12 +44,18 @@
     # rootPath = ./.;
   in {
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = {
+        inherit inputs;
+	# mod_loader_cfg = {
+	#   src = "./test/sub";
+	# };
+      };
       modules = [
         # note: modules are not added unless added to git
         # https://discourse.nixos.org/t/error-no-such-file-or-directory-when-trying-to-add-new-modules/31986/3
         ./hosts/default/config.nix
         inputs.home-manager.nixosModules.default
+	# ({...}@data: (builtins.trace data ""))
       ];
     };
   };

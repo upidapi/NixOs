@@ -5,8 +5,8 @@
   ...
 }: {
   imports = [
-    ../../modules/home-manager/monitors.nix
-    ../../modules/home-manager/firefox.nix
+    ../../modules/nixos/hardware/monitors.nix
+    ../../modules/home/apps/firefox.nix
     # ./nixvim.nix
   ];
 

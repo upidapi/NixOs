@@ -11,8 +11,8 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware.nix
-    ../../modules/nixos/bth.nix
-    ../../modules/nixos/pipewire.nix
+    ../../modules/nixos/hardware/bth.nix
+    ../../modules/nixos/hardware/sound.nix
     inputs.home-manager.nixosModules.default
   ];
 

@@ -55,7 +55,7 @@
         # https://discourse.nixos.org/t/error-no-such-file-or-directory-when-trying-to-add-new-modules/31986/3
         ./hosts/default/config.nix
         inputs.home-manager.nixosModules.default
-	# ({...}@data: (builtins.trace data ""))
+	({...}@data: (builtins.trace (pkgs.lib.attrNames data) ""))
       ];
     };
   };

@@ -34,7 +34,6 @@
   pkgs,
   ...
 }: {
-  options.modules.home-manager.monitors = 
   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {

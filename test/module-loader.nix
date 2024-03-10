@@ -22,7 +22,7 @@ module syntax:
 }
 */
 
-{...}@module_inputs: rec {
+  rec {
     nixpkgs = import <nixpkgs> {};
     inherit (builtins) readDir baseNameOf match mapAttrs;
     inherit (nixpkgs.lib) filterAttrs;
@@ -166,10 +166,10 @@ module syntax:
     
     # All kwargs passes to eval-module-tree are passed onto
     # all sub-modules.
-    eval-module-tree = {config, options, pkgs, modulesPath}@mod_inp:
+    eval-module-tree = mod_loader_cfg: 
+      {config, options, pkgs, modulesPath}@mod_inp:
+
       let
-        mod_loader_cfg = mod_inp.mod_loader_cfg 
-	  or (builtins.throw "missing mod_loader_cfg")
         modules = rec {
           nix_file_struct = get-rec-nix-file-struct nix_file_root;
   	  modules = (eval-module-struct 
@@ -184,5 +184,20 @@ module syntax:
       };
 
     # todo make this into an importable module:
-  }.eval-module-tree module_input
 
+    # this iw was is given to modules
+    # [ "config" "inputs" "lib" "modulesPath" "options" "specialArgs" ]
+  }.eval-module-tree;
+
+/*
+how to use this:
+
+1. add the folowing to your flakes modules:
+import *path to this* {src = *entry point for your modules*}
+
+2. profit
+
+3. more nix pain
+*/
+
+# todo move this to a better place

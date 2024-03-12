@@ -48,7 +48,7 @@ rec {
   is-nix-file = name: kind: if is-file-kind kind then nixpkgs.lib.hasSuffix ".nix" name else false;
 
   remove-n-chars = string: n:
-  builtins.substring 0 (builtins.stringLength(string) - n) string;
+    builtins.substring 0 (builtins.stringLength(string) - n) string;
 
   get-rec-nix-file-struct = path:
     filterAttrs
@@ -80,28 +80,56 @@ rec {
 
   /* module-data formatt:
   mod_data: {
-    config = *the mod config*
-    options = "the mod options"
-    sub_modules = [mod_data]
-  }
+    # stuff to add to the module scope
+    module = {
+      config = *the mod config*
+    }
+    
+    # stuff to add to the global scope
+    global = {
+      options = "the mod options"
+      sub_modules = [mod_data]
+    }
+
   */
+
+  # recursivly gets the attrs of an object
+  # rec-get-attr obj ["a", "b", "c"] = obj.a.b.c
+  rec-get-attr = object: attr_path:
+    builtins.foldl'
+      (sub_object: attr:
+        sub_object."${attr}"
+          or builtins.throw
+            "attr not found: ${attr} not found, full path: ${attr_path}"
+      )
+      object
+      attr_path;
+
+  # gets the specific parts of all modules
   only-part = modules_data: thing:
-    modules_data."${thing}"
+    modules_data.module."${thing}"
     // (builtins.mapAttrs
       (_: sub_module_data:
         (only-part sub_module_data thing)
       )
-      modules_data.sub_modules or {}
+      modules_data.module.sub_modules or {}
     );
+  
+  # modules higer up in the tree are prioritised
+  get-globals = modules_data:
+    (recursiveMerge
+      builtins.map
+        (x: x.globals)
+        builtins.attrValues
+          modules_data.module.sub_modules or {}
+    ) // modules_data.globals;
 
-  only-config = modules_data:
-    only-part modules_data "config";
 
   formatt-module-data = data:
     if (data.is_module or false)
       then if data ? options
         then if data.options == {}
-          # Modules shuld by design only change stuff if the're given
+          # Modules shuld, by design only change stuff if the're given
           # options. So one whithout any is ether useless or is changing
           # stuff when not explicitly told to
           then builtins.throw "module has no options"
@@ -113,7 +141,7 @@ rec {
             global = {
               config = data.config or {};
             };
-          }diw
+          }
         else "module missing options attribute"
       else null;  # (builtins.trace (builtins.toJSON data) null);
 
@@ -121,35 +149,46 @@ rec {
   # the module with recursive calls to getAttr
   # @example
   # get-specific-module-data *modules_data* ["a" "b"] -> modules_data.a.b
-  get-specific-module-data = modules_data: module_pos:
-    builtins.foldl'
-      (sub_module_data: sub_module_pos:
-        sub_module_data.sub_modules."${sub_module_data}"
-          or builtins.throw
-            "sub path: ${sub_module_pos} not found, full path: ${module_pos}"
-      )
-      modules_data
-      module_pos;
+  get-module-data = modules_data: module_pos:
+    rec-get-attr modules_data (
+      builtins.concatLists
+        builtins.map 
+	  (x: ["module" "sub_modules" x])
+	  module_pos
+    );
+
+    # builtins.foldl'
+    #   (sub_module_data: sub_module_pos:
+    #     sub_module_data.module.sub_modules."${sub_module_data}"
+    #       or builtins.throw
+    #         "sub path: ${sub_module_pos} not found, full path: ${module_pos}"
+    #   )
+    #   modules_data
+    #   module_pos;
 
   # takes a file with a module and evaluates it's contens
   # then merges said content with modules_data
 
   # this is that is normally passed to module_args:
   # [ "config" "inputs" "lib" "modulesPath" "options" "specialArgs" ]
-  eval-module-file = module_data_pos: modules-data: module-path: module_args:
-    let
+  eval-module-file = module_data_pos: modules_data: module_path: module_args:
+    let 
+      config = (get-globals modules_data).config; 
+      # config = recursiveMerge [
+      #  (only-part modules_data "config")  # the module.config
+      #  (get-globals modules_data).config  # the 
+      # ]
       modules-data = formatt-module-data (
-        (import module-path) module_args // {
-          modules = (only-config modules-data);
-          modulesPath = module-path;
-          mod_cfg =
-            get-specific-module-data.config
-              modules-data module_data_pos;
+        (import module_path) module_args // {
+          modules = (only-part modules_data "config");
+          modulesPath = module_path;
+          mod_cfg = rec-get-attr config module_path;
+	  config = config;
         }
       );
     in if builtins.typeOf modules-data == "string"
-      then builtins.throw "\"${modules-data}\" at ${module-path}"
-      else modules-data;
+      then builtins.throw "\"${modules_data}\" at ${module_path}"
+      else modules_data;
 
   # (this is done lazily to allow for module to accses eatchothers data)
   eval-module-struct = {
@@ -161,12 +200,12 @@ rec {
     rec {
       modules_data = (
         if (builtins.typeOf nix_file_struct) == "string"
-          then eval-module-file
+          then eval-module-file  # handler module path
             (module_data_pos)  # where the data for the module is stored
             (recursiveMerge [modules_data modules_data_inp])  # all data
             (nix_file_struct)  # path of module
             (module_args)
-          else
+          else  # handler sub module dir
             let
               sub_module_data = filterAttrs
                 (name: contens: contens != null)
@@ -199,12 +238,13 @@ rec {
     {config, options, pkgs, modulesPath}@mod_inp:
       let
         modules = rec {
-          nix_file_struct = get-rec-nix-file-struct nix_file_root;
-          modules = (eval-module-struct
-            nix_file_struct
-            config  # modules //
-            []
-          );
+          nix_file_struct = get-rec-nix-file-struct mod_loader_cfg.src;
+          modules = (eval-module-struct {
+            nix_file_struct = nix_file_struct;
+            modules_data_inp = config;
+            module_data_pos = [];
+            module_args = mod_inp;
+	  });
         }.modules;
       in {  # this is the resulting module scope
         options = only-part modules "options";
@@ -213,7 +253,7 @@ rec {
 
   # this iw was is given to modules
   # [ "config" "inputs" "lib" "modulesPath" "options" "specialArgs" ]
-}.load-modules
+}  #  .load-modules
 
 /*
 how to use this:

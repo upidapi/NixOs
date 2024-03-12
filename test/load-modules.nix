@@ -106,10 +106,14 @@ rec {
           # stuff when not explicitly told to
           then builtins.throw "module has no options"
           else {
-            options = data.options;
-            config = data.config or {};
-            sub_modules = {};
-          }
+            module = {
+              sub_modules = {};
+              options = data.options;
+            };
+            global = {
+              config = data.config or {};
+            };
+          }diw
         else "module missing options attribute"
       else null;  # (builtins.trace (builtins.toJSON data) null);
 

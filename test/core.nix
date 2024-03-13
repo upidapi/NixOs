@@ -1,53 +1,14 @@
 
-
-# desc 
 /*
-This thing loads all modules in a directory tree 
-into one big master module.
-
-The sub directorys in the tree forces structure since
-each module's option scope correspons to where it is
-in the tree
-
-Src is the entry point to said tree.
-Scope is where all of the opts of the module is placed
-    if none then they're added to the same scope as 
-    everything else
-
-Through some lazy eval fuckery it basivally puts all
-of the actuall sub modules in the same scope. They 
-can accsess eachothers config. Whithout you actually 
-manually importing the modules one depends on.
-
-2 (or more) modules can therefour reference eachothers
-config. Unless it's trully circular. For example 
-b = a and a = b. Wouldn't work
-*/
-
-# how to use this:
-/*
-1. add this to the imports wheever you whant to use it
-import ./load-modules.nix {
-  src = ./modules  # entry point for your modules
-}
-
-2. profit
-
-3. more nix pain
-*/
-
-# module syntax:
-/*
+module syntax:
 {
-  config  # refernace to all config, including all defined in this tree
-
-  options  # refernace to all options, including all defined in this tree
-
+  # modules  # referancees to all other modules
+  config  # refernace to all config
   mod_cfg  # referance to this mods own config
 
   *all normall module args*
 
-  *all exrtra args passed to the loader*
+  *all exrtra args passed to this module*
 }: {
   # signals that this is a module
   is-modules = true;
@@ -72,7 +33,7 @@ rec {
       zipAttrsWith (n: values:
         if tail values == []
           then head values
-        else if all isList values
+        else if all lib.isList values
           then unique (concatLists values)
         else if all isAttrs values
           then f (attr_path ++ [n]) values
@@ -139,8 +100,8 @@ rec {
     builtins.foldl'
       (sub_object: attr:
         sub_object."${attr}"
-          or (builtins.throw
-            "attr not found: ${attr} not found, full path: ${attr_path}")
+          or builtins.throw
+            "attr not found: ${attr} not found, full path: ${attr_path}"
       )
       object
       attr_path;
@@ -157,14 +118,14 @@ rec {
   
   # modules higer up in the tree are prioritised
   get-globals = modules_data:
-    recursiveMerge ((
+    (recursiveMerge (
       builtins.map
-        (x: x.global)
+        (x: x.globals)
         (builtins.attrValues
           modules_data.module.sub_modules or {}
 	)
-      ) ++ [ modules_data.global ]
-    );
+      )
+    ) // modules_data.globals;
 
 
   formatt-module-data = data:
@@ -190,7 +151,7 @@ rec {
   # gets the modules data by acsessing the assigned pos for
   # the module with recursive calls to getAttr
   # @example
-  # get-specific-module-data modules_data ["a"] -> modules_data.module.sub_modules.a
+  # get-specific-module-data *modules_data* ["a" "b"] -> modules_data.a.b
   get-module-data = modules_data: module_pos:
     rec-get-attr modules_data (
       builtins.concatLists
@@ -199,6 +160,15 @@ rec {
 	  module_pos
     );
 
+    # builtins.foldl'
+    #   (sub_module_data: sub_module_pos:
+    #     sub_module_data.module.sub_modules."${sub_module_data}"
+    #       or builtins.thro)w
+    #         "sub path: ${sub_module_pos} not found, full path: ${module_pos}"
+    #   )
+    #   modules_data
+    #   module_pos;
+
   # takes a file with a module and evaluates it's contens
   # then merges said content with modules_data
 
@@ -206,29 +176,30 @@ rec {
   # [ "config" "inputs" "lib" "modulesPath" "options" "specialArgs" ]
   eval-module-file = {
     module_data_pos,
-    inp_modules_data,
+    modules_data,
     module_path,
     module_args,
   }:
     let 
-      config = (get-globals inp_modules_data).config; 
+      config = (get-globals modules_data).config; 
       # config = recursiveMerge [
       #  (only-part modules_data "config")  # the module.config
       #  (get-globals modules_data).config  # the 
       # ]
-      modules_data = formatt-module-data (
+      modules-data = formatt-module-data (
         (import module_path) (module_args // {
+          # modules = (only-part modules_data ["module" "config"]);
           modulesPath = module_path;
           mod_cfg = (rec-get-attr config module_path);
 	  config = config;
         })
       );
-    in if builtins.typeOf modules_data == "string"
+    in if builtins.typeOf modules-data == "string"
       then builtins.throw "\"${modules_data}\" at ${module_path}"
       else modules_data;
 
-  # trace-return = id: x: (builtins.trace (builtins.toJSON [id x]) x);
-  # trace-type = id: x: (builtins.trace builtins.typeOf (x 1) x);
+  trace-return = id: x: (builtins.trace (builtins.toJSON [id x]) x);
+  trace-type = id: x: (builtins.trace builtins.typeOf (x 1) x);
 
   # (this is done lazily to allow for module to accses eatchothers data)
   eval-module-struct = {
@@ -239,100 +210,23 @@ rec {
   }:
     rec {
       modules_data = (
-        if ((builtins.typeOf nix_file_struct) != "set")
+        if (trace-return 1 ((builtins.typeOf nix_file_struct) != "set"))
           then eval-module-file {
             module_data_pos = (module_data_pos);  # where the data for the module is stored
-            inp_modules_data = (recursiveMerge [modules_data modules_data_inp]);  # all data
+            modules_data = modules_data // modules_data_inp; # (recursiveMerge [modules_data modules_data_inp])  # all data
             module_path = nix_file_struct; # path of module
-            module_args = module_args; 
-	  }          
-	  else  # handler sub module dir
-            let
-              sub_module_data = filterAttrs
-                (name: contens: contens != null)
-                (builtins.mapAttrs
-                  (part_name: part: 
-		    eval-module-struct {
-                      nix_file_struct = part;
-                      modules_data_inp = recursiveMerge [modules_data modules_data_inp];
-                      module_data_pos = (module_data_pos ++ [part_name]);
-                      module_args = module_args;
-                    }
-                  )
-                  nix_file_struct
-                );
-	      
-	      /* default_module = sub_module_data."default" or {};
-
-	      out = {
-  		global = { 
-		  config = default_module.config or {}; 
-		};
-		module = { 
-		  options = default_module.options or {}; 
-		  sub_modules = 
-		    builtins.removeAttrs 
-		      sub_module_data 
-		      ["default"];
-		};
-	      }; */
-	      
-            in recursiveMerge [
-              (sub_module_data."default" or {
-	        global.config = {};
-		module.options = {};
-	      }) { 
-	        module.sub_modules = 
-                  builtins.removeAttrs 
-		    sub_module_data 
-		    ["default"];
-	      }
-	    ] 
+            module_args = module_args;
+	  }
+          else  {}# handler sub module dir
       );
     }.modules_data;
 
   # All kwargs passes to eval-module-tree are passed onto
   # all sub-modules.
-  load-modules = mod_loader_cfg:
-    {config, options, pkgs, modulesPath}@mod_inp:
-      let 
-	modules = rec {
-          scope = mod_loader_cfg.scope or null;
-	  nix_file_struct = if scope == null 
-	    then get-rec-nix-file-struct mod_loader_cfg.src
-	    else {"${scope}" = get-rec-nix-file-struct mod_loader_cfg.src;};
-
-          modules = (eval-module-struct {
-            nix_file_struct = nix_file_struct ;# nix_file_struct;
-            modules_data_inp = recursiveMerge [
-	      { inherit config options; } 
-	      modules
-	    ];
-            module_data_pos = [];  # scope];
-            module_args = mod_inp;
+  load-modules = x: (eval-module-struct {
+            nix_file_struct = "./test/sub/a.nix";# nix_file_struct;
+            modules_data_inp = {};
+            module_data_pos = [];
+            module_args = {};
 	  });
-        }.modules;
-      in {  # this is the resulting module scope
-        options = only-part modules ["module" "options"];
-        config = (get-globals modules).config;
-      };
-}
-
-/*
-{  # this is the resulting module scope
-        options = {
-	  "${scope}": only-part 
-	    modules 
-	    ["module" "options"]
-	};
-        config = {
-	  "${scope}": 
-	    (get-globals modules).config
-	};
-      };
-*/
-
-  # this is what is given to modules by nix's module system (by default)
-  # [ "config" "inputs" "lib" "modulesPath" "options" "specialArgs" ]
-
-
+}  #  .load-modules

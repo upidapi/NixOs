@@ -1,6 +1,7 @@
 {
-  modules,  # referancees to all other modules
-  mod_cfg  # referance to this mods own config 
+  config,  # referancees to all other modules
+  mod_cfg,  # referance to this mods own config 
+  ...
 }: {
   # signals that this is a module
   is_module = false;
@@ -9,7 +10,7 @@
     default_opt = "a_opt";
   };
 
-  conifg = {
+  config = {
     default_cfg = "a_cfg";
   };
 }

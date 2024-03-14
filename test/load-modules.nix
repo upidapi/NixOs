@@ -312,10 +312,10 @@ rec {
             module_args = mod_inp;
 	  });
         }.modules;
-      in {  # this is the resulting module scope
+      in modules; /*{  # this is the resulting module scope
         options = only-part modules ["module" "options"];
         config = (get-globals modules).config;
-      };
+      }; */
 }
 
 /*

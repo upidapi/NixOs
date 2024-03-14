@@ -11,6 +11,8 @@
   };
 
   config = {
-    default_cfg = "a_cfg";
+    test.a.inp = "a_inp";
+    test.sub.b.default_cfg = "a_cfg" + config.test.sub.b.inp;
   };
 }
+

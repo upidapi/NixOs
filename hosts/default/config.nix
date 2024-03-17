@@ -9,8 +9,11 @@
   inputs',
   self,
   self',
+  my_lib,
   ...
-}: {
+}: let
+  inherit (my_lib.opt) enable;
+in {
   imports = [
     # Include the results of the hardware scan.
     # inputs.home-manager.nixosModules.default
@@ -88,7 +91,8 @@
   };
 
   modules.nixos.hardware = {
-    bth.enable = true;
+    bth = enable;
+    sound = enable;
     monitors = [
       {
         name = "DVI-D-1";

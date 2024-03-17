@@ -30,8 +30,8 @@ in {
     vimAlias = true;
 
     options = {
-      # number = true;
-      relativeNumber = true;
+      number = true;
+      relativenumber = true;
       enableMan = true; # man pages
 
       encoding = "utf8";

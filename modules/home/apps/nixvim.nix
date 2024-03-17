@@ -30,7 +30,7 @@ in {
     vimAlias = true;
 
     options = {
-      number = true;
+      # number = true;
       relativeNumber = true;
       enableMan = true; # man pages
 

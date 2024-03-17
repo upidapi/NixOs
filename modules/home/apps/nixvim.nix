@@ -14,25 +14,34 @@ in {
     # ./../../modules/home
     inputs.nixvim.homeManagerModules.nixvim
   ];
+  # todo: add todo highliting
+  # todo: file browser
+  # todo: what is oil?
+  # todo: multiple tabs?
 
   options.modules.home.apps.nixvim =
     mkEnableOpt "enables nixvim";
+
+  # btw ctrl-w + v splits window vertically
+  # btw ctrl-w + s splits window horizintaly
+  # btw ctrl-w + q closes window
 
   config.programs.nixvim = mkIf cfg.enable {
     enable = true;
     defaultEditor = true;
 
-    # extraPlugins = [pkgs.vimPlugins.gruvbox];
-    # colorscheme = "gruvbox";
+    enableMan = true; # man pages:
 
-    colorschemes.gruvbox = enable;
+    extraPlugins = [pkgs.vimPlugins.gruvbox];
+    colorscheme = "gruvbox";
+
+    # colorschemes.gruvbox = enable;
 
     vimAlias = true;
 
     options = {
-      number = true; # Show line numbers
       relativenumber = true; # Show relative line numbers
-      enableMan = true; # man pages
+      number = true; # Show line numbers
 
       encoding = "utf8";
       expandtab = true;
@@ -45,7 +54,16 @@ in {
     };
 
     plugins = {
+      lualine = enable;
       lightline = enable;
+
+      # advanced syntax highliting, but quite surface level
+      # (uses a abstract syntax tree)
+      treesitter = {
+        # todo: might whant to only install some language parsers
+        #   by default it adds all
+        enable = true;
+      };
 
       # code compleation
       lsp = {
@@ -55,6 +73,12 @@ in {
           # nix
           nil_ls = {
             enable = true;
+          };
+
+          # lua
+          lua-ls = {
+            enable = true;
+            settings.telemetry.enable = false;
           };
 
           # # rust
@@ -69,7 +93,42 @@ in {
           };
         };
       };
+
+      nvim-cmp = {
+        enable = true;
+
+        autoEnableSources = true;
+        sources = [
+          {name = "nvim_lsp";}
+          {name = "path";}
+          {name = "buffer";}
+          {name = "luasnip";}
+        ];
+
+        mapping = {
+          "<CR>" = "cmp.mapping.confirm({ select = true })";
+          "<Tab>" = {
+            action = ''
+              function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                elseif luasnip.expandable() then
+                  luasnip.expand()
+                elseif luasnip.expand_or_jumpable() then
+                  luasnip.expand_or_jump()
+                elseif check_backspace() then
+                  fallback()
+                else
+                  fallback()
+                end
+              end
+            '';
+            modes = ["i" "s"];
+          };
+        };
+      };
     };
+
     autoCmd = [
       /*
          {

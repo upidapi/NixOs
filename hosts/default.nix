@@ -27,8 +27,8 @@
 
           modules =
             [
-              ./${name}/config.nix
               ./../modules/nixos
+              ./${name}/config.nix
             ]
             ++ [
               # home manager
@@ -42,8 +42,8 @@
 
                   users."upidapi" = {...}: {
                     imports = [
-                      ./${name}/home.nix
                       ./../modules/home
+                      ./${name}/home.nix
                     ];
                   };
                 };

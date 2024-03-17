@@ -2,8 +2,11 @@
   osConfig,
   pkgs,
   inputs,
+  my_lib,
   ...
-}: {
+}: let
+  inherit (my_lib.opt) enable;
+in {
   imports = [
     # ../../modules/nixos/hardware/monitors.nix
     # ../../modules/home/apps/firefox.nix
@@ -160,6 +163,7 @@
     TERMINAL = "alacritty";
   };
 
+  modules.home.apps.nixvim = enable;
   /*
      programs.neovim.plugins = [
   pkgs.vimPlugins.nvim-tree-lua

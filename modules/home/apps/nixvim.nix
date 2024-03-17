@@ -30,8 +30,8 @@ in {
     vimAlias = true;
 
     options = {
-      number = true;
-      relativenumber = true;
+      number = true; # Show line numbers
+      relativenumber = true; # Show relative line numbers
       enableMan = true; # man pages
 
       encoding = "utf8";
@@ -46,9 +46,28 @@ in {
 
     plugins = {
       lightline = enable;
-      # nil = enable;
-      lsp.servers.nil_ls = {
+
+      # code compleation
+      lsp = {
         enable = true;
+
+        servers = {
+          # nix
+          nil_ls = {
+            enable = true;
+          };
+
+          # # rust
+          # rust-analyzer = {
+          # enable = true;
+          # installCargo = true;
+          # };
+
+          # python
+          pylsp = {
+            enable = true;
+          };
+        };
       };
     };
     autoCmd = [
@@ -59,7 +78,6 @@ in {
         command = "startinsert";
       }
       */
-
       # changes some config when in nix files
       {
         event = ["FileType"];

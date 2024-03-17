@@ -22,8 +22,10 @@ in {
     enable = true;
     defaultEditor = true;
 
-    colorscheme = "gruvbox";
-    # colorschemes.gruvbox = enable;
+    # extraPlugins = [pkgs.vimPlugins.gruvbox];
+    # colorscheme = "gruvbox";
+
+    colorschemes.gruvbox = enable;
 
     vimAlias = true;
 

@@ -45,6 +45,9 @@ in {
     plugins = {
       lightline = enable;
       # nil = enable;
+      lsp.servers.nil_ls = {
+        enable = true;
+      };
     };
     autoCmd = [
       /*

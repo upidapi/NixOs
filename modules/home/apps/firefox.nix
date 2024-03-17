@@ -33,8 +33,12 @@
   inputs,
   pkgs,
   ...
-}: {
-  programs.firefox = {
+}: 
+let 
+  inherit (lib)
+in {
+
+  config.programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
       extraPolicies = {

@@ -1,12 +1,12 @@
 {
-  config,
+  osConfig,
   pkgs,
   inputs,
   ...
 }: {
   imports = [
-    ../../modules/nixos/hardware/monitors.nix
-    ../../modules/home/apps/firefox.nix
+    # ../../modules/nixos/hardware/monitors.nix
+    # ../../modules/home/apps/firefox.nix
     # ./nixvim.nix
   ];
 
@@ -109,7 +109,6 @@
 
       popd > /dev/null
 
-
       echo -e "\n\nSuccessfully applied nixos configuration changes"
     '')
   ];
@@ -194,37 +193,6 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  monitors = [
-    {
-      name = "DVI-D-1";
-      width = 1920;
-      height = 1080;
-      refreshRate = 60;
-      x = 0;
-      y = 0;
-      workspace = 1;
-    }
-    {
-      name = "HDMI-A-1";
-      width = 1920;
-      height = 1080;
-      refreshRate = 60;
-      x = 1920;
-      y = 0;
-      primary = true;
-      workspace = 2;
-    }
-    {
-      name = "HDMI-A-2";
-      width = 1920;
-      height = 1080;
-      refreshRate = 60;
-      x = 3840;
-      y = 0;
-      workspace = 3;
-    }
-  ];
-
   # todo move this to a module
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.settings = {
@@ -277,7 +245,7 @@
           else "disable"
         }"
       )
-      (config.monitors);
+      (osConfig.modules.nixos.hardware.monitors);
 
     # layout
     input = {

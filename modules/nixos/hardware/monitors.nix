@@ -4,9 +4,9 @@
   ...
 }: let
   inherit (lib) mkOption types;
-  cfg = config.monitors;
+  cfg = config.modules.nixos.hardware.monitors;
 in {
-  options.monitors = mkOption {
+  options.modules.nixos.hardware.monitors = mkOption {
     type = types.listOf (types.submodule {
       options = {
         name = mkOption {
@@ -49,16 +49,17 @@ in {
     });
     default = [];
   };
+
   config = {
     assertions = [
       {
         assertion =
-          ((lib.length config.monitors) != 0)
-          -> ((lib.length (lib.filter (m: m.primary) config.monitors)) == 1);
-        message = "Exactly one monitor must be set to primary.";
+          ((lib.length cfg) != 0)
+          -> ((lib.length (lib.filter (m: m.primary) cfg)) == 1);
+        message = "Exactly one monitor must be set to primary. ${builtins.toJSON config.modules.nixos.hardware}";
       }
       {
-        assertion = (lib.length config.monitors) != 0;
+        assertion = (lib.length cfg) != 0;
         message = "No monitors configured";
       }
     ];

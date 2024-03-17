@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
     /*
        nur = {
       url = "github:nix-community/NUR";
@@ -34,26 +36,19 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    ...
-  } @ inputs: let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-    # rootPath = ./.;
-  in {
-    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
-      };
-      modules = [
-        # note: modules are not added unless added to git
-        # https://discourse.nixos.org/t/error-no-such-file-or-directory-when-trying-to-add-new-modules/31986/3
-        ./hosts/default/config.nix
-        inputs.home-manager.nixosModules.default
-	      ({...}@data: (builtins.trace (pkgs.lib.attrNames data) ""))
+  outputs = inputs @ {flake-parts, ...}:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      imports = [
+        ./hosts
       ];
+
+      systems = [
+        # systems for which you want to build the `perSystem` attributes
+        "x86_64-linux"
+        # ...
+      ];
+      perSystem = {pkgs, ...}: {
+        formatter = pkgs.alejandra;
+      };
     };
-  };
 }

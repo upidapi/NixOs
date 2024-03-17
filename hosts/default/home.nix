@@ -166,7 +166,8 @@
   ];
   */
 
-  programs.firefox = {
+  /*
+     programs.firefox = {
     enable = true;
 
     profiles.upidapi = {
@@ -189,10 +190,13 @@
       };
     };
   };
+  */
+  modules.home.apps.firefox.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  # enable dark mode
   gtk = {
     enable = true;
     theme = {

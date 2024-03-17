@@ -1,3 +1,7 @@
-{...}: {
-  imports = [];
+{
+  imports = [
+    ./apps
+    ./cli-apps
+    ./hyprland
+  ];
 }

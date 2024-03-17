@@ -32,13 +32,19 @@
   config,
   inputs,
   pkgs,
+  lib,
+  my_lib,
   ...
-}: 
-let 
-  inherit (lib)
+}: let
+  inherit (lib) mkIf;
+  inherit (my_lib.opt) mkEnableOpt;
+  cfg = config.modules.home.apps.firefox;
 in {
+  options.modules.home.apps.firefox =
+    mkEnableOpt
+    "enables firefix";
 
-  config.programs.firefox = {
+  config.programs.firefox = mkIf cfg.enable {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
       extraPolicies = {

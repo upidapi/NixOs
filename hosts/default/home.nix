@@ -193,6 +193,14 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome.gnome-themes-extra;
+    };
+  };
+
   # todo move this to a module
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.settings = {

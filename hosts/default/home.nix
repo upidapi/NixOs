@@ -77,6 +77,10 @@
       pushd nixFlakeDir > /dev/null
 
 
+      # if files arn't added to git then nix simply ignores them
+      git add --all
+
+
       # formatt code
       echo "Formatting Files..."
       alejandra . || true

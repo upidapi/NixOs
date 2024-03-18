@@ -18,6 +18,7 @@ in {
   # todo: file browser
   # todo: what is oil?
   # todo: multiple tabs?
+  # todo: fix tab making the lsp throw errors when there is no options
 
   options.modules.home.apps.nixvim =
     mkEnableOpt "enables nixvim";
@@ -69,11 +70,22 @@ in {
       lsp = {
         enable = true;
 
+        # "barrowed"
+        # i think it makes the lsp run while typing
+        postConfig = ''
+          vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+            vim.lsp.diagnostic.on_publish_diagnostics, {
+              update_in_insert = true,
+            }
+          )
+        '';
+
         servers = {
-          # nix
-          nil_ls = {
-            enable = true;
-          };
+          nil_ls = enable; # nix
+          pylsp = enable; # python
+          jsonls = enable;
+          html = enable;
+          bashls = enable;
 
           # lua
           lua-ls = {
@@ -86,11 +98,6 @@ in {
           # enable = true;
           # installCargo = true;
           # };
-
-          # python
-          pylsp = {
-            enable = true;
-          };
         };
       };
 
@@ -99,8 +106,9 @@ in {
 
         autoEnableSources = true;
         sources = [
-          {name = "nvim_lsp";}
           {name = "path";}
+          {name = "treesitter";}
+          {name = "nvim_lsp";}
           {name = "buffer";}
           {name = "luasnip";}
         ];
@@ -126,6 +134,14 @@ in {
             modes = ["i" "s"];
           };
         };
+      };
+
+      cmp-calc.enable = true;
+      cmp-treesitter.enable = true;
+      cmp_luasnip.enable = true;
+      luasnip = {
+        enable = true;
+        fromVscode = [{}];
       };
     };
 

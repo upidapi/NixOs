@@ -27,6 +27,18 @@ in {
   # btw ctrl-w + s splits window horizintaly
   # btw ctrl-w + q closes window
 
+  config.home = {
+    packages = [
+      pkgs.less
+    ];
+
+    sessionVariables = {
+      PAGER = "less";
+      MANPAGER = "less";
+      EDITOR = "nvim";
+    };
+  };
+
   config.programs.nixvim = mkIf cfg.enable {
     enable = true;
     defaultEditor = true;

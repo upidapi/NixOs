@@ -3,12 +3,12 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 # https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
 {
-  config,
+  # config,
   pkgs,
-  inputs,
-  inputs',
-  self,
-  self',
+  # inputs,
+  # inputs',
+  # self,
+  # self',
   my_lib,
   ...
 }: let
@@ -85,15 +85,17 @@ in {
     isNormalUser = true;
     description = "upidapi";
     extraGroups = ["networkmanager" "wheel"];
-    packages = with pkgs; [
-      # firefox
-    ];
+    # packages = with pkgs; [
+    #   # firefox
+    # ];
   };
 
   modules.nixos = {
-    # apps = {
-    #   nixvim = enable;
-    # };
+    apps = {
+      less = enable;
+      zsh = enable;
+    };
+
     hardware = {
       bth = enable;
       sound = enable;

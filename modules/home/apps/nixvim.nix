@@ -23,9 +23,15 @@ in {
   options.modules.home.apps.nixvim =
     mkEnableOpt "enables nixvim";
 
+  # does this get saved
+
   # btw ctrl-w + v splits window vertically
   # btw ctrl-w + s splits window horizintaly
   # btw ctrl-w + q closes window
+
+  config.home.sessionVariables = {
+    EDITOR = "nvim";
+  };
 
   config.programs.nixvim = mkIf cfg.enable {
     enable = true;

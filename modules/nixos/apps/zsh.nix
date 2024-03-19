@@ -16,7 +16,16 @@ in {
       enableAutosuggestions = true;
       syntaxHighlighting = enable;
     };
-  };
 
-  # todo might whant to add starship to config the zsh promt
+    starship = {
+      enable = true;
+      settings = {
+        character = {
+          success_symbol = "[➜](bold green)";
+          error_symbol = "[✗](bold red) ";
+          # vicmd_symbol = "[](bold blue) ";
+        };
+      };
+    };
+  };
 }

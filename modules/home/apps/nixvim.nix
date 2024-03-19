@@ -16,7 +16,7 @@ in {
   ];
   # todo: add todo highliting
   # todo: file browser
-  # todo: what is oil?
+  # todo: what is oil (probably in the nixos filder?
   # todo: multiple tabs?
   # todo: fix tab making the lsp throw errors when there is no options
 
@@ -27,6 +27,7 @@ in {
   # btw ctrl-w + s splits window horizintaly
   # btw ctrl-w + q closes window
 
+  # todo: place "less" in it's own module (probably in the nixos filder)
   config.home = {
     packages = [
       pkgs.less

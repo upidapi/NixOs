@@ -27,19 +27,6 @@ in {
   # btw ctrl-w + s splits window horizintaly
   # btw ctrl-w + q closes window
 
-  # todo: place "less" in it's own module (probably in the nixos filder)
-  config.home = {
-    packages = [
-      pkgs.less
-    ];
-
-    sessionVariables = {
-      PAGER = "less";
-      MANPAGER = "less";
-      EDITOR = "nvim";
-    };
-  };
-
   config.programs.nixvim = mkIf cfg.enable {
     enable = true;
     defaultEditor = true;
@@ -70,6 +57,9 @@ in {
     plugins = {
       lualine = enable;
       lightline = enable;
+
+      # file browser
+      neo-tree = enable;
 
       # advanced syntax highliting, but quite surface level
       # (uses a abstract syntax tree)

@@ -11,7 +11,7 @@
 in {
   options.modules.nixos.less = mkEnableOpt "enables the less pager";
 
-  config.home = {
+  config.home = mkIf cfg.enable {
     packages = [
       pkgs.less
     ];

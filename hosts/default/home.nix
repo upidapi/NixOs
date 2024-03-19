@@ -163,43 +163,10 @@ in {
     TERMINAL = "alacritty";
   };
 
-  modules.home.apps.nixvim = enable;
-  /*
-     programs.neovim.plugins = [
-  pkgs.vimPlugins.nvim-tree-lua
-    {
-      plugin = pkgs.vimPlugins.vim-startify;
-      config = "let g:startify_change_to_vcs_root = 0";
-    }
-  ];
-  */
-
-  /*
-     programs.firefox = {
-    enable = true;
-
-    profiles.upidapi = {
-      extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-        ublock-origin
-        bitwarden
-      ];
-      settings = {
-        "browser.disableResetPrompt" = true;
-        "browser.download.panel.shown" = true;
-        "browser.download.useDownloadDir" = false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-        "browser.shell.checkDefaultBrowser" = false;
-        "browser.shell.defaultBrowserCheckCount" = 1;
-        "browser.startup.homepage" = "https://start.duckduckgo.com";
-        "dom.security.https_only_mode" = true;
-        "identity.fxaccounts.enabled" = false;
-        "privacy.trackingprotection.enabled" = true;
-        "signon.rememberSignons" = false;
-      };
-    };
+  modules.home.apps = {
+    nixvim = enable;
+    firefox = enable;
   };
-  */
-  modules.home.apps.firefox.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

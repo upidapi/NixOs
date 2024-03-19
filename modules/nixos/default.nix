@@ -4,6 +4,6 @@
     ./cli-apps
     ./hardware
     ./system
-    ./hyprland
+    ./desktop
   ];
 }

@@ -96,6 +96,10 @@ in {
       zsh = enable;
     };
 
+    system = {
+      fonts = enable;
+    };
+
     hardware = {
       bth = enable;
       sound = enable;

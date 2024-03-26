@@ -1,0 +1,42 @@
+[Nix] Disabling updates already done
+[Vencord] Starting up...
+[Vencord] Loading original Discord app.asar
+[OpenAsar > Init] OpenAsar unstable-2023-10-24
+[OpenAsar > Settings] /home/upidapi/.config/discordcanary/settings.json {
+  SKIP_HOST_UPDATE: true,
+  DANGEROUS_ENABLE_DEVTOOLS_ONLY_ENABLE_IF_YOU_KNOW_WHAT_YOURE_DOING: true,
+  MIN_WIDTH: 940,
+  MIN_HEIGHT: 500,
+  openasar: { setup: true },
+  IS_MAXIMIZED: true,
+  IS_MINIMIZED: false
+}
+[OpenAsar > BuildInfo] { releaseChannel: 'canary', version: '0.0.285' }
+[OpenAsar > Modules] Checking
+[7154:0322/162441.805246:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805343:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805426:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805502:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805574:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805640:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805717:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805763:ERROR:gbm_pixmap_wayland.cc(82)] Cannot create bo with format= RGBA_8888 and usage=SCANOUT
+[7154:0322/162441.805816:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805890:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.805970:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.806038:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.806105:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.806178:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.806243:ERROR:gbm_wrapper.cc(75)] Failed to get fd for plane.: No such file or directory (2)
+[7154:0322/162441.806286:ERROR:gbm_pixmap_wayland.cc(82)] Cannot create bo with format= RGBA_8888 and usage=GPU_READ
+[7154:0322/162441.806315:ERROR:shared_image_factory.cc(962)] CreateSharedImage: could not create backing.
+[7154:0322/162441.806341:ERROR:shared_image_factory.cc(766)] DestroySharedImage: Could not find shared image mailbox
+[7154:0322/162441.806390:ERROR:gpu_service_impl.cc(1105)] Exiting GPU process because some drivers can't recover from errors. GPU process will restart shortly.
+[7171:0322/162441.809148:ERROR:command_buffer_proxy_impl.cc(127)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+Optional module ./ElectronTestRpc was not included.
+[7117:0322/162441.869242:ERROR:gpu_process_host.cc(993)] GPU process exited unexpectedly: exit_code=8704
+(electron) 'gpu-process-crashed event' is deprecated and will be removed. Please use 'child-process-gone event' instead.
+child-process-gone! child: GPU (undefined) exitCode: 8704
+[7117:0322/162441.870498:ERROR:browser_main_loop.cc(276)] Gtk: gtk_widget_get_scale_factor: assertion 'GTK_IS_WIDGET (widget)' failed
+[OpenAsar > Settings] Saved
+notificationScreen.webContentsSend: win is invalid undefined.  # this is the problem

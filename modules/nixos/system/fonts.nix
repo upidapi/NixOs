@@ -31,7 +31,7 @@ in {
         # noto-fonts
         # noto-fonts-cjk-sans
         # noto-fonts-cjk-serif
-        # noto-fonts-emoji
+        # noto-fonts-emoji  # i think this breaks other glyphs, for example the lock turns into some red thingy
 
         material-symbols
         (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})

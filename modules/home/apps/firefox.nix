@@ -28,6 +28,14 @@
   };
 }
 */
+/*
+settings are in
+~/.mozilla/firefox/upidapi/extensions.json
+
+we need to parse it and go thrugh .addons
+they can be identified by .defaultLocale.name
+and can be enabled with .active
+*/
 {
   config,
   inputs,
@@ -42,9 +50,14 @@
 in {
   options.modules.home.apps.firefox =
     mkEnableOpt
-    "enables firefix";
+    "enables firefox";
 
-  config.programs.firefox = mkIf cfg.enable {
+  config = mkIf cfg.enable {
+      home.sessionVariables = {
+    BROWSER = "firefox";
+  };
+
+   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
       extraPolicies = {
@@ -73,12 +86,13 @@ in {
     profiles = {
       upidapi = {
         id = 0;
-        name = "upidapi";
+        name = config.home.username;
         search = {
           force = true;
           default = "DuckDuckGo";
           engines = {
-            "Nix Packages" = {
+            /*
+               "Nix Packages" = {
               urls = [
                 {
                   template = "https://search.nixos.org/packages";
@@ -103,6 +117,7 @@ in {
               updateInterval = 24 * 60 * 60 * 1000;
               definedAliases = ["@nw"];
             };
+            */
             # "Wikipedia (en)".metaData.alias = "@wiki";
             "Google".metaData.hidden = true;
             "Amazon.com".metaData.hidden = true;
@@ -111,7 +126,7 @@ in {
           };
         };
         extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-          bitwarden
+          # bitwarden  # security problem
 
           # floccus  # syncs bookmarks
           # languagetool
@@ -122,18 +137,81 @@ in {
 
           i-dont-care-about-cookies
 
+          darkreader
+
           # privacy
           # https-everywhere  # not on system
           clearurls
           disconnect
           decentraleyes
           duckduckgo-privacy-essentials
-          ghostery
-          privacy-badger
+          # ghostery
+          # privacy-badger
           # privacy-redirect
+
+          buster-captcha-solver
+
+          sponsorblock
+          return-youtube-dislikes
         ];
         settings = {
+          # "barrowed" from https://github.com/TLATER/dotfiles/blob/b39af91fbd13d338559a05d69f56c5a97f8c905d/home-config/config/graphical-applications/firefox.nix
           "general.smoothScroll" = true;
+
+          # Performance settings
+          # "gfx.webrender.all" = true; # Force enable GPU acceleration
+          "media.ffmpeg.vaapi.enabled" = true;
+          "widget.dmabuf.force-enabled" = true; # Required in recent Firefoxes
+
+          # Re-bind ctrl to super (would interfere with tridactyl otherwise)
+          # "ui.key.accelKey" = 91;
+
+          # Keep the reader button enabled at all times; really don't
+          # care if it doesn't work 20% of the time, most websites are
+          # crap and unreadable without this
+          "reader.parse-on-load.force-enabled" = true;
+
+          # Hide the "sharing indicator", it's especially annoying
+          # with tiling WMs on wayland
+          "privacy.webrtc.legacyGlobalIndicator" = false;
+
+          # Actual settings
+          "app.shield.optoutstudies.enabled" = false;
+          "app.update.auto" = false;
+          "browser.bookmarks.restore_default_bookmarks" = false;
+          "browser.contentblocking.category" = "strict";
+          "browser.ctrlTab.recentlyUsedOrder" = false;
+          "browser.discovery.enabled" = false;
+          "browser.laterrun.enabled" = false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" =
+            false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" =
+            false;
+          "browser.newtabpage.activity-stream.feeds.snippets" = false;
+          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.havePinned" = "";
+          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.searchEngines" = "";
+          "browser.newtabpage.activity-stream.section.highlights.includePocket" =
+            false;
+          "browser.newtabpage.activity-stream.showSponsored" = false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          "browser.newtabpage.pinned" = false;
+          "browser.protections_panel.infoMessage.seen" = true;
+          "browser.quitShortcut.disabled" = true;
+          "browser.shell.checkDefaultBrowser" = false;
+          "browser.ssb.enabled" = true;
+          "browser.toolbars.bookmarks.visibility" = "never";
+          "browser.urlbar.placeholderName" = "DuckDuckGo";
+          "browser.urlbar.suggest.openpage" = false;
+          "datareporting.policy.dataSubmissionEnable" = false;
+          "datareporting.policy.dataSubmissionPolicyAcceptedVersion" = 2;
+          "dom.security.https_only_mode" = true;
+          "dom.security.https_only_mode_ever_enabled" = true;
+          "extensions.getAddons.showPane" = false;
+          "extensions.htmlaboutaddons.recommendations.enabled" = false;
+          # "extensions.pocket.enabled" = false;
+          "identity.fxaccounts.enabled" = false;
+          "privacy.trackingprotection.enabled" = true;
+          "privacy.trackingprotection.socialtracking.enabled" = true;
         };
         /*
            extraConfig = ''
@@ -151,5 +229,6 @@ in {
         '';
       };
     };
+  };
   };
 }

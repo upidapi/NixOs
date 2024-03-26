@@ -1,6 +1,7 @@
 {
   imports = [
     ./firefox.nix
-    ./nixvim.nix
+    ./r2modman.nix
+    ./discord
   ];
 }

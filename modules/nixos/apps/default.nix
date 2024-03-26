@@ -1,6 +1,6 @@
 {
   imports = [
     ./less.nix
-    ./zsh.nix
+    ./steam.nix
   ];
 }

@@ -1,4 +1,3 @@
-# bth.nix
 {
   config,
   lib,

@@ -25,10 +25,14 @@
 
           specialArgs = extra_args;
 
-          modules =
-            [
+          modules = [
+              inputs.impermanence.nixosModules.impermanence
+              
               ./../modules/nixos
               ./${name}/config.nix
+
+              inputs.disko.nixosModules.default 
+              (import ./${name}/disko.nix { device = "/dev/sda"; })
             ]
             ++ [
               # home manager
@@ -42,6 +46,7 @@
 
                   users."upidapi" = {...}: {
                     imports = [
+                      inputs.impermanence.nixosModules.home-manager.impermanence
                       ./../modules/home
                       ./${name}/home.nix
                     ];

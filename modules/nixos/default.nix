@@ -5,5 +5,6 @@
     ./hardware
     ./system
     ./desktop
+    ./core.nix
   ];
 }

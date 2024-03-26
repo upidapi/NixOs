@@ -50,74 +50,6 @@ in {
     # used to formatt nix code
     inputs.alejandra.defaultPackage.${pkgs.system}
     # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
-
-    (pkgs.writeShellScriptBin "regen-nixos" ''
-      # todo find some way to find the location of the flake
-      nixFlakeDir=/etc/nixos/
-
-
-      # make sure is root
-      if [ "$EUID" -ne 0 ]
-        then echo "This requires root to run"
-        exit
-      fi
-
-      # make sure that user has selected a profile
-      # for example "deafult"
-      if [ $# -eq 0 ]
-        then echo "NixOs profile not supplied"
-        exit
-      fi
-
-      # make sure that we have a commit msg
-      # for example "firefox is now in dark mode"
-      if [ $# -eq 1 ]
-        then echo "Generation note / msg not supplied"
-        exit
-      fi
-
-      # goto where the nix configs are
-      pushd nixFlakeDir > /dev/null
-
-
-      # if files arn't added to git then nix simply ignores them
-      git add --all
-
-
-      # formatt code
-      echo "Formatting Files..."
-      alejandra . || true
-
-
-      # show git diff
-      echo -e "\n\nFile Diff:"
-      git diff
-
-
-      # rebuild ignore everything except errors
-      echo -e "\n\nRebuilding NixOS... (profile: $1)"
-      # if this fails dont commit
-      nixos-rebuild switch --flake ".#$1" || exit 1
-
-
-      # comit changes
-      echo -e "\n\nCommiting changes..."
-
-      # -am := add all staged changes, and a msg for the commit
-      gen=$(nixos-rebuild list-generations | grep current)
-      git commit -am "$2 ($gen)"  # --author="upidapi <videw@icloud.com>"
-
-
-      echo -e "\n\nPushing code to github..."
-      # todo put this in sops
-      pat="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"
-      git push https://$pat@github.com/upidapi/NixOs.git main
-
-
-      popd > /dev/null
-
-      echo -e "\n\nSuccessfully applied nixos configuration changes"
-    '')
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -150,93 +82,81 @@ in {
   #
   #  /etc/profiles/per-user/upidapi/etc/profile.d/hm-session-vars.sh
   #
+  
+  home.persistence."/persist/home/${home.username}" = {
+    directories = [
+      # force organisation
+      /*
+      "Downloads"
+      "Music"
+      "Pictures"
+      "Documents"
+      "Videos"
+      */
 
-  programs.git = {
-    enable = true;
-    userName = "upidapi";
-    userEmail = "videw@icloud.com";
+      # "VirtualBox VMs"
+      ".gnupg"
+      ".ssh"
+      ".nixops"
+      ".local/share/keyrings"  # stores passwords (keys)
+      ".local/share/direnv"  
+
+      # thers probably some better way
+      # i shuld probaly make this more specific
+      # to save tabs, bookmarks and enabled extensions
+      ".mozilla/firefox"
+      {
+        directory = ".local/share/Steam";
+        method = "symlink";
+      }
+    ];
+    files = [
+      ".screenrc"
+    ];
+    allowOther = true;
   };
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    BROWSER = "firefox";
-    TERMINAL = "alacritty";
-  };
+  home.packages = [
+    htop
+    # maybe btop
+  ];
 
-  modules.home.apps = {
-    nixvim = enable;
-    firefox = enable;
+  modules.home = {
+    apps = {
+      alacritty = enable;
+      bitwarden = enable;
+      discord = enable;
+      firefox = enable;
+      r2modman = enable;
+    };
+
+    cli-apps = {
+      nixvim = enable;
+      nushell = enable;
+      wine = enable;
+    };
+
+    tools = {
+      git = enable;
+    };
+
+    desktop = {
+      wayland = enable;
+      hyprland = enable;
+      addons = {
+        dunst = enable;
+        gtk = enable;
+        rofi = enable;
+        waybar = enable;
+      };
+    };
+
+    scripts = {
+      regen-nixos = enable;
+      cn-bth = enable;
+    };
   };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  # enable dark mode
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome.gnome-themes-extra;
-    };
-  };
-
-  # todo move this to a module
-  wayland.windowManager.hyprland.enable = true;
-  wayland.windowManager.hyprland.settings = {
-    "$mod" = "SUPER";
-
-    # mouse binds
-    bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
-    ];
-
-    # kbd binds
-    bind =
-      [
-        # "$mod, Q, exec, kitty"
-        "$mod, E, exec, alacritty"
-        "$mod, R, exec, firefox"
-        "$mod, C, killactive"
-        "$mod, M, exit"
-        # "$mod, F, exec, firefox"
-        # ", Print, exec, grimblast copy area"
-      ]
-      ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-        builtins.concatLists (builtins.genList (
-            x: let
-              ws = let
-                c = (x + 1) / 10;
-              in
-                builtins.toString (x + 1 - (c * 10));
-            in [
-              "$mod, ${ws}, workspace, ${toString (x + 1)}"
-              "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
-            ]
-          )
-          10)
-      );
-
-    # display conf
-    monitor =
-      map
-      (
-        m: let
-          resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
-          position = "${toString m.x}x${toString m.y}";
-        in "${m.name},${
-          if m.enabled
-          then "${resolution},${position},1"
-          else "disable"
-        }"
-      )
-      (osConfig.modules.nixos.hardware.monitors);
-
-    # layout
-    input = {
-      kb_layout = "se"; # swedish layout
-    };
-  };
 }

@@ -6,10 +6,10 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.core;
+  cfg = config.modules.nixos.core.gc;
 in {
-  options.modules.nixos.core =
-    mkEnableOpt "enables nixos flakes";
+  options.modules.nixos.core.gc = mkEnableOpt 
+    "enables nixos generation garbage colection";
 
   config = mkIf cfg.enable {
      nix.gc = {

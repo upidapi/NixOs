@@ -68,7 +68,7 @@ in {
     core = {
       nixos-cfg-path = "/etc/nixos";
       
-      cashix = enable;
+      cachix = enable;
       flakes = enable;
       gc = enable;
       sops = enable;

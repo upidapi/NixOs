@@ -157,6 +157,7 @@ in rec {
       wayland = enable;
       hyprland = enable;
       addons = {
+        swww = enable;
         dunst = enable;
         gtk = enable;
         rofi = enable;

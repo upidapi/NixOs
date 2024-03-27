@@ -21,8 +21,7 @@ in {
       # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
       (pkgs.writeShellScriptBin "regen-nixos" ''
-        # todo find some way to find the location of the flake
-        nixFlakeDir=/etc/nixos # "config.modules.config-dir"
+        nixFlakeDir=${config.modules.nixos.core.nixos-cfg-path}
 
         # make sure is root
         if [ "$EUID" -ne 0 ]

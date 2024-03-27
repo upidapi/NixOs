@@ -3,7 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 # https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
 {
-  # config,
+  config,
   pkgs,
   lib,  
 # inputs,
@@ -51,6 +51,9 @@ in {
   users.users.upidapi = {
     isNormalUser = true;
     description = "upidapi";
+
+    # make a cfg-editor group that makes it so that a user 
+    # can edit the config
     extraGroups = ["networkmanager" "wheel"];
     shell = pkgs.nushell;
     initialPassword = "1";
@@ -93,8 +96,11 @@ in {
         directory = "/etc/nixos";
         mode = "0777";
       }
-      "/var/log"
-      "/var/lib/bluetooth"
+      # preserve the location of the config
+      "${config.modules.nixos.core.nixos-cfg-path}"
+
+      "/var/log" 
+      "/var/lib/bluetooth" # for saving bth devices
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
       "/etc/NetworkManager/system-connections"
@@ -106,6 +112,7 @@ in {
       }
     ];
     files = [
+      # todo: fix this
       # "/etc/machine-id"
       { 
         file = "/var/keys/secret_file"; 
@@ -116,76 +123,16 @@ in {
     ];
   };
 
-  /*
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    mkdir /btrfs_tmp
-    mount /dev/root_vg/root /btrfs_tmp
-    if [[ -e /btrfs_tmp/root ]]; then
-        mkdir -p /btrfs_tmp/old_roots
-        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-        mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-    fi
-
-    delete_subvolume_recursively() {
-        IFS=$'\n'
-        for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-            delete_subvolume_recursively "/btrfs_tmp/$i"
-        done
-        btrfs subvolume delete "$1"
-    }
-
-    for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-        delete_subvolume_recursively "$i"
-    done
-
-    btrfs subvolume create /btrfs_tmp/root
-    umount /btrfs_tmp
-  '';  
-  
-  systemd.tmpfiles.rules = [
-  "d /persist/home/ 0777 root root -" # create /persist/home owned by root
-  "d /persist/home/upidapi 0700 upidapi users -" # /persist/home/<user> owned by that user
-];
-
-  fileSystems."/persist".neededForBoot = true;
-  environment.persistence."/persist/system" = {
-    hideMounts = true;
-    directories = [
-      "/etc/nixos"  # where the nix config is
-      "/var/log"  
-      "/var/lib/bluetooth"
-      "/var/lib/nixos"
-      "/var/lib/systemd/coredump"
-      "/etc/NetworkManager/system-connections"  # wifi 
-      
-      # https://www.freedesktop.org/software/colord/specifics.html
-      { 
-        directory = "/var/lib/colord"; 
-        user = "colord"; 
-        group = "colord"; 
-        mode = "u=rwx,g=rx,o="; 
-      }
-    ];
-
-    files = [
-      "/etc/machine-id"
-      { 
-        file = "/var/keys/secret_file"; 
-        parentDirectory = { 
-          mode = "u=rwx,g=,o="; 
-        }; 
-      }
-    ];
-  }; 
-  */
-
   # required by home manager impermanance  
   programs.fuse.userAllowOther = true;
 
   # user.user.root.initialPassword = "1";
 
   modules.nixos = {
-    core = enable;
+    core = {
+      enabled = true;
+      nixos-cfg-path = "/etc/nixos";
+    };
 
     apps = {
       less = enable;
@@ -250,7 +197,7 @@ in {
     alacritty # terminal
 
     tree # show file system tree
-    git
+    # git
 
     python3
   ];

@@ -1,8 +1,9 @@
 {
   imports = [
-    ./nixvim.nix
-    ./wine.nix
     ./bitwarden.nix
+    ./nixvim.nix
+    ./git.nix
+    ./wine.nix
     ./nushell
   ];
 }

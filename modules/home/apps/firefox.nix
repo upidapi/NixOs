@@ -52,7 +52,7 @@ in {
     mkEnableOpt
     "enables firefox";
 
-  config.programs.firefox = mkIf cfg.enable {
+  config = mkIf cfg.enable {
       home.sessionVariables = {
     BROWSER = "firefox";
   };

@@ -1,15 +1,14 @@
 {
   config,
-  pkgs,
   lib,
   my_lib,
   ...
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.home.tools.git;
+  cfg = config.modules.home.cli-apps.git;
 in {
-  options.modules.home.tools.git =
+  options.modules.home.cli-apps.git =
     mkEnableOpt "Whether or not to add git";
 
   config = mkIf cfg.enable {

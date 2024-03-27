@@ -93,12 +93,12 @@ in {
     hideMounts = true;
     directories = [
       {
-        directory = "/etc/nixos";
-        mode = "0777";
+        # preserve the location of the config
+        directory = 
+          "${config.modules.nixos.core.nixos-cfg-path}";
+        # mode = "0777";
       }
-      # preserve the location of the config
-      "${config.modules.nixos.core.nixos-cfg-path}"
-
+      
       "/var/log" 
       "/var/lib/bluetooth" # for saving bth devices
       "/var/lib/nixos"
@@ -130,7 +130,7 @@ in {
 
   modules.nixos = {
     core = {
-      enabled = true;
+      enable = true;
       nixos-cfg-path = "/etc/nixos";
     };
 

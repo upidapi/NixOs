@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.rofi;
+  cfg = config.modules.home.desktop.addons.swww;
 in {
-  options.modules.home.desktop.addons.rofi =
+  options.modules.home.desktop.addons.swww =
     mkEnableOpt "enables swww, a wallpaper daemion";
 
   config = mkIf cfg.enable {

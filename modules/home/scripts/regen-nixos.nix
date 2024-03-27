@@ -1,5 +1,6 @@
 {
   config,
+  osConfig,
   lib,
   pkgs,
   inputs,
@@ -21,7 +22,7 @@ in {
       # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
       (pkgs.writeShellScriptBin "regen-nixos" ''
-        nixFlakeDir=${config.modules.nixos.core.nixos-cfg-path}
+        nixFlakeDir=${osConfig.modules.nixos.core.nixos-cfg-path}
 
         # make sure is root
         if [ "$EUID" -ne 0 ]

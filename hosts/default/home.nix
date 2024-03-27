@@ -147,9 +147,6 @@ in rec {
       nixvim = enable;
       nushell = enable;
       wine = enable;
-    };
-
-    tools = {
       git = enable;
     };
 

@@ -3,10 +3,10 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 # https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
 {
-  config,
+  # config,
   pkgs,
-  lib,  
-# inputs,
+  # lib,  
+  # inputs,
   # inputs',
   # self,
   # self',
@@ -92,8 +92,8 @@ in {
     desktop.sddm = enable;
 
     hardware = {
-      # cpu.amd = enable;
-      # gpu.nvidia = enable;
+      cpu.amd = enable;
+      gpu.nvidia = enable;
 
       bth = enable;
       sound = enable;

@@ -98,6 +98,12 @@ in rec {
       ".nixops"
       ".local/share/keyrings"  # stores passwords (keys)
       ".local/share/direnv"  
+      
+      # save discord login
+      ".config/discordcanary/Local Storage" 
+      
+      # save nushell command history
+      ".config/nushell/history.txt"
 
       # thers probably some better way
       # i shuld probaly make this more specific

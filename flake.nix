@@ -11,6 +11,7 @@
       url = "github:nix-community/NUR";
     };
     */
+    
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -36,6 +37,11 @@
     };
     
     impermanence.url = "github:nix-community/impermanence";
+    
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     disko = {
       url = "github:nix-community/disko";

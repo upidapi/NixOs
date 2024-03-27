@@ -53,6 +53,11 @@ in {
     "enables firefox";
 
   config.programs.firefox = mkIf cfg.enable {
+      home.sessionVariables = {
+    BROWSER = "firefox";
+  };
+
+   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
       extraPolicies = {
@@ -224,5 +229,6 @@ in {
         '';
       };
     };
+  };
   };
 }

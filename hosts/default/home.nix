@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (my_lib.opt) enable;
-in {
+in rec {
   imports = [
     # ../../modules/nixos/hardware/monitors.nix
     # ../../modules/home/apps/firefox.nix
@@ -29,7 +29,7 @@ in {
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  # home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -47,10 +47,8 @@ in {
     #   echo "Hello, ${config.home.username}!"
     # '')
 
-    # used to formatt nix code
-    inputs.alejandra.defaultPackage.${pkgs.system}
     # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
-  ];
+  # ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -83,13 +81,17 @@ in {
   #  /etc/profiles/per-user/upidapi/etc/profile.d/hm-session-vars.sh
   #
   
-  home.persistence."/persist/home/upidapi" = {
+  home.persistence."/persist/home/${home.username}" = {
     directories = [
+      # force organisation
+      /*
       "Downloads"
       "Music"
       "Pictures"
       "Documents"
       "Videos"
+      */
+
       # "VirtualBox VMs"
       ".gnupg"
       ".ssh"
@@ -97,7 +99,10 @@ in {
       ".local/share/keyrings"  # stores passwords (keys)
       ".local/share/direnv"  
 
-      ".mozilla/firefox"  # thers probably some better way
+      # thers probably some better way
+      # i shuld probaly make this more specific
+      # to save tabs, bookmarks and enabled extensions
+      ".mozilla/firefox"
       {
         directory = ".local/share/Steam";
         method = "symlink";
@@ -121,18 +126,31 @@ in {
     TERMINAL = "alacritty";
   };
 
+  home.packages = with pkgs; [
+    # used to formatt nix code
+    inputs.alejandra.defaultPackage.${pkgs.system}
+
+    htop
+    # maybe btop
+  ];
+
   modules.home = {
     apps = {
+      alacritty = enable;
+      bitwarden = enable;
+      discord = enable;
       firefox = enable;
       r2modman = enable;
-      discord = enable;
     };
 
     cli-apps = {
-      bitwarden = enable;
       nixvim = enable;
-      wine = enable;
       nushell = enable;
+      wine = enable;
+    };
+
+    tools = {
+      git = enable;
     };
 
     desktop = {

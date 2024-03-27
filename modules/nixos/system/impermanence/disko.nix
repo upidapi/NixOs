@@ -1,7 +1,27 @@
-{...}: {
-  disko.devices = {
+/* {
+  config,
+  my_lib,
+  lib,
+  ...
+}: let
+  inherit (my_lib.opt) mkEnableOpt mkOpt;
+  inherit (lib) mkIf;
+  cfg = config.modules.nixos.impermanence.disko;
+in {
+  options.modules.nixos.system.impermanence.disko =
+    mkEnableOpt "whether or not to enable disko" // {
+      device = mkOpt types.str null "the device to be formatted";
+      swap = mkOpt types.str "0" "amount of spaw space on the disk";
+    };
+
+  imports = [
+    inputs.disko.nixosModules.default
+  ];
+
+  config = mkIf cfg.enable {
+     disko.devices = {
     disk.main = {
-      device = "/dev/sda";
+      device = cfg.device;
       type = "disk";
       content = {
         type = "gpt";
@@ -21,13 +41,6 @@
               mountpoint = "/boot";
             };
           };
-          /* swap = {
-            size = "4G";
-            content = {
-              type = "swap";
-              resumeDevice = true;
-            };
-          }; */
           root = {
             name = "root";
             size = "100%";
@@ -36,7 +49,15 @@
               vg = "root_vg";
             };
           };
-        };
+        } // (if cfg.swap == "0" then {} else {
+          swap = {
+            size = cfg.swap;
+            content = {
+              type = "swap";
+              resumeDevice = true;
+            };
+          };
+        });
       };
     };
     lvm_vg = {
@@ -70,4 +91,5 @@
       };
     };
   };
-}
+  };
+} */

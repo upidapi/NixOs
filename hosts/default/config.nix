@@ -249,9 +249,6 @@ in {
   environment.systemPackages = with pkgs; [
     alacritty # terminal
 
-    swww # wallpaper daemions
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-
     tree # show file system tree
     git
 

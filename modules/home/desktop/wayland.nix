@@ -17,7 +17,7 @@ in {
     home = {
       sessionVariables.NIXOS_OZONE_WL = "1";
       packages = with pkgs; [
-        wl-clipboard
+        wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
       ];
     };
 

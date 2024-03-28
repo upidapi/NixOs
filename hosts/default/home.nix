@@ -110,6 +110,7 @@ in rec {
     ];
     files = [
       ".screenrc"
+      ".zsh_history"
     ];
     allowOther = true;
   };

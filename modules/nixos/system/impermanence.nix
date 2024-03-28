@@ -46,12 +46,12 @@ in {
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = [
-      {
+      /* {
         # preserve the location of the config
         directory = 
           "${config.modules.nixos.core.nixos-cfg-path}";
         # mode = "0777";
-      }
+      } */
       
       "/var/log" 
       "/var/lib/bluetooth" # for saving bth devices

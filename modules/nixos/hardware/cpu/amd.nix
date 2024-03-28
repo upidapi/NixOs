@@ -13,15 +13,13 @@ in {
 
   config = mkIf cfg.enable {
     # todo: what is this?
-    # services.xserver.videoDrivers = ["modesetting"];
+    services.xserver.videoDrivers = ["modesetting"];
 
     # Enable OpenGL00 (i think this is for intergrated graphics)
-    /*
-       hardware.opengl = {
+    hardware.opengl = {
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
     };
-    */
   };
 }

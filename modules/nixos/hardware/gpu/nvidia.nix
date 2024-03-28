@@ -12,17 +12,16 @@ in {
     mkEnableOpt "enables nvidia gpu drivers for the system";
 
   config = mkIf cfg.enable {
-    # services.xserver.videoDrivers = ["nvidia"];  # this breaks stuff
+    services.xserver.videoDrivers = ["nvidia"];  # this breaks stuff
 
     # Enable OpenGL
     hardware.opengl = {
       enable = true;
-      # driSupport = true;
-      # driSupport32Bit = true;
+      driSupport = true;
+      driSupport32Bit = true;
     };
 
-    /*
-       hardware.nvidia = {
+    hardware.nvidia = {
       # Modesetting is needed most of the time
       modesetting.enable = true;
 
@@ -55,6 +54,5 @@ in {
       #   sync.enable = true;
       # };
     };
-    */
   };
 }

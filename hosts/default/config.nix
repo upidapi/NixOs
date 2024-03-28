@@ -62,6 +62,9 @@ in {
     # ];
   };
   
+  # for wayland with nvidia 
+  environment.variables.WLR_NO_HARDWARE_CURSORS = "1";
+
   # user.user.root.initialPassword = "1";
 
   modules.nixos = {

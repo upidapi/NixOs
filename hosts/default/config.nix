@@ -55,7 +55,7 @@ in {
     # make a cfg-editor group that makes it so that a user 
     # can edit the config
     extraGroups = ["networkmanager" "wheel"];
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
     initialPassword = "1";
     # packages = with pkgs; [
     #   # firefox
@@ -73,10 +73,13 @@ in {
       gc = enable;
       sops = enable;
     };
+    
+    cli-apps = {
+      less = enable;
+      zsh = enable;
+    };
 
     apps = {
-      less = enable;
-      # zsh = enable;
       # nushell = enable;
       steam = enable;
     };
@@ -136,9 +139,12 @@ in {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty # terminal
+    
+    # grapejuice
 
     tree # show file system tree
     # git
+    age
 
     python3
   ];

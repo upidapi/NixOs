@@ -102,8 +102,10 @@ in rec {
       # save discord login
       ".config/discordcanary/Local Storage" 
       
+      ".config/zsh/history.txt"
+
       # save nushell command history
-      ".config/nushell/history.txt"
+      # ".config/nushell/history.txt"
 
       # thers probably some better way
       # i shuld probaly make this more specific

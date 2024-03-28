@@ -12,7 +12,7 @@ in {
     mkEnableOpt "enables nvidia gpu drivers for the system";
 
   config = mkIf cfg.enable {
-    services.xserver.videoDrivers = ["nvidia"];  # this breaks stuff
+    # services.xserver.videoDrivers = ["nvidia"];  # this breaks stuff
 
     # Enable OpenGL
     hardware.opengl = {
@@ -21,12 +21,12 @@ in {
       driSupport32Bit = true;
     };
 
-       hardware.nvidia = {
+    /*hardware.nvidia = {
       # Modesetting is needed most of the time
       modesetting.enable = true;
 
       # Enable power management
-      # (do not disable this unless you have a reason to).
+      # (do not disable this unless you have a reason to)# .
       # Likely to cause problems on laptops and with screen tearing if disabled.
       powerManagement.enable = true;
 
@@ -53,6 +53,6 @@ in {
       #   nvidiaBusId = "PCI:0:0:0";
       #   sync.enable = true;
       # };
-    };
+    }; */
   };
 }

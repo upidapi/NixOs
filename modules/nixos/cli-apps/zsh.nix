@@ -8,13 +8,14 @@
   inherit (lib) mkIf;
   cfg = config.modules.nixos.cli-apps.zsh;
 in {
-  options.modules.nixos.cli-apps.zsh = mkEnableOpt 
+  options.modules.nixos.cli-apps.zsh =
+    mkEnableOpt
     "enables the zsh shell";
 
   config.programs = mkIf cfg.enable {
     zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestions.enable = true;
       syntaxHighlighting = enable;
     };
 

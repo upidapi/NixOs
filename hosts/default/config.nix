@@ -5,7 +5,7 @@
 {
   # config,
   pkgs,
-  # lib,  
+  # lib,
   # inputs,
   # inputs',
   # self,
@@ -31,29 +31,12 @@ in {
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # desktop env
-  programs.hyprland = {
-    enable = true;
-    # nvidiaPatches = true;
-    xwayland.enable = true;
-  };
-
-  hardware = {
-    opengl = {
-      enable = true;
-      # driSupport = true;
-    };
-
-    # most wayland compositors need this
-    nvidia.modesetting.enable = true;
-  };
-  
   environment.variables = {
     WLR_NO_HARDWARE_CURSORS = "1";
     LIBVA_DRIVER_NAME = "nvidia";
     XDG_SESSION_TYPE = "wayland";
     GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -61,7 +44,7 @@ in {
     isNormalUser = true;
     description = "upidapi";
 
-    # make a cfg-editor group that makes it so that a user 
+    # make a cfg-editor group that makes it so that a user
     # can edit the config
     extraGroups = ["networkmanager" "wheel"];
     shell = pkgs.zsh;
@@ -70,19 +53,19 @@ in {
     #   # firefox
     # ];
   };
-  
+
   # user.user.root.initialPassword = "1";
 
   modules.nixos = {
     core = {
       nixos-cfg-path = "/perist/full-config";
-      
+
       cachix = enable;
       flakes = enable;
       gc = enable;
       sops = enable;
     };
-    
+
     cli-apps = {
       less = enable;
       zsh = enable;
@@ -94,7 +77,7 @@ in {
     };
 
     system = {
-      impermanence = enable;
+      # impermanence = enable;
       fonts = enable;
       boot = enable;
       env = enable;
@@ -148,7 +131,7 @@ in {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty # terminal
-    
+
     # grapejuice
 
     tree # show file system tree

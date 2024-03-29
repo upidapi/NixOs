@@ -25,17 +25,18 @@
 
           specialArgs = extra_args;
 
-          modules = [
-              # config  
+          modules =
+            [
+              # config
               ./../modules/nixos
               ./${name}/config.nix
-
-            ] ++ [
+            ]
+            ++ [
               # disko
-              inputs.disko.nixosModules.default 
-              (import ./${name}/disko.nix { device = "/dev/sda"; })
-
-            ] ++ [
+              inputs.disko.nixosModules.default
+              (import ./${name}/disko.nix {device = "/dev/sda";})
+            ]
+            ++ [
               # home manager
               inputs.home-manager.nixosModules.home-manager
               {

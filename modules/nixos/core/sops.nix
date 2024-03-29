@@ -9,7 +9,7 @@
   inherit (lib) mkIf;
   cfg = config.modules.nixos.core.sops;
 in {
-  # might whant to remove/disable the import when 
+  # might whant to remove/disable the import when
   # thiss modules is disabled
   imports = [
     inputs.sops-nix.nixosModules.sops
@@ -18,7 +18,7 @@ in {
   options.modules.nixos.core.sops =
     mkEnableOpt "enables sops";
 
-  config = mkIf cfg.enable {
-
-  };
+  config =
+    mkIf cfg.enable {
+    };
 }

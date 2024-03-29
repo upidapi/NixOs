@@ -14,7 +14,7 @@ in {
   config = mkIf cfg.enable {
     # for flakes
     nix.settings.experimental-features = [
-      "nix-command" 
+      "nix-command"
       "flakes"
     ];
   };

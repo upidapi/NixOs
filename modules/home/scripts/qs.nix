@@ -14,7 +14,7 @@ in {
   options.modules.home.scripts.qs =
     mkEnableOpt
     "Whether or not to add the qs command";
-  
+
   # qs i.e quick switch
   config = mkIf cfg.enable {
     home.packages = [
@@ -30,7 +30,7 @@ in {
           then echo "This requires root to run"
           exit
         fi
-        
+
         : '
         # make sure that user has selected a profile
         # for example "deafult"
@@ -46,7 +46,7 @@ in {
           exit
         fi
         '
-        
+
         if [[ $# -eq 0 ]];
           then profile="default";
           else profile="$0";
@@ -76,7 +76,7 @@ in {
         : '
         # comit changes
         echo -e "\n\nCommiting changes..."
-      
+
         # -am := add all staged changes, and a msg for the commit
         gen=$(nixos-rebuild list-generations | grep current)
         git commit -am "$2 ($gen)"  # --author="upidapi <videw@icloud.com>"

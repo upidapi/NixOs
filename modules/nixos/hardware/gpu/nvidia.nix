@@ -12,7 +12,7 @@ in {
     mkEnableOpt "enables nvidia gpu drivers for the system";
 
   config = mkIf cfg.enable {
-    services.xserver.videoDrivers = ["nvidia"];  # this breaks stuff (cursor disapears)
+    services.xserver.videoDrivers = ["nvidia"]; # this breaks stuff (cursor disapears)
 
     # Enable OpenGL
     hardware.opengl = {

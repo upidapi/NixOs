@@ -9,7 +9,8 @@
   inherit (lib) mkIf;
   cfg = config.modules.nixos.cli-apps.less;
 in {
-  options.modules.nixos.cli-apps.less = mkEnableOpt 
+  options.modules.nixos.cli-apps.less =
+    mkEnableOpt
     "enables the less pager";
 
   /*

@@ -12,10 +12,11 @@ in {
     ./cachix.nix
     ./sops.nix
   ];
-  
+
   # used by other modules
   options.modules.nixos.core = {
-    nixos-cfg-path = mkOpt types.str null 
+    nixos-cfg-path =
+      mkOpt types.str null
       "that absolute path of the nixos config";
   };
 }

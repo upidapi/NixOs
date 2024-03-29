@@ -30,24 +30,24 @@ in rec {
   # The home.packages option allows you to install Nix packages into your
   # environment.
   # home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+  # # Adds the 'hello' command to your environment. It prints a friendly
+  # # "Hello, world!" when run.
+  # pkgs.hello
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+  # # It is sometimes useful to fine-tune packages, for example, by applying
+  # # overrides. You can do that directly here, just don't forget the
+  # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+  # # fonts?
+  # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+  # # You can also create simple shell scripts directly inside your
+  # # configuration. For example, this adds a command 'my-hello' to your
+  # # environment:
+  # (pkgs.writeShellScriptBin "my-hello" ''
+  #   echo "Hello, ${config.home.username}!"
+  # '')
 
-    # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
+  # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
   # ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -80,28 +80,25 @@ in rec {
   #
   #  /etc/profiles/per-user/upidapi/etc/profile.d/hm-session-vars.sh
   #
-  
-  home.persistence."/persist/home/${home.username}" = {
+
+  /* home.persistence."/persist/home/${home.username}" = {
     directories = [
       # force organisation
-      /*
-      "Downloads"
-      "Music"
-      "Pictures"
-      "Documents"
-      "Videos"
-      */
+      # "Downloads"
+      # "Music"
+      # "Pictures"
+      # "Documents"
+      # "Videos"
 
       # "VirtualBox VMs"
       ".gnupg"
       ".ssh"
       ".nixops"
-      ".local/share/keyrings"  # stores passwords (keys)
-      ".local/share/direnv"  
-      
+      ".local/share/keyrings" # stores passwords (keys)
+      ".local/share/direnv"
+
       # save discord login
-      ".config/discordcanary/Local Storage" 
-      
+      ".config/discordcanary/Local Storage"
 
       # save nushell command history
       # ".config/nushell/history.txt"
@@ -120,19 +117,7 @@ in rec {
       # ".zsh_history"  # zsh command history
     ];
     allowOther = true;
-  };
-
-  programs.git = {
-    enable = true;
-    userName = "upidapi";
-    userEmail = "videw@icloud.com";
-  };
-
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    BROWSER = "firefox";
-    TERMINAL = "alacritty";
-  };
+  }; */
 
   home.packages = with pkgs; [
     # used to formatt nix code

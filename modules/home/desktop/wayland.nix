@@ -18,14 +18,28 @@ in {
       sessionVariables = {
         NIXOS_OZONE_WL = "1";
       };
-      
+
       packages = with pkgs; [
         wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
       ];
     };
 
     # handles desktop programs interactions
-    xdg.portal.enable = true;
-    xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
+    xdg.portal = {
+      enable = true;
+      /*
+         extraPortals = with pkgs; [
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-wlr
+      ];
+      */
+      configPackages = [
+        pkgs.hyprland
+      ];
+
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
+      ];
+    };
   };
 }

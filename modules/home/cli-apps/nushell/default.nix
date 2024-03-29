@@ -27,7 +27,8 @@ in {
     carapace.enable = true;
     carapace.enableNushellIntegration = true;
 
-    /* starship = {
+    /*
+       starship = {
       enable = true;
       settings = {
         add_newline = true;
@@ -36,6 +37,7 @@ in {
           error_symbol = "[➜](bold red)";
         };
       };
-    }; */
+    };
+    */
   };
 }

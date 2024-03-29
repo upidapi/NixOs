@@ -75,7 +75,7 @@ in {
 
   modules.nixos = {
     core = {
-      nixos-cfg-path = "/persist/full-config"; # "/etc/nixos";
+      nixos-cfg-path = "/perist/full-config";
       
       cachix = enable;
       flakes = enable;

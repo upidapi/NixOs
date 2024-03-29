@@ -16,7 +16,6 @@ in {
     "Whether or not to add the qs command";
   
   # qs i.e quick switch
-
   config = mkIf cfg.enable {
     home.packages = [
       # used to formatt nix code
@@ -77,7 +76,7 @@ in {
         : '
         # comit changes
         echo -e "\n\nCommiting changes..."
-        
+      
         # -am := add all staged changes, and a msg for the commit
         gen=$(nixos-rebuild list-generations | grep current)
         git commit -am "$2 ($gen)"  # --author="upidapi <videw@icloud.com>"

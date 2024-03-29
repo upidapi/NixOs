@@ -7,12 +7,6 @@
 }: let
   inherit (my_lib.opt) enable;
 in rec {
-  imports = [
-    # ../../modules/nixos/hardware/monitors.nix
-    # ../../modules/home/apps/firefox.nix
-    # ./nixvim.nix
-  ];
-
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "upidapi";
@@ -80,8 +74,8 @@ in rec {
   #
   #  /etc/profiles/per-user/upidapi/etc/profile.d/hm-session-vars.sh
   #
-
-  /* home.persistence."/persist/home/${home.username}" = {
+  /*
+  home.persistence."/persist/home/${home.username}" = {
     directories = [
       # force organisation
       # "Downloads"
@@ -117,7 +111,15 @@ in rec {
       # ".zsh_history"  # zsh command history
     ];
     allowOther = true;
-  }; */
+  };
+  */
+
+  /*
+  programs.git = {
+    enable = true;
+    userName = "upidapi";
+    userEmail = "videw@icloud.com";
+  };
 
   home.packages = with pkgs; [
     # used to formatt nix code
@@ -161,7 +163,141 @@ in rec {
       qs = enable;
     };
   };
+  */
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.git = {
+    enable = true;
+    userName = "upidapi";
+    userEmail = "videw@icloud.com";
+  };
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    BROWSER = "firefox";
+    TERMINAL = "alacritty";
+  };
+  /*
+     programs.neovim.plugins = [
+  pkgs.vimPlugins.nvim-tree-lua
+    {
+      plugin = pkgs.vimPlugins.vim-startify;
+      config = "let g:startify_change_to_vcs_root = 0";
+    }
+  ];
+  */
+  programs.firefox = {
+    enable = true;
+    profiles.upidapi = {
+      extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
+        ublock-origin
+        bitwarden
+      ];
+      settings = {
+        "browser.disableResetPrompt" = true;
+        "browser.download.panel.shown" = true;
+        "browser.download.useDownloadDir" = false;
+        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+        "browser.shell.checkDefaultBrowser" = false;
+        "browser.shell.defaultBrowserCheckCount" = 1;
+        "browser.startup.homepage" = "https://start.duckduckgo.com";
+        "dom.security.https_only_mode" = true;
+        "identity.fxaccounts.enabled" = false;
+        "privacy.trackingprotection.enabled" = true;
+        "signon.rememberSignons" = false;
+      };
+    };
+  };
+
+  /*
+     monitors = [
+    {
+      name = "DVI-D-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 0;
+      y = 0;
+      workspace = 1;
+    }
+    {
+      name = "HDMI-A-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 1920;
+      y = 0;
+      primary = true;
+      workspace = 2;
+    }
+    {
+      name = "HDMI-A-2";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 3840;
+      y = 0;
+      workspace = 3;
+    }
+  ];
+  */
+
+  # todo move this to a module
+  wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.hyprland.settings = {
+    "$mod" = "SUPER";
+    # mouse binds
+    bindm = [
+      "$mod, mouse:272, movewindow"
+      "$mod, mouse:273, resizewindow"
+    ];
+    # kbd binds
+    bind =
+      [
+        # "$mod, Q, exec, kitty"
+        "$mod, E, exec, alacritty"
+        "$mod, R, exec, firefox"
+        "$mod, C, killactive"
+        "$mod, M, exit"
+        # "$mod, F, exec, firefox"
+        # ", Print, exec, grimblast copy area"
+      ]
+      ++ (
+        # workspaces
+        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+        builtins.concatLists (builtins.genList (
+            x: let
+              ws = let
+                c = (x + 1) / 10;
+              in
+                builtins.toString (x + 1 - (c * 10));
+            in [
+              "$mod, ${ws}, workspace, ${toString (x + 1)}"
+              "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+            ]
+          )
+          10)
+      );
+    # display conf
+    /*
+     monitor =
+    map
+    (
+      m: let
+        resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+        position = "${toString m.x}x${toString m.y}";
+      in "${m.name},${
+        if m.enabled
+        then "${resolution},${position},1"
+        else "disable"
+      }"
+    )
+    (config.monitors);
+    */
+    # layout
+    input = {
+      kb_layout = "se"; # swedish layout
+    };
+  };
 }

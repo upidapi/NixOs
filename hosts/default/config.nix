@@ -29,6 +29,8 @@ in {
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
+
+  /*
   networking.networkmanager.enable = true;
 
   environment.variables = {
@@ -58,7 +60,7 @@ in {
 
   modules.nixos = {
     core = {
-      nixos-cfg-path = "/perist/full-config";
+      nixos-cfg-path = "/persist/full-config";
 
       cachix = enable;
       flakes = enable;
@@ -140,6 +142,7 @@ in {
 
     python3
   ];
+  */
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -167,4 +170,176 @@ in {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
+
+  # for flakes
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  /* modules.nixos.core.nixos-cfg-path = "/persist/full-config";
+  modules.nixos.hardware.monitors = [
+    {
+      name = "DVI-D-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 0;
+      y = 0;
+      workspace = 1;
+    }
+    {
+      name = "HDMI-A-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 1920;
+      y = 0;
+      primary = true;
+      workspace = 2;
+    }
+    {
+      name = "HDMI-A-2";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 3840;
+      y = 0;
+      workspace = 3;
+    }
+  ]; */
+
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Enable networking
+  networking.networkmanager.enable = true;
+
+  # Set your time zone.
+  time.timeZone = "Europe/Stockholm";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_GB.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "sv_SE.UTF-8";
+    LC_IDENTIFICATION = "sv_SE.UTF-8";
+    LC_MEASUREMENT = "sv_SE.UTF-8";
+    LC_MONETARY = "sv_SE.UTF-8";
+    LC_NAME = "sv_SE.UTF-8";
+    LC_NUMERIC = "sv_SE.UTF-8";
+    LC_PAPER = "sv_SE.UTF-8";
+    LC_TELEPHONE = "sv_SE.UTF-8";
+    LC_TIME = "sv_SE.UTF-8";
+  };
+
+  # desktop env
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  /*
+     x = {
+    enable = true; # enables support for Bluetooth
+    powerOnBoot = true; # powers up the default Bluetooth controller on boot
+    settings = {
+      General = {
+        Experimental = "true";
+        ControllerMode = "bredr";
+        AutoEnable = "true";
+      };
+    };
+  };
+  */
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
+  services.blueman.enable = true;
+
+  hardware = {
+    opengl.enable = true;
+
+    # most wayland compositors need this
+    nvidia.modesetting.enable = true;
+  };
+
+  # hint electron apps that you're using wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  # Configure keymap in X11
+  services.xserver = {
+    layout = "se";
+    xkbVariant = "";
+  };
+
+  # Configure console keymap
+  console.keyMap = "sv-latin1";
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.upidapi = {
+    isNormalUser = true;
+    description = "upidapi";
+    extraGroups = ["networkmanager" "wheel"];
+    packages = with pkgs; [
+      # git
+    ];
+  };
+
+  # Enable sound with pipewire.
+  sound.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    wireplumber.enable = true;
+    # If you want to use JACK applications, uncomment this
+    # jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    # media-session.enable = true;
+  };
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # handles desktop programs interactions
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    kitty # remove when i can config the hyprland.conf
+    alacritty
+
+    rofi-wayland
+    
+    git
+
+    dunst # notifications
+    libnotify # notofication dep
+
+    waybar # a bar (i think the top thing)
+
+    swww # wallpaper daemions
+    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+  ];
+
+  # setup neovim as the desfault editor
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
+
+  environment.variables.EDITOR = "nvim";
 }

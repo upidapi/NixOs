@@ -21,7 +21,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       (pkgs.writeShellScriptBin "cn-bth" ''
-        $"connect AC:80:0A:2E:81:6A\nquit" | bluetoothctl
+        echo -e "connect AC:80:0A:2E:81:6A\nquit" | bluetoothctl
       '')
     ];
   };

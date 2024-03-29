@@ -12,7 +12,7 @@ in {
     mkEnableOpt "enables nvidia gpu drivers for the system";
 
   config = mkIf cfg.enable {
-    # services.xserver.videoDrivers = ["nvidia"];  # this breaks stuff
+    services.xserver.videoDrivers = ["nvidia"];  # this breaks stuff (cursor disapears)
 
     # Enable OpenGL
     hardware.opengl = {
@@ -21,7 +21,7 @@ in {
       driSupport32Bit = true;
     };
 
-    /*hardware.nvidia = {
+    hardware.nvidia = {
       # Modesetting is needed most of the time
       modesetting.enable = true;
 
@@ -42,7 +42,7 @@ in {
       nvidiaSettings = true;
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.production;
 
       # optimus prime
       # if you have and Nvidia GPU in a laptop you need to enable the following
@@ -53,6 +53,6 @@ in {
       #   nvidiaBusId = "PCI:0:0:0";
       #   sync.enable = true;
       # };
-    }; */
+    };
   };
 }

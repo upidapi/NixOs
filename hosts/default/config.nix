@@ -34,6 +34,7 @@ in {
   # desktop env
   programs.hyprland = {
     enable = true;
+    # nvidiaPatches = true;
     xwayland.enable = true;
   };
 
@@ -45,6 +46,14 @@ in {
 
     # most wayland compositors need this
     nvidia.modesetting.enable = true;
+  };
+  
+  environment.variables = {
+    WLR_NO_HARDWARE_CURSORS = "1";
+    LIBVA_DRIVER_NAME = "nvidia";
+    XDG_SESSION_TYPE = "wayland";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -66,7 +75,7 @@ in {
 
   modules.nixos = {
     core = {
-      nixos-cfg-path = "/etc/nixos";
+      nixos-cfg-path = "/persist/full-config"; # "/etc/nixos";
       
       cachix = enable;
       flakes = enable;

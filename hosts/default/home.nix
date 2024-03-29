@@ -102,7 +102,6 @@ in rec {
       # save discord login
       ".config/discordcanary/Local Storage" 
       
-      ".config/zsh/history.txt"
 
       # save nushell command history
       # ".config/nushell/history.txt"
@@ -118,6 +117,7 @@ in rec {
     ];
     files = [
       ".screenrc"
+      # ".zsh_history"  # zsh command history
     ];
     allowOther = true;
   };
@@ -153,7 +153,7 @@ in rec {
 
     cli-apps = {
       nixvim = enable;
-      nushell = enable;
+      # nushell = enable;
       wine = enable;
       git = enable;
     };
@@ -173,6 +173,7 @@ in rec {
     scripts = {
       regen-nixos = enable;
       cn-bth = enable;
+      qs = enable;
     };
   };
 

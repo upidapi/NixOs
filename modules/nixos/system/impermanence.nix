@@ -43,15 +43,15 @@ in {
   '';
 
   fileSystems."/persist".neededForBoot = true;
-  environment.persistence."/persist" = {
+  environment.persistence."/persist/system" = {
     hideMounts = true;
     directories = [
-      {
+      /* {
         # preserve the location of the config
         directory = 
           "${config.modules.nixos.core.nixos-cfg-path}";
         # mode = "0777";
-      }
+      } */
       
       "/var/log" 
       "/var/lib/bluetooth" # for saving bth devices
@@ -67,7 +67,7 @@ in {
     ];
     files = [
       # todo: fix this
-      # "/etc/machine-id"
+      "/etc/machine-id"
       { 
         file = "/var/keys/secret_file"; 
         parentDirectory = { 

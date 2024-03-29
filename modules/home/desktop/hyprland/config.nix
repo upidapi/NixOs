@@ -37,7 +37,7 @@
       );
 
     # display conf
-    monitor =
+    /* monitor =
       map
       (
         m: let
@@ -49,7 +49,7 @@
           else "disable"
         }"
       )
-      (osConfig.modules.nixos.hardware.monitors);
+      (osConfig.modules.nixos.hardware.monitors); */
 
     # layout
     input = {

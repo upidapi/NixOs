@@ -15,7 +15,10 @@ in {
   config = mkIf cfg.enable {
     # hint electron apps that you're using wayland
     home = {
-      sessionVariables.NIXOS_OZONE_WL = "1";
+      sessionVariables = {
+        NIXOS_OZONE_WL = "1";
+      };
+      
       packages = with pkgs; [
         wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
       ];

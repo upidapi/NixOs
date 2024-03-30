@@ -61,10 +61,17 @@
   };
 in {
   # you can // (or) multiple mkSystems
+  # flake.nixosConfigurations = (
+  #   mkSystem {
+  #     system = "x86_64-linux";
+  #     name = "default";
+  #   }
+  # );
   flake.nixosConfigurations = (
     mkSystem {
       system = "x86_64-linux";
-      name = "default";
+      name = "raw";
     }
   );
+
 }

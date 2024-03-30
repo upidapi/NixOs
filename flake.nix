@@ -2,7 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -11,7 +11,8 @@
       url = "github:nix-community/NUR";
     };
     */
-
+    
+    /*
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,7 +41,7 @@
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
+    }; */
 
     # disko = {
     #   url = "github:nix-community/disko";
@@ -59,8 +60,8 @@
         "x86_64-linux"
         # ...
       ];
-      perSystem = {pkgs, ...}: {
-        formatter = pkgs.alejandra;
-      };
+      # perSystem = {pkgs, ...}: {
+      #   formatter = pkgs.alejandra;
+      # };
     };
 }

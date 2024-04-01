@@ -14,7 +14,7 @@
           esp = {
             name = "ESP";
             size = "500M";
-            type §k= "EF00";
+            type = "EF00";
             content = {
               type = "filesystem";
               format = "vfat";

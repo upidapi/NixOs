@@ -114,7 +114,7 @@ in rec {
   };
   */
 
-  /*
+
   programs.git = {
     enable = true;
     userName = "upidapi";
@@ -163,21 +163,21 @@ in rec {
       qs = enable;
     };
   };
-  */
+
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  programs.git = {
-    enable = true;
-    userName = "upidapi";
-    userEmail = "videw@icloud.com";
-  };
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    BROWSER = "firefox";
-    TERMINAL = "alacritty";
-  };
+#  programs.git = {
+#    enable = true;
+#    userName = "upidapi";
+#    userEmail = "videw@icloud.com";
+#  };
+#  home.sessionVariables = {
+#    EDITOR = "nvim";
+#    BROWSER = "firefox";
+#    TERMINAL = "alacritty";
+#  };
   /*
      programs.neovim.plugins = [
   pkgs.vimPlugins.nvim-tree-lua
@@ -187,6 +187,7 @@ in rec {
     }
   ];
   */
+  /*
   programs.firefox = {
     enable = true;
     profiles.upidapi = {
@@ -209,7 +210,7 @@ in rec {
       };
     };
   };
-
+  */
   /*
      monitors = [
     {
@@ -243,6 +244,7 @@ in rec {
   ];
   */
 
+  /*
   # todo move this to a module
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.settings = {
@@ -280,24 +282,26 @@ in rec {
           10)
       );
     # display conf
-    /*
-     monitor =
-    map
-    (
-      m: let
-        resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
-        position = "${toString m.x}x${toString m.y}";
-      in "${m.name},${
-        if m.enabled
-        then "${resolution},${position},1"
-        else "disable"
-      }"
-    )
-    (config.monitors);
-    */
+#
+#     monitor =
+#    map
+#    (
+#      m: let
+#        resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+#        position = "${toString m.x}x${toString m.y}";
+#      in "${m.name},${
+#        if m.enabled
+#        then "${resolution},${position},1"
+#        else "disable"
+#      }"
+#    )
+#    (config.monitors);
+#
     # layout
     input = {
       kb_layout = "se"; # swedish layout
     };
+
   };
+  */
 }

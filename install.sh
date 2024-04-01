@@ -21,11 +21,13 @@ fi
 #
 profile="default"
 
-mkdir /mnt/persist
 git clone https://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@github.com/upidapi/NixOs.git /mnt/persist/nixos
 # cd /mnt/persist/nixos
 
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko "/mnt/persist/nixos/hosts/$profile/disko.nix"
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko "/tmp/nixos/hosts/$profile/disko.nix"
+
+mkdir /mnt/persist
+mv /tmp/nixos /mnt/persist/nixos
 
 # sudo nixos-generate-config --no-filesystems --root /mnt
 

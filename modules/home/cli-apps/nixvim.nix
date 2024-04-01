@@ -126,22 +126,6 @@ in {
            "buffer"
            "luasnip"
           ];
-        };
-
-        cmdline =
-          (builtins.listToAttrs
-            (map
-              (name: {
-                inherit name;
-                value.sources = [{name = "buffer";}];
-              })
-              ["/" "?"]
-            )
-          ) // {
-            ":".sources = [
-              {name = "path";}
-            ];
-          };
 
         mapping = {
           "<CR>" = "cmp.mapping.confirm({ select = true })";
@@ -164,6 +148,22 @@ in {
             modes = ["i" "s"];
           };
         };
+        };
+
+        cmdline =
+          (builtins.listToAttrs
+            (map
+              (name: {
+                inherit name;
+                value.sources = [{name = "buffer";}];
+              })
+              ["/" "?"]
+            )
+          ) // {
+            ":".sources = [
+              {name = "path";}
+            ];
+          };
       };
 
       cmp-calc.enable = true;

@@ -126,7 +126,7 @@ in {
            "buffer"
            "luasnip"
           ];
-
+        /*
         mapping = {
           "<CR>" = "cmp.mapping.confirm({ select = true })";
           "<Tab>" = {
@@ -147,7 +147,7 @@ in {
             '';
             modes = ["i" "s"];
           };
-        };
+        };*/
         };
 
         cmdline =

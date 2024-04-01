@@ -27,16 +27,14 @@
 
           modules =
             [
-              # config
-              ./../modules/nixos
-              ./${name}/config.nix
-            ]
-            ++ [
               # disko
               inputs.disko.nixosModules.default
               (import ./${name}/disko.nix)
-            ]
-            ++ [
+            ] ++ [
+              # config
+              ./../modules/nixos
+              ./${name}/config.nix
+            ] ++ [
               # home manager
               inputs.home-manager.nixosModules.home-manager
               {

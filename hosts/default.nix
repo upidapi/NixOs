@@ -69,11 +69,18 @@ in {
     mkSystem {
       system = "x86_64-linux";
       name = "raw-nixos";
-    } # //
-    # mkSystem {
-    #   system = "x86_64-linux";
-    #   name = "raw";
-    # }
-  );
-
+    } //
+    mkSystem {
+      system = "x86_64-linux";
+      name = "raw";
+    } //
+    mkSystem {   
+      system = "x86_64-linux";
+      name = "default";
+    } //
+    mkSystem {   
+      system = "x86_64-linux";
+      name = "test";
+    }
+  ); 
 }

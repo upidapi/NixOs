@@ -41,7 +41,38 @@
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  
+
+modules.nixos.core.nixos-cfg-path = "/persist/full-config";
+  modules.nixos.hardware.monitors = [
+    {
+      name = "DVI-D-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 0;
+      y = 0;
+      workspace = 1;
+    }
+    {
+      name = "HDMI-A-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 1920;
+      y = 0;
+      primary = true;
+      workspace = 2;
+    }
+    {
+      name = "HDMI-A-2";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 3840;
+      y = 0;
+      workspace = 3;
+    }
+  ];  
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";

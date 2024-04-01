@@ -30,7 +30,7 @@ in {
 
   # Enable networking
 
-  /*
+
   networking.networkmanager.enable = true;
 
   environment.variables = {
@@ -79,7 +79,7 @@ in {
     };
 
     system = {
-      # impermanence = enable;
+      impermanence = enable;
       fonts = enable;
       boot = enable;
       env = enable;
@@ -128,6 +128,7 @@ in {
   };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  /*
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -215,7 +216,7 @@ in {
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
+  /*
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -257,6 +258,7 @@ in {
   };
   */
 
+  /*
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
@@ -342,4 +344,5 @@ in {
   };
 
   environment.variables.EDITOR = "nvim";
+  */
 }

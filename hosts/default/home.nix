@@ -74,7 +74,7 @@ in rec {
   #
   #  /etc/profiles/per-user/upidapi/etc/profile.d/hm-session-vars.sh
   #
-  /*
+  
   home.persistence."/persist/home/${home.username}" = {
     directories = [
       # force organisation
@@ -112,8 +112,6 @@ in rec {
     ];
     allowOther = true;
   };
-  */
-
 
   programs.git = {
     enable = true;

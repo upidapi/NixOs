@@ -68,7 +68,7 @@ in {
   flake.nixosConfigurations = (
     mkSystem {
       system = "x86_64-linux";
-      name = "default";
+      name = "raw-nixos";
     } # //
     # mkSystem {
     #   system = "x86_64-linux";

@@ -29,4 +29,4 @@ nix --experimental-features "nix-command flakes" run github:nix-community/disko 
 
 # sudo nixos-generate-config --no-filesystems --root /mnt
 
-nixos-install --flake "/mnt/persist/NixOs#$profile"
+nixos-install --flake "/mnt/persist/nixos#$profile"

@@ -2,6 +2,7 @@
   config,
   my_lib,
   lib,
+  inputs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt;
@@ -11,7 +12,7 @@ in {
   imports = [
     ./config.nix
     # TODO: does this fix connecting a disply to the motherbord?
-    hyprland.homeManagerModules.default
+    inputs.hyprland.homeManagerModules.default
   ];
 
   options.modules.home.desktop.hyprland =

@@ -2,16 +2,18 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    hyprland.url = "github:hyprwm/Hyprland";
     /*
        nur = {
       url = "github:nix-community/NUR";
     };
     */
-
+    
+    /*
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,13 +42,15 @@
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
+    }; */
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # disko = {
+    #   url = "github:nix-community/disko";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
+
+  # builtins.readFile ./install.sh
 
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -59,8 +63,27 @@
         "x86_64-linux"
         # ...
       ];
-      perSystem = {pkgs, ...}: {
-        formatter = pkgs.alejandra;
+      perSystem = {pkgs, self, ...}: {
+        # formatter = pkgs.alejandra;
+
+        packages = {
+          # A script that sets up a machine acording to a host profile
+          install = pkgs.writeShellApplication {
+            name = "install";
+            runtimeInputs = with pkgs; [ git ]; # I could make this fancier by adding other deps
+            text = ''${./install.sh} "$@"'';
+          };
+        };
+
+        apps = rec {
+          default = install;  # makes the one liner install script slightly shorter;
+
+          # makes it so that you can install one of my systems with a one liner (see readme)
+          install = {
+            type = "app";
+            program = "${self.packages.install}/bin/install";
+          };
+        };
       };
     };
 }

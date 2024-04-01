@@ -15,10 +15,12 @@ in {
     inputs.nixvim.homeManagerModules.nixvim
   ];
   # todo: add todo highliting
-  # todo: file browser
+  # todo: better file browser
   # todo: what is oil (probably in the nixos filder?
   # todo: multiple tabs?
   # todo: fix tab making the lsp throw errors when there is no options
+  # todo: editor regins / folds
+  # todo: fix the cmp sources
 
   options.modules.home.cli-apps.nixvim =
     mkEnableOpt "enables nixvim";
@@ -29,6 +31,7 @@ in {
   # btw ctrl-w + s splits window horizintaly
   # btw ctrl-w + q closes window
 
+    # this sets is as the default for the user
   config.home.sessionVariables = {
     EDITOR = "nvim";
   };
@@ -36,9 +39,6 @@ in {
   config.programs.nixvim = mkIf cfg.enable {
     enable = true;
     defaultEditor = true;
-
-    # this sets is as the default for the system
-    # environment.variables.EDITOR = "nvim";
 
     enableMan = true; # man pages:
 
@@ -113,17 +113,35 @@ in {
         };
       };
 
-      cmp.settings = {
+      cmp = {
         enable = true;
 
         autoEnableSources = true;
-        sources = [
-          {name = "path";}
-          {name = "treesitter";}
-          {name = "nvim_lsp";}
-          {name = "buffer";}
-          {name = "luasnip";}
-        ];
+        settings = {
+          snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
+          sources = map (name: {inherit name;}) [
+           "path"
+           "treesitter"
+           "nvim_lsp"
+           "buffer"
+           "luasnip"
+          ];
+        };
+
+        cmdline =
+          (builtins.listToAttrs
+            (map
+              (name: {
+                inherit name;
+                value.sources = [{name = "buffer";}];
+              })
+              ["/" "?"]
+            )
+          ) // {
+            ":".sources = [
+              {name = "path";}
+            ];
+          };
 
         mapping = {
           "<CR>" = "cmp.mapping.confirm({ select = true })";

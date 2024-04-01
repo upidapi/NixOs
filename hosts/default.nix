@@ -28,14 +28,14 @@
           modules =
             [
               # config
-              ./../modules/nixos
+              # ./../modules/nixos
               ./${name}/config.nix
             ]
             ++ [
               # disko
-              inputs.disko.nixosModules.default
-              (import ./${name}/disko.nix {device = "/dev/sda";})
-            ]
+              # inputs.disko.nixosModules.default
+              # (import ./${name}/disko.nix {device = "/dev/sda";})
+            ]; /*
             ++ [
               # home manager
               inputs.home-manager.nixosModules.home-manager
@@ -48,23 +48,30 @@
 
                   users."upidapi" = {...}: {
                     imports = [
-                      inputs.impermanence.nixosModules.home-manager.impermanence
-                      ./../modules/home
+                      # inputs.impermanence.nixosModules.home-manager.impermanence
+                      # ./../modules/home
                       ./${name}/home.nix
                     ];
                   };
                 };
               }
-            ];
+            ]; */
         }
     );
   };
 in {
   # you can // (or) multiple mkSystems
+  # flake.nixosConfigurations = (
+  #   mkSystem {
+  #     system = "x86_64-linux";
+  #     name = "default";
+  #   }
+  # );
   flake.nixosConfigurations = (
     mkSystem {
       system = "x86_64-linux";
-      name = "default";
+      name = "raw";
     }
   );
+
 }

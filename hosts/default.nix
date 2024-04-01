@@ -34,7 +34,7 @@
             ++ [
               # disko
               inputs.disko.nixosModules.default
-              (import ./${name}/disko.nix {device = "/dev/sda";})
+              (import ./${name}/disko.nix)
             ]
             ++ [
               # home manager
@@ -71,11 +71,11 @@ in {
     mkSystem {
       system = "x86_64-linux";
       name = "default";
-    } //
-    mkSystem {
-      system = "x86_64-linux";
-      name = "raw";
-    }
+    } # //
+    # mkSystem {
+    #   system = "x86_64-linux";
+    #   name = "raw";
+    # }
   );
 
 }

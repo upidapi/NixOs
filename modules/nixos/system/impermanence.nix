@@ -59,7 +59,7 @@ in {
           # mode = "0777";
         }
         */
-        "/etc/nixos"
+        # "/etc/nixos"
         "/var/log"
         "/var/lib/bluetooth"
         "/var/lib/nixos"

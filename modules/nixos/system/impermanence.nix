@@ -1,3 +1,4 @@
+
 {
   config,
   my_lib,
@@ -17,6 +18,11 @@ in {
     mkEnableOpt "enables impermanence";
 
   config = mkIf cfg.enable {
+    fileSystems."/persist".neededForBoot = true;
+
+    # required by home manager impermanance
+    programs.fuse.userAllowOther = true;
+
     boot.initrd.postDeviceCommands = lib.mkAfter ''
       mkdir /btrfs_tmp
       mount /dev/root_vg/root /btrfs_tmp
@@ -42,7 +48,6 @@ in {
       umount /btrfs_tmp
     '';
 
-    fileSystems."/persist".neededForBoot = true;
     environment.persistence."/persist/system" = {
       hideMounts = true;
       directories = [
@@ -54,9 +59,9 @@ in {
           # mode = "0777";
         }
         */
-
+        "/etc/nixos"
         "/var/log"
-        "/var/lib/bluetooth" # for saving bth devices
+        "/var/lib/bluetooth"
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
@@ -65,7 +70,7 @@ in {
           user = "colord";
           group = "colord";
           mode = "u=rwx,g=rx,o=";
-        }
+        }            "/etc/nixos"
       ];
       files = [
         # todo: fix this
@@ -78,8 +83,5 @@ in {
         }
       ];
     };
-
-    # required by home manager impermanance
-    programs.fuse.userAllowOther = true;
   };
 }

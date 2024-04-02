@@ -62,38 +62,37 @@ in {
     core = {
       nixos-cfg-path = "/persist/full-config";
 
-      # cachix = enable;
+      cachix = enable;
       flakes = enable;
       gc = enable;
-      # sops = enable;
+      sops = enable;
     };
 
     cli-apps = {
-      # less = enable;
-      # zsh = enable;
+      less = enable;
+      zsh = enable;
     };
 
     apps = {
-      # nushell = enable;
-      # steam = enable;
+      steam = enable;
     };
 
     system = {
-      # impermanence = enable;
-      # fonts = enable;
+      impermanence = enable;
+      fonts = enable;
       boot = enable;
-      # env = enable;
-      # locale = enable;
+      env = enable;
+      locale = enable;
     };
 
     desktop.sddm = enable;
 
     hardware = {
-      # cpu.amd = enable;
-      # gpu.nvidia = enable;
+      cpu.amd = enable;
+      gpu.nvidia = enable;
 
-      # bth = enable;
-      # sound = enable;
+      bth = enable;
+      sound = enable;
       monitors = [
         {
           name = "DVI-D-1";

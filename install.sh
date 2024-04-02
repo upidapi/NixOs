@@ -19,7 +19,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 #
-profile="default"
+profile="test"
 
 git clone https://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@github.com/upidapi/NixOs.git /tmp/nixos
 # cd /mnt/persist/nixos
@@ -31,4 +31,4 @@ mv /tmp/nixos /mnt/persist/nixos
 
 # sudo nixos-generate-config --no-filesystems --root /mnt
 
-nixos-install --flake "/mnt/persist/nixos#$profile"
+nixos-install --root /mnt --flake "/mnt/persist/nixos#$profile"

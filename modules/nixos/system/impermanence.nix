@@ -59,7 +59,7 @@ in {
           # mode = "0777";
         }
         */
-        # "/etc/nixos"
+        "/etc/nixos"
         "/var/log"
         "/var/lib/bluetooth"
         "/var/lib/nixos"
@@ -70,11 +70,10 @@ in {
           user = "colord";
           group = "colord";
           mode = "u=rwx,g=rx,o=";
-        }            "/etc/nixos"
+        }
       ];
       files = [
-        # todo: fix this
-        # "/etc/machine-id"
+        "/etc/machine-id"
         {
           file = "/var/keys/secret_file";
           parentDirectory = {

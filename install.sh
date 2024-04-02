@@ -18,6 +18,23 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+
+hosts=()
+for dir in "${realpath $0}/./"
+
+
+# make sure that user has selected a profile
+# for example "deafult"
+# if not promt them to choose one
+if [ $# -eq 0 ]
+  then echo "select priofile:";
+  select a in */; do echo $a; done
+
+  else profile=$1;
+fi
+
+echo "installing $profile"
+
 #
 profile="test"
 

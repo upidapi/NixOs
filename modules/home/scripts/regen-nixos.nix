@@ -22,9 +22,6 @@ in {
       # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
       (pkgs.writeShellScriptBin "regen-nixos" ''
-        txt_color="\033[0;34m"
-        end_color="\033[0m"
-
         nixFlakeDir=${osConfig.modules.nixos.core.nixos-cfg-path}
 
         # make sure is root
@@ -47,28 +44,29 @@ in {
           exit
         fi
 
+
         repeat() {
-          for i in {1..$1}; do echo -n "$2"; done
+          for i in $(seq $1); do echo -n "$2"; done
         }
 
         # this is dumb, (its just practice)
         print_action() {
+          txt_color="\033[0;33m"
+          end_color="\033[0m"
+
           txt="$1"
           tot_len=60
-          padding=$(($tot_len - $(expr lenght $txt)))
+          padding=$(($tot_len - $(expr length $txt)))
           raw_side=$((padding / 2))
           rounded=$(awk 'BEGIN { printf "%.0f", '"$raw_side"' }')
 
           echo ""
-          echo ""
+          echo -e "$txt_color"
           repeat $rounded "-"
           echo -n $txt
           repeat $((rounded * 3 - padding)) "-"
-          echo ""
+          echo -e "$end_color"
         }
-
-        print_action "asdajkhlsdf"
-        print_action "asd"
 
         # goto where the nix configs are
         cd $nixFlakeDir # > /dev/null

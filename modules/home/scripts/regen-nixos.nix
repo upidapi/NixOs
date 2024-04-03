@@ -22,8 +22,8 @@ in {
       # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
       (pkgs.writeShellScriptBin "regen-nixos" ''
-        txt_color = "\033[0;34m"
-        end_color = "\033[0m"
+        txt_color="\033[0;34m"
+        end_color="\033[0m"
 
         nixFlakeDir=${osConfig.modules.nixos.core.nixos-cfg-path}
 
@@ -47,6 +47,28 @@ in {
           exit
         fi
 
+        repeat() {
+          for i in {1..$1}; do echo -n "$2"; done
+        }
+
+        # this is dumb, (its just practice)
+        print_action() {
+          txt="$1"
+          tot_len=60
+          padding=$(($tot_len - $(expr lenght $txt)))
+          raw_side=$((padding / 2))
+          rounded=$(awk 'BEGIN { printf "%.0f", '"$raw_side"' }')
+
+          echo ""
+          echo ""
+          repeat $rounded "-"
+          echo -n $txt
+          repeat $((rounded * 3 - padding)) "-"
+          echo ""
+        }
+
+        print_action "asdajkhlsdf"
+        print_action "asd"
 
         # goto where the nix configs are
         cd $nixFlakeDir # > /dev/null
@@ -55,32 +77,37 @@ in {
         git add --all
 
         # formatt code
-        echo -e "$txt_color-----------------Formatting Files---------------------$end_color"
+        print_action "Formatting Files"
+
         alejandra . || true
 
 
         # show git diff
-        echo -e "\n\nFile Diff:"
+        print_action "File Diff"
         git --no-pager diff
 
         # rebuild ignore everything except errors
-        echo -e "\n\nRebuilding NixOS... (profile: $1)"
+        print_action "Rebuilding NixOS... (profile: $1)"
         # if this fails dont commit
-        sudo nixos-rebuild switch --flake ".#$1" || exit 1
+        sudo nixos-rebuild switch --flake ".#$1" || exit 1;
 
 
         # comit changes
-        echo -e "\n\n$txt_color-----------------Commiting changes--------------------$end_color"
-
+        print_action "Commiting changes"
         # -am := add all staged changes, and a msg for the commit
-        gen=$(nixos-rebuild list-generations | grep current)
-        git commit -am "$2 ($gen)" #  --author="upidapi <videw@icloud.com>"
+        gen=$(
+          sudo nix-env \
+            --list-generations \
+            --profile /nix/var/nix/profiles/system \
+          | grep -Po ".*(?=[(]current[)])" \
+          | xargs
+        )
+        git commit -am "$2 (gen: $gen)"
 
-
-        echo -e "\n\n$txt_color--------------Pushing code to github------------------$end_color"
+        print_action "Pushing code to github"
         # todo put this in sops
-        # pat="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"
-        # git push https://$pat@github.com/upidapi/NixOs.git main
+        pat="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"
+        git push https://$pat@github.com/upidapi/NixOs.git main
 
 
         # popd > /dev/null

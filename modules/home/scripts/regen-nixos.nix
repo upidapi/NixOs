@@ -22,17 +22,55 @@ in {
       # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
       (pkgs.writeShellScriptBin "regen-nixos" ''
+        # wrote this to practice bash
+        # I should probaly rewrite it in python
+
         nixFlakeDir=${osConfig.modules.nixos.core.nixos-cfg-path}
 
         # kwargs=()
-        git_commit=true
-        profile=""
-        raw_commit_msg=""
+        profile=$1
+        raw_commit_msg=$2
 
-        for arg in $@; do
-          if [[ arg == -* ]]; then
+        : ' args="$*"
+
+        POSITIONAL_ARGS=()
+
+        while [[ $# -gt 0 ]]; do
+          case $1 in
+            -e|--extension)
+              EXTENSION="$2"
+              shift # past argument
+              shift # past value
+              ;;
+            -s|--searchpath)
+              SEARCHPATH="$2"
+              shift # past argument
+              shift # past value
+              ;;
+            --default)
+              DEFAULT=YES
+              shift # past argument
+              ;;
+            -*|--*)
+              echo "Unknown option $1"
+              exit 1
+              ;;
+            *)
+              POSITIONAL_ARGS+=("$1") # save positional arg
+              shift # past argument
+              ;;
+          esac
+        done
+        '
+
+
+        : ' for arg in ""; do
+          echo ">$arg<"
+          echo "---"
+
+          if [[ "$arg" == -* ]]; then
             # kwargs+=("$arg")
-            if [ "$arg" == "--dont-commit" ]; then
+            if [[ "$arg" == "--dont-commit" ]]; then
               git_commit=false
             fi
           else
@@ -52,7 +90,9 @@ in {
             echo "too many args"
             exit
           fi
-        done
+        done '
+
+        # echo "$git_commit $profile $raw_commit_msg"
 
         # make sure that user has selected a profile
         # for example "deafult"
@@ -63,7 +103,7 @@ in {
 
         # make sure that we have a commit msg
         # for example "firefox is now in dark mode"
-        if [[ $git_commit && "$raw_commit_msg" == "" ]]
+        if [[ "$raw_commit_msg" == "" ]]
           then echo "Generation note / msg not supplied"
           exit
         fi
@@ -128,7 +168,7 @@ in {
           exit 1
         fi
 
-        if "$git_commit"; then
+        if ! [[ $raw_commit_msg == "--no-commit" ]]; then
           # comit changes
           print_action "Commiting changes"
           # -am := add all staged changes, and a msg for the commit

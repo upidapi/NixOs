@@ -13,6 +13,11 @@ in {
     mkEnableOpt "enables gtk, a gui component lib";
 
   config = mkIf cfg.enable {
+    # https://github.com/nix-community/home-manager/issues/3113
+    home.packages = [
+      pkgs.dconf
+    ];
+
     gtk = {
       enable = true;
       # enable dark mode

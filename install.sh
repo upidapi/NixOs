@@ -75,4 +75,5 @@ mkdir /mnt/persist/system
 
 # sudo nixos-generate-config --no-filesystems --root /mnt
 
+mkdir /mnt/persist/system
 nixos-install --root /mnt --flake "/mnt/persist/nixos#$profile"

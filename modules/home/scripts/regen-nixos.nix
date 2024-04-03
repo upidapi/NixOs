@@ -64,7 +64,7 @@ in {
           echo -e "$txt_color"
           repeat $rounded "-"
           echo -n $txt
-          repeat $((rounded * 3 - padding)) "-"
+          repeat $((padding - rounded)) "-"
           echo -e "$end_color"
         }
 

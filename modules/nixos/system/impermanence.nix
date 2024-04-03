@@ -1,4 +1,3 @@
-
 {
   config,
   my_lib,
@@ -48,19 +47,25 @@ in {
       umount /btrfs_tmp
     '';
 
-    # disko can't / wont automatically create the storage locations 
+    # disko can't / wont automatically create the storage locations
     # so we have to create them ourselves
-    systemd.tmpfiles.rules = [
-      # /persist/system created, owned by root
-      "d /persist/system/ 0777 root root -" 
-      
-      # /persist/home created, owned by root
-      "d /persist/home/ 0777 root root -" 
+    systemd.tmpfiles.rules =
+      [
+        # /persist/system created, owned by root
+        "d /persist/system/ 0777 root root -"
 
-      # todo: move this to another module (home/user modules)
-      # /persist/home/upidapi created, owned by that user
-      "d /persist/home/upidapi 0770 upidapi users -"
-    ]
+        # /persist/home created, owned by root
+        "d /persist/home/ 0777 root root -"
+
+        # make sure that each user owns it's own persistent
+        # home directory
+      ]
+      ++ builtins.attrValues (
+        builtins.mapAttrs (
+          user-name: user-cfg: "d /persist/home/${user-name} 0770 ${user-name} users -"
+        )
+        config.modules.nixos.users
+      );
 
     environment.persistence."/persist/system" = {
       hideMounts = true;

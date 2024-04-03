@@ -49,7 +49,7 @@ in {
 
         if [[ $# -eq 0 ]];
           then profile="default";
-          else profile="$0";
+          else profile="$1";
         fi
 
         # goto where the nix configs are

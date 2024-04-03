@@ -31,7 +31,7 @@ in {
   # btw ctrl-w + s splits window horizintaly
   # btw ctrl-w + q closes window
 
-    # this sets is as the default for the user
+  # this sets is as the default for the user
   config.home.sessionVariables = {
     EDITOR = "nvim";
   };
@@ -120,46 +120,50 @@ in {
         settings = {
           snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
           sources = map (name: {inherit name;}) [
-           "path"
-           "treesitter"
-           "nvim_lsp"
-           "buffer"
-           "luasnip"
+            "path"
+            "treesitter"
+            "nvim_lsp"
+            "buffer"
+            "luasnip"
           ];
-        /*
-        mapping = {
-          "<CR>" = "cmp.mapping.confirm({ select = true })";
-          "<Tab>" = {
-            action = ''
-              function(fallback)
-                if cmp.visible() then
-                  cmp.select_next_item()
-                elseif luasnip.expandable() then
-                  luasnip.expand()
-                elseif luasnip.expand_or_jumpable() then
-                  luasnip.expand_or_jump()
-                elseif check_backspace() then
-                  fallback()
-                else
-                  fallback()
+          /*
+          mapping = {
+            "<CR>" = "cmp.mapping.confirm({ select = true })";
+            "<Tab>" = {
+              action = ''
+                function(fallback)
+                  if cmp.visible() then
+                    cmp.select_next_item()
+                  elseif luasnip.expandable() then
+                    luasnip.expand()
+                  elseif luasnip.expand_or_jumpable() then
+                    luasnip.expand_or_jump()
+                  elseif check_backspace() then
+                    fallback()
+                  else
+                    fallback()
+                  end
                 end
-              end
-            '';
-            modes = ["i" "s"];
+              '';
+              modes = ["i" "s"];
+            };
           };
-        };*/
+          */
         };
 
         cmdline =
-          (builtins.listToAttrs
-            (map
+          (
+            builtins.listToAttrs
+            (
+              map
               (name: {
                 inherit name;
                 value.sources = [{name = "buffer";}];
               })
               ["/" "?"]
             )
-          ) // {
+          )
+          // {
             ":".sources = [
               {name = "path";}
             ];

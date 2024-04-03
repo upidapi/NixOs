@@ -19,32 +19,59 @@ if [ "$EUID" -ne 0 ]
 fi
 
 
+# make user select a (vallid) profile
+raw_profile=$1
+
+config_dir=$(dirname /persist/nixos/install.sh)
+raw_hosts=$(find "$config_dir/hosts" -maxdepth 1 -mindepth 1 -type d)
+
 hosts=()
-for dir in "${realpath $0}/./"
+for dir in $raw_hosts; do
+  res=$(basename $dir)
+  hosts+=($res)
+done;
 
+# check if user has provieded valid profile to script
+for host in $hosts; do
+  if [[ $raw_profile == $host ]];
+    then profile=$raw_profile;
+  fi
+done
 
-# make sure that user has selected a profile
-# for example "deafult"
-# if not promt them to choose one
-if [ $# -eq 0 ]
-  then echo "select priofile:";
-  select a in */; do echo $a; done
-
-  else profile=$1;
+if [[ ! $# -eq 0 && $profile == "" ]]; then 
+  echo "invallid priofile";
+  echo "";
 fi
 
-echo "installing $profile"
+# choose profile
+if [[ $profile == "" ]]; then
+  echo "select priofile:"
+  select host in ${hosts[@]}; do
+    profile=$host;
+    break;
+  done;
+fi
 
-#
-profile="test"
+# clone my nixos git repo
+git_pat="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"
+git clone "https://$git_pat@github.com/upidapi/NixOs.git" /tmp/nixos
 
-git clone https://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@github.com/upidapi/NixOs.git /tmp/nixos
-# cd /mnt/persist/nixos
+# formatt with disko
+nix --experimental-features "nix-command flakes" \ 
+  run github:nix-community/disko -- \
+  --mode disko "/tmp/nixos/hosts/$profile/disko.nix"
 
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko "/tmp/nixos/hosts/$profile/disko.nix"
 
 mkdir /mnt/persist
 mv /tmp/nixos /mnt/persist/nixos
+
+# The persist modules can't perisist files in a 
+# folder that doesn't exist, and /persist/system is where 
+# we store the system files. (the nixos installer doesn't 
+# work otherwise)
+# Therefour we have to manualy create this folder
+# (this took me about 2 full days to figure out, :) )
+mkdir /mnt/persist/system
 
 # sudo nixos-generate-config --no-filesystems --root /mnt
 

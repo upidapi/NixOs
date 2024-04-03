@@ -30,7 +30,6 @@ in {
 
   # Enable networking
 
-
   networking.networkmanager.enable = true;
 
   # environment.variables = {
@@ -178,7 +177,8 @@ in {
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
 
-  /* modules.nixos.core.nixos-cfg-path = "/persist/full-config";
+  /*
+     modules.nixos.core.nixos-cfg-path = "/persist/full-config";
   modules.nixos.hardware.monitors = [
     {
       name = "DVI-D-1";
@@ -208,7 +208,8 @@ in {
       y = 0;
       workspace = 3;
     }
-  ]; */
+  ];
+  */
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -324,7 +325,7 @@ in {
     alacritty
 
     rofi-wayland
-    
+
     git
 
     dunst # notifications

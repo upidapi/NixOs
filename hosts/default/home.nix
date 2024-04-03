@@ -3,15 +3,11 @@
   pkgs,
   inputs,
   my_lib,
+  config,
   ...
 }: let
   inherit (my_lib.opt) enable;
 in rec {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home.username = "upidapi";
-  home.homeDirectory = "/home/upidapi";
-
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -74,8 +70,8 @@ in rec {
   #
   #  /etc/profiles/per-user/upidapi/etc/profile.d/hm-session-vars.sh
   #
-  
-  home.persistence."/persist/home/${home.username}" = {
+
+  home.persistence."/persist/home/${config.home.username}" = {
     directories = [
       # force organisation
       # "Downloads"
@@ -123,6 +119,7 @@ in rec {
     # used to formatt nix code
     inputs.alejandra.defaultPackage.${pkgs.system}
 
+    dconf
     htop
     # maybe btop
   ];
@@ -162,20 +159,19 @@ in rec {
     };
   };
 
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-#  programs.git = {
-#    enable = true;
-#    userName = "upidapi";
-#    userEmail = "videw@icloud.com";
-#  };
-#  home.sessionVariables = {
-#    EDITOR = "nvim";
-#    BROWSER = "firefox";
-#    TERMINAL = "alacritty";
-#  };
+  #  programs.git = {
+  #    enable = true;
+  #    userName = "upidapi";
+  #    userEmail = "videw@icloud.com";
+  #  };
+  #  home.sessionVariables = {
+  #    EDITOR = "nvim";
+  #    BROWSER = "firefox";
+  #    TERMINAL = "alacritty";
+  #  };
   /*
      programs.neovim.plugins = [
   pkgs.vimPlugins.nvim-tree-lua
@@ -243,63 +239,63 @@ in rec {
   */
 
   /*
-  # todo move this to a module
-  wayland.windowManager.hyprland.enable = true;
-  wayland.windowManager.hyprland.settings = {
-    "$mod" = "SUPER";
-    # mouse binds
-    bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
-    ];
-    # kbd binds
-    bind =
-      [
-        # "$mod, Q, exec, kitty"
-        "$mod, E, exec, alacritty"
-        "$mod, R, exec, firefox"
-        "$mod, C, killactive"
-        "$mod, M, exit"
-        # "$mod, F, exec, firefox"
-        # ", Print, exec, grimblast copy area"
-      ]
-      ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-        builtins.concatLists (builtins.genList (
-            x: let
-              ws = let
-                c = (x + 1) / 10;
-              in
-                builtins.toString (x + 1 - (c * 10));
-            in [
-              "$mod, ${ws}, workspace, ${toString (x + 1)}"
-              "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
-            ]
-          )
-          10)
-      );
-    # display conf
-#
-#     monitor =
-#    map
-#    (
-#      m: let
-#        resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
-#        position = "${toString m.x}x${toString m.y}";
-#      in "${m.name},${
-#        if m.enabled
-#        then "${resolution},${position},1"
-#        else "disable"
-#      }"
-#    )
-#    (config.monitors);
-#
-    # layout
-    input = {
-      kb_layout = "se"; # swedish layout
-    };
+    # todo move this to a module
+    wayland.windowManager.hyprland.enable = true;
+    wayland.windowManager.hyprland.settings = {
+      "$mod" = "SUPER";
+      # mouse binds
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
+      # kbd binds
+      bind =
+        [
+          # "$mod, Q, exec, kitty"
+          "$mod, E, exec, alacritty"
+          "$mod, R, exec, firefox"
+          "$mod, C, killactive"
+          "$mod, M, exit"
+          # "$mod, F, exec, firefox"
+          # ", Print, exec, grimblast copy area"
+        ]
+        ++ (
+          # workspaces
+          # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+          builtins.concatLists (builtins.genList (
+              x: let
+                ws = let
+                  c = (x + 1) / 10;
+                in
+                  builtins.toString (x + 1 - (c * 10));
+              in [
+                "$mod, ${ws}, workspace, ${toString (x + 1)}"
+                "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+              ]
+            )
+            10)
+        );
+      # display conf
+  #
+  #     monitor =
+  #    map
+  #    (
+  #      m: let
+  #        resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+  #        position = "${toString m.x}x${toString m.y}";
+  #      in "${m.name},${
+  #        if m.enabled
+  #        then "${resolution},${position},1"
+  #        else "disable"
+  #      }"
+  #    )
+  #    (config.monitors);
+  #
+      # layout
+      input = {
+        kb_layout = "se"; # swedish layout
+      };
 
-  };
+    };
   */
 }

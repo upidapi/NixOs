@@ -6,5 +6,6 @@
     ./system
     ./desktop
     ./core
+    ./users.nix
   ];
 }

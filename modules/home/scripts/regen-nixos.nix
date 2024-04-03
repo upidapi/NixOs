@@ -50,8 +50,10 @@ in {
         }
 
         # this is dumb, (its just practice)
-        print_action() {
-          txt_color="\033[0;33m"
+        raw_print() {
+          color="$2"
+          color+="m"
+          txt_color="\033[0;$color"
           end_color="\033[0m"
 
           txt="$1"
@@ -60,12 +62,17 @@ in {
           raw_side=$((padding / 2))
           rounded=$(awk 'BEGIN { printf "%.0f", '"$raw_side"' }')
 
-          echo ""
-          echo -e "$txt_color"
-          repeat $rounded "-"
+          echo -ne "$txt_color"
+          repeat $rounded "$3"
           echo -n $txt
-          repeat $((padding - rounded)) "-"
+          repeat $((padding - rounded)) "$3"
           echo -e "$end_color"
+        }
+
+        print_action() {
+          echo ""
+          echo ""
+          raw_print "$1" "33" "-"
         }
 
         # goto where the nix configs are
@@ -81,13 +88,22 @@ in {
 
 
         # show git diff
-        print_action "File Diff"
+        print_action "Git Diff"
         git --no-pager diff
 
         # rebuild ignore everything except errors
         print_action "Rebuilding NixOS... (profile: $1)"
         # if this fails dont commit
-        sudo nixos-rebuild switch --flake ".#$1" || exit 1;
+        ret=sudo nixos-rebuild switch --flake ".#$1"
+        if ! $ret; then
+          # make sure that i dont miss it
+          raw_print "" "41" " "
+          raw_print "" "41" " "
+          raw_print "Nixos Rebild Failed" "41" " "
+          raw_print "" "41" " "
+          raw_print "" "41" " "
+          exit 1
+        fi
 
 
         # comit changes
@@ -100,7 +116,11 @@ in {
           | grep -Po ".*(?=[(]current[)])" \
           | xargs
         )
-        git commit -am "$2 (gen: $gen)"
+        commit_msg="$2 (gen: $gen)"
+        echo "commit msg:  $commit_msg"
+        echo ""
+
+        git commit -am "$commit_msg"
 
         print_action "Pushing code to github"
         # todo put this in sops
@@ -110,7 +130,9 @@ in {
 
         # popd > /dev/null
 
-        echo -e "\n\nSuccessfully applied nixos configuration changes"
+        echo ""
+        echo ""
+        raw_print  "Successfully applied nixos configuration changes" "32" "-"
       '')
     ];
   };

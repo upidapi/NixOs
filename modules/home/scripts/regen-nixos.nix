@@ -25,7 +25,7 @@ in {
         nixFlakeDir=${osConfig.modules.nixos.core.nixos-cfg-path}
 
         # kwargs=()
-        git_commit=1
+        git_commit=true
         profile=""
         raw_commit_msg=""
 
@@ -33,7 +33,7 @@ in {
           if [[ arg == -* ]]; then
             # kwargs+=("$arg")
             if [ "$arg" == "--dont-commit" ]; then
-              git_commit=0
+              git_commit=false
             fi
           else
             # for some reason getting items in arrays dont seam to
@@ -41,27 +41,29 @@ in {
 
             if [ "$profile" == "" ];
               then profile=$arg
+              continue
             fi
 
-            if [ "raw_commit_msg" == "" ];
+            if [ "$raw_commit_msg" == "" ];
               then raw_commit_msg=$arg
+              continue
             fi
 
             echo "too many args"
-            ecit
+            exit
           fi
         done
 
         # make sure that user has selected a profile
         # for example "deafult"
-        if [ "$profile" == "" ]
+        if [[ "$profile" == "" ]];
           then echo "NixOs profile not supplied"
           exit
         fi
 
         # make sure that we have a commit msg
         # for example "firefox is now in dark mode"
-        if [ $git_commit && "$raw_commit_msg" == "" ]
+        if [[ $git_commit && "$raw_commit_msg" == "" ]]
           then echo "Generation note / msg not supplied"
           exit
         fi
@@ -126,7 +128,7 @@ in {
           exit 1
         fi
 
-        if $git_commit; then
+        if "$git_commit"; then
           # comit changes
           print_action "Commiting changes"
           # -am := add all staged changes, and a msg for the commit

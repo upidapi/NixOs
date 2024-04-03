@@ -32,6 +32,21 @@ in {
 
   networking.networkmanager.enable = true;
 
+  # todo: put this somewhere else
+  # this just makes the user own /persist/nixos
+  systemd.tmpfiles.settings = {
+    # i believe that that name is arbitrary (10-mypackage)
+    "10-mypackage" = {
+      "/persist/nixos" = {
+        z = {
+          group = "users";
+          mode = "0755";
+          user = "upidapi";
+        };
+      };
+    };
+  };
+
   environment.variables = {
     WLR_NO_HARDWARE_CURSORS = "1";
     LIBVA_DRIVER_NAME = "nvidia";
@@ -170,13 +185,6 @@ in {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
-
-  # for flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   /*
      modules.nixos.core.nixos-cfg-path = "/persist/full-config";

@@ -1,5 +1,5 @@
 {
   imports = [
-    ./default.nix
+    ./persist.nix
   ];
 }

@@ -51,10 +51,11 @@
                 {
                   home.username = user-name;
 
+                  # only for testing
+                  # home.stateVersion = "23.11"; # Please read the comment before changing.
                   home.homeDirectory = "/home/${user-name}";
                 }
 
-                inputs.impermanence.nixosModules.home-manager.impermanence
                 ./../modules/home
 
                 # todo: make is so that you can have multiple users

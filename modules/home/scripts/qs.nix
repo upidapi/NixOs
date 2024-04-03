@@ -65,13 +65,12 @@ in {
 
         # show git diff
         echo -e "\n\nFile Diff:"
-        git diff
-
+        git --no-pager diff
 
         # rebuild ignore everything except errors
         echo -e "\n\nRebuilding NixOS... (profile: $profile)"
         # if this fails dont commit
-        nixos-rebuild switch --flake ".#$profile" || exit 1
+        sudo nixos-rebuild switch --flake ".#$profile" || exit 1
 
         : '
         # comit changes

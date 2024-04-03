@@ -22,13 +22,16 @@ in {
       # gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons
 
       (pkgs.writeShellScriptBin "regen-nixos" ''
+        txt_color = "\033[0;34m"
+        end_color = "\033[0m"
+
         nixFlakeDir=${osConfig.modules.nixos.core.nixos-cfg-path}
 
         # make sure is root
-        if [ "$EUID" -ne 0 ]
-          then echo "This requires root to run"
-          exit
-        fi
+        # if [ "$EUID" -ne 0 ]
+        #   then echo "This requires root to run"
+        #   exit
+        # fi
 
         # make sure that user has selected a profile
         # for example "deafult"
@@ -52,33 +55,32 @@ in {
         git add --all
 
         # formatt code
-        echo "Formatting Files..."
+        echo -e "$txt_color-----------------Formatting Files---------------------$end_color"
         alejandra . || true
 
 
         # show git diff
         echo -e "\n\nFile Diff:"
-        git diff
-
+        git --no-pager diff
 
         # rebuild ignore everything except errors
         echo -e "\n\nRebuilding NixOS... (profile: $1)"
         # if this fails dont commit
-        nixos-rebuild switch --flake ".#$1" || exit 1
+        sudo nixos-rebuild switch --flake ".#$1" || exit 1
 
 
         # comit changes
-        echo -e "\n\nCommiting changes..."
+        echo -e "\n\n$txt_color-----------------Commiting changes--------------------$end_color"
 
         # -am := add all staged changes, and a msg for the commit
         gen=$(nixos-rebuild list-generations | grep current)
-        git commit -am "$2 ($gen)"  # --author="upidapi <videw@icloud.com>"
+        git commit -am "$2 ($gen)" #  --author="upidapi <videw@icloud.com>"
 
 
-        echo -e "\n\nPushing code to github..."
+        echo -e "\n\n$txt_color--------------Pushing code to github------------------$end_color"
         # todo put this in sops
-        pat="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"
-        git push https://$pat@github.com/upidapi/NixOs.git main
+        # pat="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"
+        # git push https://$pat@github.com/upidapi/NixOs.git main
 
 
         # popd > /dev/null

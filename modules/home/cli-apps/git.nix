@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   my_lib,
@@ -17,6 +18,11 @@ in {
       enable = true;
       userName = "upidapi";
       userEmail = "videw@icloud.com";
+      extraConfig = {
+        init.defaultBranch = "main";
+        safe.directory = "${osConfig.modules.nixos.core.nixos-cfg-path}";
+        pull.rebase = "false";
+      };
     };
   };
 }

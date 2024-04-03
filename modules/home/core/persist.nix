@@ -2,12 +2,17 @@
   config,
   my_lib,
   lib,
+  inputs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.home.core.persist;
 in {
+  imports = [
+    inputs.impermanence.nixosModules.home-manager.impermanence
+  ];
+
   options.modules.home.core.persist =
     mkEnableOpt "enables persistence for the home dir";
 

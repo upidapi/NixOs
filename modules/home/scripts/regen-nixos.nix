@@ -55,8 +55,8 @@ in {
           end_color="\033[0m"
 
           txt="$1"
-          tot_len=60
-          padding=$(($tot_len - $(expr length $txt)))
+          tot_len=80
+          padding=$(($tot_len - $(expr length "$txt")))
           raw_side=$((padding / 2))
           rounded=$(awk 'BEGIN { printf "%.0f", '"$raw_side"' }')
 

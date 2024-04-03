@@ -50,17 +50,17 @@ in {
 
     # disko can't / wont automatically create the storage locations 
     # so we have to create them ourselves
-    systemd.tmpfiles.rules = {
+    systemd.tmpfiles.rules = [
       # /persist/system created, owned by root
-      "d /persist/system/ 1777 root root -" 
+      "d /persist/system/ 0777 root root -" 
       
       # /persist/home created, owned by root
-      "d /persist/home/ 1777 root root -" 
+      "d /persist/home/ 0777 root root -" 
 
       # todo: move this to another module (home/user modules)
       # /persist/home/upidapi created, owned by that user
       "d /persist/home/upidapi 0770 upidapi users -"
-    }
+    ]
 
     environment.persistence."/persist/system" = {
       hideMounts = true;

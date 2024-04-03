@@ -24,26 +24,47 @@ in {
       (pkgs.writeShellScriptBin "regen-nixos" ''
         nixFlakeDir=${osConfig.modules.nixos.core.nixos-cfg-path}
 
-        # make sure is root
-        # if [ "$EUID" -ne 0 ]
-        #   then echo "This requires root to run"
-        #   exit
-        # fi
+        # kwargs=()
+        git_commit=1
+        profile=""
+        raw_commit_msg=""
+
+        for arg in $@; do
+          if [[ arg == -* ]]; then
+            # kwargs+=("$arg")
+            if [ "$arg" == "--dont-commit" ]; then
+              git_commit=0
+            fi
+          else
+            # for some reason getting items in arrays dont seam to
+            # work for me, so im doin it manually
+
+            if [ "$profile" == "" ];
+              then profile=$arg
+            fi
+
+            if [ "raw_commit_msg" == "" ];
+              then raw_commit_msg=$arg
+            fi
+
+            echo "too many args"
+            ecit
+          fi
+        done
 
         # make sure that user has selected a profile
         # for example "deafult"
-        if [ $# -eq 0 ]
+        if [ "$profile" == "" ]
           then echo "NixOs profile not supplied"
           exit
         fi
 
         # make sure that we have a commit msg
         # for example "firefox is now in dark mode"
-        if [ $# -eq 1 ]
+        if [ $git_commit && "$raw_commit_msg" == "" ]
           then echo "Generation note / msg not supplied"
           exit
         fi
-
 
         repeat() {
           for i in $(seq $1); do echo -n "$2"; done
@@ -92,11 +113,11 @@ in {
         git --no-pager diff
 
         # rebuild ignore everything except errors
-        print_action "Rebuilding NixOS... (profile: $1)"
-        # if this fails dont commit
-        ret=sudo nixos-rebuild switch --flake ".#$1"
-        if ! $ret; then
-          # make sure that i dont miss it
+        print_action "Rebuilding NixOS... (profile: $profile)"
+        # if the rebuild fails, then dont commit
+        ret=$(sudo nixos-rebuild switch --flake ".#$profile")
+        if ! [ "$ret" ]; then
+          # really meake sure that i dont miss the fail
           raw_print "" "41" " "
           raw_print "" "41" " "
           raw_print "Nixos Rebild Failed" "41" " "
@@ -105,34 +126,35 @@ in {
           exit 1
         fi
 
+        if $git_commit; then
+          # comit changes
+          print_action "Commiting changes"
+          # -am := add all staged changes, and a msg for the commit
+          gen=$(
+            sudo nix-env \
+              --list-generations \
+              --profile /nix/var/nix/profiles/system \
+            | grep -Po ".*(?=[(]current[)])" \
+            | xargs
+          )
+          commit_msg="$raw_commit_msg (gen: $gen)"
+          echo "commit msg:  $commit_msg"
+          echo ""
 
-        # comit changes
-        print_action "Commiting changes"
-        # -am := add all staged changes, and a msg for the commit
-        gen=$(
-          sudo nix-env \
-            --list-generations \
-            --profile /nix/var/nix/profiles/system \
-          | grep -Po ".*(?=[(]current[)])" \
-          | xargs
-        )
-        commit_msg="$2 (gen: $gen)"
-        echo "commit msg:  $commit_msg"
-        echo ""
+          git commit -am "$commit_msg"
 
-        git commit -am "$commit_msg"
-
-        print_action "Pushing code to github"
-        # todo put this in sops
-        pat="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"
-        git push https://$pat@github.com/upidapi/NixOs.git main
-
+          print_action "Pushing code to github"
+          # todo put this in sops
+          pat="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"
+          git push https://$pat@github.com/upidapi/NixOs.git main
+        fi
 
         # popd > /dev/null
 
         echo ""
         echo ""
         raw_print  "Successfully applied nixos configuration changes" "32" "-"
+
       '')
     ];
   };

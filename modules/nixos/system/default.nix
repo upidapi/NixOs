@@ -4,6 +4,5 @@
     ./env.nix
     ./fonts.nix
     ./locale.nix
-    ./impermanence.nix
   ];
 }

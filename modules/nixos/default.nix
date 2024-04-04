@@ -2,10 +2,11 @@
   imports = [
     ./apps
     ./cli-apps
-    ./hardware
-    ./system
     ./desktop
-    ./core
+    ./hardware
+    ./nix
+    ./other
+    ./system
     ./users.nix
   ];
 }

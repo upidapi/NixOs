@@ -7,13 +7,13 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.system.impermanence;
+  cfg = config.modules.nixos.other.impermanence;
 in {
   imports = [
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  options.modules.nixos.system.impermanence =
+  options.modules.nixos.other.impermanence =
     mkEnableOpt "enables impermanence";
 
   config = mkIf cfg.enable {
@@ -22,6 +22,7 @@ in {
     # required by home manager impermanance
     programs.fuse.userAllowOther = true;
 
+    # nukes root
     boot.initrd.postDeviceCommands = lib.mkAfter ''
       mkdir /btrfs_tmp
       mount /dev/root_vg/root /btrfs_tmp

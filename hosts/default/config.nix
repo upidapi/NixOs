@@ -73,13 +73,17 @@ in {
   # user.user.root.initialPassword = "1";
 
   modules.nixos = {
-    core = {
-      nixos-cfg-path = "/persist/nixos";
+    nix = {
+      cfg-path = "/persist/nixos";
 
       cachix = enable;
       flakes = enable;
       gc = enable;
+    };
+
+    other = {
       sops = enable;
+      impermanence = enable;
     };
 
     cli-apps = {
@@ -93,7 +97,6 @@ in {
     };
 
     system = {
-      impermanence = enable;
       fonts = enable;
       boot = enable;
       env = enable;

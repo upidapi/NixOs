@@ -25,7 +25,7 @@ in {
         # wrote this to practice bash
         # I should probaly rewrite it in python
 
-        nixFlakeDir=${osConfig.modules.nixos.core.nixos-cfg-path}
+        nixFlakeDir=${osConfig.modules.nixos.nix.cfg-path}
 
         # kwargs=()
         profile=$1
@@ -180,7 +180,7 @@ in {
             | xargs
           )
           commit_msg="$raw_commit_msg (gen: $gen)"
-          echo "commit msg:  $commit_msg"
+          echo "commit msg:  \"$commit_msg\""
           echo ""
 
           git commit -am "$commit_msg"

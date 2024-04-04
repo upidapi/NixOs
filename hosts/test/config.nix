@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }: {
   imports = [
@@ -22,10 +23,64 @@
     # shell = pkgs.zsh;
     initialPassword = "1";
     packages = with pkgs; [
+      egl-wayland
       git
     ];
   };
   # services.xserver.enable = true;
+
+  nix.settings = {
+    substituters = [
+      "https://cuda-maintainers.cachix.org"
+      "https://cache.nixos.org/"
+      "https://hyprland.cachix.org"
+      "https://devenv.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+    ];
+  };
+
+  # ---hyperland------
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+  };
+
+  environment.sessionVariables = {
+    WLR_NO_HARDWARE_CURSORS = "1";
+    # hint electron apps that you're using wayland
+    NIXOS_OZONE_WL = "1";
+  };
+
+  hardware = {
+    opengl.enable = true;
+    nvidia.modesetting.enable = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    dunst
+    libnotify
+
+    swww
+
+    kitty
+    alacritty
+
+    rofi-wayland
+
+    firefox
+  ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+  };
+
+  # -----------------
 
   system.stateVersion = "24.05"; # Did you read the comment?
 

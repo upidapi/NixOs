@@ -19,7 +19,111 @@ in {
     pkgs.git
   ];
 
-  wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.hyprland = {
+    # Whether to enable Hyprland wayland compositor
+    enable = true;
+    # The hyprland package to use
+    package = pkgs.hyprland;
+    # Whether to enable XWayland
+    xwayland.enable = true;
+
+    # Optional
+    # Whether to enable hyprland-session.target on hyprland startup
+    systemd.enable = true;
+  };
+
+  wayland.windowManager.hyprland.settings = {
+    "$mod" = "SUPER";
+
+    # mouse binds
+    bindm = [
+      "$mod, mouse:272, movewindow"
+      "$mod, mouse:273, resizewindow"
+    ];
+
+    # kbd binds
+    bind =
+      [
+        # "$mod, Q, exec, kitty"
+        "$mod, E, exec, alacritty"
+        "$mod, R, exec, firefox"
+        "$mod, C, killactive"
+        "$mod, M, exit"
+        # "$mod, F, exec, firefox"
+        # ", Print, exec, grimblast copy area"
+      ]
+      ++ (
+        # workspaces
+        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+        builtins.concatLists (builtins.genList (
+            x: let
+              ws = let
+                c = (x + 1) / 10;
+              in
+                builtins.toString (x + 1 - (c * 10));
+            in [
+              "$mod, ${ws}, workspace, ${toString (x + 1)}"
+              "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+            ]
+          )
+          10)
+      );
+
+    # display conf
+
+    monitor = let
+      monitors = [
+        {
+          enabled = true;
+          name = "DVI-D-1";
+          width = 1920;
+          height = 1080;
+          refreshRate = 60;
+          x = 0;
+          y = 0;
+          workspace = 1;
+        }
+        {
+          enabled = true;
+          name = "HDMI-A-1";
+          width = 1920;
+          height = 1080;
+          refreshRate = 60;
+          x = 1920;
+          y = 0;
+          primary = true;
+          workspace = 2;
+        }
+        {
+          enabled = true;
+          name = "HDMI-A-2";
+          width = 1920;
+          height = 1080;
+          refreshRate = 60;
+          x = 3840;
+          y = 0;
+          workspace = 3;
+        }
+      ];
+    in
+      map
+      (
+        m: let
+          resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+          position = "${toString m.x}x${toString m.y}";
+        in "${m.name},${
+          if m.enabled
+          then "${resolution},${position},1"
+          else "disable"
+        }"
+      )
+      monitors;
+
+    # layout
+    input = {
+      kb_layout = "se"; # swedish layout
+    };
+  };
 }
 /*
    {

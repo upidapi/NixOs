@@ -48,6 +48,8 @@
           (
             user-name: _: {...}: {
               imports = [
+                inputs.hyprland.homeManagerModules.default
+
                 {
                   home.username = user-name;
 
@@ -95,6 +97,9 @@
 
           modules =
             [
+              inputs.hyprland.nixosModules.default
+            ]
+            ++ [
               # disko
               inputs.disko.nixosModules.default
               (import ./${name}/disko.nix)

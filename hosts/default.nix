@@ -15,7 +15,7 @@
 
     # normal nixos config
     ({pkgs, ...}: {
-      # modules.nixos.users = users;
+      modules.nixos.users = users;
 
       # todo: derrive this from "users"
       # (im too lazy to do this now)
@@ -56,7 +56,7 @@
                   home.homeDirectory = "/home/${user-name}";
                 }
 
-                # ./../modules/home
+                ./../modules/home
 
                 # todo: make is so that you can have multiple users
                 # probably add a users/ where each sub file is a
@@ -101,7 +101,7 @@
             ]
             ++ [
               # config
-              # ./../modules/nixos
+              ./../modules/nixos
               ./${name}/config.nix
             ]
             ++ mkUsers {
@@ -134,10 +134,10 @@ in {
     mkSystem {
       system = "x86_64-linux";
       name = "test";
-    } # //
-    # mkSystem {
-    #   system = "x86_64-linux";
-    #   name = "test";
-    # }
+    }
+    // mkSystem {
+      system = "x86_64-linux";
+      name = "default";
+    }
   );
 }

@@ -6,12 +6,25 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    ./hardware.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  users.users.upidapi = {
+    isNormalUser = true;
+    description = "upidapi";
+
+    # make a cfg-editor group that makes it so that a user
+    # can edit the config
+    extraGroups = ["networkmanager" "wheel"];
+    # shell = pkgs.zsh;
+    initialPassword = "1";
+    packages = with pkgs; [
+      git
+    ];
+  };
   # services.xserver.enable = true;
 
   system.stateVersion = "24.05"; # Did you read the comment?

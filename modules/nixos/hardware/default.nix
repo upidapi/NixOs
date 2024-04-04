@@ -3,7 +3,7 @@
     ./cpu
     ./gpu
     ./bth.nix
-    # ./keyboard.nix
+    ./keyboard.nix
     ./monitors.nix
     ./sound.nix
   ];

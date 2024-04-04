@@ -111,6 +111,7 @@ in {
 
       bth = enable;
       sound = enable;
+      keyboard = enable;
       monitors = [
         {
           name = "DVI-D-1";

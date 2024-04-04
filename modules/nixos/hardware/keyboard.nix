@@ -19,15 +19,20 @@ in {
         settings = {
           # https://github.com/NixOS/nixpkgs/issues/236622
           main = {
-            capslock = "escape"; # f caps lock
+            # f caps lock
+            # acts as esc on click, ctrl on hold
+            capslock = "overload(control, esc)";
           };
+          # doesn't work
           shift = {
             "¤" = "$";
           };
           altgr = {
             "$" = "¤";
           };
-          "capslock+shift" = {
+          # todo: remap shift + ctrl to altgr
+          /*
+             "shift+control" = {
             "7" = "{";
             "8" = "[";
             "9" = "]";
@@ -36,6 +41,7 @@ in {
             "¨" = "~";
             # "´" = "";
           };
+          */
         };
       };
     };

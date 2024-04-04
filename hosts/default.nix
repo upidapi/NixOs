@@ -52,7 +52,7 @@
                   home.username = user-name;
 
                   # only for testing
-                  # home.stateVersion = "23.11"; # Please read the comment before changing.
+                  # home.stateVersion = "23.11"
                   home.homeDirectory = "/home/${user-name}";
                 }
 

@@ -180,7 +180,7 @@ in {
             | xargs
           )
           commit_msg="$raw_commit_msg (gen: $gen)"
-          echo "commit msg:  \"$commit_msg\""
+          echo "commit msg: \"$commit_msg\""
           echo ""
 
           git commit -am "$commit_msg"

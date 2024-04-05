@@ -16,15 +16,13 @@ in {
     ./lsp.nix
     ./fmt.nix
   ];
-  # TODO add todo highliting
-  # TODO better file browser
-  # TODO what is oil (probably in the nixos filder?
-  # TODO multiple tabs?
-  # TODO fix tab making the lsp throw errors when there is no options
-  # TODO editor regins / folds
-  # TODO fix the cmp sources
-  # TODO skeletion templates and live templates
-  # TODO autocorrect
+  # TODO: what is oil (probably in the nixos filder?
+  # TODO: multiple tabs?
+  # TODO: fix tab making the lsp throw errors when there is no options
+  # TODO: editor regins / folds
+  # TODO: skeletion templates and live templates
+  # TODO: autocorrect
+  # BUG: todo highlition dont work
 
   options.modules.home.cli-apps.nixvim =
     mkEnableOpt "enables nixvim";
@@ -79,22 +77,49 @@ in {
 
       todo-comments = {
         enable = true;
+
+        guiStyle.fg = "BOLD";
+
+        colors = {
+          error = ["DiagnosticError" "ErrorMsg" "#DC2626"];
+          warning = ["DiagnosticWarn" "WarningMsg" "#FBBF24"];
+          info = ["DiagnosticInfo" "#2563EB"];
+          hint = ["DiagnosticHint" "#10B981"];
+          default = ["Identifier" "#7C3AED"];
+          test = ["Identifier" "#FF00FF"];
+        };
+
+        highlight = {
+          multiline = true; # enable multine todo comments
+          # multiline_pattern = "^."; # lua pattern to match the next multiline from the start of the matched keyword
+          # multiline_context = 10; # extra lines that will be re-evaluated when changing a line
+          before = ""; # "fg" or "bg" or empty
+          keyword = "wide"; # "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+          after = "fg"; # "fg" or "bg" or empty
+          # pattern = ''.*<(KEYWORDS)\s*:''; # pattern or table of patterns, used for highlighting (vim regex)
+          # comments_only = true; # uses treesitter to match keywords in comments only
+          # max_line_len = 400; # ignore lines longer than this
+          # exclude = []; # list of file types to exclude highlighting
+        };
+
+        signs = false;
+
         keywords = {
           FIX = {
-            icon = "<U+F188> "; # Icon used for the sign, and in search results.
+            icon = " "; # Icon used for the sign, and in search results.
             color = "error"; # Can be a hex color, or a named color.
             alt = ["FIXME" "BUG" "FIXIT" "ISSUE"]; # A set of other keywords that all map to this FIX keywords.
           };
           TODO = {
-            icon = "<U+F00C> ";
-            color = "info";
+            icon = " ";
+            color = "#2563EB";
           };
           HACK = {
-            icon = "<U+F490> ";
+            icon = " "; # 󰈸 
             color = "warning";
           };
           WARN = {
-            icon = "<U+F071> ";
+            icon = " ";
             color = "warning";
             alt = [
               "WARNING"
@@ -102,7 +127,7 @@ in {
             ];
           };
           PERF = {
-            icon = "<U+F651> ";
+            icon = "󰅒 ";
             alt = [
               "OPTIM"
               "PERFORMANCE"
@@ -110,13 +135,14 @@ in {
             ];
           };
           NOTE = {
-            icon = "<U+F867> ";
+            icon = "󰍩 ";
             color = "hint";
             alt = [
               "INFO"
             ];
           };
-          TEST = {
+          /*
+             TEST = {
             icon = "⏲ ";
             color = "test";
             alt = [
@@ -125,6 +151,7 @@ in {
               "FAILED"
             ];
           };
+          */
         };
       };
     };

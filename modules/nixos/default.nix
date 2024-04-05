@@ -7,6 +7,5 @@
     ./nix
     ./other
     ./system
-    ./users.nix
   ];
 }

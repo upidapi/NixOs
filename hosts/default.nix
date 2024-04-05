@@ -5,6 +5,43 @@
   lib,
   ...
 }: let
+  # takes a list off attrs and uses func to derive
+  # the value of each attr
+  mapToAttrs = func: list:
+    builtins.listToAttrs (
+      builtins.map (
+        attr: {
+          name = attr;
+          value = func attr;
+        }
+      )
+      list
+    );
+
+  mkUser = profile: user-name: {...}: {
+    imports = [
+      inputs.hyprland.homeManagerModules.default
+
+      {
+        home.username = user-name;
+
+        # only for testing
+        # home.stateVersion = "23.11"
+        home.homeDirectory = "/home/${user-name}";
+      }
+
+      ./../modules/home
+
+      # todo: make is so that you can have multiple users
+      # probably add a users/ where each sub file is a
+      # user
+      ./${profile}/home.nix
+    ];
+
+    # Let Home Man# ager install and manage itself.
+    programs.home-manager.enable = true;
+  };
+
   mkUsers = {
     extra_args,
     profile,
@@ -14,70 +51,36 @@
     inputs.home-manager.nixosModules.home-manager
 
     # normal nixos config
-    ({pkgs, ...}: {
-      modules.nixos.users = users;
+    (
+      {
+        pkgs,
+        config,
+        ...
+      }: {
+        config = {
+          home-manager = {
+            extraSpecialArgs = extra_args;
 
-      # todo: derrive this from "users"
-      # (im too lazy to do this now)
-      # for now it's defined in each config
-      /*
-         users.users = map-users (
-        user-name: user-cfg: {
-          isNormalUser = true;
-          description = user-name;
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users =
+              mapToAttrs
+              (mkUser profile)
+              users;
+          };
+        };
 
-          # make a cfg-editor group that makes it so that a user
-          # can edit the config
-          extraGroups = ["networkmanager" "wheel"];
-          shell = pkgs.zsh;
-          initialPassword = "1";
-          # packages = with pkgs; [
-          #   # firefox
-          # ];
-        }
-      );
-      */
-
-      home-manager = {
-        extraSpecialArgs = extra_args;
-
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        users =
-          builtins.mapAttrs
-          (
-            user-name: _: {...}: {
-              imports = [
-                inputs.hyprland.homeManagerModules.default
-
-                {
-                  home.username = user-name;
-
-                  # only for testing
-                  # home.stateVersion = "23.11"
-                  home.homeDirectory = "/home/${user-name}";
-                }
-
-                ./../modules/home
-
-                # todo: make is so that you can have multiple users
-                # probably add a users/ where each sub file is a
-                # user
-                ./${profile}/home.nix
-              ];
-
-              # Let Home Manager install and manage itself.
-              programs.home-manager.enable = true;
-            }
-          )
-          users;
-      };
-    })
+        # make the home manager config accsessible in the nixos modules
+        # modules.nixos.users = home-manager.users;
+        # Nvm, you can just accsess it with homer-manager.users
+      }
+    )
   ];
 
   mkSystem = {
     name, # eg default
     system, # eg x86_64-linux
+    users,
   }: {
     "${name}" = withSystem system (
       {
@@ -112,9 +115,7 @@
             ++ mkUsers {
               inherit extra_args;
               profile = name;
-              users = {
-                "upidapi" = {};
-              };
+              inherit users;
             };
         }
     );
@@ -138,11 +139,13 @@ in {
     # } //
     mkSystem {
       system = "x86_64-linux";
+      users = ["upidapi"];
       name = "test";
     }
     // mkSystem {
       system = "x86_64-linux";
       name = "default";
+      users = ["upidapi"];
     }
   );
 }

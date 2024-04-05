@@ -61,11 +61,14 @@ in {
         # make sure that each user owns it's own persistent
         # home directory
       ]
-      ++ builtins.attrValues (
-        builtins.mapAttrs (
-          user-name: user-cfg: "d /persist/home/${user-name} 0770 ${user-name} users -"
+      ++ (
+        builtins.map (
+          user-name: "d /persist/home/${user-name} 0770 ${user-name} users -"
         )
-        config.modules.nixos.users
+        (
+          builtins.attrNames
+          config.home-manager.users
+        )
       );
 
     environment.persistence."/persist/system" = {

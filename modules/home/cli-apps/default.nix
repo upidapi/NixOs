@@ -1,7 +1,7 @@
 {
   imports = [
     ./bitwarden.nix
-    ./nixvim.nix
+    ./nixvim
     ./git.nix
     ./wine.nix
     ./nushell

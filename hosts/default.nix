@@ -138,5 +138,10 @@ in {
       name = "default";
       users = ["upidapi"];
     }
+    {
+      system = "x86_64-linux";
+      name = "bare";
+      users = []; # ["upidapi"];
+    }
   ];
 }

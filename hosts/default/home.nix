@@ -76,11 +76,14 @@ in {
     # maybe btop
   ];
 
-  modules.home = {
-    system = {
-      # users.users.upidapi.shell = pkgs.zsh;
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
     };
+  };
 
+  modules.home = {
     apps = {
       alacritty = enable;
       bitwarden = enable;

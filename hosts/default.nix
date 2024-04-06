@@ -117,15 +117,15 @@
     );
   };
 
-  mkConfig = configs: builtins.foldl' 
-      (a: b: a // b) 
-      {}
-      (
-        builtins.map 
-          mkSystem
-          configs
-      );
-
+  mkConfig = configs:
+    builtins.foldl'
+    (a: b: a // b)
+    {}
+    (
+      builtins.map
+      mkSystem
+      configs
+    );
 in {
   flake.nixosConfigurations = mkConfig [
     {

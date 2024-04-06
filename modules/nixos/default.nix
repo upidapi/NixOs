@@ -1,10 +1,10 @@
 {
   lib,
-  my_lib, 
+  my_lib,
   ...
-}: let 
+}: let
   inherit (lib) types;
-  inherit (my_lib.opts) mkOpt;
+  inherit (my_lib.opt) mkOpt;
 in {
   imports = [
     ./apps
@@ -16,7 +16,7 @@ in {
     ./system
   ];
 
-  options.modules.nixos.host-name = 
-      mkOpt types.str null
-      "the name of the device";
+  options.modules.nixos.host-name =
+    mkOpt types.str null
+    "the name of the device";
 }

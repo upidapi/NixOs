@@ -62,7 +62,7 @@ in {
 
     # make a cfg-editor group that makes it so that a user
     # can edit the config
-    extraGroups = ["networkmanager" "wheel" "aslasdfasdff"];
+    extraGroups = ["networkmanager" "wheel"];
     # shell = pkgs.zsh;
     initialPassword = "1";
     # packages = with pkgs; [

@@ -76,14 +76,14 @@
       }
     )
 
-    (
+    /* (
       {
         config,
         lib,
         ...
       }: {
         # config = config.home-manager.users.upidapi.modules.home.system;
-        /*
+        
            config = builtins.traceVerbose lib.mkMerge (
           builtins.attrValues
           (
@@ -92,12 +92,12 @@
             config.home-manager.users
           )
         ) {};
-        */
+        
         # make the home manager config accsessible in the nixos modules
         # modules.nixos.users = home-manager.users;
         # Nvm, you can just accsess it with homer-manager.users
       }
-    )
+    )*/
   ];
 
   mkSystem = {

@@ -130,17 +130,7 @@ in {
   flake.nixosConfigurations = mkConfig [
     {
       system = "x86_64-linux";
-      users = ["upidapi"];
-      name = "test";
-    }
-    {
-      system = "x86_64-linux";
       name = "default";
-      users = ["upidapi"];
-    }
-    {
-      system = "x86_64-linux";
-      name = "bare";
       users = ["upidapi"];
     }
   ];

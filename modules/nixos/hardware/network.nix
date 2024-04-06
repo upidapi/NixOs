@@ -6,7 +6,7 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.nixos.hardware.sound;
+  cfg = config.modules.nixos.hardware.network;
 in {
   options.modules.nixos.hardware.network =
     mkEnableOpt "enables networking for the system";

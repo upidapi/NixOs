@@ -103,6 +103,7 @@ in {
 
       bth = enable;
       sound = enable;
+      network = enable;
       keyboard = enable;
       monitors = [
         {

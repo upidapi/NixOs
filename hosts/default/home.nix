@@ -77,6 +77,10 @@ in {
   ];
 
   modules.home = {
+    system = {
+      # users.users.upidapi.shell = pkgs.zsh;
+    };
+
     apps = {
       alacritty = enable;
       bitwarden = enable;

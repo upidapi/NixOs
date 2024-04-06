@@ -5,6 +5,5 @@
     ./core
     ./desktop
     ./scripts
-    ./system.nix
   ];
 }

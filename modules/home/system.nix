@@ -1,4 +1,5 @@
-{lib, ...}: {
+# i dont think this is possible
+/* {lib, ...}: {
   options.modules.home.system = lib.mkOption {
     type = lib.types.anything;
     default = {};
@@ -8,4 +9,4 @@
       the nixos options.
     '';
   };
-}
+} */

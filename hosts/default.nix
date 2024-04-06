@@ -69,35 +69,8 @@
               users;
           };
         };
-
-        # make the home manager config accsessible in the nixos modules
-        # modules.nixos.users = home-manager.users;
-        # Nvm, you can just accsess it with homer-manager.users
       }
     )
-
-    /* (
-      {
-        config,
-        lib,
-        ...
-      }: {
-        # config = config.home-manager.users.upidapi.modules.home.system;
-        
-           config = builtins.traceVerbose lib.mkMerge (
-          builtins.attrValues
-          (
-            builtins.mapAttrs
-            (_: user-cfg: user-cfg.modules.home.system)
-            config.home-manager.users
-          )
-        ) {};
-        
-        # make the home manager config accsessible in the nixos modules
-        # modules.nixos.users = home-manager.users;
-        # Nvm, you can just accsess it with homer-manager.users
-      }
-    )*/
   ];
 
   mkSystem = {
@@ -143,32 +116,27 @@
         }
     );
   };
+
+  mkConfig = configs: builtins.foldl' 
+      (a: b: a // b) 
+      {}
+      (
+        builtins.map 
+          mkSystem
+          configs
+      );
+
 in {
-  # you can // (or) multiple mkSystems
-  # flake.nixosConfigurations = (
-  #   mkSystem {
-  #     system = "x86_64-linux";
-  #     name = "default";
-  #   }
-  # );
-  flake.nixosConfigurations = (
-    # mkSystem {
-    #   system = "x86_64-linux";
-    #   name = "raw-nixos";
-    # } //
-    # mkSystem {
-    #   system = "x86_64-linux";
-    #   name = "raw";
-    # } //
-    mkSystem {
+  flake.nixosConfigurations = mkConfig [
+    {
       system = "x86_64-linux";
       users = ["upidapi"];
       name = "test";
     }
-    // mkSystem {
+    {
       system = "x86_64-linux";
       name = "default";
       users = ["upidapi"];
     }
-  );
+  ];
 }

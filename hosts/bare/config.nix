@@ -77,17 +77,17 @@ in {
 
     other = {
       # sops = enable;
-      # impermanence = enable;
+      impermanence = enable;
     };
 
     cli-apps = {
-      # less = enable;
-      # zsh = enable;
+      less = enable;
+      zsh = enable;
     };
 
     apps = {
       # nushell = enable;
-      # steam = enable;
+      steam = enable;
     };
 
     system = {
@@ -97,14 +97,14 @@ in {
       locale = enable;
     };
 
-    # desktop.sddm = enable;
+    desktop.sddm = enable;
 
     hardware = {
       cpu.amd = enable;
       gpu.nvidia = enable;
 
-      # bth = enable;
-      # sound = enable;
+      bth = enable;
+      sound = enable;
       network = enable;
       keyboard = enable;
       monitors = [

@@ -141,7 +141,7 @@ in {
     {
       system = "x86_64-linux";
       name = "bare";
-      users = []; # ["upidapi"];
+      users = ["upidapi"];
     }
   ];
 }

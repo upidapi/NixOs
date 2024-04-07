@@ -71,7 +71,7 @@ in {
   home.packages = with pkgs; [
     # used to formatt nix code
     inputs.alejandra.defaultPackage.${pkgs.system}
-
+    python3
     htop
     # maybe btop
   ];

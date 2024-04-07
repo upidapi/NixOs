@@ -26,7 +26,7 @@ in {
 
       servers = {
         nil_ls = enable; # nix
-        pylsp = enable; # python
+        pyright = enable; # python
         jsonls = enable;
         html = enable;
         bashls = enable;

@@ -19,7 +19,7 @@ in {
         enable = true;
         # FIXME: (2024-04-07) enable this when it works
         #  currently, when enabled with 3+ monitors connected
-        #  it causes systemd to freeze at 
+        #  it causes systemd to freeze at
         #    "[  ok  ] reached target user and group name lookups"
         #  i think it makes sddm run under wayland
         #  https://discord.com/channels/568306982717751326/1061656643189878874/threads/1226240711431815209

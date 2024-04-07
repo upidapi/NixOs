@@ -1,4 +1,3 @@
-# https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
 {
   # config,
   # pkgs,
@@ -111,16 +110,17 @@ in {
           width = 1920;
           height = 1080;
           refreshRate = 60;
-          x = 0;
+          x = -1920;
           y = 0;
+          primary = true;
           workspace = 1;
         }
         {
-          name = "HDMI-A-2";
+          name = "DP-1";
           width = 1920;
           height = 1080;
           refreshRate = 60;
-          x = 1920;
+          x = 0;
           y = 0;
           workspace = 2;
         }
@@ -129,9 +129,8 @@ in {
           width = 1920;
           height = 1080;
           refreshRate = 60;
-          x = 3840;
+          x = 1920;
           y = 0;
-          primary = true;
           workspace = 3;
         }
       ];

@@ -1,3 +1,61 @@
+/*
+plans
+
+
+# always commit changes when switching 
+#  unless it directly fails, i.e no generation is created
+
+
+# https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
+# Warn if the generation may have changed some options
+# that only take effect after reboot. This is to avoid a
+# generation from a
+
+# maby give the option to reboot when it detects that
+# it might be needed
+
+qs 
+  <commit msg> 
+  [--help] 
+    Print this help msg
+
+  [-h | --host <host name>] 
+    Select the host to switch to 
+    <host name> defults to the last host
+  
+  [-t | --trace]
+    pass --trace to nixos-rebuild
+
+  [-a | --append <feature (branch) name>]
+    append / connect this change to the last
+    should be used to fix a bug in a generation
+    if last switch was a qa, then use the name from said qs
+
+    To organice things, the first qa starts a new branch 
+    and adds the commit before it to it. 
+    The branch is remerged when a qs is used again.
+  
+Sub commands:
+  e | edit
+    cd into nixos config, open editor
+
+  g | goto
+    cd into nixos config
+
+qa # alias for "qs --append"
+
+# do this in python
+
+# show diff since last commit
+git --no-pager diff HEAD
+
+# terminate if the nixos-rebuld fails
+
+
+
+*/
+
+
 {
   config,
   osConfig,

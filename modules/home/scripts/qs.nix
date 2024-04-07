@@ -36,8 +36,9 @@ qs
     The branch is remerged when a qs is used again.
 
   [-d | --debug <debug msg (branch name)>]
-    basically -a but soly for debuging
-    only one (manuall) commit msg, (the first one)
+    Feature wise it's just -a but whithout having to specify
+    -m <message>. So it's soly for debuging. Using "qs -a <branch>"
+    and then "as -d" contunies on the same branch
 
     Allows you to really quicky iterate over generations
     to find some bug, in this mode you shuld preferably only

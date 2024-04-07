@@ -34,13 +34,13 @@ qs
     To organice things, the first qa starts a new branch
     and adds the commit before it to it.
     The branch is remerged when a qs is used again.
-  
+
   [-d | --debug <debug msg (branch name)>]
     basically -a but soly for debuging
     only one (manuall) commit msg, (the first one)
-    
+
     Allows you to really quicky iterate over generations
-    to find some bug, in this mode you shuld preferably only 
+    to find some bug, in this mode you shuld preferably only
     fix one thing
 
 

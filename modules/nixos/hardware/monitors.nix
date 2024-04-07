@@ -41,9 +41,9 @@ in {
           type = types.bool;
           default = true;
         };
+        # workspace id (1 <= id <= 10)
         workspace = mkOption {
-          type = types.nullOr types.str;
-          default = null;
+          type = types.int;
         };
       };
     });
@@ -54,9 +54,20 @@ in {
     assertions = [
       {
         assertion =
-          ((lib.length cfg) != 0)
-          -> ((lib.length (lib.filter (m: m.primary) cfg)) == 1);
-        message = "Exactly one monitor must be set to primary. ${builtins.toJSON config.modules.nixos.hardware}";
+          (lib.length cfg != 0)
+          -> (
+            (
+              lib.length (
+                lib.filter
+                (m: m.primary)
+                cfg
+              )
+            )
+            == 1
+          );
+        message = "Exactly one monitor must be set to primary. ${
+          builtins.toJSON config.modules.nixos.hardware
+        }";
       }
       {
         assertion = (lib.length cfg) != 0;

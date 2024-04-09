@@ -1,4 +1,5 @@
 import argparse
+import os
 import subprocess
 import json
 
@@ -31,8 +32,6 @@ struct:
 
 
 """
-
-
 
 """x = 
 {
@@ -70,7 +69,6 @@ struct:
 def parse():
 """
 
-
 """
 qs
   [-m | -message <commit msg>]
@@ -96,11 +94,10 @@ qs
 
   [-d | --debug <debug msg (branch name)>]
     Feature wise it's just -a but whithout having to specify 
-    -m <message>. So it's soly for debuging. Using "qs -a <branch>"
-    and then "as -d" contunies on the same branch
-
+    -m <message>. So it's soley for quick debugging.
+    
     Allows you to really quicky iterate over generations
-    to find some bug, in this mode you shuld preferably only
+    to find some bug, in this mode you should preferably only
     fix one thing
 
 
@@ -111,19 +108,21 @@ Sub commands:
 
   g | goto
     cd into nixos config
+    
+  merge <branch name>
 
 
 # qe := qs e
 qa <msg> := qs --message <msg> --append
-qd := qs --debug
+qd := qs --debug --trace
 """
-
 
 NIXOS_PATH = "/persist/nixos"
 
 
 def run_cmd(cmd, print: bool = True):
-   ret = os.system(cmd)
+    ret = os.system(cmd)
+    return "return data"
 
 
 def get_last_profile():
@@ -145,35 +144,33 @@ def parse_args():
         action=argparse.BooleanOptionalAction
     )
 
-
     parser.add_argument(
         "-m", "--message"
     )
 
     parser.add_argument(
         "-p", "--profile",
-        choices = get_profiles(),
-        default = get_last_profile(),
+        choices=get_profiles(),
+        default=get_last_profile(),
     )
 
     parser.add_argument(
         "-a", "--append",
-        nargs = "?",
-        default = False,
-        const = True
+        nargs="?",
+        default=False,
+        const=True
     )
 
     parser.add_argument(
         "-d", "--debug",
-        nargs = "?",
-        default = False,
-        const = True
+        nargs="?",
+        default=False,
+        const=True
     )
-
 
     parser.add_argument(
         "sub_command",
-        choices = [
+        choices=[
             "",
             "g", "goto",
             "e", "edit",
@@ -185,7 +182,8 @@ def parse_args():
     return parser.parse_args()
 
 
-DIV_LEN = 80    
+DIV_LEN = 80
+
 
 def colored_centerd_text(text, color, fill):
     out = ""
@@ -196,75 +194,75 @@ def colored_centerd_text(text, color, fill):
     out += (fill * (tot_pad // 2 + tot_pad % 2))
 
     print(f"\\033[0;m{color}{out}\\033[m")
-    
 
-def print_devider(text, color = 33, fill = "-"):
+
+def print_devider(text, color=33, fill="-"):
     colored_centerd_text(text, color, fill)
     print("\n")
 
-def print_warn(text, color = 33):
-    # make sure that you dont miss it 
+
+def print_warn(text, color=33):
+    # make sure that you don't miss it
     colored_centerd_text("", color, " ")
     colored_centerd_text("", color, " ")
     colored_centerd_text(text, color, " ")
     colored_centerd_text("", color, " ")
-    colored_centerd_text("", color, " ")
 
 
-def main():
-    def init():
-        run_cmd(f"cd {NIXOS_PATH}")
-        run_cmd(f"git add --all")
+def init():
+    run_cmd(f"cd {NIXOS_PATH}")
+    run_cmd(f"git add --all")
+
+    print_devider("Formating Files")
+    run_cmd("alejandra . || true")
+
+    print_devider("Git Diff")
+    run_cmd(f"git --no-pager diff HEAD")
+
+    # colored_centerd_text("", color, " ")
 
 
-        print_devider("Formating Files")
-        run_cmd("alejandra . || true")
+def rebuild_nixos(args):
+    print_devider(f"Rebuilding NixOs (profile: {args.profile})")
+    ret_val = run_cmd(
+        f"sudo nixos-rebuld switch --flake .#{args.profile}" \
+        + "--show-trace" * args.debug
+    )
+
+    if ret_val != "":
+        print_warn("NixOs Rebuild Failed")
+        exit()
 
 
-        print_devider("Git Diff")
-        run_cmd(f"git --no-pager diff HEAD")
+def format_generation_data():
+    gen_data = run_cmd(
+        "nixos-rebuild list-generations"
+        "--json"
+        # it needing this is a bug
+        # TODO: submitt a pr to fix it
+        "--flake /persist/nixos#default",
+        print=False,
+    )
+
+    cur_gen_data = None
+    for gen in json.loads(gen_data):
+        if gen.current:
+            cur_gen_data = gen
+            break
+    if cur_gen_data is None:
+        raise TypeError("current gen not found")
+
+    gen_str_data = (
+        f"(Gen: {cur_gen_data.generation} "
+        f"NixOs: {cur_gen_data.nixosVersion} "
+        f"Kernel: {cur_gen_data.kernalVersion})"
+    )
+
+    return gen_str_data
 
 
-    def rebuild_nixos():
-        print_devider(f"Rebuilding NixOs (profile: {args.profile})")
-        ret_val = run_cmd(
-            f"sudo nixos-rebuld switch --flake .#{args.profile}" \
-            + "--show-trace" * args.debug
-        )
-
-        if ret_val != "":
-            print_warn("NixOs Rebuild Failed")
-            exit()
-
-
-    def format_generation_data():
-        gen_data = run_cmd(
-            "nixos-rebuild list-generations"
-            "--json" 
-            # it needing this is a bug
-            # TODO: submitt a pr to fix it
-            "--flake /persist/nixos#default", 
-            print = False,
-        )
-
-        cur_gen_data = None
-        for gen in json.loads(cur_gen_data):
-            if gen.current:
-                cur_gen_data = gen
-                break
-        if cur_gen_data is None:
-            raise TypeError("current gen not found")
-
-
-         gen_str_data = f"(Gen: {cur_gen_data.generation}"
-            f"NixOs: {cur_gen_data.nixosVersion}"
-            f"Kernel: {cur_gen_data.kernalVersion})"
-        
-        return gen_str_data
-        
-
-    def check_needs_reboot():
-        needs_reboot = run_cmd("""
+def check_needs_reboot():
+    needs_reboot = run_cmd("""
             booted="$(
                 readlink /run/booted-system/{initrd,kernel,kernel-modules}
             )"
@@ -277,32 +275,71 @@ def main():
                 else echo "0";
             fi 
         """) == "0"
-        
-        if needs_reboot:
-            print_warn("The new profile changed system files, please reboot")
-        
 
-            
+    if needs_reboot:
+        print_warn("The new profile changed system files, please reboot")
 
-    print(parse_args())
+
+def assure_not(msg, args, not_args):
+    for arg in not_args:
+        if arg in args:
+            print(f"{arg} does not make sense with {msg}")
+            exit()
+
+    return True
+
+
+APPEND_BRANCH = "idk"
+DEBUG_BRANCH = "idk"
+
+
+# --debug and --append never returns to the main branch
+# you have to do that manually
+
+
+# it assumes that your main branch is called "main"
+
+def main():
+    args = parse_args()
+    print(args)
+
+    if args.append is not None:
+        assure_not(
+            "append",
+            args,
+            ("help", "debug", "sub_command")
+        )
+
+        current_branch = run_cmd("git branch")
+
+
+
+
+
+
+
+
+
+
+
 
 
 # trace = args.trace or (args.debug is True)
 
 
-    """
-    print_devider("Commiting Changes")
-    commit_msg = get_commit_msg(args.message)
+"""
+print_devider("Commiting Changes")
+commit_msg = get_commit_msg(args.message)
 # print(commit_msg, "\n")
 
-    run_cmd(f"git commit -am \"{commit_msg}\"")
+run_cmd(f"git commit -am \"{commit_msg}\"")
 
 
-    print_devider("Pushing code to origin")
+print_devider("Pushing code to origin")
 # pat = "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"
 # git push https://$pat@github.com/upidapi/NixOs.git main
-    run_cmd("git push origin main")
+run_cmd("git push origin main")
 
 
-    print_devider("Successfullt applied nixos configuration", 32)
-    """
+print_devider("Successfullt applied nixos configuration", 32)
+"""

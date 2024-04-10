@@ -17,6 +17,12 @@ in {
       enable = true;
       autosuggestions.enable = true;
       syntaxHighlighting = enable;
+
+      shellAliases = {
+        vi = "nvim";
+        vim = "nvim";
+        c = "clear";
+      };
     };
 
     starship = {

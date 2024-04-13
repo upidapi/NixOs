@@ -63,7 +63,7 @@ qd := qs --debug --trace
 NIXOS_PATH = "/persist/nixos"
 
 
-def run_cmd(cmd, print_res: bool = False):
+def run_cmd(cmd, print_res: bool = False, ignore=()):
     res = ""
     
     process = subprocess.Popen(
@@ -73,12 +73,16 @@ def run_cmd(cmd, print_res: bool = False):
     )
 
     # replace "" with b"" for Python 3
-    for line in iter(process.stdout.readline, b""):
+    for line in iter(process.stdout.readline, b""): # type: ignore[attr-defined]
         dec = line.decode()
         res += dec
         
         if print_res:
-            print(dec)
+            # print(repr(dec))
+            if dec in ignore:
+                continue
+
+            print(dec, end="")
 
     return res
 
@@ -104,17 +108,20 @@ def colored_centerd_text(text, color, fill):
     
     # the comment at the end is to fix my indent detector
     # if not there, it makes it indent everyhing 2 tabs
-    print(f"\\033[0;m{color} \\033[0m") #]]
+    print(f"\033[0;{color}m{out}\033[0m") #]]
+
 
 def print_devider(text, color=33, fill="-"):
-    colored_centerd_text(text, color, fill)
     print("\n")
+    colored_centerd_text(text, color, fill)
 
-def print_warn(text, color=33):
+
+def print_warn(text, color: int | str = 33):
     # make sure that you don't miss it
     colored_centerd_text("", color, " ")
     colored_centerd_text("", color, " ")
     colored_centerd_text(text, color, " ")
+    colored_centerd_text("", color, " ")
     colored_centerd_text("", color, " ")
 
 
@@ -126,18 +133,19 @@ class Parser:
     def parse_opt(opt): 
         opts = {}
         raw_arg_opts = opt.get("args", [])
+        del opt["args"]
         for i, arg_opt in enumerate(raw_arg_opts):
             start = arg_opt.get("start", i)
             length = arg_opt.get("len", 1)
-            minimum = arg_opt.get("len", length)
+            minimum = arg_opt.get("min", length)
             
-            opts[arg_opt["name"]] = {
+            opt[(arg_opt["name"], )] = arg_opt | {
                 "start": start,
                 "len": length,
                 "min": minimum,
             }
             
-        for names, data in opt.keys():
+        for names, data in opt.items():
             arg_name = None
             for arg_alias in names:
                 if not arg_alias.startswith("-"):
@@ -156,27 +164,27 @@ class Parser:
                 "aliases": names,
                 "doc": data.get("doc", ""),
                 "args": data.get("args", 0),
-                "raw": data,
-                "start": opts[name].get("start", 0),
-                "len": opts[name].get("len", 0),
-                "min": opts[name].get("min", 0),
-            }
-
-        for name, data in opt.items():
-            opts[name] = data | {
+                
+                "start": data.get("start", 0),
+                "len": data.get("len", 0),
+                "min": data.get("min", 0),
+                
                 "need": data.get("need", set()),
                 "allow": data.get("allow", set()),
-                "req": data.get("req", False)
+
+                "req": data.get("req", False),
+                # "permit": data.get("req", False),
+
+                "raw": data,
             }
-        
+
         return opts
-        
-            
+    
     @staticmethod
     def parse_sys_args(opts):
         arg_alias_map = {}
         for name, data in opts.items():
-            for alias in data.aliases:
+            for alias in data["aliases"]:
                 if alias.startswith("--"):
                     arg_alias_map[alias] = name
                     continue
@@ -205,10 +213,11 @@ class Parser:
                 if arg.startswith("-"):
                     for part in arg[1:]:
                         expanded_args.append(f"-{part}")
+                    continue
 
             expanded_args.append(f"\"{arg}\"")
         
-        args = {name: [] for name, _ in opts}
+        args = {name: [] for name in opts.keys()}
 
         capturing = 0
         arg_name = None
@@ -217,13 +226,13 @@ class Parser:
         positional_args = []
 
         for arg in expanded_args:
-            arg_is_opt = (
+            arg_is_data = (
                 arg.startswith("\"") and 
                 arg.endswith("\"")
             )
-
+        
             if capturing:
-                if arg_is_opt:
+                if not arg_is_data:
                     tot_args = opts[arg_name]
                     supplied_args = tot_args - capturing
 
@@ -241,7 +250,7 @@ class Parser:
                 continue
 
             
-            if not arg_is_opt:
+            if arg_is_data:
                 positional_args.append(arg)
                 continue
 
@@ -253,18 +262,18 @@ class Parser:
             # start a opt capture
             arg_raw_name = arg
             arg_name = arg_alias_map[arg]
-
-            capturing = opts[arg_name]["args"]
             
+            capturing = opts[arg_name]["args"]
+
             args[arg_name].append([])
         
         orderd_args = sorted(
-                filter(
-                    lambda x: x[1]["len"], 
-                    opts.items()
-                ),
-                key=lambda x: x[1]["start"],
-            )
+            filter(
+                lambda x: x[1]["len"], 
+                opts.items()
+            ),
+            key=lambda x: x[1]["start"],
+        )
         
         i = 0
         for opt, data in orderd_args:
@@ -272,7 +281,7 @@ class Parser:
             if len(pos_args) < data["min"]:
                 raise TypeError(
                     f"too few positionall args passed to {opt},"
-                    f"only {len(positional_args)} of {data["min"]}"
+                    f"only {len(positional_args)} of {data['min']}"
                 )
             
             if pos_args:
@@ -295,15 +304,17 @@ class Parser:
             if data["req"]:
                 req_args.add(opt)
         
+        allow_args = set()
+        
         # if all set args are req, then make sure that all req args exist 
-        if all(opts[arg]["req"] for arg in args.keys()):
+        if all(opts[arg]["req"] for arg in set_args):
             if set_args < req_args:
                 raise TypeError(
                     f"missing the folowing (req) args: {req_args - set_args}"
                 )
-        
-        allow_args = set()
 
+            allow_args |= req_args
+        
         # this cant handle curcular allow / need
         for arg in set_args: 
             data = opts[arg]
@@ -314,8 +325,8 @@ class Parser:
                     f"\"{arg}\" is missing the folowing args {need - set_args}"
                 )
             
-            allow_args.add(data["allow"])
-            allow_args.add(data["need"])
+            allow_args |= data["allow"]
+            allow_args |= data["need"]
             
             if set_args - allow_args:
                 raise TypeError(
@@ -327,7 +338,9 @@ class Parser:
     def parse(cls, opt_data):
         opts = cls.parse_opt(opt_data)
         args = cls.parse_sys_args(opts)
-        cls.validate_args(args, opts)
+        # too tierd atm to actually implement this in
+        # a good way
+        # cls.validate_args(args, opts)
 
         return args
 
@@ -351,42 +364,64 @@ def validate_new_branch(new_branch):
 
 def rebuild_nixos(profile, show_trace):
     print_devider(f"Rebuilding NixOs (profile: {profile})")
-    ret_val = run_cmd(
-        f"sudo nixos-rebuld switch"
-        f" --flake .#{profile}"
-        + (" --show-trace" * show_trace),
-        True
-    )
 
-    if ret_val != "":
-        print_warn("NixOs Rebuild Failed")
+    main_command = (f"sudo nixos-rebuild switch"
+        f" --flake .#{profile}"
+        + (" --show-trace" * bool(show_trace))
+    )
+    fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"
+    succeed_id = "EdJNfWcs91MsOGHoOfWJ6rqTQ6h1HHsw"
+
+    data_ret = f"""
+        if [ "$ret" ]; 
+            then echo "{succeed_id}"; 
+            else echo "{fail_id}";
+        fi
+    """
+
+    raw_ret_val = run_cmd(
+        f"ret=$({main_command});" + data_ret, 
+        True,
+        (fail_id + "\n", succeed_id + "\n")
+    )
+    
+    ret_val = raw_ret_val.splitlines()[-1]
+
+    # everyting is good
+    if ret_val == succeed_id:
+        return
+
+    if ret_val == fail_id:
+        print()
+        print_warn("NixOs Rebuild Failed", 41)
         exit()
+
+    raise TypeError(f"invallid {ret_val=}")
 
 
 def format_generation_data(profile):
     gen_data = run_cmd(
         "nixos-rebuild list-generations"
-        "--json"
+        " --json"
         # it needing this is a bug
         # TODO: submitt a pr to fix it
-        "--flake /persist/nixos#default",
-        print=False,
+        " --flake /persist/nixos#default",
     )
 
     cur_gen_data = None
     for gen in json.loads(gen_data):
-        if gen.current:
+        if gen["current"]:
             cur_gen_data = gen
             break
     if cur_gen_data is None:
         raise TypeError("current gen not found")
 
     gen_str_data = (
-        "info:"
-        f"  Profile: {profile}"
-        f"  Gen: {cur_gen_data.generation}\n"
-        f"  NixOs: {cur_gen_data.nixosVersion}\n"
-        f"  Kernel: {cur_gen_data.kernalVersion}\n"
+        f"info:\n"
+        f"  Profile: {profile}\n"
+        f"  Gen: {cur_gen_data['generation']}\n"
+        f"  NixOs: {cur_gen_data['nixosVersion']}\n"
+        f"  Kernel: {cur_gen_data['kernelVersion']}\n"
     )
 
     return gen_str_data
@@ -450,7 +485,10 @@ def main():
 
     args = Parser.parse({
         "args": [
-            {"name": "sub_command"}, 
+            {
+                "name": "sub_command",
+                "min": 0,
+            }, 
         ],
 
         ("-h", "--help"): {
@@ -466,9 +504,12 @@ def main():
         ("-m", "--message"): {
             "args": 1,
             "req": True,
+            "allow": {"trace", "profile"},
         },
+
         ("-p", "--profile"): {
             "args": 1,
+            # "permit": True,
         },
 
         ("-a", "--append"): {
@@ -478,20 +519,19 @@ def main():
         }
     })
 
-    print(args)
-
-    sub_command = args["sub_command"][0]
-    if sub_command in ("g", "goto"):
-        run_cmd(f"cd {NIXOS_PATH}")
-        return
+    if args["sub_command"]:
+        sub_command = args["sub_command"][0]
+        if sub_command in ("g", "goto"):
+            run_cmd(f"cd {NIXOS_PATH}")
+            return
+            
+        elif sub_command in ("e", "edit"):
+            run_cmd(f"cd {NIXOS_PATH}")
+            run_cmd(f"nvim .")
+            return
         
-    elif sub_command in ("e", "edit"):
-        run_cmd(f"cd {NIXOS_PATH}")
-        run_cmd(f"nvim .")
-        return
-    
-    elif not sub_command == "": 
-        raise TypeError(f"invallid subcommand {sub_command}")
+        elif not sub_command == "": 
+            raise TypeError(f"invallid subcommand {sub_command}")
     
     
     # do this before making changes
@@ -506,10 +546,9 @@ def main():
     run_cmd("alejandra . || true", True)
 
     print_devider("Git Diff")
-    run_cmd(f"git --no-pager diff HEAD", True)
-    
+    run_cmd(f"git --no-pager diff HEAD --color", True)
 
-    profile = (args["profile"][0] or [get_last_profile()])[0]
+    profile = (args["profile"] or [[get_last_profile()]])[0][0]
     rebuild_nixos(profile, args["trace"])
     
     check_needs_reboot()
@@ -517,7 +556,7 @@ def main():
     print_devider("Commiting changes")
     commit_msg = format_generation_data(profile) + "\n" + args["message"][0][0]
 
-    run_cmd(f"git commit -am \"{commit_msg}\"")
+    run_cmd(f"git commit -am \"{commit_msg}\"", True)
     
     if args["append"]:
         new_branch = args["append"][0][0]
@@ -525,16 +564,19 @@ def main():
         print_devider(
             f"Appending commit to last commit (new branch: {new_branch})"
         )
-            
+
         # current_branch = run_cmd("git rev-parse --abbrev-ref HEAD")
         run_cmd(f"git branch {new_branch}")
         run_cmd(f"git reset --hard HEAD~2")
         run_cmd(f"git switch {new_branch}")
     
     print_devider("Pushing code to github")
-    # run_cmd("git push origin --all", True)
+    run_cmd("git push origin --all", True)
 
-    print_warn("Successfully applied nixos configuration changes", 42)
+    print_warn(
+        "Successfully applied nixos configuration changes", 
+        "42;30"
+    )
 
 
 main()

@@ -1,6 +1,6 @@
-import os
 import json
 import sys
+import subprocess
 
 """
 # https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
@@ -63,9 +63,24 @@ qd := qs --debug --trace
 NIXOS_PATH = "/persist/nixos"
 
 
-def run_cmd(cmd, print: bool = False):
-    ret = os.system(cmd)
-    return "return data"
+def run_cmd(cmd, print_res: bool = False):
+    res = ""
+    
+    process = subprocess.Popen(
+        cmd, 
+        shell=True, 
+        stdout=subprocess.PIPE
+    )
+
+    # replace "" with b"" for Python 3
+    for line in iter(process.stdout.readline, b""):
+        dec = line.decode()
+        res += dec
+        
+        if print_res:
+            print(dec)
+
+    return res
 
 
 def get_last_profile():
@@ -86,13 +101,14 @@ def colored_centerd_text(text, color, fill):
     out += (fill * (tot_pad // 2))
     out += text
     out += (fill * (tot_pad // 2 + tot_pad % 2))
-
-
+    
+    # the comment at the end is to fix my indent detector
+    # if not there, it makes it indent everyhing 2 tabs
+    print(f"\\033[0;m{color} \\033[0m") #]]
 
 def print_devider(text, color=33, fill="-"):
     colored_centerd_text(text, color, fill)
     print("\n")
-
 
 def print_warn(text, color=33):
     # make sure that you don't miss it
@@ -316,17 +332,21 @@ class Parser:
         return args
 
 
-def init():
-    run_cmd(f"cd {NIXOS_PATH}")
-    run_cmd(f"git add --all")
+def validate_new_branch(new_branch):
+    branch_exists_locally = run_cmd(
+        f"git show-ref --verify --quiet refs/heads/{new_branch}; echo $?"
+    ) == "0"
+    if branch_exists_locally:
+        raise TypeError(f"branch \"{new_branch}\" already exist locally")
 
-    print_devider("Formating Files")
-    run_cmd("alejandra . || true", True)
+    branch_exists_on_remote = run_cmd(
+        f"git ls-remote --heads origin refs/heads/{new_branch}"
+    )
+    if branch_exists_on_remote:
+        raise TypeError(f"branch \"{new_branch}\" already exist on remote")
 
-    print_devider("Git Diff")
-    run_cmd(f"git --no-pager diff HEAD", True)
-
-    # colored_centerd_text("", color, " ")
+    if new_branch == "":
+        raise TypeError("branch cant be empty string")
 
 
 def rebuild_nixos(profile, show_trace):
@@ -374,18 +394,18 @@ def format_generation_data(profile):
 
 def check_needs_reboot():
     needs_reboot = run_cmd("""
-            booted="$(
-                readlink /run/booted-system/{initrd,kernel,kernel-modules}
-            )"
-            built="$(
-                readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}
-            )"
+        booted="$(
+            readlink /run/booted-system/{initrd,kernel,kernel-modules}
+        )"
+        built="$(
+            readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}
+        )"
 
-            if [ "$booted" = "$built" ]; 
-                then echo "1"; 
-                else echo "0";
-            fi 
-        """) == "0"
+        if [ "$booted" = "$built" ]; 
+            then echo "1"; 
+            else echo "0";
+        fi 
+    """) == "0"
 
     if needs_reboot:
         print_warn("The new profile changed system files, please reboot")
@@ -425,6 +445,9 @@ print_devider("Successfullt applied nixos configuration", 32)
 # might want to add that posibility
 # (the kwarg would overide the arg)
 def main():
+    # todo add a not flag, if true, then dont allow it unless 
+    # something explicitly permitts it
+
     args = Parser.parse({
         "args": [
             {"name": "sub_command"}, 
@@ -454,7 +477,7 @@ def main():
             "allow": {"trace", "profile"}
         }
     })
-    
+
     print(args)
 
     sub_command = args["sub_command"][0]
@@ -469,16 +492,50 @@ def main():
     
     elif not sub_command == "": 
         raise TypeError(f"invallid subcommand {sub_command}")
-
-    init()
-
-    if args["append"]:
-        current_branch = run_cmd("git rev-parse --abbrev-ref HEAD")
-        
-        return  
     
+    
+    # do this before making changes
+    if args["append"]:
+        new_branch = args["append"][0][0]
+        validate_new_branch(new_branch)
+
+    run_cmd(f"cd {NIXOS_PATH}")
+    run_cmd(f"git add --all")
+
+    print_devider("Formating Files")
+    run_cmd("alejandra . || true", True)
+
+    print_devider("Git Diff")
+    run_cmd(f"git --no-pager diff HEAD", True)
+    
+
     profile = (args["profile"][0] or [get_last_profile()])[0]
     rebuild_nixos(profile, args["trace"])
+    
     check_needs_reboot()
     
-    commit_msg = format_generation_data()
+    print_devider("Commiting changes")
+    commit_msg = format_generation_data(profile) + "\n" + args["message"][0][0]
+
+    run_cmd(f"git commit -am \"{commit_msg}\"")
+    
+    if args["append"]:
+        new_branch = args["append"][0][0]
+        
+        print_devider(
+            f"Appending commit to last commit (new branch: {new_branch})"
+        )
+            
+        # current_branch = run_cmd("git rev-parse --abbrev-ref HEAD")
+        run_cmd(f"git branch {new_branch}")
+        run_cmd(f"git reset --hard HEAD~2")
+        run_cmd(f"git switch {new_branch}")
+    
+    print_devider("Pushing code to github")
+    # run_cmd("git push origin --all", True)
+
+    print_warn("Successfully applied nixos configuration changes", 42)
+
+
+main()
+

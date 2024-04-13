@@ -554,7 +554,7 @@ def main():
     check_needs_reboot()
     
     print_devider("Commiting changes")
-    commit_msg = format_generation_data(profile) + "\n" + args["message"][0][0]
+    commit_msg = f"{args['message'][0][0]}\n{format_generation_data(profile)}"
 
     run_cmd(f"git commit -am \"{commit_msg}\"", True)
     
@@ -572,7 +572,8 @@ def main():
     
     print_devider("Pushing code to github")
     run_cmd("git push origin --all", True)
-
+    
+    print("\n")
     print_warn(
         "Successfully applied nixos configuration changes", 
         "42;30"

@@ -7,12 +7,12 @@
   # "https://github.com/ErrorNoInternet/configuration.nix/blob/0c074279a82089fb949a2b9f7e92bb1daca1d3e1/home/programs/terminal/neovim/formatting.nix"
 
   programs.nixvim = {
-    extraPackages = [
+    extraPackages = with pkgs; [
       inputs.alejandra.defaultPackage.${pkgs.system}
-      # black
+      black
       # clang-tools
       # config.pkgsSelf.alejandra
-      # isort
+      isort
       # taplo
     ];
 
@@ -31,7 +31,7 @@
         # cpp = ["clang_format"];
         # go = ["gofmt"];
         nix = ["alejandra"];
-        # python = ["isort" "black"];
+        python = ["isort" "black"];
         # rust = ["rustfmt"];
         # toml = ["taplo"];
       };

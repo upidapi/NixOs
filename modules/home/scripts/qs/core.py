@@ -1,7 +1,7 @@
 import json
 import sys
 import subprocess
-import os
+# import os
 
 """
 # https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
@@ -50,14 +50,14 @@ Sub commands:
   e | edit
     cd into nixos config, open editor
 
-  g | goto
-    cd into nixos config
+  # g | goto
+  #   cd into nixos config
     
-  merge <branch name>
+  # merge <branch name>
 
 
 # qe := qs e
-qa <msg> := qs --message <msg> --append
+# qa <msg> := qs --message <msg> --append
 qd := qs --debug --trace
 """
 
@@ -534,14 +534,14 @@ def main():
         """
 
         sub_command = args["sub_command"][0][0]
-        if sub_command in ("g", "goto"):
-            os.chdir(NIXOS_PATH)
-            return
-            
-        elif sub_command in ("e", "edit"):
+        # if sub_command in ("g", "goto"):
+        #     os.chdir(NIXOS_PATH)
+        #     return
+
+        if sub_command in ("e", "edit"):
             # subprocess.run(f"cd {NIXOS_PATH}; nvim .", shell=True)
-            os.chdir(NIXOS_PATH)
-            subprocess.run(f"nvim .", shell=True)
+            # os.chdir(NIXOS_PATH)
+            subprocess.run(f"nvim {NIXOS_PATH}", shell=True)
             return
         
         elif not sub_command == "": 
@@ -566,6 +566,7 @@ def main():
     rebuild_nixos(profile, args["trace"])
     
     check_needs_reboot()
+
     
     print_devider("Commiting changes")
     commit_msg = f"{args['message'][0][0]}\n{format_generation_data(profile)}"
@@ -583,16 +584,16 @@ def main():
         run_cmd(f"git branch {new_branch}")
         run_cmd(f"git reset --hard HEAD~2")
         run_cmd(f"git switch {new_branch}")
-    
+
     print_devider("Pushing code to github")
     # pat="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"
     # git push https://$pat@github.com/upidapi/NixOs.git main
 
     run_cmd("git push origin --all", True)
-    
+
     print("\n")
     print_warn(
-        "Successfully applied nixos configuration changes", 
+        "Successfully applied nixos configuration changes",
         "42;30"
     )
 

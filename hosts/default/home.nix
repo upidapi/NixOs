@@ -116,9 +116,9 @@ in {
     };
 
     scripts = {
-      regen-nixos = enable;
+      # regen-nixos = enable;
       cn-bth = enable;
-      qs = enable;
+      # qs = enable;
     };
   };
 }

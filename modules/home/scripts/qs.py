@@ -1,6 +1,7 @@
 import json
 import sys
 import subprocess
+import os
 
 """
 # https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
@@ -251,7 +252,7 @@ class Parser:
 
             
             if arg_is_data:
-                positional_args.append(arg)
+                positional_args.append(arg[1:-1])
                 continue
 
                 # raise TypeError(
@@ -277,7 +278,7 @@ class Parser:
         
         i = 0
         for opt, data in orderd_args:
-            pos_args = positional_args[i:][data["len"]:]
+            pos_args = positional_args[i:][:data["len"]]
             if len(pos_args) < data["min"]:
                 raise TypeError(
                     f"too few positionall args passed to {opt},"
@@ -518,16 +519,29 @@ def main():
             "allow": {"trace", "profile"}
         }
     })
+    
+    print(args)
 
     if args["sub_command"]:
-        sub_command = args["sub_command"][0]
+        """
+        sub_command = args["sub_command"][0][0]
         if sub_command in ("g", "goto"):
-            run_cmd(f"cd {NIXOS_PATH}")
+            return f"cd {NIXOS_PATH}"
+            
+        elif sub_command in ("e", "edit"):
+                cd {NIXOS_PATH}
+                nvim 
+        """
+
+        sub_command = args["sub_command"][0][0]
+        if sub_command in ("g", "goto"):
+            os.chdir(NIXOS_PATH)
             return
             
         elif sub_command in ("e", "edit"):
-            run_cmd(f"cd {NIXOS_PATH}")
-            run_cmd(f"nvim .")
+            # subprocess.run(f"cd {NIXOS_PATH}; nvim .", shell=True)
+            os.chdir(NIXOS_PATH)
+            subprocess.run(f"nvim .", shell=True)
             return
         
         elif not sub_command == "": 
@@ -571,6 +585,9 @@ def main():
         run_cmd(f"git switch {new_branch}")
     
     print_devider("Pushing code to github")
+    # pat="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"
+    # git push https://$pat@github.com/upidapi/NixOs.git main
+
     run_cmd("git push origin --all", True)
     
     print("\n")

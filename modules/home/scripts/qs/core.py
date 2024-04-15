@@ -61,8 +61,6 @@ Sub commands:
 # qa <msg> := qs --message <msg> --append
 qd := qs --debug --trace
 """
-
-
 NIXOS_PATH = "/persist/nixos"
 
 
@@ -317,12 +315,11 @@ class Parser:
 
             allow_args |= data["allow"]
             allow_args |= data["need"]
-
-            if set_args - allow_args:
+            
+            not_set = set_args - allow_args
+            if not_set:
                 raise TypeError(
-                    f"the folowing args aren't allowed: {
-                        set_args - allow_args
-                    }"
+                    f"the folowing args aren't allowed: {not_set}"
                 )
 
     @classmethod
@@ -343,8 +340,7 @@ def validate_new_branch(new_branch):
             "--verify"
             f"--quiet refs/heads/{new_branch}"
             "; echo $?"
-        )
-        == "0"
+        ) == "0"
     )
     if branch_exists_locally:
         raise TypeError(f'branch "{new_branch}" already exist locally')

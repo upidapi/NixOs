@@ -16,9 +16,11 @@ in {
   config = mkIf cfg.enable {
     home.packages = [
       (
-        pkgs.writers.writePython3
+        pkgs.writers.writePython3Bin
         "qs"
-        {}
+        {
+          flakeIgnore = ["W291" "W293" "E501" "E303"];
+        }
         (builtins.readFile ./core.py)
       )
     ];

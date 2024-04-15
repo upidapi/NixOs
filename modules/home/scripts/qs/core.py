@@ -559,6 +559,8 @@ def main():
 
     print_devider("Commiting changes")
     commit_msg = f"{args['message'][0][0]}\n{format_generation_data(profile)}"
+    print("full commit msg:")
+    print(commit_msg)
 
     run_cmd(f'git commit -am "{commit_msg}"', True)
 

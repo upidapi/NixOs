@@ -20,6 +20,7 @@
         "$mod, R, exec, firefox"
         "$mod, C, killactive"
         "$mod, M, exit"
+        "$mod, D, exec, rofi -show drun"
         # "$mod, F, exec, firefox"
         # ", Print, exec, grimblast copy area"
       ]

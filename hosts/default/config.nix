@@ -80,6 +80,7 @@ in {
     cli-apps = {
       less = enable;
       zsh = enable;
+      keepass = enable;
     };
 
     apps = {

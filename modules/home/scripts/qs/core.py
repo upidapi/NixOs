@@ -534,6 +534,9 @@ def main():
 
         elif not sub_command == "":
             raise TypeError(f"invallid subcommand {sub_command}")
+    
+    if not args["message"] or not args["message"][0]:
+        raise TypeError("missing --message argument")
 
     # do this before making changes
     if args["append"]:

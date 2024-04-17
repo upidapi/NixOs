@@ -1,29 +1,7 @@
 import json
 import sys
 import subprocess
-
-"""
-# https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
-# Warn if the generation may have changed some options
-# that only take effect after reboot. This is to avoid a
-# generation from a
-
-# maby give the option to reboot when it detects that
-# it might be needed
-"""
-
-"""
-qa # alias for "qs --append"
-qd # alias for "qs --debug --trace"
-
-
-# do this in python
-
-# show diff since last commit
-git --no-pager diff HEAD
-
-# terminate if the nixos-rebuld fails
-"""
+import os
 
 """
 qs
@@ -518,8 +496,9 @@ def main():
     if args["append"]:
         new_branch = args["append"][0][0]
         validate_new_branch(new_branch)
+    
+    os.chdir(NIXOS_PATH)
 
-    run_cmd(f"cd {NIXOS_PATH}")
     run_cmd("git add --all")
 
     print_devider("Formating Files")

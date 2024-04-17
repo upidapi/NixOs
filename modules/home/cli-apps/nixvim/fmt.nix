@@ -18,12 +18,20 @@
     plugins.conform-nvim = {
       enable = true;
 
-      extraOptions = {
+      /*
+         extraOptions = {
         timeout_ms = 10000; # what is this
         lsp_fallback = true;
       };
+      */
+      formatOnSave = {
+        lspFallback = true;
+        timeoutMs = 500;
+      };
 
-      # formatOnSave = true;
+      formatAfterSave = {
+        lspFallback = true;
+      };
 
       formattersByFt = {
         c = ["clang_format"];

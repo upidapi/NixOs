@@ -45,8 +45,9 @@ in {
 
     # extraPlugins = [pkgs.vimPlugins.gruvbox];
     # colorscheme = "gruvbox";
+    # dracula
 
-    colorschemes.dracula = enable;
+    colorschemes.tokyonight = enable;
     # this is a test
 
     vimAlias = true;

@@ -553,10 +553,10 @@ def main():
         run_cmd(f"git switch {new_branch}")
 
     print_devider("Pushing code to github")
-    # pat="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"
-    # git push https://$pat@github.com/upidapi/NixOs.git main
+    pat = "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"
+    origin = f"https://{pat}@github.com/upidapi/NixOs.git"
 
-    run_cmd("git push origin --all", True)
+    run_cmd(f"git push {origin} --all", True)
 
     print("\n")
     print_warn("Successfully applied nixos configuration changes", "42;30")

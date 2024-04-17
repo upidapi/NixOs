@@ -62,7 +62,10 @@ def run_cmd(cmd, print_res: bool = False, ignore=()):
 
 
 def get_last_profile():
-    return "default"
+    flake_profile = os.environ.get('FLAKE_PROFILE')
+    if flake_profile is None:
+        raise TypeError("flake profile not found")
+    return flake_profile
 
 
 def get_profiles():

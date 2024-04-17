@@ -97,6 +97,13 @@
           modules =
             [
               inputs.hyprland.nixosModules.default
+
+              {
+                modules.nixos.nix.flakes.profile = name;
+                environment.sessionVariables = {
+                  FLAKE_PROFILE = name;
+                };
+              }
             ]
             ++ [
               # disko

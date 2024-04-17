@@ -1,7 +1,6 @@
 {
   config,
   inputs,
-  pkgs,
   lib,
   my_lib,
   ...
@@ -20,8 +19,8 @@ in {
   # TODO: multiple tabs?
   # TODO: fix tab making the lsp throw errors when there is no options
   # TODO: editor regins / folds
-  # TODO: skeletion templates and live templates
   # TODO: autocorrect
+  # TODO: add lua snippets
 
   options.modules.home.cli-apps.nixvim =
     mkEnableOpt "enables nixvim";
@@ -65,6 +64,8 @@ in {
       swapfile = false;
       tabstop = 4;
     };
+
+    globals.mapleader = " ";
 
     plugins = {
       lualine = enable;
@@ -114,6 +115,7 @@ in {
           TODO = {
             icon = " ";
             color = "#2563EB";
+            alt = ["todo"];
           };
           HACK = {
             icon = " "; # 󰈸 
@@ -169,7 +171,12 @@ in {
       {
         event = ["FileType"];
         pattern = ["nix"];
-        command = "setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab";
+        command = "setlocal shiftwidth=2 tabstop=2 softtabstop=2";
+      }
+      {
+        event = ["FileType"];
+        pattern = ["py"];
+        command = "setlocal shiftwidth=4 tabstop=4 softtabstop=4";
       }
     ];
   };

@@ -95,6 +95,7 @@ in {
     cmp_luasnip.enable = true;
     luasnip = {
       enable = true;
+      # path = ./snippets;
       fromVscode = [{}];
     };
   };

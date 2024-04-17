@@ -10,10 +10,9 @@
     extraPackages = with pkgs; [
       inputs.alejandra.defaultPackage.${pkgs.system}
       black
-      # clang-tools
-      # config.pkgsSelf.alejandra
+      clang-tools
       isort
-      # taplo
+      taplo
     ];
 
     plugins.conform-nvim = {
@@ -27,13 +26,13 @@
       # formatOnSave = true;
 
       formattersByFt = {
-        # c = ["clang_format"];
-        # cpp = ["clang_format"];
+        c = ["clang_format"];
+        cpp = ["clang_format"];
         # go = ["gofmt"];
         nix = ["alejandra"];
         python = ["isort" "black"];
-        # rust = ["rustfmt"];
-        # toml = ["taplo"];
+        rust = ["rustfmt"];
+        toml = ["taplo"];
       };
     };
 

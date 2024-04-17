@@ -19,7 +19,7 @@ in {
         pkgs.writers.writePython3Bin
         "qs"
         {
-          flakeIgnore = ["W291" "W293" "E501" "E303"];
+          flakeIgnore = ["W291" "W293" "E501" "E303" "W503"];
         }
         (builtins.readFile ./core.py)
       )

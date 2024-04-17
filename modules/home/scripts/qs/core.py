@@ -1,7 +1,7 @@
 import json
-import sys
-import subprocess
 import os
+import subprocess
+import sys
 
 """
 qs
@@ -46,9 +46,7 @@ def run_cmd(cmd, print_res: bool = False, ignore=()):
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
 
     # replace "" with b"" for Python 3
-    for line in iter(
-        process.stdout.readline, b""  # type: ignore[attr-defined]
-    ):
+    for line in iter(process.stdout.readline, b""):  # type: ignore[attr-defined]
 
         dec = line.decode()
         res += dec
@@ -291,12 +289,10 @@ class Parser:
 
             allow_args |= data["allow"]
             allow_args |= data["need"]
-            
+
             not_set = set_args - allow_args
             if not_set:
-                raise TypeError(
-                    f"the folowing args aren't allowed: {not_set}"
-                )
+                raise TypeError(f"the folowing args aren't allowed: {not_set}")
 
     @classmethod
     def parse(cls, opt_data):
@@ -312,11 +308,9 @@ class Parser:
 def validate_new_branch(new_branch):
     branch_exists_locally = (
         run_cmd(
-            "git show-ref" 
-            "--verify"
-            f"--quiet refs/heads/{new_branch}"
-            "; echo $?"
-        ) == "0"
+            "git show-ref" "--verify" f"--quiet refs/heads/{new_branch}" "; echo $?"
+        )
+        == "0"
     )
     if branch_exists_locally:
         raise TypeError(f'branch "{new_branch}" already exist locally')
@@ -348,9 +342,7 @@ def rebuild_nixos(profile, show_trace):
     """
 
     raw_ret_val = run_cmd(
-        f"ret=$({main_command});" + data_ret, 
-        True, 
-        (fail_id + "\n", succeed_id + "\n")
+        f"ret=$({main_command});" + data_ret, True, (fail_id + "\n", succeed_id + "\n")
     )
 
     ret_val = raw_ret_val.splitlines()[-1]
@@ -396,7 +388,9 @@ def format_generation_data(profile):
 
 
 def check_needs_reboot():
-    needs_reboot = run_cmd("""
+    needs_reboot = (
+        run_cmd(
+            """
         booted="$(
             readlink /run/booted-system/{initrd,kernel,kernel-modules}
         )"
@@ -408,8 +402,10 @@ def check_needs_reboot():
             then echo "1"; 
             else echo "0";
         fi 
-    """) == "0"
-    
+    """
+        )
+        == "0"
+    )
 
     if needs_reboot:
         print_warn("The new profile changed system files, please reboot")
@@ -488,7 +484,7 @@ def main():
 
         elif not sub_command == "":
             raise TypeError(f"invallid subcommand {sub_command}")
-    
+
     if not args["message"] or not args["message"][0]:
         raise TypeError("missing --message argument")
 
@@ -496,7 +492,7 @@ def main():
     if args["append"]:
         new_branch = args["append"][0][0]
         validate_new_branch(new_branch)
-    
+
     os.chdir(NIXOS_PATH)
 
     run_cmd("git add --all")
@@ -522,9 +518,7 @@ def main():
     if args["append"]:
         new_branch = args["append"][0][0]
 
-        print_devider(
-            f"Appending commit to last commit (new branch: {new_branch})"
-        )
+        print_devider(f"Appending commit to last commit (new branch: {new_branch})")
 
         # current_branch = run_cmd("git rev-parse --abbrev-ref HEAD")
         run_cmd(f"git branch {new_branch}")

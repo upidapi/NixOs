@@ -22,7 +22,6 @@ in {
   # TODO: editor regins / folds
   # TODO: skeletion templates and live templates
   # TODO: autocorrect
-  # BUG: todo highlition dont work
 
   options.modules.home.cli-apps.nixvim =
     mkEnableOpt "enables nixvim";
@@ -47,7 +46,7 @@ in {
     # extraPlugins = [pkgs.vimPlugins.gruvbox];
     # colorscheme = "gruvbox";
 
-    colorschemes.tokyonight = enable;
+    colorschemes.dracula = enable;
     # this is a test
 
     vimAlias = true;

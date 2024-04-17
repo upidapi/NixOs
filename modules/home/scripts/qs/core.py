@@ -2,8 +2,6 @@ import json
 import sys
 import subprocess
 
-# import os
-
 """
 # https://www.reddit.com/r/NixOS/comments/e3tn5t/reboot_after_rebuild_switch/
 # Warn if the generation may have changed some options
@@ -439,33 +437,11 @@ def check_needs_reboot():
         print_warn("The new profile changed system files, please reboot")
 
 
-APPEND_BRANCH = "idk"
-DEBUG_BRANCH = "idk"
-
-
 # --debug and --append never returns to the main branch
 # you have to do that manually
 
 
 # it assumes that your main branch is called "main"
-
-
-"""
-print_devider("Commiting Changes")
-commit_msg = get_commit_msg(args.message)
-# print(commit_msg, "\n")
-
-run_cmd(f"git commit -am \"{commit_msg}\"")
-
-
-print_devider("Pushing code to origin")
-# pat = "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"
-# git push https://$pat@github.com/upidapi/NixOs.git main
-run_cmd("git push origin main")
-
-
-print_devider("Successfullt applied nixos configuration", 32)
-"""
 
 
 # currently you cant have a option in args and kwargs
@@ -577,7 +553,7 @@ def main():
         run_cmd(f"git switch {new_branch}")
 
     print_devider("Pushing code to github")
-    # pat="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"
+    # pat="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"
     # git push https://$pat@github.com/upidapi/NixOs.git main
 
     run_cmd("git push origin --all", True)

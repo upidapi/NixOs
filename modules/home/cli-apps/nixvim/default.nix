@@ -44,10 +44,10 @@ in {
 
     enableMan = true; # man pages:
 
-    extraPlugins = [pkgs.vimPlugins.gruvbox];
-    colorscheme = "gruvbox";
+    # extraPlugins = [pkgs.vimPlugins.gruvbox];
+    # colorscheme = "gruvbox";
 
-    # colorschemes.gruvbox = enable;
+    colorschemes.tokyonight = enable;
     # this is a test
 
     vimAlias = true;

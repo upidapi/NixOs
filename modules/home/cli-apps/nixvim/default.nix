@@ -48,6 +48,7 @@ in {
     colorscheme = "gruvbox";
 
     # colorschemes.gruvbox = enable;
+    # this is a test
 
     vimAlias = true;
 

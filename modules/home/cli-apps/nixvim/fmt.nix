@@ -37,20 +37,7 @@
       };
     };
 
-    /*
-       keymaps = [
-      {
-        mode = "n";
-        options.silent = true;
-        key = "<F2>";
-        action = ":lua require('conform').format()<CR>:w<CR>";
-      }
-      {
-        mode = "i";
-        options.silent = true;
-        key = "<F2>";
-        action = "<esc>:lua require('conform').format()<CR>:w<CR>";
-      }
+    keymaps = [
       {
         mode = "n";
         options.silent = true;
@@ -64,6 +51,5 @@
         action = "<esc>:lua require('conform').format()<CR>";
       }
     ];
-    */
   };
 }

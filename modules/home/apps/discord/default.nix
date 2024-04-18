@@ -20,13 +20,16 @@ in {
       })
       pkgs.vesktop # for screen sharing on wayland
     ];
-    # passing the folowing args might fix flickering
-    # discordcanary --enable-features=UseOzonePlatform --ozone-platform=wayland
+    # tested (diddn't work)
 
-    file."${config.xdg.configHome}/Vencord/settings/settings.json" = {
-      force = true;
-      text = builtins.readFile ./vencord-config.json;
-    };
+    # disabeling hardware acseleartion
+    # --no-gpu
+    # --enable-features=UseOzonePlatform --ozone-platform=wayland
+
+    # file."${config.xdg.configHome}/Vencord/settings/settings.json" = {
+    #   force = true;
+    #   text = builtins.readFile ./vencord-config.json;
+    # };
   };
 }
 # you need to use --disable-gpu for discord to work

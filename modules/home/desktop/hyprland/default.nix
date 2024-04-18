@@ -12,7 +12,6 @@
 in {
   imports = [
     ./config.nix
-    # TODO: does this fix connecting a disply to the motherbord?
     inputs.hyprland.homeManagerModules.default
   ];
 

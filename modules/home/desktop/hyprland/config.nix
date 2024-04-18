@@ -2,7 +2,9 @@
   osConfig,
   lib,
   ...
-}: {
+}: let
+  mod = a: b: a - builtins.floor (a / b) * b;
+in {
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
@@ -16,11 +18,36 @@
     bind =
       [
         # "$mod, Q, exec, kitty"
-        "$mod, E, exec, alacritty"
-        "$mod, R, exec, firefox"
+        "$mod, S, exec, alacritty"
+        "$mod, D, exec, rofi -show drun"
+        "$mod, F, exec, firefox"
+
         "$mod, C, killactive"
         "$mod, M, exit"
-        "$mod, D, exec, rofi -show drun"
+
+        # move focus with arrow keys
+        "$mod, left, movefocus, l"
+        "$mod, right, movefocus, r"
+        "$mod, up, movefocus, u"
+        "$mod, down, movefocus, d"
+
+        # move window with arrow keys
+        "$mod CTRL, left, movewindow, l"
+        "$mod CTRL, right, movewindow, r"
+        "$mod CTRL, up, movewindow, u"
+        "$mod CTRL, down, movewindow, d"
+
+        # move focus with vim keys
+        "$mod, H, movefocus, l"
+        "$mod, L, movefocus, r"
+        "$mod, K, movefocus, u"
+        "$mod, J, movefocus, d"
+
+        # move window with vim keys
+        "$mod CTRL, H, movewindow, l"
+        "$mod CTRL, L, movewindow, r"
+        "$mod CTRL, K, movewindow, u"
+        "$mod CTRL, J, movewindow, d"
         # "$mod, F, exec, firefox"
         # ", Print, exec, grimblast copy area"
       ]
@@ -30,13 +57,23 @@
         builtins.concatLists (
           builtins.genList (
             x: let
-              ws = let
-                c = (x + 1) / 10;
-              in
-                builtins.toString (x + 1 - (c * 10));
+              # number bind
+              nb = toString (mod (x + 1) 10);
+
+              # workspace name
+              wn = toString (x + 1);
             in [
-              "$mod, ${ws}, workspace, ${toString (x + 1)}"
-              "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+              # go to workspace n
+              "$mod, ${nb}, workspace, ${wn}"
+
+              # move active to workspace n
+              "$mod CTRL, ${nb}, movetoworkspace, ${wn}"
+
+              # move active to workspace n, preserve workspace focus
+              "$mod CTRL SHIFT, ${nb}, movetoworkspacesilent, ${wn}"
+
+              # switch the place of two worksapces
+              "$mod ALT, ${nb}, focusworkspaceoncurrentmonitor, ${wn}"
             ]
           )
           10

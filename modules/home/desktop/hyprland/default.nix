@@ -2,7 +2,7 @@
   config,
   my_lib,
   lib,
-  # inputs,
+  inputs,
   pkgs,
   ...
 }: let
@@ -13,7 +13,7 @@ in {
   imports = [
     ./config.nix
     # TODO: does this fix connecting a disply to the motherbord?
-    # inputs.hyprland.homeManagerModules.default
+    inputs.hyprland.homeManagerModules.default
   ];
 
   options.modules.home.desktop.hyprland =

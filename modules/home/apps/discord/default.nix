@@ -20,6 +20,8 @@ in {
       })
       pkgs.vesktop # for screen sharing on wayland
     ];
+    # passing the folowing args might fix flickering
+    # discordcanary --enable-features=UseOzonePlatform --ozone-platform=wayland
 
     file."${config.xdg.configHome}/Vencord/settings/settings.json" = {
       force = true;

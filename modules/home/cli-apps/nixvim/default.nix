@@ -12,12 +12,17 @@ in {
   imports = [
     # ./../../modules/home
     inputs.nixvim.homeManagerModules.nixvim
-    ./lsp.nix
+    ./cmp.nix
+    ./colorscheme.nix
+    ./dap.nix
     ./fmt.nix
+    ./keymaps.nix
+    ./lsp.nix
+    ./todo-comments.nix
   ];
+
   # TODO: what is oil (probably in the nixos filder?
   # TODO: multiple tabs?
-  # TODO: fix tab making the lsp throw errors when there is no options
   # TODO: editor regins / folds
   # TODO: autocorrect
   # TODO: add lua snippets
@@ -72,91 +77,24 @@ in {
       lightline = enable;
 
       # file browser
-      neo-tree = enable;
+      neo-tree = {
+        enable = true;
+        window.width = 30;
+      };
+
+      undotree = enable;
+
+      # code folding
+      nvim-ufo = enable;
+
+      # finding stuff
+      telescope = enable;
+
+      # better copying
+      # yanky = enable
 
       # autoclose () [] <> "" etc
       autoclose = enable;
-
-      todo-comments = {
-        enable = true;
-
-        guiStyle.fg = "BOLD";
-
-        colors = {
-          error = ["DiagnosticError" "ErrorMsg" "#DC2626"];
-          warning = ["DiagnosticWarn" "WarningMsg" "#FBBF24"];
-          info = ["DiagnosticInfo" "#2563EB"];
-          hint = ["DiagnosticHint" "#10B981"];
-          default = ["Identifier" "#7C3AED"];
-          test = ["Identifier" "#FF00FF"];
-        };
-
-        highlight = {
-          multiline = true; # enable multine todo comments
-          # multiline_pattern = "^."; # lua pattern to match the next multiline from the start of the matched keyword
-          # multiline_context = 10; # extra lines that will be re-evaluated when changing a line
-          before = ""; # "fg" or "bg" or empty
-          keyword = "wide"; # "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
-          after = "fg"; # "fg" or "bg" or empty
-          # pattern = ''.*<(KEYWORDS)\s*:''; # pattern or table of patterns, used for highlighting (vim regex)
-          # comments_only = true; # uses treesitter to match keywords in comments only
-          # max_line_len = 400; # ignore lines longer than this
-          # exclude = []; # list of file types to exclude highlighting
-        };
-
-        signs = false;
-
-        keywords = {
-          FIX = {
-            icon = " "; # Icon used for the sign, and in search results.
-            color = "error"; # Can be a hex color, or a named color.
-            alt = ["FIXME" "BUG" "FIXIT" "ISSUE"]; # A set of other keywords that all map to this FIX keywords.
-          };
-          TODO = {
-            icon = " ";
-            color = "#2563EB";
-            alt = ["todo"];
-          };
-          HACK = {
-            icon = " "; # 󰈸 
-            color = "warning";
-          };
-          WARN = {
-            icon = " ";
-            color = "warning";
-            alt = [
-              "WARNING"
-              "XXX"
-            ];
-          };
-          PERF = {
-            icon = "󰅒 ";
-            alt = [
-              "OPTIM"
-              "PERFORMANCE"
-              "OPTIMIZE"
-            ];
-          };
-          NOTE = {
-            icon = "󰍩 ";
-            color = "hint";
-            alt = [
-              "INFO"
-            ];
-          };
-          /*
-             TEST = {
-            icon = "⏲ ";
-            color = "test";
-            alt = [
-              "TESTING"
-              "PASSED"
-              "FAILED"
-            ];
-          };
-          */
-        };
-      };
     };
 
     autoCmd = [

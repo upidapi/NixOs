@@ -45,18 +45,6 @@
     };
 
     keymaps = [
-      {
-        mode = "n";
-        options.silent = true;
-        key = "<F3>";
-        action = ":lua require('conform').format()<CR>";
-      }
-      {
-        mode = "i";
-        options.silent = true;
-        key = "<F3>";
-        action = "<esc>:lua require('conform').format()<CR>";
-      }
     ];
   };
 }

@@ -15,7 +15,7 @@ in {
 
     # ./cmp.nix
     ./colorscheme.nix
-    ./dap.nix
+    #./dap.nix
 
     /*
     ./fmt.nix

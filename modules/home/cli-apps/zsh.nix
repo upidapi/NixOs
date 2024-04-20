@@ -20,9 +20,9 @@ in {
       syntaxHighlighting = enable;
 
       shellAliases = {
+        # s = "doas -s";
+        # sudo = "doas -s";
         e = "$EDITOR";
-        vi = "nvim";
-        vim = "nvim";
         c = "clear";
       };
 

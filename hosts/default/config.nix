@@ -9,7 +9,7 @@
   my_lib,
   ...
 }: let
-  inherit (my_lib.opt) enable;
+  inherit (my_lib.opt) enable disable;
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -29,6 +29,19 @@ in {
           user = "upidapi";
         };
       };
+    };
+  };
+
+  security = {
+    sudo = disable;
+    doas = {
+      enable = true;
+      extraRules = [
+        {
+          groups = ["wheel"];
+          keepEnv = true;
+        }
+      ];
     };
   };
 

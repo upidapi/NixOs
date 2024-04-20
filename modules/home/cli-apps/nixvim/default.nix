@@ -88,7 +88,37 @@ in {
       # code folding
       nvim-ufo = {
         enable = true;
-        closeFoldKinds = {};
+        # closeFoldKinds = {};
+        providerSelector = ''
+            function(bufnr, filetype, buftype)
+
+              --[=====[
+              return a table with string elements:
+                1st is name of main provider, 2nd is fallback
+
+              return a string type:
+                use ufo inner providers
+
+              return a string in a table:
+                like a string type above
+
+              return empty string "":
+                disable any providers
+
+              return `nil`:
+                use default value {'lsp', 'indent'}
+
+              return a function:
+                it will be involved and expected return
+                `UfoFoldingRange[]|Promise`
+
+              if you prefer treesitter provider rather than lsp,
+              return ftMap[filetype] or {'treesitter', 'indent'}
+              --]=====]
+
+              return ""
+          end
+        '';
       };
 
       # finding stuff

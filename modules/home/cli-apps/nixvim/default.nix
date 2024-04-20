@@ -13,16 +13,13 @@ in {
     # ./../../modules/home
     inputs.nixvim.homeManagerModules.nixvim
 
-    # ./cmp.nix
+    ./cmp.nix
     ./colorscheme.nix
-    #./dap.nix
-
-    /*
+    ./dap.nix
     ./fmt.nix
     ./keymaps.nix
     ./lsp.nix
     ./todo-comments.nix
-    */
   ];
 
   # TODO: what is oil (probably in the nixos filder?

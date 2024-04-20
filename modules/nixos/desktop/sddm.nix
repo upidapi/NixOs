@@ -23,7 +23,7 @@ in {
         #    "[  ok  ] reached target user and group name lookups"
         #  i think it makes sddm run under wayland
         #  https://discord.com/channels/568306982717751326/1061656643189878874/threads/1226240711431815209
-        wayland.enable = true;
+        # wayland.enable = true;
       };
     };
   };

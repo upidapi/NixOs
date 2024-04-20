@@ -73,6 +73,7 @@ in {
     inputs.alejandra.defaultPackage.${pkgs.system}
     python3
     htop
+    ripgrep
     # maybe btop
   ];
 

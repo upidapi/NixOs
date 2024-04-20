@@ -67,6 +67,7 @@ in {
       smartindent = true;
       softtabstop = 4;
       swapfile = false;
+
       tabstop = 4;
     };
 
@@ -85,7 +86,10 @@ in {
       undotree = enable;
 
       # code folding
-      nvim-ufo = enable;
+      nvim-ufo = {
+        enable = true;
+        closeFoldKinds = {};
+      };
 
       # finding stuff
       telescope = enable;

@@ -329,7 +329,7 @@ def validate_new_branch(new_branch):
 
 
 def rebuild_nixos(profile, show_trace):
-    main_command = f"doas nixos-rebuild switch" f" --flake .#{profile}" + (
+    main_command = f"sudo nixos-rebuild switch" f" --flake .#{profile}" + (
         " --show-trace" * bool(show_trace)
     )
     fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"
@@ -360,7 +360,7 @@ def rebuild_nixos(profile, show_trace):
     raise TypeError(f"invallid {ret_val=}")
 
 
-def format_generation_data(profile):
+def get_gen_data():
     gen_data = run_cmd(
         "nixos-rebuild list-generations"
         " --json"
@@ -374,15 +374,25 @@ def format_generation_data(profile):
         if gen["current"]:
             cur_gen_data = gen
             break
+
     if cur_gen_data is None:
         raise TypeError("current gen not found")
+
+    return cur_gen_data
+
+
+def format_generation_data(last_gen_data, profile):
+    gen_data = get_gen_data()
+
+    last_gen = last_gen_data["generation"]
+    cur_gen = gen_data["generation"]
 
     gen_str_data = (
         f"info:\n"
         f"  Profile: {profile}\n"
-        f"  Gen: {cur_gen_data['generation']}\n"
-        f"  NixOs: {cur_gen_data['nixosVersion']}\n"
-        f"  Kernel: {cur_gen_data['kernelVersion']}\n"
+        f"  Gen: {last_gen} -> {cur_gen}\n"
+        f"  NixOs: {gen_data['nixosVersion']}\n"
+        f"  Kernel: {gen_data['kernelVersion']}\n"
     )
 
     return gen_str_data
@@ -506,6 +516,7 @@ def main():
     # rebuild nixos
     profile = (args["profile"] or [[get_last_profile()]])[0][0]
     print_devider(f"Rebuilding NixOs (profile: {profile})")
+    last_gen_data = get_gen_data()
     rebuild_nixos(profile, args["trace"])
 
     check_needs_reboot()
@@ -513,7 +524,9 @@ def main():
     # commit
     print_devider("Commit msg")
 
-    commit_msg = f"{args['message'][0][0]}\n\n{format_generation_data(profile)}"
+    str_gen_data = format_generation_data(last_gen_data, profile)
+
+    commit_msg = f"{args['message'][0][0]}\n\n{str_gen_data}"
     print(commit_msg)
 
     print_devider("Commiting changes")

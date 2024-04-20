@@ -34,17 +34,19 @@ in {
 
   # doas
   # for backward compat
-  environment.shellAliases = {sudo = "doas";};
+  # environment.shellAliases = {sudo = "sudo-rs";};
   security = {
-    sudo = disable;
-    doas = {
+    # sudo = disable;
+    sudo-rs = {
       enable = true;
-      extraRules = [
+      /*
+         extraRules = [
         {
           groups = ["wheel"];
           keepEnv = true;
         }
       ];
+      */
     };
   };
 

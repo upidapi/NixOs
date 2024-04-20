@@ -329,7 +329,7 @@ def validate_new_branch(new_branch):
 
 
 def rebuild_nixos(profile, show_trace):
-    main_command = f"sudo nixos-rebuild switch" f" --flake .#{profile}" + (
+    main_command = f"doas nixos-rebuild switch" f" --flake .#{profile}" + (
         " --show-trace" * bool(show_trace)
     )
     fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"

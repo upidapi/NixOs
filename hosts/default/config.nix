@@ -32,6 +32,9 @@ in {
     };
   };
 
+  # doas
+  # for backward compat
+  environment.shellAliases = {sudo = "doas";};
   security = {
     sudo = disable;
     doas = {

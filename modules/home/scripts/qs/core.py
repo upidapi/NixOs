@@ -419,6 +419,22 @@ def check_needs_reboot():
 # it assumes that your main branch is called "main"
 
 
+def handle_sub_command(args):
+    sub_command = args["sub_command"][0][0]
+
+    if sub_command in ("e", "edit"):
+        # subprocess.run(f"cd {NIXOS_PATH}; nvim .", shell=True)
+        # os.chdir(NIXOS_PATH)
+        subprocess.run(f"nvim {NIXOS_PATH}", shell=True)
+        return
+
+    elif sub_command in ("d", "diff"):
+        run_cmd("git --no-pager diff HEAD --color", True)
+
+    elif not sub_command == "":
+        raise TypeError(f"invallid subcommand {sub_command}")
+
+
 # currently you cant have a option in args and kwargs
 # might want to add that posibility
 # (the kwarg would overide the arg)
@@ -462,32 +478,8 @@ def main():
     print(args)
 
     if args["sub_command"]:
-        """
-        sub_command = args["sub_command"][0][0]
-        if sub_command in ("g", "goto"):
-            return f"cd {NIXOS_PATH}"
-
-        elif sub_command in ("e", "edit"):
-                cd {NIXOS_PATH}
-                nvim
-        """
-
-        sub_command = args["sub_command"][0][0]
-        # if sub_command in ("g", "goto"):
-        #     os.chdir(NIXOS_PATH)
-        #     return
-
-        if sub_command in ("e", "edit"):
-            # subprocess.run(f"cd {NIXOS_PATH}; nvim .", shell=True)
-            # os.chdir(NIXOS_PATH)
-            subprocess.run(f"nvim {NIXOS_PATH}", shell=True)
-            return
-
-        elif sub_command in ("d", "diff"):
-            run_cmd("git --no-pager diff HEAD --color", True)
-
-        elif not sub_command == "":
-            raise TypeError(f"invallid subcommand {sub_command}")
+        handle_sub_command(args)
+        return
 
     if not args["message"] or not args["message"][0]:
         raise TypeError("missing --message argument")

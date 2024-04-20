@@ -6,16 +6,17 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.cli-apps.zsh;
+  cfg = config.modules.home.cli-apps.zsh;
 in {
-  options.modules.nixos.cli-apps.zsh =
+  options.modules.home.cli-apps.zsh =
     mkEnableOpt
     "enables the zsh shell";
 
   config.programs = mkIf cfg.enable {
     zsh = {
       enable = true;
-      autosuggestions.enable = true;
+      enableCompletion = true;
+      autosuggestion = enable;
       syntaxHighlighting = enable;
 
       shellAliases = {
@@ -23,6 +24,9 @@ in {
         vim = "nvim";
         c = "clear";
       };
+
+      history.size = 10000;
+      history.path = "${config.home.homeDirectory}/.zsh/history";
     };
 
     starship = {

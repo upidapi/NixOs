@@ -5,5 +5,6 @@
     ./git.nix
     ./wine.nix
     ./nushell
+    ./zsh.nix
   ];
 }

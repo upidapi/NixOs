@@ -96,6 +96,7 @@ in {
     cli-apps = {
       nixvim = enable;
       # nushell = enable;
+      zsh = enable;
       wine = enable;
       git = enable;
     };

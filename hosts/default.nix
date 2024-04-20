@@ -27,6 +27,7 @@
 
         # only for testing
         # home.stateVersion = "23.11"
+
         home.homeDirectory = "/home/${user-name}";
       }
 

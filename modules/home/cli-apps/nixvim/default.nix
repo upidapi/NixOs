@@ -12,10 +12,12 @@ in {
   imports = [
     # ./../../modules/home
     inputs.nixvim.homeManagerModules.nixvim
-    /*
+
     ./cmp.nix
     ./colorscheme.nix
     ./dap.nix
+
+    /*
     ./fmt.nix
     ./keymaps.nix
     ./lsp.nix

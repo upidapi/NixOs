@@ -20,6 +20,7 @@ in {
       syntaxHighlighting = enable;
 
       shellAliases = {
+        e = "$EDITOR";
         vi = "nvim";
         vim = "nvim";
         c = "clear";

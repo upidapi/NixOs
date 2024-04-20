@@ -38,6 +38,9 @@ in {
         # save discord login
         ".config/discordcanary/Local Storage"
 
+        # save zsh command history
+        ".zsh/history"
+
         # save nushell command history
         # ".config/nushell/history.txt"
 

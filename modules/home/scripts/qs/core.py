@@ -62,7 +62,7 @@ def run_cmd(cmd, print_res: bool = False, ignore=()):
 
 
 def get_last_profile():
-    flake_profile = os.environ.get('FLAKE_PROFILE')
+    flake_profile = os.environ.get("FLAKE_PROFILE")
     if flake_profile is None:
         raise TypeError("flake profile not found")
     return flake_profile
@@ -511,10 +511,12 @@ def main():
 
     check_needs_reboot()
 
-    print_devider("Commiting changes")
-    commit_msg = f"{args['message'][0][0]}\n{format_generation_data(profile)}"
-    print("full commit msg:")
+    commit_msg = f"{args['message'][0][0]}\n\n{format_generation_data(profile)}"
+    print_devider("Commit msg")
+
     print(commit_msg)
+
+    print_devider("Commiting changes")
 
     run_cmd(f'git commit -am "{commit_msg}"', True)
 

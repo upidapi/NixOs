@@ -12,6 +12,7 @@ in {
   imports = [
     # ./../../modules/home
     inputs.nixvim.homeManagerModules.nixvim
+    /*
     ./cmp.nix
     ./colorscheme.nix
     ./dap.nix
@@ -19,6 +20,7 @@ in {
     ./keymaps.nix
     ./lsp.nix
     ./todo-comments.nix
+    */
   ];
 
   # TODO: what is oil (probably in the nixos filder?
@@ -128,7 +130,8 @@ in {
       # yanky = enable
 
       # autoclose () [] <> "" etc
-      autoclose = enable;
+      # autoclose = enable;
+      nvim-autopairs = enable;
     };
 
     autoCmd = [

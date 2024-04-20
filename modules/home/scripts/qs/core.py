@@ -329,8 +329,6 @@ def validate_new_branch(new_branch):
 
 
 def rebuild_nixos(profile, show_trace):
-    print_devider(f"Rebuilding NixOs (profile: {profile})")
-
     main_command = f"sudo nixos-rebuild switch" f" --flake .#{profile}" + (
         " --show-trace" * bool(show_trace)
     )
@@ -366,7 +364,7 @@ def format_generation_data(profile):
     gen_data = run_cmd(
         "nixos-rebuild list-generations"
         " --json"
-        # it needing this is a bug
+        # it needing "--flake" is a bug
         # TODO: submitt a pr to fix it
         " --flake /persist/nixos#default",
     )
@@ -485,6 +483,9 @@ def main():
             subprocess.run(f"nvim {NIXOS_PATH}", shell=True)
             return
 
+        elif sub_command in ("d", "diff"):
+            run_cmd("git --no-pager diff HEAD --color", True)
+
         elif not sub_command == "":
             raise TypeError(f"invallid subcommand {sub_command}")
 
@@ -496,30 +497,38 @@ def main():
         new_branch = args["append"][0][0]
         validate_new_branch(new_branch)
 
+    # make sure that we're in the right place
     os.chdir(NIXOS_PATH)
 
+    # nixos ignores files that are not added
     run_cmd("git add --all")
 
+    # yk
     print_devider("Formating Files")
     run_cmd("alejandra . || true", True)
 
+    # show git diff
     print_devider("Git Diff")
     run_cmd("git --no-pager diff HEAD --color", True)
 
+    # rebuild nixos
     profile = (args["profile"] or [[get_last_profile()]])[0][0]
+    print_devider(f"Rebuilding NixOs (profile: {profile})")
     rebuild_nixos(profile, args["trace"])
 
     check_needs_reboot()
 
-    commit_msg = f"{args['message'][0][0]}\n\n{format_generation_data(profile)}"
+    # commit
     print_devider("Commit msg")
 
+    commit_msg = f"{args['message'][0][0]}\n\n{format_generation_data(profile)}"
     print(commit_msg)
 
     print_devider("Commiting changes")
 
     run_cmd(f'git commit -am "{commit_msg}"', True)
 
+    # append
     if args["append"]:
         new_branch = args["append"][0][0]
 
@@ -530,6 +539,7 @@ def main():
         run_cmd("git reset --hard HEAD~2")
         run_cmd(f"git switch {new_branch}")
 
+    # push
     print_devider("Pushing code to github")
     pat = "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"
     origin = f"https://{pat}@github.com/upidapi/NixOs.git"

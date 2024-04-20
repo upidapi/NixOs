@@ -13,7 +13,7 @@ in {
     # ./../../modules/home
     inputs.nixvim.homeManagerModules.nixvim
 
-    ./cmp.nix
+    # ./cmp.nix
     ./colorscheme.nix
     ./dap.nix
 

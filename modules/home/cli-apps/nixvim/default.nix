@@ -133,6 +133,10 @@ in {
       nvim-autopairs = enable;
     };
 
+    filetype.pattern = {
+      ".*/hyprland%.conf" = "hyprlang";
+    };
+
     autoCmd = [
       /*
          {

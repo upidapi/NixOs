@@ -31,38 +31,22 @@
                 cwd = "\${workspaceFolder}";
                 program = helpers.mkRaw ''
                   function()
-                    return vim.fn.input(
-                      'Executable path: ',
-                      vim.fn.getcwd() .. '/',
-                      'file')
+                    return vim.fn.input('Executable path: ', vim.fn.getcwd() .. '/', 'file')
                   end
                 '';
                 args = helpers.mkRaw ''
                   function()
-                    local arguments_string = vim.fn.input(
-                      'Executable arguments: '
-                    )
-
+                    local arguments_string = vim.fn.input('Executable arguments: ')
                     return vim.split(arguments_string, " +")
                   end
                 '';
 
                 initCommands = lib.mkIf (language == "rust") (helpers.mkRaw ''
                   function()
-                    local rustc_sysroot = vim.fn.trim(
-                      vim.fn.system(
-                        'rustc --print sysroot'
-                      )
-                    )
+                    local rustc_sysroot = vim.fn.trim(vim.fn.system('rustc --print sysroot'))
 
-                    local script_import =
-                      'command script import "' ..
-                      rustc_sysroot ..
-                      '/lib/rustlib/etc/lldb_lookup.py"'
-
-                    local commands_file =
-                      rustc_sysroot ..
-                      '/lib/rustlib/etc/lldb_commands'
+                    local script_import = 'command script import "' .. rustc_sysroot .. '/lib/rustlib/etc/lldb_lookup.py"'
+                    local commands_file = rustc_sysroot .. '/lib/rustlib/etc/lldb_commands'
 
                     local commands = {}
                     local file = io.open(commands_file, 'r')

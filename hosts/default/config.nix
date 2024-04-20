@@ -11,11 +11,9 @@
 }: let
   inherit (my_lib.opt) enable disable;
 in {
-  imports = [
-    # Include the results of the hardware scan.
-    # inputs.home-manager.nixosModules.default
-    ./hardware.nix
-  ];
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+  system.stateVersion = "23.11"; # Did you read the comment?
 
   # todo: put this somewhere else
   # this just makes the user own /persist/nixos
@@ -158,7 +156,4 @@ in {
       ];
     };
   };
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  system.stateVersion = "23.11"; # Did you read the comment?
 }

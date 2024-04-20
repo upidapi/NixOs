@@ -1,5 +1,13 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   programs.nixvim = {helpers, ...}: {
+    extraPackages = with pkgs; [
+      lldb
+    ];
+
     plugins.dap = {
       enable = true;
       extensions = {

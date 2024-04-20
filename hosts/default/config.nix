@@ -34,7 +34,7 @@ in {
   # for backward compat
   # environment.shellAliases = {sudo = "sudo-rs";};
   security = {
-    # sudo = disable;
+    sudo = disable;
     sudo-rs = {
       enable = true;
       /*

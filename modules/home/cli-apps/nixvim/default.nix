@@ -17,7 +17,7 @@ in {
     ./colorscheme.nix
     ./dap.nix
     ./fmt.nix
-    ./keymaps.nix
+    ./keymaps
     ./lsp.nix
     ./todo-comments.nix
   ];

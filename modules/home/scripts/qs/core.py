@@ -487,6 +487,9 @@ def main():
 
     print(args)
 
+    # make sure that we're in the right place
+    os.chdir(NIXOS_PATH)
+
     if args["sub_command"]:
         handle_sub_command(args)
         return
@@ -498,9 +501,6 @@ def main():
     if args["append"]:
         new_branch = args["append"][0][0]
         validate_new_branch(new_branch)
-
-    # make sure that we're in the right place
-    os.chdir(NIXOS_PATH)
 
     # nixos ignores files that are not added
     run_cmd("git add --all")

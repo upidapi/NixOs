@@ -10,16 +10,18 @@
               at = builtins.elemAt bind-data;
               bind = at 0;
               cmd = at 1;
+
+              code = ":wa<CR>:belowright split | resize 20 | term";
             in [
               {
                 event = ["FileType"];
                 pattern = [file-data.file-type];
-                command = "imap <buffer> ${bind} <esc>:wa<CR>:term ${cmd}<CR>";
+                command = "imap <buffer> ${bind} <esc>${code} ${cmd}<CR>";
               }
               {
                 event = ["FileType"];
                 pattern = [file-data.file-type];
-                command = "map <buffer> ${bind} :wa<CR>:term ${cmd}<CR>";
+                command = "map <buffer> ${bind} ${code} ${cmd}<CR>";
               }
             ])
             file-data.commands

@@ -5,6 +5,134 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkIf mkOption types;
+  inherit (my_lib.opt) mkEnableOpt;
+  cfg = config.modules.home.apps.discord;
+in {
+  options.modules.home.apps.discord =
+    mkEnableOpt "Whether or not to enable discord."
+    // {
+      package = mkOption {
+        type = types.package;
+        default = pkgs.vesktop;
+      };
+
+      finalPackage = mkOption {
+        type = types.package;
+        readOnly = true;
+        default = cfg.package.overrideAttrs {
+          postFixup = ''
+            wrapProgram $out/bin/${lib.getName cfg.package} \
+              --add-flags "--enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland"
+          '';
+        };
+      };
+    };
+
+  config = mkIf cfg.enable {
+    home.packages = [
+      cfg.finalPackage
+    ];
+
+    # tested (diddn't work)
+
+    # disabeling hardware acseleartion
+    # --no-gpu
+    # --enable-features=UseOzonePlatform --ozone-platform=wayland
+
+    /*
+    home.file."${config.xdg.configHome}/Vencord/settings/settings.json" = {
+      force = true;
+      text = builtins.readFile ./vencord-config.json;
+    };
+    */
+  };
+}
+/*
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.customPrograms.discord;
+  inherit (lib) mkEnableOption mkOption mkIf types;
+in {
+  options.customPrograms.discord = {
+    enable = mkEnableOption "";
+
+    package = mkOption {
+      type = types.package;
+      default = pkgs.vesktop;
+    };
+
+    finalPackage = mkOption {
+      type = types.package;
+      readOnly = true;
+      default = cfg.package.overrideAttrs {
+        postFixup = ''
+          wrapProgram $out/bin/${lib.getName cfg.package} \
+            --add-flags "--enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland"
+        '';
+      };
+    };
+  };
+
+  config = mkIf cfg.enable {
+    xdg.configFile = {
+      "vesktop/settings/settings.json".text = builtins.toJSON {
+        autoUpdate = false;
+        autoUpdateNotification = true;
+        disableMinSize = false;
+        enableReactDevtools = false;
+        enabledThemes = [];
+        frameless = false;
+        macosTranslucency = false;
+        notifications = {
+          logLimit = 50;
+          position = "bottom-right";
+          timeout = 5000;
+          useNative = "not-focused";
+        };
+        notifyAboutUpdates = true;
+
+        plugins = {
+
+        };
+        themeLinks = [
+          "https://raw.githubusercontent.com/orblazer/discord-nordic/master/nordic.vencord.css"
+        ];
+        transparent = false;
+        useQuickCss = false;
+        winCtrlQ = false;
+        winNativeTitleBar = false;
+      };
+
+      "vesktop/settings.json".text = builtins.toJSON {
+        arRPC = "on";
+        discordBranch = "stable";
+        hardwareAcceleration = false;
+        minimizeToTray = "on";
+        splashBackground = "rgb(59, 66, 82)";
+        splashColor = "rgb(216, 222, 233)";
+        splashTheming = true;
+        tray = true;
+        trayBadge = true;
+      };
+    };
+
+    home.packages = [cfg.finalPackage];
+  };
+}
+*/
+/*
+{
+  config,
+  lib,
+  my_lib,
+  pkgs,
+  ...
+}: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.discord;
@@ -26,12 +154,13 @@ in {
     # --no-gpu
     # --enable-features=UseOzonePlatform --ozone-platform=wayland
 
-    # file."${config.xdg.configHome}/Vencord/settings/settings.json" = {
-    #   force = true;
-    #   text = builtins.readFile ./vencord-config.json;
-    # };
+    file."${config.xdg.configHome}/Vencord/settings/settings.json" = {
+      force = true;
+      text = builtins.readFile ./vencord-config.json;
+    };
   };
 }
+*/
 # you need to use --disable-gpu for discord to work
 /*
    {

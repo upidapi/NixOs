@@ -36,18 +36,25 @@ in {
       cfg.finalPackage
     ];
 
-    # tested (diddn't work)
+    xdg.configFile = {
+      "vesktop/settings/settings.json".text = (
+        builtins.readFile ./vencord-config.json
+      );
 
-    # disabeling hardware acseleartion
-    # --no-gpu
-    # --enable-features=UseOzonePlatform --ozone-platform=wayland
-
-    /*
-    home.file."${config.xdg.configHome}/Vencord/settings/settings.json" = {
-      force = true;
-      text = builtins.readFile ./vencord-config.json;
+      "vesktop/settings.json".text = builtins.toJSON {
+        arRPC = "on";
+        discordBranch = "stable";
+        hardwareAcceleration = false;
+        minimizeToTray = "on";
+        splashColor = "rgb(219, 222, 225)";
+        splashBackground = "rgb(49, 51, 56)";
+        # splashBackground = "rgb(59, 66, 82)";
+        # splashColor = "rgb(216, 222, 233)";
+        splashTheming = true;
+        tray = true;
+        trayBadge = true;
+      };
     };
-    */
   };
 }
 /*

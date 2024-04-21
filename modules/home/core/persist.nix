@@ -38,6 +38,9 @@ in {
         # save discord login
         ".config/discordcanary/Local Storage"
 
+        # save vesktop login
+        ".config/vesktop/sessionData/Local Storage"
+
         # save zsh command history
         ".zsh/history"
 

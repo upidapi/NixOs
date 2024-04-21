@@ -92,4 +92,3 @@ I've mainly taken inspiration and "borrowed" code from
 * automated deployments? hydra?
 * add licence
 * nixd (language server)
-* multiple users?

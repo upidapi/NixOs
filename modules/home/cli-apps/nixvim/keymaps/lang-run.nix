@@ -11,7 +11,9 @@
               bind = at 0;
               cmd = at 1;
 
-              code = ":wa<CR>:belowright split | resize 20 | term";
+              # code = ":wa<CR>:belowright split | resize 20 | term";
+              # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
+              code = ":wa<CR>:belowright split \| resize 20 \| term";
             in [
               {
                 event = ["FileType"];

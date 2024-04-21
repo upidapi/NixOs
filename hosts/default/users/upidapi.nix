@@ -15,6 +15,10 @@ in {
     python3
     htop
     ripgrep
+
+    # stats bout code, logical lines, comments, etc
+    scc
+
     # maybe btop
   ];
 

@@ -203,7 +203,7 @@ class Parser:
 
             if capturing:
                 if not arg_is_data:
-                    tot_args = opts[arg_name]
+                    tot_args = opts[arg_name]["args"]
                     supplied_args = tot_args - capturing
 
                     raise TypeError(

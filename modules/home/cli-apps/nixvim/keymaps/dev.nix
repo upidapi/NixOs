@@ -10,9 +10,9 @@
       }
       {
         # mode = ["n" "i"];
-        # options.silent = true;
+        options.silent = true;
         key = "<F2>";
-        action = ":wa";
+        action = ":wa<CR>";
       }
       {
         # mode = ["n" "i"];

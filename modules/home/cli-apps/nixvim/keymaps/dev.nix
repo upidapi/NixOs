@@ -8,14 +8,14 @@ let
         mode = "n";
         options.silent = true;
         key = key;
-        action = action;
+        action = "${action}<CR>";
       }
       // override)
     ({
         mode = "i";
         options.silent = true;
         key = key;
-        action = "<esc><cmd>${action}<CR>i";
+        action = "<esc><cmd>${action}<CR>a";
       }
       // override)
   ];
@@ -41,23 +41,10 @@ let
 in {
   programs.nixvim = {
     keymaps =
-      [
-        # formatt file
-        {
-          mode = "i";
-          key = "<F1>";
-          action = "<esc><cmd>wa<CR>a";
-        }
-        {
-          mode = "i";
-          options.silent = true;
-          key = "<F2>";
-          action = "<esc><cmd>wa<CR>a";
-        }
-      ]
+      []
       ++ mkMultiCmds [
-        # ["<F1>" "xa"]
-        # ["<F2>" "wa"]
+        ["<F1>" "xa"]
+        ["<F2>" "wa"]
         # ["<F3>" ":lua require('conform').format()"]
       ];
   };

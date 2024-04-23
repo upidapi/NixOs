@@ -6,11 +6,11 @@
         # mode = ["n" "i"];
         options.silent = true;
         key = "<F1>";
-        action = ":xa";
+        action = ":xa<CR>";
       }
       {
         # mode = ["n" "i"];
-        options.silent = true;
+        # options.silent = true;
         key = "<F2>";
         action = ":wa";
       }

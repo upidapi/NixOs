@@ -43,22 +43,21 @@ in {
     keymaps =
       [
         # formatt file
-
         {
           mode = "i";
-          key = "<F2>";
-          action = "<esc><cmd>wa<CR>i";
+          key = "<F1>";
+          action = "<esc><cmd>wa<CR>a";
         }
         {
           mode = "i";
           options.silent = true;
           key = "<F2>";
-          action = "<esc><cmd>wa<CR>i";
+          action = "<esc><cmd>wa<CR>a";
         }
       ]
       ++ mkMultiCmds [
-        ["<F1>" "xa"]
-        ["<F2>" "wa"]
+        # ["<F1>" "xa"]
+        # ["<F2>" "wa"]
         # ["<F3>" ":lua require('conform').format()"]
       ];
   };

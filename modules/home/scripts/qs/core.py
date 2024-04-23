@@ -23,6 +23,7 @@ qs
     adds the --show-trace to nixos-rebuild
 
 
+
 Sub commands:
   e | edit
     cd into nixos config, open editor
@@ -32,8 +33,7 @@ Sub commands:
     
   # merge <branch name>
 
-
-# qe := qs e
+ qe := qs e
 # qa <msg> := qs --message <msg> --append
 qd := qs --debug --trace
 """

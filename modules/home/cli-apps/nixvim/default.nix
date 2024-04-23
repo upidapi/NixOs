@@ -75,6 +75,10 @@ in {
     globals.mapleader = " ";
 
     plugins = {
+      toggleterm = {
+        enable = true;
+      };
+
       lualine = enable;
       lightline = enable;
 

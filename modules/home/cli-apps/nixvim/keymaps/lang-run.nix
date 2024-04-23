@@ -13,17 +13,19 @@
 
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
+
               code = "<cmd>wa<CR><cmd>belowright split \| resize 20 \| term";
+              command = ''${code} echo \"${cmd}\" ;echo ;${cmd}'';
             in [
               {
                 event = ["FileType"];
                 pattern = [file-data.file-type];
-                command = "imap <buffer> ${bind} <esc>${code} ${cmd}<CR>a";
+                command = "imap <buffer> ${bind} <esc>${command}<CR>a";
               }
               {
                 event = ["FileType"];
                 pattern = [file-data.file-type];
-                command = "map <buffer> ${bind} ${code} ${cmd}<CR>";
+                command = "map <buffer> ${bind} ${command}<CR>";
               }
             ])
             file-data.commands

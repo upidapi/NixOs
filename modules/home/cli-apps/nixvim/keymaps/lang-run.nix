@@ -14,12 +14,13 @@
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
 
-              setup_cmd = ''
-                PS1=$"\\n>>> ";
-                clear;
-                echo -e "${usr_cmd}\\n";
-                ${usr_cmd}
-              '';
+              setup_cmd =
+                ''PS1=$"\n>>> ";''
+                + ''clear;''
+                + ''echo -e "${usr_cmd}\\n";''
+                + ''${usr_cmd};''
+                + ''echo -e "\\nFinished with code: $?\\n"'';
+              # + ''echo $?'';
 
               term_cmd = ''1TermExec cmd='${setup_cmd}' '';
 
@@ -49,7 +50,6 @@ in {
   # f10: run, testing, dont resolve deps
   # f11: run, testing
   # f12: create bin, testing
-
   programs.nixvim.autoCmd = toAutoCmds [
     {
       file-type = "python";

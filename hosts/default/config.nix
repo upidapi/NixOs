@@ -80,6 +80,8 @@ in {
   modules.nixos = {
     host-name = "upidapi-nix-pc";
 
+    home-tunnel = enable;
+
     nix = {
       cfg-path = "/persist/nixos";
 

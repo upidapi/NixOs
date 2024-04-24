@@ -22,7 +22,7 @@ module does the same thing on it's own
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.nix.home-tunnel;
+  cfg = config.modules.nixos.home-tunnel;
   enabled = (
     cfg.enable
     && (builtins.hasAttr config "home-manager")
@@ -42,10 +42,9 @@ module does the same thing on it's own
 
   users = builtins.attrNames config.home-manager.users;
 in {
-  options.modules.nixos.nix.home-tunnel =
+  options.modules.nixos.home-tunnel =
     mkEnableOpt
     ''enables the home-manager -> nixos tunnel'';
-
   config = mkIf enabled (
     {
     }
@@ -57,7 +56,7 @@ in {
           builtins.filter
           (
             user: let
-              zsh_usr_cfg = builtins.trace user.module.home.cli-apps.zsh [user zsh_usr_cfg];
+              zsh_usr_cfg = builtins.trace user.modules.home.cli-apps.zsh [users user zsh_usr_cfg];
             in
               zsh_usr_cfg.enabled && zsh_usr_cfg.setShell
           )
@@ -70,9 +69,9 @@ in {
         );
       in
         mkIf (builtins.length zsh_users != 0) {
-          users.users = builtins.trace zsh_users_cfg zsh_users_cfg;
-          programs.zsh.enable = true;
-          environment.pathsToLink = ["/share/zsh"];
+          # users.users = builtins.trace zsh_users_cfg zsh_users_cfg;
+          # programs.zsh.enable = true;
+          # environment.pathsToLink = ["/share/zsh"];
         }
     )
   );

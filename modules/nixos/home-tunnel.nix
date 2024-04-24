@@ -25,7 +25,7 @@ module does the same thing on it's own
   cfg = config.modules.nixos.home-tunnel;
   enabled = (
     cfg.enable
-    && (builtins.hasAttr config "home-manager")
+    && (builtins.hasAttr "home-manager" config)
   );
   # takes a list of attrs and uses func to derive
   # the value of each attr
@@ -45,18 +45,20 @@ in {
   options.modules.nixos.home-tunnel =
     mkEnableOpt
     ''enables the home-manager -> nixos tunnel'';
+
   config = mkIf enabled (
     {
     }
-    # sets and enables zsh for the users that has
-    # the home manager module enabled
-    // (
+    /*
+       // (
+      # sets and enables zsh for the users that has
+      # the home manager module enabled
       let
         zsh_users = (
           builtins.filter
           (
             user: let
-              zsh_usr_cfg = builtins.trace user.modules.home.cli-apps.zsh [users user zsh_usr_cfg];
+              zsh_usr_cfg = user.modules.home.cli-apps.zsh;
             in
               zsh_usr_cfg.enabled && zsh_usr_cfg.setShell
           )
@@ -69,10 +71,11 @@ in {
         );
       in
         mkIf (builtins.length zsh_users != 0) {
-          # users.users = builtins.trace zsh_users_cfg zsh_users_cfg;
-          # programs.zsh.enable = true;
-          # environment.pathsToLink = ["/share/zsh"];
+          users.users = builtins.trace zsh_users_cfg zsh_users_cfg;
+          programs.zsh.enable = true;
+          environment.pathsToLink = ["/share/zsh"];
         }
     )
+    */
   );
 }

@@ -14,8 +14,8 @@
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
 
-              code = "<cmd>wa<CR><cmd>belowright split \| resize 20 \| term";
-              command = ''${code} echo \"${cmd}\" ;echo ;${cmd}'';
+              code = "<cmd>wa<CR><cmd>belowright split \\| resize 20 \\| term";
+              command = ''${code} echo "${cmd}" ;echo ;${cmd}'';
             in [
               {
                 event = ["FileType"];
@@ -37,12 +37,10 @@
 in {
   # https://github.com/ErrorNoInternet/configuration.nix/blob/765d10eb17d733ffb0e596c201c030177135122e/home/programs/terminal/neovim/keymaps/development.nix#L115
 
-  /*
-  f9: run, release
-  f10: run, testing, dont resolve deps
-  f11: run, testing
-  f12: create bin, testing
-  */
+  # f9: run, release
+  # f10: run, testing, dont resolve deps
+  # f11: run, testing
+  # f12: create bin, testing
 
   programs.nixvim.autoCmd = toAutoCmds [
     {

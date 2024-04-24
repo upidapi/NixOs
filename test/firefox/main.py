@@ -28,3 +28,11 @@ print("hello")
 # :map <buffer> <F9> <cmd>1TermExec cmd='PS1=$"\n>>> ";clear;echo -e "python3 %\\n";python3 %' <CR>
 
 # :map <buffer> <F9> <cmd>1TermExec cmd='PS1=$"\n>>> ";clear;echo -e "python3 %\\n";python3 %; echo -e "\\nFinished with code: $?\\n"' <CR>
+
+
+# works to open
+# 1TermExec cmd='PS1="$(printf "\\n>>>")"'
+
+
+# imap <buffer> <F9> <esc><cmd>wa<CR><cmd>1TermExec cmd='PS1="$(printf "\n>>>")"' ;1TermExec cmd='clear;echo -e "pypy3 %\\n";pypy3 %;echo -e "\\nFinished with code: $?\\n"' <CR>a
+# 1TermExec cmd='PS1="$(printf "\n>>>")"';

@@ -14,15 +14,17 @@
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
 
-              setup_cmd =
-                ''PS1=$"\n>>> ";''
-                + ''clear;''
-                + ''echo -e "${usr_cmd}\\n";''
-                + ''${usr_cmd};''
-                + ''echo -e "\\nFinished with code: $?\\n"'';
-              # + ''echo $?'';
+              # major fuckery to avoid using ' in the command
+              # since TermExec seems not to be able to handle that
+              set_promt = ''1TermExec cmd='PS1="$(printf "\\n>>>")"' '';
 
-              term_cmd = ''1TermExec cmd='${setup_cmd}' '';
+              setup_cmd =
+                ''clear;''
+                + ''echo -e ">>> ${usr_cmd}\\n";''
+                + ''${usr_cmd};''
+                + ''echo -e "\\nFinished with code: $?"'';
+
+              term_cmd = ''${set_promt};1TermExec cmd='${setup_cmd}' '';
 
               cmd = "<cmd>wa<CR><cmd>${term_cmd}<CR>";
             in [

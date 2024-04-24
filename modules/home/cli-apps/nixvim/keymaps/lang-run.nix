@@ -14,14 +14,33 @@
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
 
-              setup_cmd =
-                # major fuckery to avoid using ' in the command
+              setup_cmd = ''
+                # some fuckery to avoid using ' in the command
                 # since TermExec seems not to be able to handle that
-                ''PS1="$(printf "\\n>>> ")";''
-                + ''clear;''
-                + ''echo -e ">>> ${usr_cmd}\\n";''
-                + ''${usr_cmd};''
-                + ''echo -e "\\nFinished with code: $?"'';
+                PS1="$(printf "\\n>>> ")"
+
+                clear
+
+                # show the run command
+                echo -e ">>> ${usr_cmd}\\n"
+
+
+
+                # TODO: color stderror
+                #   https://serverfault.com/questions/59262/bash-print-stderr-in-red-color
+                #   color()(set -o pipefail;"$@" 2> >(sed $'s,.*,\e[31m&\e[m,'>&2))
+                #   export -f color
+
+
+                # TODO: make it so that you can click on an error
+                #   to jump to it
+                #   https://www.reddit.com/r/neovim/comments/gzfb8x/any_idea_on_how_to_make_gf_working_in_the_neovim/
+
+
+                color ${usr_cmd}
+
+                echo -e "\\nFinished with exit code: $?"
+              '';
 
               term_cmd = ''1TermExec cmd='${setup_cmd}' '';
 

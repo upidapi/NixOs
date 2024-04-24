@@ -14,6 +14,7 @@ in {
     ./nix
     ./other
     ./system
+    ./home-tunnel.nix
   ];
 
   options.modules.nixos.host-name =

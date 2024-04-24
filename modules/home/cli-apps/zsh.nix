@@ -4,13 +4,16 @@
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (my_lib.opt) mkEnableOpt enable mkBoolOpt;
   inherit (lib) mkIf;
   cfg = config.modules.home.cli-apps.zsh;
 in {
   options.modules.home.cli-apps.zsh =
     mkEnableOpt
-    "enables the zsh shell";
+    "enables the zsh shell"
+    // {
+      set-shell = mkBoolOpt false "sets the users shell to zsh";
+    };
 
   config.programs = mkIf cfg.enable {
     zsh = {

@@ -54,10 +54,12 @@ fi
 
 # clone my nixos git repo
 git_pat="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"
-git clone "https://$git_pat@github.com/upidapi/NixOs.git" /tmp/nixos
+git_url="https://$git_pat@github.com/upidapi/NixOs.git" 
+git clone $git_url /tmp/nixos
 
 # formatt with disko
-nix --experimental-features "nix-command flakes" \
+nix \
+  --experimental-features "nix-command flakes" \
   run github:nix-community/disko -- \
   --mode disko "/tmp/nixos/hosts/$profile/disko.nix"
 
@@ -76,4 +78,6 @@ mkdir /mnt/persist/system
 # sudo nixos-generate-config --no-filesystems --root /mnt
 
 mkdir /mnt/persist/system
-nixos-install --root /mnt --flake "/mnt/persist/nixos#$profile"
+nixos-install \
+  --root /mnt \
+  --flake "/mnt/persist/nixos#$profile"

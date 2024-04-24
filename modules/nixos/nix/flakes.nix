@@ -2,6 +2,7 @@
   config,
   my_lib,
   lib,
+  pkgs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt mkOpt;
@@ -17,6 +18,10 @@ in {
     };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.git # for fetching flakes from git repos
+    ];
+
     # for flakes
     nix.settings.experimental-features = [
       "nix-command"

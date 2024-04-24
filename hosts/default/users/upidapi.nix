@@ -16,7 +16,7 @@ in {
     htop
     ripgrep
 
-    # stats bout code, logical lines, comments, etc
+    # stats about code, logical lines, comments, etc
     scc
 
     # maybe btop
@@ -41,7 +41,10 @@ in {
     cli-apps = {
       nixvim = enable;
       # nushell = enable;
-      zsh = enable;
+      zsh = {
+        enable = true;
+        set-shell = true;
+      };
       wine = enable;
       git = enable;
     };

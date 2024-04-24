@@ -62,8 +62,6 @@ in {
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
 
-  programs.zsh.enable = true;
-  environment.pathsToLink = ["/share/zsh"];
   users.users.upidapi = {
     isNormalUser = true;
     description = "upidapi";
@@ -71,7 +69,6 @@ in {
     # make a cfg-editor group that makes it so that a user
     # can edit the config
     extraGroups = ["networkmanager" "wheel" "libvirtd"];
-    shell = pkgs.zsh;
     initialPassword = "1";
     # packages = with pkgs; [
     #   # firefox

@@ -9,23 +9,31 @@
             (bind-data: let
               at = builtins.elemAt bind-data;
               bind = at 0;
-              cmd = at 1;
+              usr_cmd = at 1;
 
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
 
-              code = "<cmd>wa<CR><cmd>belowright split \\| resize 20 \\| term";
-              command = ''${code} echo "${cmd}" ;echo ;${cmd}'';
+              setup_cmd = ''
+                PS1=$"\\n>>> ";
+                clear;
+                echo -e "${usr_cmd}\\n";
+                ${usr_cmd}
+              '';
+
+              term_cmd = ''1TermExec cmd='${setup_cmd}' '';
+
+              cmd = "<cmd>wa<CR><cmd>${term_cmd}<CR>";
             in [
               {
                 event = ["FileType"];
                 pattern = [file-data.file-type];
-                command = "imap <buffer> ${bind} <esc>${command}<CR>a";
+                command = "imap <buffer> ${bind} <esc>${cmd}a";
               }
               {
                 event = ["FileType"];
                 pattern = [file-data.file-type];
-                command = "map <buffer> ${bind} ${command}<CR>";
+                command = "map <buffer> ${bind} ${cmd}";
               }
             ])
             file-data.commands

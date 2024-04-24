@@ -70,7 +70,7 @@ in {
         );
       in
         mkIf (builtins.length zsh_users != 0) {
-          users.users = zsh_users_cfg;
+          users.users = builtins.trace zsh_users_cfg zsh_users_cfg;
           programs.zsh.enable = true;
           environment.pathsToLink = ["/share/zsh"];
         }

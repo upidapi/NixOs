@@ -57,7 +57,7 @@ in {
           builtins.filter
           (
             user: let
-              zsh_usr_cfg = user.module.home.cli-apps.zsh;
+              zsh_usr_cfg = builtins.trace user.module.home.cli-apps.zsh [user zsh_usr_cfg];
             in
               zsh_usr_cfg.enabled && zsh_usr_cfg.setShell
           )

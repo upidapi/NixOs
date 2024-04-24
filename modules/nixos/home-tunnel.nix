@@ -57,9 +57,9 @@ in {
           builtins.filter
           (
             user: let
-              zsh_usr_cfg = user.modules.home.cli-apps.zsh;
+              zsh_usr_cfg = config.home-manager.users."${user}".modules.home.cli-apps.zsh;
             in
-              zsh_usr_cfg.enabled && zsh_usr_cfg.setShell
+              zsh_usr_cfg.enable && zsh_usr_cfg.set-shell
           )
           users
         );
@@ -68,14 +68,12 @@ in {
           (user: {shell = pkgs.zsh;})
           zsh_users
         );
-      in {}
-      /*
-         mkIf (builtins.length zsh_users != 0) {
-        # users.users = builtins.trace zsh_users_cfg zsh_users_cfg;
-        programs.zsh.enable = true;
-        # environment.pathsToLink = ["/share/zsh"];
-      }
-      */
+      in
+        mkIf (builtins.length zsh_users != 0) {
+          users.users = zsh_users_cfg;
+          programs.zsh.enable = true;
+          environment.pathsToLink = ["/share/zsh"];
+        }
     )
   );
 }

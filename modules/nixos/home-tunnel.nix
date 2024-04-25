@@ -111,55 +111,59 @@ in {
     ''enables the home-manager -> nixos tunnel'';
 
   config = mkIf enabled (
-    # fix wayland on nvidia
-    /*
-       (setIf (
-        builtins.throw (
-          anyUser (
-            _: data: data.modules.home.desktop.wayland.enable
+    lib.mkMerge [
+      # fix wayland on nvidia
+      /*
+         (
+        mkIf (
+          builtins.throw (
+            anyUser (
+              _: data: data.modules.home.desktop.wayland.enable
+            )
+            && config.modules.nixos.hardware.gpu.nvidia.enable
           )
-          && config.modules.nixos.hardware.gpu.nvidia.enable
-        )
-      ) {
-        environment.variables = {
-          WLR_NO_HARDWARE_CURSORS = "1";
-          LIBVA_DRIVER_NAME = "nvidia";
-          XDG_SESSION_TYPE = "wayland";
-          GBM_BACKEND = "nvidia-drm";
-          # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-        };
-      })
-    //
-    */
-    (
+        ) {
+          environment.variables = {
+            WLR_NO_HARDWARE_CURSORS = "1";
+            LIBVA_DRIVER_NAME = "nvidia";
+            XDG_SESSION_TYPE = "wayland";
+            GBM_BACKEND = "nvidia-drm";
+            # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+          };
+        }
+      )
+      */
+
       # sets and enables zsh for the users that has
       # the home manager module enabled
-      let
-        zsh_users = mapFullUsers (
-          name: data: let
-            zsh_usr_cfg = data.modules.home.cli-apps.zsh;
-          in [
-            (
-              if (zsh_usr_cfg.enable)
-              then name
-              else null
-            )
-            (
-              if ! zsh_usr_cfg.set-shell
-              then {}
-              else {
-                shell = pkgs.zsh;
-              }
-            )
-          ]
-        );
-      in
-        mkIf (! isEmpty zsh_users)
-        {
-          users.users = zsh_users;
-          programs.zsh.enable = true;
-          environment.pathsToLink = ["/share/zsh"];
-        }
-    )
+      (
+        let
+          zsh_users = mapFullUsers (
+            name: data: let
+              zsh_usr_cfg = data.modules.home.cli-apps.zsh;
+            in [
+              (
+                if (zsh_usr_cfg.enable)
+                then name
+                else null
+              )
+              (
+                if ! zsh_usr_cfg.set-shell
+                then {}
+                else {
+                  shell = pkgs.zsh;
+                }
+              )
+            ]
+          );
+        in
+          mkIf (! isEmpty zsh_users)
+          {
+            users.users = zsh_users;
+            programs.zsh.enable = true;
+            environment.pathsToLink = ["/share/zsh"];
+          }
+      )
+    ]
   );
 }

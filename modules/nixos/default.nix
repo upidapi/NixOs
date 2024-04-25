@@ -12,6 +12,7 @@ in {
     ./desktop
     ./hardware
     ./system
+    ./security
     ./home-tunnel.nix
   ];
 

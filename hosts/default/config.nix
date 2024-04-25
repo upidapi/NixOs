@@ -9,7 +9,7 @@
   my_lib,
   ...
 }: let
-  inherit (my_lib.opt) enable disable;
+  inherit (my_lib.opt) enable;
 in {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -27,24 +27,6 @@ in {
           user = "upidapi";
         };
       };
-    };
-  };
-
-  # doas
-  # for backward compat
-  # environment.shellAliases = {sudo = "sudo-rs";};
-  security = {
-    sudo = disable;
-    sudo-rs = {
-      enable = true;
-      /*
-         extraRules = [
-        {
-          groups = ["wheel"];
-          keepEnv = true;
-        }
-      ];
-      */
     };
   };
 
@@ -83,6 +65,10 @@ in {
     apps = {
       # nushell = enable;
       steam = enable;
+    };
+
+    security = {
+      sudo-rs = enable;
     };
 
     system = {

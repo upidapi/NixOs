@@ -1,0 +1,5 @@
+{
+  imports = [
+    ./sudo-rs.nix
+  ];
+}

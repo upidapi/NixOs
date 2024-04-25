@@ -113,15 +113,12 @@ in {
   config = mkIf enabled (
     lib.mkMerge [
       # fix wayland on nvidia
-      /*
-         (
+      (
         mkIf (
-          builtins.throw (
-            anyUser (
-              _: data: data.modules.home.desktop.wayland.enable
-            )
-            && config.modules.nixos.hardware.gpu.nvidia.enable
+          anyUser (
+            _: data: data.modules.home.desktop.wayland.enable
           )
+          && config.modules.nixos.hardware.gpu.nvidia.enable
         ) {
           environment.variables = {
             WLR_NO_HARDWARE_CURSORS = "1";
@@ -132,7 +129,6 @@ in {
           };
         }
       )
-      */
 
       # sets and enables zsh for the users that has
       # the home manager module enabled

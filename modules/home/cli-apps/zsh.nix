@@ -29,8 +29,11 @@ in {
         c = "clear";
       };
 
-      history.size = 10000;
-      history.path = "${config.home.homeDirectory}/.zsh/history";
+      # dotDir = "./config/zsh";
+      history = {
+        size = 10000;
+        path = "$HOME/.zsh/history";
+      };
     };
 
     starship = {

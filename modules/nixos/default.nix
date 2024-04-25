@@ -11,8 +11,6 @@ in {
     ./cli-apps
     ./desktop
     ./hardware
-    ./nix
-    ./other
     ./system
     ./home-tunnel.nix
   ];

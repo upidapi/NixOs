@@ -7,7 +7,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.other.sops;
+  cfg = config.modules.nixos.system.other.sops;
 in {
   # might whant to remove/disable the import when
   # thiss modules is disabled
@@ -15,7 +15,7 @@ in {
     inputs.sops-nix.nixosModules.sops
   ];
 
-  options.modules.nixos.other.sops =
+  options.modules.nixos.system.other.sops =
     mkEnableOpt "enables sops";
 
   config =

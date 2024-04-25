@@ -13,7 +13,7 @@ in {
   ];
 
   # used by other modules
-  options.modules.nixos.nix = {
+  options.modules.nixos.system.nix = {
     cfg-path =
       mkOpt types.str null
       "that absolute path of the nixos config";

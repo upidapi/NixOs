@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt mkOpt;
   inherit (lib) mkIf types;
-  cfg = config.modules.nixos.system.fonts;
+  cfg = config.modules.nixos.system.core.fonts;
 in {
-  options.modules.nixos.system.fonts =
+  options.modules.nixos.system.core.fonts =
     mkEnableOpt "adds fonts to the system"
     // {
       fonts =

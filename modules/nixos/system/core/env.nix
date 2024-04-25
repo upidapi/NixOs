@@ -6,9 +6,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.system.boot;
+  cfg = config.modules.nixos.system.core.env;
 in {
-  options.modules.nixos.system.env =
+  options.modules.nixos.system.core.env =
     mkEnableOpt "Adds a few env vars";
 
   config = mkIf cfg.enable {

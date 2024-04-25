@@ -111,7 +111,7 @@
               inputs.hyprland.nixosModules.default
 
               {
-                modules.nixos.nix.flakes.profile = name;
+                modules.nixos.system.nix.flakes.profile = name;
                 environment.sessionVariables = {
                   FLAKE_PROFILE = name;
                 };

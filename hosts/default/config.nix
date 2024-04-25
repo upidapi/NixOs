@@ -74,19 +74,6 @@ in {
 
     home-tunnel = enable;
 
-    nix = {
-      cfg-path = "/persist/nixos";
-
-      cachix = enable;
-      flakes = enable;
-      gc = enable;
-    };
-
-    other = {
-      sops = enable;
-      impermanence = enable;
-    };
-
     cli-apps = {
       less = enable;
       # zsh = enable;
@@ -99,10 +86,25 @@ in {
     };
 
     system = {
-      fonts = enable;
-      boot = enable;
-      env = enable;
-      locale = enable;
+      core = {
+        fonts = enable;
+        boot = enable;
+        env = enable;
+        locale = enable;
+      };
+
+      nix = {
+        cfg-path = "/persist/nixos";
+
+        cachix = enable;
+        flakes = enable;
+        gc = enable;
+      };
+
+      other = {
+        sops = enable;
+        impermanence = enable;
+      };
     };
 
     desktop.sddm = enable;

@@ -6,9 +6,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.nix.gc;
+  cfg = config.modules.nixos.system.nix.gc;
 in {
-  options.modules.nixos.nix.gc =
+  options.modules.nixos.system.nix.gc =
     mkEnableOpt
     "enables nixos generation garbage colection";
 

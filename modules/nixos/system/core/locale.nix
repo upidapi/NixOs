@@ -6,9 +6,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.system.locale;
+  cfg = config.modules.nixos.system.core.locale;
 in {
-  options.modules.nixos.system.locale = mkEnableOpt (
+  options.modules.nixos.system.core.locale = mkEnableOpt (
     "sets variuos locale stuff like"
     + "lang, kb layout, time zone, etc"
   );

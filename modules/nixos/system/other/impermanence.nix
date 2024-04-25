@@ -7,13 +7,13 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.other.impermanence;
+  cfg = config.modules.nixos.system.other.impermanence;
 in {
   imports = [
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  options.modules.nixos.other.impermanence =
+  options.modules.nixos.system.other.impermanence =
     mkEnableOpt "enables impermanence";
 
   config = mkIf cfg.enable {

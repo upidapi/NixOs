@@ -61,6 +61,14 @@ module does the same thing on it's own
       users_data
     );
 
+  /*
+  filerUsers = func:
+    builtins.attrNames (
+      lib.filterAttrs
+      func
+      {a=true; b=false; c=true;}
+    )
+  */
   anyUser = func: (
     (
       builtins.length
@@ -98,20 +106,21 @@ in {
     ''enables the home-manager -> nixos tunnel'';
   config = mkIf enabled (
     # fix wayland on nvidia
-    (mkIf (
+    (mkIf (builtins.trace (
         anyUser (
           _: data: data.modules.home.desktop.wayland.enable
         )
         && config.modules.nixos.hardware.gpu.nvidia.enable
-      ) {
-        environment.variables = {
-          WLR_NO_HARDWARE_CURSORS = "1";
-          LIBVA_DRIVER_NAME = "nvidia";
-          XDG_SESSION_TYPE = "wayland";
-          GBM_BACKEND = "nvidia-drm";
-          # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-        };
-      })
+      )
+      true) {
+      environment.variables = {
+        WLR_NO_HARDWARE_CURSORS = "1";
+        LIBVA_DRIVER_NAME = "nvidia";
+        XDG_SESSION_TYPE = "wayland";
+        GBM_BACKEND = "nvidia-drm";
+        # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      };
+    })
     // (
       # sets and enables zsh for the users that has
       # the home manager module enabled

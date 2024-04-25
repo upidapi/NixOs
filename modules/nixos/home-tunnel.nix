@@ -154,7 +154,7 @@ in {
           ]
         );
       in
-        # setIf (! isEmpty zsh_users)
+        mkIf (! isEmpty zsh_users)
         {
           users.users = zsh_users;
           programs.zsh.enable = true;

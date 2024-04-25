@@ -77,6 +77,11 @@ module does the same thing on it's own
     != 0
   );
 
+  setIf = boolean: data:
+    if ! boolean
+    then {}
+    else data;
+
   # if it has the key null, then it's ignored
   # mapFullUsers (name: data: [key val])
   mapFullUsers = with builtins;
@@ -107,7 +112,8 @@ in {
 
   config = mkIf enabled (
     # fix wayland on nvidia
-    (mkIf (
+    /*
+       (setIf (
         builtins.throw (
           anyUser (
             _: data: data.modules.home.desktop.wayland.enable
@@ -123,7 +129,9 @@ in {
           # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
         };
       })
-    // (
+    //
+    */
+    (
       # sets and enables zsh for the users that has
       # the home manager module enabled
       let
@@ -146,7 +154,8 @@ in {
           ]
         );
       in
-        mkIf (! isEmpty zsh_users) {
+        # setIf (! isEmpty zsh_users)
+        {
           users.users = zsh_users;
           programs.zsh.enable = true;
           environment.pathsToLink = ["/share/zsh"];

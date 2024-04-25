@@ -104,23 +104,25 @@ in {
   options.modules.nixos.home-tunnel =
     mkEnableOpt
     ''enables the home-manager -> nixos tunnel'';
+
   config = mkIf enabled (
     # fix wayland on nvidia
-    (mkIf (builtins.trace (
-        anyUser (
-          _: data: data.modules.home.desktop.wayland.enable
+    (mkIf (
+        builtins.throw (
+          anyUser (
+            _: data: data.modules.home.desktop.wayland.enable
+          )
+          && config.modules.nixos.hardware.gpu.nvidia.enable
         )
-        && config.modules.nixos.hardware.gpu.nvidia.enable
-      )
-      true) {
-      environment.variables = {
-        WLR_NO_HARDWARE_CURSORS = "1";
-        LIBVA_DRIVER_NAME = "nvidia";
-        XDG_SESSION_TYPE = "wayland";
-        GBM_BACKEND = "nvidia-drm";
-        # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-      };
-    })
+      ) {
+        environment.variables = {
+          WLR_NO_HARDWARE_CURSORS = "1";
+          LIBVA_DRIVER_NAME = "nvidia";
+          XDG_SESSION_TYPE = "wayland";
+          GBM_BACKEND = "nvidia-drm";
+          # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+        };
+      })
     // (
       # sets and enables zsh for the users that has
       # the home manager module enabled

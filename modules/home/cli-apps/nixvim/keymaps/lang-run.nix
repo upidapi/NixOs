@@ -87,24 +87,17 @@
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
 
-              # some fuckery to avoid using ' in the command
-              # since TermExec seems not to be able to handle that
-              setup_cmd = ''
-                PS1="$(printf "\\n>>> ")"
-
-
-                clear
-
-
-                # show the run command
-                echo -e ">>> ${usr_cmd}\\n"
-
-                ${usr_cmd}
-
-                echo -e "\\nFinished with exit code: $?"
-              '';
+              setup_cmd =
+                # major fuckery to avoid using ' in the command
+                # since TermExec seems not to be able to handle that
+                ''PS1="$(printf "\\n>>> ")";''
+                + ''clear;''
+                + ''echo -e ">>> ${usr_cmd}\\n";''
+                + ''${usr_cmd};''
+                + ''echo -e "\\nFinished with code: $?"'';
 
               term_cmd = ''1TermExec cmd='${setup_cmd}' '';
+
               cmd = "<cmd>wa<CR><cmd>${term_cmd}<CR>";
             in [
               {

@@ -18,12 +18,21 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+# clone my nixos git repo
+git_pat="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"
+git_url="https://$git_pat@github.com/upidapi/NixOs.git" 
+git clone $git_url /tmp/nixos
+
 
 # make user select :a (vallid) profile
 raw_profile=$1
 
-config_dir=$(dirname /persist/nixos/install.sh)
-raw_hosts=$(find "$config_dir/hosts" -maxdepth 1 -mindepth 1 -type d)
+# config_dir=$(dirname /persist/nixos/install.sh)
+raw_hosts=$(find "/tmp/nixos/hosts" \
+    -maxdepth 1 \
+    -mindepth 1 \
+    -type d
+)
 
 hosts=()
 for dir in $raw_hosts; do
@@ -52,10 +61,6 @@ if [[ $profile == "" ]]; then
   done;
 fi
 
-# clone my nixos git repo
-git_pat="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"
-git_url="https://$git_pat@github.com/upidapi/NixOs.git" 
-git clone $git_url /tmp/nixos
 
 # formatt with disko
 nix \

@@ -51,7 +51,7 @@
                 require('toggleterm').exec(command, 1)
               '';
 
-              cmd = "<cmd>wa<CR><cmd>${lua_thingy}<CR>";
+              cmd = "<cmd>wa<CR><cmd>lua ${lua_thingy}<CR>";
             in [
               {
                 event = ["FileType"];

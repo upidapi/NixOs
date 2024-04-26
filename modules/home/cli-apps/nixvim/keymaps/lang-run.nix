@@ -86,9 +86,10 @@
 
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
+
+              # some fuckery to avoid using ' in the command
+              # since TermExec seems not to be able to handle that
               setup_cmd = ''
-                # some fuckery to avoid using ' in the command
-                # since TermExec seems not to be able to handle that
                 PS1="$(printf "\\n>>> ")"
 
 

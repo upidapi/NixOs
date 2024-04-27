@@ -19,9 +19,10 @@ if [ "$EUID" -ne 0 ]
 fi
 
 # clone my nixos git repo
-git_pat="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"
-git_url="https://$git_pat@github.com/upidapi/NixOs.git" 
-git clone $git_url /tmp/nixos
+# git_pat="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"
+# git_url="https://$git_pat@github.com/upidapi/NixOs.git" 
+# git clone $git_url /tmp/nixos
+
 
 : "
 # you need to change at least the disk name for disko

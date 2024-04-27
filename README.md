@@ -59,6 +59,7 @@ then run
     sudo nix-shell -p git --command "nix run --experimental-features 'nix-command flakes' https://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@github.com/upidapi/NixOs.git"
 
 
+    sudo nix-shell -p git --command "git clone https://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@github.com/upidapi/NixOs.git /tmp/nixos; sudo bash /tmp/nixos/install.sh"
 
 You will then be promoted for, first a machine configuration profile. I.e one 
 of the subdirectories in ./hosts.

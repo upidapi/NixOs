@@ -90,6 +90,8 @@ nixos-generate-config \
 
 # just a quite barebones config to start with, soly
 # used to bootstrap the real one
-cp ./bootstrap-config.nix /mnt/etc/nixos/configuration.nix
+mkdir /mnt/etc
+mkdir /mnt/etc/nixos/
+cp /mnt/persist/nixos/bootstrap-config.nix /mnt/etc/nixos/configuration.nix
 
 nixos-install --root /mnt

@@ -28,6 +28,8 @@ in {
         # "Documents"
         # "Videos"
 
+        "projects"
+
         # "VirtualBox VMs"
         ".gnupg"
         ".ssh"

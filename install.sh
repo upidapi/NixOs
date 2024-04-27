@@ -78,6 +78,9 @@ mkdir /mnt/persist/system
 
 
 
+mkdir /mnt/etc
+mkdir /mnt/etc/nixos/
+
 # now we have to create a conventional config to start,
 # since nixos-insall cant handle flakes
 
@@ -90,8 +93,7 @@ nixos-generate-config \
 
 # just a quite barebones config to start with, soly
 # used to bootstrap the real one
-mkdir /mnt/etc
-mkdir /mnt/etc/nixos/
+
 cp /mnt/persist/nixos/bootstrap-config.nix /mnt/etc/nixos/configuration.nix
 
 nixos-install --root /mnt

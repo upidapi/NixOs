@@ -23,6 +23,19 @@ git_pat="github_pat_11ARO3AXQ0WGQ30zJ8P3HP_IJpvHMUcVikMdhZuST0vq8ifg4b8vTjwG3Iuz
 git_url="https://$git_pat@github.com/upidapi/NixOs.git" 
 git clone $git_url /tmp/nixos
 
+: "
+# you need to change at least the disk name for disko
+# to get the name you can use 
+lsblk
+
+
+# you can generate the harware config with:
+nixos-generate-config \
+  --root /mnt \
+  --show-hardware-config \
+  --no-filesystems \
+> hosts/${profile}/hardware.nix
+"
 
 # make user select :a (vallid) profile
 raw_profile=$1

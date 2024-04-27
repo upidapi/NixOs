@@ -12,7 +12,18 @@ in {
   home.packages = with pkgs; [
     # used to formatt nix code
     inputs.alejandra.defaultPackage.${pkgs.system}
+
+    # coding
     python3
+
+    # you cant have both?
+    clang
+    # gcc
+
+    cargo
+    rustc
+
+    # other
     htop
     ripgrep
 

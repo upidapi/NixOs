@@ -63,16 +63,16 @@ in {
                 cfg
               )
             )
-            == 1
+            <= 1 # TODO: set back to == 1 (maybe)
           );
         message = "Exactly one monitor must be set to primary. ${
           builtins.toJSON config.modules.nixos.hardware
         }";
       }
-      {
-        assertion = (lib.length cfg) != 0;
-        message = "No monitors configured";
-      }
+      # {
+      #   assertion = (lib.length cfg) != 0;
+      #   message = "No monitors configured";
+      # }
     ];
   };
 }

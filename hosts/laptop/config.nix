@@ -96,42 +96,14 @@ in {
     desktop.sddm = enable;
 
     hardware = {
-      cpu.amd = enable;
-      gpu.nvidia = enable;
+      # cpu.amd = enable;
+      # gpu.nvidia = enable;
 
       bth = enable;
       sound = enable;
       network = enable;
       keyboard = enable;
       monitors = [
-        {
-          name = "DVI-D-1";
-          width = 1920;
-          height = 1080;
-          refreshRate = 60;
-          x = -1920;
-          y = 0;
-          primary = true;
-          workspace = 1;
-        }
-        {
-          name = "DP-1";
-          width = 1920;
-          height = 1080;
-          refreshRate = 60;
-          x = 0;
-          y = 0;
-          workspace = 2;
-        }
-        {
-          name = "HDMI-A-1";
-          width = 1920;
-          height = 1080;
-          refreshRate = 60;
-          x = 1920;
-          y = 0;
-          workspace = 3;
-        }
       ];
     };
   };

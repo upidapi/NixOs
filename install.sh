@@ -36,6 +36,8 @@ nixos-generate-config \
   --show-hardware-config \
   --no-filesystems \
 > hosts/${profile}/hardware.nix
+# this (the redirection, >) might require sudo
+# in that case you have to open a root shell (sudo -s)
 "
 
 # make user select :a (vallid) profile
@@ -84,7 +86,7 @@ nix \
 
 
 mkdir /mnt/persist
-mv /tmp/nixos /mnt/persist/nixos
+cp -r /tmp/nixos /mnt/persist/nixos
 
 # The persist modules can't perisist files in a 
 # folder that doesn't exist, and /persist/system is where 

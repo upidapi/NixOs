@@ -197,5 +197,9 @@ in {
       system = "x86_64-linux";
       name = "default";
     }
+    {
+      system = "x86_64-linux";
+      name = "laptop";
+    }
   ];
 }

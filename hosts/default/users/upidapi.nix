@@ -23,6 +23,16 @@ in {
     cargo
     rustc
 
+    # forensics
+    imhex # hex edior
+    audacity # audio foresics (and editor)
+    sqlmap # sql injection
+    # binary ninja
+    ghidra
+
+    # for formating a multiple iso usb
+    ventoy
+
     # other
     htop
     ripgrep

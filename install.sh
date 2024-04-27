@@ -1,16 +1,4 @@
-# installs nixos on one of my machines
-# each profile is specifically made for only one machine
-# basically a customised nixos-install for my configuration
-
-# control flow
-
-# select host: (leave blank for custom host)
-#   *show a tree view of the hosts*
-
-# enter secret key passphrase:
-#   *text is hidden*
-#   *will be used to generate the key that decrypts my secrets*
-
+# this script assumes that the repo is located at /tmp/nixos
 
 # make sure is root
 if [ "$EUID" -ne 0 ]
@@ -18,27 +6,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-# clone my nixos git repo
-# git_pat="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"
-# git_url="https://$git_pat@github.com/upidapi/NixOs.git" 
-# git clone $git_url /tmp/nixos
 
-
-: "
-# you need to change at least the disk name for disko
-# to get the name you can use 
-lsblk
-
-
-# you can generate the harware config with:
-nixos-generate-config \
-  --root /mnt \
-  --show-hardware-config \
-  --no-filesystems \
-> hosts/${profile}/hardware.nix
-# this (the redirection, >) might require sudo
-# in that case you have to open a root shell (sudo -s)
-"
 
 # make user select :a (vallid) profile
 raw_profile=$1
@@ -78,7 +46,8 @@ if [[ $profile == "" ]]; then
 fi
 
 
-# formatt with disko
+
+# formatt the file system with disko
 nix \
   --experimental-features "nix-command flakes" \
   run github:nix-community/disko -- \
@@ -86,8 +55,18 @@ nix \
 
 
 
+# move the config to the correct place, since disko would've 
+# erased it (along with everything else in /persist)
 mkdir /mnt/persist
 cp -r /tmp/nixos /mnt/persist/nixos
+
+
+
+# store the profile in a file to preserve it for the
+# part after the reboot
+echo "$profile" > /mnt/persist/nixos/profile-name.txt
+
+
 
 # The persist modules can't perisist files in a 
 # folder that doesn't exist, and /persist/system is where 
@@ -97,13 +76,20 @@ cp -r /tmp/nixos /mnt/persist/nixos
 # (this took me about 2 full days to figure out, :) )
 mkdir /mnt/persist/system
 
-nixos-install \
+
+
+# now we have to create a conventional config to start,
+# since nixos-insall cant handle flakes
+
+# geneate a tmp hardware cfg that includes the files system
+# since disko doesn't work whithout flakes
+nixos-generate-config \
   --root /mnt \
-  --flake "/mnt/persist/nixos#$profile"
+  --show-hardware-config \
+> "/mnt/etc/nixos/hardware.nix"
 
+# just a quite barebones config to start with, soly
+# used to bootstrap the real one
+cp ./bootstrap-config.nix /mnt/etc/nixos/configuration.nix
 
-
-# reboot to finish installing the bootstraper the 
-# next part of the script is located in a systemd 
-# service in bootstrap-config
-reboot
+nixos-install --root /mnt

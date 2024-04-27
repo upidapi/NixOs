@@ -54,11 +54,11 @@
   };
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -71,7 +71,6 @@
 
   users.users.root.initialPassword = "";
 
-  /*
   users.users.upidapi = {
     isNormalUser = true;
     description = "upidapi";
@@ -85,7 +84,6 @@
     #   kate
     # ];
   };
-  */
 
   nixpkgs.config.allowUnfree = true;
 
@@ -95,6 +93,7 @@
 
   system.stateVersion = "23.11"; # Did you read the comment?
 
+  /*
   systemd.user.services.custom-nixos-installer = {
     description = "installs my nixos config";
     serviceConfig.PassEnvironment = "DISPLAY";
@@ -106,4 +105,5 @@
     '';
     wantedBy = ["multi-user.target"]; # starts after login
   };
+  */
 }

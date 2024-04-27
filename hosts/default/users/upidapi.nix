@@ -33,6 +33,13 @@ in {
     # for formating a multiple iso usb
     ventoy
 
+    # TODO:
+    #  binwalk
+    #  string
+
+    # find out what proces is using a file
+    lsof
+
     # other
     htop
     ripgrep

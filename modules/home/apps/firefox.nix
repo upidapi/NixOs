@@ -213,14 +213,20 @@ in {
             "privacy.trackingprotection.enabled" = true;
             "privacy.trackingprotection.socialtracking.enabled" = true;
           };
+
+          # enable extensions by default
+          # https://support.mozilla.org/en-US/questions/1219401
+          extraConfig = ''
+            lockPref("extensions.autoDisableScopes", 0);
+          '';
           /*
-             extraConfig = ''
-              user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
-              user_pref("full-screen-api.ignore-widgets", true);
-              user_pref("media.ffmpeg.vaapi.enabled", true);
-              user_pref("media.rdd-vpx.enabled", true);
+            user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+            user_pref("full-screen-api.ignore-widgets", true);
+            user_pref("media.ffmpeg.vaapi.enabled", true);
+            user_pref("media.rdd-vpx.enabled", true);
           '';
           */
+
           userChrome = ''
             # a css
           '';

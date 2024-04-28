@@ -42,7 +42,11 @@ in {
 
   modules.home = {
     apps = {
-      alacritty = enable;
+      alacritty = {
+        enable = true;
+        font-size = 10;
+      };
+
       bitwarden = enable;
       discord = enable;
       firefox = enable;

@@ -21,6 +21,11 @@ in {
         "$mod, C, killactive"
         "$mod, M, exit"
 
+        # volume
+        "code:113, exec, pamixer -t" # toggle mute
+        "code:114, exec, pamixer -d 5" # dec vol
+        "code:115, exec, pamixer -i 5" # inc vol
+
         # move focus with arrow keys
         "$mod, left, movefocus, l"
         "$mod, right, movefocus, r"

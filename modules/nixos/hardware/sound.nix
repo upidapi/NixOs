@@ -2,6 +2,7 @@
   lib,
   my_lib,
   config,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -12,6 +13,10 @@ in {
     mkEnableOpt "enables sound for the system";
 
   config = mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.pamixer
+    ];
+
     # Enable sound with pipewire.
     sound.enable = true;
     hardware.pulseaudio.enable = false;

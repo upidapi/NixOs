@@ -57,15 +57,13 @@ in {
       BROWSER = "firefox";
     };
 
-    # test
-
     programs.firefox = {
       enable = true;
       package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
         extraPolicies = {
           CaptivePortal = false;
           DisableFirefoxStudies = true;
-          DisablePocket = true;
+          DisablePocket = false; # change to true
           DisableTelemetry = true;
           DisableFirefoxAccounts = false;
           NoDefaultBookmarks = true;

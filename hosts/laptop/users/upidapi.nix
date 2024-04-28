@@ -44,7 +44,7 @@ in {
     apps = {
       alacritty = {
         enable = true;
-        font-size = 10;
+        font-size = 9;
       };
 
       bitwarden = enable;

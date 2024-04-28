@@ -12,6 +12,8 @@
 in {
   imports = [
     ./config.nix
+    ./binds.nix
+    ./monitors.nix
     inputs.hyprland.homeManagerModules.default
   ];
 

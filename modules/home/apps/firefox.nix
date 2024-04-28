@@ -214,10 +214,13 @@ in {
             "privacy.trackingprotection.socialtracking.enabled" = true;
           };
 
+          # firefox hardening
+          # https://github.com/arkenfox/user.js/blob/master/user.js
+
           # enable extensions by default
           # https://support.mozilla.org/en-US/questions/1219401
           extraConfig = ''
-            lockPref("extensions.autoDisableScopes", 0);
+            user_pref("extensions.autoDisableScopes", 0);
           '';
           /*
             user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);

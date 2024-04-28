@@ -1,41 +1,3 @@
-# examples
-# https://gitlab.com/rycee/configurations/-/blob/bf46aef74ca53a61fe2d35349fe3dbc6a70b2609/user/firefox.nix#L25-39
-# https://github.com/jakehamilton/config/blob/main/modules/nixos/apps/firefox/default.nix
-/*
-   {...}: {
-  programs.firefox = {
-    enable = true;
-
-    profiles.upidapi = {
-      extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-        ublock-origin
-        bitwarden
-      ];
-      settings = {
-        "browser.disableResetPrompt" = true;
-        "browser.download.panel.shown" = true;
-        "browser.download.useDownloadDir" = false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-        "browser.shell.checkDefaultBrowser" = false;
-        "browser.shell.defaultBrowserCheckCount" = 1;
-        "browser.startup.homepage" = "https://start.duckduckgo.com";
-        "dom.security.https_only_mode" = true;
-        "identity.fxaccounts.enabled" = false;
-        "privacy.trackingprotection.enabled" = true;
-        "signon.rememberSignons" = false;
-      };
-    };
-  };
-}
-*/
-/*
-settings are in
-~/.mozilla/firefox/upidapi/extensions.json
-
-we need to parse it and go thrugh .addons
-they can be identified by .defaultLocale.name
-and can be enabled with .active
-*/
 {
   config,
   inputs,
@@ -51,6 +13,15 @@ in {
   options.modules.home.apps.firefox =
     mkEnableOpt
     "enables firefox";
+
+  # TODO: add better keybinds
+  #  probaly those vim keybinds
+  #  and that mode whereeach link gets it's own two
+  #  char code to click.
+  #  important
+  #    duplicate
+  #    close other
+  #    close all but open new
 
   config = mkIf cfg.enable {
     home.sessionVariables = {

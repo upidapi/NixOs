@@ -1,5 +1,5 @@
 {
-  # config,
+  config,
   # pkgs,
   # lib,
   # inputs,
@@ -19,12 +19,11 @@ in {
   # this just makes the user own /persist/nixos
   systemd.tmpfiles.settings = {
     # i believe that that name is arbitrary (10-mypackage)
-    "10-mypackage" = {
-      "/persist/nixos" = {
+    "set-cfg-perm" = {
+      "${config.modules.nixos.system.nix.cfg-path}" = {
         z = {
-          group = "users";
-          mode = "0755";
-          user = "upidapi";
+          group = "wheel";
+          mode = "0775";
         };
       };
     };

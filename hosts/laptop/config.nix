@@ -30,6 +30,7 @@ in {
     };
   };
 
+  # test
   # virtualisation
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;

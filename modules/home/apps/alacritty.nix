@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   my_lib,
   ...
@@ -13,12 +12,17 @@ in {
     mkEnableOpt
     "Whether or not to enable alacritty, a terminal emulator";
 
-  config.home = mkIf cfg.enable {
-    packages = [
-      pkgs.alacritty
-    ];
+  config = mkIf cfg.enable {
+    # https://github.com/TwiggieSmallz/Default-Alacritty-TOML-Config/blob/main/alacritty.toml
 
-    sessionVariables = {
+    programs.alacritty = {
+      enable = true;
+      settings = {
+        font = 7;
+      };
+    };
+
+    home.sessionVariables = {
       TERMINAL = "alacritty";
     };
   };

@@ -18,7 +18,7 @@ in {
     bind =
       [
         # "$mod, Q, exec, kitty"
-        "$mod, S, exec, alacritty"
+        "$mod, S, exec, $TERMINAL"
         "$mod, D, exec, rofi -show drun"
         "$mod, F, exec, firefox"
 

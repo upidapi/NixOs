@@ -59,10 +59,7 @@ in {
 
   modules.home = {
     apps = {
-      alacritty = {
-        enable = true;
-        font-size = 10;
-      };
+      alacritty = enable;
       bitwarden = enable;
       discord = enable;
       firefox = enable;

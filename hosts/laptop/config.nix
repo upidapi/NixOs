@@ -104,6 +104,15 @@ in {
       network = enable;
       keyboard = enable;
       monitors = [
+        {
+          name = "eDP-1";
+          width = 1920;
+          height = 1080;
+          refreshRate = 60;
+          x = 0;
+          y = 0;
+          workspace = 2;
+        }
       ];
     };
   };

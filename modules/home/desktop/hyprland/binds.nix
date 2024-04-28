@@ -22,9 +22,9 @@ in {
         "$mod, M, exit"
 
         # volume
-        ",code:122, exec, pamixer -t" # toggle mute
-        ",code:123, exec, pamixer -d 5" # dec vol
-        ",code:121, exec, pamixer -i 5" # inc vol
+        ",code:123, exec, pamixer -t" # toggle mute
+        ",code:121, exec, pamixer -d 5" # dec vol
+        ",code:122, exec, pamixer -i 5" # inc vol
 
         # move focus with arrow keys
         "$mod, left, movefocus, l"

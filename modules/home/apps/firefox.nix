@@ -57,6 +57,8 @@ in {
       BROWSER = "firefox";
     };
 
+    # test
+
     programs.firefox = {
       enable = true;
       package = pkgs.wrapFirefox pkgs.firefox-unwrapped {

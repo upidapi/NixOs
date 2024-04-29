@@ -1,5 +1,5 @@
 {
-  config,
+  #  config,
   # pkgs,
   # lib,
   # inputs,
@@ -11,30 +11,11 @@
 }: let
   inherit (my_lib.opt) enable;
 in {
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
   system.stateVersion = "23.11"; # Did you read the comment?
 
-  # todo: put this somewhere else
-  # this just makes the user own /persist/nixos
-  systemd.tmpfiles.settings = {
-    # i believe that that name is arbitrary (10-mypackage)
-    "set-cfg-perm" = {
-      "${config.modules.nixos.system.nix.cfg-path}" = {
-        z = {
-          group = "wheel";
-          mode = "0775";
-        };
-      };
-    };
-  };
-
-  # virtualisation
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
+  # TODO: factor out this onto some module
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-
   users.users.upidapi = {
     isNormalUser = true;
     description = "upidapi";
@@ -53,16 +34,16 @@ in {
   modules.nixos = {
     host-name = "upidapi-nix-pc";
 
+    other = enable;
+
     home-tunnel = enable;
 
     cli-apps = {
       less = enable;
-      # zsh = enable;
       keepass = enable;
     };
 
     apps = {
-      # nushell = enable;
       steam = enable;
     };
 

@@ -1,46 +1,12 @@
-{
-  pkgs,
-  inputs,
-  my_lib,
-  ...
-}: let
+{my_lib, ...}: let
   inherit (my_lib.opt) enable;
 in {
   # Dont change this unless you reinsall from scratch.
   home.stateVersion = "23.11"; # Read comment
 
-  home.packages = with pkgs; [
-    # used to formatt nix code
-    inputs.alejandra.defaultPackage.${pkgs.system}
-
-    # coding
-    python3
-
-    # you cant have both?
-    clang
-    # gcc
-
-    cargo
-    rustc
-
-    # other
-    htop
-    ripgrep
-
-    # stats about code, logical lines, comments, etc
-    scc
-
-    # maybe btop
-  ];
-
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
-    };
-  };
-
   modules.home = {
+    other = enable;
+
     apps = {
       alacritty = enable;
       bitwarden = enable;

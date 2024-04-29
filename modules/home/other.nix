@@ -26,6 +26,9 @@ in {
       # used to formatt nix code
       inputs.alejandra.defaultPackage.${pkgs.system}
 
+      # ofc
+      neofetch
+
       # coding
       python3
 

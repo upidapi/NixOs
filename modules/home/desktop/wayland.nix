@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.wayland;
 in {
@@ -27,18 +27,15 @@ in {
     # handles desktop programs interactions
     xdg.portal = {
       enable = true;
-      /*
-         extraPortals = with pkgs; [
+
+      extraPortals = with pkgs; [
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-wlr
-      ];
-      */
-      configPackages = [
-        pkgs.hyprland
+        xdg-desktop-portal-gtk
       ];
 
-      extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
+      configPackages = [
+        pkgs.hyprland
       ];
     };
   };

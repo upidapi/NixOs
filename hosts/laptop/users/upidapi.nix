@@ -13,6 +13,7 @@ in {
       discord = enable;
       firefox = enable;
       r2modman = enable;
+      spotify = enable;
     };
 
     cli-apps = {

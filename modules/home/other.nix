@@ -38,8 +38,8 @@ in {
       python3
 
       # you cant have both?
-      # clang
-      gcc
+      clang
+      # (lib.hiPrio gcc)
 
       cargo
       rustc

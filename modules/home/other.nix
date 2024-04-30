@@ -51,6 +51,11 @@ in {
       # binary ninja
       ghidra
 
+      binwalk
+      file
+      ltrace
+      strace
+
       # for formating a multiple iso usb
       ventoy
 

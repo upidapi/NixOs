@@ -4,10 +4,41 @@ in {
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
+    # flags
+    /*
+    l -> locked, will also work when an input inhibitor (e.g. a
+    lockscreen) is active.
+
+    r -> release, will trigger on release of a key.
+
+    e -> repeat, will repeat when held.
+
+    n -> non-consuming, key/mouse events will be passed to the
+    active window in addition to triggering the dispatcher.
+
+    m -> mouse, see below
+
+    t -> transparent, cannot be shadowed by other binds.
+
+    i -> ignore mods, will ignore modifiers.
+    */
+
     # mouse binds
     bindm = [
       "$mod, mouse:272, movewindow"
       "$mod, mouse:273, resizewindow"
+    ];
+
+    # TODO: vol / brigtness / airplane mode, indecators / notifications§
+    bindle = [
+      # change volume
+      ",XF86AudioMute, exec, pamixer -t"
+      ",XF86AudioRaiseVolume, exec, pamixer -d 5"
+      ",XF86AudioLowerVolume, exec, pamixer -i 5"
+
+      # brigtness
+      # ",XF86MonBrightnessUp, exec, brightnessctl s 2%+"
+      # ",XF86MonBrightnessDown, exec, brightnessctl s 2%-"
     ];
 
     # kbd binds
@@ -20,6 +51,12 @@ in {
 
         "$mod, C, killactive"
         "$mod, M, exit"
+
+        # screen shot
+        (
+          ",Print , exec, "
+          + "grim -g \"$(slurp)\" - | convert - -shave 1x1 PNG:- | wl-copy"
+        )
 
         # volume
         ",code:123, exec, pamixer -t" # toggle mute

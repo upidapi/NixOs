@@ -58,11 +58,6 @@ in {
           + "grim -g \"$(slurp)\" - | convert - -shave 1x1 PNG:- | wl-copy"
         )
 
-        # volume
-        ",code:123, exec, pamixer -t" # toggle mute
-        ",code:121, exec, pamixer -d 5" # dec vol
-        ",code:122, exec, pamixer -i 5" # inc vol
-
         # move focus with arrow keys
         "$mod, left, movefocus, l"
         "$mod, right, movefocus, r"

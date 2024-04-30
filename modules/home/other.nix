@@ -28,6 +28,9 @@ in {
 
       unzip
 
+      # show file struct
+      tree
+
       # ofc
       neofetch
 

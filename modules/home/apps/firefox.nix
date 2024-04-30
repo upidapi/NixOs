@@ -23,6 +23,12 @@ in {
   #    close other
   #    close all but open new
 
+  # TODO:fix teams
+
+  # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
+
+  # possibly might disabe the restore screen
+  # browser.sessionstore.resume_from_crash
   config = mkIf cfg.enable {
     home.sessionVariables = {
       BROWSER = "firefox";

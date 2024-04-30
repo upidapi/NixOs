@@ -26,6 +26,8 @@ in {
       # used to formatt nix code
       inputs.alejandra.defaultPackage.${pkgs.system}
 
+      unzip
+
       # ofc
       neofetch
 

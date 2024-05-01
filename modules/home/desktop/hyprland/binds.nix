@@ -33,8 +33,8 @@ in {
     bindle = [
       # change volume
       ",XF86AudioMute, exec, pamixer -t"
-      ",XF86AudioRaiseVolume, exec, pamixer -d 5"
-      ",XF86AudioLowerVolume, exec, pamixer -i 5"
+      ",XF86AudioRaiseVolume, exec, pamixer -i 5"
+      ",XF86AudioLowerVolume, exec, pamixer -d 5"
 
       # brigtness
       # ",XF86MonBrightnessUp, exec, brightnessctl s 2%+"

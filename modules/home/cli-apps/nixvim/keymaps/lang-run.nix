@@ -103,12 +103,12 @@
               {
                 event = ["FileType"];
                 pattern = [file-data.file-type];
-                command = "imap <buffer> ${bind} <esc>${cmd}a";
+                command = "imap ${bind} <esc>${cmd}a";
               }
               {
                 event = ["FileType"];
                 pattern = [file-data.file-type];
-                command = "map <buffer> ${bind} ${cmd}";
+                command = "map ${bind} ${cmd}";
               }
             ])
             file-data.commands

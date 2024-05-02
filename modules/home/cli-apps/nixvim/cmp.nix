@@ -8,11 +8,11 @@
       settings = {
         snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
         sources = map (name: {inherit name;}) [
-          "path"
           "treesitter"
           "nvim_lsp"
-          "buffer"
           "luasnip"
+          "buffer"
+          "path"
         ];
 
         mapping = {

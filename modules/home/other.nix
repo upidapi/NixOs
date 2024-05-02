@@ -28,6 +28,9 @@ in {
 
       unzip
 
+      # show file struct
+      tree
+
       # ofc
       neofetch
 
@@ -36,7 +39,7 @@ in {
 
       # you cant have both?
       clang
-      # gcc
+      # (lib.hiPrio gcc)
 
       cargo
       rustc
@@ -47,6 +50,11 @@ in {
       sqlmap # sql injection
       # binary ninja
       ghidra
+
+      binwalk
+      file
+      ltrace
+      strace
 
       # for formating a multiple iso usb
       ventoy

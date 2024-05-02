@@ -28,7 +28,8 @@ in {
         # "Documents"
         # "Videos"
 
-        "projects"
+        # "projects"
+        "prog"
 
         # "VirtualBox VMs"
         ".gnupg"
@@ -45,6 +46,9 @@ in {
 
         # save zsh command history
         ".zsh/history"
+
+        # persist spotify login
+        ".config/spotify"
 
         # save nushell command history
         # ".config/nushell/history.txt"

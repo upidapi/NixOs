@@ -5,5 +5,6 @@
     ./discord
     ./bitwarden.nix
     ./alacritty.nix
+    ./spotify.nix
   ];
 }

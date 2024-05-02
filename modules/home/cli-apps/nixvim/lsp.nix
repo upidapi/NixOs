@@ -34,6 +34,10 @@ in {
         html = enable;
         bashls = enable;
 
+        # clangd vs ccls
+        # https://github.com/MaskRay/ccls/issues/880
+        ccls = enable;
+
         # lua
         lua-ls = {
           enable = true;

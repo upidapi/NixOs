@@ -9,6 +9,8 @@ in {
   # Dont change this unless you reinsall from scratch.
   home.stateVersion = "23.11"; # Read comment
 
+  # test
+
   modules.home = {
     other = enable;
 

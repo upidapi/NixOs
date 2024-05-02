@@ -55,7 +55,7 @@ in {
         # screen shot
         (
           ",Print , exec, "
-          + "grim -g \"$(slurp)\" - | convert - -shave 1x1 PNG:- | wl-copy"
+          + "grim -g \"$(slurp -w 0)\" - | wl-copy"
         )
 
         # move focus with arrow keys

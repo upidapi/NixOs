@@ -122,9 +122,6 @@
           ];
 
           shellHook = ''
-            echo "Enterd dev shell"
-            echo
-
             zsh
           '';
         };

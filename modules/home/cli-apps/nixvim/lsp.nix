@@ -28,7 +28,9 @@ in {
       '';
 
       servers = {
-        nil_ls = enable; # nix
+        nil_ls = enable; # static lsp
+        nixd = enable; # eval lsp
+
         pyright = enable; # python
         jsonls = enable;
         html = enable;

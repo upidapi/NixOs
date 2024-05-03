@@ -106,6 +106,28 @@
             program = "${self.packages.install}/bin/install";
           };
         };
+
+        devShells.default = pkgs.mkShell {
+          packages = [
+            (
+              pkgs.python3.withPackages (
+                py-pkgs:
+                  with py-pkgs; [
+                    pandas
+                    requests
+                    pwn
+                  ]
+              )
+            )
+          ];
+
+          shellHook = ''
+            echo "Enterd dev shell"
+            echo
+
+            zsh
+          '';
+        };
       };
     };
 }

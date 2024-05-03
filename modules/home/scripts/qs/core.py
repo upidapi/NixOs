@@ -441,6 +441,9 @@ def handle_sub_command(args):
     elif sub_command in ("d", "diff"):
         run_cmd("git --no-pager diff HEAD --color", True)
 
+    elif sub_command in ("p", "pull"):
+        run_cmd("git pull git@github.com:upidapi/NixOs.git main", True)
+
     elif not sub_command == "":
         raise TypeError(f"invallid subcommand {sub_command}")
 

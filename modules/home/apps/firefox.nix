@@ -37,7 +37,8 @@ in {
     programs.firefox = {
       enable = true;
       package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-        extraPolicies = {
+        /*
+           extraPolicies = {
           CaptivePortal = false;
           DisableFirefoxStudies = true;
           DisablePocket = false; # change to true
@@ -59,6 +60,7 @@ in {
             SkipOnboarding = true;
           };
         };
+        */
       };
       profiles = {
         upidapi = {
@@ -131,7 +133,9 @@ in {
             sponsorblock
             return-youtube-dislikes
           ];
+
           settings = {
+            /*
             # "barrowed" from https://github.com/TLATER/dotfiles/blob/b39af91fbd13d338559a05d69f56c5a97f8c905d/home-config/config/graphical-applications/firefox.nix
             "general.smoothScroll" = true;
 
@@ -189,6 +193,7 @@ in {
             "identity.fxaccounts.enabled" = false;
             "privacy.trackingprotection.enabled" = true;
             "privacy.trackingprotection.socialtracking.enabled" = true;
+            */
           };
 
           # firefox hardening

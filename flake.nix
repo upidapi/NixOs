@@ -115,7 +115,7 @@
                   with py-pkgs; [
                     pandas
                     requests
-                    pwn
+                    pwntools
                   ]
               )
             )

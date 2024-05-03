@@ -22,58 +22,61 @@ in {
       };
     };
 
-    home.packages = with pkgs; [
-      # used to formatt nix code
-      inputs.alejandra.defaultPackage.${pkgs.system}
+    home.packages =
+      [
+        # used to formatt nix code
+        inputs.alejandra.defaultPackage.${pkgs.system}
+      ]
+      ++ (with pkgs; [
+        unzip
 
-      unzip
+        # show file struct
+        tree
 
-      # show file struct
-      tree
+        # ofc
+        neofetch
 
-      # ofc
-      neofetch
+        # coding
+        python3
 
-      # coding
-      python3
+        # you cant have both?
+        clang
+        # (lib.hiPrio gcc)
 
-      # you cant have both?
-      clang
-      # (lib.hiPrio gcc)
+        cargo
+        rustc
 
-      cargo
-      rustc
+        # forensics
+        imhex # hex edior
+        audacity # audio foresics (and editor)
+        sqlmap # sql injection
+        # binary ninja
+        ghidra
+        radare2
 
-      # forensics
-      imhex # hex edior
-      audacity # audio foresics (and editor)
-      sqlmap # sql injection
-      # binary ninja
-      ghidra
+        binwalk
+        file
+        ltrace
+        strace
 
-      binwalk
-      file
-      ltrace
-      strace
+        # for formating a multiple iso usb
+        ventoy
 
-      # for formating a multiple iso usb
-      ventoy
+        # TODO:
+        #  binwalk
+        #  string
 
-      # TODO:
-      #  binwalk
-      #  string
+        # find out what proces is using a file
+        lsof
 
-      # find out what proces is using a file
-      lsof
+        # other
+        htop
+        ripgrep
 
-      # other
-      htop
-      ripgrep
+        # stats about code, logical lines, comments, etc
+        scc
 
-      # stats about code, logical lines, comments, etc
-      scc
-
-      # maybe btop
-    ];
+        # maybe btop
+      ]);
   };
 }

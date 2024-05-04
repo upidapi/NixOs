@@ -53,6 +53,9 @@ in {
         # binary ninja
         ghidra
         radare2
+        gimp
+
+        gimp
 
         binwalk
         file

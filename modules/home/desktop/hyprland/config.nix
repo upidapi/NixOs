@@ -8,6 +8,11 @@
     # layout
     input = {
       kb_layout = "se"; # swedish layout
+
+      touchpad = {
+        natural_scroll = true;
+        # disable_while_typing = false;
+      };
     };
   };
 }

@@ -96,4 +96,4 @@ nixos-generate-config \
 
 cp /mnt/persist/nixos/bootstrap-config.nix /mnt/etc/nixos/configuration.nix
 
-nixos-install --root /mnt
+nixos-install --root /mnt --cores 10

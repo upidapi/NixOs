@@ -28,6 +28,17 @@ in {
         inputs.alejandra.defaultPackage.${pkgs.system}
       ]
       ++ (with pkgs; [
+        (
+          python3.withPackages (
+            python-pkgs:
+              with python-pkgs; [
+                pandas
+                requests
+                dbus-python
+              ]
+          )
+        )
+
         unzip
 
         # show file struct
@@ -35,9 +46,6 @@ in {
 
         # ofc
         neofetch
-
-        # coding
-        python3
 
         # you cant have both?
         clang

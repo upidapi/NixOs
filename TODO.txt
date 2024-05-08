@@ -1,0 +1,5 @@
+make sure that /persist/nixos has the correct perms 
+    chown -R :wheel /persist/nixos 
+    chmod -R 770 /persist/nixos
+
+

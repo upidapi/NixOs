@@ -315,6 +315,7 @@ def validate_new_branch(new_branch):
         )
         == "0"
     )
+
     if branch_exists_locally:
         raise TypeError(f'branch "{new_branch}" already exist locally')
 
@@ -429,25 +430,6 @@ def check_needs_reboot():
 # it assumes that your main branch is called "main"
 
 
-def handle_sub_command(args):
-    sub_command = args["sub_command"][0][0]
-
-    if sub_command in ("e", "edit"):
-        # subprocess.run(f"cd {NIXOS_PATH}; nvim .", shell=True)
-        # os.chdir(NIXOS_PATH)
-        subprocess.run(f"nvim {NIXOS_PATH}", shell=True)
-        return
-
-    elif sub_command in ("d", "diff"):
-        run_cmd("git --no-pager diff HEAD --color", True)
-
-    elif sub_command in ("p", "pull"):
-        run_cmd("git pull git@github.com:upidapi/NixOs.git main", True)
-
-    elif not sub_command == "":
-        raise TypeError(f"invallid subcommand {sub_command}")
-
-
 # currently you cant have a option in args and kwargs
 # might want to add that posibility
 # (the kwarg would overide the arg)
@@ -493,9 +475,33 @@ def main():
     # make sure that we're in the right place
     os.chdir(NIXOS_PATH)
 
+    is_up_to_date = run_cmd("git diff origin/main HEAD") == ""
+    if not is_up_to_date:
+        print_warn("Local is not up to date with remote", 93)
+
     if args["sub_command"]:
-        handle_sub_command(args)
-        return
+        sub_command = args["sub_command"][0][0]
+
+        if sub_command in ("e", "edit"):
+            # subprocess.run(f"cd {NIXOS_PATH}; nvim .", shell=True)
+            # os.chdir(NIXOS_PATH)
+            subprocess.run(f"nvim {NIXOS_PATH}", shell=True)
+            return
+
+        elif sub_command in ("d", "diff"):
+            run_cmd("git --no-pager diff HEAD --color", True)
+            return
+
+        elif sub_command in ("p", "pull"):
+            print_devider("Pulling Changes")
+
+            run_cmd("git stash")
+            run_cmd("git pull git@github.com:upidapi/NixOs.git main", True)
+
+            args["message"][0].append("Pulled changes from remote")
+
+        elif not sub_command == "":
+            raise TypeError(f"invallid subcommand {sub_command}")
 
     if not args["message"] or not args["message"][0]:
         raise TypeError("missing --message argument")
@@ -554,6 +560,12 @@ def main():
     origin = "git@github.com:upidapi/NixOs.git"
 
     run_cmd(f"git push {origin} --all", True)
+
+    if args["sub_command"]:
+        sub_command = args["sub_command"][0][0]
+
+        if sub_command in ("p", "pull"):
+            run_cmd("git stash pop")
 
     print("\n")
     print_warn("Successfully applied nixos configuration changes", "42;30")

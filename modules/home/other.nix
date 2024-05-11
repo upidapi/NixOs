@@ -35,8 +35,9 @@ in {
                 pandas
                 requests
                 dbus-python
-                pgi
+                # pgi
                 # PyGObject
+                pygobject3
               ]
           )
         )

@@ -35,10 +35,22 @@ in {
       ",XF86AudioMute, exec, pamixer -t"
       ",XF86AudioRaiseVolume, exec, pamixer -i 5"
       ",XF86AudioLowerVolume, exec, pamixer -d 5"
-
       # brigtness
       # ",XF86MonBrightnessUp, exec, brightnessctl s 2%+"
       # ",XF86MonBrightnessDown, exec, brightnessctl s 2%-"
+    ];
+
+    # NOTE: you can use wev to see the keysym for a button
+    #  (nix-shell -p wev)
+
+    bindli = [
+      ",XF86AudioPrev, exec, playerctl previous"
+      ",XF86AudioNext, exec, playerctl next"
+      # NOTE: my keyboard seams to only send XF86AudioPlay
+      #  if this is a problem rebind it to playerctl play-pause
+
+      ",XF86AudioPlay, exec, playerctl play"
+      ",XF86AudioPause, exec, playerctl pause"
     ];
 
     # kbd binds

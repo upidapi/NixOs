@@ -27,6 +27,10 @@ in {
       git = enable;
     };
 
+    tools = {
+      playerctl = enable;
+    };
+
     core = {
       persist = enable;
     };

@@ -1,5 +1,5 @@
 {
   imports = [
-    ./playerctl.nix
+    # ./playerctl.nix
   ];
 }

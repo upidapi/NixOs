@@ -236,6 +236,10 @@ in {
               min-width: var(--my-tab-min-width) !important;
             }
 
+            .tab-content {
+              overflow: hidden !important;
+            }
+
             /* Optional rules for widths below 40px */
             /* Reduce icon's right margin for less wasted space */
             .tabbrowser-tab:not([pinned]) .tab-icon-image {

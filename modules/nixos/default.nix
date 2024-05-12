@@ -9,6 +9,7 @@ in {
   imports = [
     ./apps
     ./cli-apps
+    ./tools
     ./desktop
     ./hardware
     ./system

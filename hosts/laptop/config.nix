@@ -45,6 +45,10 @@ in {
       steam = enable;
     };
 
+    tools = {
+      playerctl = enable;
+    };
+
     security = {
       sudo-rs = enable;
     };

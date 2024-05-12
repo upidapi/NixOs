@@ -43,18 +43,26 @@ in {
     # NOTE: you can use wev to see the keysym for a button
     #  (nix-shell -p wev)
 
-    bindli = [
-      ",XF86AudioPrev, exec, playerctl previous"
-      ",XF86AudioNext, exec, playerctl next"
+    bindli =
+      []
+      # media controlls
+      ++ (let
+        # Only try the currently focused one
+        # Otherwise it's gonna try everyone (in order) untill it
+        # finds an avalible one, which can be one that isn't focused.
+        center = '', exec, playerctl --player="$(playerctl -l | head -n 1)" '';
+      in [
+        ",XF86AudioPrev${center}previous"
+        ",XF86AudioNext${center}next"
 
-      # NOTE: this binds both play and pause to play-pause
-      #  since my headphones alternates wich one it sends
-      #  if this is a problem (e.g you actually have and use
-      #  two specific play/pause buttons) then you might whant
-      #  to change this
-      ",XF86AudioPlay, exec, playerctl play-pause"
-      ",XF86AudioPause, exec, playerctl play-pause"
-    ];
+        # this binds both play and pause to play-pause
+        # since my headphones alternates wich one it sends
+        # if this is a problem (e.g you actually have and use
+        # two specific play/pause buttons) then you might whant
+        # to change this
+        ",XF86AudioPlay${center}play-pause"
+        ",XF86AudioPause${center}play-pause"
+      ]);
 
     # kbd binds
     bind =

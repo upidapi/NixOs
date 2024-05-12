@@ -199,7 +199,7 @@ in {
             "browser.aboutConfig.showWarning" = false;
 
             # anything smaler doesn't do anything
-            "browser.tabs.tabMinWidth" = 50;
+            "browser.tabs.tabMinWidth" = 22;
 
             # 0 auto, 1 light, 2 dark
             "blayout.css.prefers-color-scheme.content-override" = 2;
@@ -261,6 +261,14 @@ in {
           userContent = ''
             # Here too
           '';
+        };
+
+        # For security testing and other stuff where you need a
+        # profile where I can garantee that i haven't fucked anything
+        # upp / all behaviors are the default ones
+        base = {
+          id = 1;
+          name = "base";
         };
       };
     };

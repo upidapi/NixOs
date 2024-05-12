@@ -226,7 +226,33 @@ in {
           */
 
           userChrome = ''
-            # a css
+            /* Set minimum width below which tabs will not shrink (minimum 22px) */
+            :root {
+              --my-tab-min-width: 22px;
+            }
+
+            /* Essential rule for reducing minimum tab width */
+            .tabbrowser-tab:not([pinned]){
+              min-width: var(--my-tab-min-width) !important;
+            }
+
+            /* Optional rules for widths below 40px */
+            /* Reduce icon's right margin for less wasted space */
+            .tabbrowser-tab:not([pinned]) .tab-icon-image {
+              margin-right: 1px !important;
+            }
+
+            /* Adjust padding for better centering and less wasted space */
+            .tabbrowser-tab:not([pinned]) .tab-content{
+              padding-left: calc((var(--my-tab-min-width) - 22px)/2) !important;
+              padding-right: calc((var(--my-tab-min-width) - 22px)/2) !important;
+            }
+
+            /* Reduce close button's padding for less wasted space */
+            .tab-close-button.close-icon {
+              padding-left: 0 !important;
+              padding-right: 3px !important;
+            }
           '';
           userContent = ''
             # Here too

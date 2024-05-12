@@ -37,8 +37,7 @@ in {
     programs.firefox = {
       enable = true;
       package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-        /*
-           extraPolicies = {
+        extraPolicies = {
           CaptivePortal = false;
           DisableFirefoxStudies = true;
           DisablePocket = false; # change to true
@@ -60,7 +59,6 @@ in {
             SkipOnboarding = true;
           };
         };
-        */
       };
       profiles = {
         upidapi = {
@@ -192,16 +190,33 @@ in {
             "identity.fxaccounts.enabled" = false;
             "privacy.trackingprotection.enabled" = true;
             "privacy.trackingprotection.socialtracking.enabled" = true;
+
+            # ---------- the folowing is my custom ---------
+            # enable extensions by default
+            # https://support.mozilla.org/en-US/questions/1219401
+            "extensions.autoDisableScopes" = 0;
+
+            "browser.aboutConfig.showWarning" = false;
+
+            # anything smaler doesn't do anything
+            "browser.tabs.tabMinWidth" = 50;
+
+            # 0 auto, 1 light, 2 dark
+            "blayout.css.prefers-color-scheme.content-override" = 2;
           };
 
           # firefox hardening
           # https://github.com/arkenfox/user.js/blob/master/user.js
 
-          # enable extensions by default
-          # https://support.mozilla.org/en-US/questions/1219401
+          /*
           extraConfig = ''
             user_pref("extensions.autoDisableScopes", 0);
+            user_pref("browser.aboutConfig.showWarning", false);
+
+            // 0 auto, 1 light, 2 dark
+            user_pref("blayout.css.prefers-color-scheme.content-override", 2);
           '';
+          */
           /*
             user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
             user_pref("full-screen-api.ignore-widgets", true);

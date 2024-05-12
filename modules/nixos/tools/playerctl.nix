@@ -17,18 +17,15 @@ in {
     environment.systemPackages = [pkgs.playerctl]; # if user should have the command available as well
     services.dbus.packages = [pkgs.playerctl]; # if the package has dbus related configuration
 
-    systemd.services.playerctld = {
+    systemd.user.services.playerctld = {
       description = "playerctl daemon";
 
       wantedBy = ["multi-user.target"];
 
-      restartIfChanged = true; # set to false, if restarting is problematic
-
-      serviceConfig = {
-        DynamicUser = true;
-        ExecStart = "${pkgs.playerctl}/bin/playerctld";
-        Restart = "always";
-      };
+      # restartIfChanged = true; # set to false, if restarting is problematic
+      script = ''
+        ${pkgs.playerctl}/bin/playerctld
+      '';
     };
   };
 }

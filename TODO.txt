@@ -3,3 +3,8 @@ make sure that /persist/nixos has the correct perms
     chmod -R 770 /persist/nixos
 
 
+# some bth service
+https://github.com/EzequielRamis/dotfiles/blob/ecfe6f269339d1551768b9158c1d3aee2d82b238/home/timers.nix#L19
+
+
+

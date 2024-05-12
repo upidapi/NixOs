@@ -1,6 +1,6 @@
 {
   imports = [
-    ./firefox.nix
+    ./firefox
     ./r2modman.nix
     ./discord
     ./bitwarden.nix

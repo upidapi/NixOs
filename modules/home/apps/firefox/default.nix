@@ -23,9 +23,21 @@ in {
   #    close other
   #    close all but open new
 
-  # TODO:fix teams
-
+  # TODO: fix teams
+  # TODO: rearrow (comunity thumbnails for youtube)
   # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
+
+  # add to sytlus to fix netflix spoilters
+  /*
+  @-moz-document domain("www.netflix.com") {
+    span.duration:not(:hover), div.titleCard-title_index:not(:hover)  {
+        color: rgb(0, 0, 0);
+        background-color: rgb(0, 0, 0);
+    }
+  }
+  */
+
+  # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
 
   # possibly might disabe the restore screen
   # browser.sessionstore.resume_from_crash
@@ -115,6 +127,8 @@ in {
             i-dont-care-about-cookies
 
             darkreader
+
+            stylus # the config is in stylus.json
 
             # privacy
             # https-everywhere  # not on system

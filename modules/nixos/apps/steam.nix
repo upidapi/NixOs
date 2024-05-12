@@ -2,6 +2,7 @@
   config,
   lib,
   my_lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -13,13 +14,23 @@ in {
   # https://github.com/jakehamilton/config/blob/d061040df2cb2c9b941f4c9f57a65e749a99a03e/modules/nixos/apps/steam/default.nix#L5
 
   # steam.enable also enables proton
-  config.programs.steam = mkIf cfg.enable {
-    enable = true;
+  config = mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.protontricks
+    ];
 
-    # Open ports in the firewall for Steam Remote Play
-    remotePlay.openFirewall = true;
+    programs.steam = {
+      enable = true;
 
-    # Open ports in the firewall for Source Dedicated Server
-    dedicatedServer.openFirewall = true;
+      # Open ports in the firewall for Steam Remote Play
+      remotePlay.openFirewall = true;
+
+      # Open ports in the firewall for Source Dedicated Server
+      dedicatedServer.openFirewall = true;
+
+      extraCompatPackages = [
+        pkgs.proton-ge-bin
+      ];
+    };
   };
 }

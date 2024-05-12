@@ -23,9 +23,14 @@ in {
       wantedBy = ["multi-user.target"];
 
       # restartIfChanged = true; # set to false, if restarting is problematic
+
       script = ''
         ${pkgs.playerctl}/bin/playerctld
       '';
+
+      serviceConfig = {
+        DynamicUser = true;
+      };
     };
   };
 }

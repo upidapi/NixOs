@@ -46,11 +46,14 @@ in {
     bindli = [
       ",XF86AudioPrev, exec, playerctl previous"
       ",XF86AudioNext, exec, playerctl next"
-      # NOTE: my keyboard seams to only send XF86AudioPlay
-      #  if this is a problem rebind it to playerctl play-pause
 
-      ",XF86AudioPlay, exec, playerctl play"
-      ",XF86AudioPause, exec, playerctl pause"
+      # NOTE: this binds both play and pause to play-pause
+      #  since my headphones alternates wich one it sends
+      #  if this is a problem (e.g you actually have and use
+      #  two specific play/pause buttons) then you might whant
+      #  to change this
+      ",XF86AudioPlay, exec, playerctl play-pause"
+      ",XF86AudioPause, exec, playerctl play-pause"
     ];
 
     # kbd binds

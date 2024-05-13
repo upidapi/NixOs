@@ -34,7 +34,7 @@ I've mainly taken inspiration and "borrowed" code from
 * https://github.com/ErrorNoInternet/configuration.nix
 * https://github.com/fufexan/dotfiles
 * https://github.com/Mic92/dotfiles
-* https://github.com/workflow/dotfiles
+* https://github.com/workflow/dotfile
 * https://github.com/notohh/snowflake?tab=readme-ov-file
 
 # Todos

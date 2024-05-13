@@ -17,4 +17,7 @@ in {
       eww
     ];
   };
+
+  # to run exec: (in this dir)
+  # eww open -c ./ bar --arg monitor_id=2
 }

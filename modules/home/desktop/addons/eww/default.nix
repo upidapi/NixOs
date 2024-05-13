@@ -7,7 +7,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.dunst;
+  cfg = config.modules.home.desktop.addons.eww;
 in {
   options.modules.home.desktop.addons.eww =
     mkEnableOpt "enables eww";
@@ -16,6 +16,11 @@ in {
     home.packages = with pkgs; [
       eww
     ];
+
+    programs.eww = {
+      enable = true;
+      configDir = ./.;
+    };
   };
 
   # to run exec: (in this dir)

@@ -1,5 +1,5 @@
-(defwindow bar [monitor_id]
-    :monitor monitor_id
+(defwindow bar []
+    :monitor 0 
     :windowtype "dock"
     :geometry (geometry :x "0%"
                       :y "0%"
@@ -9,7 +9,7 @@
     :reserve (struts :side "top" :distance "4%")
     :exclusive true
 
-    (bar :monitor_id monitor_id)
+    (bar :monitor_id 0)
 )
 
 (defwidget bar [monitor_id]

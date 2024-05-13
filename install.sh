@@ -46,7 +46,6 @@ if [[ $profile == "" ]]; then
 fi
 
 
-
 # formatt the file system with disko
 nix \
   --experimental-features "nix-command flakes" \

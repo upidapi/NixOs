@@ -498,7 +498,7 @@ def main():
             run_cmd("git stash")
             run_cmd("git pull git@github.com:upidapi/NixOs.git main", True)
 
-            args["message"][0].append("Pulled changes from remote")
+            args["message"].append(["Pulled changes from remote"])
 
         elif not sub_command == "":
             raise TypeError(f"invallid subcommand {sub_command}")

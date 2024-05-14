@@ -496,7 +496,7 @@ def main():
             print_devider("Pulling Changes")
 
             run_cmd("git stash")
-            run_cmd("git pull git@github.com:upidapi/NixOs.git main", True)
+            run_cmd("git pull git@github.com:upidapi/NixOs.git main --color", True)
 
             args["message"].append(["Pulled changes from remote"])
 

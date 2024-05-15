@@ -38,7 +38,7 @@
         cpp = ["clang_format"];
         # go = ["gofmt"];
         nix = ["alejandra"];
-        python = ["isort" "black"];
+        python = ["isort" "black -l 70 --preview"];
         rust = ["rustfmt"];
         toml = ["taplo"];
       };

@@ -7,4 +7,9 @@ make sure that /persist/nixos has the correct perms
 https://github.com/EzequielRamis/dotfiles/blob/ecfe6f269339d1551768b9158c1d3aee2d82b238/home/timers.nix#L19
 
 
+# change user shell whithout root
+https://github.com/viperML/noshell
+
+# 
+
 

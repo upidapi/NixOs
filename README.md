@@ -36,6 +36,7 @@ I've mainly taken inspiration and "borrowed" code from
 * https://github.com/Mic92/dotfiles
 * https://github.com/workflow/dotfile
 * https://github.com/notohh/snowflake?tab=readme-ov-file
+* https://codeberg.org/adamcstephens/dotfiles
 
 # Todos
 * add nix sops

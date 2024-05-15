@@ -1,0 +1,20 @@
+(defwidget workspaces [monitor]
+    (literal :content workspaces_raw)
+)
+
+(defwidget workspace_icon [state index]
+    (button 
+        :onclick "bspc desktop -f $ws1"	
+        :class "workspace_${state}"
+        (label 
+            :valign "center"
+            :halign "center"
+            :text index)
+        ;; "workspace_${state}"
+    ) 
+)
+
+
+(deflisten workspaces_raw 
+    :initial "" 
+    "python ./workspaces/get_data.py")

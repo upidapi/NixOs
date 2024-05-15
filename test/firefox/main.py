@@ -1,7 +1,10 @@
 import json
 from os import path
 
-data_path = path.join(path.dirname(__file__), "data.json")
+data_path = path.join(
+    path.dirname(__file__),
+    "data.json",
+)
 
 
 with open(data_path) as f:
@@ -16,7 +19,11 @@ for addon in data["addons"]:
     addon["active"] = True
 
 with open(data_path, "w") as f:
-    json.dump(data, f, indent=2)
+    json.dump(
+        data,
+        f,
+        indent=2,
+    )
 
 print("hello")
 

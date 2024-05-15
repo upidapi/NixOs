@@ -1,5 +1,5 @@
 * {
-  all: unset; //Unsets everything so you can style everything from scratch
+   all: unset; //Unsets everything so you can style everything from scratch
 }
 
 //Global Styles
@@ -10,6 +10,49 @@
 }
 
 // Styles on classes (see eww.yuck for more information)
+
+
+// workspaces
+/* 
+.workspaces {
+    font-size: 27px;
+    font-weight: normal;
+    margin: 5px 0px 0px 20px;
+    background-color: #000000; // #0f0f17;
+}
+*/
+
+.workspace_inactive, .workspace_active, .workspace_focused {
+    // padding: 0px 5px 0px 5px;
+    
+    // font-size: 14px;
+    // font-weight: bold;
+
+    // margin: 5px 0px 0px 20px;
+    // color: white;
+    padding: 0px;
+    border-radius: 100%;
+    min-height: 20px;
+    min-width: 20px;
+    // max-wodth: 50px;
+    
+}
+
+.workspace_active {
+    color: #000000;
+    background-color: #888888;
+}
+
+.workspace_inactive {
+    // background-color: #ffffff;
+    // color: #ffffff;
+}
+
+.workspace_focused {
+    color: #000000;
+    background-color: #ffffff;
+}
+
 
 .sidestuff slider {
   all: unset;
@@ -48,7 +91,4 @@
 }
 .label-ram {
   font-size: large;
-}
-.workspaces button:hover {
-  color: #D35D6E;
 }

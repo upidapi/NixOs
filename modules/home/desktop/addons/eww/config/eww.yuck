@@ -1,3 +1,5 @@
+(include "workspaces/workspaces.yuck")
+
 (defwindow bar []
     :monitor 0 
     :windowtype "dock"
@@ -14,7 +16,7 @@
 
 (defwidget bar [monitor_id]
   (centerbox :orientation "h"
-    (workspaces :monitor_id monitor_id)
+    (workspaces :monitor monitor_id)
     (music)
     (sidestuff))
 )
@@ -38,14 +40,14 @@
             :onchange "pamixer --set-volume {}")
     time
     )
-
+)
 
 
 (defwidget workspace [id]
     (button :onclick "" id)
 )
 
-(defwidget workspaces [monitor_id]
+(defwidget workspaces_2 [monitor_id]
   (box :class "workspaces"
        :orientation "h"
        :space-evenly true
@@ -70,14 +72,10 @@
        :orientation "h"
        :space-evenly false
        :halign "center"
-    {test[0].activeWorkspace.id}))
+    ))
 
 (deflisten music :initial ""
   "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
-
-
-(defpoll test :interval "0.1s"
-    "hyprctl monitors -j")
 
 (defpoll volume :interval "0.1s"
   "pamixer --get-volume")

@@ -1,7 +1,7 @@
 (include "workspaces/workspaces.yuck")
 
-(defwindow bar []
-    :monitor 0 
+(defwindow bar [monitor]
+    :monitor monitor
     :windowtype "dock"
     :geometry (geometry :x "0%"
                       :y "0%"
@@ -11,12 +11,12 @@
     :reserve (struts :side "top" :distance "4%")
     :exclusive true
 
-    (bar :monitor_id 0)
+    (bar :monitor monitor)
 )
 
-(defwidget bar [monitor_id]
+(defwidget bar [monitor]
   (centerbox :orientation "h"
-    (workspaces :monitor monitor_id)
+    (workspaces :monitor monitor)
     (music)
     (sidestuff))
 )

@@ -1,6 +1,6 @@
 {...}: {
   wayland.windowManager.hyprland.settings = {
-    exec-once = ["${./exec-once.sh}"];
+    exec-once = ["bash ${./exec-once.sh}"];
 
     general = {
       gaps_in = 0;

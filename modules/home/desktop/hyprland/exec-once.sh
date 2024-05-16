@@ -4,5 +4,5 @@ monitors=$(
 )
 
 for monitor in $(seq 0 "$monitors"); do
-    eww open bar --arg "monitor=$monitor";
+    eww open bar --arg "monitor=$monitor" --id "$monitor";
 done

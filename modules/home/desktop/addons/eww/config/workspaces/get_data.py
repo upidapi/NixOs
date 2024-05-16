@@ -1,13 +1,13 @@
 import json
 import subprocess
+import sys
 import time
 
-monitor = 0
 
 def get_info():
     active_workspace = json.loads(
         subprocess.check_output(["hyprctl", "monitors", "-j"])
-    )[monitor]["activeWorkspace"]["id"]
+    )[int(sys.argv[1])]["activeWorkspace"]["id"]
 
 
     json_data = json.loads(

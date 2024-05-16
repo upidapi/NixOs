@@ -26,6 +26,7 @@ in {
     cli-apps = {
       nixvim = enable;
       # nushell = enable;
+      tmux = enable;
       zsh = {
         enable = true;
         set-shell = true;

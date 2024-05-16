@@ -2,31 +2,47 @@ import json
 import subprocess
 import time
 
+"""
+levels:
+
+inactive
+    nothing on it
+active
+    something on it
+focused
+    on one of the monitors
+current
+    on the current monitor
+"""
 
 def get_info():
     monitors = json.loads(
         subprocess.check_output(["hyprctl", "monitors", "-j"])
     )
     
+    focused_workspaces = [monitor["activeWorkspace"]["id"] for monitor in monitors]
+
     out_data = []
     for monitor in monitors:
-        active_workspace = monitor["activeWorkspace"]["id"]
-
+        current_workspace = monitor["activeWorkspace"]["id"]
 
         json_data = json.loads(
             subprocess.check_output(["hyprctl", "workspaces", "-j"])
         )
 
+        workspaces = [x["id"] for x in json_data]
+
         def get_state(i):
-            if i not in worksapces:
+            if i not in workspaces:
                 return "inactive"
             
-            if i != active_workspace:
+            if i not in focused_workspaces:
                 return "active"
 
-            return "focused"
+            if i != current_workspace:
+                return "focused"
 
-        worksapces = [x["id"] for x in json_data]
+            return "current"
 
         out = ""
 

@@ -14,7 +14,6 @@ in {
     ./config.nix
     ./binds.nix
     ./monitors.nix
-    ./exec-once.nix
     inputs.hyprland.homeManagerModules.default
   ];
 

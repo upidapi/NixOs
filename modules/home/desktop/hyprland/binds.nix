@@ -121,8 +121,9 @@ in {
               # workspace name
               wn = toString (x + 1);
             in [
+              # possibly bind $mod ALT to "goto monitor n"
               # go to workspace n
-              "$mod, ${nb}, workspace, ${wn}"
+              # "$mod, ${nb}, workspace, ${wn}"
 
               # move active to workspace n
               "$mod CTRL, ${nb}, movetoworkspace, ${wn}"
@@ -131,7 +132,7 @@ in {
               "$mod CTRL SHIFT, ${nb}, movetoworkspacesilent, ${wn}"
 
               # switch the place of two worksapces
-              "$mod ALT, ${nb}, focusworkspaceoncurrentmonitor, ${wn}"
+              "$mod, ${nb}, focusworkspaceoncurrentmonitor, ${wn}"
             ]
           )
           10

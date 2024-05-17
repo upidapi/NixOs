@@ -2,43 +2,64 @@ import json
 import subprocess
 import time
 
-monitor = 0
+"""
+levels:
+
+inactive
+    nothing on it
+active
+    something on it
+focused
+    on one of the monitors
+current
+    on the current monitor
+"""
 
 def get_info():
-    active_workspace = json.loads(
+    monitors = json.loads(
         subprocess.check_output(["hyprctl", "monitors", "-j"])
-    )[monitor]["activeWorkspace"]["id"]
-
-
-    json_data = json.loads(
-        subprocess.check_output(["hyprctl", "workspaces", "-j"])
     )
+    
+    focused_workspaces = [monitor["activeWorkspace"]["id"] for monitor in monitors]
 
-    def get_state(i):
-        if i not in worksapces:
-            return "inactive"
-        
-        if i != active_workspace:
-            return "active"
+    out_data = []
+    for monitor in monitors:
+        current_workspace = monitor["activeWorkspace"]["id"]
 
-        return "focused"
+        json_data = json.loads(
+            subprocess.check_output(["hyprctl", "workspaces", "-j"])
+        )
 
-    worksapces = [x["id"] for x in json_data]
+        workspaces = [x["id"] for x in json_data]
 
-    out = ""
-
-    for i in range(1, 11):
-        out += f"(workspace_icon :state \"{get_state(i)}\" :index {i}) "
-
-    return f""" 
-        (box	
-            :class "works"	
-            :orientation "h" 
-            :spacing 10
-            :space-evenly "false" 
+        def get_state(i):
+            if i not in workspaces:
+                return "inactive"
             
-            {out}
-    )""".replace("\n", " ")
+            if i not in focused_workspaces:
+                return "active"
+
+            if i != current_workspace:
+                return "focused"
+
+            return "current"
+
+        out = ""
+
+        for i in range(1, 11):
+            out += f"(workspace_icon :state \"{get_state(i)}\" :index {i}) "
+
+        out_data.append(f""" 
+            (box	
+                :class "works"	
+                :orientation "h" 
+                :spacing 10
+                :space-evenly "false" 
+                
+                {out}
+            )""".replace("\n", " "))
+
+    return out_data
 
 
 def main():
@@ -46,7 +67,7 @@ def main():
     while True:
         cur = get_info()
         if last != cur:
-            print(cur, flush=True)
+            print(json.dumps(cur), flush=True)
             last = cur
 
         time.sleep(0.05)

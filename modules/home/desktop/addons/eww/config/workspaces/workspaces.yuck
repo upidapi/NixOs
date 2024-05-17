@@ -1,5 +1,5 @@
 (defwidget workspaces [monitor]
-    (literal :content workspaces_raw)
+    (literal :content {workspaces_raw[monitor]})
 )
 
 (defwidget workspace_icon [state index]
@@ -18,3 +18,4 @@
 (deflisten workspaces_raw 
     :initial "" 
     "python ./workspaces/get_data.py")
+ 

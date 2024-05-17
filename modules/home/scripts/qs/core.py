@@ -682,7 +682,7 @@ def main():
 
             run_cmd("git stash")
             run_cmd(
-                "git pull git@github.com:upidapi/NixOs.git main --color",
+                "git pull git@github.com:upidapi/NixOs.git main",
                 True,
             )
 

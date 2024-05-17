@@ -17,6 +17,8 @@ in {
       enable = true;
       clock24 = true;
       keyMode = "vi";
+      escapeTime = 0;
+      # mouse = true;
     };
   };
 }

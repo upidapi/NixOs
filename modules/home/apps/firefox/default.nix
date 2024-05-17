@@ -72,7 +72,7 @@ in {
           };
         };
       };
-      profiles = {
+      profiles = rec {
         upidapi = {
           id = 0;
           name = config.home.username;
@@ -277,11 +277,18 @@ in {
           '';
         };
 
+        test =
+          upidapi
+          // {
+            id = 1;
+            name = "test";
+          };
+
         # For security testing and other stuff where you need a
         # profile where I can garantee that i haven't fucked anything
         # upp / all behaviors are the default ones
         base = {
-          id = 1;
+          id = 2;
           name = "base";
         };
       };

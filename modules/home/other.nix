@@ -59,20 +59,6 @@ in {
         cargo
         rustc
 
-        # forensics
-        imhex # hex edior
-        audacity # audio foresics (and editor)
-        sqlmap # sql injection
-        # binary ninja
-        ghidra
-        radare2
-        gimp
-
-        binwalk
-        file
-        ltrace
-        strace
-
         # for formating a multiple iso usb
         ventoy
 
@@ -87,6 +73,22 @@ in {
         scc
 
         # maybe btop
+
+        vlc
+
+        # forensics
+        imhex # hex edior
+        audacity # audio foresics (and editor)
+        sqlmap # sql injection
+        # TODO: binary ninja
+        ghidra
+        radare2
+        gimp
+
+        binwalk
+        file
+        ltrace
+        strace
       ]);
   };
 }

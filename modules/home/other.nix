@@ -39,7 +39,7 @@ in {
                 pygobject3
 
                 # bleak  # bth le
-                pybluez
+                # pybluez
               ]
           )
         )
@@ -68,8 +68,6 @@ in {
         radare2
         gimp
 
-        gimp
-
         binwalk
         file
         ltrace
@@ -77,10 +75,6 @@ in {
 
         # for formating a multiple iso usb
         ventoy
-
-        # TODO:
-        #  binwalk
-        #  string
 
         # find out what proces is using a file
         lsof

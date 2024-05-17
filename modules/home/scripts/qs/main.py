@@ -642,12 +642,14 @@ def main():
     # make sure that we're in the right place
     os.chdir(NIXOS_PATH)
 
+    """
     is_up_to_date = run_cmd("git diff origin/main HEAD") == ""
     if not is_up_to_date:
         print_warn(
             "Local is not up to date with remote",
             43,
         )
+    """
 
     if args["sub_command"]:
         sub_command = args["sub_command"][0][0]

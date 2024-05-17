@@ -1,6 +1,6 @@
 {
   imports = [
-    ./cn-bth.nix
+    ./cn-bth
     ./qs
   ];
 }

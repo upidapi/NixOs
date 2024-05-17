@@ -21,7 +21,7 @@ in {
         {
           flakeIgnore = ["W291" "W293" "E501" "E303" "W503"];
         }
-        (builtins.readFile ./core.py)
+        (builtins.readFile ./main.py)
       )
     ];
   };

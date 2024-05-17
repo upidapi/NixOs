@@ -646,7 +646,7 @@ def main():
     if not is_up_to_date:
         print_warn(
             "Local is not up to date with remote",
-            93,
+            43,
         )
 
     if args["sub_command"]:

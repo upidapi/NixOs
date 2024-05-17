@@ -20,9 +20,20 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = [
+      /*
       (pkgs.writeShellScriptBin "cn-bth" ''
         echo -e "connect AC:80:0A:2E:81:6A\nquit" | bluetoothctl
       '')
+      */
+
+      (
+        pkgs.writers.writePython3Bin
+        "cn-bth"
+        {
+          flakeIgnore = ["W291" "W293" "E501" "E303" "W503"];
+        }
+        (builtins.readFile ./main.py)
+      )
     ];
   };
 }

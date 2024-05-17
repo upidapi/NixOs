@@ -34,10 +34,11 @@ in {
               with python-pkgs; [
                 pandas
                 requests
+
                 dbus-python
-                # pgi
-                # PyGObject
                 pygobject3
+
+                bleak
               ]
           )
         )

@@ -54,6 +54,13 @@ in {
         tray = true;
         trayBadge = true;
       };
+
+      # vesktop checks if this exist to determin if it
+      # should show the "Welcome to vesktop" page
+      "vesktop/state.json".text = builtins.toJSON {
+        # (the other setting dont matter)
+        firstLaunch = false;
+      };
     };
   };
 }

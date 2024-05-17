@@ -73,7 +73,7 @@
         config = {
           home-manager = {
             extraSpecialArgs = extra_args;
-
+            backupFileExtension = "hm-old";
             useGlobalPkgs = true;
             useUserPackages = true;
             users =

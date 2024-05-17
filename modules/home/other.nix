@@ -38,7 +38,8 @@ in {
                 dbus-python
                 pygobject3
 
-                bleak
+                # bleak  # bth le
+                pybluez
               ]
           )
         )

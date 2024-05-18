@@ -70,7 +70,7 @@ in {
         };
       in
         lib.hm.dag.entryAfter ["linkGeneration"] ''
-          echo "${data}" > ${state_path}
+          echo '${data}' > ${state_path}
         '';
     };
   };

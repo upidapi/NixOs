@@ -56,23 +56,21 @@ in {
       };
     };
 
-    # vesktop checks if this exist to determin if it
-    # should show the "Welcome to vesktop" page
-    home.file."~/.config/vesktop/state.json".text = builtins.toJSON {
-      # (the other setting dont matter)
-      firstLaunch = false; # the value of this is ignored lol
-    };
-
-    # un-symlink the vesktop/state.json
-    # since vesktop expects it to be writable, (wich the store isn't)
+    # vesktop checks if state.json has the "firstLaunch" to
+    # determin if it should show the "Welcome to vesktop" page
     home.activation = {
-      unSymlinkVesktopState = let
+      # We have to do it like this since vesktop needs be able to
+      # write to it (a symlink to the store would have been unwritabe)
+      # If vesktop cant write to it then it chrashes
+      createVesktiopStateJson = let
         state_path = "~/.config/vesktop/state.json";
+        data = builtins.toJSON {
+          # (the other setting dont matter)
+          firstLaunch = false; # the value of this is ignored lol
+        };
       in
         lib.hm.dag.entryAfter ["linkGeneration"] ''
-          real_path=$(realpath ${state_path})
-          rm -rf ${state_path}
-          cat $real_path > ${state_path}
+          echo "${data}" > ${state_path}
         '';
     };
   };

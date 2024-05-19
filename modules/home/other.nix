@@ -50,7 +50,7 @@ in {
         tree
 
         # ofc
-        neofetch
+        fastfetch
 
         # you cant have both?
         clang

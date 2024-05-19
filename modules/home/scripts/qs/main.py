@@ -601,10 +601,12 @@ def main():
             Prints this help message
             """,
             },
+
             (
                 "-t",
                 "--trace",
             ): {},
+
             (
                 "-m",
                 "--message",
@@ -616,6 +618,7 @@ def main():
                     "profile",
                 },
             },
+            
             (
                 "-p",
                 "--profile",
@@ -623,6 +626,7 @@ def main():
                 "args": 1,
                 # "permit": True,
             },
+
             (
                 "-a",
                 "--append",
@@ -743,7 +747,7 @@ def main():
     print_devider("Commiting changes")
 
     run_cmd(
-        f'git commit -am "{commit_msg}"',
+        f'git commit --allow-empty -am "{commit_msg}"',
         True,
     )
 

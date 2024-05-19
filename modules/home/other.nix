@@ -52,6 +52,9 @@ in {
         # ofc
         fastfetch
 
+        # check network speed
+        speedtest-cli
+
         # you cant have both?
         clang
         # (lib.hiPrio gcc)

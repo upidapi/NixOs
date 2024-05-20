@@ -463,7 +463,8 @@ def rebuild_nixos(
     show_trace,
 ):
     main_command = (
-        f"sudo nixos-rebuild switch"
+        # make sure that the DE continues to update
+        f"nice -n 1 sudo nixos-rebuild switch"
         f" --flake .#{profile}" + (" --show-trace" * bool(show_trace))
     )
     fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"

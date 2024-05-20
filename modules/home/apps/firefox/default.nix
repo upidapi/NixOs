@@ -186,7 +186,7 @@ in {
               false;
             "browser.newtabpage.activity-stream.showSponsored" = false;
             "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-            "browser.newtabpage.pinned" = false;
+            # "browser.newtabpage.pinned" = false;
             "browser.protections_panel.infoMessage.seen" = true;
             "browser.quitShortcut.disabled" = true;
             "browser.shell.checkDefaultBrowser" = false;
@@ -217,6 +217,14 @@ in {
 
             # 0 auto, 1 light, 2 dark
             "blayout.css.prefers-color-scheme.content-override" = 2;
+
+            "browser.newtabpage.activity-stream.feeds.topsites" = true;
+            "browser.newtabpage.pinned" = [
+              {url = "https://www.youtube.com/";}
+              {url = "https://github.com/";}
+              {url = "https://www.netflix.com/browse";}
+              {url = "https://www.samskolan.se/login/";}
+            ];
           };
 
           # firefox hardening

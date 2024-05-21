@@ -39,11 +39,11 @@ in {
     starship = {
       enable = true;
       settings = {
-        format = "$directory $character";
+        format = "$directory$character";
         # right_format = "$all";
         character = {
           success_symbol = "[➜](bold green)";
-          error_symbol = "[➜](bold red) ";
+          error_symbol = "[➜](bold red)";
           # vicmd_symbol = "[](bold blue) ";
         };
       };

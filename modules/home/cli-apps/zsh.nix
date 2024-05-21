@@ -40,6 +40,12 @@ in {
       enable = true;
       settings = {
         format = "$directory$character";
+        add_newline = true;
+
+        directory = {
+          truncate_to_repo = false;
+        };
+
         # right_format = "$all";
         character = {
           success_symbol = "[➜](bold green)";

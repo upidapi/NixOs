@@ -39,7 +39,7 @@ in {
     starship = {
       enable = true;
       settings = {
-        format = "$path $character";
+        format = "$directory $character";
         # right_format = "$all";
         character = {
           success_symbol = "[➜](bold green)";

@@ -1,4 +1,5 @@
 (include "workspaces/workspaces.yuck")
+(include "right_side/base.yuck")
 
 (defwindow bar [monitor]
     :monitor monitor
@@ -32,36 +33,66 @@
            :value value
            :onchange onchange)))
 
+(defwidget data_container []
+    (box 
+        :spacing 5
+        :space-evenly false
+        :css "
+        * {
+            border-radius: 5px;
+            background-color: #ffffff;
+            padding: 0px 5px;
+        };
+        "
+        (children)
+    )
+)
+
+(defwidget something [icon text color]
+    (data_container 
+        (label 
+            :text icon
+            :width 5
+            :height 5
+            :css "* {
+                color: #000000;
+            }"
+        )
+        (label 
+            :text text 
+            :css "* {color: ${color}};"
+        )
+    )
+)
+
 (defwidget sidestuff []
-  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+  (box 
+        :class "sidestuff" 
+        :orientation "h" 
+        :space-evenly false 
+        :halign "end"
+        :spacing 5
+
     (battery)
     (metric :label "🔊"
             :value volume
             :onchange "pamixer --set-volume {}")
-    time
+    time    
+    (something 
+        :icon "󰂂" 
+        :text "90%"
+        :color "#ff0000"
+    )
+    (something 
+        :icon "-" 
+        :text "90%"
+        :color "#ff0000"
+    )
+
+    ; (data_container "hello" "this")
     )
 )
 
-
-(defwidget workspace [id]
-    (button :onclick "" id)
-)
-
-(defwidget workspaces_2 [monitor_id]
-  (box :class "workspaces"
-       :orientation "h"
-       :space-evenly true
-       :halign "start"
-       :spacing 10
-    (button :onclick "wmctrl -s 0" 1)
-    (button :onclick "wmctrl -s 1" 2)
-    (button :onclick "wmctrl -s 2" 3)
-    (button :onclick "wmctrl -s 3" 4)
-    (button :onclick "wmctrl -s 4" 5)
-    (button :onclick "wmctrl -s 5" 6)
-    (button :onclick "wmctrl -s 6" 7)
-    (button :onclick "wmctrl -s 7" 8)
-    (button :onclick "wmctrl -s 8" 9)))
 
 (defwidget battery []
     battery_percent

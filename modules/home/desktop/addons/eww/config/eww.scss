@@ -2,6 +2,14 @@
    all: unset; //Unsets everything so you can style everything from scratch
 }
 
+
+// some vars
+$primary: #ffffff;
+$secondary: #;
+$tetrary: #b0b4bc;
+$bg: #3a3a3a;
+
+
 //Global Styles
 .bar {
   background-color: #3a3a3a;

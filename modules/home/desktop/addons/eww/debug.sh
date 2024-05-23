@@ -7,5 +7,5 @@ for monitor in $(seq 0 "$monitors"); do
     eww open bar \
         --arg "monitor=$monitor" \
         --id "$monitor" \
-        --config "$(dirname "$0")/config";
+        --config "$NIXOS_CONFIG_PATH/modules/home/desktop/addons/eww/config";
 done

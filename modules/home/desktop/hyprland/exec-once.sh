@@ -1,8 +1,2 @@
-monitors=$(
-    hyprctl monitors -j | \
-    python3 -c "import sys, json; print(len(json.load(sys.stdin)) - 1)"
-)
+bash ./../addons/eww/start-eww.sh
 
-for monitor in $(seq 0 "$monitors"); do
-    eww open bar --arg "monitor=$monitor" --id "$monitor";
-done

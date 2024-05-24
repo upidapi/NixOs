@@ -1,0 +1,67 @@
+(defwidget data_container [?visible]
+    (box 
+        :visible visible
+        :spacing 5
+        :space-evenly false
+        :css "
+        * {
+            border-radius: 5px;
+            background-color: #ffffff;
+            padding: 0px 5px;
+        };
+        "
+        (children)
+    )
+)
+
+(defwidget something [icon text ?color ?visible]
+    (data_container 
+        :visible visible
+        (label 
+            :text icon
+            :width 5
+            :height 5
+            :css "* {color: ${color == "" ? "#000000" : color}};"
+        )
+        (label 
+            :text text 
+            :css "* {color: ${color == "" ? "#000000" : color}};"
+        )
+    )
+)
+
+(defwidget sidestuff []
+  (box 
+        :class "sidestuff" 
+        :orientation "h" 
+        :space-evenly false 
+        :halign "end"
+        :spacing 5
+
+    (battery)
+    (volume)
+    time    
+
+    ; (data_container "hello" "this")
+    )
+)
+
+
+; "󰁹󰂂󰂁󰂀󰁿󰁾󰁽󰁼󰁻󰁺󰂎"
+
+(defwidget battery []
+    (literal :content battery_literal_widget)
+)
+
+(deflisten battery_literal_widget :initial ""
+    "python ./right_side/battery.py" 
+)
+
+
+(defwidget volume []
+    (literal :content volume_literal_widget)
+)
+
+(deflisten volume_literal_widget :initial ""
+    "python ./right_side/volume.py" 
+)

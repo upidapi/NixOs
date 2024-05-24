@@ -6,7 +6,7 @@ def run_command(command):
     return subprocess.check_output(
         command,
         shell=True
-    )
+    ).decode()
 
 def send_literal_widget(data):
     print(data.replace("\n", " "), flush=True)
@@ -31,8 +31,8 @@ def main_loop():
     status = run_command("pamixer --get-volume-human")
     
     icon = "󰕿󰖀󰕾"[round(volume / 100 * 2)]
-
-    if status == "muted":
+    
+    if status.startswith("muted"):
         icon = "󰖁"
     
     return f"""

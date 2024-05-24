@@ -25,12 +25,26 @@ def run_main_loop(func, delta=0.1):
 
         time.sleep(delta)
 
+def construct_icon(icon):
+    return f"""
+        (label 
+            :text \"{icon}\" 
+            :visible {"true" if icon == "" else "false"}
+        )
+    """
+
 def main_loop():
-    airplane_mode = run_command("")
+    airplane_mode = "" if bool(run_command("")) else ""
+    headphones_mode = "" if bool(run_command("")) else ""
+    microphone_mode = "" if bool(run_command("")) else ""
+    wifi_mode = "" if bool(run_command("")) else ""
     
     return f"""
         (data_container
-            (label :text \"\" :visible {"true" if airplane_mode else "false"})
+            {construct_icon("airplande")}
+            {construct_icon("headphones")}
+            {construct_icon("microphone")}
+            {construct_icon("wifi")}
         )
     """
 

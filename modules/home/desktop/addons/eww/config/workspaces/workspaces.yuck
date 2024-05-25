@@ -1,5 +1,8 @@
 (defwidget workspaces [monitor]
-    (literal :content {workspaces_raw[monitor]})
+    (box
+        ; :css "* {background-color: #ff0000}"
+        (literal :content {workspaces_raw[monitor]})
+    )
 )
 
 (defwidget workspace_icon [state index]

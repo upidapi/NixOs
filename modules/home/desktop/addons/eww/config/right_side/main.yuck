@@ -1,13 +1,16 @@
 (defwidget data_container [?visible]
     (box 
+        :width 20
+        :height 20
         :visible visible
         :spacing 5
         :space-evenly false
         :css "
         * {
             border-radius: 5px;
-            background-color: #ffffff;
+            background-color: #cccccc;
             padding: 0px 5px;
+            margin: 0px 0px 0px 5px;
         };
         "
         (children)
@@ -19,8 +22,7 @@
         :visible visible
         (label 
             :text icon
-            :width 5
-            :height 5
+            :width 12
             :css "* {color: ${color == "" ? "#000000" : color}};"
         )
         (label 
@@ -36,12 +38,15 @@
         :orientation "h" 
         :space-evenly false 
         :halign "end"
-        :spacing 5
+        ; :css "* {background-color: #ff0000}"
+        ; :spacing 5
 
+    (status_icons)
     (battery)
     (volume)
-    (status_icons)
-    time    
+    (data_container 
+        (label :text time :css "* {color: #000000}")
+    )
     ; (data_container "hello" "this")
     )
 )
@@ -55,7 +60,7 @@
     (literal :content status_literal_widget)
 )
 
-(deflisten status_literal_widget :initial "(label :text )"
+(deflisten status_literal_widget :initial ""
     "python ./right_side/status.py" 
 )
 

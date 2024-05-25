@@ -16,10 +16,13 @@
 )
 
 (defwidget bar [monitor]
-  (centerbox :orientation "h"
+  (centerbox 
+    :orientation "h"
+    ; :css "* {background-color: #00ff00}"
     (workspaces :monitor monitor)
     (music)
-    (sidestuff))
+    (sidestuff)
+  )
 )
 
 (defwidget metric [label value onchange]

@@ -23,13 +23,8 @@ def main():
             batterys.append(thing)
 
     if not batterys:
-        send_literal_widget("""
-            (something 
-                :visible false
-                :icon ""
-                :text ""
-            )
-        """)
+        send_literal_widget("")
+        # send_literal_widget("(label :text \"test\")")
         
         return
     

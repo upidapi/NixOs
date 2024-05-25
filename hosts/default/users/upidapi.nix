@@ -8,58 +8,5 @@
 in {
   # Dont change this unless you reinsall from scratch.
   home.stateVersion = "23.11"; # Read comment
-
-  #test
-
-  modules.home = {
-    other = enable;
-
-    apps = {
-      alacritty = enable;
-      bitwarden = enable;
-      discord = enable;
-      firefox = enable;
-      r2modman = enable;
-      spotify = enable;
-    };
-
-    cli-apps = {
-      nixvim = enable;
-      # nushell = enable;
-      tmux = enable;
-      zsh = {
-        enable = true;
-        set-shell = true;
-      };
-      wine = enable;
-      git = enable;
-    };
-
-    tools = {
-      playerctl = enable;
-    };
-
-    core = {
-      persist = enable;
-    };
-
-    desktop = {
-      wayland = enable;
-      hyprland = enable;
-      addons = {
-        swww = enable;
-        eww = enable;
-        dunst = enable;
-        gtk = enable;
-        rofi = enable;
-        waybar = enable;
-      };
-    };
-
-    scripts = {
-      # regen-nixos = enable;
-      cn-bth = enable;
-      qs = enable;
-    };
-  };
+  modules.home.suites.all = enable;
 }

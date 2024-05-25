@@ -13,7 +13,7 @@ in {
   options.modules.home.other =
     mkEnableOpt "enables config that i've not found a place for";
 
-  # TODO: put thease things into it's own modules
+  # TODO: put thease things into their own modules
   config = mkIf cfg.enable {
     dconf.settings = {
       "org/virt-manager/virt-manager/connections" = {

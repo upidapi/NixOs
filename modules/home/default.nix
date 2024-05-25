@@ -6,6 +6,7 @@
     ./core
     ./desktop
     ./scripts
+    ./suites
     ./other.nix
   ];
 }

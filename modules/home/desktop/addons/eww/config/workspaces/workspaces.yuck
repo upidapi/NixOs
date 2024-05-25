@@ -7,7 +7,7 @@
 
 (defwidget workspace_icon [state index]
     (button 
-        :onclick "bspc desktop -f $ws1"	
+        :onclick "hyprctl dispatch focusworkspaceoncurrentmonitor ${index}"	
         :class "workspace_${state}"
         (label 
             :valign "center"

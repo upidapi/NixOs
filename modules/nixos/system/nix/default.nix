@@ -12,6 +12,7 @@ in {
     ./gc.nix
     ./flakes.nix
     ./cachix.nix
+    ./nix-index.nix
   ];
 
   # used by other modules

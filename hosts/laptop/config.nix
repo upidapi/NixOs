@@ -63,6 +63,7 @@ in {
         cachix = enable;
         flakes = enable;
         gc = enable;
+        nix-index = enable;
       };
 
       other = {

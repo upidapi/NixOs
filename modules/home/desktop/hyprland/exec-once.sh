@@ -1,2 +1,2 @@
-bash ./../addons/eww/start-eww.sh
+bash ./../addons/eww/start.sh
 

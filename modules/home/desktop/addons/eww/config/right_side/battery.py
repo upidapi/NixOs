@@ -8,6 +8,7 @@ def run_command(command) -> str:
         shell=True
     ).decode()
 
+
 def send_literal_widget(data):
     print(data.replace("\n", " "), flush=True)
 
@@ -33,25 +34,20 @@ def main():
         return
     
     if len(batterys) > 1:
-        send_literal_widget("""
-            (label 
-                :text "multiple batterys found"
-            )
-        """)
-        
-        return
-
+        raise TypeError(f"multiple batterys found ({batterys})")
+    
+    battery = batterys[0]
 
     last = ""
     
 
     while True:
         status = run_command(
-            "cat /sys/class/power_supply/BAT1/status"
+            f"cat /sys/class/power_supply/{battery}/status"
         )
         
         charge = int(run_command(
-            "cat /sys/class/power_supply/BAT1/capacity"
+            f"cat /sys/class/power_supply/{battery}/capacity"
         ))
         
         if status == "Charging":

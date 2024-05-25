@@ -40,14 +40,25 @@
 
     (battery)
     (volume)
+    (status_icons)
     time    
-
     ; (data_container "hello" "this")
     )
 )
 
 
 ; "󰁹󰂂󰂁󰂀󰁿󰁾󰁽󰁼󰁻󰁺󰂎"
+
+
+
+(defwidget status_icons []
+    (literal :content status_literal_widget)
+)
+
+(deflisten status_literal_widget :initial "(label :text )"
+    "python ./right_side/status.py" 
+)
+
 
 (defwidget battery []
     (literal :content battery_literal_widget)

@@ -15,6 +15,7 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = [
       pkgs.pamixer
+      pkgs.pulseaudio
     ];
 
     # Enable sound with pipewire.

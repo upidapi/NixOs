@@ -1,5 +1,6 @@
 import json
 import os
+import shlex
 import subprocess
 import sys
 
@@ -44,8 +45,11 @@ def run_cmd(
     cmd,
     print_res: bool = False,
     ignore=(),
+    color: bool = False,
 ):
-    res = ""
+
+    if color:
+        cmd = f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
 
     process = subprocess.Popen(
         cmd,
@@ -53,7 +57,7 @@ def run_cmd(
         stdout=subprocess.PIPE,
     )
 
-    # replace "" with b"" for Python 3
+    res = ""
     for line in iter(process.stdout.readline, b""):  # type: ignore[attr-defined]
 
         dec = line.decode()
@@ -507,11 +511,8 @@ def get_gen_data():
     gen_data = run_cmd(
         "nixos-rebuild list-generations"
         " --json"
-        # it needing "--flake" is a bug
-        # TODO: submitt a pr to fix it
-        " --flake /persist/nixos#default",
     )
-
+    
     cur_gen_data = None
     for gen in json.loads(gen_data):
         if gen["current"]:
@@ -677,7 +678,8 @@ def main():
         ):
             run_cmd(
                 "git --no-pager diff HEAD --color",
-                True,
+                print_res=True,
+                color=True
             )
             return
 
@@ -690,7 +692,8 @@ def main():
             run_cmd("git stash")
             run_cmd(
                 "git pull git@github.com:upidapi/NixOs.git main",
-                True,
+                print_res=True,
+                color=True
             )
 
             args["message"].append(["Pulled changes from remote"])
@@ -707,20 +710,26 @@ def main():
         validate_new_branch(new_branch)
 
     # nixos ignores files that are not added
-    run_cmd("git add --all")
+    run_cmd(
+        "git add --all",
+        print_res=True,
+        color=True
+    )
 
     # yk
     print_devider("Formating Files")
     run_cmd(
         "alejandra . || true",
-        True,
+        print_res=True,
+        color=True
     )
 
     # show git diff
     print_devider("Git Diff")
     run_cmd(
         "git --no-pager diff HEAD --color",
-        True,
+        print_res=True,
+        color=True
     )
 
     # rebuild nixos
@@ -748,8 +757,9 @@ def main():
     print_devider("Commiting changes")
 
     run_cmd(
-        f'git commit --allow-empty -am "{commit_msg}"',
-        True,
+        f'git commit --allow-empty -am {shlex.quote(commit_msg)}',
+        print_res=True,
+        color=True
     )
 
     # append
@@ -773,7 +783,8 @@ def main():
 
     run_cmd(
         f"git push {origin} --all",
-        True,
+        print_res=True,
+        color=True
     )
 
     if args["sub_command"]:

@@ -45,7 +45,7 @@ def main():
             f"cat /sys/class/power_supply/{battery}/capacity"
         ))
         
-        if status == "Charging":
+        if status.startswith("Charging"):
             icon = "󰂄"
         else:
             icon = "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹"[round(charge / 10)]

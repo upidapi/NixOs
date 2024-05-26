@@ -216,8 +216,8 @@ if __name__ == "__main__":
     try:
         run_main_loop(main_loop)
     except Exception as e:
-        send_literal_widget("""
+        send_literal_widget(f"""
             (label 
-                :text \"status.py failed\"
+                :text \"{str(e)}\"
             )
         """)

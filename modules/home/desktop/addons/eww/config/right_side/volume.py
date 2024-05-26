@@ -44,5 +44,12 @@ def main_loop():
 
 
 if __name__ == "__main__":
-    run_main_loop(main_loop)
+    try:
+        run_main_loop(main_loop)
+    except Exception as e:
+        send_literal_widget(f"""
+            (label 
+                :text \"{str(e)}\"
+            )
+        """)
 

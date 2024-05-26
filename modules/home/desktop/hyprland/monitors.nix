@@ -35,7 +35,7 @@
     workspace =
       map
       (
-        m: "${m.name},${toString m.workspace}, default:true"
+        m: "${m.name},${toString m.workspace}"
       )
       (
         lib.filter

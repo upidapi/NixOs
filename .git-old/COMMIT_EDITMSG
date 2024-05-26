@@ -1,7 +1,0 @@
-update flake inp
-
-info:
-  Profile: default
-  Gen: 240 -> 241
-  NixOs: 24.05.20240515.33d1e75
-  Kernel: 6.6.30

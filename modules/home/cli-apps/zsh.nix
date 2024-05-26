@@ -25,6 +25,7 @@ in {
       shellAliases = {
         # s = "doas -s";
         # sudo = "doas -s";
+        un-page = "env PAGER=cat";
         e = "$EDITOR";
         c = "clear";
         ".." = "cd ..";

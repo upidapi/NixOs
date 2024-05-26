@@ -34,6 +34,14 @@ in {
     suites.all = enable;
 
     hardware.monitors = [
+      # disable
+      # https://github.com/hyprwm/Hyprland/issues/5958
+      # https://github.com/hyprwm/Hyprland/issues/6032
+      {
+        name = "Unknown-1";
+        enabled = false;
+        workspace = -1;
+      }
       {
         name = "DVI-D-1";
         width = 1920;

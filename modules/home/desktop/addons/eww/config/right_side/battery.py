@@ -49,11 +49,9 @@ def main():
             icon = "󰂄"
         else:
             icon = "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹"[round(charge / 10)]
-        icon = "asd" 
             
         cur = f"""
             (something 
-                :visible true
                 :icon \"{icon}\"
                 :text \"{charge}%\"
                 {':color "#ff0000"' if charge <= 10 else ""}

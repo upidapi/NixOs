@@ -13,6 +13,10 @@ in {
     mkEnableOpt "enables eww";
 
   config = mkIf cfg.enable {
+    wayland.windowManager.hyprland.settings = {
+      exec-once = ["bash ${./start.sh}"];
+    };
+
     home.packages = with pkgs; [
       eww
     ];

@@ -45,6 +45,7 @@ in {
         xdg-desktop-portal-hyprland
       ];
       xdgOpenUsePortal = true;
+
       /*
       extraPortals = with pkgs; [
         xdg-desktop-portal-hyprland

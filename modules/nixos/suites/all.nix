@@ -56,7 +56,9 @@ in {
         };
       };
 
-      desktop.sddm = enable;
+      desktop = {
+        sddm = enable;
+      };
 
       hardware = {
         cpu.amd = enable;

@@ -684,6 +684,18 @@ def main():
             return
 
         elif sub_command in (
+            "u",
+            "update",
+        ):
+            run_cmd(
+                "nix flake update",
+                print_res=True,
+                color=True
+            )
+            args["message"].append(["Updated flake inputs"])
+            return
+
+        elif sub_command in (
             "p",
             "pull",
         ):

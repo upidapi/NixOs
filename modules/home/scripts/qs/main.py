@@ -5,39 +5,9 @@ import subprocess
 import sys
 
 """
-qs
-  [-h | --help]
-    Print this help msg
 
-  [-m | --mesage <msg>]
-    use the <msg> commit msg
-
-  [-p | --profile <host name>]
-    Select profile to switch to
-
-  [-a | --append <name>]
-    creates a new branch called <name>, with then msg of <msg>
-    moves the last commit into it
-    changes to said branch
-
-  [-t | --trace] 
-    adds the --show-trace to nixos-rebuild
-
-
-
-Sub commands:
-  e | edit
-    cd into nixos config, open editor
-
-  # g | goto
-  #   cd into nixos config
-    
-  # merge <branch name>
-
- qe := qs e
-# qa <msg> := qs --message <msg> --append
-qd := qs --debug --trace
 """
+
 NIXOS_PATH = "/persist/nixos"
 
 
@@ -84,7 +54,7 @@ def get_last_profile():
 
 
 def get_profile(args):
-    return (args["profile"] or [[get_last_profile()]])[0][0]
+    return (args["--profile"] or [[get_last_profile()]])[0][0]
     
 
 def get_profiles():
@@ -155,286 +125,6 @@ def print_warn(
         color,
         " ",
     )
-
-
-class Parser:
-    # req makes arg required if only other req args
-    # are set
-
-    @staticmethod
-    def parse_opt(
-        opt,
-    ):
-        opts = {}
-        raw_arg_opts = opt.get(
-            "args",
-            [],
-        )
-        del opt["args"]
-        for (
-            i,
-            arg_opt,
-        ) in enumerate(raw_arg_opts):
-            start = arg_opt.get(
-                "start",
-                i,
-            )
-            length = arg_opt.get(
-                "len",
-                1,
-            )
-            minimum = arg_opt.get(
-                "min",
-                length,
-            )
-
-            opt[(arg_opt["name"],)] = arg_opt | {
-                "start": start,
-                "len": length,
-                "min": minimum,
-            }
-
-        for (
-            names,
-            data,
-        ) in opt.items():
-            arg_name = None
-            for arg_alias in names:
-                if not arg_alias.startswith("-"):
-                    arg_name = arg_alias
-                    break
-
-                if arg_alias.startswith("--"):
-                    arg_name = arg_alias[2:]
-                    break
-
-            name = (
-                data.get(
-                    "name",
-                    False,
-                )
-                or arg_name
-            )
-            if name is None:
-                raise TypeError(
-                    f"could not find name for {(names, data)}"
-                )
-
-            opts[name] = {
-                "aliases": names,
-                "doc": data.get(
-                    "doc",
-                    "",
-                ),
-                "args": data.get(
-                    "args",
-                    0,
-                ),
-                "start": data.get(
-                    "start",
-                    0,
-                ),
-                "len": data.get(
-                    "len",
-                    0,
-                ),
-                "min": data.get(
-                    "min",
-                    0,
-                ),
-                "need": data.get(
-                    "need",
-                    set(),
-                ),
-                "allow": data.get(
-                    "allow",
-                    set(),
-                ),
-                "req": data.get(
-                    "req",
-                    False,
-                ),
-                # "permit": data.get("req", False),
-                "raw": data,
-            }
-
-        return opts
-
-    @staticmethod
-    def parse_sys_args(
-        opts,
-    ):
-        arg_alias_map = {}
-        for (
-            name,
-            data,
-        ) in opts.items():
-            for alias in data["aliases"]:
-                if alias.startswith("--"):
-                    arg_alias_map[alias] = name
-                    continue
-
-                if alias.startswith("-"):
-                    if len(alias) == 2:
-                        arg_alias_map[alias] = name
-                    else:
-                        raise TypeError("cant add a muilti char flag")
-
-                    continue
-
-                arg_alias_map[alias] = name
-
-        expanded_args = []
-        opt_allowed = True
-        for arg in sys.argv[1:]:
-            if opt_allowed:
-                if arg == "--":
-                    opt_allowed = False
-
-                if arg.startswith("--"):
-                    expanded_args.append(arg)
-                    continue
-
-                if arg.startswith("-"):
-                    for part in arg[1:]:
-                        expanded_args.append(f"-{part}")
-                    continue
-
-            expanded_args.append(f'"{arg}"')
-
-        args = {name: [] for name in opts.keys()}
-
-        capturing = 0
-        arg_name = None
-        arg_raw_name = None
-
-        positional_args = []
-
-        for arg in expanded_args:
-            arg_is_data = arg.startswith('"') and arg.endswith('"')
-
-            if capturing:
-                if not arg_is_data:
-                    tot_args = opts[arg_name]["args"]
-                    supplied_args = tot_args - capturing
-
-                    raise TypeError(
-                        f"too few args ({supplied_args} of {tot_args})"
-                        f'supplied to "{arg_raw_name}"'
-                    )
-
-                capturing -= 1
-
-                # remove the "" from it
-                arg = arg[1:-1]
-
-                args[arg_name][-1].append(arg)
-                continue
-
-            if arg_is_data:
-                positional_args.append(arg[1:-1])
-                continue
-
-                # raise TypeError(
-                #     f"too many args (<{opts[arg_name].args})"
-                #     f"supplied to \"{arg_raw_name}\""
-                # )
-
-            # start a opt capture
-            arg_raw_name = arg
-            arg_name = arg_alias_map[arg]
-
-            capturing = opts[arg_name]["args"]
-
-            args[arg_name].append([])
-
-        orderd_args = sorted(
-            filter(
-                lambda x: x[1]["len"],
-                opts.items(),
-            ),
-            key=lambda x: x[1]["start"],
-        )
-
-        i = 0
-        for (
-            opt,
-            data,
-        ) in orderd_args:
-            pos_args = positional_args[i:][: data["len"]]
-            if len(pos_args) < data["min"]:
-                raise TypeError(
-                    f"too few positionall args passed to {opt},"
-                    f"only {len(positional_args)} of {data['min']}"
-                )
-
-            if pos_args:
-                args[opt].append(pos_args)
-
-            i += data["len"]
-
-        return args
-
-    @staticmethod
-    def validate_args(args, opts):
-        set_args = set()
-        for (
-            arg,
-            data,
-        ) in args.items():
-            if data:
-                set_args.add(arg)
-
-        req_args = set()
-        for (
-            opt,
-            data,
-        ) in opts.items():
-            if data["req"]:
-                req_args.add(opt)
-
-        allow_args = set()
-
-        # if all set args are req, then make sure that all req args exist
-        if all(opts[arg]["req"] for arg in set_args):
-            if set_args < req_args:
-                raise TypeError(
-                    f"missing the folowing (req) args: {req_args - set_args}"
-                )
-
-            allow_args |= req_args
-
-        # this cant handle curcular allow / need
-        for arg in set_args:
-            data = opts[arg]
-
-            need = data["need"]
-            if need > set_args:
-                raise TypeError(
-                    f'"{arg}" is missing the folowing args {need - set_args}'
-                )
-
-            allow_args |= data["allow"]
-            allow_args |= data["need"]
-
-            not_set = set_args - allow_args
-            if not_set:
-                raise TypeError(
-                    f"the folowing args aren't allowed: {not_set}"
-                )
-
-    @classmethod
-    def parse(
-        cls,
-        opt_data,
-    ):
-        opts = cls.parse_opt(opt_data)
-        args = cls.parse_sys_args(opts)
-        # too tierd atm to actually implement this in
-        # a good way
-        # cls.validate_args(args, opts)
-
-        return args
 
 
 def validate_new_branch(
@@ -509,7 +199,7 @@ class Steps:
         main_command = (
             # make sure that the DE continues to update
             f"nice -n 1 sudo nixos-rebuild switch"
-            f" --flake .#{profile}" + (" --show-trace" * bool(args["trace"]))
+            f" --flake .#{profile}" + (" --show-trace" * bool(args["--trace"]))
         )
 
         fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"
@@ -574,7 +264,7 @@ class Steps:
         cur_gen = gen_data["generation"]
 
         full_commit_msg = (
-            f"{args['message'][0][0]}\n"
+            f"{args['--message'][0][0]}\n"
             f"\n"
             f"info:\n"
             f"  Profile: {profile}\n"
@@ -591,7 +281,6 @@ class Steps:
 
         commit_msg = Steps._gen_commit_msg(args, profile, last_gen_data)
 
-        # gen commit msg
         print(commit_msg)
 
         print_devider("Commiting changes")
@@ -648,10 +337,10 @@ class Steps:
 
 
 def set_commit_msg(args, commit_msg):
-    if args["message"]:
+    if args["--message"]:
         raise TypeError("this command doesn't take a msg")
 
-    args["message"] = [[commit_msg]]
+    args["--message"] = [[commit_msg]]
     return args 
 
 
@@ -682,9 +371,9 @@ class Recipes:
 
 class ParserV2:
     @staticmethod
-    def parse_pos_args(pos, struct):
+    def _parse_pos_args(pos, struct):
         pos_args = {}
-
+        
         for pos_data in struct["positional"]:
             has_default = isinstance(pos_data, tuple)
 
@@ -696,13 +385,39 @@ class ParserV2:
 
             if has_default:
                 pos_args[pos_name] = default
+                continue
 
             raise TypeError(f"\"{pos_name}\" is missing it's arg")
 
         return pos_args
+    
+    @staticmethod
+    def _create_alias_map(struct):
+        # replace shorthands and aliases
+        alias_to_main = {}
+        for name, data in struct.items(): 
+            alias_to_main[name] = name
+            for alias in data["alias"]:
+                if alias in alias_to_main.keys():
+                    # add scope info
+                    raise TypeError(f"the alias \"{alias}\" is used more than once")
+                
+                alias_to_main[alias] = name
+
+        return alias_to_main
+    
+    @staticmethod
+    def _validate_allow(parsed_args, struct):
+        if parsed_args["sub_command"] is not None:
+            for arg, data in parsed_args["flags"].items():
+                if not data: 
+                    continue
+                
+                if not struct["flags"][arg]["allow_sub"]:
+                    raise TypeError(f"the \"{arg}\" flag cant be used with sub commands")
 
     @staticmethod
-    def coherse_args(args, struct):
+    def _coherse_args(args, struct):
         expanded = []
         # expand -xyz to -x -y -z
         for arg in args:
@@ -712,18 +427,10 @@ class ParserV2:
                 expanded.append(arg)
         
         # replace shorthands and aliases
-        alias_to_main = {}
-        for name, data in struct["flags"]: 
-            alias_to_main[name] = name
-            for alias in data["alias"]:
-                if alias in alias_to_main.keys():
-                    # add scope info
-                    raise TypeError(f"the alias \"{alias}\" is used more than once")
-                
-                alias_to_main[alias] = name
+        alias_to_main = ParserV2._create_alias_map(struct["flags"])
         
-        flag_data = {}
-        pos_args = {}
+        flag_data = {f: [] for f in struct["flags"].keys()}
+        pos_args = {"*args": []}
 
         pos = []
 
@@ -752,159 +459,177 @@ class ParserV2:
                 arg = alias_to_main[arg]
                 arg_data = struct["flags"][arg]
                 capturing_count = arg_data["count"]
+                capturing_arg = arg
                 
                 if arg_pos is not None:
                     if len(arg_pos) != capturing_count:
                         raise TypeError(f"too few args passed to \"{arg}\"")
                         
                     flag_data[arg].append(arg_pos)
+                
+                continue
             
             if capturing_arg is None:
                 if len(pos) == pos_count:
-                    if not struct["sub_command"]:
+                    if not struct["sub_commands"]:
+                        if struct["allow_extra"]:
+                            pos_args["*args"].append(arg)
+                            continue
+
                         raise TypeError("too many positionall args")
                     
-                    if arg not in struct["sub_command"]:
+                    alias_to_sub_command = ParserV2._create_alias_map(
+                        struct["sub_commands"]
+                    )
+
+                    if arg not in alias_to_sub_command.keys():
                         raise TypeError(f"unknown sub command \"{arg}\"")
+                    
+                    sub_command = alias_to_sub_command[arg]
 
-                    pos_args = ParserV2.parse_pos_args(pos, struct)
-
-                    return {
+                    pos_args = ParserV2._parse_pos_args(pos, struct)
+                    
+                    parsed_args = {
                         "flags": flag_data,
                         "pos": pos_args,
-                        "sub_command": arg,
-                        "sub_data": ParserV2.parse_pos_args(
+                        "sub_command": sub_command,
+                        "sub_data": ParserV2._parse_pos_args(
                             args[i + 1:],
-                            struct["sub_commands"][arg],
+                            struct["sub_commands"][sub_command]["sub_options"],
                         )
                     }
 
+                    ParserV2._validate_allow(parsed_args, struct)
+                    return parsed_args
+
                 pos.append(arg)
-            
+                continue
 
             if capturing_count != 0:
                 capturing_pos.append(arg)
                 capturing_count -= 1
             
             if capturing_count == 0:
-                flag_data[arg].append(capturing_pos)
+                flag_data[capturing_arg].append(capturing_pos)
                 capturing_pos = []
                 capturing_arg = None
         
-        pos_args = ParserV2.parse_pos_args(pos, struct)
-        return {
+        if capturing_count != 0:
+            raise TypeError(
+                f"too few args passed to \"{capturing_arg}\" ({capturing_count} more needed)"
+            )
+
+
+        pos_args = ParserV2._parse_pos_args(pos, struct)
+        parsed_args = {
             "flags": flag_data,
             "pos": pos_args,
             "sub_command": None,
             "sub_data": {}
         }
 
+        ParserV2._validate_allow(parsed_args, struct)
+
+        return parsed_args
+    
+    @staticmethod
+    def opt_part(
+        flags: dict | None = None,
+        poss: list | None = None,
+        sub: dict | None = None,
+        allow_extra: bool = False,
+        req_sub: bool = False,
+    ):
+        if sub is not None:
+            if allow_extra:
+                raise TypeError(
+                    "cant have arbitrary amount of args and sub commands"
+                )
+
+        if poss is None:
+            poss = []
+        
+        setting_default = False
+        for pos in poss:
+            has_default = isinstance(pos, tuple)
+            # has_default = "default" in pos.keys()
+
+            if req_sub and has_default:
+                raise TypeError(
+                    "cant have default args if the sub command is required"
+                )
+
+            if setting_default:
+                if not has_default:
+                    raise TypeError("cant have non default arg after default arg") 
+
+            setting_default = setting_default or has_default
+        
+
+        if len(poss) != len(list(set(poss))):
+            raise TypeError("can have duplicates in positional names")
+        
+        
+        if flags is None:
+            flags = {}
+
+        for flag in flags.values():
+            def set_default(key, val):
+                if key not in flag.keys():
+                    flag[key] = val
+
+            set_default("alias", [])
+            set_default("count", 0)
+            set_default("info", "")
+            set_default("doc", flag["info"])
+            set_default("allow_sub", False)
             
-"""
-something help
+
+        if sub is None:
+            sub = {}
+
+        for sub_command in sub.values():
+            def set_default(key, val):
+                if key not in sub_command.keys():
+                    sub_command[key] = val 
+            
+            set_default("alias", [])
+            set_default("info", "")
+            set_default("doc", sub_command["info"])
+            set_default("sub_options", ParserV2.opt_part())
 
 
-something <req> <req> [optional] [optional] 
-    -f  --flag         info
-    -o  --other-flag   info
+        return {
+            "flags": flags,
+            "positional": poss,
+            "sub_commands": sub,
+            "allow_extra": allow_extra,  # put into *args
+            "req_sub": req_sub  # put into *args
+        }
     
-    sub-command        info
-    other-sub-command  info
+    @staticmethod
+    def print_help():  # parsed_arg, struct):
+        """
+        something help
 
-"""
+
+        something <req> <req> [optional] [optional] 
+            -f  --flag         info
+            -o  --other-flag   info
+            
+            sub-command        info
+            other-sub-command  info
+
+        """
+        # TODO: add a help command 
+
+    @staticmethod
+    def parse_sys_args(struct):
+        return ParserV2._coherse_args(sys.argv[1:], struct)
 
 
-def part(
-    flags: dict | None = None,
-    poss: list | None = None,
-    sub: dict | None = None,
-    allow_extra: bool = False,
-    req_sub: bool = False,
-):
-    if sub is not None:
-        if allow_extra:
-            raise TypeError(
-                "cant have arbitrary amount of args and sub commands"
-            )
-
-    if poss is None:
-        poss = []
-    
-    setting_default = False
-    for pos in poss:
-        has_default = "default" in pos.keys()
-        if req_sub and has_default:
-            raise TypeError("cant have default args if the sub command is required")
-
-        if not setting_default:
-            if has_default:
-                raise TypeError("cant have non default arg after default arg") 
-
-        setting_default = setting_default or has_default
-    
-
-    if len(poss) != len(list(set(poss))):
-        raise TypeError("can have duplicates in positional names")
-
-    return {
-        "flags": flags is not None or {},
-        "positional": poss is not None or [],
-        "sub_commands": sub is not None or {},
-        "allow_extra": allow_extra,  # put into *args
-        "req_sub": req_sub  # put into *args
-    }
-              
-        
-x = part(
-    {
-        "--message": {
-            "alias": ["-m"],
-            "info": "commit msg for the rebuild",
-        
-            # not needed, default behaviour
-            # "allow_sub": False
-
-            "count": 1,
-            "default": None
-        },
-
-        "--profile": {
-            "alias": ["-p"],
-            "info": "the flake profile to build",
-            "count": 1,
-            "default": None
-        },
-    },
-    [   
-        "other",  # no default => required
-        ("test", "default") 
-    ],
-    {
-        # generated automatically
-        # "help": {
-        # },
-
-        "edit": {
-            "alias": ["e"],
-            "info": "open the config in the editor"
-        },
-
-        "diff": {
-            "alias": ["d"],
-            "info": "show diff between HEAD and last commit"
-        },
-
-        "update": {
-            "alias": ["u"],
-            "info": "update flake inputs and rebuild"
-        },
-
-        "pull": {
-            "alias": ["p"],
-            "info": "pull for remote and rebuild"
-        },
-    }
-)
+def pp(data):
+    print(json.dumps(data, indent=4))
 
 
 # currently you cant have a option in args and kwargs
@@ -914,65 +639,65 @@ def main():
     # todo add a not flag, if true, then dont allow it unless
     # something explicitly permitts it
 
-    args = Parser.parse(
-        {
-            "args": [
-                {
-                    "name": "sub_command",
-                    "min": 0,
+    args = ParserV2.parse_sys_args(
+        ParserV2.opt_part(
+            {
+                "--trace": {
+                    "alias": ["-t"],
+                    "info": "pass --show-trace to nixos-rebuild" 
                 },
+
+                "--message": {
+                    "alias": ["-m"],
+                    "info": "commit msg for the rebuild",
+                
+                    # not needed, default behaviour
+                    # "allow_sub": False,
+
+                    "count": 1,
+                    "default": None
+                },
+
+                "--profile": {
+                    "alias": ["-p"],
+                    "info": "the flake profile to build",
+                    "count": 1,
+                    "default": None
+                },
+            },
+            [   
+                # "other",  # no default => required
+                # ("test", "default")  # has default => not required
             ],
-            (
-                "-h",
-                "--help",
-            ): {
-                "name": "help",
-                "args": 0,
-                "doc": """
-            Prints this help message
-            """,
-            },
+            {
+                # generated automatically
+                # "help": {
+                # },
 
-            (
-                "-t",
-                "--trace",
-            ): {},
-
-            (
-                "-m",
-                "--message",
-            ): {
-                "args": 1,
-                "req": True,
-                "allow": {
-                    "trace",
-                    "profile",
+                "edit": {
+                    "alias": ["e"],
+                    "info": "open the config in the editor"
                 },
-            },
-            
-            (
-                "-p",
-                "--profile",
-            ): {
-                "args": 1,
-                # "permit": True,
-            },
-
-            (
-                "-a",
-                "--append",
-            ): {
-                "args": 1,
-                "need": {"message"},
-                "allow": {
-                    "trace",
-                    "profile",
+        
+                "diff": {
+                    "alias": ["d"],
+                    "info": "show diff between HEAD and last commit"
                 },
-            },
-        }
+        
+                "update": {
+                    "alias": ["u"],
+                    "info": "update flake inputs and rebuild"
+                },
+        
+                "pull": {
+                    "alias": ["p"],
+                    "info": "pull for remote and rebuild"
+                },
+            }
+        )
     )
 
-    print(args)
+    pp(args)
 
     # make sure that we're in the right place
     os.chdir(NIXOS_PATH)
@@ -985,14 +710,12 @@ def main():
             43,
         )
     """
+    
+    sub_command = args["sub_command"]
+    args = args["flags"]
 
-    if args["sub_command"]:
-        sub_command = args["sub_command"][0][0]
-
-        if sub_command in (
-            "e",
-            "edit",
-        ):
+    if sub_command is not None:
+        if sub_command == "edit":
             # subprocess.run(f"cd {NIXOS_PATH}; nvim .", shell=True)
             # os.chdir(NIXOS_PATH)
             subprocess.run(
@@ -1001,16 +724,10 @@ def main():
             )
             return
 
-        elif sub_command in (
-            "d",
-            "diff",
-        ):
+        elif sub_command == "diff":
             return Steps.show_diff()
 
-        elif sub_command in (
-            "u",
-            "update",
-        ):
+        elif sub_command == "update":
             run_cmd(
                 "nix flake update",
                 print_res=True,
@@ -1023,10 +740,7 @@ def main():
 
             return
 
-        elif sub_command in (
-            "p",
-            "pull",
-        ):
+        elif sub_command == "pull":
             print_devider("Pulling Changes")
 
             run_cmd("git stash")
@@ -1036,26 +750,17 @@ def main():
                 color=True
             )
 
-            args["message"].append(["Pulled changes from remote"])
+            args["--message"].append(["Pulled changes from remote"])
 
-        elif not sub_command == "":
-            raise TypeError(f"invallid subcommand {sub_command}")
-
-    if not args["message"] or not args["message"][0]:
+    if not args["--message"] or not args["--message"][0]:
         raise TypeError("missing --message argument")
 
 
     Recipes.add_show_formatt_files() 
     Recipes.rebuild_and_commit(args)
 
-    if args["sub_command"]:
-        sub_command = args["sub_command"][0][0]
-
-        if sub_command in (
-            "p",
-            "pull",
-        ):
-            run_cmd("git stash pop")
+    if sub_command == "pull":
+        run_cmd("git stash pop")
     
     Steps.push_changes()
 

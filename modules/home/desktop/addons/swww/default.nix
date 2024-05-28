@@ -10,7 +10,7 @@
   cfg = config.modules.home.desktop.addons.swww;
 
   startSwww = pkgs.writeShellScriptBin "start-swww" ''
-    ${pkgs.swww}/bin/swww-daemon
+    ${pkgs.swww}/bin/swww-daemon & sleep 1
     ${pkgs.swww}/bin/swww img \
       ${./wallpapers/simple-tokyo-night.png} \
       --transition-type=none

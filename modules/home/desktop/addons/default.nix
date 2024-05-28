@@ -1,6 +1,6 @@
 {
   imports = [
-    ./swww.nix
+    ./swww
     ./eww
     ./dunst.nix
     ./gtk.nix

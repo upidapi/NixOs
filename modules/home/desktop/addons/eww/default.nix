@@ -8,13 +8,24 @@
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.addons.eww;
+
+  startEww = pkgs.writeShellScriptBin "start-eww-bar" ''
+    monitors=$(
+        hyprctl monitors -j | \
+        python3 -c "import sys, json; print(len(json.load(sys.stdin)) - 1)"
+    )
+
+    for monitor in $(seq 0 "$monitors"); do
+        eww open bar --arg "monitor=$monitor" --id "$monitor";
+    done
+  '';
 in {
   options.modules.home.desktop.addons.eww =
     mkEnableOpt "enables eww";
 
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
-      exec-once = ["bash ${./start.sh}"];
+      exec-once = ["bash ${startEww}/bin/start-eww-bar"];
     };
 
     home.packages = with pkgs; [

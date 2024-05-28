@@ -369,7 +369,7 @@ class Recipes:
         Steps.commit_changes(args, profile, last_gen_data)
     
 
-class ParserV2:
+class Parser:
     @staticmethod
     def _parse_pos_args(pos, struct):
         pos_args = {}
@@ -427,7 +427,7 @@ class ParserV2:
                 expanded.append(arg)
         
         # replace shorthands and aliases
-        alias_to_main = ParserV2._create_alias_map(struct["flags"])
+        alias_to_main = Parser._create_alias_map(struct["flags"])
         
         flag_data = {f: [] for f in struct["flags"].keys()}
         pos_args = {"*args": []}
@@ -458,7 +458,8 @@ class ParserV2:
         
                 arg = alias_to_main[arg]
                 arg_data = struct["flags"][arg]
-                capturing_count = arg_data["count"]
+                capturing_count = len(arg_data["args"])
+
                 capturing_arg = arg
                 
                 if arg_pos is not None:
@@ -478,7 +479,7 @@ class ParserV2:
 
                         raise TypeError("too many positionall args")
                     
-                    alias_to_sub_command = ParserV2._create_alias_map(
+                    alias_to_sub_command = Parser._create_alias_map(
                         struct["sub_commands"]
                     )
 
@@ -487,19 +488,19 @@ class ParserV2:
                     
                     sub_command = alias_to_sub_command[arg]
 
-                    pos_args = ParserV2._parse_pos_args(pos, struct)
+                    pos_args = Parser._parse_pos_args(pos, struct)
                     
                     parsed_args = {
                         "flags": flag_data,
                         "pos": pos_args,
                         "sub_command": sub_command,
-                        "sub_data": ParserV2._parse_pos_args(
+                        "sub_data": Parser._parse_pos_args(
                             args[i + 1:],
                             struct["sub_commands"][sub_command]["sub_options"],
                         )
                     }
 
-                    ParserV2._validate_allow(parsed_args, struct)
+                    Parser._validate_allow(parsed_args, struct)
                     return parsed_args
 
                 pos.append(arg)
@@ -520,7 +521,7 @@ class ParserV2:
             )
 
 
-        pos_args = ParserV2._parse_pos_args(pos, struct)
+        pos_args = Parser._parse_pos_args(pos, struct)
         parsed_args = {
             "flags": flag_data,
             "pos": pos_args,
@@ -528,7 +529,7 @@ class ParserV2:
             "sub_data": {}
         }
 
-        ParserV2._validate_allow(parsed_args, struct)
+        Parser._validate_allow(parsed_args, struct)
 
         return parsed_args
     
@@ -579,7 +580,10 @@ class ParserV2:
                     flag[key] = val
 
             set_default("alias", [])
-            set_default("count", 0)
+            set_default("args", [])
+            if isinstance(num_args := flag["args"], int):
+                flag["args"] = [lambda *_: []] * num_args
+
             set_default("info", "")
             set_default("doc", flag["info"])
             set_default("allow_sub", False)
@@ -596,7 +600,7 @@ class ParserV2:
             set_default("alias", [])
             set_default("info", "")
             set_default("doc", sub_command["info"])
-            set_default("sub_options", ParserV2.opt_part())
+            set_default("sub_options", Parser.opt_part())
 
 
         return {
@@ -625,7 +629,7 @@ class ParserV2:
 
     @staticmethod
     def parse_sys_args(struct):
-        return ParserV2._coherse_args(sys.argv[1:], struct)
+        return Parser._coherse_args(sys.argv[1:], struct)
 
 
 def pp(data):
@@ -639,8 +643,8 @@ def main():
     # todo add a not flag, if true, then dont allow it unless
     # something explicitly permitts it
 
-    args = ParserV2.parse_sys_args(
-        ParserV2.opt_part(
+    args = Parser.parse_sys_args(
+        Parser.opt_part(
             {
                 "--trace": {
                     "alias": ["-t"],
@@ -654,14 +658,14 @@ def main():
                     # not needed, default behaviour
                     # "allow_sub": False,
 
-                    "count": 1,
+                    "args": 1,
                     "default": None
                 },
 
                 "--profile": {
                     "alias": ["-p"],
                     "info": "the flake profile to build",
-                    "count": 1,
+                    "args": 1,
                     "default": None
                 },
             },

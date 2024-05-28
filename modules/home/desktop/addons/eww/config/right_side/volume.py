@@ -27,9 +27,12 @@ def run_main_loop(func, delta=0.1):
 
 
 def main_loop():
-    volume = int(run_command("pamixer --get-volume"))
-    status = run_command("pamixer --get-volume-human")
-    
+    try:
+        volume = int(run_command("pamixer --get-volume"))
+        status = run_command("pamixer --get-volume-human")
+    except subprocess.CalledProcessError:
+        return ""
+
     icon = "󰕿󰖀󰕾"[round(volume / 100 * 2)]
     
     if status.startswith("muted"):

@@ -192,9 +192,12 @@ def get_mic_status():
     if default_source is None:
         return ""
     
-    if run_command("pamixer --default-source --get-mute") == "true":
-        return ""
-    
+    try:
+        if run_command("pamixer --default-source --get-mute") == "true":
+            return ""
+    except subprocess.CalledProcessError:
+        return ""
+
     return ""
     # pamixer --source $_MIC --get-mute | awk '{print}'
 

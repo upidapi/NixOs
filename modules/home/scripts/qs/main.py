@@ -520,7 +520,6 @@ class Parser:
                 f"too few args passed to \"{capturing_arg}\" ({capturing_count} more needed)"
             )
 
-
         pos_args = Parser._parse_pos_args(pos, struct)
         parsed_args = {
             "flags": flag_data,

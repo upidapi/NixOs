@@ -19,7 +19,8 @@ in {
         pkgs.writers.writePython3Bin
         "qs"
         {
-          flakeIgnore = ["W291" "W293" "E501" "E303" "W503"];
+          # TODO: disable E203 globally since it conflicts with ruff
+          flakeIgnore = ["W291" "W293" "E501" "E303" "W503" "E203"];
         }
         (builtins.readFile ./main.py)
       )

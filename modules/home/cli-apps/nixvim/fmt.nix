@@ -13,6 +13,7 @@
         clang-tools
         isort
         taplo
+        ruff
       ])
       ++ [
         inputs.alejandra.defaultPackage.${pkgs.system}

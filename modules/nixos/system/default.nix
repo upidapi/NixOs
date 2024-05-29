@@ -3,5 +3,6 @@
     ./core
     ./nix
     ./other
+    ./security
   ];
 }

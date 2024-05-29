@@ -13,7 +13,6 @@ in {
     ./desktop
     ./hardware
     ./system
-    ./security
     ./suites
     ./home-tunnel.nix
     ./other.nix

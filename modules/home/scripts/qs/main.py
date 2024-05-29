@@ -1,8 +1,8 @@
 import json
 import os
-import shlex
 import subprocess
 import sys
+import shlex
 
 NIXOS_PATH = "/persist/nixos"
 
@@ -18,17 +18,7 @@ def run_cmd(
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
 
-
-
-
-
-    res = ""
-    
-    process = subprocess.Popen(
-        cmd,
-        shell=True,
-        stdout=subprocess.PIPE,
-    )
+    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
 
     res = ""
     for line in iter(process.stdout.readline, b""):  # type: ignore[attr-defined]

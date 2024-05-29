@@ -2,16 +2,25 @@ import subprocess
 import time
 
 
-def run_command(command) -> str:
+def run_command(
+    command,
+) -> str:
     return subprocess.check_output(
         command,
-        shell=True
+        shell=True,
     ).decode()
 
 
-def send_literal_widget(data):
-    print(data.replace("\n", " "), flush=True)
-
+def send_literal_widget(
+    data,
+):
+    print(
+        data.replace(
+            "\n",
+            " ",
+        ),
+        flush=True,
+    )
 
 
 def main():
@@ -25,31 +34,26 @@ def main():
     if not batterys:
         send_literal_widget("")
         # send_literal_widget("(label :text \"test\")")
-        
+
         return
-    
+
     if len(batterys) > 1:
         raise TypeError(f"multiple batterys found ({batterys})")
-    
+
     battery = batterys[0]
 
     last = ""
-    
 
     while True:
-        status = run_command(
-            f"cat /sys/class/power_supply/{battery}/status"
-        )
-        
-        charge = int(run_command(
-            f"cat /sys/class/power_supply/{battery}/capacity"
-        ))
-        
+        status = run_command(f"cat /sys/class/power_supply/{battery}/status")
+
+        charge = int(run_command(f"cat /sys/class/power_supply/{battery}/capacity"))
+
         if status.startswith("Charging"):
             icon = "󰂄"
         else:
             icon = "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹"[round(charge / 10)]
-            
+
         cur = f"""
             (something 
                 :icon \"{icon}\"
@@ -59,7 +63,7 @@ def main():
         """
         if cur != last:
             last = cur
-            
+
             send_literal_widget(cur)
 
         time.sleep(0.1)
@@ -67,10 +71,9 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()    
+        main()
     except Exception:
         send_literal_widget(f"""
             (label
                 :text \"battery.py failed\")
         """)
-

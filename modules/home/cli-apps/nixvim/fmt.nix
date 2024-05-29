@@ -53,7 +53,7 @@
           args = [
             "format"
             "--config"
-            ''"line-length = 70"''
+            "line-length = 70"
             "--force-exclude"
             "--stdin-filename"
             "$FILENAME"

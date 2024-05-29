@@ -15,11 +15,18 @@ current
     on the current monitor
 """
 
+
 def get_info():
     monitors = json.loads(
-        subprocess.check_output(["hyprctl", "monitors", "-j"])
+        subprocess.check_output(
+            [
+                "hyprctl",
+                "monitors",
+                "-j",
+            ]
+        )
     )
-    
+
     focused_workspaces = [monitor["activeWorkspace"]["id"] for monitor in monitors]
 
     out_data = []
@@ -27,15 +34,23 @@ def get_info():
         current_workspace = monitor["activeWorkspace"]["id"]
 
         json_data = json.loads(
-            subprocess.check_output(["hyprctl", "workspaces", "-j"])
+            subprocess.check_output(
+                [
+                    "hyprctl",
+                    "workspaces",
+                    "-j",
+                ]
+            )
         )
 
         workspaces = [x["id"] for x in json_data]
 
-        def get_state(i):
+        def get_state(
+            i,
+        ):
             if i not in workspaces:
                 return "inactive"
-            
+
             if i not in focused_workspaces:
                 return "active"
 
@@ -46,10 +61,14 @@ def get_info():
 
         out = ""
 
-        for i in range(1, 11):
-            out += f"(workspace_icon :state \"{get_state(i)}\" :index {i}) "
+        for i in range(
+            1,
+            11,
+        ):
+            out += f'(workspace_icon :state "{get_state(i)}" :index {i}) '
 
-        out_data.append(f""" 
+        out_data.append(
+            f""" 
             (box	
                 :class "works"	
                 :orientation "h" 
@@ -57,7 +76,11 @@ def get_info():
                 :space-evenly "false" 
                 
                 {out}
-            )""".replace("\n", " "))
+            )""".replace(
+                "\n",
+                " ",
+            )
+        )
 
     return out_data
 
@@ -67,7 +90,10 @@ def main():
     while True:
         cur = get_info()
         if last != cur:
-            print(json.dumps(cur), flush=True)
+            print(
+                json.dumps(cur),
+                flush=True,
+            )
             last = cur
 
         time.sleep(0.05)
@@ -75,4 +101,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

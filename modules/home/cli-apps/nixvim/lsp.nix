@@ -33,7 +33,17 @@ in {
 
         # python
         pyright = enable;
-        ruff = enable;
+        ruff = {
+          enable = true;
+          # https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/ruff.lua
+          cmd = [
+            "ruff"
+            "server"
+            "--preview"
+            "--config"
+            "${./config/ruff.toml}"
+          ];
+        };
 
         jsonls = enable;
         html = enable;

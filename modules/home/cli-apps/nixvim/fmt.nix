@@ -58,9 +58,8 @@
           command = "ruff";
           args = [
             "format"
-            "--preview"
             "--config"
-            "line-length = 70"
+            "${./config/ruff.toml}"
             "--force-exclude"
             "--stdin-filename"
             "$FILENAME"
@@ -72,9 +71,8 @@
           command = "ruff";
           args = [
             "check"
-            "--preview"
-            "--select"
-            "I"
+            "--config"
+            "${./config/ruff.toml}"
             "--fix"
             "--force-exclude"
             "--stdin-filename"

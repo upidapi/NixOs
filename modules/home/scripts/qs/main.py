@@ -329,7 +329,15 @@ class Steps:
             print_res=True,
             color=True
         )
-
+    
+    @staticmethod
+    def print_success():
+        print("\n")
+        print_warn(
+            "Successfully applied nixos configuration changes",
+            "42;30",
+        )
+    
     class Pull:
         @staticmethod
         def pre():
@@ -367,7 +375,8 @@ class Recipes:
 
         # commit
         Steps.commit_changes(args, profile, last_gen_data)
-    
+
+
 
 class Parser:
     @staticmethod
@@ -731,6 +740,8 @@ def main():
             return Steps.show_diff()
 
         elif sub_command == "update":
+            run_cmd("git stash")
+
             run_cmd(
                 "nix flake update",
                 print_res=True,
@@ -738,8 +749,15 @@ def main():
             )
 
             args = set_commit_msg(args, "update flake inputs")
-            Recipes.add_show_formatt_files()
-            Recipes.rebuild_and_commit(args)
+
+            try:
+                Recipes.add_show_formatt_files() 
+                Recipes.rebuild_and_commit(args)
+            finally:
+                run_cmd("git stash pop")
+
+            Steps.push_changes()
+            Steps.print_success()
 
             return
 
@@ -752,8 +770,19 @@ def main():
                 print_res=True,
                 color=True
             )
+            
+            args = set_commit_msg(args, "Pulled changes from remote")
+            
+            try:
+                Recipes.add_show_formatt_files() 
+                Recipes.rebuild_and_commit(args)
+            finally:
+                run_cmd("git stash pop")
 
-            args["--message"].append(["Pulled changes from remote"])
+            Steps.push_changes()
+            Steps.print_success()
+
+            return
 
     if not args["--message"] or not args["--message"][0]:
         raise TypeError("missing --message argument")
@@ -761,17 +790,9 @@ def main():
 
     Recipes.add_show_formatt_files() 
     Recipes.rebuild_and_commit(args)
-
-    if sub_command == "pull":
-        run_cmd("git stash pop")
     
     Steps.push_changes()
-
-    print("\n")
-    print_warn(
-        "Successfully applied nixos configuration changes",
-        "42;30",
-    )
+    Steps.print_success()
 
 
 main()

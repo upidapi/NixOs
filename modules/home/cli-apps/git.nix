@@ -20,7 +20,10 @@ in {
       userEmail = "videw@icloud.com";
       extraConfig = {
         init.defaultBranch = "main";
-        safe.directory = "${osConfig.modules.nixos.system.nix.cfg-path}";
+        safe.directory = [
+          "${osConfig.modules.nixos.system.nix.cfg-path}"
+          "${osConfig.modules.nixos.system.nix.cfg-path}/.git"
+        ];
         pull.rebase = "false";
       };
     };

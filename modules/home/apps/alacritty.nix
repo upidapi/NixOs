@@ -12,7 +12,7 @@ in {
     mkEnableOpt "Whether or not to enable alacritty, a terminal emulator";
 
   config = mkIf cfg.enable {
-    # i dont think this is actualy the defautl settings
+    # i dont think this is actually the default settings
     # https://github.com/TwiggieSmallz/Default-Alacritty-TOML-Config/blob/main/alacritty.toml
 
     programs.alacritty = {

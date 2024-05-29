@@ -8,7 +8,7 @@ fi
 
 
 
-# make user select :a (vallid) profile
+# make user select :a (valid) profile
 raw_profile=$1
 
 # config_dir=$(dirname /persist/nixos/install.sh)
@@ -24,7 +24,7 @@ for dir in $raw_hosts; do
   hosts+=("$res")
 done;
 
-# check if user has provieded valid profile to script
+# check if user has provided valid profile to script
 for host in "${hosts[@]}"; do
   if [[ $raw_profile == "$host" ]];
     then profile=$raw_profile;
@@ -67,11 +67,11 @@ echo "$profile" > /mnt/persist/nixos/profile-name.txt
 
 
 
-# The persist modules can't perisist files in a 
+# The persist modules can't persist files in a 
 # folder that doesn't exist, and /persist/system is where 
 # we store the system files. (the nixos installer doesn't 
 # work otherwise)
-# Therefour we have to manualy create this folder
+# Therefour we have to manually create this folder
 # (this took me about 2 full days to figure out, :) )
 mkdir /mnt/persist/system
 
@@ -81,10 +81,10 @@ mkdir /mnt/etc
 mkdir /mnt/etc/nixos/
 
 # now we have to create a conventional config to start,
-# since nixos-insall cant handle flakes
+# since nixos-insall can't handle flakes
 
-# geneate a tmp hardware cfg that includes the files system
-# since disko doesn't work whithout flakes
+# generate a tmp hardware cfg that includes the files system
+# since disko doesn't work without flakes
 nixos-generate-config \
   --root /mnt \
   --show-hardware-config \

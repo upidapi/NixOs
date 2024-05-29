@@ -65,6 +65,6 @@ if __name__ == "__main__":
     except Exception as e:
         send_literal_widget(f"""
             (label 
-                :text \"{str(e)}\"
+                :text \"{e!s}\"
             )
         """)

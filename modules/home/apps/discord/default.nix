@@ -57,11 +57,11 @@ in {
     };
 
     # vesktop checks if state.json has the "firstLaunch" to
-    # determin if it should show the "Welcome to vesktop" page
+    # determine if it should show the "Welcome to vesktop" page
     home.activation = {
       # We have to do it like this since vesktop needs be able to
       # write to it (a symlink to the store would have been unwritabe)
-      # If vesktop cant write to it then it chrashes
+      # If vesktop can't write to it then it chrashes
       createVesktiopStateJson = let
         state_path = "~/.config/vesktop/state.json";
         data = builtins.toJSON {
@@ -177,7 +177,7 @@ in {
     ];
     # tested (diddn't work)
 
-    # disabeling hardware acseleartion
+    # disabling hardware acseleartion
     # --no-gpu
     # --enable-features=UseOzonePlatform --ozone-platform=wayland
 

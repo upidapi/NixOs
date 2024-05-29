@@ -23,8 +23,8 @@ def get_info():
                 "hyprctl",
                 "monitors",
                 "-j",
-            ]
-        )
+            ],
+        ),
     )
 
     focused_workspaces = [monitor["activeWorkspace"]["id"] for monitor in monitors]
@@ -39,8 +39,8 @@ def get_info():
                     "hyprctl",
                     "workspaces",
                     "-j",
-                ]
-            )
+                ],
+            ),
         )
 
         workspaces = [x["id"] for x in json_data]
@@ -79,7 +79,7 @@ def get_info():
             )""".replace(
                 "\n",
                 " ",
-            )
+            ),
         )
 
     return out_data

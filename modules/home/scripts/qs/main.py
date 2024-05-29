@@ -1,8 +1,8 @@
 import json
 import os
+import shlex
 import subprocess
 import sys
-import shlex
 
 NIXOS_PATH = "/persist/nixos"
 
@@ -18,7 +18,11 @@ def run_cmd(
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
 
-    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    process = subprocess.Popen(
+        cmd,
+        shell=True,
+        stdout=subprocess.PIPE,
+    )
 
     res = ""
     for line in iter(process.stdout.readline, b""):  # type: ignore[attr-defined]
@@ -69,7 +73,7 @@ def colored_centerd_text(
     out += fill * (tot_pad // 2 + tot_pad % 2)
 
     # the comment at the end is to fix my indent detector
-    # if not there, it makes it indent everyhing 2 tabs
+    # if not there, it makes it indent everything 2 tabs
     print(f"\033[0;{color}m{out}\033[0m")  # ]]
 
 
@@ -127,26 +131,26 @@ def validate_new_branch(
             "git show-ref"
             "--verify"
             f"--quiet refs/heads/{new_branch}"
-            "; echo $?"
+            "; echo $?",
         )
         == "0"
     )
 
     if branch_exists_locally:
         raise TypeError(
-            f'branch "{new_branch}" already exist locally'
+            f'branch "{new_branch}" already exist locally',
         )
 
     branch_exists_on_remote = run_cmd(
-        f"git ls-remote --heads origin refs/heads/{new_branch}"
+        f"git ls-remote --heads origin refs/heads/{new_branch}",
     )
     if branch_exists_on_remote:
         raise TypeError(
-            f'branch "{new_branch}" already exist on remote'
+            f'branch "{new_branch}" already exist on remote',
         )
 
     if new_branch == "":
-        raise TypeError("branch cant be empty string")
+        raise TypeError("branch can't be empty string")
 
 
 def check_needs_reboot():
@@ -164,14 +168,14 @@ def check_needs_reboot():
             then echo "1"; 
             else echo "0";
         fi 
-    """
+    """,
         )
         == "0"
     )
 
     if needs_reboot:
         print_warn(
-            "The new profile changed system files, please reboot"
+            "The new profile changed system files, please reboot",
         )
 
 
@@ -228,11 +232,11 @@ class Steps:
         if ret_val != succeed_id:
             raise TypeError(f"invallid {ret_val=}")
 
-        # everyting is good
+        # everything is good
 
     @staticmethod
     def get_gen_data():
-        gen_data = run_cmd("nixos-rebuild list-generations" " --json")
+        gen_data = run_cmd("nixos-rebuild list-generations --json")
 
         cur_gen_data = None
         for gen in json.loads(gen_data):
@@ -269,12 +273,14 @@ class Steps:
         print_devider("Commit msg")
 
         commit_msg = Steps._gen_commit_msg(
-            args, profile, last_gen_data
+            args,
+            profile,
+            last_gen_data,
         )
 
         print(commit_msg)
 
-        print_devider("Commiting changes")
+        print_devider("Committing changes")
 
         run_cmd(
             f"git commit --allow-empty -am {shlex.quote(commit_msg)}",
@@ -284,7 +290,7 @@ class Steps:
 
     @staticmethod
     def formatt_files():
-        print_devider("Formating Files")
+        print_devider("Formatting Files")
         run_cmd("alejandra . || true", print_res=True, color=True)
 
     @staticmethod
@@ -304,7 +310,9 @@ class Steps:
         origin = "git@github.com:upidapi/NixOs.git"
 
         run_cmd(
-            f"git push {origin} --all", print_res=True, color=True
+            f"git push {origin} --all",
+            print_res=True,
+            color=True,
         )
 
     @staticmethod
@@ -388,10 +396,10 @@ class Parser:
         for name, data in struct.items():
             alias_to_main[name] = name
             for alias in data["alias"]:
-                if alias in alias_to_main.keys():
+                if alias in alias_to_main:
                     # add scope info
                     raise TypeError(
-                        f'the alias "{alias}" is used more than once'
+                        f'the alias "{alias}" is used more than once',
                     )
 
                 alias_to_main[alias] = name
@@ -407,7 +415,7 @@ class Parser:
 
                 if not struct["flags"][arg]["allow_sub"]:
                     raise TypeError(
-                        f'the "{arg}" flag cant be used with sub commands'
+                        f'the "{arg}" flag cant be used with sub commands',
                     )
 
     @staticmethod
@@ -438,7 +446,7 @@ class Parser:
                 if capturing_count != 0:
                     raise TypeError(
                         f'flag defined before "{arg}" compleated'
-                        f"({capturing_count} left)"
+                        f"({capturing_count} left)",
                     )
 
                 arg_pos = None
@@ -459,7 +467,7 @@ class Parser:
                 if arg_pos is not None:
                     if len(arg_pos) != capturing_count:
                         raise TypeError(
-                            f'too few args passed to "{arg}"'
+                            f'too few args passed to "{arg}"',
                         )
 
                     flag_data[arg].append(arg_pos)
@@ -476,12 +484,12 @@ class Parser:
                         raise TypeError("too many positionall args")
 
                     alias_to_sub_command = Parser._create_alias_map(
-                        struct["sub_commands"]
+                        struct["sub_commands"],
                     )
 
                     if arg not in alias_to_sub_command.keys():
                         raise TypeError(
-                            f'unknown sub command "{arg}"'
+                            f'unknown sub command "{arg}"',
                         )
 
                     sub_command = alias_to_sub_command[arg]
@@ -493,7 +501,7 @@ class Parser:
                         "pos": pos_args,
                         "sub_command": sub_command,
                         "sub_data": Parser._parse_pos_args(
-                            args[i + 1:],
+                            args[i + 1:],  # noqa
                             struct["sub_commands"][sub_command][
                                 "sub_options"
                             ],
@@ -518,7 +526,7 @@ class Parser:
         if capturing_count != 0:
             raise TypeError(
                 f'too few args passed to "{capturing_arg}" '
-                f"({capturing_count} more needed)"
+                f"({capturing_count} more needed)",
             )
 
         pos_args = Parser._parse_pos_args(pos, struct)
@@ -544,7 +552,7 @@ class Parser:
         if sub is not None:
             if allow_extra:
                 raise TypeError(
-                    "cant have arbitrary amount of args and sub commands"
+                    "can't have arbitrary amount of args and sub commands",
                 )
 
         if poss is None:
@@ -557,13 +565,13 @@ class Parser:
 
             if req_sub and has_default:
                 raise TypeError(
-                    "cant have default args if the sub command is required"
+                    "can't have default args if the sub command is required",
                 )
 
             if setting_default:
                 if not has_default:
                     raise TypeError(
-                        "cant have non default arg after default arg"
+                        "can't have non default arg after default arg",
                     )
 
             setting_default = setting_default or has_default
@@ -613,9 +621,7 @@ class Parser:
 
     @staticmethod
     def print_help():  # parsed_arg, struct):
-        """
-        something help
-
+        """Something help
 
         something <req> <req> [optional] [optional]
             -f  --flag         info
@@ -636,11 +642,11 @@ def pp(data):
     print(json.dumps(data, indent=4))
 
 
-# currently you cant have a option in args and kwargs
-# might want to add that posibility
-# (the kwarg would overide the arg)
+# currently you can't have a option in args and kwargs
+# might want to add that possibility
+# (the kwarg would override the arg)
 def main():
-    # todo add a not flag, if true, then dont allow it unless
+    # TODO add a not flag, if true, then dont allow it unless
     # something explicitly permitts it
 
     args = Parser.parse_sys_args(
@@ -690,7 +696,7 @@ def main():
                     "info": "pull for remote and rebuild",
                 },
             },
-        )
+        ),
     )
 
     pp(args)
@@ -717,8 +723,9 @@ def main():
             subprocess.run(
                 f"nvim {NIXOS_PATH}",
                 shell=True,
+                check=False,
             )
-            return
+            return None
 
         elif sub_command == "diff":
             return Steps.show_diff()
@@ -739,7 +746,7 @@ def main():
             Steps.push_changes()
             Steps.print_success()
 
-            return
+            return None
 
         elif sub_command == "pull":
             print_devider("Pulling Changes")
@@ -762,7 +769,7 @@ def main():
             Steps.push_changes()
             Steps.print_success()
 
-            return
+            return None
 
     if not args["--message"] or not args["--message"][0]:
         raise TypeError("missing --message argument")

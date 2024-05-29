@@ -15,7 +15,7 @@ in {
     "enables firefox";
 
   # TODO: add better keybinds
-  #  probaly those vim keybinds
+  #  probably those vim keybinds
   #  and that mode whereeach link gets it's own two
   #  char code to click.
   #  important
@@ -24,7 +24,7 @@ in {
   #    close all but open new
 
   # TODO: fix teams
-  # TODO: rearrow (comunity thumbnails for youtube)
+  # TODO: rearrow (community thumbnails for youtube)
   # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
 
   # add to sytlus to fix netflix spoilters
@@ -39,7 +39,7 @@ in {
 
   # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
 
-  # possibly might disabe the restore screen
+  # possibly might disable the restore screen
   # browser.sessionstore.resume_from_crash
   config = mkIf cfg.enable {
     home.sessionVariables = {
@@ -205,14 +205,14 @@ in {
             "privacy.trackingprotection.enabled" = true;
             "privacy.trackingprotection.socialtracking.enabled" = true;
 
-            # ---------- the folowing is my custom ---------
+            # ---------- the following is my custom ---------
             # enable extensions by default
             # https://support.mozilla.org/en-US/questions/1219401
             "extensions.autoDisableScopes" = 0;
 
             "browser.aboutConfig.showWarning" = false;
 
-            # anything smaler doesn't do anything
+            # anything smaller doesn't do anything
             "browser.tabs.tabMinWidth" = 22;
 
             # 0 auto, 1 light, 2 dark
@@ -293,7 +293,7 @@ in {
           };
 
         # For security testing and other stuff where you need a
-        # profile where I can garantee that i haven't fucked anything
+        # profile where I can guarantee that i haven't fucked anything
         # upp / all behaviors are the default ones
         base = {
           id = 2;

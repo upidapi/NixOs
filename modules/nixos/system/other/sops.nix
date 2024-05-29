@@ -9,7 +9,7 @@
   inherit (lib) mkIf;
   cfg = config.modules.nixos.system.other.sops;
 in {
-  # might whant to remove/disable the import when
+  # might want to remove/disable the import when
   # thiss modules is disabled
   imports = [
     inputs.sops-nix.nixosModules.sops

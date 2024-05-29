@@ -5,7 +5,7 @@ in {
     # advanced syntax highliting, but quite surface level
     # (uses a abstract syntax tree)
     treesitter = {
-      # todo: might whant to only install some language parsers
+      # todo: might want to only install some language parsers
       #   by default it adds all
       enable = true;
       incrementalSelection = enable;
@@ -31,7 +31,10 @@ in {
         nil_ls = enable; # static lsp
         nixd = enable; # eval lsp
 
-        pyright = enable; # python
+        # python
+        pyright = enable;
+        ruff = enable;
+
         jsonls = enable;
         html = enable;
         bashls = enable;

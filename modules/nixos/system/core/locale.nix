@@ -9,7 +9,7 @@
   cfg = config.modules.nixos.system.core.locale;
 in {
   options.modules.nixos.system.core.locale = mkEnableOpt (
-    "sets variuos locale stuff like"
+    "sets various locale stuff like"
     + "lang, kb layout, time zone, etc"
   );
 
@@ -48,7 +48,7 @@ in {
       variant = "";
 
       # replace caps with esc, bc ... well fuck caps
-      # this doen't work
+      # this doesn't work
       options = "caps:escape";
     };
   };

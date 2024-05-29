@@ -40,7 +40,7 @@
     programs.home-manager.enable = true;
   };
 
-  # gets the user names from the filnames in hosts/${profile}/.
+  # gets the user names from the filenames in hosts/${profile}/.
   getUserNames = profile: (
     builtins.map
     (
@@ -157,12 +157,12 @@ in {
 
   Then add a new directory in ./hosts/
 
-  In that directory the folowing things shouuld exist:
+  In that directory the following things should exist:
     config.nix
       The nixos config file
       It is provided with the nixos modules (./module/nixos)
 
-      Note: you can accsess the home-manager config through
+      Note: you can access the home-manager config through
         config.home-manager."${user-name}"
 
     hardware.nix

@@ -9,11 +9,15 @@
   programs.nixvim = {
     extraPackages =
       (with pkgs; [
-        black
         clang-tools
-        isort
         taplo
+
+        black
+        isort
         ruff
+
+        codespell
+        # trimWhitespace
       ])
       ++ [
         inputs.alejandra.defaultPackage.${pkgs.system}
@@ -42,18 +46,36 @@
         cpp = ["clang_format"];
         # go = ["gofmt"];
         nix = ["alejandra"];
-        python = ["ruff"];
+        python = ["ruff-fmt" "ruff-lint"];
         rust = ["rustfmt"];
         toml = ["taplo"];
+        "*" = ["codespell"];
+        # :w"_" = ["trimWhitespace"];
       };
 
       formatters = {
-        "ruff" = {
+        "ruff-fmt" = {
           command = "ruff";
           args = [
             "format"
+            "--preview"
             "--config"
             "line-length = 70"
+            "--force-exclude"
+            "--stdin-filename"
+            "$FILENAME"
+            "-"
+          ];
+          stdin = true;
+        };
+        "ruff-lint" = {
+          command = "ruff";
+          args = [
+            "check"
+            "--preview"
+            "--select"
+            "I"
+            "--fix"
             "--force-exclude"
             "--stdin-filename"
             "$FILENAME"

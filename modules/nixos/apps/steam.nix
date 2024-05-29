@@ -10,7 +10,7 @@
   cfg = config.modules.nixos.apps.steam;
 in {
   options.modules.nixos.apps.steam = mkEnableOpt "Whether or not to enable Steam.";
-  # todo: fugure out how to set the game install dir ( make shure it works with impermanance)
+  # todo: figure out how to set the game install dir ( make sure it works with impermanance)
   # https://github.com/jakehamilton/config/blob/d061040df2cb2c9b941f4c9f57a65e749a99a03e/modules/nixos/apps/steam/default.nix#L5
 
   # steam.enable also enables proton

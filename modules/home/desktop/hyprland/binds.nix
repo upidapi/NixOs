@@ -29,7 +29,7 @@ in {
       "$mod, mouse:273, resizewindow"
     ];
 
-    # TODO: brigtness / airplane mode, indecators / notifications§
+    # TODO: brigtness / airplane mode, indicators / notifications§
     bindle = [
       # change volume
       ",XF86AudioMute, exec, pamixer -t"
@@ -45,20 +45,20 @@ in {
 
     bindli =
       []
-      # media controlls
+      # media controls
       ++ (let
         # Only try the currently focused one
-        # Otherwise it's gonna try everyone (in order) untill it
-        # finds an avalible one, which can be one that isn't focused.
+        # Otherwise it's gonna try everyone (in order) until it
+        # finds an available one, which can be one that isn't focused.
         center = '', exec, playerctl --player="$(playerctl -l | head -n 1)" '';
       in [
         ",XF86AudioPrev${center}previous"
         ",XF86AudioNext${center}next"
 
         # this binds both play and pause to play-pause
-        # since my headphones alternates wich one it sends
+        # since my headphones alternates which one it sends
         # if this is a problem (e.g you actually have and use
-        # two specific play/pause buttons) then you might whant
+        # two specific play/pause buttons) then you might want
         # to change this
         ",XF86AudioPlay${center}play-pause"
         ",XF86AudioPause${center}play-pause"

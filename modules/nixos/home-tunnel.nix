@@ -1,6 +1,6 @@
 /*
 Some home manager options / modules need to change
-some nixos configurations to work. For exemple the
+some nixos configurations to work. For example the
 zsh module has to set the shell of the user. This
 module is a type of hook that uses the home-manager
 conf to generate some nixos config
@@ -10,7 +10,7 @@ the whole config is in the same scope (has the same
 perms) This isn't a problem
 
 Idk if all tunnels should be here or if this is just
-a "other" catagory, currently the nixos persist.nix
+a "other" category, currently the nixos persist.nix
 module does the same thing on it's own
 */
 {

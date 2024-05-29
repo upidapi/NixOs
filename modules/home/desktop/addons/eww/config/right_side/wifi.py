@@ -75,7 +75,7 @@ if __name__ == "__main__":
     try:
         run_main_loop(main_loop)
     except Exception:
-        send_literal_widget(f"""
+        send_literal_widget("""
             (label
                 :text \"wifi.py failed\")
         """)

@@ -16,8 +16,8 @@ in {
   options.modules.home.core.persist =
     mkEnableOpt "enables persistence for the home dir";
 
-  # if you have impersistence on, then you probaly really dont
-  # whant to disable this
+  # if you have impersistence on, then you probably really dont
+  # want to disable this
   config = mkIf cfg.enable {
     home.persistence."/persist/home/${config.home.username}" = {
       directories = [
@@ -54,7 +54,7 @@ in {
         # ".config/nushell/history.txt"
 
         # thers probably some better way
-        # i shuld probaly make this more specific
+        # i should probably make this more specific
         # to only save tabs, bookmarks and enabled extensions
         ".mozilla/firefox"
         {

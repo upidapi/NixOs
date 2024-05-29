@@ -73,7 +73,7 @@ if __name__ == "__main__":
     try:
         main()
     except Exception:
-        send_literal_widget(f"""
+        send_literal_widget("""
             (label
                 :text \"battery.py failed\")
         """)

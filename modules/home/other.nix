@@ -55,17 +55,17 @@ in {
         # check network speed
         speedtest-cli
 
-        # you cant have both?
+        # you can't have both?
         clang
         # (lib.hiPrio gcc)
 
         cargo
         rustc
 
-        # for formating a multiple iso usb
+        # for formatting a multiple iso usb
         ventoy
 
-        # find out what proces is using a file
+        # find out what process is using a file
         lsof
 
         # other
@@ -80,7 +80,7 @@ in {
         vlc
 
         # forensics
-        imhex # hex edior
+        imhex # hex editor
         audacity # audio foresics (and editor)
         sqlmap # sql injection
         # TODO: binary ninja

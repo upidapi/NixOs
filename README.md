@@ -7,12 +7,12 @@ todo: add img of desktop
 
 # features
 * home-manager
-* impermanence, root is wiped in reboot, only /persist presists
+* impermanence, root is wiped in reboot, only /persist persists
 * modular, each thing is i'ts own module that you can enable
 * * nixos modules are in modules/nixos
 * * home-manager modules are in modules/nixos
 * disko, for declarative disks
-* file hirarcy based hosts and users
+* file hierarchy based hosts and users
 * * logic in hosts/default.nix
 * * machines defined in hosts/${host name}
 * * users defined in hosts/\${host name}/users/\${user name}

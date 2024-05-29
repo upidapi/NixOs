@@ -10,7 +10,7 @@
 in {
   options.modules.nixos.system.nix.gc =
     mkEnableOpt
-    "enables nixos generation garbage colection";
+    "enables nixos generation garbage collection";
 
   config = mkIf cfg.enable {
     nix.gc = {

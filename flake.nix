@@ -89,7 +89,7 @@
         # formatter = pkgs.alejandra;
 
         packages = {
-          # A script that sets up a machine acording to a host profile
+          # A script that sets up a machine according to a host profile
           install = pkgs.writeShellApplication {
             name = "install";
             runtimeInputs = with pkgs; [git]; # I could make this fancier by adding other deps

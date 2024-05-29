@@ -48,7 +48,7 @@ in {
       umount /btrfs_tmp
     '';
 
-    # disko can't / wont automatically create the storage locations
+    # disko can't / won't automatically create the storage locations
     # so we have to create them ourselves
     systemd.tmpfiles.rules =
       [

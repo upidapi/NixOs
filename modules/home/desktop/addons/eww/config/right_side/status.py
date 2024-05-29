@@ -84,7 +84,7 @@ def get_active_connection():
             (
                 key,
                 val,
-            )
+            ),
         )
 
         if start_token is None:
@@ -158,19 +158,18 @@ def get_parsed_bth_ctl():
             )
             name = name[1:]
 
-            if name not in parsed_device.keys():
+            if name not in parsed_device:
                 parsed_device[name] = data
+            elif isinstance(
+                parsed_device[name],
+                list,
+            ):
+                parsed_device[name].append(data)
             else:
-                if isinstance(
+                parsed_device[name] = [
                     parsed_device[name],
-                    list,
-                ):
-                    parsed_device[name].append(data)
-                else:
-                    parsed_device[name] = [
-                        parsed_device[name],
-                        data,
-                    ]
+                    data,
+                ]
 
         parsed.append(parsed_device)
 
@@ -254,6 +253,6 @@ if __name__ == "__main__":
     except Exception as e:
         send_literal_widget(f"""
             (label 
-                :text \"{str(e)}\"
+                :text \"{e!s}\"
             )
         """)

@@ -32,7 +32,7 @@ in {
         nixd = enable; # eval lsp
 
         # python
-        pyright = enable;
+        # pyright = enable;
         ruff = enable;
 
         jsonls = enable;

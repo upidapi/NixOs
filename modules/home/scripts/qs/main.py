@@ -14,9 +14,7 @@ def run_cmd(
     color: bool = False,
 ):
     if color:
-        cmd = (
-            f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
-        )
+        cmd = f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
 
     process = subprocess.Popen(
         cmd,
@@ -128,10 +126,7 @@ def validate_new_branch(
 ):
     branch_exists_locally = (
         run_cmd(
-            "git show-ref"
-            "--verify"
-            f"--quiet refs/heads/{new_branch}"
-            "; echo $?",
+            "git show-ref" "--verify" f"--quiet refs/heads/{new_branch}" "; echo $?",
         )
         == "0"
     )
@@ -194,8 +189,7 @@ class Steps:
         main_command = (
             # make sure that the DE continues to update
             f"nice -n 1 sudo nixos-rebuild switch"
-            f" --flake .#{profile}"
-            + (" --show-trace" * bool(args["--trace"]))
+            f" --flake .#{profile}" + (" --show-trace" * bool(args["--trace"]))
         )
 
         fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"
@@ -373,9 +367,7 @@ class Parser:
         for pos_data in struct["positional"]:
             has_default = isinstance(pos_data, tuple)
 
-            pos_name, default = (
-                pos_data if has_default else [pos_data, None]
-            )
+            pos_name, default = pos_data if has_default else [pos_data, None]
 
             if pos:
                 pos_args[pos_name] = pos.pop()
@@ -415,7 +407,7 @@ class Parser:
 
                 if not struct["flags"][arg]["allow_sub"]:
                     raise TypeError(
-                        f'the "{arg}" flag cant be used with sub commands',
+                        f'the "{arg}" flag can\'t be used with sub commands',
                     )
 
     @staticmethod
@@ -496,15 +488,16 @@ class Parser:
 
                     pos_args = Parser._parse_pos_args(pos, struct)
 
+                    tmp = (
+                        i + 1
+                    )  # FIXME: tmp fix for 203 (it inserts space before the semicolon)
                     parsed_args = {
                         "flags": flag_data,
                         "pos": pos_args,
                         "sub_command": sub_command,
                         "sub_data": Parser._parse_pos_args(
-                            args[i + 1:],  # noqa
-                            struct["sub_commands"][sub_command][
-                                "sub_options"
-                            ],
+                            args[tmp : 1 + 1],  # noqa
+                            struct["sub_commands"][sub_command]["sub_options"],
                         ),
                     }
 

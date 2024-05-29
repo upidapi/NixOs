@@ -52,8 +52,8 @@
           command = "ruff";
           args = [
             "format"
-            "---config"
-            "\"line-length = 70\""
+            "--config"
+            ''"line-length = 70"''
             "--force-exclude"
             "--stdin-filename"
             "$FILENAME"

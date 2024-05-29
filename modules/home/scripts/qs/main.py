@@ -18,6 +18,12 @@ def run_cmd(
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
 
+
+
+
+
+    res = ""
+    
     process = subprocess.Popen(
         cmd,
         shell=True,

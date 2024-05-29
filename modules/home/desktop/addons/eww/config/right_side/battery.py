@@ -2,18 +2,14 @@ import subprocess
 import time
 
 
-def run_command(
-    command,
-) -> str:
+def run_command(command) -> str:
     return subprocess.check_output(
         command,
         shell=True,
     ).decode()
 
 
-def send_literal_widget(
-    data,
-):
+def send_literal_widget(data):
     print(
         data.replace(
             "\n",
@@ -45,9 +41,15 @@ def main():
     last = ""
 
     while True:
-        status = run_command(f"cat /sys/class/power_supply/{battery}/status")
+        status = run_command(
+            f"cat /sys/class/power_supply/{battery}/status"
+        )
 
-        charge = int(run_command(f"cat /sys/class/power_supply/{battery}/capacity"))
+        charge = int(
+            run_command(
+                f"cat /sys/class/power_supply/{battery}/capacity"
+            )
+        )
 
         if status.startswith("Charging"):
             icon = "󰂄"

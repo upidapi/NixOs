@@ -4,10 +4,6 @@ import shlex
 import subprocess
 import sys
 
-"""
-
-"""
-
 NIXOS_PATH = "/persist/nixos"
 
 
@@ -17,9 +13,10 @@ def run_cmd(
     ignore=(),
     color: bool = False,
 ):
-
     if color:
-        cmd = f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
+        cmd = (
+            f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
+        )
 
     process = subprocess.Popen(
         cmd,
@@ -29,7 +26,6 @@ def run_cmd(
 
     res = ""
     for line in iter(process.stdout.readline, b""):  # type: ignore[attr-defined]
-
         dec = line.decode()
         res += dec
 
@@ -55,7 +51,7 @@ def get_last_profile():
 
 def get_profile(args):
     return (args["--profile"] or [[get_last_profile()]])[0][0]
-    
+
 
 def get_profiles():
     return []
@@ -190,7 +186,6 @@ def check_needs_reboot():
 # it assumes that your main branch is called "main"
 
 
-
 class Steps:
     @staticmethod
     def rebuild_nixos(args, profile):
@@ -199,7 +194,8 @@ class Steps:
         main_command = (
             # make sure that the DE continues to update
             f"nice -n 1 sudo nixos-rebuild switch"
-            f" --flake .#{profile}" + (" --show-trace" * bool(args["--trace"]))
+            f" --flake .#{profile}"
+            + (" --show-trace" * bool(args["--trace"]))
         )
 
         fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"
@@ -211,8 +207,8 @@ class Steps:
                 else echo "{fail_id}";
             fi
         """
-        
-        full_cmd = f"ret=$({main_command});{data_ret}",
+
+        full_cmd = (f"ret=$({main_command});{data_ret}",)
 
         raw_ret_val = run_cmd(
             full_cmd,
@@ -237,14 +233,11 @@ class Steps:
             raise TypeError(f"invallid {ret_val=}")
 
         # everyting is good
-    
+
     @staticmethod
     def get_gen_data():
-        gen_data = run_cmd(
-            "nixos-rebuild list-generations"
-            " --json"
-        )
-        
+        gen_data = run_cmd("nixos-rebuild list-generations" " --json")
+
         cur_gen_data = None
         for gen in json.loads(gen_data):
             if gen["current"]:
@@ -255,7 +248,7 @@ class Steps:
             raise TypeError("current gen not found")
 
         return cur_gen_data
-    
+
     @staticmethod
     def _gen_commit_msg(args, profile, last_gen_data):
         gen_data = Steps.get_gen_data()
@@ -273,32 +266,30 @@ class Steps:
             f"  Kernel: {gen_data['kernelVersion']}\n"
         )
 
-        return full_commit_msg 
-    
+        return full_commit_msg
+
     @staticmethod
     def commit_changes(args, profile, last_gen_data):
         print_devider("Commit msg")
 
-        commit_msg = Steps._gen_commit_msg(args, profile, last_gen_data)
+        commit_msg = Steps._gen_commit_msg(
+            args, profile, last_gen_data
+        )
 
         print(commit_msg)
 
         print_devider("Commiting changes")
 
         run_cmd(
-            f'git commit --allow-empty -am {shlex.quote(commit_msg)}',
+            f"git commit --allow-empty -am {shlex.quote(commit_msg)}",
             print_res=True,
-            color=True
+            color=True,
         )
-    
+
     @staticmethod
     def formatt_files():
         print_devider("Formating Files")
-        run_cmd(
-            "alejandra . || true",
-            print_res=True,
-            color=True
-        )
+        run_cmd("alejandra . || true", print_res=True, color=True)
 
     @staticmethod
     def show_diff():
@@ -306,9 +297,9 @@ class Steps:
         run_cmd(
             "git --no-pager diff HEAD --color",
             print_res=True,
-            color=True
+            color=True,
         )
-    
+
     @staticmethod
     def push_changes():
         print_devider("Pushing code to github")
@@ -317,19 +308,13 @@ class Steps:
         origin = "git@github.com:upidapi/NixOs.git"
 
         run_cmd(
-            f"git push {origin} --all",
-            print_res=True,
-            color=True
+            f"git push {origin} --all", print_res=True, color=True
         )
-    
+
     @staticmethod
     def add_all_files():
-        run_cmd(
-            "git add --all",
-            print_res=True,
-            color=True
-        )
-    
+        run_cmd("git add --all", print_res=True, color=True)
+
     @staticmethod
     def print_success():
         print("\n")
@@ -337,7 +322,7 @@ class Steps:
             "Successfully applied nixos configuration changes",
             "42;30",
         )
-    
+
     class Pull:
         @staticmethod
         def pre():
@@ -349,18 +334,17 @@ def set_commit_msg(args, commit_msg):
         raise TypeError("this command doesn't take a msg")
 
     args["--message"] = [[commit_msg]]
-    return args 
+    return args
 
 
 class Recipes:
     @staticmethod
     def add_show_formatt_files():
         # nixos ignores files that are not added
-    
+
         Steps.add_all_files()
         Steps.formatt_files()
         Steps.show_diff()
-
 
     @staticmethod
     def rebuild_and_commit(args):
@@ -370,23 +354,24 @@ class Recipes:
         profile = get_profile(args)
 
         Steps.rebuild_nixos(args, profile)
-        
+
         check_needs_reboot()
 
         # commit
         Steps.commit_changes(args, profile, last_gen_data)
 
 
-
 class Parser:
     @staticmethod
     def _parse_pos_args(pos, struct):
         pos_args = {}
-        
+
         for pos_data in struct["positional"]:
             has_default = isinstance(pos_data, tuple)
 
-            pos_name, default = pos_data if has_default else [pos_data, None]
+            pos_name, default = (
+                pos_data if has_default else [pos_data, None]
+            )
 
             if pos:
                 pos_args[pos_name] = pos.pop()
@@ -396,34 +381,38 @@ class Parser:
                 pos_args[pos_name] = default
                 continue
 
-            raise TypeError(f"\"{pos_name}\" is missing it's arg")
+            raise TypeError(f'"{pos_name}" is missing it\'s arg')
 
         return pos_args
-    
+
     @staticmethod
     def _create_alias_map(struct):
         # replace shorthands and aliases
         alias_to_main = {}
-        for name, data in struct.items(): 
+        for name, data in struct.items():
             alias_to_main[name] = name
             for alias in data["alias"]:
                 if alias in alias_to_main.keys():
                     # add scope info
-                    raise TypeError(f"the alias \"{alias}\" is used more than once")
-                
+                    raise TypeError(
+                        f'the alias "{alias}" is used more than once'
+                    )
+
                 alias_to_main[alias] = name
 
         return alias_to_main
-    
+
     @staticmethod
     def _validate_allow(parsed_args, struct):
         if parsed_args["sub_command"] is not None:
             for arg, data in parsed_args["flags"].items():
-                if not data: 
+                if not data:
                     continue
-                
+
                 if not struct["flags"][arg]["allow_sub"]:
-                    raise TypeError(f"the \"{arg}\" flag cant be used with sub commands")
+                    raise TypeError(
+                        f'the "{arg}" flag cant be used with sub commands'
+                    )
 
     @staticmethod
     def _coherse_args(args, struct):
@@ -434,10 +423,10 @@ class Parser:
                 expanded += [f"-{flag}" for flag in arg[1:]]
             else:
                 expanded.append(arg)
-        
+
         # replace shorthands and aliases
         alias_to_main = Parser._create_alias_map(struct["flags"])
-        
+
         flag_data = {f: [] for f in struct["flags"].keys()}
         pos_args = {"*args": []}
 
@@ -452,7 +441,7 @@ class Parser:
             if arg.startswith("-"):
                 if capturing_count != 0:
                     raise TypeError(
-                        f"flag defined before \"{arg}\" compleated"
+                        f'flag defined before "{arg}" compleated'
                         f"({capturing_count} left)"
                     )
 
@@ -463,22 +452,24 @@ class Parser:
 
                 if arg not in alias_to_main:
                     # add scope info
-                    raise TypeError(f"could not find arg \"{arg}\"")
-        
+                    raise TypeError(f'could not find arg "{arg}"')
+
                 arg = alias_to_main[arg]
                 arg_data = struct["flags"][arg]
                 capturing_count = len(arg_data["args"])
 
                 capturing_arg = arg
-                
+
                 if arg_pos is not None:
                     if len(arg_pos) != capturing_count:
-                        raise TypeError(f"too few args passed to \"{arg}\"")
-                        
+                        raise TypeError(
+                            f'too few args passed to "{arg}"'
+                        )
+
                     flag_data[arg].append(arg_pos)
-                
+
                 continue
-            
+
             if capturing_arg is None:
                 if len(pos) == pos_count:
                     if not struct["sub_commands"]:
@@ -487,26 +478,30 @@ class Parser:
                             continue
 
                         raise TypeError("too many positionall args")
-                    
+
                     alias_to_sub_command = Parser._create_alias_map(
                         struct["sub_commands"]
                     )
 
                     if arg not in alias_to_sub_command.keys():
-                        raise TypeError(f"unknown sub command \"{arg}\"")
-                    
+                        raise TypeError(
+                            f'unknown sub command "{arg}"'
+                        )
+
                     sub_command = alias_to_sub_command[arg]
 
                     pos_args = Parser._parse_pos_args(pos, struct)
-                    
+
                     parsed_args = {
                         "flags": flag_data,
                         "pos": pos_args,
                         "sub_command": sub_command,
                         "sub_data": Parser._parse_pos_args(
                             args[i + 1:],
-                            struct["sub_commands"][sub_command]["sub_options"],
-                        )
+                            struct["sub_commands"][sub_command][
+                                "sub_options"
+                            ],
+                        ),
                     }
 
                     Parser._validate_allow(parsed_args, struct)
@@ -518,15 +513,16 @@ class Parser:
             if capturing_count != 0:
                 capturing_pos.append(arg)
                 capturing_count -= 1
-            
+
             if capturing_count == 0:
                 flag_data[capturing_arg].append(capturing_pos)
                 capturing_pos = []
                 capturing_arg = None
-        
+
         if capturing_count != 0:
             raise TypeError(
-                f"too few args passed to \"{capturing_arg}\" ({capturing_count} more needed)"
+                f'too few args passed to "{capturing_arg}" '
+                f"({capturing_count} more needed)"
             )
 
         pos_args = Parser._parse_pos_args(pos, struct)
@@ -534,13 +530,13 @@ class Parser:
             "flags": flag_data,
             "pos": pos_args,
             "sub_command": None,
-            "sub_data": {}
+            "sub_data": {},
         }
 
         Parser._validate_allow(parsed_args, struct)
 
         return parsed_args
-    
+
     @staticmethod
     def opt_part(
         flags: dict | None = None,
@@ -557,7 +553,7 @@ class Parser:
 
         if poss is None:
             poss = []
-        
+
         setting_default = False
         for pos in poss:
             has_default = isinstance(pos, tuple)
@@ -570,19 +566,20 @@ class Parser:
 
             if setting_default:
                 if not has_default:
-                    raise TypeError("cant have non default arg after default arg") 
+                    raise TypeError(
+                        "cant have non default arg after default arg"
+                    )
 
             setting_default = setting_default or has_default
-        
 
         if len(poss) != len(list(set(poss))):
             raise TypeError("can have duplicates in positional names")
-        
-        
+
         if flags is None:
             flags = {}
 
         for flag in flags.values():
+
             def set_default(key, val):
                 if key not in flag.keys():
                     flag[key] = val
@@ -595,45 +592,44 @@ class Parser:
             set_default("info", "")
             set_default("doc", flag["info"])
             set_default("allow_sub", False)
-            
 
         if sub is None:
             sub = {}
 
         for sub_command in sub.values():
+
             def set_default(key, val):
                 if key not in sub_command.keys():
-                    sub_command[key] = val 
-            
+                    sub_command[key] = val
+
             set_default("alias", [])
             set_default("info", "")
             set_default("doc", sub_command["info"])
             set_default("sub_options", Parser.opt_part())
-
 
         return {
             "flags": flags,
             "positional": poss,
             "sub_commands": sub,
             "allow_extra": allow_extra,  # put into *args
-            "req_sub": req_sub  # put into *args
+            "req_sub": req_sub,  # put into *args
         }
-    
+
     @staticmethod
     def print_help():  # parsed_arg, struct):
         """
         something help
 
 
-        something <req> <req> [optional] [optional] 
+        something <req> <req> [optional] [optional]
             -f  --flag         info
             -o  --other-flag   info
-            
+
             sub-command        info
             other-sub-command  info
 
         """
-        # TODO: add a help command 
+        # TODO: add a help command
 
     @staticmethod
     def parse_sys_args(struct):
@@ -656,28 +652,24 @@ def main():
             {
                 "--trace": {
                     "alias": ["-t"],
-                    "info": "pass --show-trace to nixos-rebuild" 
+                    "info": "pass --show-trace to nixos-rebuild",
                 },
-
                 "--message": {
                     "alias": ["-m"],
                     "info": "commit msg for the rebuild",
-                
                     # not needed, default behaviour
                     # "allow_sub": False,
-
                     "args": 1,
-                    "default": None
+                    "default": None,
                 },
-
                 "--profile": {
                     "alias": ["-p"],
                     "info": "the flake profile to build",
                     "args": 1,
-                    "default": None
+                    "default": None,
                 },
             },
-            [   
+            [
                 # "other",  # no default => required
                 # ("test", "default")  # has default => not required
             ],
@@ -685,27 +677,23 @@ def main():
                 # generated automatically
                 # "help": {
                 # },
-
                 "edit": {
                     "alias": ["e"],
-                    "info": "open the config in the editor"
+                    "info": "open the config in the editor",
                 },
-        
                 "diff": {
                     "alias": ["d"],
-                    "info": "show diff between HEAD and last commit"
+                    "info": "show diff between HEAD and last commit",
                 },
-        
                 "update": {
                     "alias": ["u"],
-                    "info": "update flake inputs and rebuild"
+                    "info": "update flake inputs and rebuild",
                 },
-        
                 "pull": {
                     "alias": ["p"],
-                    "info": "pull for remote and rebuild"
+                    "info": "pull for remote and rebuild",
                 },
-            }
+            },
         )
     )
 
@@ -722,7 +710,7 @@ def main():
             43,
         )
     """
-    
+
     sub_command = args["sub_command"]
     args = args["flags"]
 
@@ -742,16 +730,12 @@ def main():
         elif sub_command == "update":
             run_cmd("git stash")
 
-            run_cmd(
-                "nix flake update",
-                print_res=True,
-                color=True
-            )
+            run_cmd("nix flake update", print_res=True, color=True)
 
             args = set_commit_msg(args, "update flake inputs")
 
             try:
-                Recipes.add_show_formatt_files() 
+                Recipes.add_show_formatt_files()
                 Recipes.rebuild_and_commit(args)
             finally:
                 run_cmd("git stash pop")
@@ -768,13 +752,13 @@ def main():
             run_cmd(
                 "git pull git@github.com:upidapi/NixOs.git main",
                 print_res=True,
-                color=True
+                color=True,
             )
-            
+
             args = set_commit_msg(args, "Pulled changes from remote")
-            
+
             try:
-                Recipes.add_show_formatt_files() 
+                Recipes.add_show_formatt_files()
                 Recipes.rebuild_and_commit(args)
             finally:
                 run_cmd("git stash pop")
@@ -787,10 +771,9 @@ def main():
     if not args["--message"] or not args["--message"][0]:
         raise TypeError("missing --message argument")
 
-
-    Recipes.add_show_formatt_files() 
+    Recipes.add_show_formatt_files()
     Recipes.rebuild_and_commit(args)
-    
+
     Steps.push_changes()
     Steps.print_success()
 

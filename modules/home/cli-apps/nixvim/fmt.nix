@@ -7,13 +7,16 @@
   # "https://github.com/ErrorNoInternet/configuration.nix/blob/0c074279a82089fb949a2b9f7e92bb1daca1d3e1/home/programs/terminal/neovim/formatting.nix"
 
   programs.nixvim = {
-    extraPackages = with pkgs; [
-      inputs.alejandra.defaultPackage.${pkgs.system}
-      black
-      clang-tools
-      isort
-      taplo
-    ];
+    extraPackages =
+      (with pkgs; [
+        black
+        clang-tools
+        isort
+        taplo
+      ])
+      ++ [
+        inputs.alejandra.defaultPackage.${pkgs.system}
+      ];
 
     plugins.conform-nvim = {
       enable = true;
@@ -38,9 +41,25 @@
         cpp = ["clang_format"];
         # go = ["gofmt"];
         nix = ["alejandra"];
-        python = ["isort" "black -l 70 --preview"];
+        python = ["ruff"];
         rust = ["rustfmt"];
         toml = ["taplo"];
+      };
+
+      formatters = {
+        "ruff" = {
+          command = "ruff";
+          args = [
+            "format"
+            "---config"
+            "\"line-length = 70\""
+            "--force-exclude"
+            "--stdin-filename"
+            "$FILENAME"
+            "-"
+          ];
+          stdin = true;
+        };
       };
     };
 

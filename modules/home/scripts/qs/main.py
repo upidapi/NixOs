@@ -23,7 +23,7 @@ def run_cmd(
         shell=True,
         stdout=subprocess.PIPE,
     )
-
+        
     res = ""
     for line in iter(process.stdout.readline, b""):  # type: ignore[attr-defined]
         dec = line.decode()
@@ -120,7 +120,7 @@ def print_warn(
         "",
         color,
         " ",
-    )
+    ) 
 
 
 def validate_new_branch(

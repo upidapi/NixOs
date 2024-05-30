@@ -26,13 +26,57 @@ in {
           }
         )
       '';
+      /*
+      keymaps = {
+        diagnostic = {
+          "<leader>j" = "goto_next";
+          "<leader>k" = "goto_prev";
+        };
+        lspBuf = {
+          K = "hover";
+          "<C-k>" = "signature_help";
+          gD = "references";
+          gd = "definition";
+          gi = "implementation";
+          gt = "type_definition";
+          rn = "rename";
+          ca = "code_action";
+        };
+        silent = true;
+      };
+      */
 
       servers = {
         nil_ls = enable; # static lsp
         nixd = enable; # eval lsp
 
-        # python
-        pyright = enable;
+        # https://github.com/astral-sh/ruff-lsp#example-neovim
+        pyright = {
+          enable = true;
+          extraOptions = {
+            pyright = {
+              # Using Ruff's import organizer
+              disableOrganizeImports = true;
+            };
+            python = {
+              analysis = {
+                # Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = ["*"];
+              };
+            };
+          };
+        };
+
+        ruff-lsp = {
+          enable = true;
+          onAttach.function = ''
+            if client.name == 'ruff_lsp' then
+              -- Disable hover in favor of Pyright
+              client.server_capabilities.hoverProvider = false
+            end
+          '';
+        };
+        /*
         ruff = {
           enable = true;
           # https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/ruff.lua
@@ -44,6 +88,7 @@ in {
             "${./config/ruff.toml}"
           ];
         };
+        */
 
         jsonls = enable;
         html = enable;

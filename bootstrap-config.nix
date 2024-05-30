@@ -93,19 +93,17 @@
 
   system.stateVersion = "23.11"; # Did you read the comment?
 
-  /*
   systemd.services.custom-nixos-installer = {
     description = "installs my nixos config";
     serviceConfig.PassEnvironment = "DISPLAY";
     script = ''
-      profile=$(cat /persist/nixos/profile-name.txt)
-      nixos-rebuild switch --flake "/persist/nixos#$profile" | exit 1
-      rm /persist/nixos/profile.txt | exit 1
-      chown -R :wheel /persist/nixos  | exit 1
-      chmod -R 770 /persist/nixos | exit 1
+      profile=$(cat /persist/nixos/profile-name.txt) &&
+      nixos-rebuild switch --flake "/persist/nixos#$profile" &&
+      rm /persist/nixos/profile.txt &&
+      chown -R :wheel /persist/nixos &&
+      chmod -R 770 /persist/nixos &&
       reboot
     '';
     wantedBy = ["multi-user.target"]; # starts after login
   };
-  */
 }

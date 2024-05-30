@@ -1,4 +1,6 @@
-# this script assumes that the repo is located at /tmp/nixos
+# this script (should) fully install my nixos config
+
+
 
 # make sure is root
 if [ "$EUID" -ne 0 ]
@@ -6,12 +8,14 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+# we can't put this directly into /mnt/persist/nixos 
+# since /mnt gets wiped when reformatting the disk with disko
+git pull https://github.com/upidapi/NixOs /tmp/nixos
 
 
 # make user select :a (valid) profile
 raw_profile=$1
 
-# config_dir=$(dirname /persist/nixos/install.sh)
 raw_hosts=$(find "/tmp/nixos/hosts" \
     -maxdepth 1 \
     -mindepth 1 \
@@ -32,7 +36,7 @@ for host in "${hosts[@]}"; do
 done
 
 if [[ ! $# -eq 0 && $profile == "" ]]; then 
-  echo "invallid priofile";
+  echo "invallid profile";
   echo "";
 fi
 
@@ -61,8 +65,8 @@ cp -r /tmp/nixos /mnt/persist/nixos
 
 
 
-# store the profile in a file to preserve it for the
-# part after the reboot
+# store the profile in a file to preserve it to the reboot after the install
+# this will be picked upp by the bootstrap-config which will install the full system
 echo "$profile" > /mnt/persist/nixos/profile-name.txt
 
 
@@ -77,8 +81,7 @@ mkdir /mnt/persist/system
 
 
 
-mkdir /mnt/etc
-mkdir /mnt/etc/nixos/
+mkdir /mnt/etc/nixos/ -p
 
 # now we have to create a conventional config to start,
 # since nixos-insall can't handle flakes
@@ -90,9 +93,12 @@ nixos-generate-config \
   --show-hardware-config \
 > "/mnt/etc/nixos/hardware.nix"
 
-# just a quite barebones config to start with, soly
-# used to bootstrap the real one
 
+# just a barebones config to start with, soly used to bootstrap 
+# the real one
 cp /mnt/persist/nixos/bootstrap-config.nix /mnt/etc/nixos/configuration.nix
 
 nixos-install --root /mnt --cores 10
+
+
+# the install continues using a systemd service in bootstrap-config.nix

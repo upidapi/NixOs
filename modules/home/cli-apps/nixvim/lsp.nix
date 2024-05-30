@@ -6,93 +6,6 @@
 }: let
   inherit (my_lib.opt) enable;
 in {
-  programs.nixvim = {
-    extraPlugins = with pkgs.vimPlugins; [nvim-surround];
-
-    extraConfigLua = ''
-      require("nvim-surround").setup()
-    '';
-
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>l";
-        action.__raw = "require(\"lsp_lines\").toggle";
-      }
-      {
-        mode = "n";
-        key = "<leader>=";
-        action = ":FormatToggle<cr>";
-      }
-    ];
-
-    plugins = {
-      lsp = {
-        enable = true;
-        servers = {
-          # https://github.com/astral-sh/ruff-lsp#example-neovim
-          pyright = {
-            enable = true;
-            extraOptions = {
-              pyright = {
-                # Using Ruff's import organizer
-                disableOrganizeImports = true;
-              };
-              python = {
-                analysis = {
-                  # Ignore all files for analysis to exclusively use Ruff for linting
-                  ignore = ["*"];
-                };
-              };
-            };
-          };
-
-          ruff-lsp = {
-            enable = true;
-            onAttach.function = ''
-              if client.name == 'ruff_lsp' then
-                -- Disable hover in favor of Pyright
-                client.server_capabilities.hoverProvider = false
-              end
-            '';
-          };
-        };
-        keymaps = {
-          diagnostic = {
-            "<leader>j" = "goto_next";
-            "<leader>k" = "goto_prev";
-          };
-          lspBuf = {
-            K = "hover";
-            "<C-k>" = "signature_help";
-            gD = "references";
-            gd = "definition";
-            gi = "implementation";
-            gt = "type_definition";
-            rn = "rename";
-            ca = "code_action";
-          };
-          silent = true;
-        };
-      };
-      lsp-lines.enable = true;
-      lsp-format.enable = true;
-      rustaceanvim = {
-        enable = true;
-        settings.server = {
-          standalone = false;
-          on_attach = "__lspOnAttach";
-        };
-      };
-      typescript-tools = {
-        enable = true;
-        settings = {
-          exposeAsCodeAction = "all";
-        };
-      };
-    };
-  };
-  /*
   programs.nixvim.plugins = {
     # advanced syntax highliting, but quite surface level
     # (uses a abstract syntax tree)
@@ -138,7 +51,7 @@ in {
         };
         silent = true;
       };
-      *
+      */
 
       servers = {
         nil_ls = enable; # static lsp
@@ -160,6 +73,7 @@ in {
             };
           };
         };
+        /*
 
         ruff-lsp = {
           enable = true;
@@ -170,7 +84,7 @@ in {
             end
           '';
         };
-        /*
+        */
         ruff = {
           enable = true;
           # https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/ruff.lua
@@ -182,7 +96,6 @@ in {
             "${./config/ruff.toml}"
           ];
         };
-        *
 
         jsonls = enable;
         html = enable;
@@ -206,5 +119,4 @@ in {
       };
     };
   };
-  */
 }

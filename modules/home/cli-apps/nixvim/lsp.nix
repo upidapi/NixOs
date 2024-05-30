@@ -13,6 +13,8 @@ in {
       nixvimInjections = true;
     };
 
+    lsp-lines.enable = true;
+
     # static code analysis
     lsp = {
       enable = true;

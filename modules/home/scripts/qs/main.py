@@ -20,7 +20,7 @@ def run_cmd(
         )
 
     process = subprocess.Popen(
-        cmd,
+        f"script --return --quiet -c {cmd} /dev/null",
         shell=True,
         stdout=subprocess.PIPE,
     )

@@ -7,5 +7,6 @@
     ./wine.nix
     ./nushell
     ./zsh.nix
+    ./bat.nix
   ];
 }

@@ -40,6 +40,7 @@ in {
         };
         wine = enable;
         git = enable;
+        bat = enable;
       };
 
       tools = {

@@ -30,28 +30,32 @@ in {
       lsp = {
         enable = true;
         servers = {
-          bashls.enable = true;
-          clangd.enable = true;
-          cmake.enable = true;
-          cssls.enable = true;
-          dockerls.enable = true;
-          gopls.enable = true;
-          html.enable = true;
-          htmx.enable = true;
-          jsonls.enable = true;
-          lemminx.enable = true;
-          lua-ls.enable = true;
-          nixd = {
+          # https://github.com/astral-sh/ruff-lsp#example-neovim
+          pyright = {
             enable = true;
-            settings = {
-              formatting.command = [(lib.getExe pkgs.nixfmt-rfc-style)];
+            extraOptions = {
+              pyright = {
+                # Using Ruff's import organizer
+                disableOrganizeImports = true;
+              };
+              python = {
+                analysis = {
+                  # Ignore all files for analysis to exclusively use Ruff for linting
+                  ignore = ["*"];
+                };
+              };
             };
           };
-          marksman.enable = true;
-          pest_ls.enable = true;
-          pyright.enable = true;
-          ruff.enable = true;
-          yamlls.enable = true;
+
+          ruff-lsp = {
+            enable = true;
+            onAttach.function = ''
+              if client.name == 'ruff_lsp' then
+                -- Disable hover in favor of Pyright
+                client.server_capabilities.hoverProvider = false
+              end
+            '';
+          };
         };
         keymaps = {
           diagnostic = {

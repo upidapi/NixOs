@@ -63,7 +63,7 @@
             "--force-exclude"
             "--stdin-filename"
             "$FILENAME"
-            "-"
+            "--"
           ];
           stdin = true;
         };
@@ -77,7 +77,7 @@
             "--force-exclude"
             "--stdin-filename"
             "$FILENAME"
-            "-"
+            "--"
           ];
           stdin = true;
         };

@@ -10,7 +10,7 @@ NIXOS_PATH = "/persist/nixos"
 
 class asd:
     @staticmethod
-    def Pasd():
+    def Passd():
         pass
 
 

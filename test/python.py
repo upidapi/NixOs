@@ -1,3 +1,3 @@
 class test:
-    def Hello(self):
+    def Hello():
         pass

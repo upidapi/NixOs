@@ -19,3 +19,9 @@ Virtulisation
 
 
 
+shells 
+    nix develop?
+    nix shell?
+
+    fhs shell for compatibility?
+        https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/

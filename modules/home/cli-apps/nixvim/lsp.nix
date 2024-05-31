@@ -59,7 +59,7 @@ in {
 
         # https://github.com/astral-sh/ruff-lsp#example-neovim
         pyright = {
-          enable = true;
+          enable = false;
           extraOptions = {
             pyright = {
               # Using Ruff's import organizer

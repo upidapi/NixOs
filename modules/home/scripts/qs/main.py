@@ -8,10 +8,8 @@ import sys
 NIXOS_PATH = "/persist/nixos"
 
 
-class asd:
-    @staticmethod
-    def Passd():
-        pass
+def hello(arg1, arg2):
+    pass
 
 
 def run_cmd(

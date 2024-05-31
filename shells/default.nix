@@ -23,7 +23,7 @@
       cp =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
-        # creates a fsh to run random (unpackaged) binarys
+        # creates a fsh to run random (unpackaged)  binarys
         (pkgs.buildFHSUserEnv
           {
             name = "competitive-prog-shell";

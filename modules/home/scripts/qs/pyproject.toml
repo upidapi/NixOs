@@ -6,4 +6,4 @@ build-backend = "setuptools.build_meta"
 name = "qs"
 version = "1.0"
 # dependencies = ["requests"]
-scripts.qs = "scr.main:main"
+scripts.qs = "main:main"

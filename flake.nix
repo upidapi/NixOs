@@ -74,6 +74,7 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         ./hosts
+        ./shells
       ];
 
       systems = [
@@ -105,25 +106,6 @@
             type = "app";
             program = "${self.packages.install}/bin/install";
           };
-        };
-
-        devShells.default = pkgs.mkShell {
-          packages = [
-            (
-              pkgs.python3.withPackages (
-                py-pkgs:
-                  with py-pkgs; [
-                    pandas
-                    requests
-                    pwntools
-                  ]
-              )
-            )
-          ];
-
-          shellHook = ''
-            zsh
-          '';
         };
       };
     };

@@ -1,6 +1,25 @@
 {...}: {
   perSystem = {pkgs, ...}: {
     devShells = {
+      default = pkgs.mkShell {
+        packages = [
+          (
+            pkgs.python3.withPackages (
+              py-pkgs:
+                with py-pkgs; [
+                  pandas
+                  requests
+                  pwntools
+                ]
+            )
+          )
+        ];
+
+        shellHook = ''
+          zsh
+        '';
+      };
+
       cp =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/

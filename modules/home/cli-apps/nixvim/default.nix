@@ -72,7 +72,10 @@ in {
       tabstop = 4;
     };
 
-    globals.mapleader = " ";
+    globals = {
+      mapleader = "<Space>";
+      maplocalleader = "<Space>";
+    };
 
     plugins = {
       toggleterm = {

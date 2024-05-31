@@ -8,7 +8,7 @@ let
         mode = "n";
         options.silent = true;
         key = key;
-        action = "${action}<CR>";
+        action = "<cmd>${action}<CR>";
       }
       // override)
     ({
@@ -45,7 +45,28 @@ in {
       ++ mkMultiCmds [
         ["<F1>" "xa"]
         ["<F2>" "wa"]
-        # ["<F3>" ":lua require('conform').format()"]
+        ["<F3>" ":lua require('conform').format()"]
+
+        # dap
+        ["<leader>db" "DapToggleBreakpoint"]
+        ["<leader>dt" "DapTerminate"]
+        ["<leader>dc" "DapContinue"]
+        ["<leader>di" "DapStepInto"]
+        ["<leader>do" "DapStepOut"]
+        ["<leader>dv" "DapStepOver"]
+
+        # neotree
+        ["<leader>t" "Neotree toggle"]
+        # ["<leader>fu" "Neotree"]  # neotree update
+
+        # telescope
+        ["<leader>ft" "TodoTelescope"]
+        ["<leader>fc" "Telescope git_bcommits"]
+        ["<leader>fC" "Telescope git_commits"]
+        ["<leader>fb" "Telescope buffers"]
+        ["<leader>ff" "Telescope find_files"]
+        ["<leader>fg" "Telescope live_grep"]
+        ["<leader>fz" "Telescope current_buffer_fuzzy_find"]
       ];
   };
 }

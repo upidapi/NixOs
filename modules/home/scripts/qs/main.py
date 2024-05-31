@@ -8,8 +8,8 @@ import sys
 NIXOS_PATH = "/persist/nixos"
 
 
-def hello(arg1, arg2):
-    pass
+# def hello(arg1, arg2):
+#     pass
 
 
 def run_cmd(

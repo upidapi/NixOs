@@ -93,7 +93,8 @@ in {
             "server"
             "--preview"
             "--config"
-            "${./config/ruff.toml}"
+            "select = [ \"ALL\" ]"
+            # "${./config/ruff.toml}"
           ];
         };
 

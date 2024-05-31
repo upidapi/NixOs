@@ -60,11 +60,10 @@
             "format"
             "--config"
             "${./config/ruff.toml}"
-            "--silent"
             "--force-exclude"
             "--stdin-filename"
             "$FILENAME"
-            "--"
+            "-"
           ];
           stdin = true;
         };
@@ -74,12 +73,13 @@
             "check"
             "--config"
             "${./config/ruff.toml}"
-            "--silent"
             "--fix"
             "--force-exclude"
+            "--exit-zero"
+            "--no-cache"
             "--stdin-filename"
             "$FILENAME"
-            "--"
+            "-"
           ];
           stdin = true;
         };

@@ -4,8 +4,6 @@ import shlex
 import subprocess
 from parser import Parser, opt_part
 
-NIXOS_PATH = "/persist/nixos"
-
 
 def run_cmd(
     cmd,
@@ -40,6 +38,13 @@ def run_cmd(
             )
 
     return res
+
+
+def get_nixos_path():
+    flake_profile = os.environ.get("NIXOS_CONFIG_PATH")
+    if flake_profile is None:
+        raise TypeError("nixos config path not found")
+    return flake_profile
 
 
 def get_last_profile():
@@ -428,8 +433,10 @@ def main():
 
     pp(args)
 
+    nixos_path = get_nixos_path()
+
     # make sure that we're in the right place
-    os.chdir(NIXOS_PATH)
+    os.chdir(nixos_path)
 
     """
     is_up_to_date = run_cmd("git diff origin/main HEAD") == ""
@@ -448,7 +455,7 @@ def main():
             # subprocess.run(f"cd {NIXOS_PATH}; nvim .", shell=True)
             # os.chdir(NIXOS_PATH)
             subprocess.run(
-                f"nvim {NIXOS_PATH}",
+                f"nvim {nixos_path}",
                 shell=True,
                 check=False,
             )

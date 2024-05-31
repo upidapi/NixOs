@@ -1,0 +1,9 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qs"
+version = "1.0"
+# dependencies = ["requests"]
+scripts.qs = "scr.main:main"

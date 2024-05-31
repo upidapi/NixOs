@@ -38,6 +38,7 @@ in {
                 dbus-python
                 pygobject3
 
+                pillow
                 # bleak  # bth le
                 # pybluez
               ]

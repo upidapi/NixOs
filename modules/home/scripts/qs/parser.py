@@ -264,7 +264,7 @@ def opt_part(
         set_default("alias", [])
         set_default("info", "")
         set_default("doc", sub_command["info"])
-        set_default("sub_options", Parser.opt_part())
+        set_default("sub_options", opt_part())
 
     return {
         "flags": flags,

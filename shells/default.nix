@@ -24,33 +24,33 @@
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
         # creates a fsh to run random (unpackaged) binarys
-        pkgs.buildFHSUserEnv
-        {
-          name = "competitive-prog-shell";
-          runScript = pkgs.writeShellScript "cmp-prog-init" ''
-            zsh
-            echo "welcome to the cmp-prog-shell"
-          '';
-          targetPkgs = pkgs:
-            (with pkgs; [
-              # gcc
+        (pkgs.buildFHSUserEnv
+          {
+            name = "competitive-prog-shell";
+            runScript = pkgs.writeShellScript "cmp-prog-init" ''
+              zsh
+              echo "welcome to the cmp-prog-shell"
+            '';
+            targetPkgs = pkgs:
+              (with pkgs; [
+                # gcc
 
-              udev
-              alsa-lib
-            ])
-            ++ [
-              pkgs.python3.withPackages
-              (
-                python-pkgs:
-                  with python-pkgs; [
-                    pycrypto
-                    requests
-                    pwntools
-                    pillow
-                  ]
-              )
-            ];
-        }
+                udev
+                alsa-lib
+              ])
+              ++ [
+                pkgs.python3.withPackages
+                (
+                  python-pkgs:
+                    with python-pkgs; [
+                      pycrypto
+                      requests
+                      pwntools
+                      pillow
+                    ]
+                )
+              ];
+          })
         .env;
     };
   };

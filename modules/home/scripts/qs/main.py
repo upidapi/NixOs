@@ -4,7 +4,6 @@ import shlex
 import subprocess
 import sys
 
-
 NIXOS_PATH = "/persist/nixos"
 
 

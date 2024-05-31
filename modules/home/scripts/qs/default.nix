@@ -32,7 +32,7 @@ in {
           src = ./.;
           nativeBuildInputs = [pkgs.python3.pkgs.setuptools];
           # propagatedBuildInputs = [python3.pkg.requests];
-          # pythonImportsCheck = ["woo"];
+          # pythonImportsCheck = ["src"];
         }
       )
     ];

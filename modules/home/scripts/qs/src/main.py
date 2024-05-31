@@ -515,4 +515,5 @@ def main():
     Steps.print_success()
 
 
-main()
+if __name__ == "__main__":
+    main()

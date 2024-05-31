@@ -42,7 +42,7 @@ in {
         root = root .. '/plugins',
       })
 
-      vim.cmd.colorscheme 'tokyonight'
+      -- vim.cmd.colorscheme 'tokyonight'
 
       -- Setup
       local lspconfig = require 'lspconfig'

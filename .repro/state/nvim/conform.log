@@ -1,0 +1,4 @@
+10:51:26[ERROR] Formatter 'ruff-fmt' error: error: Failed to parse modules/home/scripts/qs/main.py:10:17: Duplicate parameter "arg1"
+
+10:51:28[ERROR] Formatter 'ruff-fmt' error: error: Failed to parse modules/home/scripts/qs/main.py:10:17: Duplicate parameter "arg1"
+

@@ -32,7 +32,6 @@
               zsh
               echo "welcome to the cmp-prog-shell"
             '';
-            */
             targetPkgs = pkgs:
               (with pkgs; [
                 # gcc
@@ -52,6 +51,7 @@
                     ]
                 )
               ];
+            */
           })
         .env;
     };

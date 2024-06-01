@@ -27,7 +27,7 @@
         # if i understand correctly its the same as buildFHSUserEnv
         (pkgs.buildFHSEnv
           {
-            name = "competitive-prog-shell";
+            name = "cmp-prog-shell";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
               zsh
               echo "welcome to the cmp-prog-shell"
@@ -37,11 +37,8 @@
 
               udev
               alsa-lib
-            ]);
-            /*
-              ++ [
-              _pkgs.python3.withPackages
-              (
+
+              (python3.withPackages (
                 python-pkgs:
                   with python-pkgs; [
                     pycrypto
@@ -49,9 +46,8 @@
                     pwntools
                     pillow
                   ]
-              )
-            ];
-            */
+              ))
+            ]);
           })
         .env;
     };

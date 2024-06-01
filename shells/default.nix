@@ -29,9 +29,8 @@
           {
             name = "cmp-prog";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
+              name="cmp-prog"
               zsh
-              name="cmp-prog-env"
-              echo "welcome to the cmp-prog-shell"
             '';
             targetPkgs = _pkgs: (with _pkgs; [
               # gcc

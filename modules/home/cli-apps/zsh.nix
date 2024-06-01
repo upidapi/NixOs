@@ -59,9 +59,23 @@ in {
         };
 
         custom.simple_nix_shell = {
-          command = ''echo "$IN_NIX_SHELL $name"'';
+          command = ''
+            if [[ "$IN_NIX_SHELL" == "impure" ]]; then
+              pure_icon="-";
+
+            elif [[ "$IN_NIX_SHELL" == "pure" ]]; then
+              pure_icon="+";
+
+            elif [[ "$IN_NIX_SHELL" == "unknown" ]]; then
+              pure_icon="o";
+
+            else;
+              exit 1
+
+            echo "$pure_icon $name"
+          '';
           when = "if [[ $name == '' ]]; then exit 1; fi";
-          format = "[\\[❄️ $output\\]](cyan) ";
+          format = "[\\[❄️ $output\\]](bright-cyan) ";
         };
       };
     };

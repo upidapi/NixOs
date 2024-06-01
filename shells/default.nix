@@ -23,15 +23,15 @@
       cp =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
-        # creates a fsh to run random (unpackaged)  binarys
-        (pkgs.buildFHSUserEnv
+        # creates a fsh to run random (unpackaged) binarys
+        # if i understand correctly its the same as buildFHSUserEnv
+        (pkgs.buildFHSEnv
           {
             name = "competitive-prog-shell";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
               zsh
               echo "welcome to the cmp-prog-shell"
             '';
-            /*
             targetPkgs = pkgs:
               (with pkgs; [
                 # gcc
@@ -51,7 +51,6 @@
                     ]
                 )
               ];
-            */
           })
         .env;
     };

@@ -44,7 +44,8 @@ in {
     starship = {
       enable = true;
       settings = {
-        format = "\${custom.simple_nix_shell}$directory$character";
+        # format = "\${custom.simple_nix_shell}$directory$character";
+        format = "$nix_shell$directory$character";
         add_newline = true;
 
         directory = {
@@ -60,6 +61,14 @@ in {
           # vicmd_symbol = "[](bold blue) ";
         };
 
+        nix_shell = {
+          impure_msg = "red"; #"[impure shell](bold red)";
+          pure_msg = "green"; # "[pure shell](bold green)";
+          unknown_msg = "yellow"; #"[unknown shell](bold yellow)";
+          format = "\\[[[❄️](bold $state) $name](bold blue)\\] ";
+        };
+
+        /*
         custom.simple_nix_shell = {
           command = ''
             if [[ "$IN_NIX_SHELL" == "impure" ]]; then
@@ -80,6 +89,7 @@ in {
           when = "if [[ $name == '' ]]; then exit 1; fi";
           format = "[\\[❄️ $output\\]](bright-cyan) ";
         };
+        */
       };
     };
   };

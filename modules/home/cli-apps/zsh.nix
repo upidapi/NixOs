@@ -49,6 +49,8 @@ in {
 
         directory = {
           truncate_to_repo = false;
+          read_only = "";
+          truncation_symbol = ".../";
         };
 
         # right_format = "$all";

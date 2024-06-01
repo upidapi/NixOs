@@ -27,7 +27,7 @@
         # if i understand correctly its the same as buildFHSUserEnv
         (pkgs.buildFHSEnv
           {
-            name = "cmp-prog";
+            name = "cmp-prog-fhs";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
               name="cmp-prog"
               zsh

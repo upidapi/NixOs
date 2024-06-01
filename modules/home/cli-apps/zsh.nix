@@ -44,7 +44,7 @@ in {
     starship = {
       enable = true;
       settings = {
-        format = ''$\{custom.simple_nix_shell}$directory$character'';
+        format = "\${custom.simple_nix_shell}$directory$character";
         add_newline = true;
 
         directory = {

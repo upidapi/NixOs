@@ -1,6 +1,4 @@
 {
-  # pkgs,
-  # inputs,
   my_lib,
   config,
   lib,
@@ -68,6 +66,7 @@ in {
         # regen-nixos = enable;
         cn-bth = enable;
         qs = enable;
+        ds = enable;
       };
     };
   };

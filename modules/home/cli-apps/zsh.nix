@@ -44,7 +44,7 @@ in {
     starship = {
       enable = true;
       settings = {
-        format = "$directory$character";
+        format = ''$\{custom.simple_nix_shell}$directory$character'';
         add_newline = true;
 
         directory = {
@@ -56,6 +56,12 @@ in {
           success_symbol = "[➜](bold green)";
           error_symbol = "[➜](bold red)";
           # vicmd_symbol = "[](bold blue) ";
+        };
+
+        custom.simple_nix_shell = {
+          command = ''echo "$IN_NIX_SHELL $name"'';
+          when = "if [[ $name == '' ]]; then exit 1; fi";
+          format = "[❄️ $output] ";
         };
       };
     };

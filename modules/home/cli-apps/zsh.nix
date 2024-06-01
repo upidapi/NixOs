@@ -65,7 +65,7 @@ in {
           impure_msg = "red"; #"[impure shell](bold red)";
           pure_msg = "green"; # "[pure shell](bold green)";
           unknown_msg = "yellow"; #"[unknown shell](bold yellow)";
-          format = "\\[[[❄️](bold $state) $name](bold blue)\\] ";
+          format = "[\\[[❄️](bold $state) $name\\]](bold blue) ";
         };
 
         /*

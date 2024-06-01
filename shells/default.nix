@@ -29,7 +29,7 @@
           {
             name = "cmp-prog-fhs";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
-              name="cmp-prog"
+              name="cmp-prog-fhs"
               zsh
             '';
             targetPkgs = _pkgs: (with _pkgs; [

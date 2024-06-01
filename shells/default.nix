@@ -32,25 +32,26 @@
               zsh
               echo "welcome to the cmp-prog-shell"
             '';
-            targetPkgs = _pkgs:
-              (with _pkgs; [
-                # gcc
+            targetPkgs = _pkgs: (with _pkgs; [
+              # gcc
 
-                udev
-                alsa-lib
-              ])
+              udev
+              alsa-lib
+            ]);
+            /*
               ++ [
-                _pkgs.python3.withPackages
-                (
-                  python-pkgs:
-                    with python-pkgs; [
-                      pycrypto
-                      requests
-                      pwntools
-                      pillow
-                    ]
-                )
-              ];
+              _pkgs.python3.withPackages
+              (
+                python-pkgs:
+                  with python-pkgs; [
+                    pycrypto
+                    requests
+                    pwntools
+                    pillow
+                  ]
+              )
+            ];
+            */
           })
         .env;
     };

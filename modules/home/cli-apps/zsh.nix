@@ -61,7 +61,7 @@ in {
         custom.simple_nix_shell = {
           command = ''echo "$IN_NIX_SHELL $name"'';
           when = "if [[ $name == '' ]]; then exit 1; fi";
-          format = "[❄️ $output] ";
+          format = "[\\[❄️ $output\\]](cyan) ";
         };
       };
     };

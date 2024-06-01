@@ -32,15 +32,15 @@
               zsh
               echo "welcome to the cmp-prog-shell"
             '';
-            targetPkgs = pkgs:
-              (with pkgs; [
+            targetPkgs = _pkgs:
+              (with _pkgs; [
                 # gcc
 
                 udev
                 alsa-lib
               ])
               ++ [
-                pkgs.python3.withPackages
+                _pkgs.python3.withPackages
                 (
                   python-pkgs:
                     with python-pkgs; [

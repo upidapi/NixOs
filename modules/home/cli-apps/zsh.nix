@@ -70,7 +70,8 @@ in {
               pure_icon="o";
 
             else;
-              exit 1
+              echo "wut"
+            fi
 
             echo "$pure_icon $name"
           '';

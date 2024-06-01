@@ -62,10 +62,10 @@ in {
         };
 
         nix_shell = {
-          impure_msg = "red"; #"[impure shell](bold red)";
-          pure_msg = "green"; # "[pure shell](bold green)";
-          unknown_msg = "yellow"; #"[unknown shell](bold yellow)";
-          format = "[\\[[❄️](bold $state) $name\\]](bold blue) ";
+          impure_msg = "[❄️](bold red)";
+          pure_msg = "[❄️](bold green)";
+          unknown_msg = "[❄️](bold yellow)";
+          format = "[\\[$state $name\\]](bold blue) ";
         };
 
         /*

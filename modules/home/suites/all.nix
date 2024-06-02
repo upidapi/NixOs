@@ -66,7 +66,6 @@ in {
         # regen-nixos = enable;
         cn-bth = enable;
         qs = enable;
-        ds = enable;
       };
     };
   };

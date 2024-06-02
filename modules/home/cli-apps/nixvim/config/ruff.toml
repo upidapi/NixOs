@@ -40,7 +40,8 @@ select = [
   # Pyflakes
   "F",
   # pyupgrade
-  "UP",
+  # "UP",
+  "U",
   # flake8-bugbear
   "B",
   # flake8-simplify

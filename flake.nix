@@ -75,6 +75,7 @@
       imports = [
         ./hosts
         ./shells
+        ./pkgs
       ];
 
       systems = [

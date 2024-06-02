@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   my_lib,
   ...
 }: let
@@ -14,14 +13,7 @@ in {
     "Whether or not to add the ds (dev-shell) command";
   config = mkIf cfg.enable {
     home.packages = [
-      (
-        pkgs.writers.writePython3Bin
-        "ds"
-        {
-          flakeIgnore = ["E203"];
-        }
-        (builtins.readFile ./main.py)
-      )
+      # todo: add the custom ds pkg here
     ];
   };
 }

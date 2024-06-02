@@ -15,9 +15,9 @@
           )
         ];
 
-        # shellHook = ''
-        #   zsh
-        # '';
+        shellHook = ''
+          zsh
+        '';
       };
 
       cp =

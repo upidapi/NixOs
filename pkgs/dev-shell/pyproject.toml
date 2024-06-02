@@ -1,0 +1,8 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dev-shell"
+version = "1.0"
+scripts.dev-shell = "main:main"

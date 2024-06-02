@@ -2,6 +2,8 @@ import argparse
 import json
 import subprocess
 
+import argcomplete
+
 
 def run_command(command) -> str:
     return subprocess.check_output(
@@ -27,7 +29,7 @@ def get_dev_shells():
         current_system, {}
     )
 
-    return dev_shell_data.keys()
+    return list(dev_shell_data.keys())
 
 
 def main():
@@ -45,9 +47,15 @@ def main():
         nargs="?",
     )
 
+    argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
     selected_shell = args.devshell
+    if selected_shell not in dev_shells:
+        print(
+            f'invallid shell: "{selected_shell}" valid shells: "{dev_shells}"'
+        )
+
     subprocess.run(
         f"nix develop $NIXOS_CONFIG_PATH#{selected_shell}",
         shell=True,

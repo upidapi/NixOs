@@ -4,6 +4,7 @@
   lib,
   pkgs,
   inputs,
+  self',
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt;
@@ -26,6 +27,7 @@ in {
       [
         # used to formatt nix code
         inputs.alejandra.defaultPackage.${pkgs.system}
+        # self'.packages.dev-shell
       ]
       ++ (with pkgs; [
         (

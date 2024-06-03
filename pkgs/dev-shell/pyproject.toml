@@ -6,4 +6,4 @@ build-backend = "setuptools.build_meta"
 name = "dev-shell"
 version = "1.0"
 
-scripts.dev-shell = "qs.main:main"
+scripts.dev-shell = "dev_shell.main:main"

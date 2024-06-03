@@ -19,10 +19,10 @@ in {
     description = "upidapi";
 
     extraGroups = ["networkmanager" "wheel" "libvirtd"];
-    hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
+    hashedPassword = "$y$j9T$P.ANM.hAc1bqSR7fJWfkZ.$vUxY3KyPB65PR3uTBKwYCa7u6LvUquy47SeAPjgnjD9";
   };
 
-  users.users.root.initialPassword = "1";
+  users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
   modules.nixos = {
     host-name = "upidapi-nix-laptop";

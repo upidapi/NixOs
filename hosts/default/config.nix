@@ -24,7 +24,7 @@ in {
     hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
   };
 
-  users.users.root.initialPassword = "1";
+  users.users.root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
 
   modules.nixos = {
     host-name = "upidapi-nix-pc";

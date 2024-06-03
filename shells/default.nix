@@ -16,9 +16,7 @@
         ];
 
         shellHook = ''
-          echo "enter"
           zsh
-          echo "exited"
           exit
         '';
       };

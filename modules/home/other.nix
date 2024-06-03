@@ -27,7 +27,8 @@ in {
       [
         # used to formatt nix code
         inputs.alejandra.defaultPackage.${pkgs.system}
-        # self'.packages.dev-shell
+        self'.packages.dev-shell
+        self'.packages.qs
       ]
       ++ (with pkgs; [
         (

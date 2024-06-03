@@ -2,7 +2,8 @@ import json
 import os
 import shlex
 import subprocess
-from parser import Parser, opt_part
+
+from .parser import Parser, opt_part
 
 
 def run_cmd(

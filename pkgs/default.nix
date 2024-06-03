@@ -4,6 +4,7 @@
   perSystem = {pkgs, ...}: {
     packages = {
       dev-shell = pkgs.callPackage ./dev-shell {};
+      qs = pkgs.callPackage ./qs {};
     };
   };
 }

@@ -20,13 +20,11 @@ in {
     isNormalUser = true;
     description = "upidapi";
 
-    # make a cfg-editor group that makes it so that a user
-    # can edit the config
     extraGroups = ["networkmanager" "wheel" "libvirtd"];
-    initialPassword = "1";
+    hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
   };
 
-  # user.user.root.initialPassword = "1";
+  users.users.root.initialPassword = "1";
 
   modules.nixos = {
     host-name = "upidapi-nix-pc";

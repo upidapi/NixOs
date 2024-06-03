@@ -38,7 +38,7 @@ in {
       # dotDir = "./config/zsh";
       history = {
         size = 10000;
-        path = "$HOME/.zsh/history";
+        path = ".zsh/history";
       };
     };
 

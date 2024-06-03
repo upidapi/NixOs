@@ -79,23 +79,12 @@ in {
         # stats about code, logical lines, comments, etc
         scc
 
+        # view images
+        gimp
+
         # maybe btop
 
         vlc
-
-        # forensics
-        imhex # hex editor
-        audacity # audio foresics (and editor)
-        sqlmap # sql injection
-        # TODO: binary ninja
-        ghidra
-        radare2
-        gimp
-
-        binwalk
-        file
-        ltrace
-        strace
       ]);
   };
 }

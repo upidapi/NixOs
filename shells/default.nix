@@ -20,7 +20,7 @@
         '';
       };
 
-      cp =
+      sec =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
         # creates a fsh to run random (unpackaged) binarys
@@ -35,6 +35,22 @@
             targetPkgs = _pkgs: (with _pkgs; [
               # gcc
 
+              # forensics
+              imhex # hex editor
+              audacity # audio foresics (and editor)
+              binwalk
+              file
+              ltrace
+              strace
+
+              # binary decompilation
+              ghidra
+              radare2
+              # TODO: binary ninja
+
+              sqlmap # sql injection
+
+              # for compatibility
               udev
               alsa-lib
 

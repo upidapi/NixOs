@@ -26,6 +26,7 @@ in {
         # s = "doas -s";
         # sudo = "doas -s";
         un-page = "env PAGER=cat";
+        ds = "dev-shell";
         e = "$EDITOR";
         c = "clear";
         ".." = "cd ..";

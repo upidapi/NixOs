@@ -41,20 +41,28 @@
   };
 
   # gets the user names from the filenames in hosts/${profile}/.
-  getUserNames = profile: (
-    builtins.map
-    (
-      user-file:
-        if (lib.hasSuffix ".nix" user-file)
-        then (lib.removeSuffix ".nix" user-file)
-        else
-          (
-            builtins.throw
-            ''The user file hosts/${profile}/${user-file} is not a .nix file''
-          )
-    )
-    (builtins.attrNames (builtins.readDir ./${profile}/users))
-  );
+  getUserNames = profile: let
+    has-users = builtins.hasAttr "users" (
+      builtins.readDir ./${profile}
+    );
+  in
+    if !has-users
+    then []
+    else
+      (
+        builtins.map
+        (
+          user-file:
+            if (lib.hasSuffix ".nix" user-file)
+            then (lib.removeSuffix ".nix" user-file)
+            else
+              (
+                builtins.throw
+                ''The user file hosts/${profile}/${user-file} is not a .nix file''
+              )
+        )
+        (builtins.attrNames (builtins.readDir ./${profile}/users))
+      );
 
   # creates a home-manager user
   mkUsers = {
@@ -63,27 +71,20 @@
   }: [
     inputs.home-manager.nixosModules.home-manager
 
-    # normal nixos config
-    (
-      {
-        pkgs,
-        config,
-        ...
-      }: {
-        config = {
-          home-manager = {
-            extraSpecialArgs = extra_args;
-            backupFileExtension = "hm-old";
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users =
-              mapToAttrs
-              (mkUser profile)
-              (getUserNames profile);
-          };
+    {
+      config = {
+        home-manager = {
+          extraSpecialArgs = extra_args;
+          backupFileExtension = "hm-old";
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users =
+            mapToAttrs
+            (mkUser profile)
+            (getUserNames profile);
         };
-      }
-    )
+      };
+    }
   ];
 
   mkSystem = {
@@ -128,10 +129,10 @@
               ./../modules/nixos
               ./${name}/config.nix
             ]
-            ++ mkUsers {
+            ++ (mkUsers {
               inherit extra_args;
               profile = name;
-            };
+            });
         }
     );
   };
@@ -171,13 +172,16 @@ in {
         (nixos-generate-config \
           --no-filesystems \
           --show-hardware-config
-        ) > hosts/{name of profile}/hardware.nix
+        ) > hosts/${name of profile}/hardware.nix
 
     disko.nix
       This will be passed to disko to partition the disks
 
     users/
       This directory contains all users (home-manager config)
+
+      This dir can be skipped or left empty. In that case
+      home-manager won't be added
 
       users/${user-name}.nix
         This would create a user with the user-name: ${user-name}

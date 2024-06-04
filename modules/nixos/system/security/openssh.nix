@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.nixos.security.openssh;
+  cfg = config.modules.nixos.system.security.openssh;
 in {
-  options.modules.nixos.security.openssh =
+  options.modules.nixos.system.security.openssh =
     mkEnableOpt "enable openssh to allow for remote ssh connections";
 
   config = mkIf cfg.enable {

@@ -29,10 +29,6 @@ in {
         steam = enable;
       };
 
-      security = {
-        sudo-rs = enable;
-      };
-
       system = {
         core = {
           fonts = enable;
@@ -53,6 +49,11 @@ in {
         other = {
           sops = enable;
           impermanence = enable;
+        };
+
+        security = {
+          sudo-rs = enable;
+          openssh = enable;
         };
       };
 

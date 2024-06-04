@@ -13,6 +13,9 @@ https://github.com/viperML/noshell
 # 
 
 
+possibly add pueued
+
+
 Virtulisation
     https://github.com/massgravel/Microsoft-Activation-Scripts
     https://github.com/ChrisTitusTech/winutil

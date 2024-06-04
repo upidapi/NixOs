@@ -22,7 +22,13 @@ in {
       "that absolute path of the nixos config";
   };
 
-  config.environment.sessionVariables = {
-    NIXOS_CONFIG_PATH = cfg.cfg-path;
+  # TODO: look at auto-optimise-store = true;
+  # TODO: more settings (eg https://github.com/ErrorNoInternet/configuration.nix/blob/1bcf2395470a3c48162160ec8d41146c06f50e86/nixos/common.nix#L82)
+
+  config = {
+    nix.settings.auto-optimise-store = true;
+    environment.sessionVariables = {
+      NIXOS_CONFIG_PATH = cfg.cfg-path;
+    };
   };
 }

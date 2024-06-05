@@ -15,6 +15,14 @@ in {
     services.openssh = {
       enable = true;
       ports = [22];
+    };
+
+    networking = {
+      firewall = {
+        allowedTCPPorts = [22];
+      };
+    };
+    /*
       settings = {
         PasswordAuthentication = true;
         AllowUsers = null; # Allows all users by default. Can be [ "user1" "user2" ]
@@ -23,11 +31,6 @@ in {
       };
     };
 
-    networking = {
-      firewall = {
-        allowedTCPPorts = [22];
-      };
-    };
 
     services.fail2ban = {
       enable = true;
@@ -40,23 +43,22 @@ in {
         multipliers = "1 2 5 10 15 30 60 120 360 720";
         rndtime = "5m";
       };
+    */
+    /*
+    jails = {
+      DEFAULT.settings.findtime = "15m";
 
-      /*
-      jails = {
-        DEFAULT.settings.findtime = "15m";
-
-        sshd = lib.mkForce ''
-          enabled = true
-          mode = aggressive
-          port = ${
-            lib.strings.concatMapStringsSep
-            ","
-            toString
-            config.services.openssh.ports
-          }
-        '';
-      };
-      */
+      sshd = lib.mkForce ''
+        enabled = true
+        mode = aggressive
+        port = ${
+          lib.strings.concatMapStringsSep
+          ","
+          toString
+          config.services.openssh.ports
+        }
+      '';
     };
+    */
   };
 }

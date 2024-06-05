@@ -21,7 +21,7 @@ in {
     extraGroups = ["networkmanager" "wheel" "libvirtd"];
     hashedPassword = "$y$j9T$P.ANM.hAc1bqSR7fJWfkZ.$vUxY3KyPB65PR3uTBKwYCa7u6LvUquy47SeAPjgnjD9";
 
-    openssh.authorizedKeys.keys = with import ./../../other/ssh-keys.nix; [upidapi-nix-pc];
+    openssh.authorizedKeys.keys = with import ./../../other/ssh-keys.nix; [upidapi-nix-pc upidapi-nix-laptop];
   };
 
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";

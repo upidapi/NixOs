@@ -19,6 +19,12 @@ in {
     };
 
     lsp-lines.enable = true;
+    typescript-tools = {
+      enable = true;
+      settings = {
+        exposeAsCodeAction = "all";
+      };
+    };
 
     # static code analysis
     lsp = {
@@ -100,6 +106,7 @@ in {
         jsonls = enable;
         html = enable;
         bashls = enable;
+        tsserver = enable;
 
         # clangd vs ccls
         # https://github.com/MaskRay/ccls/issues/880

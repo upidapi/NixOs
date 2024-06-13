@@ -31,7 +31,6 @@
         timeout_ms = 10000; # what is this
         lsp_fallback = true;
       };
-      */
       formatOnSave = {
         lspFallback = true;
         timeoutMs = 500;
@@ -40,6 +39,7 @@
       formatAfterSave = {
         lspFallback = true;
       };
+      */
 
       formattersByFt = {
         c = ["clang_format"];
@@ -49,6 +49,11 @@
         python = ["ruff-fmt" "ruff-lint"];
         rust = ["rustfmt"];
         toml = ["taplo"];
+
+        javascript = ["prettierd"];
+        typescript = ["prettierd"];
+
+        "_" = ["codespell"];
         "*" = ["codespell"];
         # :w"_" = ["trimWhitespace"];
       };

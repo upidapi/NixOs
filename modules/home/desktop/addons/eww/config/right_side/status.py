@@ -91,7 +91,10 @@ def get_active_connection():
             start_token = key
     connections.append(buffer)
 
-    parsed = [{key: val for key, val in connection} for connection in connections]
+    parsed = [
+        {key: val for key, val in connection}
+        for connection in connections
+    ]
 
     if not parsed:
         return False
@@ -224,7 +227,10 @@ def get_mic_status():
         return ""
 
     try:
-        if run_command("pamixer --default-source --get-mute") == "true":
+        if (
+            run_command("pamixer --default-source --get-mute")
+            == "true"
+        ):
             return ""
     except subprocess.CalledProcessError:
         return ""

@@ -8,7 +8,7 @@ todo: add img of desktop
 # features
 * home-manager
 * impermanence, root is wiped in reboot, only /persist persists
-* modular, each thing is i'ts own module that you can enable
+* modular, each thing is it's own module that you can enable
 * * nixos modules are in modules/nixos
 * * home-manager modules are in modules/nixos
 * disko, for declarative disks

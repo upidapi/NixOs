@@ -120,6 +120,8 @@ in {
             # floccus  # syncs bookmarks
             # languagetool
 
+            vimium
+
             ublock-origin
 
             react-devtools

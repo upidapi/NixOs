@@ -24,7 +24,7 @@ in {
   */
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
-      exec-once = ["bash ags -c \"${./config.js}\""];
+      exec-once = ["ags"];
     };
 
     home.packages = with pkgs; [

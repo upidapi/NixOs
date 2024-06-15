@@ -21,6 +21,10 @@ in {
     mkEnableOpt "enables hyperland, a wayland tiling manager";
 
   config = mkIf cfg.enable {
+    # FIXME: this is probalbly needed for batery on laptop (ags)
+    #  services.upower.enable = true;
+    home.packages = [pkgs.brightnessctl];
+
     wayland.windowManager.hyprland = {
       # Whether to enable Hyprland wayland compositor
       enable = true;

@@ -397,6 +397,12 @@ def main():
                     "args": 1,
                     "default": None,
                 },
+                # "--no-add-files": {
+                #     "alias": ["-n"],
+                #     "info": "dont add any files",
+                #     # not needed, default behaviour
+                #     # "allow_sub": False,
+                # },
                 "--profile": {
                     "alias": ["-p"],
                     "info": "the flake profile to build",

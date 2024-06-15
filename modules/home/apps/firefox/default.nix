@@ -46,7 +46,7 @@ in {
       BROWSER = "firefox";
     };
 
-    programs.firefox = {
+    programs.firefox = rec {
       enable = true;
       package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
         extraPolicies = {
@@ -72,8 +72,8 @@ in {
           };
         };
       };
-      profiles = rec {
-        upidapi = {
+      profiles = {
+        "${config.home.username}" = {
           id = 0;
           name = config.home.username;
           search = {
@@ -286,7 +286,7 @@ in {
         };
 
         test =
-          upidapi
+          profiles."${config.home.username}"
           // {
             id = 1;
             name = "test";

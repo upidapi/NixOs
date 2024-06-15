@@ -6,17 +6,25 @@
   inputs,
   ...
 }: let
-  inherit (my_lib.opt) mkenableopt;
-  inherit (lib) mkif;
-  cfg = config.modules.home.desktop.addons.eww;
+  inherit (my_lib.opt) mkEnableOpt;
+  inherit (lib) mkIf;
+  cfg = config.modules.home.desktop.addons.ags;
 in {
-  options.modules.home.desktop.addons.eww =
-    mkenableopt "enables eww";
+  options.modules.home.desktop.addons.ags =
+    mkEnableOpt "enables ags, used to create a bar";
 
-  imports = [inputs.ags.homeManagerModules.default];
-  config = mkif cfg.enable {
-    wayland.windowmanager.hyprland.settings = {
-      exec-once = ["bash /bin/start-eww-bar"];
+  imports = [
+    inputs.ags.homeManagerModules.default
+  ];
+
+  /*
+  # to run this manually use
+  ags --quit;
+  ags -c /persist/nixos/modules/home/desktop/addons/ags/config.js
+  */
+  config = mkIf cfg.enable {
+    wayland.windowManager.hyprland.settings = {
+      exec-once = ["bash ags -c \"${./config.js}\""];
     };
 
     home.packages = with pkgs; [
@@ -25,7 +33,7 @@ in {
 
     programs.ags = {
       enable = true;
-      configdir = ./.;
+      configDir = ./.;
       extraPackages = with pkgs; [
         bun
       ];

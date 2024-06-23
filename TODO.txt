@@ -23,7 +23,24 @@ Virtulisation
 
 prelockd
 
+add nix sops
+
+ricing (base16.nix and stylix)
+
+add a patches folder
 
 
-https://github.com/lokegustafsson/nixos-getting-started/blob/master/flake.nix
+fully automated install
+    add a custom install iso
 
+    make shure that the install works
+
+    nixos-anywhere
+
+    https://github.com/EmergentMind/nix-config
+    https://www.youtube.com/watch?v=4snnV3hdz7g
+
+
+automated deployments? hydra?
+
+nixd (language server)

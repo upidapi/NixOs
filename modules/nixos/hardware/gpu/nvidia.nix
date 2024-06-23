@@ -14,10 +14,9 @@ in {
   config = mkIf cfg.enable {
     services.xserver.videoDrivers = ["nvidia"]; # this breaks stuff (cursor disappears)
 
-    # Enable OpenGL
-    hardware.opengl = {
+    hardware.graphics = {
       enable = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
     };
 
     hardware.nvidia = {

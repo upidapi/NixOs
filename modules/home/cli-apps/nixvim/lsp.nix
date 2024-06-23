@@ -1,7 +1,6 @@
 {
   my_lib,
   pkgs,
-  lib,
   ...
 }: let
   inherit (my_lib.opt) enable;
@@ -63,7 +62,7 @@ in {
         };
         */
         servers = {
-          nil_ls = enable; # static lsp
+          nil-ls = enable; # static lsp
           nixd = enable; # eval lsp
 
           # https://github.com/astral-sh/ruff-lsp#example-neovim

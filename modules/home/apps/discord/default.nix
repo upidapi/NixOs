@@ -2,7 +2,8 @@
   config,
   lib,
   my_lib,
-  pkgs,
+  # pkgs,
+  inputs',
   ...
 }: let
   inherit (lib) mkIf mkOption types;
@@ -14,7 +15,9 @@ in {
     // {
       package = mkOption {
         type = types.package;
-        default = pkgs.vesktop.override {
+        # TODO: switch back to unstable vesktop when it works
+        # default = pkgs.vesktop.override {
+        default = inputs'.nixpkgs-stable.legacyPackages.vesktop.override {
           withSystemVencord = false;
         };
       };

@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     # hyprland.url = "github:hyprwm/Hyprland?rev=9afdd61adeaf413afbe853dbc5fdf6853c8bde21";
@@ -21,7 +23,7 @@
     # 33.0 n
     # stable y
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     # hyprland.url = "github:hyprwm/Hyprland?rev=3bb9c7c5cf4f2ee30bf821501499f2308d616f94";
     # "38.0" = "3875679755014997776e091ff8903acfb311dd2f";
     # "32.3" = "9afdd61adeaf413afbe853dbc5fdf6853c8bde21";

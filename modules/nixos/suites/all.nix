@@ -59,6 +59,7 @@ in {
 
       desktop = {
         sddm = enable;
+        hyprland = enable;
       };
 
       hardware = {

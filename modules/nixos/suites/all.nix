@@ -18,7 +18,7 @@ in {
     modules.nixos = {
       other = enable;
 
-      home-tunnel = enable;
+      # home-tunnel = enable;
 
       cli-apps = {
         less = enable;
@@ -49,6 +49,7 @@ in {
         other = {
           sops = enable;
           impermanence = enable;
+          noshell = enable;
         };
 
         security = {

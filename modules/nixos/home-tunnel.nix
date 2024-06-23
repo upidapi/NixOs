@@ -12,6 +12,8 @@ perms) This isn't a problem
 Idk if all tunnels should be here or if this is just
 a "other" category, currently the nixos persist.nix
 module does the same thing on it's own
+
+this thing is not used but preserved incase i need it
 */
 {
   config,

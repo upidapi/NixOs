@@ -38,7 +38,3 @@ Some of the people that I've ~stolen from~ been insperd by. Theres probably a lo
 - [goxore](https://github.com/Goxore/nixconf)
 - [Librephoenix](https://github.com/librephoenix/nixos-config)
 
-
-
-## Todos
-

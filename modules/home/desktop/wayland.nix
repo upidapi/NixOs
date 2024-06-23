@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.wayland;
 in {
@@ -17,6 +17,7 @@ in {
     home = {
       sessionVariables = {
         NIXOS_OZONE_WL = "1";
+        XDG_SESSION_TYPE = "wayland";
       };
 
       packages = with pkgs; [
@@ -42,6 +43,7 @@ in {
       };
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
+        xdg-desktop-portal-wlr
         xdg-desktop-portal-hyprland
       ];
       xdgOpenUsePortal = true;
@@ -49,7 +51,6 @@ in {
       /*
       extraPortals = with pkgs; [
         xdg-desktop-portal-hyprland
-        xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
       ];
 

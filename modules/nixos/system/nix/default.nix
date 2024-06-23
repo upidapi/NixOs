@@ -2,6 +2,7 @@
   my_lib,
   lib,
   config,
+  inputs,
   ...
 }: let
   inherit (my_lib.opt) mkOpt;
@@ -22,11 +23,33 @@ in {
       "that absolute path of the nixos config";
   };
 
-  # TODO: look at auto-optimise-store = true;
-  # TODO: more settings (eg https://github.com/ErrorNoInternet/configuration.nix/blob/1bcf2395470a3c48162160ec8d41146c06f50e86/nixos/common.nix#L82)
+  # TODO: look at ca-derivations
 
   config = {
-    nix.settings.auto-optimise-store = true;
+    nix = {
+      channel.enable = false;
+      nixPath = [
+        # Point to a stable path so system updates immediately update
+        "nixpkgs=/run/current-system/nixpkgs"
+      ];
+
+      # Pinning flake registry entries, to avoid unpredictable cache invalidation and
+      # corresponding large downloads
+      registry = {
+        nixpkgs.flake = inputs.nixpkgs;
+        nixfiles.flake = inputs.self;
+      };
+
+      settings = {
+        flake-registry = "";
+
+        auto-optimise-store = true;
+
+        log-lines = 500;
+        show-trace = true;
+      };
+    };
+
     environment.sessionVariables = {
       NIXOS_CONFIG_PATH = cfg.cfg-path;
     };

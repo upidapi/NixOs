@@ -29,7 +29,6 @@ in {
       "$mod, mouse:273, resizewindow"
     ];
 
-    # TODO: brigtness / airplane mode, indicators / notifications§
     bindle = [
       # change volume
       ",XF86AudioMute, exec, pamixer -t"

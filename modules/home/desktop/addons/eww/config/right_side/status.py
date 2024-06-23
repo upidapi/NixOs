@@ -242,7 +242,6 @@ def get_mic_status():
 def main_loop():
     # when XF86RFKill is toggled this is on
     # airplane_mode = "" if bool(run_command("")) else ""
-    # TODO: airpalne mode
 
     # return "(label :text \"asd\")"
 

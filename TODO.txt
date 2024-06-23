@@ -10,10 +10,10 @@ https://github.com/EzequielRamis/dotfiles/blob/ecfe6f269339d1551768b9158c1d3aee2
 # change user shell without root
 https://github.com/viperML/noshell
 
-# 
 
-
-possibly add pueued
+add pueued
+    ask lokegustafsson for his pkg
+    prevent freezes in low ram senarios
 
 
 Virtulisation
@@ -21,10 +21,9 @@ Virtulisation
     https://github.com/ChrisTitusTech/winutil
 
 
+prelockd
 
-shells 
-    nix develop?
-    nix shell?
 
-    fhs shell for compatibility?
-        https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
+
+https://github.com/lokegustafsson/nixos-getting-started/blob/master/flake.nix
+

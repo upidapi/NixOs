@@ -14,16 +14,6 @@ in {
     mkEnableOpt
     "enables firefox";
 
-  # TODO: add better keybinds
-  #  probably those vim keybinds
-  #  and that mode whereeach link gets it's own two
-  #  char code to click.
-  #  important
-  #    duplicate
-  #    close other
-  #    close all but open new
-
-  # TODO: fix teams
   # TODO: rearrow (community thumbnails for youtube)
   # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
 

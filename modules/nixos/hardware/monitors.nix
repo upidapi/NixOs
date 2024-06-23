@@ -63,7 +63,7 @@ in {
                 cfg
               )
             )
-            <= 1 # TODO: set back to == 1 (maybe)
+            == 1
           );
         message = "Exactly one monitor must be set to primary. ${
           builtins.toJSON config.modules.nixos.hardware

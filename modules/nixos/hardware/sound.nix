@@ -19,7 +19,10 @@ in {
     ];
 
     # Enable sound with pipewire.
-    sound.enable = true;
+
+    # apparently not needed (https://github.com/NixOS/nixpkgs/issues/319809#issuecomment-2167912680)
+    # sound.enable = true;
+
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {

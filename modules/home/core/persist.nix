@@ -29,7 +29,7 @@ in {
         # "Videos"
 
         # "projects"
-        "prog"
+        "persist"
 
         # "VirtualBox VMs"
         ".gnupg"

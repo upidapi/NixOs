@@ -18,7 +18,13 @@ in {
 
   config = mkIf cfg.enable {
     # xdg.configFile."shell".source = mkIf cfg.set-shell (lib.getExe pkgs.zsh);
-    xdg.configFile."shell".source = lib.getExe pkgs.zsh;
+    xdg.configFile."shell" = {
+      executable = true;
+      text = ''
+        #!/bin/sh
+        exec ${pkgs.zsh}/bin/zsh "$@"
+      '';
+    };
 
     programs = {
       zsh = {

@@ -49,6 +49,8 @@
               radare2
               # TODO: binary ninja
 
+              tio
+
               sqlmap # sql injection
 
               # for compatibility

@@ -45,7 +45,8 @@ in {
         playerctl = enable;
       };
 
-      core = {
+      misc = {
+        sops = enable;
         persist = enable;
       };
 

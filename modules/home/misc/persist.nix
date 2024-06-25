@@ -7,13 +7,13 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.core.persist;
+  cfg = config.modules.home.misc.persist;
 in {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
   ];
 
-  options.modules.home.core.persist =
+  options.modules.home.misc.persist =
     mkEnableOpt "enables persistence for the home dir";
 
   # if you have impersistence on, then you probably really dont
@@ -49,6 +49,9 @@ in {
 
         # persist spotify login
         ".config/spotify"
+
+        # save sops keys
+        ".config/sops"
 
         # save nushell command history
         # ".config/nushell/history.txt"

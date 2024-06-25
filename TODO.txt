@@ -17,6 +17,11 @@ Virtulisation
     https://github.com/ChrisTitusTech/winutil
 
 
+https://github.com/workflow/dotfiles/blob/main/nix/default.nix
+
+backups
+    https://github.com/notohh/snowflake/blob/master/hosts/ame/services/restic.nix
+    
 prelockd
 
 add nix sops

@@ -1,0 +1,13 @@
+keys:
+  - &admin age1hxp6y9u69grsh98qncn23prca0mpzj986rds9599x0ewy944636s8j84r0
+  # - $upidapi <generate with ssh-to-age>
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - age:
+        - *admin
+
+  - path_regex: secrets/ssh-keys/.+
+    key_groups:
+      - age:
+        - *admin

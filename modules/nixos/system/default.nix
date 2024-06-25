@@ -2,7 +2,7 @@
   imports = [
     ./core
     ./nix
-    ./other
+    ./misc
     ./security
   ];
 }

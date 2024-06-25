@@ -3,10 +3,10 @@
     ./apps
     ./cli-apps
     ./tools
-    ./core
     ./desktop
     ./scripts
     ./suites
+    ./misc
     ./other.nix
   ];
 }

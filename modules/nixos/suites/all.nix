@@ -46,8 +46,7 @@ in {
           nix-index = enable;
         };
 
-        other = {
-          sops = enable;
+        misc = {
           impermanence = enable;
           noshell = enable;
         };

@@ -27,15 +27,13 @@ in {
       pkgs.sops
     ];
 
+    /*
     sops = {
       defaultSopsFile = "${self}/secrets/secrets.yaml";
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
       age.keyFile = "/persist/sops-nix-key.txt";
 
       secrets = {
-        # FIXME: terrible security etc, this way all profiles get the
-        #  ssh private key (for the host) / github key
-
         github = {
           path = "${ssh-cfg-path}/github";
           mode = "0400";
@@ -49,9 +47,19 @@ in {
           sopsFile =
             "${self}/secrets/ssh-keys/hosts/"
             + "${osConfig.modules.nixos.host-name}";
-          format = "binary";
         };
       };
+    };
+    */
+
+    sops = {
+      # this file doesnt exist, add it when i need user specific secrets
+      defaultSopsFile = "${self}/secrets/users/${config.home.homeDirectory}.yaml";
+
+      # age.keyFile = "/home/user/.config/sops/age/keys.txt";
+      age.keyFile = "${ssh-cfg-path}/id_ed25519";
+
+      secrets = {};
     };
   };
 }

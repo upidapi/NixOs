@@ -10,9 +10,6 @@
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.system.misc.sops;
-
-  # FIXME: only add the
-  ssh-cfg-path = "${config.home.homeDirectory}/.ssh";
 in {
   # NOTE: not used
 
@@ -36,20 +33,19 @@ in {
       age.keyFile = "/persist/sops-nix-key.txt";
 
       secrets = {
-        github = {
-          path = "${ssh-cfg-path}/github";
+        "github-key" = {
+          path = "/home/upidapi/.ssh/github";
           mode = "0400";
-          sopsFile = "${self}/secrets/ssh-keys/github";
-          format = "binary";
+          sopsFile = "${self}/secrets/infra.yaml";
         };
 
-        upidapi-nix-pc = {
-          path = "${ssh-cfg-path}/id_ed25519";
+        "hosts/upidapi-nix-pc" = {
+          path = "/home/upidapi/.ssh/id_ed25519";
           mode = "0400";
-          sopsFile =
-            "${self}/secrets/ssh-keys/hosts/"
-            + "${config.modules.nixos.host-name}";
-          format = "binary";
+          sopsFile = "${self}/secrets/infra.yaml";
+          # "${self}/secrets/infra/hosts/"
+          # + "${config.modules.nixos.host-name}";
+          # format = "binary";
         };
       };
     };

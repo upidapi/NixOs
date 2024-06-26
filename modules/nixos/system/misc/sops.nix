@@ -28,21 +28,21 @@ in {
     ];
 
     sops = {
-      defaultSopsFile = "${self}/secrets/secrets.yaml";
+      defaultSopsFile = "${self}/secrets/infra.yaml";
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
       age.keyFile = "/persist/sops-nix-key.txt";
 
       secrets = {
         "github-key" = {
           path = "/home/upidapi/.ssh/github";
+          owner = "upidapi";
           mode = "0400";
-          sopsFile = "${self}/secrets/infra.yaml";
         };
 
         "hosts/upidapi-nix-pc" = {
           path = "/home/upidapi/.ssh/id_ed25519";
+          owner = "upidapi";
           mode = "0400";
-          sopsFile = "${self}/secrets/infra.yaml";
           # "${self}/secrets/infra/hosts/"
           # + "${config.modules.nixos.host-name}";
           # format = "binary";

@@ -10,6 +10,8 @@
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.system.misc.sops;
+
+  # FIXME: only add the
   ssh-cfg-path = "${config.home.homeDirectory}/.ssh";
 in {
   # NOTE: not used
@@ -24,9 +26,9 @@ in {
     mkEnableOpt "enables sops";
 
   config = mkIf cfg.enable {
-    # environment.packages = [
-    #   pkgs.sops
-    # ];
+    environment.systemPackages = [
+      pkgs.sops
+    ];
 
     sops = {
       defaultSopsFile = "${self}/secrets/secrets.yaml";
@@ -34,18 +36,20 @@ in {
       age.keyFile = "/persist/sops-nix-key.txt";
 
       secrets = {
-        github-ssh-key = {
+        github = {
           path = "${ssh-cfg-path}/github";
           mode = "0400";
           sopsFile = "${self}/secrets/ssh-keys/github";
+          format = "binary";
         };
 
-        host-ssh-key = {
+        upidapi-nix-pc = {
           path = "${ssh-cfg-path}/id_ed25519";
           mode = "0400";
           sopsFile =
             "${self}/secrets/ssh-keys/hosts/"
             + "${config.modules.nixos.host-name}";
+          format = "binary";
         };
       };
     };

@@ -11,8 +11,6 @@
   inherit (lib) mkIf;
   cfg = config.modules.nixos.system.misc.sops;
 in {
-  # NOTE: not used
-
   # might want to remove/disable the import when
   # this modules is disabled
   imports = [
@@ -32,7 +30,12 @@ in {
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
       age.keyFile = "/persist/sops-nix-key.txt";
 
+      # FIXME: dont just give the secrets to "upidapi"
+      #  give the github key to the admin / infra access
+      #  and the .ssh key should probably be user not host specific
+
       secrets = {
+        # the key names equate to the key names for the sops keys
         "github-key" = {
           path = "/home/upidapi/.ssh/github";
           owner = "upidapi";

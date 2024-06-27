@@ -49,7 +49,7 @@ in {
         misc = {
           impermanence = enable;
           noshell = enable;
-          # sops = enable;
+          sops = enable;
         };
 
         security = {

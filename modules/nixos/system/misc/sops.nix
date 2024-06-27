@@ -37,6 +37,7 @@ in {
       #  and the .ssh key should probably be user not host specific
 
       secrets = {
+        /*
         "sops-age-key" = {
           path = "/home/upidapi/.config/sops/age/keys.txt";
           owner = "upidapi";
@@ -58,6 +59,7 @@ in {
           # + "${config.modules.nixos.host-name}";
           # format = "binary";
         };
+        */
       };
     };
   };

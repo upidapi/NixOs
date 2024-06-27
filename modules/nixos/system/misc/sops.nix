@@ -28,6 +28,8 @@ in {
     sops = {
       defaultSopsFile = "${self}/secrets/infra.yaml";
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
+
+      # move this?
       age.keyFile = "/persist/sops-nix-key.txt";
 
       # FIXME: dont just give the secrets to "upidapi"

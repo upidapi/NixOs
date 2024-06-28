@@ -37,13 +37,13 @@ in {
       #  and the .ssh key should probably be user not host specific
 
       secrets = {
+        /*
         "sops-age-key" = {
           path = "/home/upidapi/.config/sops/age/keys.txt";
           owner = "upidapi";
           mode = "0400";
         };
 
-        /*
         # this causes (at least) /home/upidapi/.config to not be generated
 
         # the key names equate to the key names for the sops keys
@@ -52,7 +52,7 @@ in {
           owner = "upidapi";
           mode = "0400";
         };
-
+        */
         "hosts/upidapi-nix-pc" = {
           path = "/home/upidapi/.ssh/id_ed25519";
           owner = "upidapi";
@@ -61,7 +61,6 @@ in {
           # + "${config.modules.nixos.host-name}";
           # format = "binary";
         };
-        */
       };
     };
   };

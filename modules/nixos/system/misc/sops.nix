@@ -39,8 +39,8 @@ in {
       secrets = {
         "sops-age-key" = {
           path = "/home/upidapi/.config/sops/age/keys.txt";
-          owner = "upidapi";
-          mode = "0400";
+          # owner = "upidapi";
+          # mode = "0400";
         };
 
         /*

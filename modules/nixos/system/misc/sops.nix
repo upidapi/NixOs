@@ -55,8 +55,8 @@ in {
         */
         "hosts/upidapi-nix-pc" = {
           path = "/home/upidapi/.ssh/id_ed25519";
-          owner = "upidapi";
-          mode = "0400";
+          # owner = "upidapi";
+          # mode = "0400";
           # "${self}/secrets/infra/hosts/"
           # + "${config.modules.nixos.host-name}";
           # format = "binary";

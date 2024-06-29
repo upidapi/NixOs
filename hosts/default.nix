@@ -88,6 +88,7 @@
   ];
 
   mkSystem = {
+    hosts, # all hosts
     name, # eg default
     system, # eg x86_64-linux
   }: {
@@ -110,7 +111,9 @@
           modules =
             [
               {
-                modules.nixos.system.nix.flakes.profile = name;
+                modules.nixos.hosts = hosts;
+                modules.nixos.host-name = name;
+
                 environment.sessionVariables = {
                   FLAKE_PROFILE = name;
                 };
@@ -135,13 +138,19 @@
     );
   };
 
-  mkConfig = configs:
+  mkConfig = configs: let
+    hosts = (
+      builtins.map
+      (config: config.name)
+      configs
+    );
+  in
     builtins.foldl'
     (a: b: a // b)
     {}
     (
       builtins.map
-      mkSystem
+      (config: mkSystem (config // {hosts = hosts;}))
       configs
     );
 in {
@@ -197,11 +206,11 @@ in {
     # this is the only part that you should change
     {
       system = "x86_64-linux";
-      name = "default";
+      name = "upinix-pc";
     }
     {
       system = "x86_64-linux";
-      name = "laptop";
+      name = "upinix-laptop";
     }
   ];
 }

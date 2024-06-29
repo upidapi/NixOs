@@ -29,8 +29,6 @@ in {
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
   modules.nixos = {
-    host-name = "upidapi-nix-laptop";
-
     suites.all = enable;
 
     hardware.monitors = [

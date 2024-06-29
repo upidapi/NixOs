@@ -10,6 +10,8 @@
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.system.misc.sops;
+  # ssh_path = "/persist/system/etc/ssh";
+  ssh_path = "/etc/ssh";
 in {
   # might want to remove/disable the import when
   # this modules is disabled
@@ -21,8 +23,9 @@ in {
     mkEnableOpt "enables sops";
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [
-      pkgs.sops
+    environment.systemPackages = with pkgs; [
+      sops
+      age
     ];
 
     sops = {
@@ -43,20 +46,20 @@ in {
           owner = "upidapi";
           mode = "0400";
         };
+        */
 
         # this causes (at least) /home/upidapi/.config to not be generated
 
         # the key names equate to the key names for the sops keys
         "github-key" = {
-          path = "/home/upidapi/.ssh/github";
+          path = "${ssh_path}/github";
           owner = "upidapi";
           mode = "0400";
         };
-        */
         "hosts/upidapi-nix-pc" = {
-          path = "/home/upidapi/.ssh/id_ed25519";
-          # owner = "upidapi";
-          # mode = "0400";
+          path = "${ssh_path}/users/upidapi_ed25519";
+          owner = "upidapi";
+          mode = "0400";
           # "${self}/secrets/infra/hosts/"
           # + "${config.modules.nixos.host-name}";
           # format = "binary";

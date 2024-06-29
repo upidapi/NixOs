@@ -75,15 +75,18 @@ in {
         # other
         htop
         ripgrep
+        # maybe btop
 
         # stats about code, logical lines, comments, etc
         scc
 
-        # view images
+        # minimal image viewer
+        feh
+
+        # view/edit images
         gimp
 
-        # maybe btop
-
+        # video viewer
         vlc
       ]);
   };

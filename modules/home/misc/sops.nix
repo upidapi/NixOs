@@ -23,9 +23,9 @@ in {
     mkEnableOpt "enables sops";
 
   config = mkIf cfg.enable {
-    home.packages = [
-      pkgs.sops
-    ];
+    # home.packages = [
+    #   pkgs.sops
+    # ];
 
     /*
     sops = {
@@ -51,10 +51,17 @@ in {
       };
     };
     */
+    home.file = {
+      ".ssh/id_ed25519" = {
+        source =
+          lib.file.mkOutOfStoreSymlink
+          "/persist/system/etc/ssh/users/${config.home.username}_ed25519";
+      };
+    };
 
     sops = {
       # this file doesnt exist, add it when i need user specific secrets
-      defaultSopsFile = "${self}/secrets/users/${config.home.homeDirectory}.yaml";
+      defaultSopsFile = "${self}/secrets/users/${config.home.username}.yaml";
 
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
       age.keyFile = "${ssh-cfg-path}/id_ed25519";

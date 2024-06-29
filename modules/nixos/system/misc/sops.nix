@@ -48,7 +48,9 @@ in {
         };
         */
 
-        # this causes (at least) /home/upidapi/.config to not be generated
+        # This causes (at least) /home/upidapi/.config to not be generated.
+        # Placing the keys directly in /home causes home manager to break
+        # on reboot.
 
         # the key names equate to the key names for the sops keys
         "github-key" = {

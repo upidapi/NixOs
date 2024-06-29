@@ -33,7 +33,11 @@ in {
 
         # "VirtualBox VMs"
         ".gnupg"
+
+        # TODO: posibly only preserve known hosts
+        #  ".ssh/known_hosts"
         ".ssh"
+
         ".nixops"
         ".local/share/keyrings" # stores passwords (keys)
         ".local/share/direnv"

@@ -40,6 +40,10 @@ in {
             capslock = "overload(control, esc)";
           };
 
+          /*
+          # im not actually using it
+          # and it breaks stuff like switching tty
+
           # make alt+ctrl type the keys that altgr would
           control = {
             alt = "layer(altgr)";
@@ -48,6 +52,7 @@ in {
           alt = {
             control = "layer(altgr)";
           };
+          */
         };
       };
     };

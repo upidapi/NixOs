@@ -34,9 +34,7 @@ in {
         # "VirtualBox VMs"
         ".gnupg"
 
-        # TODO: posibly only preserve known hosts
-        #  ".ssh/known_hosts"
-        ".ssh"
+        ".ssh/known_hosts"
 
         ".nixops"
         ".local/share/keyrings" # stores passwords (keys)

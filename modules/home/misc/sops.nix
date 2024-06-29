@@ -54,7 +54,7 @@ in {
     home.file = {
       ".ssh/id_ed25519" = {
         source =
-          lib.file.mkOutOfStoreSymlink
+          config.lib.file.mkOutOfStoreSymlink
           "/persist/system/etc/ssh/users/${config.home.username}_ed25519";
       };
     };

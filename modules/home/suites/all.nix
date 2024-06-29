@@ -46,7 +46,7 @@ in {
       };
 
       misc = {
-        # sops = enable;
+        sops = enable;
         persist = enable;
       };
 

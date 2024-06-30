@@ -34,8 +34,6 @@ in {
         # "VirtualBox VMs"
         ".gnupg"
 
-        ".ssh/known_hosts"
-
         ".nixops"
         ".local/share/keyrings" # stores passwords (keys)
         ".local/share/direnv"
@@ -68,6 +66,7 @@ in {
         }
       ];
       files = [
+        ".ssh/known_hosts"
         ".screenrc"
         # ".zsh_history"  # zsh command history
       ];

@@ -29,7 +29,7 @@ in {
     ];
 
     sops = {
-      defaultSopsFile = "${self}/secrets/infra.yaml";
+      defaultSopsFile = "${self}/misc/secrets/infra.yaml";
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
 
       # move this?

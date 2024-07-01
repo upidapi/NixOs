@@ -7,7 +7,7 @@ creation_rules:
   #     - age:
   #       - *admin
 
-  - path_regex: secrets/infra.yaml$
+  - path_regex: misc/secrets/infra.yaml$
     key_groups:
       - age:
         - *admin

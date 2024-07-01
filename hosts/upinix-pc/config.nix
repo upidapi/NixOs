@@ -23,7 +23,8 @@ in {
     extraGroups = ["networkmanager" "wheel" "libvirtd"];
     hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
 
-    openssh.authorizedKeys.keys = with import ./../../other/ssh-keys.nix; [upidapi-nix-pc upidapi-nix-laptop];
+    # use the pub keys in each host insted
+    # openssh.authorizedKeys.keys = with import ./../../other/ssh-keys.nix; [upidapi-nix-pc upidapi-nix-laptop];
   };
 
   users.users.root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";

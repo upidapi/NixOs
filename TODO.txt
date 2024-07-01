@@ -17,6 +17,8 @@ Virtulisation
     https://github.com/ChrisTitusTech/winutil
 
 
+also update the iso flake on "qs update"
+
 https://github.com/workflow/dotfiles/blob/main/nix/default.nix
 
 backups
@@ -24,7 +26,7 @@ backups
     
 prelockd
 
-add nix sops
+zoxide
 
 ricing (base16.nix and stylix)
 
@@ -45,3 +47,5 @@ fully automated install
 automated deployments? hydra?
 
 nixd (language server)
+
+just?

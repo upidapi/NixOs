@@ -1,3 +1,9 @@
+# A minimal config used as a intermediate step when installing my
+# config. Provides a basic env for debugging and does a few things
+# to make the full install quicker
+# The most important thing is activating flakes since nixos-install
+# cant really handle them well (in theory you can use --flake but
+# that has many buggs)
 {pkgs, ...}: {
   imports = [
     # Include the results of the hardware scan.
@@ -57,8 +63,8 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
   services.xserver = {

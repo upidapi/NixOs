@@ -1,7 +1,7 @@
 ## description
 This config is not a finished product, and will change as a continue to learn about nix. Things will be modified, updated, added, removed and restructured without warning. I commit each time I (successfully) rebuild so a large amount of commits are imcompleate and or partailly broken. So watch out for just blindly copying things whithout knowing what they do.
 
-![my desktop](https://github.com/upidapi/NixOs/blob/main/images/desktop.png?raw=true)
+![my desktop](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop.png?raw=true)
 
 
 ## features

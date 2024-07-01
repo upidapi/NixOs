@@ -98,7 +98,7 @@ nixos-generate-config \
 # the real one
 cp /mnt/persist/nixos/bootstrap-config.nix /mnt/etc/nixos/configuration.nix
 
-nixos-install --root /mnt --cores 10
+nixos-install --root /mnt --cores 0 # all cores TODO: check if this i true
 
 
 # the install continues using a systemd service in bootstrap-config.nix

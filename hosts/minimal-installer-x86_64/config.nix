@@ -1,25 +1,19 @@
 {
   pkgs,
-  # my_lib,
+  my_lib,
+  inputs,
   ...
-}:
-/*
-      let
+}: let
   inherit (my_lib.opt) enable;
-in
-*/
-{
-  /*
+in {
   imports = [
-    "${pkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-    "${pkgs}/nixos/modules/installer/cd-dvd/channel.nix"
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
   ];
-  */
 
   config = {
-    # iso things:
-    # The default compression-level is (6) and takes too long on some machines (>30m). 3 takes <2m
     isoImage.squashfsCompression = "zstd -Xcompression-level 3";
+
     nixpkgs = {
       hostPlatform =
         /*
@@ -29,7 +23,8 @@ in
       config.allowUnfree = true;
     };
 
-    system.stateVersion = "23.11"; # Did you read the comment?
+    # its an iso so it doesnt have to be preserved
+    # system.stateVersion = "23.11";
 
     # Enable the X11 windowing system.
     # services.xserver.enable = true;
@@ -38,7 +33,9 @@ in
     # services.xserver.displayManager.sddm.enable = true;
     # services.xserver.desktopManager.plasma5.enable = true;
 
-    users.users.root.initialPassword = "";
+    # done bu the imports
+    /*
+    users.users.root.initialHashedPassword = "";
 
     users.users.nixos = {
       isNormalUser = true;
@@ -46,16 +43,30 @@ in
 
       extraGroups = ["networkmanager" "wheel"];
 
-      initialPassword = "";
-
-      # packages = with pkgs; [
-      #   firefox
-      #   kate
-      # ];
+      initialHashedPassword = "";
     };
+    */
 
     environment.systemPackages = [
       pkgs.git
     ];
+
+    modules.nixos = {
+      system = {
+        core = {
+          # fonts = enable;
+          boot = enable;
+          env = enable;
+          locale = enable;
+        };
+
+        nix = {
+          cfg-path = "/persist/nixos";
+
+          cachix = enable;
+          flakes = enable;
+        };
+      };
+    };
   };
 }

@@ -14,9 +14,14 @@
         }
         {
           system = "x86_64-linux";
-          name = "nixos-installer-x86_64";
+          name = "full-installer-x86_64";
+          disko = false; # cant have disko on a usb :)
+        }
+        {
+          system = "x86_64-linux";
+          name = "minimal-installer-x86_64";
           home-manager = false;
-          disko = false; # TODO: ?
+          disko = false;
         }
       ]
     )

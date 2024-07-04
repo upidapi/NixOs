@@ -1,20 +1,15 @@
 {
   pkgs,
-  # my_lib,
+  my_lib,
+  inputs,
   ...
-}:
-/*
-      let
+}: let
   inherit (my_lib.opt) enable;
-in
-*/
-{
-  /*
+in {
   imports = [
-    "${pkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-    "${pkgs}/nixos/modules/installer/cd-dvd/channel.nix"
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
   ];
-  */
 
   config = {
     # iso things:
@@ -57,5 +52,89 @@ in
     environment.systemPackages = [
       pkgs.git
     ];
+
+    modules.nixos = {
+      # cli-apps = {
+      #   less = enable;
+      # };
+
+      other = enable;
+
+      # home-tunnel = enable;
+
+      cli-apps = {
+        less = enable;
+        keepass = enable;
+      };
+
+      apps = {
+        steam = enable;
+      };
+
+      system = {
+        core = {
+          fonts = enable;
+          boot = enable;
+          env = enable;
+          locale = enable;
+        };
+
+        nix = {
+          cfg-path = "/persist/nixos";
+
+          cachix = enable;
+          flakes = enable;
+          gc = enable;
+          nix-index = enable;
+          misc = enable;
+        };
+
+        misc = {
+          impermanence = enable;
+          noshell = enable;
+          sops = enable;
+        };
+
+        security = {
+          sudo-rs = enable;
+          # openssh = enable;
+        };
+      };
+
+      desktop = {
+        sddm = enable;
+        hyprland = enable;
+      };
+
+      hardware = {
+        cpu.amd = enable;
+        gpu.nvidia = enable;
+
+        bth = enable;
+        sound = enable;
+        network = enable;
+        keyboard = enable;
+      };
+
+      /*
+      hardware.network = enable;
+
+      system = {
+        core = {
+          # fonts = enable;
+          boot = enable;
+          env = enable;
+          locale = enable;
+        };
+
+        nix = {
+          cfg-path = "/persist/nixos";
+
+          cachix = enable;
+          flakes = enable;
+        };
+      };
+      */
+    };
   };
 }

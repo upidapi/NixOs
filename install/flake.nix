@@ -45,18 +45,18 @@
       ];
       */
       imports = [
-        (import ./mk_hosts.nix)
-        ./hosts
-        [
-          {
-            system = "x86_64-linux";
-            name = "upinix-pc";
-          }
-          {
-            system = "x86_64-linux";
-            name = "upinix-laptop";
-          }
-        ]
+        (
+          (import ./../lib/mk_hosts.nix)
+          ./iso
+          [
+            {
+              system = "x86_64-linux";
+              name = "nixos-installer-x86_64";
+              home-manager = false;
+              disko = false; # TODO: ?
+            }
+          ]
+        )
       ];
 
       systems = [

@@ -51,19 +51,24 @@ In that directory the following things should exist:
         home.username and home.userDirectory are set automatically
 */
 /*
-# args passed like this so that we can do
-imports = [
-  (import ./mk_hosts.nix) ./hosts [
-    {
-      system = "x86_64-linux";
-      name = "upinix-pc";
-    }
-    {
-      system = "x86_64-linux";
-      name = "upinix-laptop";
-    }
-  ]
-]
+{
+  imports = [
+    (
+      (import ./../lib/mk_hosts.nix)
+      ./.
+      [
+        {
+          system = "x86_64-linux";
+          name = "upinix-pc";
+        }
+        {
+          system = "x86_64-linux";
+          name = "upinix-laptop";
+        }
+      ]
+    )
+  ];
+}
 */
 host_dir: configs: {
   inputs,
@@ -154,6 +159,11 @@ host_dir: configs: {
     }
   ];
 
+  mkListIf = cond: thing:
+    if cond
+    then thing
+    else [];
+
   mkSystem = {
     name, # eg default
     system, # eg x86_64-linux
@@ -193,10 +203,6 @@ host_dir: configs: {
                 };
               }
 
-              # disko
-              inputs.disko.nixosModules.default
-              (import "${host_dir}/${name}/disko.nix") # TODO: is the import required?
-
               # Include the results of the hardware scan.
               "${host_dir}/${name}/hardware.nix"
 
@@ -205,13 +211,16 @@ host_dir: configs: {
               "${host_dir}/${name}/config.nix"
             ]
             ++ (
-              if !home-manager
-              then []
-              else
-                (mkUsers {
-                  inherit extra_args;
-                  profile = name;
-                })
+              mkListIf disko [
+                inputs.disko.nixosModules.default
+                "${host_dir}/${name}/disko.nix"
+              ]
+            )
+            ++ (
+              mkListIf home-manager (mkUsers {
+                inherit extra_args;
+                profile = name;
+              })
             );
         }
     );

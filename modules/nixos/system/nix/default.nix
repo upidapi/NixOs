@@ -14,6 +14,7 @@ in {
     ./flakes.nix
     ./cachix.nix
     ./nix-index.nix
+    ./misc.nix
   ];
 
   # used by other modules
@@ -23,33 +24,7 @@ in {
       "that absolute path of the nixos config";
   };
 
-  # TODO: look at ca-derivations
-
   config = {
-    nix = {
-      channel.enable = false;
-      nixPath = [
-        # Point to a stable path so system updates immediately update
-        "nixpkgs=/run/current-system/nixpkgs"
-      ];
-
-      # Pinning flake registry entries, to avoid unpredictable cache invalidation and
-      # corresponding large downloads
-      registry = {
-        nixpkgs.flake = inputs.nixpkgs;
-        nixfiles.flake = inputs.self;
-      };
-
-      settings = {
-        flake-registry = "";
-
-        auto-optimise-store = true;
-
-        log-lines = 500;
-        show-trace = true;
-      };
-    };
-
     environment.sessionVariables = {
       NIXOS_CONFIG_PATH = cfg.cfg-path;
     };

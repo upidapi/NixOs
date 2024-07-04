@@ -26,8 +26,8 @@ in {
 
     environment.systemPackages = with pkgs; [font-manager];
 
-    fonts.packages = with pkgs;
-      [
+    fonts.packages =
+      (with pkgs; [
         # noto-fonts
         # noto-fonts-cjk-sans
         # noto-fonts-cjk-serif
@@ -35,7 +35,7 @@ in {
 
         material-symbols
         (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
-      ]
+      ])
       ++ cfg.fonts;
   };
 }

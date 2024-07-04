@@ -9,6 +9,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   # builtins.readFile ./install.sh
@@ -16,9 +18,6 @@
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
-        ./hosts
-        ./shells
-        ./pkgs
       ];
 
       systems = [

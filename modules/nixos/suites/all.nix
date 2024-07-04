@@ -44,6 +44,7 @@ in {
           flakes = enable;
           gc = enable;
           nix-index = enable;
+          misc = enable;
         };
 
         misc = {

@@ -65,7 +65,7 @@ in {
         }
       ];
       files = [
-        # ".ssh/known_hosts"
+        ".ssh/known_hosts"
         ".screenrc"
         # ".zsh_history"  # zsh command history
       ];

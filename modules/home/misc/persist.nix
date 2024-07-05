@@ -63,7 +63,7 @@ in {
       ];
       files = [
         # save zsh command history
-        # ".zsh/history"
+        ".zsh/history"
 
         ".ssh/known_hosts"
         ".screenrc"

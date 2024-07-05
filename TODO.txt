@@ -16,6 +16,8 @@ Virtulisation
     https://github.com/massgravel/Microsoft-Activation-Scripts
     https://github.com/ChrisTitusTech/winutil
 
+https://github.com/Misterio77/nix-starter-configs
+    some nix settings
 
 also update the iso flake on "qs update"
 

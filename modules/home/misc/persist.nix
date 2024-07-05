@@ -18,6 +18,12 @@ in {
 
   # if you have impersistence on, then you probably really dont
   # want to disable this
+
+  # NOTE: when you change something here, remember to remove the
+  #  file in /persist/$user/ since it will just link it if it
+  #  exists.
+  #  So if you have /persist/$user/a and persist the file "a"
+  #  then ~/a will still be linked to the dir in /persist/$user/a
   config = mkIf cfg.enable {
     home.persistence."/persist/home/${config.home.username}" = {
       directories = [
@@ -56,10 +62,14 @@ in {
         # i should probably make this more specific
         # to only save tabs, bookmarks and enabled extensions
         ".mozilla/firefox"
+
+        ".local/share/Steam"
+        /*
         {
           directory = ".local/share/Steam";
           method = "symlink";
         }
+        */
       ];
       files = [
         # save zsh command history

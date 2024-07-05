@@ -43,9 +43,6 @@ in {
         # save vesktop login
         ".config/vesktop/sessionData/Local Storage"
 
-        # save zsh command history
-        ".zsh/history"
-
         # persist spotify login
         ".config/spotify"
 
@@ -65,6 +62,9 @@ in {
         }
       ];
       files = [
+        # save zsh command history
+        ".zsh/history"
+
         ".ssh/known_hosts"
         ".screenrc"
         "a" # existed

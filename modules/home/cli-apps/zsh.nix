@@ -46,10 +46,10 @@ in {
           "....." = "cd ../../../..";
         };
 
-        # dotDir = "./config/zsh";
+        dotDir = ".zsh";
         history = {
           size = 10000;
-          # path = "$HOME/.zsh-test/history";
+          path = "$HOME/.zsh/history";
         };
       };
 

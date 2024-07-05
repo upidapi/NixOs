@@ -69,7 +69,7 @@ in {
         ".screenrc"
         "a" # existed
         "b" # didnt
-        "c/c1" # didnt rec 
+        "c/c1" # didnt rec
         # "d/d1"
         # ".zsh_history"  # zsh command history
       ];

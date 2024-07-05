@@ -21,14 +21,13 @@ in {
   config = mkIf cfg.enable {
     home.persistence."/persist/home/${config.home.username}" = {
       directories = [
-        # force organisation
+        # force organisation by only persisting ~/persist
         # "Downloads"
         # "Music"
         # "Pictures"
         # "Documents"
         # "Videos"
 
-        # "projects"
         "persist"
 
         # "VirtualBox VMs"
@@ -66,7 +65,7 @@ in {
         }
       ];
       files = [
-        ".ssh/known_hosts"
+        # ".ssh/known_hosts"
         ".screenrc"
         # ".zsh_history"  # zsh command history
       ];

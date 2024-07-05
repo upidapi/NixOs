@@ -22,6 +22,10 @@ in {
     "${self}/modules/nixos"
   ];
 
+  # TODO: posisbly trick nix by doing _module.args.inputs
+  #  to fake the inputs
+  # or just pull the config out of the modules
+
   modules.nixos = {
     # cli-apps = {
     #   less = enable;

@@ -5,6 +5,7 @@
       ./.
       [
         {
+          # do we need to set system?
           system = "x86_64-linux";
           name = "upinix-pc";
         }

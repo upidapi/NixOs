@@ -1,23 +1,35 @@
 let
+  mkCmd = {
+    mode,
+    key,
+    action,
+    override ? {},
+  }: let
+    actions = {
+      n = "<cmd>${action}<CR>";
+      i = "<esc><cmd>${action}<CR>a";
+    };
+  in ({
+      mode = mode;
+      options.silent = true;
+      key = key;
+      action = actions."${mode}";
+    }
+    // override);
+
   mkMultiCmd = {
+    # modes,
     key,
     action,
     override ? {},
   }: [
-    ({
+    (mkCmd
+      {
         mode = "n";
-        options.silent = true;
-        key = key;
-        action = "<cmd>${action}<CR>";
-      }
-      // override)
-    ({
-        mode = "i";
-        options.silent = true;
-        key = key;
-        action = "<esc><cmd>${action}<CR>a";
-      }
-      // override)
+        inherit action;
+        inherit override;
+        inherit key;
+      })
   ];
 
   mkMultiCmds = data: (

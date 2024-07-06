@@ -55,6 +55,7 @@ in {
     keymaps =
       []
       ++ mkMultiCmds [
+        /*
         ["<F1>" "xa"]
         ["<F2>" "wa"]
         ["<F3>" ":lua require('conform').format()"]
@@ -79,6 +80,7 @@ in {
         ["<leader>ff" "Telescope find_files"]
         ["<leader>fg" "Telescope live_grep"]
         ["<leader>fz" "Telescope current_buffer_fuzzy_find"]
+        */
       ];
   };
 }

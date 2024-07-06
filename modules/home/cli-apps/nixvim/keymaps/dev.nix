@@ -91,6 +91,12 @@ in {
           ["<leader>ff" "Telescope find_files"]
           ["<leader>fg" "Telescope live_grep"]
           ["<leader>fz" "Telescope current_buffer_fuzzy_find"]
+
+          # ufo (ultra fold)
+          ["zr" "foldopen"]
+          ["zm" "foldclose"]
+          ["zR" "lua require('ufo').openAllFolds()"]
+          ["zM" "lua require('ufo').closeAllFolds()"]
         ])
       );
   };

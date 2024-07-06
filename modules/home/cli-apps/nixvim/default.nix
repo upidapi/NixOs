@@ -82,7 +82,7 @@ in {
       # colorcolumn="80"; # show a ruler at col 80
 
       # for ufo
-      foldcolumn = "1"; #  '0' is not bad
+      foldcolumn = "0"; #  '0' is not bad
       foldlevel = 100; # Using ufo provider need a large value, feel free to decrease the value
       foldlevelstart = 100;
       foldenable = true;

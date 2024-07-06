@@ -56,9 +56,8 @@ in {
     # clipboard.register = "unnamedplus";
 
     colorschemes.tokyonight = enable;
-    # this is a test
 
-    vimAlias = true;
+    # vimAlias = true;
 
     opts = {
       relativenumber = true; # Show relative line numbers
@@ -81,6 +80,12 @@ in {
 
       showcmd = true; # Show incomplete cmds down the bottom
       # colorcolumn="80"; # show a ruler at col 80
+
+      # for ufo
+      foldcolumn = "1"; #  '0' is not bad
+      foldlevel = 100; # Using ufo provider need a large value, feel free to decrease the value
+      foldlevelstart = 100;
+      foldenable = true;
     };
 
     globals = {
@@ -108,36 +113,40 @@ in {
       nvim-ufo = {
         enable = true;
         # closeFoldKinds = {};
-        providerSelector = ''
-            function(bufnr, filetype, buftype)
+        providerSelector =
+          /*
+          lua
+          */
+          ''
+              function(bufnr, filetype, buftype)
 
-              --[=====[
-              return a table with string elements:
-                1st is name of main provider, 2nd is fallback
+                --[=====[
+                return a table with string elements:
+                  1st is name of main provider, 2nd is fallback
 
-              return a string type:
-                use ufo inner providers
+                return a string type:
+                  use ufo inner providers
 
-              return a string in a table:
-                like a string type above
+                return a string in a table:
+                  like a string type above
 
-              return empty string "":
-                disable any providers
+                return empty string "":
+                  disable any providers
 
-              return `nil`:
-                use default value {'lsp', 'indent'}
+                return `nil`:
+                  use default value {'lsp', 'indent'}
 
-              return a function:
-                it will be involved and expected return
-                `UfoFoldingRange[]|Promise`
+                return a function:
+                  it will be involved and expected return
+                  `UfoFoldingRange[]|Promise`
 
-              if you prefer treesitter provider rather than lsp,
-              return ftMap[filetype] or {'treesitter', 'indent'}
-              --]=====]
+                if you prefer treesitter provider rather than lsp,
+                return ftMap[filetype] or {'treesitter', 'indent'}
+                --]=====]
 
-              return ""
-          end
-        '';
+                return {'lsp', 'indent'}
+            end
+          '';
       };
 
       # finding stuff

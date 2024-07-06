@@ -79,8 +79,8 @@ in {
     };
 
     globals = {
-      mapleader = "\\<Space>";
-      maplocalleader = "\\<Space>";
+      mapleader = "\\\\<Space>";
+      maplocalleader = "\\\\<Space>";
     };
 
     plugins = {

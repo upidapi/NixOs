@@ -79,7 +79,7 @@ in {
           ["<leader>dv" "DapStepOver"]
 
           # neotree
-          ["<leader>t" "Neotree toggle"]
+          ["<leader>tt" "Neotree toggle"]
           ["<leader>tu" "Neotree"] # neotree update
 
           # telescope

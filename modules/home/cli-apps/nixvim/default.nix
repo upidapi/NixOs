@@ -140,11 +140,24 @@ in {
 
       # better copying
       # yanky = enable
-
-      # autoclose () [] <> "" etc
-      # autoclose = enable;
-      nvim-autopairs = enable;
     };
+
+    # autoclose () [] <> "" etc
+    # autoclose = enable;
+    plugins.nvim-autopairs = enable;
+
+    extraConfigLua =
+      /*
+      lua
+      */
+      ''
+        local npairs = require("nvim-autopairs")
+        local Rule = require('nvim-autopairs.rule')
+
+        npairs.add_rules({
+          Rule("/*", "*/", {"javascript", "typescript", "nix"}),
+        })
+      '';
 
     filetype.pattern = {
       ".*/hyprland%.conf" = "hyprlang";

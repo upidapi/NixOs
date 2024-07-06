@@ -87,6 +87,9 @@
               # code = ":wa<CR>:belowright split | resize 20 | term";
               # :map <buffer> <F9> :wa<CR>:belowright split \| resize 20 \| term python3 %<CR>
 
+              # we can use expand to emulate the effect of the nvim cmdline
+              # i.e
+
               setup_cmd =
                 # major fuckery to avoid using ' in the command
                 # since TermExec seems not to be able to handle that

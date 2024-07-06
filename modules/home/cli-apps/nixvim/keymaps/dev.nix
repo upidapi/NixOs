@@ -81,6 +81,7 @@ in {
           # neotree
           ["<leader>tt" "Neotree toggle"]
           ["<leader>tu" "Neotree"] # neotree update
+          ["<leader>tr" "Neotree reveal"] # neotree update
 
           # telescope
           ["<leader>ft" "TodoTelescope"]

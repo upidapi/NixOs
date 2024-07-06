@@ -9,6 +9,7 @@ color_ids = {
 colors = {
     color: f"\033[{color_id}m"
     for color, color_id in color_ids.items()
+    #
 }
 
 while True:

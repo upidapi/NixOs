@@ -11,14 +11,12 @@
   cfg = config.modules.nixos.suites.all;
 in {
   options.modules.nixos.suites.all =
-    mkEnableOpt "enables everything except the really user specific stuff";
+    mkEnableOpt "enables everything except for the hardware specific stuff";
 
   # TODO: split this into smaller parts
   config = mkIf cfg.enable {
     modules.nixos = {
       other = enable;
-
-      # home-tunnel = enable;
 
       cli-apps = {
         less = enable;

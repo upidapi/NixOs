@@ -16,7 +16,6 @@ in {
     ./hardware
     ./system
     ./suites
-    ./home-tunnel.nix
     ./other.nix
   ];
 

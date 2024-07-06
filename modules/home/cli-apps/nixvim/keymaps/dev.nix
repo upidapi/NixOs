@@ -80,7 +80,7 @@ in {
 
           # neotree
           ["<leader>t" "Neotree toggle"]
-          # ["<leader>fu" "Neotree"]  # neotree update
+          ["<leader>tu" "Neotree"] # neotree update
 
           # telescope
           ["<leader>ft" "TodoTelescope"]

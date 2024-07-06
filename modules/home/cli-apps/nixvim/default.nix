@@ -52,6 +52,9 @@ in {
     # colorscheme = "gruvbox";
     # dracula
 
+    # use system clipboard instead of internal registers
+    # clipboard.register = "unnamedplus";
+
     colorschemes.tokyonight = enable;
     # this is a test
 
@@ -70,11 +73,14 @@ in {
       swapfile = false;
 
       tabstop = 4;
+
+      showcmd = true; # Show incomplete cmds down the bottom
+      # colorcolumn="80"; # show a ruler at col 80
     };
 
     globals = {
-      mapleader = "<Space>";
-      maplocalleader = "<Space>";
+      mapleader = " ";
+      maplocalleader = " ";
     };
 
     plugins = {

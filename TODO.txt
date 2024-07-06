@@ -16,21 +16,23 @@ Virtulisation
     https://github.com/massgravel/Microsoft-Activation-Scripts
     https://github.com/ChrisTitusTech/winutil
 
+
 https://github.com/Misterio77/nix-starter-configs
     some nix settings
 
-also update the iso flake on "qs update"
-
-https://github.com/workflow/dotfiles/blob/main/nix/default.nix
 
 backups
     https://github.com/notohh/snowflake/blob/master/hosts/ame/services/restic.nix
-    
+
+
 prelockd
+
 
 zoxide
 
+
 ricing (base16.nix and stylix)
+
 
 add a patches folder
 
@@ -48,6 +50,8 @@ fully automated install
 
 automated deployments? hydra?
 
+
 nixd (language server)
+
 
 just?

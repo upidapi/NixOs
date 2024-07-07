@@ -24,9 +24,10 @@ in {
 
   # TODO: what is oil (probably in the nixos filder?
   # TODO: multiple tabs?
-  # TODO: editor regins / folds
   # TODO: autocorrect
   # TODO: add lua snippets
+  # TODO: might switch away from the nixvim options
+  #  insted use it for pkgs managment, but use extraLuaConfig for everything else
 
   options.modules.home.cli-apps.nixvim =
     mkEnableOpt "enables nixvim";

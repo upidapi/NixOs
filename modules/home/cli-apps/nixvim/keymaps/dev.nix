@@ -92,12 +92,44 @@ in {
           ["<leader>fg" "Telescope live_grep"]
           ["<leader>fz" "Telescope current_buffer_fuzzy_find"]
 
+          # c-j
           # ufo (ultra fold)
           ["zr" "foldopen"]
           ["zm" "foldclose"]
           ["zR" "lua require('ufo').openAllFolds()"]
           ["zM" "lua require('ufo').closeAllFolds()"]
+
+          # hot reload related
+          [
+            "<leader>sl"
+            "source $NIXOS_CONFIG_PATH/modules/home/cli-apps/nixvim/luasnip.lua"
+          ]
         ])
       );
+
+    extraConfigLua =
+      /*
+      lua
+      */
+      ''
+        -- luasnip
+        vim.keymap.set({ "i", "s" }, "<c-k>", function()
+          if ls.expand_or_jumpable() then
+            ls.expand_or_jump()
+          end
+        end, { silent = true })
+
+        vim.keymap.set({ "i", "s" }, "<c-j>", function()
+          if ls.jumpable(-1) then
+            ls.jump(-1)
+          end
+        end, { silent = true })
+
+        vim.keymap.set({ "i", "s" }, "<c-l>", function()
+          if ls.choice_active() then
+            ls.change_choice(1)
+          end
+        end)
+      '';
   };
 }

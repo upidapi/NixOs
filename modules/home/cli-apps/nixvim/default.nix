@@ -3,6 +3,7 @@
   inputs,
   lib,
   my_lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -24,9 +25,8 @@ in {
 
   # TODO: what is oil (probably in the nixos filder?
   # TODO: multiple tabs?
-  # TODO: autocorrect
   # TODO: might switch away from the nixvim options
-  #  insted use it for pkgs managment, but use extraLuaConfig for everything else
+  #  instead use it for pkgs management, but use extraLuaConfig for everything else
 
   options.modules.home.cli-apps.nixvim =
     mkEnableOpt "enables nixvim";
@@ -86,7 +86,28 @@ in {
       foldlevel = 100; # Using ufo provider need a large value, feel free to decrease the value
       foldlevelstart = 100;
       foldenable = true;
+
+      # TODO: fix spelling
+      # spell = true;
+      # spelllang = "en,ckj";
+      # spelloptions = "camel";
     };
+
+    /*
+    extraPlugins = [
+      # adds the "programming" dict for spellchecking asd
+      (pkgs.vimUtils.buildVimPlugin {
+        pname = "vim-dirtytalk";
+        version = "2024-07-10"
+        src = pkgs.fetchFromGitHub {
+          owner = "psliwka";
+          repo = "vim-dirtytalk";
+          rev = "aa57ba902b04341a04ff97214360f56856493583";
+          hash = "sha256-azU5jkv/fD/qDDyCU1bPNXOH6rmbDauG9jDNrtIXc0Y=";
+        };
+      })
+    ];
+    */
 
     globals = {
       mapleader = " ";

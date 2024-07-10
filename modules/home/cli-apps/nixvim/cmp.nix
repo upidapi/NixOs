@@ -54,7 +54,7 @@
       luasnip = {
         enable = true;
         # fromLua = [{paths = ./snippets;}];
-        fromVscode = [{}];
+        # fromVscode = [{}];
         extraConfig = {
           history = true;
 

@@ -102,7 +102,7 @@ in {
           # hot reload related
           [
             "<leader>sl"
-            "source $NIXOS_CONFIG_PATH/modules/home/cli-apps/nixvim/luasnip.lua"
+            "wa | source $NIXOS_CONFIG_PATH/modules/home/cli-apps/nixvim/luasnip.lua"
           ]
         ])
       );

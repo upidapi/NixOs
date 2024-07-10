@@ -25,7 +25,6 @@ in {
   # TODO: what is oil (probably in the nixos filder?
   # TODO: multiple tabs?
   # TODO: autocorrect
-  # TODO: add lua snippets
   # TODO: might switch away from the nixvim options
   #  insted use it for pkgs managment, but use extraLuaConfig for everything else
 

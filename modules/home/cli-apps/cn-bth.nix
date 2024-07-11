@@ -7,9 +7,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.home.scripts.cn-bth;
+  cfg = config.modules.home.cli-apps.cn-bth;
 in {
-  options.modules.home.scripts.cn-bth =
+  options.modules.home.cli-apps.cn-bth =
     mkEnableOpt
     "Whether or not to add the cn-bth command";
 

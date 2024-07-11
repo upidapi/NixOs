@@ -39,9 +39,10 @@ in {
         wine = enable;
         git = enable;
         bat = enable;
+        cn-bth = enable;
       };
 
-      tools = {
+      services = {
         playerctl = enable;
       };
 
@@ -62,11 +63,6 @@ in {
           rofi = enable;
           waybar = enable;
         };
-      };
-
-      scripts = {
-        # regen-nixos = enable;
-        cn-bth = enable;
       };
     };
   };

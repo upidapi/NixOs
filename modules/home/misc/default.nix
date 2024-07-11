@@ -1,5 +1,6 @@
 {
   imports = [
+    ./dconf.nix
     ./persist.nix
     ./sops.nix
   ];

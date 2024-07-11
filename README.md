@@ -17,6 +17,7 @@ This config is not a finished product, and will change as a continue to learn ab
   - users defined in hosts/\${host name}/users/\${user name}
 - custom top bar made with ags
 
+The structure of my config was inpired by raf and jakehamilton
 
 ## install
 clone repo, then run install.sh

@@ -55,3 +55,6 @@ nixd (language server)
 
 
 just?
+
+
+posible change my_lib to lib.c (or smt simular)

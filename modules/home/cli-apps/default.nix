@@ -8,5 +8,6 @@
     ./nushell
     ./zsh.nix
     ./bat.nix
+    ./cn-bth.nix
   ];
 }

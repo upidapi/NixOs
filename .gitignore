@@ -2,3 +2,6 @@ __pycache__
 .ruff_cache
 .ccls-cache
 modules/home/desktop/addons/ags/types
+
+# ignore the image build
+result

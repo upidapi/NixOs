@@ -1,5 +1,0 @@
-{
-  imports = [
-    ./cn-bth.nix
-  ];
-}

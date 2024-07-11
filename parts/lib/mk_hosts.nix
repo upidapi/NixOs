@@ -103,7 +103,7 @@ host_dir: configs: {
         home.homeDirectory = "/home/${user-name}";
       }
 
-      ./../modules/home
+      ./../../modules/home
 
       "${host_dir}/${profile}/users/${user-name}.nix"
     ];
@@ -184,7 +184,10 @@ host_dir: configs: {
 
         extra_args = {
           inherit inputs inputs' self self';
+
+          # TODO: try to put thease in /parts
           my_lib = (import ./../lib) {lib = lib;};
+          keys = import ./../keys.nix;
         };
       in
         inputs.nixpkgs.lib.nixosSystem {
@@ -207,7 +210,7 @@ host_dir: configs: {
               "${host_dir}/${name}/hardware.nix"
 
               # config
-              ./../modules/nixos
+              ./../../modules/nixos
               "${host_dir}/${name}/config.nix"
             ]
             ++ (

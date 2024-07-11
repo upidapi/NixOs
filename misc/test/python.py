@@ -13,6 +13,6 @@ colors = {
 }
 
 while True:
+    asdasd
     print(input(f"{colors['green']}>? {colors['none']}"))
-
 

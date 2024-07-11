@@ -1,10 +1,10 @@
 {
   config,
-  osConfig,
+  # osConfig,
   my_lib,
   lib,
   inputs,
-  pkgs,
+  # pkgs,
   self,
   ...
 }: let

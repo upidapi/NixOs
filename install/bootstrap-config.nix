@@ -24,7 +24,7 @@ in {
 
   # TODO: posisbly trick nix by doing _module.args.inputs
   #  to fake the inputs
-  # or just pull the config out of the modules
+  # or just pull the config out of the modules (this is prob the best option)
 
   modules.nixos = {
     # cli-apps = {

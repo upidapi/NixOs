@@ -1,7 +1,7 @@
 {
   imports = [
     (
-      (import ./../lib/mk_hosts.nix)
+      (import ./../parts/lib/mk_hosts.nix)
       ./.
       [
         {

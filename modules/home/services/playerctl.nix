@@ -7,9 +7,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt enable;
-  cfg = config.modules.home.tools.playerctl;
+  cfg = config.modules.home.services.playerctl;
 in {
-  options.modules.home.tools.playerctl =
+  options.modules.home.services.playerctl =
     mkEnableOpt
     "Whether or not to add the media/player controller, playerctl";
 

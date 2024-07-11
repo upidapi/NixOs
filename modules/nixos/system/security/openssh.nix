@@ -2,7 +2,8 @@
   lib,
   my_lib,
   config,
-  self,
+  keys,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -17,15 +18,19 @@ in {
 
     programs.ssh = {
       # Each hosts public key
+
+      # FIXME:
+      /*
       knownHosts =
         lib.genAttrs
         (config.modules.nixos.hosts)
         (hostname: {
-          publicKeyFile = "${self}/hosts/${hostname}/ssh_host_key.pub";
+          publicKeyFile = pkgs.writeText "${hostname}_key.pub" keys.machines."${hostname}";
           extraHostNames =
             # Alias for localhost if it's the same host
             lib.optional (hostname == config.networking.hostName) "localhost";
         });
+      */
     };
 
     services = {

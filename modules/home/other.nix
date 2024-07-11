@@ -14,15 +14,9 @@ in {
   options.modules.home.other =
     mkEnableOpt "enables config that i've not found a place for";
 
-  # TODO: put thease things into their own modules
+  # A place to put random packages, should not contain config.
+  # If it is configured it should insted be placed in ./misc
   config = mkIf cfg.enable {
-    dconf.settings = {
-      "org/virt-manager/virt-manager/connections" = {
-        autoconnect = ["qemu:///system"];
-        uris = ["qemu:///system"];
-      };
-    };
-
     home.packages =
       [
         # used to formatt nix code

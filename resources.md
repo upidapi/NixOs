@@ -43,3 +43,8 @@ sps := sops
   [x]   [ ]   [x]   [x]   [x]
 [Misterio77](https://github.com/Misterio77/nix-config)
   [x]   [x]   [x]   [x]   [x]
+[raf](https://github.com/NotAShelf/nyx) - well organised, huge
+  [x]   [x]   [x]   [x]   [x]
+
+[nvf](https://github.com/NotAShelf/nvf) - nixvim alternative
+

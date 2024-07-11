@@ -2,9 +2,8 @@
   imports = [
     ./apps
     ./cli-apps
-    ./tools
     ./desktop
-    ./scripts
+    ./services
     ./suites
     ./misc
     ./other.nix

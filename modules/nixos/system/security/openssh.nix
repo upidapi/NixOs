@@ -23,7 +23,7 @@ in {
       /*
       knownHosts =
         lib.genAttrs
-        (config.modules.nixos.hosts)
+        (config.modules.nixos.meta.hosts)
         (hostname: {
           publicKeyFile = pkgs.writeText "${hostname}_key.pub" keys.machines."${hostname}";
           extraHostNames =

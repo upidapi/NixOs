@@ -63,7 +63,7 @@ in {
           owner = "upidapi";
           mode = "0400";
           # "${self}/secrets/infra/hosts/"
-          # + "${config.modules.nixos.host-name}";
+          # + "${config.modules.nixos.meta.host-name}";
           # format = "binary";
         };
       };

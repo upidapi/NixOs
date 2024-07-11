@@ -46,7 +46,7 @@ in {
           mode = "0400";
           sopsFile =
             "${self}/secrets/ssh-keys/hosts/"
-            + "${osConfig.modules.nixos.host-name}";
+            + "${osConfig.modules.nixos.meta.host-name}";
         };
       };
     };

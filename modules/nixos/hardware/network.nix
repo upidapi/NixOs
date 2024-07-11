@@ -12,7 +12,7 @@ in {
     mkEnableOpt "enables networking for the system";
 
   config = mkIf cfg.enable {
-    networking.hostName = config.modules.nixos.host-name;
+    networking.hostName = config.modules.nixos.meta.host-name;
 
     # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant
 

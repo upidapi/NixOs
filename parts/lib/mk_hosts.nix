@@ -198,8 +198,10 @@ host_dir: configs: {
           modules =
             [
               {
-                modules.nixos.hosts = hosts;
-                modules.nixos.host-name = name;
+                modules.nixos.meta = {
+                  hosts = hosts;
+                  host-name = name;
+                };
 
                 environment.sessionVariables = {
                   FLAKE_PROFILE = name;

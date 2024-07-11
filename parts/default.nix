@@ -4,6 +4,7 @@
     ./shells
     ./pkgs
     ./install
+    ./iso-images.nix
     # ./templates
   ];
 }

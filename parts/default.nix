@@ -1,10 +1,11 @@
 {...}: {
   imports = [
     ./args.nix
-    ./shells
-    ./pkgs
     ./install
     ./iso-images.nix
+    ./pkgs
+    ./shells
+    ./templates
     # ./templates
   ];
 }

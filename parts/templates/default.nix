@@ -1,2 +1,8 @@
-# TODO: see https://github.com/NotAShelf/nyx/tree/main/parts/templates
-{}
+{
+  flake.templates = {
+    python = {
+      path = ./python;
+      description = "Development environment for python";
+    };
+  };
+}

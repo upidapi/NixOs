@@ -12,3 +12,4 @@ nix build ./nixos-installer#nixosConfigurations.{name of profile}.config.system.
 
 sudo dd if=$(eza --sort changed result/iso/*.iso | tail -n1) of={name of drive} bs=4M status=progress oflag=sync
 
+TODO: remove this

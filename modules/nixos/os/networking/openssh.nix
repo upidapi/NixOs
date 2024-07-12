@@ -3,14 +3,13 @@
   my_lib,
   config,
   keys,
-  pkgs,
   ...
 }: let
   inherit (lib) mkIf mapAttrs mkForce;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.nixos.system.security.openssh;
+  cfg = config.modules.nixos.os.networking.openssh;
 in {
-  options.modules.nixos.system.security.openssh =
+  options.modules.nixos.os.networking.openssh =
     mkEnableOpt "enable openssh to allow for remote ssh connections";
 
   config = mkIf cfg.enable {

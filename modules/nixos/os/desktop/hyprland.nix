@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.desktop.hyprland;
+  cfg = config.modules.nixos.os.desktop.hyprland;
 in {
-  options.modules.nixos.desktop.hyprland =
+  options.modules.nixos.os.desktop.hyprland =
     mkEnableOpt "add hyprland";
 
   imports = [

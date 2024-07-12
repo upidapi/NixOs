@@ -11,7 +11,7 @@ in {
   options.modules.nixos.os.environment.vars = mkEnableOpt "adds a few env vars";
 
   config = mkIf cfg.enable {
-        environment = {
+    environment = {
       sessionVariables = {
         XDG_CACHE_HOME = "$HOME/.cache";
         XDG_CONFIG_HOME = "$HOME/.config";

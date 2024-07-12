@@ -7,7 +7,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.system.nix.misc;
+  cfg = config.modules.nixos.nix.misc;
 in {
   imports = [
     ./gc.nix
@@ -17,7 +17,7 @@ in {
   ];
 
   # used by other modules
-  options.modules.nixos.system.nix.misc = mkEnableOpt "enables various nix things";
+  options.modules.nixos.nix.misc = mkEnableOpt "enables various nix things";
 
   # TODO: look at ca-derivations
   # TODO: look at misterios templates

@@ -6,6 +6,6 @@
     ./keyboard.nix
     ./monitors.nix
     ./sound.nix
-    ./network.nix
+    ./video.nix
   ];
 }

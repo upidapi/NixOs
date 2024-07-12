@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.system.nix.nix-index;
+  cfg = config.modules.nixos.nix.nix-index;
 in {
-  options.modules.nixos.system.nix.nix-index =
+  options.modules.nixos.nix.nix-index =
     mkEnableOpt
     "enables nix-index / nix-locate that can be used to find files in the store";
 

@@ -21,8 +21,8 @@ in {
       extraConfig = {
         init.defaultBranch = "main";
         safe.directory = [
-          "${osConfig.modules.nixos.system.nix.cfg-path}"
-          "${osConfig.modules.nixos.system.nix.cfg-path}/.git"
+          "${osConfig.modules.nixos.nix.cfg-path}"
+          "${osConfig.modules.nixos.nix.cfg-path}/.git"
         ];
         pull.rebase = "false";
       };

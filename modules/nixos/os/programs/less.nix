@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.cli-apps.less;
+  cfg = config.modules.nixos.os.programs.less;
 in {
-  options.modules.nixos.cli-apps.less =
+  options.modules.nixos.os.programs.less =
     mkEnableOpt
     "enables the less pager";
 

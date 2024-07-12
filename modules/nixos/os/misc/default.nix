@@ -1,7 +1,8 @@
 {
   imports = [
-    ./impermanence.nix 
-    ./noshell.nix 
-    ./sops.nix 
+    ./console.nix
+    ./impermanence.nix
+    ./noshell.nix
+    ./sops.nix
   ];
 }

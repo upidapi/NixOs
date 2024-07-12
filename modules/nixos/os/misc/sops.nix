@@ -9,7 +9,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.system.misc.sops;
+  cfg = config.modules.nixos.os.misc.sops;
   # ssh_path = "/persist/system/etc/ssh";
   ssh_path = "/etc/ssh";
 in {
@@ -19,7 +19,7 @@ in {
     inputs.sops-nix.nixosModules.sops
   ];
 
-  options.modules.nixos.system.misc.sops =
+  options.modules.nixos.os.misc.sops =
     mkEnableOpt "enables sops";
 
   config = mkIf cfg.enable {

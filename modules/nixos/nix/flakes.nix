@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt mkOpt;
   inherit (lib) mkIf types;
-  cfg = config.modules.nixos.system.nix.flakes;
+  cfg = config.modules.nixos.nix.flakes;
 in {
-  options.modules.nixos.system.nix.flakes =
+  options.modules.nixos.nix.flakes =
     mkEnableOpt "enables nixos flakes"
     // {
       profile =

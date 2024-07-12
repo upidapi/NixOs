@@ -20,7 +20,7 @@ in {
     systemd.tmpfiles.settings = {
       # i believe that that name is arbitrary (10-mypackage)
       "set-cfg-perm" = {
-        "${config.modules.nixos.system.nix.cfg-path}" = {
+        "${config.modules.nixos.nix.cfg-path}" = {
           z = {
             group = "wheel";
             mode = "0775";

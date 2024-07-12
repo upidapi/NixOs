@@ -16,61 +16,67 @@ in {
   # TODO: split this into smaller parts
   config = mkIf cfg.enable {
     modules.nixos = {
-      other = enable;
-
-      cli-apps = {
-        less = enable;
-        keepass = enable;
+      hardware = {
+        bth = enable;
+        keyboard = enable;
+        sound = enable;
+        video = enable;
       };
 
-      apps = {
-        steam = enable;
+      misc.steam = enable;
+
+      nix = {
+        cfg-path = "/persist/nixos";
+
+        cachix = enable;
+        flakes = enable;
+        gc = enable;
+        nix-index = enable;
+        misc = enable;
       };
 
-      system = {
-        core = {
-          fonts = enable;
-          boot = enable;
-          env = enable;
-          locale = enable;
+      os = {
+        boot = enable;
+
+        desktop = {
+          hyprland = enable;
+          sddm = enable;
         };
 
-        nix = {
-          cfg-path = "/persist/nixos";
-
-          cachix = enable;
-          flakes = enable;
-          gc = enable;
-          nix-index = enable;
-          misc = enable;
+        environment = {
+          fonts = enable;
+          locale = enable;
+          paths = enable;
+          vars = enable;
         };
 
         misc = {
+          console = enable;
           impermanence = enable;
           noshell = enable;
           sops = enable;
         };
 
-        security = {
-          sudo-rs = enable;
-          openssh = enable;
+        networking =
+          enable
+          // {
+            openssh = enable;
+
+            firewall = {
+              fail2ban = enable;
+            };
+          };
+
+        services = {
+          ntpd = enable;
         };
       };
 
-      desktop = {
-        sddm = enable;
-        hyprland = enable;
+      security = {
+        sudo-rs = enable;
       };
 
-      hardware = {
-        cpu.amd = enable;
-        gpu.nvidia = enable;
-
-        bth = enable;
-        sound = enable;
-        network = enable;
-        keyboard = enable;
-      };
+      other = enable;
     };
   };
 }

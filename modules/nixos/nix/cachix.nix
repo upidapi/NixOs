@@ -6,9 +6,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.system.nix.cachix;
+  cfg = config.modules.nixos.nix.cachix;
 in {
-  options.modules.nixos.system.nix.cachix =
+  options.modules.nixos.nix.cachix =
     mkEnableOpt "enables some nixos caching servers";
 
   config = mkIf cfg.enable {

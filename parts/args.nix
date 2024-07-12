@@ -1,7 +1,9 @@
 {
   # inputs,
   ...
-}: /* let
+}:
+/*
+      let
   # Add `pins` to self so that the flake may refer it freely by accessing
   # `pings` in an argset (e.g. `{pkgs, lib, pins, ...}`).
   # Pinned sources can be updated via `npins update` in `flake/`
@@ -13,7 +15,9 @@
   #  2. It's easy to share key names and values internally especially
   #  for setting them for users, services, etc.
   # publicKeys = import ./keys.nix;
-in */ {
+in
+*/
+{
   perSystem = {
     # config,
     # system,

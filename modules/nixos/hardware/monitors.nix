@@ -66,7 +66,7 @@ in {
             == 1
           );
         message = "Exactly one monitor must be set to primary. ${
-          builtins.toJSON config.modules.nixos.hardware
+          builtins.toJSON cfg
         }";
       }
       # {

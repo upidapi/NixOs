@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf isx86Linux;
+  inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.nixos.hardware.video;
 in {
@@ -15,7 +15,8 @@ in {
     hardware = {
       graphics = {
         enable = true;
-        enable32Bit = isx86Linux pkgs;
+        enable32Bit = with pkgs.stdenv;
+          hostPlatform.isLinux && hostPlatform.isx86;
       };
     };
 

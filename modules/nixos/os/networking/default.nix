@@ -6,14 +6,15 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.nixos.os.networking.default;
+  cfg = config.modules.nixos.os.networking;
 in {
-  options.modules.nixos.os.networking.default = mkEnableOpt "enables networking for the system";
+  options.modules.nixos.os.networking = mkEnableOpt "enables networking for the system";
 
   imports = [
     ./firewall
     ./openssh.nix
   ];
+
   config = mkIf cfg.enable {
     networking.hostName = config.modules.nixos.meta.host-name;
     # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant

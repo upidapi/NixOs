@@ -2,12 +2,11 @@
   my_lib,
   lib,
   config,
-  inputs,
   ...
 }: let
   inherit (my_lib.opt) mkOpt;
   inherit (lib) types;
-  cfg = config.modules.nixos.system.nix;
+  cfg = config.modules.nixos.nix;
 in {
   imports = [
     ./gc.nix
@@ -18,7 +17,7 @@ in {
   ];
 
   # used by other modules
-  options.modules.nixos.system.nix = {
+  options.modules.nixos.nix = {
     cfg-path =
       mkOpt types.str null
       "that absolute path of the nixos config";

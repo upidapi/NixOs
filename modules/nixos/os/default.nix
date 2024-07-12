@@ -1,10 +1,11 @@
 {
   imports = [
-    ./apps 
-    ./boot 
-    ./cli-apps
-    ./desktop 
-    ./misc 
-    ./networking 
+    ./boot
+    ./desktop
+    ./environment
+    ./misc
+    ./networking
+    ./programs
+    ./services
   ];
 }

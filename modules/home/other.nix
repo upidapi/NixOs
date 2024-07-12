@@ -15,7 +15,7 @@ in {
     mkEnableOpt "enables config that i've not found a place for";
 
   # A place to put random packages, should not contain config.
-  # If it is configured it should insted be placed in ./misc
+  # If it is configured it should instead be placed in ./misc
   config = mkIf cfg.enable {
     home.packages =
       [
@@ -82,6 +82,9 @@ in {
 
         # video viewer
         vlc
+
+        # psw mgr
+        keepassxc
       ]);
   };
 }

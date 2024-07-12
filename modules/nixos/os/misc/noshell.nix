@@ -10,7 +10,7 @@
   cfg = config.modules.nixos.system.misc.noshell;
 in {
   # might want to remove/disable the import when
-  # thiss modules is disabled
+  # this modules is disabled
   imports = [
     inputs.noshell.nixosModules.default
   ];

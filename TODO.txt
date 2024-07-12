@@ -58,3 +58,6 @@ just?
 
 
 posible change my_lib to lib.c (or smt simular)
+
+
+make cn-bth into just an alias?

@@ -1,7 +1,7 @@
 {
   # inputs,
   ...
-}: let
+}: /* let
   # Add `pins` to self so that the flake may refer it freely by accessing
   # `pings` in an argset (e.g. `{pkgs, lib, pins, ...}`).
   # Pinned sources can be updated via `npins update` in `flake/`
@@ -12,8 +12,8 @@
   #  1. My public keys are more easily obtainable from outside
   #  2. It's easy to share key names and values internally especially
   #  for setting them for users, services, etc.
-  publicKeys = import ./keys.nix;
-in {
+  # publicKeys = import ./keys.nix;
+in */ {
   perSystem = {
     # config,
     # system,
@@ -62,7 +62,7 @@ in {
     # add a collection of SSH keys to the keys so that
     #  1. my public keys are more easily obtainable from outside
     #  2. it's easy to share key names and values internally, for users and such
-    keys = publicKeys;
+    # keys = publicKeys;
 
     # pins = pinnedSources;
   };

@@ -1,18 +1,17 @@
 {
   config,
-  my_lib,
   lib,
+  my_lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.system.core.env;
+  inherit (my_lib.opt) mkEnableOpt;
+  cfg = config.modules.nixos.os.environment.vars;
 in {
-  options.modules.nixos.system.core.env =
-    mkEnableOpt "Adds a few env vars";
+  options.modules.nixos.os.environment.vars = mkEnableOpt "adds a few env vars";
 
   config = mkIf cfg.enable {
-    environment = {
+        environment = {
       sessionVariables = {
         XDG_CACHE_HOME = "$HOME/.cache";
         XDG_CONFIG_HOME = "$HOME/.config";

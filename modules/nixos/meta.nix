@@ -12,7 +12,8 @@ in {
     hosts =
       mkOpt (types.listOf types.str) []
       "list of all hosts";
-
+    
+    # prob unecicary since we can just use keys.machines
     host-name =
       mkOpt types.str null
       "the name of the device";

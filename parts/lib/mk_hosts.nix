@@ -186,8 +186,8 @@ host_dir: configs: {
           inherit inputs inputs' self self';
 
           # TODO: try to put thease in /parts
-          my_lib = (import ./../lib) {lib = lib;};
-          keys = import ./../keys.nix;
+          my_lib = (import ./../lib) {inherit lib;};
+          keys = (import ./../keys.nix) {inherit lib;};
         };
       in
         inputs.nixpkgs.lib.nixosSystem {

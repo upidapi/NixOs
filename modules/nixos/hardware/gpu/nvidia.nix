@@ -22,11 +22,6 @@ in {
       # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     };
 
-    hardware.graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-
     hardware.nvidia = {
       # Modesetting is needed most of the time
       modesetting.enable = true;

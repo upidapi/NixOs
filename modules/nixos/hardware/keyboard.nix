@@ -12,6 +12,14 @@ in {
     mkEnableOpt "enables sound for the system";
 
   config = mkIf cfg.enable {
+    # Configure keymap
+    # "xserver" is actually just the general display server
+    # so this actually configs wayland too.
+    services.xserver.xkb = {
+      layout = "se"; # TODO: make this configurable
+      variant = "";
+    };
+
     services.keyd = {
       enable = true;
       keyboards.default = {

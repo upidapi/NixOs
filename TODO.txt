@@ -55,9 +55,16 @@ nixd (language server)
 
 
 just?
+    no, use debshells insted
 
 
 posible change my_lib to lib.c (or smt simular)
 
 
 make cn-bth into just an alias?
+
+
+Lix? 
+    eg raf uses it
+    
+    or maybe just nix-super?

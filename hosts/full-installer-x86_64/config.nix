@@ -60,8 +60,10 @@ in {
       suites.all = enable;
 
       # collides with the installer stuff
-      hardware.network.enable = lib.mkForce false;
-      system.security.openssh.enable = lib.mkForce false;
+      os.networking = {
+        enable = lib.mkForce false; # TODO: only disable networkmaanger
+        openssh.enable = lib.mkForce false;
+      };
     };
   };
 }

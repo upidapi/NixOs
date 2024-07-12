@@ -2,6 +2,7 @@
 {
   # inputs,
   self,
+  lib,
   ...
 }:
 /*
@@ -15,6 +16,7 @@ in
   # Images below are designed specifically to be used as live media
   # and can be built with `nix build .#images.<hostname>`
   # alternatively hosts can be built with `nix build .#nixosConfigurations.hostName.config.system.build.isoImage`
+  /*
   flake.images = let
     # gaea = self.nixosConfigurations."gaea";
     # erebus = self.nixosConfigurations."erebus";
@@ -33,4 +35,10 @@ in
     # Raspberry Pi 400
     # atlas = atlas.config.system.build.sdImage;
   };
+  */
+
+  flake.images =
+    lib.genAttrs
+    ["full-installer-x86_64" "minimal-installer-x86_64"]
+    (name: self.nixosConfigurations."${name}".config.system.build.isoImage);
 }

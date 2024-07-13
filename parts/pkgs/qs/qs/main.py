@@ -470,7 +470,7 @@ def main():
             return Steps.show_diff()
 
         elif sub_command == "update":
-            run_cmd("git stash")
+            run_cmd("git stash", print_res=True)
 
             run_cmd("nix flake update", print_res=True, color=True)
 

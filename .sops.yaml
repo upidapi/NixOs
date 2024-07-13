@@ -15,6 +15,9 @@ keys:
 
     - &full-installer-x86_64 age1pv4vess6fmduczjf82f9fzemumjugl67skye6hcwytqxd9kkx9dqatxyg7  
 
+    # host keys stored in infra.yaml/${host name}
+    # user keys stored in users/${user nane}.yaml/ssh-key
+
 creation_rules:
   - path_regex: secrets/*
     key_groups:
@@ -26,3 +29,15 @@ creation_rules:
     key_groups:
       - age:
         - *admin
+
+  - path_regex: secrets/users/admin$
+    key_groups:
+      - age:
+          - *upinix-pc
+          - *upinix-laptop
+
+  - path_regex: secrets/users/upidpai$
+    key_groups:
+      - age:
+          - *upinix-pc
+          - *upinix-laptop

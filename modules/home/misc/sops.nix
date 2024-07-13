@@ -61,12 +61,24 @@ in {
 
     sops = {
       # this file doesnt exist, add it when i need user specific secrets
-      defaultSopsFile = "${self}/misc/secrets/users/${config.home.username}.yaml";
+      defaultSopsFile = "${self}/secrets/users/${config.home.username}.yaml";
 
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
-      age.keyFile = "${ssh-cfg-path}/id_ed25519";
+      age = {
+        keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
 
-      secrets = {};
+        generateKey = true;
+        sshKeyPaths = [
+          "${config.home.homeDirectory}/.ssh/id_ed25519"
+        ];
+      };
+
+      secrets = {
+        "test" = {
+          path = "test";
+          mode = "0400";
+        };
+      };
     };
   };
 }

@@ -9,9 +9,11 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
+  inherit (lib.attrsets) genAttrs;
   cfg = config.modules.nixos.os.misc.sops;
   # ssh_path = "/persist/system/etc/ssh";
   ssh_path = "/etc/ssh";
+  secrets_path = "${self}/secrets";
 in {
   # might want to remove/disable the import when
   # this modules is disabled
@@ -30,60 +32,69 @@ in {
     ];
 
     sops = {
-      defaultSopsFile = "${self}/secrets/infra.yaml";
+      defaultSopsFile = "${secrets_path}/infra.yaml";
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
 
       # move this?
       age = {
         keyFile = "/persist/sops-nix-key.txt";
 
-        # TODO: figure out how to establish initiall / continued trust
+        # TODO: figure out how to establish install / continued trust
         #  maybe https://github.com/librephoenix/nixos-config could help
         sshKeyPaths = [
           "${ssh_path}/ssh_admin_ed25519_key"
           "${ssh_path}/ssh_host_ed25519_key"
-          # TODO: add this in in home manager insted
-          "${ssh_path}/users/upidapi_ed25519"
         ];
       };
 
-      # FIXME: dont just give the secrets to "upidapi"
-      #  give the github key to the admin / infra access
-      #  and the .ssh key should probably be user not host specific
+      secrets =
+        {
+          # the attr names equate to the key names for the sops keys
 
-      secrets = {
-        # This causes (at least) /home/upidapi/.config to not be generated.
+          # admin stuff
+          "github-key" = {
+            path = "${ssh_path}/github";
+            owner = "root";
+            group = "wheel";
+            mode = "0440";
+          };
+
+          "admin-ssh-key" = {
+            path = "${ssh_path}/ssh_admin_ed25519_key";
+            owner = "root";
+            group = "wheel";
+            mode = "0440";
+          };
+
+          # host key
+          "hosts/${config.modules.nixos.meta.host-name}" = {
+            path = "${ssh_path}/ssh_host_ed25519_key";
+            owner = "root";
+            group = "wheel";
+            mode = "0440";
+          };
+        }
         # Placing the keys directly in /home causes home manager to break
-        # on reboot.
-
-        # the attr names equate to the key names for the sops keys
-
-        "github-key" = {
-          path = "${ssh_path}/github";
-          owner = "upidapi";
-          mode = "0400";
-        };
-
-        "hosts/${config.modules.nixos.meta.host-name}" = {
-          path = "${ssh_path}/ssh_host_ed25519_key";
-          owner = "upidapi";
-          mode = "0400";
-        };
-
-        "users/admin" = {
-          path = "${ssh_path}/ssh_admin_ed25519_key";
-          owner = "upidapi";
-          mode = "0400";
-        };
-
-        # TODO: try to automise this (both import user key and symlink it)
-        # will be symlinked to /home/upidapi/.ssh/id_ed25519 by hm
-        "users/upidapi" = {
-          path = "${ssh_path}/users/upidapi_ed25519";
-          owner = "upidapi";
-          mode = "0400";
-        };
-      };
+        # on reboot. eg. it causes (at least) /home/${user name}/.config
+        # to not be generated.
+        # Instead we place it here and it will be symlinked to
+        # /home/${user name}/.ssh/id_ed25519 by hm later on
+        // (
+          builtins.listToAttrs (
+            builtins.map
+            (user-name: {
+              name = "ssh-key";
+              value = {
+                path = "${ssh_path}/users/${user-name}_ed25519";
+                owner = user-name;
+                mode = "0400";
+                sopsFile = "${secrets_path}/users/${user-name}.yaml";
+              };
+            })
+            # when you add new users add them here
+            ["upidapi"]
+          )
+        );
     };
   };
 }

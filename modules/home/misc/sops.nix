@@ -67,17 +67,18 @@ in {
       age = {
         keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
 
-        generateKey = true;
         sshKeyPaths = [
           "${config.home.homeDirectory}/.ssh/id_ed25519"
         ];
       };
 
       secrets = {
+        /*
         "test" = {
           path = "test";
           mode = "0400";
         };
+        */
       };
     };
   };

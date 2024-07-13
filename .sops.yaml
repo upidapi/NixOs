@@ -30,14 +30,10 @@ creation_rules:
       - age:
         - *admin
 
-  - path_regex: secrets/users/admin$
+  - path_regex: secrets/users/upidapi$
     key_groups:
       - age:
           - *upinix-pc
           - *upinix-laptop
 
-  - path_regex: secrets/users/upidpai$
-    key_groups:
-      - age:
-          - *upinix-pc
-          - *upinix-laptop
+          - *upidapi

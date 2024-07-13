@@ -88,7 +88,7 @@ in {
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
-        "/etc/ssh"
+        # "/etc/ssh" NOTE: this might break things
         {
           directory = "/var/lib/colord";
           user = "colord";

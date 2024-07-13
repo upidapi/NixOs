@@ -26,6 +26,7 @@ in {
     environment.systemPackages = with pkgs; [
       sops
       age
+      # sops-to-age
     ];
 
     sops = {
@@ -33,7 +34,15 @@ in {
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
 
       # move this?
-      age.keyFile = "/persist/sops-nix-key.txt";
+      age = {
+        keyFile = "/persist/sops-nix-key.txt";
+        sshKeyPaths = [
+          "${ssh_path}/ssh_admin_ed25519_key"
+          "${ssh_path}/ssh_host_ed25519_key"
+          # TODO: add this in in home manager insted
+          "${ssh_path}/users/upidapi_ed25519"
+        ];
+      };
 
       # FIXME: dont just give the secrets to "upidapi"
       #  give the github key to the admin / infra access
@@ -52,7 +61,7 @@ in {
           mode = "0400";
         };
 
-        "hosts/upidapi-nix-pc" = {
+        "hosts/${config.modules.nixos.meta.host-name}" = {
           path = "${ssh_path}/ssh_host_ed25519_key";
           owner = "upidapi";
           mode = "0400";
@@ -64,6 +73,7 @@ in {
           mode = "0400";
         };
 
+        # TODO: try to automise this (both import user key and symlink it)
         # will be symlinked to /home/upidapi/.ssh/id_ed25519 by hm
         "users/upidapi" = {
           path = "${ssh_path}/users/upidapi_ed25519";

@@ -54,7 +54,9 @@ in {
           (hostname: key: {
             publicKey = key;
             extraHostNames =
-              # Alias for localhost if it's the same host
+              []
+              ++
+              # Alias self as localhost
               lib.optional (hostname == config.networking.hostName) "localhost";
           })
           (keys.machines)

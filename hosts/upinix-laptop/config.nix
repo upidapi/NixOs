@@ -26,6 +26,9 @@ in {
     # openssh.authorizedKeys.keys = with import ./../../other/ssh-keys.nix; [upidapi-nix-pc upidapi-nix-laptop];
   };
 
+  # TODO: recreate when i get my new laptop. Has not been updated
+  #  since I gave my laptop back
+
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
   modules.nixos = {

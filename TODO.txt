@@ -68,3 +68,7 @@ Lix?
     eg raf uses it
     
     or maybe just nix-super?
+
+
+move /persist/home to /persist/system/home
+

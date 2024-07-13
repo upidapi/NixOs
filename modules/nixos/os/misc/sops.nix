@@ -40,31 +40,35 @@ in {
       #  and the .ssh key should probably be user not host specific
 
       secrets = {
-        /*
-        "sops-age-key" = {
-          path = "/home/upidapi/.config/sops/age/keys.txt";
-          owner = "upidapi";
-          mode = "0400";
-        };
-        */
-
         # This causes (at least) /home/upidapi/.config to not be generated.
         # Placing the keys directly in /home causes home manager to break
         # on reboot.
 
-        # the key names equate to the key names for the sops keys
+        # the attr names equate to the key names for the sops keys
+
         "github-key" = {
           path = "${ssh_path}/github";
           owner = "upidapi";
           mode = "0400";
         };
+
         "hosts/upidapi-nix-pc" = {
+          path = "${ssh_path}/ssh_host_ed25519_key";
+          owner = "upidapi";
+          mode = "0400";
+        };
+
+        "users/admin" = {
+          path = "${ssh_path}/ssh_admin_ed25519_key";
+          owner = "upidapi";
+          mode = "0400";
+        };
+
+        # will be symlinked to /home/upidapi/.ssh/id_ed25519 by hm
+        "users/upidapi" = {
           path = "${ssh_path}/users/upidapi_ed25519";
           owner = "upidapi";
           mode = "0400";
-          # "${self}/secrets/infra/hosts/"
-          # + "${config.modules.nixos.meta.host-name}";
-          # format = "binary";
         };
       };
     };

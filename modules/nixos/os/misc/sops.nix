@@ -36,6 +36,9 @@ in {
       # move this?
       age = {
         keyFile = "/persist/sops-nix-key.txt";
+
+        # TODO: figure out how to establish initiall / continued trust
+        #  maybe https://github.com/librephoenix/nixos-config could help
         sshKeyPaths = [
           "${ssh_path}/ssh_admin_ed25519_key"
           "${ssh_path}/ssh_host_ed25519_key"

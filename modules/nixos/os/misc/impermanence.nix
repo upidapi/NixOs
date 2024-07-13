@@ -48,22 +48,26 @@ in {
       umount /btrfs_tmp
     '';
 
+    # we persist everything relative under /persist/system eg.
+    # /etc/ssh => /persist/system/etc/ssh
+    # /home/upidapi/.ssh => /persist/system/home/upidapi/.ssh
+
     # disko can't / won't automatically create the storage locations
-    # so we have to create them ourselves
+    # so we have to create them ourselves (they might have chagned this)
     systemd.tmpfiles.rules =
       [
         # /persist/system created, owned by root
         "d /persist/system/ 0777 root root -"
 
-        # /persist/home created, owned by root
-        "d /persist/home/ 0777 root root -"
+        # /persist/system/home created, owned by root
+        "d /persist/system/home/ 0777 root root -"
 
         # make sure that each user owns it's own persistent
         # home directory
       ]
       ++ (
         builtins.map (
-          user-name: "d /persist/home/${user-name} 0770 ${user-name} users -"
+          user-name: "d /persist/system/home/${user-name} 0770 ${user-name} users -"
         )
         (
           builtins.attrNames
@@ -82,7 +86,6 @@ in {
           # mode = "0777";
         }
         */
-        "/etc/nixos"
         "/var/log"
         "/var/lib/bluetooth"
         "/var/lib/nixos"

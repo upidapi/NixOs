@@ -20,12 +20,12 @@ in {
   # want to disable this
 
   # NOTE: when you change something here, remember to remove the
-  #  file in /persist/$user/ since it will just link it if it
+  #  file in /persist/system/home/$user/ since it will just link it if it
   #  exists.
-  #  So if you have /persist/$user/a and persist the file "a"
+  #  So if you have /persist/system/home/$user/a and persist the file "a"
   #  then ~/a will still be linked to the dir in /persist/$user/a
   config = mkIf cfg.enable {
-    home.persistence."/persist/home/${config.home.username}" = {
+    home.persistence."/persist/system/home/${config.home.username}" = {
       directories = [
         # force organisation by only persisting ~/persist
         # "Downloads"
@@ -49,7 +49,7 @@ in {
         # save vesktop login
         ".config/vesktop/sessionData/Local Storage"
 
-        # persist spotify login
+        # save spotify login
         ".config/spotify"
 
         # save sops keys

@@ -58,6 +58,9 @@ just?
     no, use debshells insted
 
 
+nushell
+
+
 posible change my_lib to lib.c (or smt simular)
 
 
@@ -68,9 +71,6 @@ Lix?
     eg raf uses it
     
     or maybe just nix-super?
-
-
-move /persist/home to /persist/system/home
 
 
 the "full-installer-x86_64" should probably be a recovery thing

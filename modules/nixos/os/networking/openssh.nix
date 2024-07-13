@@ -13,8 +13,6 @@ in {
     mkEnableOpt "enable openssh to allow for remote ssh connections";
 
   config = mkIf cfg.enable {
-    # TODO: make better https://github.com/Misterio77/nix-config/blob/4d678038f9631ab45993bbb7c362dc7122401246/hosts/common/global/openssh.nix#L30
-
     programs.ssh = {
       # ship github/gitlab/sourcehut host keys to avoid MiM (man in the middle) attacks
       knownHosts = mapAttrs (_: mkForce) (
@@ -69,6 +67,7 @@ in {
         enable = true;
         ports = [22];
         hostKeys = [
+          # TODO: add admin key?
           {
             path = "/persist/system/etc/ssh/ssh_host_ed25519_key";
             type = "ed25519";

@@ -72,3 +72,8 @@ Lix?
 
 move /persist/home to /persist/system/home
 
+
+the "full-installer-x86_64" should probably be a recovery thing
+or an iso for servers 
+
+

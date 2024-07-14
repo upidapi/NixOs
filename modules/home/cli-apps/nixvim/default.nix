@@ -133,6 +133,9 @@ in {
     };
 
     plugins = {
+      # notes
+      neorg = enable;
+
       toggleterm = {
         enable = true;
       };

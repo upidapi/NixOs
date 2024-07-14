@@ -67,16 +67,21 @@ in {
       age = {
         # keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
 
+        /*
         sshKeyPaths = [
           "/etc/ssh/users/${config.home.username}_ed25519"
         ];
+        */
       };
 
       secrets = {
+        # would be placed in ~/test, getting the value from "${defaultSopsFile}/test"
+        /*
         "test" = {
           path = "test";
           mode = "0400";
         };
+        */
       };
     };
   };

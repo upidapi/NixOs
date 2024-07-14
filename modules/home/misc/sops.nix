@@ -65,7 +65,7 @@ in {
 
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
       age = {
-        keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
+        # keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
 
         sshKeyPaths = [
           "/etc/ssh/users/${config.home.username}_ed25519"

@@ -1,5 +1,5 @@
 keys:
-  # each key has a coresponding ssh key
+  # each key has a corresponding ssh key
 
   - &users:
     - &admin age17j8hypc3ae5n3y2s20qv942ycnn33msrq3529t5zpv72mkvhgf4qx4n09e
@@ -16,15 +16,16 @@ keys:
     - &full-installer-x86_64 age1pv4vess6fmduczjf82f9fzemumjugl67skye6hcwytqxd9kkx9dqatxyg7  
 
     # host keys stored in infra.yaml/${host name}
-    # user keys stored in users/${user nane}.yaml/ssh-key
+    # user keys stored in users/${user name}.yaml/ssh-key
 
 creation_rules:
-  - path_regex: secrets/*
-    key_groups:
-      - age:
-        - *admin
+  # note: only one path_regex can apply per thing so we have
+  # to manually add the admin key to each one
+  # - path_regex: secrets/*
+  #   key_groups:
+  #    - age:
     
-  # contans everything that is needed to setup all systems
+  # contains everything that is needed to setup all systems
   - path_regex: secrets/infra.yaml$
     key_groups:
       - age:
@@ -33,7 +34,10 @@ creation_rules:
   - path_regex: secrets/users/upidapi.yaml$
     key_groups:
       - age:
+          - *admin
+
           - *upinix-pc
           - *upinix-laptop
 
           - *upidapi
+

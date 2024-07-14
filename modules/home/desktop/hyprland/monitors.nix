@@ -48,10 +48,11 @@
     # move cursor to primary workspace
     exec-once = let
       # there can't be more than one (due to assertions)
-      primaryMonitorCandidates =
+      primaryMonitorCandidates = (
         builtins.filter
         (m: m.primary)
-        enabledMonitors;
+        enabledMonitors
+      );
     in
       # handle case where there are no primary monitor
       if builtins.length primaryMonitorCandidates == 0

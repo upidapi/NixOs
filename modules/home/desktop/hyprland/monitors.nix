@@ -58,6 +58,6 @@
       then []
       else let
         primaryMonitor = builtins.elemAt primaryMonitorCandidates 0;
-      in ["hyprctl dispatch workspace ${primaryMonitor.name}"];
+      in ["hyprctl dispatch focusmonitor ${primaryMonitor.name}"];
   };
 }

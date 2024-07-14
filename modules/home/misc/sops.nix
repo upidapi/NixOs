@@ -73,12 +73,10 @@ in {
       };
 
       secrets = {
-        /*
         "test" = {
           path = "test";
           mode = "0400";
         };
-        */
       };
     };
   };

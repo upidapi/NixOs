@@ -47,7 +47,7 @@ in {
       };
 
       misc = {
-        # TODO: enable dconf
+        dconf = enable;
         sops = enable;
         persist = enable;
       };

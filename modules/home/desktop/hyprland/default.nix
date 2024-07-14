@@ -21,6 +21,9 @@ in {
     mkEnableOpt "enables hyperland, a wayland tiling manager";
 
   config = mkIf cfg.enable {
+    # TODO: might whant to add a load screen for opening windows?
+    #  might be unfeasible / inconvenient
+
     # FIXME: this is probalbly needed for batery on laptop (ags)
     #  services.upower.enable = true;
     home.packages = [pkgs.brightnessctl];

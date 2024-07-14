@@ -49,7 +49,7 @@ in {
           # for some reason the names change by sops
 
           # use desc to match insted
-          name = "DVI-D-1";
+          name = "desc: Dell Inc. DELL U2312HM 59DJP23QCZFL";
           width = 1920;
           height = 1080;
           refreshRate = 60;
@@ -59,7 +59,7 @@ in {
           workspace = 1;
         }
         {
-          name = "DP-1";
+          name = "desc: ASUSTek COMPUTER INC VG246H1A R2LMTF144267";
           width = 1920;
           height = 1080;
           refreshRate = 60;
@@ -68,7 +68,7 @@ in {
           workspace = 2;
         }
         {
-          name = "HDMI-A-1";
+          name = "desc: AlgolTek Inc. 0x0001 0x434E3031";
           width = 1920;
           height = 1080;
           refreshRate = 60;

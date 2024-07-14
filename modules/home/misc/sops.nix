@@ -11,12 +11,11 @@
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.home.misc.sops;
-  ssh-cfg-path = "${config.home.homeDirectory}/.ssh";
 in {
   # might want to remove/disable the import when
   # this modules is disabled
   imports = [
-    # inputs.sops-nix.homeManagerModules.sops
+    inputs.sops-nix.homeManagerModules.sops
   ];
 
   options.modules.home.misc.sops =
@@ -53,6 +52,12 @@ in {
     */
 
     home.file = {
+      /*
+      "test" = {
+        text = "test";
+      };
+      */
+
       ".ssh/id_ed25519" = {
         source =
           config.lib.file.mkOutOfStoreSymlink
@@ -60,18 +65,15 @@ in {
       };
     };
 
-    /*
     sops = {
-      # this file doesnt exist, add it when i need user specific secrets
-      # defaultSopsFile = "${self}/secrets/users/${config.home.username}.yaml";
+      defaultSopsFile = "${self}/secrets/users/${config.home.username}.yaml";
 
-      # age.keyFile = "/home/user/.config/sops/age/keys.txt";
       age = {
-        # keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
+        keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
 
-        # sshKeyPaths = [
-        #   "/etc/ssh/users/${config.home.username}_ed25519"
-        # ];
+        sshKeyPaths = [
+          "/etc/ssh/users/${config.home.username}_ed25519"
+        ];
       };
 
       secrets = {
@@ -82,7 +84,5 @@ in {
         # };
       };
     };
-
-    */
   };
 }

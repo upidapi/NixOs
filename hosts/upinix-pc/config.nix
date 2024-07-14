@@ -55,7 +55,6 @@ in {
           refreshRate = 60;
           x = -1920;
           y = 0;
-          primary = true;
           workspace = 1;
         }
         {
@@ -66,6 +65,7 @@ in {
           x = 0;
           y = 0;
           workspace = 2;
+          primary = true;
         }
         {
           name = "desc:AlgolTek Inc. 0x0001 0x434E3031";

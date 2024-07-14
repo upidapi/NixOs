@@ -52,15 +52,13 @@ in {
     };
     */
 
-    /*
     home.file = {
       ".ssh/id_ed25519" = {
         source =
           config.lib.file.mkOutOfStoreSymlink
-          "/etc/ssh/users/${config.home.username}_ed25519";
+          "/persist/system/etc/ssh/users/${config.home.username}_ed25519";
       };
     };
-    */
 
     /*
     sops = {

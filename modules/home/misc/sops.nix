@@ -61,7 +61,7 @@ in {
 
     sops = {
       # this file doesnt exist, add it when i need user specific secrets
-      defaultSopsFile = "${self}/secrets/users/${config.home.username}.yaml";
+      # defaultSopsFile = "${self}/secrets/users/${config.home.username}.yaml";
 
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
       age = {

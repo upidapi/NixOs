@@ -3,7 +3,13 @@
   lib,
   ...
 }: {
-  wayland.windowManager.hyprland.settings = {
+  wayland.windowManager.hyprland.settings = let
+    enabledMonitors = (
+      lib.filter
+      (m: m.enabled)
+      osConfig.modules.nixos.hardware.monitors
+    );
+  in {
     # display conf
     monitor =
       map
@@ -35,12 +41,23 @@
     workspace =
       map
       (
-        m: "${m.name},${toString m.workspace}"
+        m: "${toString m.workspace}, monitor:${m.name}, default:true"
       )
-      (
-        lib.filter
-        (m: m.enabled)
-        osConfig.modules.nixos.hardware.monitors
-      );
+      enabledMonitors;
+
+    # move cursor to primary workspace
+    exec-once = let
+      # there can't be more than one (due to assertions)
+      primaryMonitorCandidates =
+        builtins.filter
+        (m: m.primary)
+        enabledMonitors;
+    in
+      # handle case where there are no primary monitor
+      if builtins.length primaryMonitorCandidates == 0
+      then []
+      else let
+        primaryMonitor = builtins.elemAt primaryMonitorCandidates 0;
+      in ["hyprctl dispatch workspace ${primaryMonitor.name}"];
   };
 }

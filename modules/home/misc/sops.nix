@@ -51,6 +51,8 @@ in {
       };
     };
     */
+
+    /*
     home.file = {
       ".ssh/id_ed25519" = {
         source =
@@ -58,6 +60,7 @@ in {
           "/etc/ssh/users/${config.home.username}_ed25519";
       };
     };
+    */
 
     /*
     sops = {

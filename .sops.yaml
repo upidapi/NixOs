@@ -30,7 +30,7 @@ creation_rules:
       - age:
         - *admin
 
-  - path_regex: secrets/users/upidapi$
+  - path_regex: secrets/users/upidapi.yaml$
     key_groups:
       - age:
           - *upinix-pc

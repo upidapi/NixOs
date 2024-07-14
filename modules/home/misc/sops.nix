@@ -16,7 +16,7 @@ in {
   # might want to remove/disable the import when
   # this modules is disabled
   imports = [
-    inputs.sops-nix.homeManagerModules.sops
+    # inputs.sops-nix.homeManagerModules.sops
   ];
 
   options.modules.home.misc.sops =
@@ -56,7 +56,7 @@ in {
       ".ssh/id_ed25519" = {
         source =
           config.lib.file.mkOutOfStoreSymlink
-          "/persist/system/etc/ssh/users/${config.home.username}_ed25519";
+          "/etc/ssh/users/${config.home.username}_ed25519";
       };
     };
 

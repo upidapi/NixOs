@@ -46,6 +46,9 @@ in {
           workspace = -1;
         }
         {
+          # for some reason the names change by sops
+
+          # use desc to match insted
           name = "DVI-D-1";
           width = 1920;
           height = 1080;

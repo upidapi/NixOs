@@ -68,7 +68,7 @@ in {
         keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
 
         sshKeyPaths = [
-          "${config.home.homeDirectory}/.ssh/id_ed25519"
+          "/etc/ssh/users/${config.home.username}_ed25519"
         ];
       };
 

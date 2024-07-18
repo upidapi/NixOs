@@ -1,3 +1,7 @@
+add a way to do only home-manager 
+
+
+https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix
 make sure that /persist/nixos has the correct perms 
     chown -R root:wheel /persist/nixos 
     chmod -R 770 /persist/nixos
@@ -75,5 +79,11 @@ Lix?
 
 the "full-installer-x86_64" should probably be a recovery thing
 or an iso for servers 
+
+
+add a way to do only home-manager 
+
+
+https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix
 
 

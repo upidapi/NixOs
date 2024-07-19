@@ -15,7 +15,10 @@
   
   # TODO: not correct link (see above)
   curl https://hydra.nixos.org/build/262696224/download/2/nix -o ~/.local/bin/nix
-  # curl -o ~/.local/bin/nix -L https://hydra.nixos.org/job/nix/master/buildStatic.x86_64-linux/latest/download/1
+
+	
+  https://hydra.nixos.org/job/nix/master/buildStatic.x86_64-linux/latest/download/1
+  # curl -o ~/.local/bin/nix -L https://hydra.nixos.org/build/262696224/download/2/nix
   chmod +x ~/.local/bin/nix
   export PATH=~/.local/bin:$PATH
 

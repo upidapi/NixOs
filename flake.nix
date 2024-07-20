@@ -137,12 +137,12 @@
 
                     home.stateVersion = "23.11"; # Read comment
 
-		    {
+		    
 		      fonts.fontconfig.enable = true;
 		      home.packages = [
 			(pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
 		      ];
-		    };
+		    
 
                     modules.home = {
                       other = enable;

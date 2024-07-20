@@ -142,7 +142,7 @@
 		      home.packages = [
 			(pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
 		      ];
-		    }
+		    };
 
                     modules.home = {
                       other = enable;

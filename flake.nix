@@ -7,7 +7,7 @@
   # the click on download
   # TODO: find a perma direct link 
 
-  /*
+  /* -------OLD--------
   ## setup nix 
   mkdir -p ~/.config/nix
   echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
@@ -31,6 +31,35 @@
   ## exit and start zsh
   exit
   nix run nixpkgs#zsh
+  */
+
+  /* --------NEW-------
+  # set -ex
+
+  ## get nix portable
+  # export PATH=$PATH:$HOME/.local/bin
+  # mkdir -p .local/bin
+  # cd .local/bin
+
+  # Download nix-portable
+  curl -L "https://github.com/DavHau/nix-portable/releases/latest/download/nix-portable-$(uname -m)" > ./nix-portable
+
+  # Generate symlinks for seamless integration
+  chmod +x nix-portable
+  ln -s nix-portable nix
+  
+  cd ~
+  ./nix-portable nix-shell -p home-manager nix zsh  
+  home-manager switch -b old --flake github:upidapi/NixOs#drs_temp_mk2416
+  zsh
+
+  alias nvim="zsh $(which nvim)"
+  alias man="zsh $(which man)"
+  # alias nvim="zsh $(which nvim)"
+
+  # for some reason yo have to use "zsh $(which --cmd--)" to run a command that uses exec
+  # since running scripts with exec breaks bash
+  # nvim
   */
 
   outputs = inputs @ {flake-parts, ...}:
@@ -107,6 +136,14 @@
                       ];
 
                     home.stateVersion = "23.11"; # Read comment
+
+		    {
+		      fonts.fontconfig.enable = true;
+		      home.packages = [
+			(pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
+		      ];
+		    }
+
                     modules.home = {
                       other = enable;
 

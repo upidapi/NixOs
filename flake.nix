@@ -57,6 +57,8 @@
   alias man="zsh $(which man)"
   # alias nvim="zsh $(which nvim)"
 
+  setxkbmap -option caps:swapescape
+
   # for some reason yo have to use "zsh $(which --cmd--)" to run a command that uses exec
   # since running scripts with exec breaks bash
   # nvim

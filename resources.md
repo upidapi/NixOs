@@ -7,6 +7,33 @@ env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml
 (requires root)
 
 
+# build image
+```bash
+sudo mount /dev/---disc-name--- /ventoy
+
+# build image
+sudo nix build .#images.minimal-installer-x86_64
+
+# move iso to usb
+cp -rL $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
+```
+
+# fetch official iso(s)
+```bash 
+function downloadFile {
+    # resolve url redirect to get a more specific link
+    local url=$(curl -ILs -o /dev/null -w %{url_effective} "$1")
+    
+    # curl said url and use the filename of it
+    curl -JOL "$url"
+}
+
+downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-gnome-x86_64-linux.iso"
+downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-plasma6-x86_64-linux.iso"
+downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-minimal-x86_64-linux.iso"
+```
+
+
 youtube
 [vimjoyer](https://www.youtube.com/@vimjoyer) 
 

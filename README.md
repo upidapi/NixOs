@@ -22,6 +22,13 @@ The structure of my config was inpired by raf and jakehamilton
 ## install
 clone repo, then run install.sh
 
+## create iso
+to create the isos you have to run the folowing commands
+    
+    `
+    
+    `{:.bash}
+
 
 ## insperation
 Some of the people that I've ~stolen from~ been insperd by. Theres probably a lot more but i tend to forget to add them. 

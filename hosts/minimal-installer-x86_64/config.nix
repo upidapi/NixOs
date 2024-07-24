@@ -35,6 +35,7 @@ in {
 
     # done bu the imports
     /*
+
     users.users.root.initialHashedPassword = "";
 
     users.users.nixos = {
@@ -52,19 +53,25 @@ in {
     ];
 
     modules.nixos = {
-      system = {
-        core = {
-          # fonts = enable;
-          boot = enable;
-          env = enable;
+      nix = {
+        cfg-path = "/persist/nixos";
+
+        cachix = enable;
+        flakes = enable;
+      };
+
+      os = {
+        boot = enable;
+
+        environment = {
+          fonts = enable;
           locale = enable;
+          paths = enable;
+          vars = enable;
         };
 
-        nix = {
-          cfg-path = "/persist/nixos";
-
-          cachix = enable;
-          flakes = enable;
+        misc = {
+          console = enable;
         };
       };
     };

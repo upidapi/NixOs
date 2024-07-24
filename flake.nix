@@ -1,18 +1,19 @@
 {
   description = "Nixos config flake";
-  
+
   # install hm on nix-portable
   # https://github.com/nix-community/home-manager/issues/3752#issuecomment-1566179742
   # you have to use "https://hydra.nixos.org/job/nix/master/buildStatic.x86_64-linux/latest"
   # the click on download
-  # TODO: find a perma direct link 
+  # TODO: find a perma direct link
 
-  /* -------OLD--------
-  ## setup nix 
+  /*
+     -------OLD--------
+  ## setup nix
   mkdir -p ~/.config/nix
   echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
-  mkdir -p ~/.local/bin  
-  
+  mkdir -p ~/.local/bin
+
   # TODO: not correct link (see above)
   curl https://hydra.nixos.org/build/262696224/download/2/nix -o ~/.local/bin/nix
 
@@ -26,14 +27,15 @@
 
   # name in the hm conf must be same as user
   nix build .#homeConfigurations.drs_temp_mk2416.activationPackage
-  
+
 
   ## exit and start zsh
   exit
   nix run nixpkgs#zsh
   */
 
-  /* --------NEW-------
+  /*
+     --------NEW-------
   # set -ex
 
   ## get nix portable
@@ -47,9 +49,9 @@
   # Generate symlinks for seamless integration
   chmod +x nix-portable
   ln -s nix-portable nix
-  
+
   cd ~
-  ./nix-portable nix-shell -p home-manager nix zsh  
+  ./nix-portable nix-shell -p home-manager nix zsh
   home-manager switch -b old --flake github:upidapi/NixOs#drs_temp_mk2416
   zsh
 
@@ -86,14 +88,13 @@
                 inputs',
                 self',
                 ...
-              }: 
-              let
+              }: let
                 extra_args = {
                   inherit inputs inputs' self self';
 
                   # TODO: try to put thease in /parts
                   my_lib = (import ./parts/lib) {inherit lib;};
-                  keys = (import ./parts/keys.nix) {inherit lib;}; 
+                  keys = (import ./parts/keys.nix) {inherit lib;};
                   osConfig = {
                     modules.nixos = {
                       nix.cfg-path = "~/persist/NixOs";
@@ -106,105 +107,99 @@
                 enable = {enable = true;};
                 system = "x86_64-linux";
               in
-              inputs.home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                
-                modules = [ 
-                  # inputs.hyprland.homeManagerModules.default
+                inputs.home-manager.lib.homeManagerConfiguration {
+                  inherit pkgs;
 
-                  {
-                    home.username = user-name;
+                  modules = [
+                    # inputs.hyprland.homeManagerModules.default
 
-                    # only for testing
-                    # home.stateVersion = "23.11";
+                    {
+                      home.username = user-name;
 
-                    home.homeDirectory = "/mnt/${user-name}";
-                  }
+                      # only for testing
+                      # home.stateVersion = "23.11";
 
-                  
-                  ./modules/home
+                      home.homeDirectory = "/mnt/${user-name}";
+                    }
 
-                  
-                  # "${host_dir}/${profile}/users/${user-name}.nix" 
-                  { 
-		    home.sessionVariables.PATH = "$HOME/.nix-profile/bin:$PATH";
-		    
-                    nixpkgs.config.allowUnfreePredicate = pkg:
-                      builtins.elem (pkgs.lib.getName pkg) [
-                        "spotify"
-                        # "steam"
-                        # "steam-run"
-                        # "steam-original"
+                    ./modules/home
+
+                    # "${host_dir}/${profile}/users/${user-name}.nix"
+                    {
+                      home.sessionVariables.PATH = "$HOME/.nix-profile/bin:$PATH";
+
+                      nixpkgs.config.allowUnfreePredicate = pkg:
+                        builtins.elem (pkgs.lib.getName pkg) [
+                          "spotify"
+                          # "steam"
+                          # "steam-run"
+                          # "steam-original"
+                        ];
+
+                      home.stateVersion = "23.11"; # Read comment
+
+                      fonts.fontconfig.enable = true;
+                      home.packages = [
+                        (pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
                       ];
 
-                    home.stateVersion = "23.11"; # Read comment
+                      modules.home = {
+                        other = enable;
 
-		    
-		      fonts.fontconfig.enable = true;
-		      home.packages = [
-			(pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
-		      ];
-		    
-
-                    modules.home = {
-                      other = enable;
-
-                      apps = {
-                        alacritty = enable;
-                        bitwarden = enable;
-                        discord = enable;
-                        firefox = enable;
-                        r2modman = enable;
-                        spotify = enable;
-                      };
-
-                      cli-apps = {
-                        nixvim = enable;
-                        # nushell = enable;
-                        tmux = enable;
-                        zsh = {
-                          enable = true;
-                          set-shell = true;
+                        apps = {
+                          alacritty = enable;
+                          bitwarden = enable;
+                          discord = enable;
+                          firefox = enable;
+                          r2modman = enable;
+                          spotify = enable;
                         };
-                        wine = enable;
-                        git = enable;
-                        bat = enable;
-                        cn-bth = enable;
-                      };
 
-                      services = {
-                        playerctl = enable;
-                      };
+                        cli-apps = {
+                          nixvim = enable;
+                          # nushell = enable;
+                          tmux = enable;
+                          zsh = {
+                            enable = true;
+                            set-shell = true;
+                          };
+                          wine = enable;
+                          git = enable;
+                          bat = enable;
+                          cn-bth = enable;
+                        };
 
-                      misc = {
-                        dconf = enable;
-                        sops = enable;
-                        # persist = enable;
-                      };
+                        services = {
+                          playerctl = enable;
+                        };
 
-                      desktop = {
-                        wayland = enable;
-                        hyprland = enable;
-                        addons = {
-                          swww = enable;
-                          # eww = enable;
-                          ags = enable;
-                          dunst = enable;
-                          gtk = enable;
-                          rofi = enable;
-                          waybar = enable;
+                        misc = {
+                          dconf = enable;
+                          sops = enable;
+                          # persist = enable;
+                        };
+
+                        desktop = {
+                          wayland = enable;
+                          hyprland = enable;
+                          addons = {
+                            swww = enable;
+                            # eww = enable;
+                            ags = enable;
+                            dunst = enable;
+                            gtk = enable;
+                            rofi = enable;
+                            waybar = enable;
+                          };
                         };
                       };
-                    };
-                  }
-                  
-                ];
-                extraSpecialArgs = extra_args;
-                
-              });
+                    }
+                  ];
+                  extraSpecialArgs = extra_args;
+                }
+            );
           };
         })
-
       ];
 
       systems = [

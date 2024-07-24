@@ -42,6 +42,8 @@ in {
           )
         )
 
+        wget
+
         unzip
 
         # show file struct

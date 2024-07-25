@@ -16,8 +16,10 @@ in {
         # todo: might want to only install some language parsers
         #   by default it adds all
         enable = true;
-        incrementalSelection = enable;
-        indent = true;
+        settings = {
+          incremental_selection = enable;
+          indent = enable;
+        };
         nixvimInjections = true;
       };
 

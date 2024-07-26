@@ -31,7 +31,7 @@
           }";
         in "${m.name},${
           if m.enabled
-          then "${resolution},${position},1"
+          then "${resolution},${position},${toString m.scale}"
           else "disable"
         }"
       )

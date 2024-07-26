@@ -41,6 +41,11 @@ in {
           type = types.bool;
           default = true;
         };
+        scale = mkOption {
+          type = types.float;
+          default = 1;
+        };
+
         # workspace id (1 <= id <= 10)
         workspace = mkOption {
           type = types.int;

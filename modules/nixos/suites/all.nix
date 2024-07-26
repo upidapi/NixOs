@@ -38,9 +38,13 @@ in {
       os = {
         boot = enable;
 
-        desktop = {
+        graphical = {
           hyprland = enable;
-          sddm = enable;
+          login = {
+            greetd = enable;
+            # sddm = enable;
+          };
+          xserver = enable;
         };
 
         environment = {

@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.desktop.hyprland;
+  cfg = config.modules.nixos.os.graphical.hyprland;
 in {
-  options.modules.nixos.os.desktop.hyprland =
+  options.modules.nixos.os.graphical.hyprland =
     mkEnableOpt "add hyprland";
 
   imports = [
@@ -17,7 +17,7 @@ in {
   ];
 
   config = mkIf cfg.enable {
-    # environment.variables.NIXOS_OZONE_WL = "1";
+    # environment.variables.nixos_ozone_wl = "1";
 
     # enable hyprland and required options
     programs.hyprland.enable = true;

@@ -6,15 +6,13 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.desktop.sddm;
+  cfg = config.modules.nixos.os.graphical.login.sddm;
 in {
-  options.modules.nixos.os.desktop.sddm =
+  options.modules.nixos.os.graphical.login.sddm =
     mkEnableOpt "enables the sddm login manager";
 
   config = mkIf cfg.enable {
     services = {
-      xserver = enable;
-
       displayManager.sddm = {
         enable = true;
         # FIXME: (2024-04-07) enable this when it works

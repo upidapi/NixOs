@@ -10,7 +10,7 @@ fi
 
 # we can't put this directly into /mnt/persist/nixos 
 # since /mnt gets wiped when reformatting the disk with disko
-git pull https://github.com/upidapi/NixOs /tmp/nixos
+git clone https://github.com/upidapi/NixOs /tmp/nixos
 
 
 # make user select :a (valid) profile
@@ -31,9 +31,10 @@ done;
 # check if user has provided valid profile to script
 for host in "${hosts[@]}"; do
   if [[ $raw_profile == "$host" ]];
-    then profile=$raw_profile;
+    then profile="load $raw_profile";
   fi
 done
+
 
 if [[ ! $# -eq 0 && $profile == "" ]]; then 
   echo "invallid profile";
@@ -67,7 +68,7 @@ cp -r /tmp/nixos /mnt/persist/nixos
 
 # store the profile in a file to preserve it to the reboot after the install
 # this will be picked upp by the bootstrap-config which will install the full system
-echo "$profile" > /mnt/persist/nixos/profile-name.txt
+echo "$profile" > /mnt/persist/profile-name.txt
 
 
 
@@ -96,7 +97,7 @@ nixos-generate-config \
 
 # just a barebones config to start with, soly used to bootstrap 
 # the real one
-cp /mnt/persist/nixos/bootstrap-config.nix /mnt/etc/nixos/configuration.nix
+cp /mnt/persist/nixos/parts/install/bootstrap-config.nix /mnt/etc/nixos/configuration.nix
 
 nixos-install --root /mnt --cores 0 --no-root-passwd # all cores TODO: check if this is true
 

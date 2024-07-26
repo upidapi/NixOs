@@ -1,5 +1,5 @@
 {
-  # config,
+  #  config,
   # pkgs,
   # lib,
   # inputs,
@@ -7,13 +7,14 @@
   # self,
   # self',
   my_lib,
+  keys,
   ...
 }: let
   inherit (my_lib.opt) enable;
 in {
   system.stateVersion = "23.11"; # Did you read the comment?
 
-  # NOTE: dont forget to config nixos-hardware
+  # TODO: factor out this into some module
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.upidapi = {
@@ -23,27 +24,29 @@ in {
     extraGroups = ["networkmanager" "wheel" "libvirtd"];
     hashedPassword = "$y$j9T$P.ANM.hAc1bqSR7fJWfkZ.$vUxY3KyPB65PR3uTBKwYCa7u6LvUquy47SeAPjgnjD9";
 
-    # openssh.authorizedKeys.keys = with import ./../../other/ssh-keys.nix; [upidapi-nix-pc upidapi-nix-laptop];
+    openssh.authorizedKeys.keys = [keys.users.admin];
   };
-
-  # TODO: recreate when i get my new laptop. Has not been updated
-  #  since I gave my laptop back
 
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
   modules.nixos = {
     suites.all = enable;
 
-    hardware.monitors = [
-      {
-        name = "eDP-1";
-        width = 1920;
-        height = 1080;
-        refreshRate = 60;
-        x = 0;
-        y = 0;
-        workspace = 2;
-      }
-    ];
+    hardware = {
+      cpu.amd = enable;
+      gpu.nvidia = enable;
+
+      monitors = [
+        {
+          name = "eDP-1";
+          width = 1920;
+          height = 1080;
+          refreshRate = 60;
+          x = 0;
+          y = 0;
+          workspace = 2;
+        }
+      ];
+    };
   };
 }

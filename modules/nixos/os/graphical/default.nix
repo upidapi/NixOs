@@ -1,6 +1,7 @@
 {
   imports = [
-    ./sddm.nix
+    ./login
     ./hyprland.nix
+    ./xserver.nix
   ];
 }

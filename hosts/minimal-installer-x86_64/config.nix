@@ -2,12 +2,16 @@
   pkgs,
   my_lib,
   inputs,
+  self,
   ...
 }: let
   inherit (my_lib.opt) enable;
 in {
   imports = [
-    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+    # TODO:remove "-no-zfs"
+    #  tuxedo required 6.10 (latest kernel)
+    #  zfs takes a while to support the latest kernel
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
   ];
 
@@ -52,6 +56,21 @@ in {
     environment.systemPackages = [
       pkgs.git
     ];
+
+    # put the installer.sh script in place
+    systemd.services.create_install_script = let
+      file = pkgs.writeText "install_script" (
+        builtins.readFile "${self}/parts/install/install.sh"
+      );
+    in {
+      description = "installs my nixos config";
+      serviceConfig.PassEnvironment = "DISPLAY";
+      script = ''
+        cat ${file} > /home/nixos/install.sh
+        chown nixos /home/nixos/install.sh
+      '';
+      wantedBy = ["multi-user.target"]; # starts after login
+    };
 
     # you cant have this and networking.networkmanager at the same time
     networking.wireless.enable = false;

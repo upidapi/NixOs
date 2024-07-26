@@ -35,8 +35,8 @@ in {
       ",XF86AudioRaiseVolume, exec, pamixer -i 5"
       ",XF86AudioLowerVolume, exec, pamixer -d 5"
       # brigtness
-      ",XF86MonBrightnessUp, exec, brightnessctl s 2%+"
-      ",XF86MonBrightnessDown, exec, brightnessctl s 2%-"
+      ",XF86MonBrightnessUp, exec, brightnessctl -e=2 s +5%"
+      ",XF86MonBrightnessDown, exec, brightnessctl -e=2 s 5%-"
     ];
 
     # NOTE: you can use wev to see the keysym for a button

@@ -48,7 +48,7 @@ in {
           refreshRate = 240;
           x = 0;
           y = 0;
-          scale = 1.3;
+          scale = 1.333333;
 
           workspace = 1;
           primary = true;

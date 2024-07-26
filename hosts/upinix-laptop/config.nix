@@ -41,9 +41,10 @@ in {
 
       monitors = [
         {
-          name = "eDP-2";
-          width = 1920;
-          height = 1080;
+          name = "desc:BOE 0x0C8E";
+
+          width = 2560;
+          height = 1600;
           refreshRate = 240;
           x = 0;
           y = 0;

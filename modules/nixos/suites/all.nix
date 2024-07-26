@@ -73,6 +73,7 @@ in {
 
         services = {
           ntpd = enable;
+          upower = enable;
         };
       };
 

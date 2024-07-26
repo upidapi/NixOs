@@ -47,10 +47,14 @@ in {
       initialHashedPassword = "";
     };
     */
+    # hardware.tuxedo-keyboard = enable;
 
     environment.systemPackages = [
       pkgs.git
     ];
+
+    # you cant have this and networking.networkmanager at the same time
+    networking.wireless.enable = false;
 
     modules.nixos = {
       nix = {
@@ -69,6 +73,8 @@ in {
           paths = enable;
           vars = enable;
         };
+
+        networking = enable;
 
         misc = {
           console = enable;

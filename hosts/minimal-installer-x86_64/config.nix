@@ -62,12 +62,18 @@ in {
       file = pkgs.writeText "install_script" (
         builtins.readFile "${self}/parts/install/install.sh"
       );
+      file_flake = pkgs.writeText "install_script_flake" (
+        builtins.readFile "${self}/parts/install/install_flake.sh"
+      );
     in {
       description = "installs my nixos config";
       serviceConfig.PassEnvironment = "DISPLAY";
       script = ''
         cat ${file} > /home/nixos/install.sh
+        cat ${file_flake} > /home/nixos/install_flake.sh
+
         chown nixos /home/nixos/install.sh
+        chown nixos /home/nixos/install_flake.sh
       '';
       wantedBy = ["multi-user.target"]; # starts after login
     };

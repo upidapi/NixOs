@@ -29,6 +29,9 @@ in {
 
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.supportedFilesystems.zfs = lib.mkForce false;
+
   modules.nixos = {
     suites.all = enable;
 
@@ -44,7 +47,8 @@ in {
           refreshRate = 60;
           x = 0;
           y = 0;
-          workspace = 2;
+          workspace = 1;
+          primary = true;
         }
       ];
     };

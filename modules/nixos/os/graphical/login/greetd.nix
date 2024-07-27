@@ -37,6 +37,9 @@
       "--remember-user-session"
       "--asterisks"
       "--sessions '${sessionPaths}'"
+      # FIXME: temporary fix since Hyprland cant open zlacritty directly (with bind)
+      #  if greetd starts Hyprland directly
+      "--cmd \"zsh -c Hyprland\""
     ];
   };
 
@@ -46,8 +49,6 @@ in {
     mkEnableOpt "enables the greetd login manager";
 
   config = mkIf cfg.enable {
-    services.greetd.enable = true;
-    /*
     services.greetd = {
       enable = true;
       vt = 2;
@@ -76,6 +77,5 @@ in {
       TTYVHangup = true;
       TTYVTDisallocate = true;
     };
-    */
   };
 }

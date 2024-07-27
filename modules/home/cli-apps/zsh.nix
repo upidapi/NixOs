@@ -42,10 +42,10 @@ in {
           c = "clear";
           l = "ls -lah";
           # command to convert a symlink into just the thing it points to
-          unlink = ''
-            unlink() {
-              [ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1"
-            }; unlink'';
+          unlink =
+            ''unlink() {''
+            + ''[ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1"''
+            + ''}; unlink'';
           ".." = "cd ..";
           "..." = "cd ../..";
           "...." = "cd ../../..";

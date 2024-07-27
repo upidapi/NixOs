@@ -36,17 +36,16 @@ in {
         shellAliases = {
           # s = "doas -s";
           # sudo = "doas -s";
-          un-page = "env PAGER=cat";
+          unpage = "env PAGER=cat";
           ds = "dev-shell";
           e = "$EDITOR";
           c = "clear";
           l = "ls -lah";
           # command to convert a symlink into just the thing it points to
-          un-link = ''
-            un-link() {
+          unlink = ''
+            unlink() {
               [ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1"
-            }; un-link
-          '';
+            }; unlink'';
           ".." = "cd ..";
           "..." = "cd ../..";
           "...." = "cd ../../..";

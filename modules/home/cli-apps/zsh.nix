@@ -40,11 +40,20 @@ in {
           ds = "dev-shell";
           e = "$EDITOR";
           c = "clear";
+          l = "ls -lah";
           ".." = "cd ..";
           "..." = "cd ../..";
           "...." = "cd ../../..";
           "....." = "cd ../../../..";
         };
+
+        # initExtra
+        initExtra = ''
+          # command to convert a symlink into just the thing it points to
+          un-link() {
+            [ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1"
+          }
+        '';
 
         dotDir = ".zsh";
         history = {

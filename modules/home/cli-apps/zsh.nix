@@ -41,19 +41,17 @@ in {
           e = "$EDITOR";
           c = "clear";
           l = "ls -lah";
+          # command to convert a symlink into just the thing it points to
+          un-link = ''
+            un-link() {
+              [ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1"
+            }; un-link
+          '';
           ".." = "cd ..";
           "..." = "cd ../..";
           "...." = "cd ../../..";
           "....." = "cd ../../../..";
         };
-
-        # initExtra
-        initExtra = ''
-          # command to convert a symlink into just the thing it points to
-          un-link() {
-            [ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1"
-          }
-        '';
 
         dotDir = ".zsh";
         history = {

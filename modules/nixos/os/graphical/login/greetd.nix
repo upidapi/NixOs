@@ -46,6 +46,8 @@ in {
     mkEnableOpt "enables the greetd login manager";
 
   config = mkIf cfg.enable {
+    services.greetd.enable = true;
+    /*
     services.greetd = {
       enable = true;
       vt = 2;
@@ -74,5 +76,6 @@ in {
       TTYVHangup = true;
       TTYVTDisallocate = true;
     };
+    */
   };
 }

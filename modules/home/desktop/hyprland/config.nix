@@ -1,5 +1,6 @@
 {...}: {
   wayland.windowManager.hyprland.settings = {
+    "debug:disable_logs" = false;
     general = {
       gaps_in = 0;
       gaps_out = 0;

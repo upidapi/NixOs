@@ -41,7 +41,7 @@ in {
         graphical = {
           hyprland = enable;
           login = {
-            # greetd = enable;
+            greetd = enable;
             # sddm = enable;
           };
           xserver = enable;

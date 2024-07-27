@@ -73,9 +73,9 @@ function Battery() {
     const value = battery
         .bind("percent")
         .as((p: number) => 
-            `${Math.round(p / 100)}%`
+            `${Math.round(p)}%`
     )
-    
+   
     const icon = Utils.merge([
             battery.bind("charging"),
             battery.bind("percent"),
@@ -89,13 +89,22 @@ function Battery() {
                 return ""
             }
 
-            return "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹"[Math.round(percent * 10)]
+            return [..."󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹"][Math.round(percent / 10)]
         })
 
     return [
         DataContainer({
         visible: battery.bind("available"),
         children: [
+            /*
+            Widget.Label({
+                label: battery.bind().as(() => {
+                    print(JSON.stringify(Object.entries(battery)));
+                    print(battery.percent())
+                    return "-"
+                })
+            }),
+            */
             Widget.Label({ 
                 label: icon
             }),
@@ -204,7 +213,9 @@ function Brigtness() {
                 label: brightness
                     .bind("screen_value")
                     .as((p: number) => 
-                        "󰛩󱩎󱩏󱩐󱩑󱩒󱩓󱩔󱩕󱩖󰛨"[Math.round(p * 10)]
+                        // "󰛩󱩎󱩏󱩐󱩑󱩒󱩓󱩔󱩕󱩖󰛨"[Math.round(p * 10)]
+                        [..."󰛩󱩎󱩏󱩐󱩑󱩒󱩓󱩔󱩕󱩖󰛨"][Math.round(p * 10)]
+                        // `${Math.round(p * 10)}`
                     )
             }),
             Widget.Label({

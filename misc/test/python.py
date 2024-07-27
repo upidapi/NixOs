@@ -1,18 +1,7 @@
-print("asdasd")
-
-
-color_ids = {
-    "none": 0,
-    "green": "0;32",
-}
-
-colors = {
-    color: f"\033[{color_id}m"
-    for color, color_id in color_ids.items()
-    #
-}
-
-while True:
-    asdasd
-    print(input(f"{colors['green']}>? {colors['none']}"))
-
+s = 20
+m = 100 # $(brightnessctl max); 
+for i in range(s + 1):
+    c = m / s * i # $(brightnessctl get); 
+    b = 1 + 1 / s
+    p = (b ** (c / m * s) - 1) / (b ** s - 1)
+    print(round(p * m))

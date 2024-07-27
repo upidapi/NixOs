@@ -29,14 +29,27 @@ in {
       "$mod, mouse:273, resizewindow"
     ];
 
-    bindle = [
+    bindle = let
+      x = d:
+        '', exec, brightnessctl set $(''
+        + ''python -c "''
+        + ''d = ${toString d};''
+        + ''c = $(brightnessctl get);''
+        + ''m = $(brightnessctl max);''
+        + ''s = 20;''
+        + ''b = 1 + 1 / s;''
+        + ''p = (b ** (c / m * s + d) - 1) / (b ** s - 1);''
+        + ''print(round(p * m))''
+        + ''"''
+        + '')'';
+    in [
       # change volume
       ",XF86AudioMute, exec, pamixer -t"
       ",XF86AudioRaiseVolume, exec, pamixer -i 5"
       ",XF86AudioLowerVolume, exec, pamixer -d 5"
       # brigtness
-      ",XF86MonBrightnessUp, exec, brightnessctl --exponent=2 set +5%"
-      ",XF86MonBrightnessDown, exec, brightnessctl --exponent=2 set 5%-"
+      ",XF86MonBrightnessUp${x 1}"
+      ",XF86MonBrightnessDown${x (-1)}"
     ];
 
     # NOTE: you can use wev to see the keysym for a button

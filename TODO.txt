@@ -7,18 +7,23 @@ make sure that /persist/nixos has the correct perms
     chmod -R 770 /persist/nixos
 
 
-# some bth service
-https://github.com/EzequielRamis/dotfiles/blob/ecfe6f269339d1551768b9158c1d3aee2d82b238/home/timers.nix#L19
+auto connect to bth
+    https://github.com/EzequielRamis/dotfiles/blob/ecfe6f269339d1551768b9158c1d3aee2d82b238/home/timers.nix#L19
 
 
 add pueued
     ask lokegustafsson for his pkg
     prevent freezes in low ram senarios
 
+prelockd
+    prevent freezes in low ram senarios
+
 
 Virtulisation
     https://github.com/massgravel/Microsoft-Activation-Scripts
     https://github.com/ChrisTitusTech/winutil
+
+    Gpu passthrugh https://discord.com/channels/568306982717751326/1257693396173328468/1257701485568065557
 
 
 https://github.com/Misterio77/nix-starter-configs
@@ -27,10 +32,6 @@ https://github.com/Misterio77/nix-starter-configs
 
 backups
     https://github.com/notohh/snowflake/blob/master/hosts/ame/services/restic.nix
-
-
-prelockd
-
 
 zoxide
 
@@ -42,9 +43,9 @@ add a patches folder
 
 
 fully automated install
-    add a custom install iso
+    [x] add a custom install iso 
 
-    make shure that the install works
+    [ ] make shure that the install works
 
     nixos-anywhere
 
@@ -55,17 +56,10 @@ fully automated install
 automated deployments? hydra?
 
 
-nixd (language server)
-
-
-just?
-    no, use debshells insted
-
-
 nushell
 
 
-posible change my_lib to lib.c (or smt simular)
+posible change my_lib to lib.c (or smt similar)
 
 
 make cn-bth into just an alias?
@@ -86,4 +80,37 @@ add a way to do only home-manager
 
 https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix
 
+
+nix index db
+
+
+Add hardware quirks to my laptop (nix)
+
+
+Tmux
+
+sops 
+    scalpel?
+
+    Setup network (Wi-Fi) passwords with nixos/sops
+
+
+Index the nixos server
+
+
+Ignore whitspace in git diffs
+
+
+nvim 
+    fix cpp indentation
+
+    Softwrap
+    
+    Bind I leader to ctrl space (in i mode)
+
+    nixd (language server)
+
+
+vvvvv does this mean? vvvvv
+Generalise the method that I create the vendors config file
 

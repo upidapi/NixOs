@@ -114,6 +114,9 @@ in {
 
             ublock-origin
 
+            # un clickbait youtube
+            dearrow
+
             react-devtools
 
             i-dont-care-about-cookies

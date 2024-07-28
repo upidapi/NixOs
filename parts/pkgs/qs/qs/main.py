@@ -84,8 +84,7 @@ def colored_centerd_text(
 
 
 def print_devider(
-    text,
-    color=33,
+    text, color=33,
     fill="-",
 ):
     print("\n")
@@ -196,25 +195,31 @@ class Steps:
     @staticmethod
     def rebuild_nixos(args, profile):
         print_devider(f"Rebuilding NixOs (profile: {profile})")
-
-        main_command = (
-            # make sure that the DE continues to update
-            f"nice -n 1 sudo nixos-rebuild switch"
-            f" --flake .#{profile}"
-            + (" --show-trace" * bool(args["--trace"]))
-        )
-
+        
         fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"
         succeed_id = "EdJNfWcs91MsOGHoOfWJ6rqTQ6h1HHsw"
 
-        data_ret = f"""
+        sudo_part = f"""
+            # not necisary here but i dont whant to unlick sudo twice
+            chown -R root:wheel "$NIXOS_CONFIG_PATH";
+            chmod -R 770 "$NIXOS_CONFIG_PATH";
+
+            ret=$(
+              nixos-rebuild switch \\
+                --flake .#{profile} \\
+                {" --show-trace" * bool(args["--trace"])}
+            );
+
             if [ "$ret" ]; 
                 then echo "{succeed_id}"; 
                 else echo "{fail_id}";
             fi
         """
-
-        full_cmd = (f"ret=$({main_command});{data_ret}",)
+ 
+        # TODO: remove the nice part?
+        full_cmd = f"""
+            nice -n 1 sudo -- sh -c {shlex.quote(sudo_part)}
+        """
 
         raw_ret_val = run_cmd(
             full_cmd,

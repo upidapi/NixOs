@@ -1,12 +1,6 @@
 add a way to do only home-manager 
 
 
-https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix
-make sure that /persist/nixos has the correct perms 
-    chown -R root:wheel /persist/nixos 
-    chmod -R 770 /persist/nixos
-
-
 auto connect to bth
     https://github.com/EzequielRamis/dotfiles/blob/ecfe6f269339d1551768b9158c1d3aee2d82b238/home/timers.nix#L19
 
@@ -113,4 +107,9 @@ nvim
 
 vvvvv does this mean? vvvvv
 Generalise the method that I create the vendors config file
+
+
+tuxedu keybaord
+    (driver)
+    controlls keyboard lights
 

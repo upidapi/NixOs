@@ -96,3 +96,5 @@ ssh-to-age -i /etc/ssh/ssh_host_ed25519_key -private-key -o /home/upidapi/tmp
 
 su --preserve-environment
 env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/users/upidapi.yaml
+
+

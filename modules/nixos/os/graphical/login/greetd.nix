@@ -37,6 +37,9 @@
       "--remember-user-session"
       "--asterisks"
       "--sessions '${sessionPaths}'"
+      # FIXME: temporary fix since Hyprland cant open zlacritty directly (with bind)
+      #  if greetd starts Hyprland directly
+      "--cmd \"zsh -c Hyprland\""
     ];
   };
 

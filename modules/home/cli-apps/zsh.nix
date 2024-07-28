@@ -41,7 +41,7 @@ in {
           e = "$EDITOR";
           c = "clear";
           l = "ls -lah";
-          # command to convert a symlink into just the thing it points to
+          # pull file from the store into tha same place but editable
           unstore =
             ''unlink() {''
             + ''[ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1";''

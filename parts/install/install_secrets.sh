@@ -1,4 +1,4 @@
-: "
+"
 load the secrets/infra.yaml 
 decrypt with admin key (+ passphrase?)
 

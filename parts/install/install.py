@@ -1,4 +1,5 @@
 import os, sys, json
+from pathlib import Path
 
 
 # this script (should) fully install my nixos config
@@ -86,68 +87,46 @@ def has_internet(host="8.8.8.8", port=53, timeout=3):
         return False
 
 
-def main():
-    if not has_internet():
-        print("installer requires an internett connection")
-
-    elavate()
-     
-    run_cmd("mkdir /tmp/nixos -p")
-    os.chdir("/tmp/nixos")
-
-    # we can't put this directly into /mnt/persist/nixos 
-    # since /mnt gets wiped when reformatting the disk with disko
-    run_cmd("git clone https://github.com/upidapi/NixOs /tmp/nixos")
-
-
-    profiles = next(os.walk("./hosts"))[1]
-
-    selected_profile = promt_options("select host: " ["create new host"] + profiles)
-    
-    generate_cfg_cmd = (
+def get_hardware_cfg():
+    return run_cmd(
         "nixos-generate-config "
         "--root /mnt "
         "--show-hardware-config "
     )
 
-    if selected == "create new host":
-        new_host_name = input("name of new host: ")
+def to_file(data, file_path):
+    path = Path(file_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(file_path, "x") as f:
+        f.write(data)
 
-        host_template_name = promt_options("host tamplate: ", ["none"] + profiles)
-        
-        if host_template == "none":
-            run_cmd(f"mkdir ./hosts/{new_host_name}")
-        elif: 
-            run_cmd(f"cp -r ./hosts/{host_template_name} ./hosts/{new_host_name}")
-        
-        run_cmd(f"{gererate_cfg_cmd} > ./hosts/{new_host_name}/hardware.nix")
 
-        print(
-            "",
-            "TODO:",
-            "add the host to hosts/default.nix",
-            "change the storage device in disko.nix",
-            sep="\n"
-        )
-        exit()
+def promt_create_new_host(profiles):
+    new_host_name = input("name of new host: ")
 
-    # formatt the file system with disko
-    run_cmd("""
-    nix \\
-      --experimental-features "nix-command flakes" \\
-      run github:nix-community/disko -- \\
-      --mode disko "/tmp/nixos/hosts/$profile/disko.nix"
-    """)
-
-    # move the config to the correct place, since disko would've 
-    # erased it (along with everything else in /persist)
-    run_cmd("mkdir /mnt/persist")
-    run_cmd("cp -r /tmp/nixos /mnt/persist/nixos")
+    host_template_name = promt_options("host tamplate: ", ["none"] + profiles)
     
+    if host_template == "none":
+        run_cmd(f"mkdir ./hosts/{new_host_name}")
+    elif: 
+        run_cmd(f"cp -r ./hosts/{host_template_name} ./hosts/{new_host_name}")
+
+    
+    to_file(get_hardware_cfg(), f"./hosts/{new_host_name}/hardware.nix")
+
+    print(
+        "",
+        "TODO:",
+        "add the host to hosts/default.nix",
+        "change the storage device in disko.nix",
+        sep="\n"
+    )
+
+def init_bootstrap_cfg(profile):
     # store the profile in a file to preserve it to the reboot after the install
     # this will be picked upp by the bootstrap-config which will install the full system
     run_cmd(f"""
-        echo "{selected_profile}" > /mnt/persist/profile-name.txt
+        echo "{profile}" > /mnt/persist/profile-name.txt
     """)
     
     # The persist modules can't persist files in a 
@@ -155,7 +134,7 @@ def main():
     # we store the system files. (the nixos installer doesn't 
     # work otherwise)
     # Therefour we have to manually create this folder
-    # (this took me about 2 full days to figure out, :) )
+    # (this took me mpabout 2 full days to figure out, :) )
     run_cmd("mkdir /mnt/persist/system")
 
     # now we have to create a conventional config to start,
@@ -164,7 +143,7 @@ def main():
 
     # generate a tmp hardware cfg that includes the files system
     # since disko doesn't work without flakes
-    run_cmd(f"{gererate_cfg_cmd} > /mnt/etc/nixos/hardware.nix")
+    to_file(get_hardware_cfg(), f"/mnt/etc/nixos/hardware.nix")
 
     # just a barebones config to start with, soly used to bootstrap 
     # the real one
@@ -184,6 +163,75 @@ def main():
 
     # the install continues using a systemd service in bootstrap-config.nix
 
+
+def preserv_network_connections():
+    x = "etc/NetworkManager/system-connections"
+    run_cmd(f"cp /{x}/* /mnt/{x}/")
+
+
+def main():
+    if not has_internet():
+        print("installer requires an internett connection")
+
+    elavate()
+     
+    preserv_network_connections()
+
+    run_cmd("mkdir /tmp/nixos -p")
+    os.chdir("/tmp/nixos")
+
+    # we can't put this directly into /mnt/persist/nixos 
+    # since /mnt gets wiped when reformatting the disk with disko
+    run_cmd("git clone https://github.com/upidapi/NixOs /tmp/nixos")
+
+
+    profiles = next(os.walk("./hosts"))[1]
+
+    selected_profile = promt_options("select host: " ["create new host"] + profiles)
+
+    if selected == "create new host":
+        promt_create_new_host(profiles)
+        exit()
+
+    # formatt the file system with disko
+    run_cmd("""
+    nix \\
+      --experimental-features "nix-command flakes" \\
+      run github:nix-community/disko -- \\
+      --mode disko "/tmp/nixos/hosts/$profile/disko.nix"
+    """)
+
+    # move the config to the correct place, since disko would've 
+    # erased it (along with everything else in /persist)
+    run_cmd("mkdir /mnt/persist")
+    run_cmd("cp -r /tmp/nixos /mnt/persist/nixos")
+    
+    if len(argv) >= 2:
+        mode = argv[1]
+    else:
+        mode = promt_option(["bootstrap", "flake"])
+     
+/    run_cmd("touch /mnt/persist/sops-nix-key.txt")
+    run_cmd("chmod 700 /mnt/persist/sops-nix-key.txt")
+
+    if mode == "bootstrap":
+        init_bootstrap_cfg()
+        exit()
+
+    elif mode == "flake";
+        run_cmd(
+            "nixos-install " 
+            "--root /mnt " 
+            # all cores TODO: check if this is true
+            "--cores 0 " 
+            "--no-root-passwd "
+            f"--flake /mnt/persist/nixos#{selected_profile}"
+        )
+
+        print("dont forget to add the age key(s) in /persist/sops-age-key.txt")
+        exit()
+
+    print("invallid mode")
 
 if __name__ == "__main__":
     main()

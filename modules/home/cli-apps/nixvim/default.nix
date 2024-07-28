@@ -86,6 +86,9 @@ in {
       modeline = false;
       shiftwidth = 4;
 
+      # disable mouse (prevent acedental while typing)
+      mouse = "";
+
       # https://stackoverflow.com/questions/35156448/autoindent-smartindent-and-indentexpr
       # https://stackoverflow.com/questions/11121191/how-not-to-remove-indentation-by-inserting
       # made for c style langs (eg removes indent if you press #)

@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enable mkBoolOpt;
-  inherit (lib) mkIf;
+  inherit (lib) mkIf mkBefore;
   cfg = config.modules.home.cli-apps.zsh;
 in {
   options.modules.home.cli-apps.zsh =
@@ -58,6 +58,13 @@ in {
           size = 10000;
           path = "$HOME/.zsh/history";
         };
+
+        initExtra = mkBefore ''
+          set -o vi
+
+          # Improved vim bindings.
+          source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+        '';
       };
 
       starship = {

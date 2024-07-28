@@ -1,6 +1,6 @@
 {
-  #  config,
-  # pkgs,
+  # config,
+  pkgs,
   # lib,
   # inputs,
   # inputs',
@@ -28,6 +28,23 @@ in {
   };
 
   users.users.root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
+
+  # force the correct res, since the kernel thinks one of my disaplys is samller
+  # otherwise it selects the smaller res
+  systemd.services.console-fbset = {
+    enable = true;
+    serviceConfig = {
+      Type = "oneshot";
+      # ExecStartPost = "${pkgs.util-linux}/bin/setterm -resize";
+      # ExecStartPre = "/run/current-system/sw/bin/sleep 15";
+      ExecStart = "${pkgs.fbset}/bin/fbset -xres 1920 -yres 1080";
+      # TTYPath = "/dev/console";
+      # StandardOutput = "tty";
+      # StandardInput = "tty-force";
+    };
+    wantedBy = ["multi-user.target"];
+    # environment = { TERM = "linux"; };
+  };
 
   modules.nixos = {
     suites.all = enable;

@@ -29,8 +29,12 @@ in {
 
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.supportedFilesystems.zfs = lib.mkForce false;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    supportedFilesystems.zfs = lib.mkForce false;
+    # fix issues with keyboard after suspend
+    kernelParams = ["i8042.reset" "i8042.nomux" "i8042.nopnp" "i8042.noloo"];
+  };
 
   modules.nixos = {
     suites.all = enable;

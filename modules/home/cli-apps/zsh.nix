@@ -45,7 +45,7 @@ in {
           unstore =
             ''unlink() {''
             + ''[ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1";''
-            + ''chown "$1"; chmod +w "$1"''
+            + ''chown $(whoami) "$1"; chmod +w "$1"''
             + ''}; unlink'';
           ".." = "cd ..";
           "..." = "cd ../..";

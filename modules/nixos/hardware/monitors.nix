@@ -42,7 +42,7 @@ in {
           default = true;
         };
         scale = mkOption {
-          type = types.float;
+          type = types.oneOf [types.float types.int];
           default = 1;
         };
 

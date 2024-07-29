@@ -9,28 +9,78 @@ add pueued
     ask lokegustafsson for his pkg
     prevent freezes in low ram senarios
 
+
 prelockd
     prevent freezes in low ram senarios
 
 
 Virtulisation
-    https://github.com/massgravel/Microsoft-Activation-Scripts
+    MAS
+        free windows keys
+        https://github.com/massgravel/Microsoft-Activation-Scripts
+    
     https://github.com/ChrisTitusTech/winutil
 
-    Gpu passthrugh https://discord.com/channels/568306982717751326/1257693396173328468/1257701485568065557
+    Gpu passthrugh 
+        https://discord.com/channels/568306982717751326/1257693396173328468/1257701485568065557
+    
+    scripts to auto setup vm
 
 
 https://github.com/Misterio77/nix-starter-configs
     some nix settings
 
 
-backups
-    https://github.com/notohh/snowflake/blob/master/hosts/ame/services/restic.nix
+fix ssh
+
+
+keepass
+
+
+encrypted filesystem
+    LUKS
+
+    auto login?
+
+
+Home lab
+    nas
+        local share?
+
+    backups
+        https://github.com/notohh/snowflake/blob/master/hosts/ame/services/restic.nix?
+    
+    file sync
+        borg?
+
+    vpn
+
+    plex
+    
 
 zoxide
 
 
-ricing (base16.nix and stylix)
+tmux
+
+
+himach
+    for fake lan 
+
+    could probalby do this with homelab too
+
+    or some other manuall thing
+
+
+auto lock computer after a while
+
+
+ricing 
+    base16.nix 
+
+    nix-colors
+
+    stylix
 
 
 add a patches folder
@@ -39,7 +89,7 @@ add a patches folder
 fully automated install
     [x] add a custom install iso 
 
-    [ ] make shure that the install works
+    [ ] make sure that the install works
 
     nixos-anywhere
 
@@ -54,9 +104,6 @@ nushell
 
 
 posible change my_lib to lib.c (or smt similar)
-
-
-make cn-bth into just an alias?
 
 
 Lix? 
@@ -76,9 +123,8 @@ https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix
 
 
 nix index db
+    comma extension?
 
-
-Add hardware quirks to my laptop (nix)
 
 
 Tmux
@@ -107,9 +153,3 @@ nvim
 
 vvvvv does this mean? vvvvv
 Generalise the method that I create the vendors config file
-
-
-tuxedu keybaord
-    (driver)
-    controlls keyboard lights
-

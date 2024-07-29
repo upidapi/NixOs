@@ -4,7 +4,7 @@
   lib,
   # inputs,
   # inputs',
-  # self,
+  self,
   # self',
   my_lib,
   keys,
@@ -35,6 +35,29 @@ in {
     # fix issues with keyboard after suspend
     kernelParams = ["i8042.reset" "i8042.nomux" "i8042.nopnp" "i8042.noloo"];
   };
+
+  # FIXME: enable when it works
+  /*
+  hardware = {
+    tuxedo-keyboard = enable;
+    tuxedo-rs = {
+      enable = true;
+      tailor-gui = enable;
+    };
+  };
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      tuxedo-keyboard = prev.tuxedo-keyboard.overrideAttrs (old: {
+        patches =
+          (old.patches or [])
+          ++ [
+            "${self}/parts/patches/tuxedo-keyboard.path"
+          ];
+      });
+    })
+  ];
+  */
 
   modules.nixos = {
     suites.all = enable;

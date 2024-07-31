@@ -52,7 +52,8 @@ in {
           home-persist = {
             path = "~/persist";
 
-            devices = devIds;
+            # devices = devIds;
+            devices = ["upinix-pc"];
 
             versioning = {
               type = "staggered";

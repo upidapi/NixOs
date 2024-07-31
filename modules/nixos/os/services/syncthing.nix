@@ -32,6 +32,7 @@ in {
         # "upinix-pc" = {id = "----";};
         # "upinix-laptop" = {id = "----";};
       };
+      devIds = lib.attrNames devices;
     in {
       enable = true;
       cert = sopsSyncthing "cert";
@@ -46,14 +47,14 @@ in {
       settings = {
         inherit devices;
 
-        files = {
+        folders = {
           home-persist = {
             path = "~/persist";
 
-            inherit devices;
+            devices = devIds;
 
             versioning = {
-              type = "staggerd";
+              type = "staggered";
               params = {
                 # clean old versions once an hour
                 cleanInterval = toString (60 * 60);

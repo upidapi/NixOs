@@ -74,6 +74,7 @@ in {
         services = {
           ntpd = enable;
           upower = enable;
+          syncthing = enable;
         };
       };
 

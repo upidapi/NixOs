@@ -31,8 +31,11 @@ in {
       # sops-to-age
     ];
 
-    sops = {
-      defaultSopsFile = "${secrets_path}/infra.yaml";
+    sops = let
+      hostName = config.modules.nixos.meta.host-name;
+      infraFile = "${secrets_path}/infra.yaml";
+    in {
+      defaultSopsFile = "${secrets_path}/hosts/${hostName}.yaml";
       # age.keyFile = "/home/user/.config/sops/age/keys.txt";
 
       # move this?
@@ -57,6 +60,7 @@ in {
             owner = "root";
             group = "wheel";
             mode = "0440";
+            sopsFile = infraFile;
           };
 
           "admin-ssh-key" = {
@@ -64,14 +68,16 @@ in {
             owner = "root";
             group = "wheel";
             mode = "0440";
+            sopsFile = infraFile;
           };
 
           # host key
-          "hosts/${config.modules.nixos.meta.host-name}" = {
+          "hosts/${hostName}" = {
             path = "${ssh_path}/ssh_host_ed25519_key";
             owner = "root";
             group = "wheel";
             mode = "0440";
+            sopsFile = infraFile;
           };
         }
         # Placing the keys directly in /home causes home manager to break

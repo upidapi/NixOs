@@ -14,6 +14,8 @@ prelockd
     prevent freezes in low ram senarios
 
 
+use nixos-render-docs to create docs for this repo 
+
 Virtulisation
     MAS
         free windows keys
@@ -49,7 +51,11 @@ Home lab
 
     backups
         https://github.com/notohh/snowflake/blob/master/hosts/ame/services/restic.nix?
-    
+        rsync?
+        
+        probably only backup /persist/system/home
+            that (should) be the only place where user files are
+
     file sync
         borg?
 
@@ -57,6 +63,14 @@ Home lab
 
     plex
     
+store extension data?
+    since you cant set the settings declaritivly
+
+    add a command to place these into the repo?
+
+
+optimise for battery
+
 
 zoxide
 

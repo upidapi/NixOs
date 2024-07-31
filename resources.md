@@ -3,9 +3,8 @@ its not actually markdown i just like the colors :)
 
     
 # to open the sops file
-env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml
-(requires root)
-
+cd /persist/nixos; su --preserve-environment -c "
+env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml"
 
 # build image
 ```bash

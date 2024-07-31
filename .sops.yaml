@@ -31,6 +31,33 @@ creation_rules:
       - age:
         - *admin
 
+  # host secrets (eg host syncthing, however this shoud not actually be on a host level)
+  - path_regex: secrets/hosts/upinix-pc.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *upinix-pc
+
+  - path_regex: secrets/hosts/upinix-laptop.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *upinix-laptop
+  
+
+  - path_regex: secrets/hosts/minimal-installer-x86_64.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *minimal-installer-x86_64
+
+  - path_regex: secrets/hosts/full-installer-x86_64.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *full-installer-x86_64
+
+  # user secrets should be basically everything
   - path_regex: secrets/users/upidapi.yaml$
     key_groups:
       - age:
@@ -40,4 +67,5 @@ creation_rules:
           - *upinix-laptop
 
           - *upidapi
+
 

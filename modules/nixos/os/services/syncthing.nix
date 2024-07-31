@@ -29,12 +29,13 @@ in {
       sopsSyncthing = val: config.sops.secrets."syncthing/${val}".path;
 
       devices = {
-        # "upinix-pc" = {id = "----";};
-        # "upinix-laptop" = {id = "----";};
+        "upinix-pc" = {id = "QZFGUG6-7SAQZA2-WLQN6PN-IW4VNKJ-34UFAA5-2WCECGU-G5TOXIF-HCSOYQ ";};
+        "upinix-laptop" = {id = "YEIKVCN-GJS66FE-UWHXB3F-K7CNXSH-X6QPMIB-SZ5TDMD-NUGRF5H-PCAZIQB";};
       };
       devIds = lib.attrNames devices;
     in {
       enable = true;
+      # is this necisary
       cert = sopsSyncthing "cert";
       key = sopsSyncthing "key";
 

@@ -29,7 +29,7 @@ in {
       sopsSyncthing = val: config.sops.secrets."syncthing/${val}".path;
 
       devices = {
-        "upinix-pc" = {id = "QZFGUG6-7SAQZA2-WLQN6PN-IW4VNKJ-34UFAA5-2WCECGU-G5TOXIF-HCSOYQ";};
+        "upinix-pc" = {id = "5XJNULB-MTBCLG3-TVAES2C-HRBGR3M-5JJ5MEL-EHI6LLQ-QP4S6BI-BNT24AA";};
         "upinix-laptop" = {id = "YEIKVCN-GJS66FE-UWHXB3F-K7CNXSH-X6QPMIB-SZ5TDMD-NUGRF5H-PCAZIQB";};
       };
       devIds = lib.attrNames devices;
@@ -52,8 +52,8 @@ in {
           home-persist = {
             path = "~/persist";
 
-            # devices = devIds;
-            devices = ["upinix-pc"];
+            devices = devIds;
+            # devices = ["upinix-pc"];
 
             versioning = {
               type = "staggered";

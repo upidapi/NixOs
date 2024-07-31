@@ -24,6 +24,8 @@ in {
       };
     };
 
+    # TODO: setup caddy? (web server ish)
+    # TODO: setup ldap?
     services.syncthing = let
       hostName = config.modules.nixos.meta.host-name;
       sopsSyncthing = val: config.sops.secrets."syncthing/${val}".path;
@@ -46,6 +48,9 @@ in {
       group = "users";
 
       settings = {
+        # dont send usage reports
+        urAccepted = -1;
+
         inherit devices;
 
         folders = {

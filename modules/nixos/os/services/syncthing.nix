@@ -12,7 +12,6 @@ in {
   options.modules.nixos.os.services.syncthing = mkEnableOpt "enables syncing";
 
   config = mkIf cfg.enable {
-    /*
     sops.secrets = {
       "syncthing/cert" = {
         owner = "upidapi";
@@ -24,7 +23,6 @@ in {
         restartUnits = ["syncthing.service"];
       };
     };
-    */
 
     services.syncthing = let
       hostName = config.modules.nixos.meta.host-name;
@@ -36,8 +34,8 @@ in {
       };
     in {
       enable = true;
-      # cert = sopsSyncthing "cert";
-      # key = sopsSyncthing "key";
+      cert = sopsSyncthing "cert";
+      key = sopsSyncthing "key";
 
       # Hardcoding the user is a sub optimal. But its necicary unless i whant
       # to finish the home manager version and solve its problems

@@ -21,7 +21,7 @@ in {
 
       apps = {
         alacritty = enable;
-        bitwarden = enable;
+        # bitwarden = enable;
         discord = enable;
         firefox = enable;
         r2modman = enable;
@@ -29,17 +29,18 @@ in {
       };
 
       cli-apps = {
+        keepassxc = enable;
         nixvim = enable;
         # nushell = enable;
         tmux = enable;
+        bat = enable;
+        cn-bth = enable;
         zsh = {
           enable = true;
           set-shell = true;
         };
         wine = enable;
         git = enable;
-        bat = enable;
-        cn-bth = enable;
       };
 
       services = {

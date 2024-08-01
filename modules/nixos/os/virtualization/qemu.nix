@@ -13,7 +13,7 @@ in {
     mkEnableOpt
     "enables the qemu for running vm(s)";
 
-  config.environment =
-    mkIf cfg.enable {
-    };
+  config.environment = mkIf cfg.enable {
+    # TODO: add qemu
+  };
 }

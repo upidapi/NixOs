@@ -1,6 +1,6 @@
 {
   imports = [
-    ./bitwarden.nix
+    ./keepassxc
     ./nixvim
     ./git.nix
     ./tmux.nix

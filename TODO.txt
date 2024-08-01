@@ -10,6 +10,9 @@ add pueued
     prevent freezes in low ram senarios
 
 
+LS_COLORS 
+    colors for file types (doesnt use the extension but the content)
+
 prelockd
     prevent freezes in low ram senarios
 
@@ -140,6 +143,8 @@ nix index db
     comma extension?
 
 
+docker
+
 
 Tmux
 
@@ -149,8 +154,8 @@ sops
     Setup network (Wi-Fi) passwords with nixos/sops
 
 
-Index the nixos server
-
+Index the nixos server for better searching
+    https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-ov-file
 
 Ignore whitspace in git diffs
 

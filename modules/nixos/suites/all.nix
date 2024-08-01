@@ -76,6 +76,10 @@ in {
           upower = enable;
           syncthing = enable;
         };
+
+        virtualization = {
+          podman = enable;
+        };
       };
 
       security = {

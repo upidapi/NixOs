@@ -7,5 +7,6 @@
     ./networking
     ./programs
     ./services
+    ./virtualization
   ];
 }

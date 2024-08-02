@@ -69,7 +69,7 @@ in {
 
     (lib.mkIf ((program.enable || service.enable)
       && program.browserIntegration.firefox) {
-      home.file.".mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json".text = builtins.toJSON {
+      modules.home.standAloneFile.".mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json".text = builtins.toJSON {
         allowed_extensions = ["keepassxc-browser@keepassxc.org"];
         description = "KeePassXC integration with native messaging support";
         name = "org.keepassxc.keepassxc_browser";

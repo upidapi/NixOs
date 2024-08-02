@@ -7,5 +7,6 @@
     ./suites
     ./misc
     ./other.nix
+    ./files.nix
   ];
 }

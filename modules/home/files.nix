@@ -107,10 +107,20 @@ in {
     home.activation = {
       createStandAloneFiles =
         lib.hm.dag.entryAfter ["linkGeneration"]
-        (concatStringsSep ";" (map (f:
+        (concatStringsSep "\n" (map (f:
           if !f.enable
           then ""
-          else ''echo "${f.text}" > "${f.target}"'')
+          else
+            /*
+            bash
+            */
+            ''
+              text=${escapeShellArg f.text}
+              target=${escapeShellArg f.target}
+
+              mkdir -p "$(dirname "$target")"
+              echo "$text" > "$target"
+            '')
         (attrValues cfg)));
     };
   };

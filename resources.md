@@ -2,9 +2,11 @@ This is just for my own sake, to easely find referances
 its not actually markdown i just like the colors :)
 
     
-# to open the sops file
+# open the (infra.yaml) sops file
+```bash
 cd /persist/nixos; su --preserve-environment -c "
 env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml"
+```
 
 # build image
 ```bash

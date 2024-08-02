@@ -36,12 +36,12 @@ in {
         GUI = {
           ApplicationTheme = "dark";
           ColorPasswords = true;
-          MinimizeOnClose = true;
-          MinimizeOnStartup = true;
-          MinimizeToTray = true;
+          # MinimizeOnClose = true;
+          # MinimizeOnStartup = true;
+          # MinimizeToTray = true;
           MonospaceNotes = true;
-          ShowTrayIcon = true;
-          TrayIconAppearance = "monochrome-light";
+          # ShowTrayIcon = true;
+          # TrayIconAppearance = "monochrome-light";
         };
         PasswordGenerator = {
           AdditionalChars = "";

@@ -37,6 +37,15 @@ in {
 
       package = lib.mkPackageOption pkgs "keepassxc" {};
 
+      defaultDatabase = lib.mkOption {
+        type = types.nullOr types.string;
+        default = null;
+        description = ''
+          Sets the initall opend database
+          Warning: this will override the state/cache of keepass
+        '';
+      };
+
       settings = lib.mkOption {
         type = iniFormat.type;
         default = {};
@@ -59,6 +68,25 @@ in {
 
   config = lib.mkMerge [
     (lib.mkIf program.enable {home.packages = [program.package];})
+
+    (lib.mkIf
+      (program.enable && (program.defaultDatabase != null))
+      {
+        # set the initiall db
+        modules.home.standAloneFile.".cache/keepassxc/keepassxc.ini".text = (lib.generators.toINIWithGlobalSection {}) {
+          globalSection = {};
+          sections = {
+            General = let
+              db = program.defaultDatabase;
+            in {
+              # only one of thease are actually needed from what i know
+              LastDatabases = db;
+              LastActiveDatabase = db;
+              LastOpenedDatabases = db;
+            };
+          };
+        };
+      })
 
     {services.keepassxc.package = lib.mkDefault program.package;}
 

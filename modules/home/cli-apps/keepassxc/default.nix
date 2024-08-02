@@ -21,6 +21,8 @@ in {
       enable = true;
       browserIntegration.firefox = true;
 
+      defaultDatabase = "/home/upidapi/persist/keepass-db.kdbx";
+
       settings = {
         General = {
           ConfigVersion = 2;

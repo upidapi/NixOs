@@ -32,7 +32,7 @@ in {
 
       devices = {
         # "upinix-pc" = {id = "5XJNULB-MTBCLG3-TVAES2C-HRBGR3M-5JJ5MEL-EHI6LLQ-QP4S6BI-BNT24AA";};
-        "upinix-pc" = {id = "YEIKVCN-GJS66FE-UWHXB3F-K7CNXSH-X6QPMIB-SZ5TDMD-NUGRF5H-PCAZIQB";};
+        "upinix-pc" = {id = "LBLCHUP-C47KTSD-YXKTUZ3-LCNYNTP-A5OT3CK-TBVBUJB-QS7VPSZ-F6KPOQ5";};
         "upinix-laptop" = {id = "YEIKVCN-GJS66FE-UWHXB3F-K7CNXSH-X6QPMIB-SZ5TDMD-NUGRF5H-PCAZIQB";};
       };
       devIds = lib.attrNames devices;

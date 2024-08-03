@@ -24,6 +24,23 @@ in {
       };
     };
 
+    # make syncthing ignore /home/upidapi/persist/tmp
+    # its good to have a persistant place for stuff you dont
+    # whant to sync, eg big downloaded iso(s)
+    systemd.tmpfiles.settings = {
+      "syncthing-ignore" = {
+        "/home/upidapi/persist/.stignore" = {
+          f = {
+            user = "upidapi";
+            group = "users";
+            # TODO: is this a good name?
+            #  maby use "local", "private", "not-shared"
+            argument = "/tmp";
+          };
+        };
+      };
+    };
+
     # TODO: setup caddy? (web server ish)
     # TODO: setup ldap?
     services.syncthing = let

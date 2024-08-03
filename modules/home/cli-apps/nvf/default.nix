@@ -17,15 +17,16 @@ in {
   options.modules.home.cli-apps.nvf =
     mkEnableOpt "enables nvf a neovim distro powerd by nix";
 
-  /*
   config = mkIf cfg.enable {
     /*
     home.sessionVariables = {
       EDITOR = "nvim";
     };
+    */
 
     home.packages = [inputs.nvf.packages.${pkgs.stdenv.system}.docs-manpages];
 
+    /*
     programs.nvf = {
       enable = false;
       enableManpages = true;
@@ -40,6 +41,6 @@ in {
         };
       };
     };
+    */
   };
-  */
 }

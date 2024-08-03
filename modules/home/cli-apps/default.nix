@@ -3,6 +3,7 @@
     ./keepassxc
     ./nixvim
     ./git.nix
+    ./nvf
     ./tmux.nix
     ./wine.nix
     ./nushell

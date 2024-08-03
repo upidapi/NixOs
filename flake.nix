@@ -241,6 +241,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # An extensible Neovim configuration wrapper.
+    nvf = {
+      url = "github:NotAShelf/nvf";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
     alejandra = {
       url = "github:kamadorueda/alejandra/3.0.0";
       inputs.nixpkgs.follows = "nixpkgs";

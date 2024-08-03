@@ -59,7 +59,7 @@ in {
       };
     };
 
-    # vesktop checks if state.json has the "firstLaunch" to
+    # vesktop schecks if state.json has the "firstLaunch" to
     # determine if it should show the "Welcome to vesktop" page
     home.activation = {
       # We have to do it like this since vesktop needs be able to

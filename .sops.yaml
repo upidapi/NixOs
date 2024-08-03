@@ -29,7 +29,19 @@ creation_rules:
   - path_regex: secrets/infra.yaml$
     key_groups:
       - age:
-        - *admin
+          - *admin
+  
+  # thins that all host should have accsess to           
+  - path_regex: secrets/shared.yaml$
+    key_groups:
+      - age:
+          - *admin
+
+          - *upinix-pc 
+          - *upinix-laptop 
+          - *minimal-installer-x86_64 
+          - *full-installer-x86_64   
+  
 
   # host secrets (eg host syncthing, however this shoud not actually be on a host level)
   - path_regex: secrets/hosts/upinix-pc.yaml$

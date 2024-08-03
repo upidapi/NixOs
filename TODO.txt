@@ -1,23 +1,26 @@
-add a way to do only home-manager 
-
-
 auto connect to bth
     https://github.com/EzequielRamis/dotfiles/blob/ecfe6f269339d1551768b9158c1d3aee2d82b238/home/timers.nix#L19
 
+
+
+LS_COLORS 
+    colors for file types (doesnt use the extension but the content)
+
+
+more declarative secrets
+    this guy has a lot: 
+        https://github.com/alyraffauf/nixcfg/tree/master/secrets
+
+prelockd
+    prevent freezes in low ram senarios
 
 add pueued
     ask lokegustafsson for his pkg
     prevent freezes in low ram senarios
 
 
-LS_COLORS 
-    colors for file types (doesnt use the extension but the content)
-
-prelockd
-    prevent freezes in low ram senarios
-
-
 use nixos-render-docs to create docs for this repo 
+
 
 Virtulisation
     MAS
@@ -37,9 +40,6 @@ https://github.com/Misterio77/nix-starter-configs
 
 
 fix ssh
-
-
-keepass
 
 
 encrypted filesystem
@@ -66,7 +66,7 @@ Home lab
 
     plex
     
-store extension data?
+store firefox extension data?
     since you cant set the settings declaritivly
 
     add a command to place these into the repo?
@@ -143,9 +143,6 @@ nix index db
     comma extension?
 
 
-docker
-
-
 Tmux
 
 sops 
@@ -169,6 +166,7 @@ nvim
 
     nixd (language server)
 
+    quick fix buffer?
 
 vvvvv does this mean? vvvvv
 Generalise the method that I create the vendors config file

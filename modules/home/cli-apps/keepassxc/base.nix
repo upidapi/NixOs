@@ -38,7 +38,7 @@ in {
       package = lib.mkPackageOption pkgs "keepassxc" {};
 
       defaultDatabase = lib.mkOption {
-        type = types.nullOr types.string;
+        type = types.nullOr types.str;
         default = null;
         description = ''
           Sets the initall opend database

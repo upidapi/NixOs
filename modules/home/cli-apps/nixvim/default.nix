@@ -139,6 +139,9 @@ in {
       # notes
       neorg = enable;
 
+      # image support
+      image = enable;
+
       toggleterm = {
         enable = true;
       };

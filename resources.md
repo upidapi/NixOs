@@ -1,10 +1,10 @@
-This is just for my own sake, to easely find referances
-its not actually markdown i just like the colors :)
+This is just for my own sake
+its not really markdown i just like the colors :)
 
     
-# open the (infra.yaml) sops file
+# open the (infra) sops file
 ```bash
-cd /persist/nixos; su --preserve-environment -c "
+cd "$NIXOS_CONFIG_PATH"; su --preserve-environment -c "
 env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml"
 ```
 
@@ -32,6 +32,12 @@ function downloadFile {
 downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-gnome-x86_64-linux.iso"
 downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-plasma6-x86_64-linux.iso"
 downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-minimal-x86_64-linux.iso"
+```
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
 ```
 
 
@@ -80,22 +86,5 @@ sps := sops
 
 [nvf](https://github.com/NotAShelf/nvf) - nixvim alternative
 
-
-systemctl --user status sops-nix.service
-journalctl -xeu home-manager-upidapi.service
-
-
-cd /persist/nixos
-
-
-nix shell nixpkgs\#ssh-to-age -c ssh-to-age -i /home/upidapi/.ssh/id_ed25519 -private-key -o /home/upidapi/tmp
-env SOPS_AGE_KEY_FILE=/home/upidapi/tmp sops secrets/users/upidapi.yaml
-
-
-ssh-to-age -i /etc/ssh/ssh_host_ed25519_key -private-key -o /home/upidapi/tmp
-
-
-su --preserve-environment
-env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/users/upidapi.yaml
 
 

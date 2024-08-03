@@ -5,7 +5,7 @@
   self,
   ...
 }: let
-  inherit (lib) mkIf drop traceVal;
+  inherit (lib) mkIf drop;
   inherit (my_lib.opt) mkEnableOpt;
   inherit (builtins) listToAttrs elemAt foldl';
   cfg = config.modules.nixos.os.networking;
@@ -70,7 +70,7 @@ in {
           );
 
           mergeWifis = x:
-            traceVal (listToAttrs (
+            listToAttrs (
               map (wifiData: let
                 get = elemAt wifiData;
                 mkWifi = get 0;
@@ -78,10 +78,10 @@ in {
               in {
                 # in practice this is ignored but it has to have some key
                 name = "${ssid}";
-                value = traceVal (foldl' (a: b: (a b)) mkWifi (drop 1 wifiData));
+                value = foldl' (a: b: (a b)) mkWifi (drop 1 wifiData);
               })
               x
-            ));
+            );
         in
           mergeWifis [
             # [mkOpenWifi "Vannarps Bussarna 1"]

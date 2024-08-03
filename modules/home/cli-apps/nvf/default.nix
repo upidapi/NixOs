@@ -24,13 +24,12 @@ in {
     };
     */
 
-    home.packages = [inputs.nvf.packages.${pkgs.stdenv.system}.docs-manpages];
+    #  home.packages = [inputs.nvf.packages.${pkgs.stdenv.system}.docs-manpages];
 
-    /*
     programs.nvf = {
       enable = false;
       enableManpages = true;
-      defaultEdittor = true;
+      defaultEditor = true;
 
       settings.vim = {
         viAlias = false;
@@ -41,6 +40,5 @@ in {
         };
       };
     };
-    */
   };
 }

@@ -12,7 +12,7 @@
   cfg = config.modules.home.cli-apps.nixvim;
 in {
   imports = [
-    inputs.nvf.homeManagerModules.nvf
+    inputs.nvf.homeManagerModules.default
     ./cmp.nix
     ./dap.nix
     ./text.nix

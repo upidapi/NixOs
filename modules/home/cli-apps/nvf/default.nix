@@ -153,7 +153,7 @@ in {
           # TODO: luasnip
         };
 
-        /*
+        # here
         spellcheck = {
           enable = true;
           languages = ["en" "sv"];
@@ -166,6 +166,7 @@ in {
           # TODO: config
         };
 
+        /*
         tabline = {
           nvimBufferline = {
             enable = true;
@@ -223,7 +224,6 @@ in {
           };
         };
 
-        # here
         theme = {
           enable = true;
           name = "tokyonight";

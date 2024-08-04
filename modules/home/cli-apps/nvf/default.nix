@@ -153,7 +153,6 @@ in {
           # TODO: luasnip
         };
 
-        # here
         spellcheck = {
           enable = true;
           languages = ["en" "sv"];
@@ -166,7 +165,7 @@ in {
           # TODO: config
         };
 
-        /*
+        # here
         tabline = {
           nvimBufferline = {
             enable = true;
@@ -176,6 +175,7 @@ in {
           };
         };
 
+        /*
         maps.normal = mkMerge [
           (mkSetBinding "<leader>fz" "Telescope current_buffer_fuzzy_find")
 

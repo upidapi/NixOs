@@ -8,7 +8,8 @@
   inherit (inputs.nvf.lib.nvim.binds) mkSetLuaBinding;
   inherit (inputs.nvf.lib.nvim.dag) entryAnywhere;
   inherit (my_lib.opt) enable;
-  cfg = config.programs.nvf.vim;
+  inherit (lib) boolToString;
+  cfg = config.programs.nvf.settings.vim;
 in {
   programs.nvf.settings.vim = {
     pluginRC.autopairs =
@@ -18,6 +19,8 @@ in {
       # add "entryAnywhere" here?
       entryAnywhere ''
         local npairs = require("nvim-autopairs")
+        npairs.setup({ map_cr = ${boolToString (!cfg.autocomplete.enable)} })
+
         local Rule = require('nvim-autopairs.rule')
 
         npairs.add_rules({

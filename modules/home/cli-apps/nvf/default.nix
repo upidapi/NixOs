@@ -222,6 +222,7 @@ in {
           };
         };
 
+        */
         theme = {
           enable = true;
           name = "tokyonight";
@@ -322,7 +323,6 @@ in {
         };
 
         # TODO: indentBlankline
-        */
       };
     };
   };

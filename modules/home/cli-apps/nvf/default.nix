@@ -102,6 +102,7 @@ in {
         };
 
         # TODO: neorg
+        # https://github.com/Soliprem/nix-config/blob/7430b9a50de3988d08b4d2b80712c3849b0b81ea/home-manager/nvim.nix#L263
 
         # git intergration
         # TODO: binds?
@@ -279,7 +280,8 @@ in {
           # icon-picker = enable;
 
           images.image-nvim = {
-            enable = true;
+            # doesnt work
+            # enable = true;
             # setupOpts.backend = "ueberzug"; # TODO: "kitty"; ?
           };
 

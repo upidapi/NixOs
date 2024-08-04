@@ -29,6 +29,12 @@ in {
     # whant to sync, eg big downloaded iso(s)
     systemd.tmpfiles.settings = {
       "syncthing-ignore" = {
+        "/home/upidapi/persist" = {
+          d = {
+            user = "upidapi";
+            group = "users";
+          };
+        };
         "/home/upidapi/persist/.stignore" = {
           f = {
             user = "upidapi";

@@ -211,6 +211,8 @@ in {
     extraConfigLua =
       /*
       lua
+
+
       */
       ''
         local npairs = require("nvim-autopairs")

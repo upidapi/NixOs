@@ -4,6 +4,7 @@
   inputs,
   ...
 }: let
+  inherit (builtins) toJSON;
   inherit (inputs.nvf.lib.nvim.binds) mkSetLuaBinding;
   cfg = config.programs.nvf.vim;
 in {
@@ -53,7 +54,6 @@ in {
       ];
     };
 
-    # TODO: luasnip
     # TODO: cmp-calc
   };
 }

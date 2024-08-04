@@ -70,8 +70,9 @@ in {
 
         # other
         htop
+        btop
+
         ripgrep
-        # maybe btop
 
         # stats about code, logical lines, comments, etc
         scc

@@ -6,15 +6,18 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (lib) mkIf mkMerge;
+  inherit (my_lib.opt) mkEnableOpt enable disable;
+  inherit (inputs.nvf.lib.nvim.binds) mkSetBinding;
   cfg = config.modules.home.cli-apps.nixvim;
 in {
   imports = [
     inputs.nvf.homeManagerModules.nvf
-    # ./cmp.nix
-    # ./dap.ni
-    # ./text.nix
+    ./cmp.nix
+    ./dap.nix
+    ./text.nix
+    ./lang.nix
+    ./notes.nix
   ];
 
   options.modules.home.cli-apps.nvf =
@@ -27,9 +30,8 @@ in {
     };
     */
 
-    home.packages = [inputs.nvf.packages.${pkgs.stdenv.system}.docs-manpages];
+    # home.packages = [inputs.nvf.packages.${pkgs.stdenv.system}.docs-manpages];
 
-    /*
     programs.nvf = {
       enable = false;
       enableManpages = true;
@@ -39,7 +41,18 @@ in {
         viAlias = false;
         vimAlias = false;
 
+        # vim.globals can be used to set vim.g.<name>
+
+        # defaults
+        # withNodeJs = false;
+        # withPython3 = false;
+        # withRuby = true;
+
+        # ? syntaxHighlighting = true;
         hideSearchHighlight = false; # ?
+        searchCase = "sensitive";
+        # ? showSignColumn = false
+
         splitRigt = true;
         lineNumberMode = "relNumber";
         wordWrap = true;
@@ -55,7 +68,7 @@ in {
         # h	all previous modes when editing a help file
         # a	all previous modes
         # r	for hit-enter and more-prompt prompt
-        mouseSupport = "nchr";
+        mouseSupport = "nvchr";
         disableArrows = false;
 
         leaderKey = " ";
@@ -75,8 +88,237 @@ in {
           level = 16;
           logFile = "/tmp/nvim.log";
         };
+
+        filetree = {
+          # TODO: neo-tree or nvimTree ?
+          #  nvimTree has a lot better support (1.5k lines of docs lol)
+          neo-tree = {
+            enable = true;
+            setupOpts = {
+              window.width = 30;
+            };
+          };
+        };
+
+        # TODO: neorg
+
+        # git intergration
+        # TODO: binds?
+        git.vim-fugitive = enable;
+
+        lsp = {
+          enable = true;
+          formatOnSave = false;
+
+          # TODO: config this?
+          # lightbulb = enable;
+
+          # TODO: config this?
+          lspSignature = enable;
+
+          # already enabled by lang.nix
+          # lspconfig = enable;
+
+          # pictograms for lsp options
+          lspkind = enable;
+
+          # inline lsp disagnostcs
+          lsplines = enable;
+
+          # on linke 6139
+          # reading about lspsaga
+          # TODO: binds
+          # TODO: remove this?
+          #  its probably unecisary
+          lspsaga = enable;
+
+          # enmabled automatically
+          # null-ls = enable;
+
+          mappings = {
+            # TODO:
+          };
+
+          # trouble = enable;
+        };
+
+        notify = {
+          # ? nvim-notify = enable;
+        };
+
+        projects.project-nvim = enable;
+
+        snippets = {
+          # TODO: luasnip
+        };
+
+        spellcheck = {
+          enable = true;
+          languages = ["en" "sv"];
+          programmingWordlist = enable;
+          # i.e. vim-dirtytalk = enable;
+        };
+
+        statusline = {
+          lualine = enable;
+          # TODO: config
+        };
+
+        tabline = {
+          nvimBufferline = {
+            enable = true;
+            mappings = {
+              # TODO:
+            };
+          };
+        };
+
+        maps.normal = mkMerge [
+          (mkSetBinding "<leader>fz" "Telescope current_buffer_fuzzy_find")
+
+          # neo tre
+          (mkSetBinding "<leader>tt" "Neotree toggle")
+          (mkSetBinding "<leader>tu" "Neotree") # neotree update
+          (mkSetBinding "<leader>tr" "Neotree reveal") # neotree update
+        ];
+
+        telescope = {
+          enable = true;
+          mappings = {
+            findProjects = "<leader>fp"; # "<leader>fp";
+            findFiles = "<leader>ff"; # "<leader>ff";
+            buffers = "<leader>fb"; # "<leader>fb";
+
+            liveGrep = "<leader>"; # "<leader>fg";
+            helpTags = null; # "<leader>fh";
+            open = null; # "<leader>ft";
+
+            diagnostics = null; # "<leader>fld";
+            treesitter = null; # "<leader>fs";
+
+            gitCommits = "<leader>fC"; # "<leader>fvcw";
+            gitBufferCommits = "<leader>fc"; # "<leader>fvcb";
+            gitBranches = null; # "<leader>fvb";
+            gitStatus = null; # "<leader>fvs";
+            gitStash = null; # "<leader>fvx";
+
+            lspDocumentSymbols = null; # "<leader>flsb";
+            lspWorkspaceSymbols = null; # "<leader>flsw";
+            lspReferences = null; # "<leader>flr";
+            lspImplementations = null; # "<leader>fli";
+            lspDefinitions = null; # "<leader>flD";
+            lspTypeDefinitions = null; # "<leader>flt";
+          };
+        };
+
+        terminal = {
+          toggleterm = enable;
+          mappings = {
+            open = "<c-t>";
+          };
+        };
+
+        theme = {
+          enable = true;
+          name = "tokyonight";
+          transparent = false;
+          # ? style = ;
+        };
+
+        treesitter = {
+          enable = true;
+          autotagHtml = true;
+
+          # show shat scopes you're in as horizontal lines
+          # context = enable;
+
+          # ? fold = true; (prob use nvim-ufo insted)
+
+          # aleady set by lang.nix
+          # grammars = []
+
+          incrementalSelection = enable;
+          indent = enable;
+
+          mappings = {
+            # TODO:
+          };
+        };
+
+        ui = {
+          borders = disable;
+          breadcrumbs = disable;
+
+          colorizer = enable;
+          illuminate = disable;
+
+          # alternative ui
+          # noice = enable;
+
+          smartcolumn = {
+            enable = true;
+            colorcolumn = ["80" "100"];
+          };
+        };
+
+        utility = {
+          ccc = {
+            enable = true;
+            mappings = {
+              decrease10 = "<H>";
+              increase10 = "<L>";
+              quit = "<Esc>";
+            };
+          };
+
+          diffview-nvim = enable;
+          # icon-picker = enable;
+
+          images.image-nvim = {
+            enable = true;
+            setupOpts.backend = "ueberzug"; # TODO: "kitty"; ?
+          };
+
+          # prob not
+          # motion.leap = enable;
+
+          preview.markdownPreview = enable;
+
+          # surround = enable;
+        };
+
+        visuals = {
+          # TODO: nvim ufo
+
+          enable = true;
+
+          # give characters gravity
+          cellularAutomaton = {
+            enable = true;
+
+            # add game_of_life?
+            mappings.makeItRain = "<leader>fml";
+          };
+
+          cursorline = enable;
+
+          # for notifications
+          # fidget-nvim = enable; ?
+
+          highlight-undo = enable;
+
+          indentBlankline = {
+            enable = true;
+            # debounce = 0; ?
+          };
+
+          nvimWebDevicons = enable;
+
+          # scrollBar = enable; ?
+        };
+
+        # TODO: indentBlankline
       };
     };
-    */
   };
 }

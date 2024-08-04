@@ -35,7 +35,7 @@ in {
       #    tools/
       cli-apps = {
         keepassxc = enable;
-        nixvim = enable;
+        # nixvim = enable;
         nvf = enable;
         # nushell = enable;
         tmux = enable;

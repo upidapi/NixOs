@@ -2,12 +2,14 @@
   config,
   lib,
   inputs,
+  my_lib,
   ...
 }: let
   inherit (inputs.nvf.lib.nvim.binds) mkSetLuaBinding;
+  inherit (my_lib.opt) enable;
   cfg = config.programs.nvf.vim;
 in {
-  programs.nvf = {
+  programs.nvf.settings.vim = {
     pluginRC.autopairs =
       /*
       lua
@@ -22,23 +24,21 @@ in {
         })
       '';
 
-    settings.vim = {
-      autopairs = enable;
+    autopairs = enable;
 
-      comments = {
-        comment-nvim = {
-          enable = true;
-          mappings = {
-            # TODO: change binds
-            toggleCurrentLine = "gcc";
-            toggleCurrentBlock = "gbc";
+    comments = {
+      comment-nvim = {
+        enable = true;
+        mappings = {
+          # TODO: change binds
+          toggleCurrentLine = "gcc";
+          toggleCurrentBlock = "gbc";
 
-            toggleOpLeaderLine = "gc";
-            toggleOpLeaderBlock = "gb";
+          toggleOpLeaderLine = "gc";
+          toggleOpLeaderBlock = "gb";
 
-            toggleSelectedLine = "gc";
-            toggleSelectedBlock = "gb";
-          };
+          toggleSelectedLine = "gc";
+          toggleSelectedBlock = "gb";
         };
       };
     };

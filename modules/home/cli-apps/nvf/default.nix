@@ -12,6 +12,9 @@
 in {
   imports = [
     inputs.nvf.homeManagerModules.nvf
+    # ./cmp.nix
+    # ./dap.ni
+    # ./text.nix
   ];
 
   options.modules.home.cli-apps.nvf =
@@ -24,8 +27,9 @@ in {
     };
     */
 
-    #  home.packages = [inputs.nvf.packages.${pkgs.stdenv.system}.docs-manpages];
+    home.packages = [inputs.nvf.packages.${pkgs.stdenv.system}.docs-manpages];
 
+    /*
     programs.nvf = {
       enable = false;
       enableManpages = true;
@@ -35,10 +39,44 @@ in {
         viAlias = false;
         vimAlias = false;
 
-        spellcheck = {
-          enable = true;
+        hideSearchHighlight = false; # ?
+        splitRigt = true;
+        lineNumberMode = "relNumber";
+        wordWrap = true;
+
+        useSystemClipboard = false; # ?
+
+        tabWidth = 4;
+
+        # n	Normal mode
+        # v	Visual mode
+        # i	Insert mode
+        # c	Command-line mode
+        # h	all previous modes when editing a help file
+        # a	all previous modes
+        # r	for hit-enter and more-prompt prompt
+        mouseSupport = "nchr";
+        disableArrows = false;
+
+        leaderKey = " ";
+        mapTimeout = 500;
+
+        binds = {
+          # ? cheatsheet = enable;
+          # ? whichKey = enable;
+        };
+
+        dashboard = {
+          # ? alpha = enable;
+        };
+
+        debugMode = {
+          enable = false;
+          level = 16;
+          logFile = "/tmp/nvim.log";
         };
       };
     };
+    */
   };
 }

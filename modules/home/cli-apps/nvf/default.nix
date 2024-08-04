@@ -70,7 +70,11 @@ in {
 
         additionalRuntimePaths = [
           # (mkRuntimeDir "after")
-          (mkRuntimeDir "spell")
+          # (mkRuntimeDir "spell")
+          (path {
+            name = "nvim-runtime";
+            path = toString ./runtime;
+          })
         ];
 
         # notashelf

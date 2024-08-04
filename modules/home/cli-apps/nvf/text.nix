@@ -6,6 +6,7 @@
   ...
 }: let
   inherit (inputs.nvf.lib.nvim.binds) mkSetLuaBinding;
+  inherit (inputs.nvf.lib.nvim.dag) entryAnywhere;
   inherit (my_lib.opt) enable;
   cfg = config.programs.nvf.vim;
 in {
@@ -15,7 +16,7 @@ in {
       lua
       */
       # add "entryAnywhere" here?
-      ''
+      entryAnywhere ''
         local npairs = require("nvim-autopairs")
         local Rule = require('nvim-autopairs.rule')
 

@@ -8,7 +8,7 @@
 }: let
   inherit (lib) mkIf mkMerge;
   inherit (my_lib.opt) mkEnableOpt enable disable;
-  inherit (inputs.nvf.lib.nvim.binds) mkSetBinding;
+  inherit (inputs.nvf.lib.nvim.binds) mkBinding;
   cfg = config.modules.home.cli-apps.nvf;
 in {
   imports = [
@@ -175,16 +175,14 @@ in {
           };
         };
 
-        /*
         maps.normal = mkMerge [
-          (mkSetBinding "<leader>fz" "Telescope current_buffer_fuzzy_find")
+          (mkBinding "<leader>fz" "Telescope current_buffer_fuzzy_find" "telescope fuzzy find")
 
           # neo tre
-          (mkSetBinding "<leader>tt" "Neotree toggle")
-          (mkSetBinding "<leader>tu" "Neotree") # neotree update
-          (mkSetBinding "<leader>tr" "Neotree reveal") # neotree update
+          (mkBinding "<leader>tt" "Neotree toggle" "toggle neo-tree")
+          (mkBinding "<leader>tu" "Neotree" "goto neo-tree") # neotree update
+          (mkBinding "<leader>tr" "Neotree reveal" "show self in neo-tree") # neotree update
         ];
-        */
 
         telescope = {
           enable = true;

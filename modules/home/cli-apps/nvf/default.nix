@@ -280,7 +280,7 @@ in {
 
           images.image-nvim = {
             enable = true;
-            setupOpts.backend = "ueberzug"; # TODO: "kitty"; ?
+            # setupOpts.backend = "ueberzug"; # TODO: "kitty"; ?
           };
 
           # prob not

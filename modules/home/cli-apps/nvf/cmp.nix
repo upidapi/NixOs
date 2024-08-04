@@ -5,26 +5,26 @@
   ...
 }: let
   inherit (builtins) toJSON;
-  inherit (inputs.nvf.lib.nvim.binds) mkSetLuaBinding;
-  cfg = config.programs.nvf.vim;
+  inherit (inputs.nvf.lib.nvim.binds) mkLuaBinding;
+  cfg = config.programs.nvf.settings.vim;
 in {
   programs.nvf.settings.vim = {
     # had to copy all this just to change {select = true} :)
     maps.insert = let
       defaultKeys =
-        if config.vim.autopairs.enable
+        if cfg.autopairs.enable
         then "require('nvim-autopairs').autopairs_cr()"
         else "vim.api.nvim_replace_termcodes(${
           toJSON cfg.autocomplete.mappings.confirm.value
         }, true, false, true)";
     in
-      mkSetLuaBinding "<CR>" ''
+      mkLuaBinding "<CR>" ''
         function()
           if not require('cmp').confirm({ select = false }) then
             vim.fn.feedkeys(${defaultKeys}, 'n')
           end
         end
-      '';
+      '' "confirm cmp completion";
 
     autocomplete = {
       enable = true;

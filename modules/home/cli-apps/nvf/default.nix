@@ -13,11 +13,11 @@
 in {
   imports = [
     inputs.nvf.homeManagerModules.default
-    # ./cmp.nix
-    # ./dap.nix
-    # ./text.nix
-    # ./lang.nix
-    # ./notes.nix
+    ./cmp.nix
+    ./dap.nix
+    ./text.nix
+    ./lang.nix
+    ./notes.nix
   ];
 
   options.modules.home.cli-apps.nvf =

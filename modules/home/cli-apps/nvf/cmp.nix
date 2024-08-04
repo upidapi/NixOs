@@ -15,7 +15,7 @@ in {
         if config.vim.autopairs.enable
         then "require('nvim-autopairs').autopairs_cr()"
         else "vim.api.nvim_replace_termcodes(${
-          toJSON cfg.autocompleate.mappings.confirm.value
+          toJSON cfg.autocomplete.mappings.confirm.value
         }, true, false, true)";
     in
       mkSetLuaBinding "<CR>" ''
@@ -33,7 +33,7 @@ in {
 
       # type = "nvim-cmp";
 
-      mapings = {
+      mappings = {
         complete = "<C-Space>";
         close = "<C-e>";
         confirm = null; # set above
@@ -45,13 +45,18 @@ in {
         previous = "<S-Tab>";
       };
 
-      sources = map (name: {inherit name;}) [
-        "luasnip"
-        "treesitter"
-        "nvim_lsp"
-        "buffer"
-        "path"
-      ];
+      /*
+      sources = builtins.listToAttrs (map (x: {
+          name = x;
+          value = x;
+        }) [
+          "luasnip"
+          # "treesitter"
+          # "nvim_lsp"
+          # "buffer"
+          # "path"
+        ]);
+      */
     };
 
     # TODO: cmp-calc

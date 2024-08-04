@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: let
-  inherit (my_lib) enable;
+  inherit (my_lib.opt) enable;
 in {
   programs.nvf.settings.vim = {
     languages = {

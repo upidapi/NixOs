@@ -22,26 +22,26 @@ in {
         sources = {};
 
         mappings = {
-          continue = "Contiue" "<leader>dc";
-          restart = "Restart" "<leader>dR";
-          terminate = "Terminate" "<leader>dq";
-          runLast = "Re-run Last Debug Session" "<leader>d.";
+          continue = "<leader>dc";
+          restart = "<leader>dR";
+          terminate = "<leader>dq";
+          runLast = "<leader>d.";
 
-          toggleRepl = "Toggle Repl" "<leader>dr";
-          hover = "Hover" "<leader>dh";
-          toggleBreakpoint = "Toggle breakpoint" "<leader>db";
+          toggleRepl = "<leader>dr";
+          hover = "<leader>dh";
+          toggleBreakpoint = "<leader>db";
 
-          runToCursor = "Continue to the current cursor" "<leader>dC";
-          stepOver = "Next step" "<leader>dj"; # next statement
-          stepBack = "Step back" "<leader>dk"; # previous statement
+          runToCursor = "<leader>dC";
+          stepOver = "<leader>dj"; # next statement
+          stepBack = "<leader>dk"; # previous statement
 
-          stepInto = "Step into function" "<leader>di";
-          stepOut = "Step out of function" "<leader>do";
+          stepInto = "<leader>di";
+          stepOut = "<leader>do";
 
-          goUp = "Go up stacktrace" "<leader>dvo";
-          goDown = "Go down stacktrace" "<leader>dvi";
+          goUp = "<leader>dvo";
+          goDown = "<leader>dvi";
 
-          toggleDapUI = "Toggle DAP-UI" "<leader>du";
+          toggleDapUI = "<leader>du";
         };
       };
     };

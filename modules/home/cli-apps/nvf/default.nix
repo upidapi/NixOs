@@ -9,15 +9,15 @@
   inherit (lib) mkIf mkMerge;
   inherit (my_lib.opt) mkEnableOpt enable disable;
   inherit (inputs.nvf.lib.nvim.binds) mkSetBinding;
-  cfg = config.modules.home.cli-apps.nixvim;
+  cfg = config.modules.home.cli-apps.nvf;
 in {
   imports = [
     inputs.nvf.homeManagerModules.default
-    ./cmp.nix
-    ./dap.nix
-    ./text.nix
-    ./lang.nix
-    ./notes.nix
+    # ./cmp.nix
+    # ./dap.nix
+    # ./text.nix
+    # ./lang.nix
+    # ./notes.nix
   ];
 
   options.modules.home.cli-apps.nvf =
@@ -53,7 +53,7 @@ in {
         searchCase = "sensitive";
         # ? showSignColumn = false
 
-        splitRigt = true;
+        splitRight = true;
         lineNumberMode = "relNumber";
         wordWrap = true;
 
@@ -68,7 +68,8 @@ in {
         # h	all previous modes when editing a help file
         # a	all previous modes
         # r	for hit-enter and more-prompt prompt
-        mouseSupport = "nvchr";
+        # TODO: submit pr since options only allow for single char
+        # mouseSupport = "nvchr";
         disableArrows = false;
 
         leaderKey = " ";
@@ -152,10 +153,11 @@ in {
           # TODO: luasnip
         };
 
+        /*
         spellcheck = {
           enable = true;
           languages = ["en" "sv"];
-          programmingWordlist = enable;
+          # TODO: programmingWordlist = enable;
           # i.e. vim-dirtytalk = enable;
         };
 
@@ -212,9 +214,11 @@ in {
         };
 
         terminal = {
-          toggleterm = enable;
-          mappings = {
-            open = "<c-t>";
+          toggleterm = {
+            enable = true;
+            mappings = {
+              open = "<c-t>";
+            };
           };
         };
 
@@ -222,7 +226,7 @@ in {
           enable = true;
           name = "tokyonight";
           transparent = false;
-          # ? style = ;
+          style = "moon"; # maybe storm or night
         };
 
         treesitter = {
@@ -257,7 +261,7 @@ in {
 
           smartcolumn = {
             enable = true;
-            colorcolumn = ["80" "100"];
+            setupOpts.colorcolumn = ["80" "100"];
           };
         };
 
@@ -318,6 +322,7 @@ in {
         };
 
         # TODO: indentBlankline
+        */
       };
     };
   };

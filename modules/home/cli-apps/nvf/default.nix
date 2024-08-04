@@ -73,6 +73,7 @@ in {
           (mkRuntimeDir "spell")
         ];
 
+        # notashelf
         # additional lua configuration that I can append or, to be more
         # precise, randomly inject into the lua configuration of my Neovim
         # configuration wrapper. This is recursively read from the lua

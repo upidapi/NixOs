@@ -183,6 +183,7 @@ in {
           (mkSetBinding "<leader>tu" "Neotree") # neotree update
           (mkSetBinding "<leader>tr" "Neotree reveal") # neotree update
         ];
+        */
 
         telescope = {
           enable = true;
@@ -222,7 +223,7 @@ in {
           };
         };
 
-        */
+        # here
         theme = {
           enable = true;
           name = "tokyonight";

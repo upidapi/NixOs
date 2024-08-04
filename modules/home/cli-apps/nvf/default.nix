@@ -33,7 +33,7 @@ in {
     # home.packages = [inputs.nvf.packages.${pkgs.stdenv.system}.docs-manpages];
 
     programs.nvf = {
-      enable = false;
+      enable = true;
       enableManpages = true;
       defaultEditor = true;
 

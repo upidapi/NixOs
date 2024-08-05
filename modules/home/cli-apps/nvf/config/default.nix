@@ -78,6 +78,8 @@ in {
           enable = true;
           formatOnSave = false;
 
+          lspconfig = enable;
+
           # TODO: config this?
           # lightbulb = enable;
 

@@ -31,7 +31,7 @@ in {
 
       alwaysComplete = true;
 
-      # type = "nvim-cmp";
+      type = "nvim-cmp";
 
       mappings = {
         complete = "<C-Space>";

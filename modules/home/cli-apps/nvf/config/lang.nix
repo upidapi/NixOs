@@ -21,9 +21,9 @@ in {
           '';
         in {
           nixpkgs.expr = "import <nixpkgs> {}";
-          nixos.expr = x "nixosConfigurations";
-          home_manager.expr = x "homeConfigurations";
-          darwin.expr = x "darwinConfigurations";
+          # nixos.expr = x "nixosConfigurations";
+          # home_manager.expr = x "homeConfigurations";
+          # darwin.expr = x "darwinConfigurations";
         };
         extra = true;
       };
@@ -47,7 +47,11 @@ in {
         ts = enable; # also adds js support
 
         # TODO: nixd
-        nix = enable;
+        nix =
+          enable
+          // {
+            lsp.enable = false;
+          };
         go = enable;
         python = enable;
         bash = enable;

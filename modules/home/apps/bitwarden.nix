@@ -12,7 +12,6 @@ in {
   options.modules.home.apps.bitwarden =
     mkEnableOpt "Whether or not to enable bitwarden";
 
-  # todo switch to keypass
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       bitwarden

@@ -8,16 +8,14 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf;
+  inherit (builtins) filter map toString path;
+  inherit (inputs.nvf.lib.nvim.dag) entryBefore;
   inherit (my_lib.opt) mkEnableOpt;
 
-  inherit (builtins) filter map toString path;
-  inherit (lib.filesystem) listFilesRecursive;
-  inherit (lib.strings) hasSuffix fileContents;
   inherit (lib.attrsets) genAttrs;
-
-  inherit (inputs.nvf.lib.nvim.dag) entryBefore;
-
+  inherit (lib.filesystem) listFilesRecursive;
+  inherit (lib) mkIf;
+  inherit (lib.strings) hasSuffix fileContents;
   cfg = config.modules.home.cli-apps.nvf;
 in {
   imports = [
@@ -73,8 +71,7 @@ in {
         cat vim-dirtytalk/wordlists/* > programing.words
 
         # in nvim
-        :mkspell /persist/nixos/modules/home/cli-apps/nvf/runtime/spell/prog
-          ~/programing.words
+        :mkspell /persist/nixos/modules/home/cli-apps/nvf/runtime/spell/prog ~/programing.words
         */
 
         # recreate the add.spl file

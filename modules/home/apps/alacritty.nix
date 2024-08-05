@@ -4,8 +4,8 @@
   my_lib,
   ...
 }: let
-  inherit (lib) mkIf types;
-  inherit (my_lib.opt) mkEnableOpt mkOpt;
+  inherit (lib) mkIf;
+  inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.alacritty;
 in {
   options.modules.home.apps.alacritty =

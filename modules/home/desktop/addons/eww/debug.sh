@@ -1,3 +1,5 @@
+#!/bin/env bash 
+
 eww close-all
 
 monitors=$(

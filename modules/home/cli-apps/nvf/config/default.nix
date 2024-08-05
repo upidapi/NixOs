@@ -120,8 +120,8 @@ in {
 
         luaConfigRC.spell-extra = entryAnywhere ''
           vim.o.spelloptions = "camel";
-          vin.cmd[[hi clear SpellCap]];
-          vin.cmd[[hi clear SpellRare]];
+          vim.cmd[[hi clear SpellCap]];
+          vim.cmd[[hi clear SpellRare]];
         '';
 
         spellcheck = {

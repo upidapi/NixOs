@@ -1,4 +1,5 @@
 # 95% of this file is directly copied from raf / NotAShelf
+# the rest is based on it
 {
   config,
   inputs,
@@ -16,14 +17,6 @@
   inherit (lib.attrsets) genAttrs;
 
   inherit (inputs.nvf.lib.nvim.dag) entryBefore;
-
-  mkRuntimeDir = name: let
-    finalPath = ./runtime + /${name};
-  in
-    path {
-      name = "nvim-runtime-${name}";
-      path = toString finalPath;
-    };
 
   cfg = config.modules.home.cli-apps.nvf;
 in {
@@ -66,16 +59,22 @@ in {
           logFile = "/tmp/nvim.log";
         };
 
-        # sv.utf-8.spl
-
         additionalRuntimePaths = [
-          # (mkRuntimeDir "after")
-          # (mkRuntimeDir "spell")
           (path {
             name = "nvim-runtime";
             path = toString ./runtime;
           })
         ];
+
+        # use the following cmd to recreate the vim dirtytalk plugin
+        /*
+        git clone https://github.com/psliwka/vim-dirtytalk.git
+        cat vim-dirtytalk/wordlists/* > programing.words
+
+        # in nvim
+        :mkspell /persist/nixos/modules/home/cli-apps/nvf/runtime/spell/prog
+          ~/programing.words
+        */
 
         # notashelf
         # additional lua configuration that I can append or, to be more

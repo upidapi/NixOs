@@ -8,6 +8,7 @@
   inherit (lib) mkIf mkMerge;
   inherit (my_lib.opt) enable disable;
   inherit (inputs.nvf.lib.nvim.binds) mkBinding;
+  inherit (inputs.nvf.lib.nvim.dag) entryAnywhere;
   cfg = config.modules.home.cli-apps.nvf;
 in {
   imports = [
@@ -67,7 +68,7 @@ in {
         };
 
         # TODO: neorg
-        # https://github.com/Soliprem/nix-config/blob/7430b9a50de3988d08b4d2b80712c3849b0b81ea/home-manager/nvim.nix#L263
+        # https://github.com/Soliprem/nix-config/blob/main/home-manager/nvim.nix
 
         # git intergration
         # TODO: binds?
@@ -89,15 +90,13 @@ in {
           # pictograms for lsp options
           lspkind = enable;
 
-          # inline lsp disagnostcs
-          lsplines = enable;
+          # inline lsp diagnostics
+          # lsplines = enable;
 
-          # on linke 6139
-          # reading about lspsaga
           # TODO: binds
           # TODO: remove this?
           #  its probably unecisary
-          lspsaga = enable;
+          # lspsaga = enable;
 
           # enabled automatically
           # null-ls = enable;
@@ -112,12 +111,17 @@ in {
         notify = {
           # ? nvim-notify = enable;
         };
+        # ASD
 
         projects.project-nvim = enable;
 
         snippets = {
           # TODO: luasnip
         };
+
+        luaConfigRC.spell-extra = entryAnywhere ''
+          vim.o.spelloptions = "camel";
+        '';
 
         spellcheck = {
           enable = true;
@@ -131,23 +135,27 @@ in {
           # TODO: config
         };
 
-        # here
-        tabline = {
-          nvimBufferline = {
-            enable = true;
-            mappings = {
-              # TODO:
-            };
-          };
-        };
+        # tabline = {
+        #   nvimBufferline = {
+        #     enable = true;
+        #     mappings = {
+        #       # TODO:
+        #     };
+        #   };
+        # };
 
         maps.normal = mkMerge [
-          (mkBinding "<leader>fz" "Telescope current_buffer_fuzzy_find" "telescope fuzzy find")
+          (
+            mkBinding
+            "<leader>fz"
+            "Telescope current_buffer_fuzzy_find"
+            "telescope fuzzy find"
+          )
 
           # neo tre
           (mkBinding "<leader>tt" "Neotree toggle" "toggle neo-tree")
-          (mkBinding "<leader>tu" "Neotree" "goto neo-tree") # neotree update
-          (mkBinding "<leader>tr" "Neotree reveal" "show self in neo-tree") # neotree update
+          (mkBinding "<leader>tu" "Neotree" "goto neo-tree")
+          (mkBinding "<leader>tr" "Neotree reveal" "show self in neo-tree")
         ];
 
         telescope = {
@@ -204,7 +212,7 @@ in {
 
           # ? fold = true; (prob use nvim-ufo insted)
 
-          # aleady set by lang.nix
+          # already set by lang.nix
           # grammars = []
 
           incrementalSelection = enable;

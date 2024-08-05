@@ -17,6 +17,9 @@ powerd
 manpages 
 manpage 
 neovim 
+.spl 
+utf 
+prog 
 vesktop
 json 
 unwritable

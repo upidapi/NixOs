@@ -21,8 +21,9 @@ in {
           '';
         in {
           nixpkgs.expr = "import <nixpkgs> {}";
-          # nixos.expr = x "nixosConfigurations";
-          # home_manager.expr = x "homeConfigurations";
+          nixos.expr = x "nixosConfigurations";
+          home_manager.expr = x "homeConfigurations";
+          # add if i actually have a darwin output
           # darwin.expr = x "darwinConfigurations";
         };
         extra = true;

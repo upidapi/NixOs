@@ -41,6 +41,7 @@ in {
     */
 
     settings.vim = {
+      /*
       extraPackages = [pkgs.nixd];
       pluginRC.nixd-manual = entryAfter ["lspconfig"] ''
           local on_attach = function(bufnr)
@@ -80,6 +81,7 @@ in {
             },
         })
       '';
+      */
       /*
       lsp.lspconfig.sources.nixd_test = ''
         lspconfig.nixd.setup {
@@ -111,11 +113,10 @@ in {
         ts = enable; # also adds js support
 
         # TODO: nixd
-        nix =
-          enable
-          // {
-            lsp.enable = false;
-          };
+        nix = enable;
+        # // {
+        #   lsp.enable = false;
+        # };
         go = enable;
         python = enable;
         bash = enable;

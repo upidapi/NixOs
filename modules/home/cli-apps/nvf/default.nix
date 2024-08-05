@@ -77,6 +77,11 @@ in {
           ~/programing.words
         */
 
+        # recreate the add.spl file
+        /*
+        cd $NIXOS_CONFIG_PATH/modules/home/cli-apps/nvf/runtime/spell/ | mkspell! en.utf-8.add.spl en.utf-8.add
+        */
+
         # notashelf
         # additional lua configuration that I can append or, to be more
         # precise, randomly inject into the lua configuration of my Neovim

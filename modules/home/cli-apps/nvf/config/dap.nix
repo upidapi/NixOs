@@ -1,14 +1,5 @@
-{
-  config,
-  lib,
-  inputs,
-  pkgs,
-  my_lib,
-  ...
-}: let
-  inherit (inputs.nvf.lib.nvim.binds) mkSetLuaBinding;
+{my_lib, ...}: let
   inherit (my_lib.opt) enable;
-  cfg = config.programs.nvf.vim;
 in {
   programs.nvf.settings.vim = {
     # there are more debuggers in the lang(s)

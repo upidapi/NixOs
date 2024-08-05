@@ -16,7 +16,6 @@
     foldAttrs
     mapAttrsToList
     hasPrefix
-    hm
     literalExpression
     mkDefault
     mkOption

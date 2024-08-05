@@ -111,7 +111,6 @@ in {
         notify = {
           # ? nvim-notify = enable;
         };
-        # ASD
 
         projects.project-nvim = enable;
 
@@ -121,6 +120,8 @@ in {
 
         luaConfigRC.spell-extra = entryAnywhere ''
           vim.o.spelloptions = "camel";
+          vin.cmd[[hi clear SpellCap]];
+          vin.cmd[[hi clear SpellRare]];
         '';
 
         spellcheck = {

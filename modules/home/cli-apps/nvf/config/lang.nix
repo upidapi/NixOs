@@ -1,11 +1,4 @@
-{
-  config,
-  lib,
-  my_lib,
-  inputs,
-  pkgs,
-  ...
-}: let
+{my_lib, ...}: let
   inherit (my_lib.opt) enable;
 in {
   programs.nvf.settings.vim = {

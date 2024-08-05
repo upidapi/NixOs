@@ -40,6 +40,7 @@ in {
         viAlias = false;
         vimAlias = false;
 
+        # vi
         # vim.globals can be used to set vim.g.<name>
 
         # defaults

@@ -1,7 +1,4 @@
-{
-  # inputs,
-  ...
-}:
+_:
 /*
       let
   # Add `pins` to self so that the flake may refer it freely by accessing

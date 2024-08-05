@@ -83,7 +83,8 @@ in {
       };
 
       security = {
-        sudo-rs = enable;
+        # too annoying cant use --preserve-env
+        # sudo-rs = enable;
       };
 
       other = enable;

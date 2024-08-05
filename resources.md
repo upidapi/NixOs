@@ -10,6 +10,9 @@ env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml"
 
 # build image
 ```bash
+sudo mkdir /ventoy
+
+# eg /dev/sdb1
 sudo mount /dev/---disc-name--- /ventoy
 
 # build image
@@ -29,9 +32,9 @@ function downloadFile {
     curl -JOL "$url"
 }
 
+downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-minimal-x86_64-linux.iso"
 downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-gnome-x86_64-linux.iso"
 downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-plasma6-x86_64-linux.iso"
-downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-minimal-x86_64-linux.iso"
 ```
 
 # get logs

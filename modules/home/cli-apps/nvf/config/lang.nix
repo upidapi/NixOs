@@ -41,8 +41,8 @@ in {
     */
 
     settings.vim = {
+      extraPackages = [pkgs.nixd];
       pluginRC.nixd-manual = entryAfter ["lspconfig"] ''
-          -- ${pkgs.nixd}
           local on_attach = function(bufnr)
             vim.api.nvim_create_autocmd("CursorHold", {
               buffer = bufnr,

@@ -1,11 +1,16 @@
 {
   my_lib,
+  lib,
   pkgs,
+  inputs,
   ...
 }: let
+  inherit (lib) getExe;
+  inherit (inputs.nvf.lib.nvim.lua) toLuaObject;
   inherit (my_lib.opt) enable;
 in {
   programs.nvf = {
+    /*
     modules.lspSources = {
       nixd = {
         package = pkgs.nixd;
@@ -32,8 +37,21 @@ in {
         # extra = abort (builtins.attrValues (builtins.getFlake ("git+file://" + builtins.toString ./.)));
       };
     };
+    */
 
     settings.vim = {
+      lsp.lspconfig.sources.nixd_test = ''
+        lspconfig.nixd.setup {
+          capabilities = capabilities,
+          cmd = ${toLuaObject ([(getExe pkgs.nixd)] ++ ["--semantic-tokens=false"])},
+          settings = {
+            nixd = ${toLuaObject {
+          nixpkgs.expr = "import <nixpkgs> {}";
+        }},
+          },
+        }
+      '';
+
       languages = {
         enableDAP = true;
         enableLSP = true;

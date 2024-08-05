@@ -5,7 +5,7 @@ m = 255 # $(brightnessctl max);
 c = 0
 
 
-def a(d):
+def t(d):
     b = 1 + 1 / s
     p = (b ** (c / m * s + d) - 1) / (b ** s - 1)
     return round(p * m)

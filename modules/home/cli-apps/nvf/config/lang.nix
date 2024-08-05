@@ -10,11 +10,10 @@
   inherit (my_lib.opt) enable;
 in {
   programs.nvf = {
-    /*
     modules.lspSources = {
       nixd = {
         package = pkgs.nixd;
-        arguments = ["--semantic-tokens=false"];
+        arguments = []; # ["--semantic-tokens=false"];
         settings = let
           x = y: ''
             let
@@ -37,9 +36,9 @@ in {
         # extra = abort (builtins.attrValues (builtins.getFlake ("git+file://" + builtins.toString ./.)));
       };
     };
-    */
 
     settings.vim = {
+      /*
       lsp.lspconfig.sources.nixd_test = ''
         lspconfig.nixd.setup {
           capabilities = capabilities,
@@ -51,6 +50,7 @@ in {
           },
         }
       '';
+      */
 
       languages = {
         enableDAP = true;

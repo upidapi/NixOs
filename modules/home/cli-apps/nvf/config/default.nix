@@ -154,8 +154,8 @@ in {
 
         maps = let
           m = {
-            "<up>".action = "gk";
-            "<down>".action = "gj";
+            "<up>".action = "g<up>";
+            "<down>".action = "g<down>";
           };
         in {
           normal =

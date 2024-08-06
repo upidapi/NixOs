@@ -21,7 +21,8 @@ def run_cmd(
         cmd = (
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
-
+    
+    # todo exit on error
     process = subprocess.Popen(
         cmd,
         shell=True,
@@ -74,7 +75,7 @@ def promt_option(promt, options):
             print(f"must be a number 1-{len(options)}\n")
             continue
 
-        return options["selected"]
+        return options[int(selected)]
 
 
 def has_internet(host="8.8.8.8", port=53, timeout=3):
@@ -266,7 +267,8 @@ def main():
 
         if selected == "create new host":
             args.profile = promt_create_new_host(profiles)
-
+        else: 
+            args.profile = selected
 
     notify("format the file system with disko")
     run_cmd("""

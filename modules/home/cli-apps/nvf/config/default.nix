@@ -156,8 +156,6 @@ in {
           m = {
             "<up>".action = "gk";
             "<down>".action = "gj";
-            "<left>".action = "gh";
-            "<right>".action = "gl";
           };
         in {
           normal =

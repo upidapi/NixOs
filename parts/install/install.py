@@ -161,7 +161,10 @@ def init_bootstrap_cfg(profile):
     run_cmd(
         "nixos-install "
         "--root /mnt "
-        # all cores TODO: check if this is true
+        # if you've done some fuckery with the nix path 
+        # (eg pinning it to the flake inputs)
+        "--extra-experimental-features \"flakes\""
+        # all cores TODO: check if this is true 
         "--cores 0 "
         "--no-root-passwd ",
     )

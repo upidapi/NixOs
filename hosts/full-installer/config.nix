@@ -1,8 +1,9 @@
+#
 {
-  pkgs,
   my_lib,
   inputs,
   lib,
+  self,
   ...
 }: let
   inherit (my_lib.opt) enable;
@@ -10,41 +11,10 @@ in {
   imports = [
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
+    "${self}/modules/nixos/misc/iso.nix"
   ];
 
   config = {
-    # TODO: is the tradeof worth it?
-    #  default: 5.3 GB, mod: 6.7 GB
-    # The default compression-level is (6) and takes too long on some machines (>30m).
-    # 3 takes <2m
-    isoImage.squashfsCompression = "zstd -Xcompression-level 3";
-
-    nixpkgs = {
-      hostPlatform =
-        /*
-        lib.mkDefault
-        */
-        "x86_64-linux";
-      config.allowUnfree = true;
-    };
-
-    # its an iso so it doesnt have to be preserved
-    # system.stateVersion = "23.11";
-
-    # done by the imports
-    /*
-    users.users.root.initialHashedPassword = "";
-
-    users.users.nixos = {
-      isNormalUser = true;
-      description = "nixos";
-
-      extraGroups = ["networkmanager" "wheel"];
-
-      initialHashedPassword = "";
-    };
-
-    */
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.users.upidapi = {
       isNormalUser = true;
@@ -58,6 +28,12 @@ in {
 
     modules.nixos = {
       suites.all = enable;
+
+      misc.iso =
+        enable
+        // {
+          name = "full-install";
+        };
 
       # collides with the installer stuff
       os.networking = {

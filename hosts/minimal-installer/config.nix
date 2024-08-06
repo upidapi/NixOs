@@ -13,46 +13,10 @@ in {
     #  zfs takes a while to support the latest kernel
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
+    "${self}/modules/nixos/misc/iso.nix"
   ];
 
   config = {
-    isoImage.squashfsCompression = "zstd -Xcompression-level 3";
-
-    nixpkgs = {
-      hostPlatform =
-        /*
-        lib.mkDefault
-        */
-        "x86_64-linux";
-      config.allowUnfree = true;
-    };
-
-    # its an iso so it doesnt have to be preserved
-    # system.stateVersion = "23.11";
-
-    # Enable the X11 windowing system.
-    # services.xserver.enable = true;
-
-    # Enable the KDE Plasma Desktop Environment.
-    # services.xserver.displayManager.sddm.enable = true;
-    # services.xserver.desktopManager.plasma5.enable = true;
-
-    # done bu the imports
-    /*
-
-    users.users.root.initialHashedPassword = "";
-
-    users.users.nixos = {
-      isNormalUser = true;
-      description = "nixos";
-
-      extraGroups = ["networkmanager" "wheel"];
-
-      initialHashedPassword = "";
-    };
-    */
-    # hardware.tuxedo-keyboard = enable;
-
     environment.systemPackages = [
       pkgs.git
     ];
@@ -82,6 +46,12 @@ in {
     networking.wireless.enable = false;
 
     modules.nixos = {
+      misc.iso =
+        enable
+        // {
+          name = "min-install";
+        };
+
       nix = {
         cfg-path = "/persist/nixos";
 

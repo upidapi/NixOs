@@ -21,6 +21,8 @@ add pueued
 
 use nixos-render-docs to create docs for this repo 
 
+fix ethernet getting stuck on reconnect:
+  enp12s0: connecting (getting IP configuration) to Wired connection 1
 
 Virtulisation
     MAS

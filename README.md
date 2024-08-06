@@ -1,5 +1,8 @@
 ## description
-This config is not a finished product, and will change as a continue to learn about nix. Things will be modified, updated, added, removed and restructured without warning. I commit each time I (successfully) rebuild so a large amount of commits are imcompleate and or partailly broken. So watch out for just blindly copying things whithout knowing what they do.
+Welcome to my overengineerd configuration for my computer systems. A concoction of my better hallucinations, not very carefully orchestrated to (hopefully) do something that is at least partially useful. I've made this public for it to be used as a reference (and so that i can install it faster on random systems)
+
+
+This config is not a finished product, and will change as a continue to learn about nix. Things will be modified, updated, added, removed and restructured without warning. I commit each time I (successfully) rebuild so a large amount of commits are incomplete and or broken. So if you take someting make sure that you understand what it does. It is also made specifically for my machine with their own quirks. Dont expect it to work on yours. If you decide to (against my advice) try to boot this. Please make sure you have backups of your data. And a good backup plan in the case that you can't boot. 
 
 ![my desktop](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop.png?raw=true)
 
@@ -20,7 +23,11 @@ This config is not a finished product, and will change as a continue to learn ab
 The structure of my config was inpired by raf and jakehamilton
 
 ## install
-clone repo, then run install.sh
+```bash 
+# Warning this will format your system with disko 
+nix run github:upidapi/nixos#install 
+```
+
 
 ## create iso
 to create the isos you have to run the folowing commands

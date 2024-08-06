@@ -15,12 +15,18 @@
         }
         {
           system = "x86_64-linux";
-          name = "full-installer-x86_64";
+          name = "full-installer";
           disko = false; # cant have disko on a usb :)
         }
         {
           system = "x86_64-linux";
-          name = "minimal-installer-x86_64";
+          name = "minimal-installer";
+          home-manager = false;
+          disko = false;
+        }
+        {
+          system = "x86_64-linux";
+          name = "base-installer";
           home-manager = false;
           disko = false;
         }

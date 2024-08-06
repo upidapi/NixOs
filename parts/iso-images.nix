@@ -39,6 +39,6 @@ in
 
   flake.images =
     lib.genAttrs
-    ["full-installer-x86_64" "minimal-installer-x86_64"]
+    ["full-installer" "minimal-installer" "base-installer"]
     (name: self.nixosConfigurations."${name}".config.system.build.isoImage);
 }

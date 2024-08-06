@@ -16,7 +16,7 @@ sudo mkdir /ventoy
 sudo mount /dev/---disc-name--- /ventoy
 
 # build image
-sudo nix build .#images.minimal-installer-x86_64
+sudo nix build .#images.minimal-installer
 
 # move iso to usb
 cp -rL $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
@@ -32,9 +32,14 @@ function downloadFile {
     curl -JOL "$url"
 }
 
-downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-minimal-x86_64-linux.iso"
-downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-gnome-x86_64-linux.iso"
-downloadFile "https://channels.nixos.org/nixos-24.05/latest-nixos-plasma6-x86_64-linux.iso"
+function downloadOfficialIso {
+    downloadOfficialIso \ 
+    "https://channels.nixos.org/nixos-24.05/latest-nixos-$1-x86_64-linux.iso"
+}
+
+downloadOfficialIso minimal 
+downloadOfficialIso gnome 
+downloadOfficialIso plasma6 
 ```
 
 # get logs

@@ -1,9 +1,14 @@
-import os, sys, json
+import os 
+import sys 
+import subprocess
+import errno
+import shlex
+import socket
 from pathlib import Path
-
+import argparse
 
 # this script (should) fully install my nixos config
-# requiring only a nixos install (eg the installer iso)
+# requiring only a nixos install (eg the installer iso) (and python)
 
 
 def run_cmd(
@@ -104,11 +109,11 @@ def to_file(data, file_path):
 def promt_create_new_host(profiles):
     new_host_name = input("name of new host: ")
 
-    host_template_name = promt_options("host tamplate: ", ["none"] + profiles)
+    host_template_name = promt_option("host tamplate: ", ["none"] + profiles)
     
-    if host_template == "none":
+    if host_template_name == "none":
         run_cmd(f"mkdir ./hosts/{new_host_name}")
-    elif: 
+    else: 
         run_cmd(f"cp -r ./hosts/{host_template_name} ./hosts/{new_host_name}")
 
     
@@ -139,7 +144,7 @@ def init_bootstrap_cfg(profile):
 
     # now we have to create a conventional config to start,
     # since nixos-install can't handle flakes
-    mkdir /mnt/etc/nixos/ -p
+    run_cmd("mkdir /mnt/etc/nixos/ -p")
 
     # generate a tmp hardware cfg that includes the files system
     # since disko doesn't work without flakes
@@ -163,13 +168,78 @@ def init_bootstrap_cfg(profile):
 
     # the install continues using a systemd service in bootstrap-config.nix
 
+def install_system(profile):
+    run_cmd(
+        "nixos-install " 
+        "--root /mnt " 
+        # all cores TODO: check if this is true
+        "--cores 0 " 
+        "--no-root-passwd "
+        f"--flake /mnt/persist/nixos#{profile}"
+    )
+
+    print("dont forget to add the age key(s) in /persist/sops-age-key.txt")
+
 
 def preserv_network_connections():
     x = "etc/NetworkManager/system-connections"
     run_cmd(f"cp /{x}/* /mnt/{x}/")
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Process some arguments.")
+    
+    parser.add_argument("-p", "--profile", type=str, help="Profile name")
+
+    parser.add_argument(
+        "--silent", 
+        action="store_true", 
+        help="Run in silent mode, ei no further inputs required"
+    )
+
+    parser.add_argument(
+        "-n", "--new-profile", 
+        action="store_true", 
+        help="Create a new profile"
+    )
+    
+    args = parser.parse_args()
+    
+    if args.new_profile and args.silent:
+        parser.error("cant create new profile in silent install")
+
+    if args.new_profile and args.profile:
+        parser.error("you cant set new-profile and profile")
+
+    if args.silent and not args.profile:
+        parser.error("--profile is required when --silent is set")
+    
+    profiles = next(os.walk("./hosts"))[1]
+
+    if args.profile not in profiles:
+        parser.error(f"invallid profile, must be one of {profiles}")
+
+    return args
+
+
 def main():
+    args = parse_args()
+
+    def notify(data):
+        if args.silent: 
+            return 
+        
+        while True:
+            res = input(f"{data} [Yn]: ") 
+            if res in ("y", ""):
+                return  
+
+            if res == "n":
+                print("cancelling install")
+                exit()
+            
+            print("choice myst be one of [y, n]")
+
     if not has_internet():
         print("installer requires an internett connection")
 
@@ -183,17 +253,21 @@ def main():
     # we can't put this directly into /mnt/persist/nixos 
     # since /mnt gets wiped when reformatting the disk with disko
     run_cmd("git clone https://github.com/upidapi/NixOs /tmp/nixos")
-
+  
 
     profiles = next(os.walk("./hosts"))[1]
+    
+    if args.new_profile:
+        args.profile = promt_create_new_host(profiles)
 
-    selected_profile = promt_options("select host: " ["create new host"] + profiles)
+    if not args.profile:
+        selected = promt_option("select host: ", ["create new host"] + profiles)
 
-    if selected == "create new host":
-        promt_create_new_host(profiles)
-        exit()
+        if selected == "create new host":
+            args.profile = promt_create_new_host(profiles)
 
-    # formatt the file system with disko
+     
+    notify("format the file system with disko")
     run_cmd("""
     nix \\
       --experimental-features "nix-command flakes" \\
@@ -201,37 +275,27 @@ def main():
       --mode disko "/tmp/nixos/hosts/$profile/disko.nix"
     """)
 
+
     # move the config to the correct place, since disko would've 
     # erased it (along with everything else in /persist)
     run_cmd("mkdir /mnt/persist")
     run_cmd("cp -r /tmp/nixos /mnt/persist/nixos")
     
-    if len(argv) >= 2:
-        mode = argv[1]
-    else:
-        mode = promt_option(["bootstrap", "flake"])
-     
-/    run_cmd("touch /mnt/persist/sops-nix-key.txt")
+    run_cmd("touch /mnt/persist/sops-nix-key.txt")
     run_cmd("chmod 700 /mnt/persist/sops-nix-key.txt")
+   
+
+    mode = "flake"
 
     if mode == "bootstrap":
-        init_bootstrap_cfg()
-        exit()
+        init_bootstrap_cfg(args.profile)
 
-    elif mode == "flake";
-        run_cmd(
-            "nixos-install " 
-            "--root /mnt " 
-            # all cores TODO: check if this is true
-            "--cores 0 " 
-            "--no-root-passwd "
-            f"--flake /mnt/persist/nixos#{selected_profile}"
-        )
+    elif mode == "flake":
+        install_system(args.profile)
 
-        print("dont forget to add the age key(s) in /persist/sops-age-key.txt")
-        exit()
 
-    print("invallid mode")
+    notify("reboot to finish install")
+    run_cmd("reboot")
 
 if __name__ == "__main__":
     main()

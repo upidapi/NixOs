@@ -120,11 +120,16 @@ in {
           # TODO: luasnip
         };
 
-        luaConfigRC.spell-extra = entryAnywhere ''
-          vim.o.spelloptions = "camel";
-          vim.cmd[[hi clear SpellCap]];
-          vim.cmd[[hi clear SpellRare]];
-        '';
+        luaConfigRC = {
+          spell-extra = entryAnywhere ''
+            vim.o.spelloptions = "camel";
+            vim.cmd[[hi clear SpellCap]];
+            vim.cmd[[hi clear SpellRare]];
+          '';
+          fix-mouse = ''
+            vim.o.mouse = "nvchr"
+          '';
+        };
 
         spellcheck = {
           enable = true;
@@ -147,19 +152,28 @@ in {
         #   };
         # };
 
-        maps.normal = mkMerge [
-          (
-            mkBinding
-            "<leader>fz"
-            "Telescope current_buffer_fuzzy_find"
-            "telescope fuzzy find"
-          )
+        maps = let
+          m = {
+            "<up>".action = "g<up>";
+            "<down>".action = "g<down>";
+          };
+        in {
+          normal =
+            {
+              "<leader>fz".action = "Telescope current_buffer_fuzzy_find";
 
-          # neo tre
-          (mkBinding "<leader>tt" "Neotree toggle" "toggle neo-tree")
-          (mkBinding "<leader>tu" "Neotree" "goto neo-tree")
-          (mkBinding "<leader>tr" "Neotree reveal" "show self in neo-tree")
-        ];
+              # neo tre
+              "<leader>tt".action = "Neotree toggle";
+              "<leader>tu".action = "Neotree";
+              "<leader>tr".action = "Neotree reveal";
+            }
+            // m;
+          insert = {
+            "<up>".action = "<c-o>g<up>";
+            "<down>".action = "<c-o>g<down>";
+          };
+          visual = m;
+        };
 
         telescope = {
           enable = true;

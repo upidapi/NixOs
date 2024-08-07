@@ -3,5 +3,8 @@ __pycache__
 .ccls-cache
 modules/home/desktop/addons/ags/types
 
+# this will be auto generated 
+hosts/bootstrap/hardware.nix
+
 # ignore the image build
 result

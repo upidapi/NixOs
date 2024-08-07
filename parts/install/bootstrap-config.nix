@@ -127,7 +127,7 @@ in
   # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
 
-  users.users.root.password = "";
+  users.users.root.password = "1";
 
   users.users.nixos = {
     isNormalUser = true;
@@ -135,7 +135,7 @@ in
 
     extraGroups = ["networkmanager" "wheel"];
 
-    password = "";
+    password = "1";
 
     # packages = with pkgs; [
     #   firefox
@@ -164,7 +164,7 @@ in
 
       # git config --global --add safe.directory /persist/nixos/.git &&
 
-      ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch \\
+      ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch \
         --flake "/persist/nixos#$profile" &&
 
       reboot

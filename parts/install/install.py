@@ -150,7 +150,8 @@ def init_bootstrap_cfg(profile):
     # Therefore we have to manually create this folder
     # (this took me me about 2 full days to figure out, :) )
     run_cmd("mkdir /mnt/persist/system")
-
+    
+    print("\ncreating bootstrap config files")
     # now we have to create a conventional config to start,
     # since nixos-install can't handle flakes
     run_cmd("mkdir /mnt/etc/nixos/ -p")
@@ -283,11 +284,11 @@ def main():
 
 
     notify("format the file system with disko")
-    run_cmd("""
+    run_cmd(f"""
     nix \\
       --experimental-features "nix-command flakes" \\
       run github:nix-community/disko -- \\
-      --mode disko "/tmp/nixos/hosts/$profile/disko.nix"
+      --mode disko "/tmp/nixos/hosts/{args.profile}/disko.nix"
     """)
 
 

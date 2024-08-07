@@ -9,6 +9,8 @@ env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml"
 
 # build image
 ```bash
+cd $NIXOS_CONFIG_PATH
+
 sudo mkdir /ventoy
 
 # eg /dev/sdb1

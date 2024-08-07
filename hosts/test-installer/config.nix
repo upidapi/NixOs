@@ -5,6 +5,7 @@
   my_lib,
   inputs,
   self,
+  pkgs,
   ...
 }: let
   inherit (my_lib.opt) enable;
@@ -19,6 +20,25 @@ in {
   ];
 
   config = {
+    # put the installer.sh script in place
+    systemd.services.create_install_script = let
+      file = pkgs.writers.writeBash "install_script" ''
+        nix run \
+          --extra-experimental-features "flakes nix-command" \
+          github:upidapi/nixos#install
+      '';
+    in {
+      description = "installs my nixos config";
+      serviceConfig.PassEnvironment = "DISPLAY";
+      script = ''
+        cat ${file} > /home/nixos/install.sh
+
+        chown nixos /home/nixos/install.sh
+        chmod +x /home/nixos/install.sh
+      '';
+      wantedBy = ["multi-user.target"]; # starts after login
+    };
+
     # you cant have this and networking.networkmanager at the same time
     networking.wireless.enable = false;
 
@@ -26,7 +46,7 @@ in {
       misc.iso =
         enable
         // {
-          name = "base-install";
+          name = "test-install";
         };
 
       nix = {

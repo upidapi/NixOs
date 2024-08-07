@@ -25,7 +25,7 @@ The structure of my config was inpired by raf and jakehamilton
 ## install
 ```bash 
 # Warning this will format your system with disko 
-nix run github:upidapi/nixos#install 
+nix --extra-experimental-features "flakes " run github:upidapi/nixos#install 
 ```
 
 

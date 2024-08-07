@@ -164,7 +164,8 @@ in
 
       # git config --global --add safe.directory /persist/nixos/.git &&
 
-      nixos-rebuild switch --flake "/persist/nixos#$profile" &&
+      ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch \\
+        --flake "/persist/nixos#$profile" &&
 
       reboot
     '';

@@ -115,12 +115,15 @@ def promt_create_new_host(profiles):
     host_template_name = promt_option("host tamplate: ", ["none"] + profiles)
 
     if host_template_name == "none":
-        run_cmd(f"mkdir ./hosts/{new_host_name}")
+        run_cmd(f"mkdir /tmp/nixos/hosts/{new_host_name}")
     else:
-        run_cmd(f"cp -r ./hosts/{host_template_name} ./hosts/{new_host_name}")
+        run_cmd(f"cp -r /tmp/nixos/hosts/{host_template_name} /tmp/nixos/hosts/{new_host_name}")
 
 
-    to_file(get_hardware_cfg(), f"./hosts/{new_host_name}/hardware.nix")
+    to_file(
+        get_hardware_cfg(), 
+        f"/tmp/nixos/hosts/{new_host_name}/hardware.nix"
+    )
 
     print(
         "",
@@ -222,16 +225,11 @@ def parse_args():
     if args.silent and not args.profile:
         parser.error("--profile is required when --silent is set")
 
-    profiles = next(os.walk("./hosts"))[1]
-
-    if args.profile and args.profile not in profiles:
-        parser.error(f"invallid profile, must be one of {profiles}")
-
-    return args
+    return args, parser
 
 
 def main():
-    args = parse_args()
+    args, parser = parse_args()
 
     def notify(data):
         if args.silent:
@@ -263,7 +261,10 @@ def main():
     run_cmd("git clone https://github.com/upidapi/NixOs /tmp/nixos")
 
 
-    profiles = next(os.walk("./hosts"))[1]
+    profiles = next(os.walk("/tmp/nixos/hosts"))[1]
+
+    if args.profile and args.profile not in profiles:
+        parser.error(f"invallid profile, must be one of {profiles}")
 
     if args.new_profile:
         args.profile = promt_create_new_host(profiles)
@@ -275,6 +276,7 @@ def main():
             args.profile = promt_create_new_host(profiles)
         else: 
             args.profile = selected
+
 
     notify("format the file system with disko")
     run_cmd("""

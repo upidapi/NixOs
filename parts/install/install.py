@@ -96,11 +96,11 @@ def has_internet(host="8.8.8.8", port=53, timeout=3):
 
 
 def get_hardware_cfg():
-    return run_cmd(
+    return "\n".join(run_cmd(""
         "nixos-generate-config "
         "--root /mnt "
         "--show-hardware-config ",
-    )
+    ).split("\n")[1:])
 
 def to_file(data, file_path):
     path = Path(file_path)
@@ -172,9 +172,11 @@ def init_bootstrap_cfg(profile):
     run_cmd(
         "nixos-install "
         "--root /mnt "
+
         # if you've done some fuckery with the nix path 
         # (eg pinning it to the flake inputs)
-        "--extra-experimental-features \"flakes\""
+        # "--extra-experimental-features \"flakes\""
+
         # all cores TODO: check if this is true 
         "--cores 0 "
         "--no-root-passwd ",

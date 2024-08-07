@@ -17,6 +17,9 @@ def run_cmd(
     ignore=(),
     color: bool = True,
 ):
+    # exit with error if a command fails
+    cmd = f"set -euxo pipefail\n{cmd}"
+
     if color:
         cmd = (
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
@@ -139,8 +142,8 @@ def init_bootstrap_cfg(profile):
     # folder that doesn't exist, and /persist/system is where
     # we store the system files. (the nixos installer doesn't
     # work otherwise)
-    # Therefour we have to manually create this folder
-    # (this took me mpabout 2 full days to figure out, :) )
+    # Therefore we have to manually create this folder
+    # (this took me me about 2 full days to figure out, :) )
     run_cmd("mkdir /mnt/persist/system")
 
     # now we have to create a conventional config to start,
@@ -151,7 +154,7 @@ def init_bootstrap_cfg(profile):
     # since disko doesn't work without flakes
     to_file(get_hardware_cfg(), "/mnt/etc/nixos/hardware.nix")
 
-    # just a barebones config to start with, soly used to bootstrap
+    # just a barebones config to start with, solely used to bootstrap
     # the real one
     run_cmd(
         "cp "
@@ -291,17 +294,19 @@ def main():
     run_cmd("chmod 700 /mnt/persist/sops-nix-key.txt")
 
 
-    mode = "flake"
+    mode = "bootstrap"
 
     if mode == "bootstrap":
         init_bootstrap_cfg(args.profile)
-
+        notify("reboot to continue")
+        run_cmd("reboot")
+    
+    # using nix install --flake has a tendency to break things
     elif mode == "flake":
         install_system(args.profile)
 
-
-    notify("reboot to finish install")
-    run_cmd("reboot")
+        notify("reboot to finish install")
+        run_cmd("reboot")
 
 
 if __name__ == "__main__":

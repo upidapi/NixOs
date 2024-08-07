@@ -1,6 +1,5 @@
 This is just for my own sake
 its not really markdown i just like the colors :)
-
     
 # open the (infra) sops file
 ```bash
@@ -40,6 +39,12 @@ function downloadOfficialIso {
 downloadOfficialIso minimal 
 downloadOfficialIso gnome 
 downloadOfficialIso plasma6 
+```
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
 ```
 
 # get logs

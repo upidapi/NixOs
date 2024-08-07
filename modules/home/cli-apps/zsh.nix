@@ -40,7 +40,8 @@ in {
           ds = "dev-shell";
           e = "$EDITOR";
           c = "clear";
-          l = "ls -lah";
+          # l = "ls -lah";
+          l = "eza -lah";
           # persistent env su
           pesu = "sudo --preserve-env su --preserve-environment";
           # pull file from the store into tha same place but editable

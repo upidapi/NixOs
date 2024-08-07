@@ -1,15 +1,16 @@
 {
   imports = [
-    ./keepassxc
-    ./nixvim
+    ./bat.nix
+    ./cn-bth.nix
+    ./eza.nix
     ./git.nix
     ./gpg.nix
+    ./keepassxc
+    ./nixvim
+    ./nushell
     ./nvf
     ./tmux.nix
     ./wine.nix
-    ./nushell
     ./zsh.nix
-    ./bat.nix
-    ./cn-bth.nix
   ];
 }

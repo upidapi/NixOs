@@ -26,7 +26,7 @@
         }
         {
           system = "x86_64-linux";
-          name = "base-installer";
+          name = "test-installer";
           home-manager = false;
           disko = false;
         }

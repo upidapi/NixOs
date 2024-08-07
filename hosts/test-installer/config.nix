@@ -19,6 +19,9 @@ in {
   ];
 
   config = {
+    # you cant have this and networking.networkmanager at the same time
+    networking.wireless.enable = false;
+
     modules.nixos = {
       misc.iso =
         enable
@@ -31,6 +34,8 @@ in {
       };
 
       os = {
+        # technically not needed but really nice for debug
+        networking = enable;
         boot = enable;
       };
     };

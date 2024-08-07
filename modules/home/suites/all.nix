@@ -37,6 +37,7 @@ in {
         keepassxc = enable;
         # nixvim = enable;
         nvf = enable;
+        eza = enable;
         # nushell = enable;
         tmux = enable;
         bat = enable;

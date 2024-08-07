@@ -8,6 +8,7 @@
   pkgs,
   # self,
   # my_lib,
+  lib,
   ...
 }:
 /*
@@ -52,8 +53,13 @@ in
   };
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+
+    kernelPackages = pkgs.linuxPackages_latest;
+    supportedFilesystems.zfs = lib.mkForce false;
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
 

@@ -180,6 +180,8 @@ def init_bootstrap_cfg(profile):
         "--no-root-passwd ",
     )
 
+    preserv_network_connections()
+
     # the install continues using a systemd service in bootstrap-config.nix
 
 
@@ -198,6 +200,7 @@ def install_system(profile):
 
 def preserv_network_connections():
     x = "etc/NetworkManager/system-connections"
+    run_cmd(f"mkdir -p /mnt/{x}")
     run_cmd(f"cp /{x}/* /mnt/{x}/")
 
 
@@ -255,8 +258,6 @@ def main():
         print("installer requires an internett connection")
 
     elavate()
-
-    preserv_network_connections()
 
     run_cmd("mkdir /tmp/nixos -p")
     os.chdir("/tmp/nixos")

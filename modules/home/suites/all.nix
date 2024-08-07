@@ -40,7 +40,7 @@ in {
         # nushell = enable;
         tmux = enable;
         bat = enable;
-        gpg = enable;
+        # gpg = enable;
         cn-bth = enable;
         zsh = {
           enable = true;

@@ -50,13 +50,13 @@ in {
         fetch.prune = true;
         apply.whitespace = "fix";
         # TODO: add or make it into an option: commit.template = "~/.gitmessage";
-        gpg.format = "ssh"; # FIXME: use gpg instead of ssh, and an agent nope
+        # gpg.format = "ssh"; # FIXME: use gpg instead of ssh, and an agent nope
       };
 
-      signing = {
-        key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJubdbUjgz6WdiANchW/3OsG5BWxYgaCtnp78VBLNGju";
-        # signByDefault = true;
-      };
+      # signing = {
+      # key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJubdbUjgz6WdiANchW/3OsG5BWxYgaCtnp78VBLNGju";
+      # signByDefault = true;
+      # };
 
       ignores = [
       ];

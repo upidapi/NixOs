@@ -168,7 +168,10 @@ in {
               "<leader>tr".action = "Neotree reveal";
             }
             // m;
-          insert = m;
+          insert = {
+            "<up>".action = "<c-o>g<up>";
+            "<down>".action = "<c-o>g<down>";
+          };
           visual = m;
         };
 

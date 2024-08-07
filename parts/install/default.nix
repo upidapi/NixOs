@@ -15,7 +15,7 @@
 
     apps.install = {
       type = "app";
-      program = "${installerPkg}/bin/nixos-installer";
+      program = "${installerPkg}/bin/nixos-installer $@";
     };
   };
 }

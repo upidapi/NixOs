@@ -156,10 +156,16 @@ in
     serviceConfig.PassEnvironment = "DISPLAY";
     script = ''
       profile=$(cat /persist/profile-name.txt) &&
-      nixos-rebuild switch --flake "/persist/nixos#$profile" &&
       rm /persist/nixos/profile.txt &&
+
+      # set the correct perms, otherwise git gets angry :(
       chown -R root:wheel /persist/nixos &&
       chmod -R 770 /persist/nixos &&
+
+      # git config --global --add safe.directory /persist/nixos/.git &&
+
+      nixos-rebuild switch --flake "/persist/nixos#$profile" &&
+
       reboot
     '';
     wantedBy = ["multi-user.target"]; # starts after login

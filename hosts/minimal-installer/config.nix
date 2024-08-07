@@ -24,8 +24,8 @@ in {
     # put the installer.sh script in place
     systemd.services.create_install_script = let
       file = pkgs.writers.writeBash "install_script" ''
-        nix run \\
-          --extra-experimental-features "flakes nix-command" \\
+        nix run \
+          --extra-experimental-features "flakes nix-command" \
           github:upidapi/nixos#install -- $@
       '';
     in {

@@ -156,7 +156,7 @@ in
     serviceConfig.PassEnvironment = "DISPLAY";
     script = ''
       profile=$(cat /persist/profile-name.txt) &&
-      rm /persist/nixos/profile.txt &&
+      rm /persist/profile.txt &&
 
       # set the correct perms, otherwise git gets angry :(
       chown -R root:wheel /persist/nixos &&

@@ -1,6 +1,6 @@
 This is just for my own sake
-its not really markdown i just like the colors :)
-    
+its not actually markdown i just like the colors :)
+
 # open the (infra) sops file
 ```bash
 cd "$NIXOS_CONFIG_PATH"; su --preserve-environment -c "
@@ -34,13 +34,19 @@ function downloadFile {
 }
 
 function downloadOfficialIso {
-    downloadOfficialIso \ 
+    downloadFile \ 
     "https://channels.nixos.org/nixos-24.05/latest-nixos-$1-x86_64-linux.iso"
 }
 
 downloadOfficialIso minimal 
 downloadOfficialIso gnome 
 downloadOfficialIso plasma6 
+```
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
 ```
 
 # get logs

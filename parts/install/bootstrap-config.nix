@@ -127,7 +127,7 @@ in
   # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
 
-  users.users.root.initialPassword = "";
+  users.users.root.password = "";
 
   users.users.nixos = {
     isNormalUser = true;
@@ -135,7 +135,7 @@ in
 
     extraGroups = ["networkmanager" "wheel"];
 
-    initialPassword = "";
+    password = "";
 
     # packages = with pkgs; [
     #   firefox
@@ -156,7 +156,7 @@ in
     serviceConfig.PassEnvironment = "DISPLAY";
     script = ''
       profile=$(cat /persist/profile-name.txt) &&
-      rm /persist/profile.txt &&
+      rm /persist/profile-name.txt &&
 
       # set the correct perms, otherwise git gets angry :(
       chown -R root:wheel /persist/nixos &&

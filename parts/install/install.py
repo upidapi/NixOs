@@ -135,6 +135,8 @@ def promt_create_new_host(profiles):
 
 
 def init_bootstrap_cfg(profile):
+    print("\ncreating bootstrap config")
+
     # store the profile in a file to preserve it to the reboot after the install
     # this will be picked upp by the bootstrap-config which will install the full system
     run_cmd(f"""
@@ -164,7 +166,8 @@ def init_bootstrap_cfg(profile):
         "/mnt/persist/nixos/parts/install/bootstrap-config.nix "
         "/mnt/etc/nixos/configuration.nix ",
     )
-
+    
+    print("\ninstalling bootstrap config")
     run_cmd(
         "nixos-install "
         "--root /mnt "
@@ -236,6 +239,7 @@ def main():
             return
 
         while True:
+            print()
             res = input(f"{data} [Yn]: ")
             if res in ("y", ""):
                 return
@@ -289,9 +293,11 @@ def main():
 
     # move the config to the correct place, since disko would've
     # erased it (along with everything else in /persist)
+    print("\nplacing the comfig in the right place")
     run_cmd("mkdir /mnt/persist")
     run_cmd("cp -r /tmp/nixos /mnt/persist/nixos")
-
+    
+    print("\ncreating secret file templates")
     run_cmd("touch /mnt/persist/sops-nix-key.txt")
     run_cmd("chmod 700 /mnt/persist/sops-nix-key.txt")
 
@@ -300,6 +306,7 @@ def main():
 
     if mode == "bootstrap":
         init_bootstrap_cfg(args.profile)
+
         notify("reboot to continue")
         run_cmd("reboot")
     

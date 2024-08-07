@@ -155,7 +155,7 @@ in
     description = "installs my nixos config";
     serviceConfig.PassEnvironment = "DISPLAY";
     script = ''
-      profile=$(cat /tmp/profile-name.txt) &&
+      profile=$(cat /persist/profile-name.txt) &&
       nixos-rebuild switch --flake "/persist/nixos#$profile" &&
       rm /persist/nixos/profile.txt &&
       chown -R root:wheel /persist/nixos &&

@@ -140,7 +140,7 @@ def init_bootstrap_cfg(profile):
     # store the profile in a file to preserve it to the reboot after the install
     # this will be picked upp by the bootstrap-config which will install the full system
     run_cmd(f"""
-        echo "{profile}" > /mnt/persist/profile-name.txt
+        echo "{profile}" > /mnt/tmp/profile-name.txt
     """)
 
     # The persist modules can't persist files in a

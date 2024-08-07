@@ -156,7 +156,6 @@ in
     serviceConfig.PassEnvironment = "DISPLAY";
     script = ''
       profile=$(cat /persist/profile-name.txt) &&
-      rm /persist/profile-name.txt &&
 
       # set the correct perms, otherwise git gets angry :(
       chown -R root:wheel /persist/nixos &&
@@ -167,8 +166,15 @@ in
       ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch \
         --flake "/persist/nixos#$profile" &&
 
+      rm /persist/profile-name.txt &&
+
       reboot
     '';
     wantedBy = ["multi-user.target"]; # starts after login
+    after = ["network-online.target"];
+    serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
   };
 }

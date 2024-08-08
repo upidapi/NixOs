@@ -118,6 +118,7 @@ in {
                   exit 0
                 fi
               fi
+              exit 1
             '';
             format = " ";
           };

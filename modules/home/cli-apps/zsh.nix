@@ -99,6 +99,7 @@ in {
 
           username = {
             style_user = "bold dimmed green";
+            format = "[$user]($style)";
           };
 
           # ssh

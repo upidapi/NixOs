@@ -74,7 +74,7 @@ in {
         enable = true;
         settings = {
           # format = "\${custom.simple_nix_shell}$directory$character";
-          format = "$hostname$username$nix_shell$directory$character";
+          format = "$hostname\${custom.username}$nix_shell$directory$character";
           add_newline = true;
 
           directory = {
@@ -104,17 +104,30 @@ in {
             trim_at = ".";
           };
 
-          username = {
-            command = ''
-              if [[ -z "{SSH_CONNECTION}" ]]; then
-                echo ""
-              else
-                echo " "
-              fi
-            '';
-            format = "[$user$output]($style)";
-          };
+          custom.username = {
+            command =
+              /*
+              bash
+              */
+              ''
+                username=$(whoami);
+                part=""
+                if [[ "$username" == "root" ]]; then
+                  part="(root)[bold red]"
+                fi
 
+                if [[ -z "{SSH_CONNECTION}" ]]; then
+                  if [[ -z "{part}" ]]; then
+                    echo "($username)[bold dimmed green]"
+                  else;
+                    echo "$part"
+                  fi
+                else
+                  echo "$part "
+                fi
+              '';
+            format = "$output";
+          };
           /*
           custom.simple_nix_shell = {
             command = ''

@@ -74,7 +74,15 @@ in {
         enable = true;
         settings = {
           # format = "\${custom.simple_nix_shell}$directory$character";
-          format = "$username\${custom.spacing}$hostname$nix_shell$directory$character";
+          format = builtins.concatStringsSep "" [
+            "\${custom.shell_lvl}"
+            "$username"
+            "\${custom.spacing}"
+            "$hostname"
+            "$nix_shell"
+            "$directory"
+            "$character"
+          ];
           add_newline = true;
 
           directory = {
@@ -90,6 +98,8 @@ in {
             # vicmd_symbol = "[](bold blue) ";
           };
 
+          # there is (afaik) no way to determine if we're in a "nix shell"
+          # https://github.com/NixOS/nix/issues/6677
           nix_shell = {
             impure_msg = "[❄️](bold red)";
             pure_msg = "[❄️](bold green)";
@@ -122,8 +132,14 @@ in {
             format = " ";
           };
 
-          # format = "\${custom.username}\${custom.userroot}$hostname$nix_shell$directory$character";
+          custom.shell_lvl = {
+            when = ''if [[ "$SHLVL" == 1 ]]; then exit 1; fi'';
+            command = ''echo "$SHLVL"'';
+            format = "$output ";
+          };
 
+          # format = "\${custom.username}\${custom.userroot}$hostname$nix_shell$directory$character";
+          /*
           custom.username = {
             when = true;
             command = ''
@@ -150,6 +166,7 @@ in {
             '';
             format = "[$output](bold red)";
           };
+          */
 
           /*
           custom.simple_nix_shell = {

@@ -74,7 +74,7 @@ in {
         enable = true;
         settings = {
           # format = "\${custom.simple_nix_shell}$directory$character";
-          format = "$hostname\${custom.username}$nix_shell$directory$character";
+          format = "$username\${custom.spacing}$hostname$nix_shell$directory$character";
           add_newline = true;
 
           directory = {
@@ -97,39 +97,55 @@ in {
             format = "[\\[$state $name\\]](bold blue) ";
           };
 
+          username = {
+            style_user = "bold dimmed green";
+          };
+
           # ssh
           hostname = {
             ssh_only = true;
-            format = "[$hostname]($style)@";
+            format = "@[$hostname]($style)";
             trim_at = ".";
           };
 
-          custom.username = {
-            when = true;
-            unsafe_no_escape = true;
-            command =
-              /*
-              bash
-              */
-              ''
-                username=$(whoami);
-                part=""
-                if [[ "$username" == "root" ]]; then
-                  part="(root)[bold red]"
+          custom.spacing = {
+            command = ''
+              if [[ -z "{SSH_CONNECTION}" ]]; then
+                echo ""
+              else;
+                if [[ "$(whoami)" == "root" ]]; then
+                  echo " "
                 fi
-
-                if [[ -z "{SSH_CONNECTION}" ]]; then
-                  if [[ -z "{part}" ]]; then
-                    echo "($username)[bold dimmed green]"
-                  else;
-                    echo "$part"
-                  fi
-                else
-                  echo "$part "
-                fi
-              '';
+              fi
+            '';
             format = "$output";
           };
+
+          /*
+          custom.username = {
+            when = true;
+            command =
+              ''
+                if [[ -z "{SSH_CONNECTION}" ]]; then
+                  if [[ "$username" != "root" ]]; then
+                    echo "$username"
+                  fi
+                fi
+              '';
+            format = "($output)[bold dimmed green]";
+          };
+          custom.userroot = {
+            when = true;
+            command =
+            ''
+              if [[ "$username" == "root" ]]; then
+                echo "root"
+              fi
+            '';
+            format = "($output)[bold red]";
+          };
+          */
+
           /*
           custom.simple_nix_shell = {
             command = ''

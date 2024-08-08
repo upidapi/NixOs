@@ -110,6 +110,7 @@ in {
           };
 
           custom.spacing = {
+            when = true;
             command = ''
               if [[ -z "{SSH_CONNECTION}" ]]; then
                 echo ""

@@ -98,17 +98,18 @@ in {
           };
 
           username = {
-            style_user = "bold dimmed green";
+            style_user = "bold green";
             format = "[$user]($style)";
           };
 
           # ssh
           hostname = {
             ssh_only = true;
-            format = "@[$hostname]($style)";
+            format = "@[$hostname]($style) ";
             trim_at = ".";
           };
 
+          # the output is trimmed so we have to do this shit instead
           custom.spacing = {
             when = ''
               if [[ -z "{SSH_CONNECTION}" ]]; then

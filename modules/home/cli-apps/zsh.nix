@@ -113,12 +113,10 @@ in {
             when = true;
             command = ''
               if [[ -z "{SSH_CONNECTION}" ]]; then
-                echo "a"
+                echo ""
               else;
                 if [[ "$(whoami)" == "root" ]]; then
-                  echo "b"
-                else;
-                  echo "c"
+                  echo " "
                 fi
               fi
             '';

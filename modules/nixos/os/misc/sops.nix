@@ -9,7 +9,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  inherit (lib.attrsets) genAttrs;
+  # inherit (lib.attrsets) genAttrs;
   cfg = config.modules.nixos.os.misc.sops;
   # ssh_path = "/persist/system/etc/ssh";
   ssh_path = "/etc/ssh";

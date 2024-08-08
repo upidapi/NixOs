@@ -112,9 +112,7 @@ in {
           # the output is trimmed so we have to do this shit instead
           custom.spacing = {
             when = ''
-              if [[ -z "{SSH_CONNECTION}" ]]; then
-                exit 0
-              else;
+              if [[ -z "$SSH_CONNECTION" ]]; then
                 if [[ "$(whoami)" == "root" ]]; then
                   exit 0
                 fi

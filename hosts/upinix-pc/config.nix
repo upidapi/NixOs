@@ -24,7 +24,7 @@ in {
     extraGroups = ["networkmanager" "wheel" "libvirtd"];
     hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
 
-    openssh.authorizedKeys.keys = [keys.users.admin];
+    openssh.authorizedKeys.keys = [keys.users.upidapi];
   };
 
   users.users.root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";

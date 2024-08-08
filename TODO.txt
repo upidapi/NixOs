@@ -41,9 +41,6 @@ https://github.com/Misterio77/nix-starter-configs
     some nix settings
 
 
-fix ssh
-
-
 encrypted filesystem
     LUKS
 

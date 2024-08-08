@@ -4,6 +4,7 @@
   inputs,
   lib,
   self,
+  keys,
   ...
 }: let
   inherit (my_lib.opt) enable;
@@ -23,7 +24,7 @@ in {
       extraGroups = ["networkmanager" "wheel" "libvirtd"];
       hashedPassword = "$y$j9T$P.ANM.hAc1bqSR7fJWfkZ.$vUxY3KyPB65PR3uTBKwYCa7u6LvUquy47SeAPjgnjD9";
 
-      # openssh.authorizedKeys.keys = with import ./../../other/ssh-keys.nix; [upidapi-nix-pc upidapi-nix-laptop];
+      openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
 
     modules.nixos = {

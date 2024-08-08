@@ -42,6 +42,8 @@ in {
       age = {
         keyFile = "/persist/sops-nix-key.txt";
 
+        generateKey = true;
+
         # TODO: figure out how to establish install / continued trust
         #  maybe https://github.com/librephoenix/nixos-config could help
         sshKeyPaths = [

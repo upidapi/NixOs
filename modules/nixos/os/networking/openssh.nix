@@ -12,6 +12,8 @@ in {
   options.modules.nixos.os.networking.openssh =
     mkEnableOpt "enable openssh to allow for remote ssh connections";
 
+  # TODO: setup aliases with domains
+  #  eg ${host-name}.upidapi.com
   config = mkIf cfg.enable {
     programs.ssh = {
       # ship github/gitlab/sourcehut host keys to avoid MiM (man in the middle) attacks
@@ -74,15 +76,27 @@ in {
           }
         ];
         settings = {
-          PasswordAuthentication = true;
-          AllowUsers = null; # Allows all users by default. Can be [ "user1" "user2" ]
-          UseDns = true;
-          # "yes", "without-password", "prohibit-password", "forced-commands-only", "no"
-          PermitRootLogin = "prohibit-password";
+          # Allows all users by default. Can be [ "user1" "user2" ]
+          # AllowUsers = null;
+          PasswordAuthentication = false;
+          PermitRootLogin = "no";
+
+          # Automatically remove stale sockets
+          StreamLocalBindUnlink = "yes";
+          # Allow forwarding ports to everywhere
+          GatewayPorts = "clientspecified";
+          # Let WAYLAND_DISPLAY be forwarded
+          AcceptEnv = "WAYLAND_DISPLAY";
+          X11Forwarding = true;
         };
       };
-      /**/
     };
+
+    # Keep SSH_AUTH_SOCK when sudo'ing
+    security.sudo.extraConfig = ''
+      Defaults env_keep+=SSH_AUTH_SOCK
+    '';
+
     networking = {
       firewall = {
         allowedTCPPorts = [22];

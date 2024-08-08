@@ -106,6 +106,7 @@ in {
 
           custom.username = {
             when = true;
+            unsafe_no_escape = true;
             command =
               /*
               bash

@@ -105,6 +105,7 @@ in {
           };
 
           custom.username = {
+            when = true;
             command =
               /*
               bash

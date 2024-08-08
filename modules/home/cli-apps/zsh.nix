@@ -128,6 +128,7 @@ in {
           custom.username = {
             when = true;
             command = ''
+              username="$(whoami)"
               if [[ -z "{SSH_CONNECTION}" ]]; then
                 if [[ "$username" != "root" ]]; then
                   echo "$username"
@@ -139,6 +140,7 @@ in {
           custom.userroot = {
             when = true;
             command = ''
+              username="$(whoami)"
               if [[ "$username" == "root" ]]; then
                 if [[ -z "{SSH_CONNECTION}" ]]; then
                   echo "root"

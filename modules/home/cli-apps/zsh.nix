@@ -74,7 +74,7 @@ in {
         enable = true;
         settings = {
           # format = "\${custom.simple_nix_shell}$directory$character";
-          format = "$nix_shell$directory$character";
+          format = "$hostname$username$nix_shell$directory$character";
           add_newline = true;
 
           directory = {
@@ -95,6 +95,24 @@ in {
             pure_msg = "[❄️](bold green)";
             unknown_msg = "[❄️](bold yellow)";
             format = "[\\[$state $name\\]](bold blue) ";
+          };
+
+          # ssh
+          hostname = {
+            ssh_only = true;
+            format = "[$hostname]($style)@";
+            trim_at = ".";
+          };
+
+          username = {
+            command = ''
+              if [[ -z "{SSH_CONNECTION}" ]]; then
+                echo ""
+              else
+                echo " "
+              fi
+            '';
+            format = "[$user$output]($style)";
           };
 
           /*

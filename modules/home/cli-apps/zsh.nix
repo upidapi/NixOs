@@ -74,7 +74,7 @@ in {
         enable = true;
         settings = {
           # format = "\${custom.simple_nix_shell}$directory$character";
-          format = "$username\${custom.spacing}$hostname$nix_shell$directory$character";
+          format = "\${custom.username}\${custom.userroot}$hostname$nix_shell$directory$character";
           add_newline = true;
 
           directory = {
@@ -109,6 +109,7 @@ in {
             trim_at = ".";
           };
 
+          /*
           custom.spacing = {
             when = true;
             command = ''
@@ -122,31 +123,32 @@ in {
             '';
             format = "$output";
           };
+          */
 
-          /*
           custom.username = {
             when = true;
-            command =
-              ''
-                if [[ -z "{SSH_CONNECTION}" ]]; then
-                  if [[ "$username" != "root" ]]; then
-                    echo "$username"
-                  fi
+            command = ''
+              if [[ -z "{SSH_CONNECTION}" ]]; then
+                if [[ "$username" != "root" ]]; then
+                  echo "$username"
                 fi
-              '';
+              fi
+            '';
             format = "($output)[bold dimmed green]";
           };
           custom.userroot = {
             when = true;
-            command =
-            ''
+            command = ''
               if [[ "$username" == "root" ]]; then
-                echo "root"
+                if [[ -z "{SSH_CONNECTION}" ]]; then
+                  echo "root"
+                else;
+                  echo "root "
+                fi
               fi
             '';
             format = "($output)[bold red]";
           };
-          */
 
           /*
           custom.simple_nix_shell = {

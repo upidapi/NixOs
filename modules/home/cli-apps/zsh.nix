@@ -133,8 +133,8 @@ in {
           };
 
           custom.shell_lvl = {
-            when = ''if [[ "$SHLVL" == 1 ]]; then exit 1; fi'';
-            command = ''echo "$SHLVL"'';
+            when = ''if [[ "$SHLVL" == 2 ]]; then exit 1; fi'';
+            command = ''(( res = "$SHLVL" - 1 )); echo "$res"'';
             format = "$output ";
           };
 

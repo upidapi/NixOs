@@ -67,7 +67,7 @@ in {
             openssh = enable;
 
             firewall = {
-              fail2ban = enable;
+              # fail2ban = enable;
             };
           };
 

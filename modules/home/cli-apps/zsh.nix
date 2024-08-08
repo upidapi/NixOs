@@ -116,7 +116,7 @@ in {
                 echo ""
               else;
                 if [[ "$(whoami)" == "root" ]]; then
-                  echo "- -"
+                  echo " "
                 fi
               fi
             '';

@@ -9,7 +9,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  inherit (lib.attrsets) genAttrs;
+  # inherit (lib.attrsets) genAttrs;
   cfg = config.modules.nixos.os.misc.sops;
   # ssh_path = "/persist/system/etc/ssh";
   ssh_path = "/etc/ssh";
@@ -36,18 +36,20 @@ in {
       infraFile = "${secrets_path}/infra.yaml";
     in {
       defaultSopsFile = "${secrets_path}/hosts/${hostName}.yaml";
-      # age.keyFile = "/home/user/.config/sops/age/keys.txt";
 
       # move this?
       age = {
         keyFile = "/persist/sops-nix-key.txt";
 
+        # generateKey = true;
+
+        # probably with scp
         # TODO: figure out how to establish install / continued trust
         #  maybe https://github.com/librephoenix/nixos-config could help
-        sshKeyPaths = [
-          "${ssh_path}/ssh_admin_ed25519_key"
-          "${ssh_path}/ssh_host_ed25519_key"
-        ];
+        # sshKeyPaths = [
+        #   "${ssh_path}/ssh_admin_ed25519_key"
+        #   "${ssh_path}/ssh_host_ed25519_key"
+        # ];
       };
 
       secrets =

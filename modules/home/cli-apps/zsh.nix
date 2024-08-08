@@ -134,7 +134,8 @@ in {
                 fi
               fi
             '';
-            format = "($output)[bold dimmed green]";
+            format = "($output)[$style]";
+            style = "bold dimmed green";
           };
           custom.userroot = {
             when = true;
@@ -147,7 +148,8 @@ in {
                 fi
               fi
             '';
-            format = "($output)[bold red]";
+            format = "($output)[$style]";
+            style = "bod red";
           };
 
           /*

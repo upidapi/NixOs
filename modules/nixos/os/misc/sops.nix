@@ -24,6 +24,9 @@ in {
   options.modules.nixos.os.misc.sops =
     mkEnableOpt "enables sops";
 
+  # we can use "scalpel" to insert keys into arbitrary positions
+  # during runtime
+
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       sops

@@ -36,6 +36,9 @@ in {
     kernelParams = ["i8042.reset" "i8042.nomux" "i8042.nopnp" "i8042.noloo"];
   };
 
+  # TODO: use "tuxedo-drivers"
+  #  https://github.com/NixOS/nixpkgs/pull/293017
+
   # FIXME: enable when it works
   /*
   hardware = {
@@ -46,17 +49,21 @@ in {
     };
   };
 
-  nixpkgs.overlays = [
-    (final: prev: {
-      tuxedo-keyboard = prev.tuxedo-keyboard.overrideAttrs (old: {
-        patches =
-          (old.patches or [])
-          ++ [
-            "${self}/parts/patches/tuxedo-keyboard.path"
-          ];
-      });
-    })
-  ];
+  # not tested but should use my custom pkg with my overrides
+  boot.kernelPackages.tuxedo-keyboard = self'.packages.tuxedo-keyboard;
+
+  # this does the "same"
+  # nixpkgs.overlays = [
+  #   (final: prev: {
+  #     tuxedo-keyboard = prev.tuxedo-keyboard.overrideAttrs (old: {
+  #       patches =
+  #         (old.patches or [])
+  #         ++ [
+  #           "${self}/parts/patches/tuxedo-keyboard.path"
+  #         ];
+  #     });
+  #   })
+  # ];
   */
 
   modules.nixos = {

@@ -12,7 +12,7 @@ To add a new profile first add a attrset with the system info
   home-manager: disable / enable home-manager
     default: enable
 
-Then add a new directory in ${root_dir}/
+Then add a new directory in ${root_dir}/hosts
 
 In that directory the following things should exist:
   config.nix
@@ -50,33 +50,13 @@ In that directory the following things should exist:
       Note:
         home.username and home.userDirectory are set automatically
 */
-/*
-{
-  imports = [
-    (
-      (import ./../lib/mk_hosts.nix)
-      ./.
-      [
-        {
-          system = "x86_64-linux";
-          name = "upinix-pc";
-        }
-        {
-          system = "x86_64-linux";
-          name = "upinix-laptop";
-        }
-      ]
-    )
-  ];
-}
-*/
-host_dir: configs: {
+host_dir: {
   inputs,
   self,
   withSystem,
   lib,
   ...
-}: let
+}: rec {
   # takes a list of attrs and uses func to derive
   # the value of each attr
   mapToAttrs = func: list:
@@ -108,7 +88,7 @@ host_dir: configs: {
       "${host_dir}/${profile}/users/${user-name}.nix"
     ];
 
-    # Let Home Man# ager install and manage itself.
+    # Let home manager install and manage itself.
     programs.home-manager.enable = true;
   };
 
@@ -169,6 +149,7 @@ host_dir: configs: {
     system, # eg x86_64-linux
     home-manager ? true,
     disko ? true,
+    configs,
   }: {
     "${name}" = withSystem system (
       {
@@ -176,11 +157,10 @@ host_dir: configs: {
         self',
         ...
       }: let
-        hosts = (
+        hosts =
           builtins.map
           (config: config.name)
-          configs
-        );
+          configs;
 
         extra_args = {
           inherit inputs inputs' self self';
@@ -191,7 +171,7 @@ host_dir: configs: {
         };
       in
         inputs.nixpkgs.lib.nixosSystem {
-          system = system;
+          inherit system;
 
           specialArgs = extra_args;
 
@@ -199,7 +179,7 @@ host_dir: configs: {
             [
               {
                 modules.nixos.meta = {
-                  hosts = hosts;
+                  inherit hosts;
                   host-name = name;
                 };
 
@@ -230,14 +210,9 @@ host_dir: configs: {
         }
     );
   };
-in {
-  flake.nixosConfigurations =
+  foldMapSystems = f: list:
     builtins.foldl'
     (a: b: a // b)
     {}
-    (
-      builtins.map
-      mkSystem
-      configs
-    );
+    (builtins.map (a: f (a // {configs = list;})) list);
 }

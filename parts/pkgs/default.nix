@@ -5,6 +5,7 @@
     packages = {
       dev-shell = pkgs.callPackage ./dev-shell {};
       qs = pkgs.callPackage ./qs {};
+      tuxedo-keyboard = pkgs.callPackage ./tuxedo-keyboard {};
     };
   };
 }

@@ -155,6 +155,7 @@ in
     description = "installs my nixos config";
     serviceConfig.PassEnvironment = "DISPLAY";
     script = ''
+      # for some reason (i don't remember) this just doesn't work
       profile=$(cat /persist/profile-name.txt) &&
 
       # set the correct perms, otherwise git gets angry :(

@@ -7,8 +7,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-# this script (should) fully install my nixos config
-# requiring only a nixos install (eg the installer iso) (and python)
+# this script (should) fully install my nixos config (or create a new one)
+# requiring only a nixos install (eg the installer iso) and python, but that's 
+# provided by the app output
 
 
 def run_cmd(
@@ -101,6 +102,7 @@ def get_hardware_cfg():
         "--root /mnt "
         "--show-hardware-config ",
     ).split("\n")[1:])
+
 
 def to_file(data, file_path):
     path = Path(file_path)

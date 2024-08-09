@@ -2,7 +2,7 @@
   imports = [
     ./args.nix
     ./install
-    ./iso-images.nix
+    ./isos
     ./npins
     ./pkgs
     ./shells

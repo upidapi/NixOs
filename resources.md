@@ -50,34 +50,14 @@ systemctl --user status
 journalctl -xeu home-manager-upidapi.service
 ```
 
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
+# format traces
 ```
-
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
-```
-
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
-```
-
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
-```
-
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
+# replace the folowing with something else
+<CODE>
+<PRIMOP>
+<PRIMOP-APP>
+<LAMBDA>
+«repeated»
 ```
 
 

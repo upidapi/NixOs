@@ -1,16 +1,36 @@
-# taken from https://github.com/NotAShelf/nyx/blob/main/parts/iso-images.nix
+# FIXME: "withSystem" is only passed onto "args" if explicitly mentioned
 {
-  # inputs,
   self,
-  lib,
+  withSystem,
   ...
-}:
-/*
-let
-  installerModule = "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix";
-in
-*/
-{
+} @ args: let
+  mkHosts = (import "${self}/parts/lib/mk_hosts.nix") ./. args;
+
+  inherit (mkHosts) foldMapSystems mkSystem;
+
+  nixosImgConfigs = foldMapSystems mkSystem [
+    {
+      system = "x86_64-linux";
+      name = "full-installer";
+      # cant have disko on a usb :)
+      # TODO: ^^^ is that true? ^^^
+      disko = false;
+    }
+    {
+      system = "x86_64-linux";
+      name = "minimal-installer";
+      home-manager = false;
+      disko = false;
+    }
+    {
+      system = "x86_64-linux";
+      name = "test-installer";
+      home-manager = false;
+      disko = false;
+    }
+  ];
+in {
+  # (commented things) taken from https://github.com/NotAShelf/nyx/blob/main/parts/iso-images.nix
   # ISO images based on available hosts. We avoid basing ISO images
   # on active (i.e. desktop) hosts as they likely have secrets set up.
   # Images below are designed specifically to be used as live media
@@ -38,7 +58,7 @@ in
   */
 
   flake.images =
-    lib.genAttrs
-    ["full-installer" "minimal-installer" "test-installer"]
-    (name: self.nixosConfigurations."${name}".config.system.build.isoImage);
+    builtins.mapAttrs
+    (_: imgConfig: imgConfig.config.system.build.isoImage)
+    nixosImgConfigs;
 }

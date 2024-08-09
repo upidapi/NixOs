@@ -47,14 +47,10 @@ Home lab
         local share?
 
     backups
-        https://github.com/notohh/snowflake/blob/master/hosts/ame/services/restic.nix?
-        rsync?
-        
-        probably only backup /persist/system/home
-            that (should) be the only place where user files are
+        syncthing
 
     file sync
-        borg?
+        bord / restic
 
     vpn
 
@@ -67,7 +63,7 @@ store firefox extension data?
 
 
 optimise for battery
-
+    
 
 zoxide
 
@@ -97,17 +93,6 @@ ricing
 add a patches folder
 
 
-fully automated install
-    [x] add a custom install iso 
-
-    [ ] make sure that the install works
-
-    nixos-anywhere
-
-    https://github.com/EmergentMind/nix-config
-    https://www.youtube.com/watch?v=4snnV3hdz7g
-
-
 automated deployments? hydra?
 
 
@@ -123,7 +108,10 @@ Lix?
     or maybe just nix-super?
 
 
-the "full-installer-x86_64" should probably be a recovery thing
+add github as a search engine 
+
+
+the "full-installer" should probably be a recovery thing
 or an iso for servers 
 
 
@@ -131,10 +119,6 @@ add a way to do only home-manager
 
 
 https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix
-
-
-sops 
-    scalpel?
 
 
 Index the nixos server for better searching

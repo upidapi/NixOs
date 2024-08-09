@@ -115,7 +115,9 @@ in {
                 definedAliases = ["@nw"];
               };
 
-              "Github Nix Code" = mkGithubSearch "@ng" "lang:nix";
+              "Github" = mkGithubSearch "@ng" "";
+
+              "Github Nix Code" = mkGithubSearch "@gi" "lang:nix";
 
               "Github Nixpkgs" =
                 mkGithubSearch "@ngp"

@@ -90,9 +90,6 @@ ricing
     stylix
 
 
-add a patches folder
-
-
 automated deployments? hydra?
 
 
@@ -106,9 +103,6 @@ Lix?
     eg raf uses it
     
     or maybe just nix-super?
-
-
-add github as a search engine 
 
 
 the "full-installer" should probably be a recovery thing

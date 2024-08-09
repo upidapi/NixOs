@@ -1,4 +1,3 @@
-/*
 {
   osConfig,
   config,
@@ -16,11 +15,11 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
-      # FIX: go from SSH to GPG keys
-      #  no
+      # go from SSH to GPG keys (prob not)
       aliases = {
         # add all git aliases here
       };
+
       delta = {
         enable = true;
         options = {
@@ -42,8 +41,10 @@ in {
         };
 
         safe.directory = [
-          "${osConfig.modules.nixos.nix.cfg-path}" # this is here coz /persist/nixos/ isn't owned by us
-          "${osConfig.modules.nixos.nix.cfg-path}/.git" # this is here coz /persist/nixos/ isn't owned by us
+          # this is here coz /persist/nixos/ isn't owned by us
+          # and that makes git angry
+          "${osConfig.modules.nixos.nix.cfg-path}"
+          "${osConfig.modules.nixos.nix.cfg-path}/.git"
         ];
 
         merge.conflictstyle = "diff3";
@@ -73,38 +74,6 @@ in {
       # - color
       # - url
       # - lfs
-    };
-  };
-}
-*/
-{
-  osConfig,
-  config,
-  lib,
-  my_lib,
-  ...
-}: let
-  inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.home.cli-apps.git;
-in {
-  options.modules.home.cli-apps.git =
-    mkEnableOpt "Whether or not to add git";
-
-  config = mkIf cfg.enable {
-    # might not what to hardcode this
-    programs.git = {
-      enable = true;
-      userName = "upidapi";
-      userEmail = "videw@icloud.com";
-      extraConfig = {
-        init.defaultBranch = "main";
-        safe.directory = [
-          "${osConfig.modules.nixos.nix.cfg-path}"
-          "${osConfig.modules.nixos.nix.cfg-path}/.git"
-        ];
-        pull.rebase = "false";
-      };
     };
   };
 }

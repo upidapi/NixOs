@@ -91,6 +91,7 @@ in {
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
+        "/srv/restic-repo" # backups
         # "/etc/ssh" NOTE: this might break things
         {
           directory = "/var/lib/colord";

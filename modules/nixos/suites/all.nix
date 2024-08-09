@@ -74,6 +74,7 @@ in {
           ntpd = enable;
           upower = enable;
           syncthing = enable;
+          restic = enable;
         };
 
         virtualization = {

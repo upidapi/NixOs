@@ -2,11 +2,6 @@ auto connect to bth
     https://github.com/EzequielRamis/dotfiles/blob/ecfe6f269339d1551768b9158c1d3aee2d82b238/home/timers.nix#L19
 
 
-
-LS_COLORS 
-    colors for file types (doesnt use the extension but the content)
-
-
 more declarative secrets
     this guy has a lot: 
         https://github.com/alyraffauf/nixcfg/tree/master/secrets
@@ -138,20 +133,13 @@ add a way to do only home-manager
 https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix
 
 
-nix index db
-    comma extension?
-
-
-Tmux
-
 sops 
     scalpel?
-
-    Setup network (Wi-Fi) passwords with nixos/sops
 
 
 Index the nixos server for better searching
     https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-ov-file
+
 
 Ignore whitspace in git diffs
 

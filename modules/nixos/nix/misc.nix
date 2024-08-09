@@ -9,13 +9,6 @@
   inherit (lib) mkIf;
   cfg = config.modules.nixos.nix.misc;
 in {
-  imports = [
-    ./gc.nix
-    ./flakes.nix
-    ./cachix.nix
-    ./nix-index.nix
-  ];
-
   # used by other modules
   options.modules.nixos.nix.misc = mkEnableOpt "enables various nix things";
 

@@ -31,7 +31,6 @@ in {
         cachix = enable;
         flakes = enable;
         gc = enable;
-        nix-index = enable;
         misc = enable;
       };
 

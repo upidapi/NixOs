@@ -12,7 +12,6 @@ in {
     ./gc.nix
     ./flakes.nix
     ./cachix.nix
-    ./nix-index.nix
     ./misc.nix
   ];
 

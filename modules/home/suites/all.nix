@@ -49,6 +49,7 @@ in {
         };
         wine = enable;
         git = enable;
+        nix-index = enable;
       };
 
       services = {

@@ -87,6 +87,7 @@ in {
                   }
                 ];
                 definedAliases = [alias];
+                icon = "${pkgs.nordzy-icon-theme}/share/icons/Nordzy/places/16/folder-github.svg";
               };
             in {
               "Nix Packages" = {
@@ -123,7 +124,7 @@ in {
 
               "Github Home Manager" =
                 mkGithubSearch "@ngh"
-                "repo:nix-community/home-manager lang:nix ";
+                "repo:nix-community/home-manager lang:nix";
 
               # "Wikipedia (en)".metaData.alias = "@wiki";
               "Google".metaData.hidden = true;

@@ -472,7 +472,7 @@ def main():
             return None
 
         elif sub_command == "diff":
-            return Steps.show_diff()
+            return Recipes.add_show_formatt_files()
 
         elif sub_command == "update":
             run_cmd("git stash", print_res=True)

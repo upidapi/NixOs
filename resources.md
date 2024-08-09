@@ -8,7 +8,6 @@ cd "$NIXOS_CONFIG_PATH"; su --preserve-environment -c "
 env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml"
 ```
 
-```
 # build image
 ```bash
 cd $NIXOS_CONFIG_PATH
@@ -43,6 +42,12 @@ function downloadOfficialIso {
 downloadOfficialIso minimal 
 downloadOfficialIso gnome 
 downloadOfficialIso plasma6 
+```
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
 ```
 
 # get logs

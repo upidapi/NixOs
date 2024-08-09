@@ -69,9 +69,27 @@ in {
           search = {
             force = true;
             default = "DuckDuckGo";
-            engines = {
-              /*
-                 "Nix Packages" = {
+            engines = let
+              mkGithubSearch = alias: params: {
+                urls = [
+                  {
+                    template = "https://github.com/search";
+                    params = [
+                      {
+                        name = "q";
+                        value = "${params} {searchTerms}";
+                      }
+                      {
+                        name = "type";
+                        value = "code";
+                      }
+                    ];
+                  }
+                ];
+                definedAliases = [alias];
+              };
+            in {
+              "Nix Packages" = {
                 urls = [
                   {
                     template = "https://search.nixos.org/packages";
@@ -96,7 +114,17 @@ in {
                 updateInterval = 24 * 60 * 60 * 1000;
                 definedAliases = ["@nw"];
               };
-              */
+
+              "Github Nix Code" = mkGithubSearch "@ng" "lang:nix";
+
+              "Github Nixpkgs" =
+                mkGithubSearch "@ngp"
+                "repo:NixOS/nixpkgs lang:nix";
+
+              "Github Home Manager" =
+                mkGithubSearch "@ngh"
+                "repo:nix-community/home-manager lang:nix ";
+
               # "Wikipedia (en)".metaData.alias = "@wiki";
               "Google".metaData.hidden = true;
               "Amazon.com".metaData.hidden = true;

@@ -63,7 +63,7 @@ store firefox extension data?
 
 
 optimise for battery
-    
+   
 
 zoxide
 

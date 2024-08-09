@@ -29,7 +29,7 @@
 */
 {
   self,
-  withSystem,
+  withSystem, # has to be explicit since the module system is lazy
   ...
 } @ args: let
   mkHosts = (import "${self}/parts/lib/mk_hosts.nix") ./. args;

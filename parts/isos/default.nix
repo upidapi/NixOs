@@ -1,6 +1,7 @@
-# FIXME: "withSystem" is only passed onto "args" if explicitly mentioned
 {
   self,
+  # https://discord.com/channels/568306982717751326/1271575537218748437/1271575951913783389
+  # has to be explicit since the module system is lazy
   withSystem,
   ...
 } @ args: let

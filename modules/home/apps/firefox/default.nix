@@ -17,6 +17,7 @@ in {
   # TODO: rearrow (community thumbnails for youtube)
   # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
 
+  # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
   # add to sytlus to fix netflix spoilters
   /*
   @-moz-document domain("www.netflix.com") {
@@ -26,8 +27,6 @@ in {
     }
   }
   */
-
-  # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
 
   # possibly might disable the restore screen
   # browser.sessionstore.resume_from_crash
@@ -127,7 +126,8 @@ in {
                 "repo:nix-community/home-manager lang:nix";
 
               # "Wikipedia (en)".metaData.alias = "@wiki";
-              "Google".metaData.hidden = true;
+              # "Google".metaData.hidden = true;
+              "Google".metaData.alias = "@g";
               "Amazon.com".metaData.hidden = true;
               "Bing".metaData.hidden = true;
               "eBay".metaData.hidden = true;

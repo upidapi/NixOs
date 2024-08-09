@@ -75,7 +75,7 @@ zoxide
 tmux
 
 
-himach
+himachi
     for fake lan 
 
     could probalby do this with homelab too
@@ -154,6 +154,3 @@ nvim
     nixd (language server)
 
     quick fix buffer?
-
-vvvvv does this mean? vvvvv
-Generalise the method that I create the vendors config file

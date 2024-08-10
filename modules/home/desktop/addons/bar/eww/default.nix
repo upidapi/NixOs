@@ -7,7 +7,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.eww;
+  cfg = config.modules.home.desktop.addons.bar.eww;
 
   startEww = pkgs.writeShellScriptBin "start-eww-bar" ''
     monitors=$(
@@ -20,7 +20,7 @@
     done
   '';
 in {
-  options.modules.home.desktop.addons.eww =
+  options.modules.home.desktop.addons.bar.eww =
     mkEnableOpt "enables eww";
 
   config = mkIf cfg.enable {

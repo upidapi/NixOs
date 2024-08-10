@@ -1,4 +1,5 @@
-#
+# the "full-installer" should probably be a recovery thing
+# or an iso for servers
 {
   my_lib,
   inputs,

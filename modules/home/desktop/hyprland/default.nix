@@ -24,7 +24,10 @@ in {
     # TODO: might whant to add a load screen for opening windows?
     #  might be unfeasible / inconvenient
 
-    home.packages = [pkgs.brightnessctl];
+    home.packages = with pkgs; [
+      brightnessctl
+      hyprpicker
+    ];
 
     wayland.windowManager.hyprland = {
       # Whether to enable Hyprland wayland compositor

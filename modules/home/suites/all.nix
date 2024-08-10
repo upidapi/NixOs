@@ -67,13 +67,11 @@ in {
         wayland = enable;
         hyprland = enable;
         addons = {
-          swww = enable;
-          # eww = enable;
-          ags = enable;
+          wallpaper.swww = enable;
+          bar.ags = enable;
           dunst = enable;
           gtk = enable;
           rofi = enable;
-          waybar = enable;
         };
       };
     };

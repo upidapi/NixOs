@@ -8,9 +8,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.ags;
+  cfg = config.modules.home.desktop.addons.bar.ags;
 in {
-  options.modules.home.desktop.addons.ags =
+  options.modules.home.desktop.addons.bar.ags =
     mkEnableOpt "enables ags, used to create a bar";
 
   imports = [

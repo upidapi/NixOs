@@ -13,5 +13,6 @@
     ./wine.nix
     ./zsh.nix
     ./nix-index.nix
+    ./ssh.nix
   ];
 }

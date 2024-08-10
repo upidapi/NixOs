@@ -1,7 +1,9 @@
 {
   osConfig,
+  pkgs,
   config,
   lib,
+  keys,
   my_lib,
   ...
 }: let
@@ -12,10 +14,11 @@ in {
   options.modules.home.cli-apps.git =
     mkEnableOpt "Whether or not to add git";
 
+  # TODO: go from SSH to GPG keys?
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
-      # go from SSH to GPG keys (prob not)
+
       aliases = {
         # add all git aliases here
       };
@@ -52,13 +55,26 @@ in {
         fetch.prune = true;
         apply.whitespace = "fix";
         # TODO: add or make it into an option: commit.template = "~/.gitmessage";
-        # gpg.format = "ssh"; # FIXME: use gpg instead of ssh, and an agent nope
+        gpg = {
+          format = "ssh";
+          /*
+          ssh.defaultKeyCommand = let
+            p_key = config.local.keys.gerg_gerg-desktop;
+          in
+            pkgs.writeShellScript "git_key" ''
+              if ssh-add -L | grep -vq '${p_key}'; then
+                ssh-add -t 1m ~/.ssh/id_ed25519
+              fi
+              echo 'key::${p_key}'
+            '';
+          */
+        };
       };
 
-      # signing = {
-      # key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJubdbUjgz6WdiANchW/3OsG5BWxYgaCtnp78VBLNGju";
-      # signByDefault = true;
-      # };
+      signing = {
+        key = keys.users."${config.home.username}";
+        signByDefault = true;
+      };
 
       ignores = [
       ];

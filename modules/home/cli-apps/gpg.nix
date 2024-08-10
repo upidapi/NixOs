@@ -15,7 +15,7 @@ in {
     services.gpg-agent = {
       enable = true;
       # enableScDaemon = true; # ?
-      enableSshSupport = true;
+      # enableSshSupport = true; ?
       # enableExtraSocket = true;
       # enableZshIntegration = true;
     };

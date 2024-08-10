@@ -20,7 +20,7 @@ in {
       enable = true;
       settings = {
         splash = false;
-        preload = [./wallpapers/simple-tokyo-night.png];
+        preload = ["${./wallpapers/simple-tokyo-night.png}"];
         # set all to the same wallpaper
         wallpaper = [",${./wallpapers/simple-tokyo-night.png}"];
       };

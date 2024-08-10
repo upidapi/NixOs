@@ -67,7 +67,7 @@ in {
         wayland = enable;
         hyprland = enable;
         addons = {
-          wallpaper.swww = enable;
+          wallpaper.hyprpaper = enable;
           bar.ags = enable;
           dunst = enable;
           gtk = enable;

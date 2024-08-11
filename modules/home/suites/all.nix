@@ -72,6 +72,8 @@ in {
           dunst = enable;
           gtk = enable;
           rofi = enable;
+          hyprlock = enable;
+          hypridle = enable;
         };
       };
     };

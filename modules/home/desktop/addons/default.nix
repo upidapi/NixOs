@@ -5,5 +5,7 @@
     ./rofi.nix
     ./bar
     ./wallpaper
+    ./hypridle.nix
+    ./hyprlock.nix
   ];
 }

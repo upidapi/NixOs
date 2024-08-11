@@ -21,26 +21,28 @@ in {
 
     home.packages = [pkgs.hypridle];
 
-    programs.hyprdle = {
+    services.hypridle = {
       enable = true;
-      general = {
-        # to avoid having to press a key twice to turn on the display.
-        after_sleep_cmd = "hyprctl dispatch dpms on";
-        # lock before suspend.
-        before_sleep_cmd = "${pkgs.systemd}/bin/loginctl lock-session";
-        # avoid starting multiple hyprlock instances.
-        lock_cmd = "pidof hyprlock || hyprlock";
-        # whether to ignore dbus-sent idle inhibit events (e.g. from firefox)
-        ignore_dbus_inhibit = false;
-      };
+      settings = {
+        general = {
+          # to avoid having to press a key twice to turn on the display.
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+          # lock before suspend.
+          before_sleep_cmd = "${pkgs.systemd}/bin/loginctl lock-session";
+          # avoid starting multiple hyprlock instances.
+          lock_cmd = "pidof hyprlock || hyprlock";
+          # whether to ignore dbus-sent idle inhibit events (e.g. from firefox)
+          ignore_dbus_inhibit = false;
+        };
 
-      listener = [
-        {
-          timeout = 300;
-          on-timeout = "hyprlock && hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-      ];
+        listener = [
+          {
+            timeout = 300;
+            on-timeout = "hyprlock && hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
+      };
     };
   };
 }

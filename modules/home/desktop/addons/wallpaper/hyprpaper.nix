@@ -2,6 +2,7 @@
   config,
   my_lib,
   lib,
+  pkgs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt;
@@ -15,6 +16,8 @@ in {
     wayland.windowManager.hyprland.settings = {
       exec-once = ["hyprpaper"];
     };
+
+    home.packages = [pkgs.hyprpaper];
 
     services.hyprpaper = {
       enable = true;

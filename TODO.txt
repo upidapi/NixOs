@@ -122,6 +122,9 @@ himachi
     or some other manuall thing
 
 
+hyprcursor 
+
+
 zoxide
 
 

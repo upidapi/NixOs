@@ -89,6 +89,8 @@ in {
                 icon = "${pkgs.nordzy-icon-theme}/share/icons/Nordzy/places/16/folder-github.svg";
               };
             in {
+              # add noogle.dev
+
               "Nix Packages" = {
                 urls = [
                   {

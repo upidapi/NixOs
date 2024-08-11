@@ -53,29 +53,26 @@ in {
       cpu.amd = enable;
       gpu.nvidia = enable;
 
-      monitors = [
+      monitors.monitors = {
         # disable
         # https://github.com/hyprwm/Hyprland/issues/5958
         # https://github.com/hyprwm/Hyprland/issues/6032
-        {
-          name = "Unknown-1";
+        "Unknown-1" = {
           enabled = false;
           workspace = -1;
-        }
-        {
+        };
+        "desc:Dell Inc. DELL U2312HM 59DJP23QCZFL" = {
           # for some reason the names change by sops
 
-          # use desc to match insted
-          name = "desc:Dell Inc. DELL U2312HM 59DJP23QCZFL";
+          # use desc to match instead
           width = 1920;
           height = 1080;
           refreshRate = 60;
           x = -1920;
           y = 0;
           workspace = 1;
-        }
-        {
-          name = "desc:ASUSTek COMPUTER INC VG246H1A R2LMTF144267";
+        };
+        "desc:ASUSTek COMPUTER INC VG246H1A R2LMTF144267" = {
           width = 1920;
           height = 1080;
           refreshRate = 60;
@@ -83,17 +80,16 @@ in {
           y = 0;
           workspace = 2;
           primary = true;
-        }
-        {
-          name = "desc:AlgolTek Inc. 0x0001 0x434E3031";
+        };
+        "desc:AlgolTek Inc. 0x0001 0x434E3031" = {
           width = 1920;
           height = 1080;
           refreshRate = 60;
           x = 1920;
           y = 0;
           workspace = 3;
-        }
-      ];
+        };
+      };
     };
   };
 }

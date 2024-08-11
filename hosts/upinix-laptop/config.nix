@@ -73,10 +73,8 @@ in {
       cpu.amd = enable;
       gpu.nvidia = enable;
 
-      monitors = [
-        {
-          name = "desc:BOE 0x0C8E";
-
+      monitors.monitors = {
+        "desc:BOE 0x0C8E" = {
           width = 2560;
           height = 1600;
           refreshRate = 240;
@@ -86,8 +84,8 @@ in {
 
           workspace = 1;
           primary = true;
-        }
-      ];
+        };
+      };
     };
   };
 }

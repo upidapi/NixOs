@@ -9,7 +9,7 @@
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt;
-  inherit (lib) mkIf;
+  inherit (lib) mkIf removePrefix;
   cfg = config.modules.home.desktop.addons.hyprlock;
 in {
   options.modules.home.desktop.addons.hyprlock =
@@ -20,32 +20,34 @@ in {
 
     programs.hyprlock = let
       monitorCfg = osConfig.modules.nixos.hardware.monitors;
-      primary = monitorCfg.primaryMonitor;
+      fmtDesc = name: removePrefix "desc:" name;
+      primary = fmtDesc monitorCfg.primaryMonitor;
     in {
       enable = true;
       settings = {
-        background = {
-          monitor = "DP-1";
-          path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
-          blur_passes = 3;
-          blur_size = 4;
-          brightness = 0.5;
-        };
-        /*
-        builtins.map
-        (monitor: {
-          monitor = monitor.name;
-          path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
-          blur_passes = 3;
-          blur_size = 4;
-          brightness = 0.5;
-        })
-        (
-          builtins.filter
-          (m: m.enabled)
-          (builtins.attrValues monitorCfg.monitors)
-        );
-        */
+        background =
+          /*
+                                    {
+            monitor = "DP-1";
+            path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
+            blur_passes = 3;
+            blur_size = 4;
+            brightness = 0.5;
+          };
+          */
+          builtins.map
+          (monitor: {
+            monitor = fmtDesc monitor.name;
+            path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
+            blur_passes = 3;
+            blur_size = 4;
+            brightness = 0.5;
+          })
+          (
+            builtins.filter
+            (m: m.enabled)
+            (builtins.attrValues monitorCfg.monitors)
+          );
         general = {
           grace = 5;
           disable_loading_bar = false;

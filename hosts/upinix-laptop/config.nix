@@ -1,22 +1,14 @@
 {
-  # config,
   pkgs,
   lib,
-  # inputs,
-  # inputs',
-  self,
-  # self',
   my_lib,
   keys,
   ...
 }: let
   inherit (my_lib.opt) enable;
 in {
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "23.11";
 
-  # TODO: factor out this into some module
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.upidapi = {
     isNormalUser = true;
     description = "upidapi";

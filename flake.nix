@@ -6,8 +6,6 @@
       imports = [
         ./parts # parts of the flake
         ./hosts # entry point for all machines / users
-
-        # TODO: move this to eg home/default.nix or lib/mk_homes.nix
       ];
 
       systems = [

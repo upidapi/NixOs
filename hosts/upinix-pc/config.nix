@@ -1,22 +1,13 @@
 {
-  # config,
   pkgs,
-  # lib,
-  # inputs,
-  # inputs',
-  # self,
-  # self',
   my_lib,
   keys,
   ...
 }: let
   inherit (my_lib.opt) enable;
 in {
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "23.11";
 
-  # TODO: factor out this into some module
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.upidapi = {
     isNormalUser = true;
     description = "upidapi";
@@ -29,7 +20,7 @@ in {
 
   users.users.root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
 
-  # force the correct res, since the kernel thinks one of my disaplys is samller
+  # force the "correct" res, since one of my displays is smaller
   # otherwise it selects the smaller res
   systemd.services.console-fbset = {
     enable = true;
@@ -62,9 +53,8 @@ in {
           workspace = -1;
         };
         "desc:Dell Inc. DELL U2312HM 59DJP23QCZFL" = {
-          # for some reason the names change by sops
-
-          # use desc to match instead
+          # for some reason the names change when using sops
+          # therefore use desc to match instead
           width = 1920;
           height = 1080;
           refreshRate = 60;

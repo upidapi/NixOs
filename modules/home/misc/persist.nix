@@ -64,6 +64,9 @@ in {
         ".mozilla/firefox"
 
         ".local/share/Steam"
+
+        # podman images
+        ".local/share/containers/storage"
         /*
         {
           directory = ".local/share/Steam";

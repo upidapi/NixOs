@@ -77,7 +77,8 @@ in {
         virtualization = {
           podman = enable;
           qemu = enable;
-          virt-manager = enable;
+          waydroid = enable;
+          distrobox = enable;
         };
       };
 

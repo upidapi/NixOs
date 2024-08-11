@@ -14,7 +14,6 @@
       system = "x86_64-linux";
       name = "full-installer";
       # cant have disko on a usb :)
-      # TODO: ^^^ is that true? ^^^
       disko = false;
     }
     {

@@ -16,7 +16,7 @@ in {
     # "xserver" is actually just the general display server
     # so this actually configs wayland too.
     services.xserver.xkb = {
-      layout = "se"; # TODO: make this configurable
+      layout = "se";
       variant = "";
     };
 

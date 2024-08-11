@@ -60,11 +60,11 @@ in {
             };
             EXPLORE = {
               icon = "󰍉";
-              color = "todo";
+              color = "#2563EB";
             };
             TODO = {
               icon = " ";
-              color = "todo";
+              color = "#2563EB";
               alt = ["todo"];
             };
             HACK = {

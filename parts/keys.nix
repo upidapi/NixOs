@@ -9,8 +9,6 @@
     admin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK0MLLzh+8UzScYKSVSN0j0su890AhlfWNz8Lz3lQ0tl admin";
   };
 
-  # TODO: possibly assert that all machines (and users) are here?
-
   # Hosts
   machines = {
     full-installer-x86_64 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDf1kXG1cPMYLKvV7EgOrfGax4IyR4aCQW7Y+7vA1AMp root@full-installer-x86_64";

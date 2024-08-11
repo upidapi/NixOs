@@ -179,7 +179,7 @@ def init_bootstrap_cfg(profile):
         # (eg pinning it to the flake inputs)
         # "--extra-experimental-features \"flakes\""
 
-        # all cores TODO: check if this is true 
+        # all cores
         "--cores 0 "
         "--no-root-passwd ",
     )
@@ -193,7 +193,7 @@ def install_system(profile):
     run_cmd(
         "nixos-install "
         "--root /mnt "
-        # all cores TODO: check if this is true
+        # all cores 
         "--cores 0 "
         "--no-root-passwd "
         f"--flake /mnt/persist/nixos#{profile}",

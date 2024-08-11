@@ -11,9 +11,8 @@ in {
   options.modules.nixos.hardware.bth =
     mkEnableOpt "enables bluetooth for the system";
 
-  # NOTE: it seems that bth won't work when there's no
-  #  audio sources, i.e nothing playing audia
-
+  # it seems that bth won't work when there's no audio sources,
+  # i.e nothing playing audio (i don't think this is still the case)
   config = mkIf cfg.enable {
     hardware.bluetooth = {
       enable = true; # enables support for Bluetooth

@@ -2,6 +2,7 @@
   imports = [
     ./podman.nix
     ./qemu.nix
-    ./virt-manager.nix
+    ./distrobox.nix
+    ./waydroid.nix
   ];
 }

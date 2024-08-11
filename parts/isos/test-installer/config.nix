@@ -11,9 +11,9 @@
   inherit (my_lib.opt) enable;
 in {
   imports = [
-    # TODO:remove "-no-zfs"
+    # TODO: remove "-no-zfs" when zfs supports the 6.10
     #  tuxedo required 6.10 (latest kernel)
-    #  zfs takes a while to support the latest kernel
+    #  (zfs takes a while to support the latest kernel)
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     "${self}/modules/nixos/misc/iso.nix"

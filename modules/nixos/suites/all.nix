@@ -1,6 +1,4 @@
 {
-  # pkgs,
-  # inputs,
   my_lib,
   config,
   lib,
@@ -41,7 +39,6 @@ in {
           hyprland = enable;
           login = {
             greetd = enable;
-            # sddm = enable;
           };
           xserver = enable;
         };
@@ -79,12 +76,15 @@ in {
 
         virtualization = {
           podman = enable;
+          qemu = enable;
+          virt-manager = enable;
         };
       };
 
       security = {
         # too annoying cant use --preserve-env
         # sudo-rs = enable;
+        cfg-perms = enable;
       };
 
       other = enable;

@@ -15,38 +15,42 @@ in {
   # TODO: look at ca-derivations
   # TODO: look at misterios templates
 
-  config.nix = let
+  config = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in
     mkIf cfg.enable {
-      channel.enable = false;
+      # Allow unfree packages
+      nixpkgs.config.allowUnfree = true;
 
-      /*
-      nixPath = [
-        # Point to a stable path so system updates immediately update
-        "nixpkgs=/run/current-system/nixpkgs"
-      ];
+      nix = {
+        channel.enable = false;
+        /*
+        nixPath = [
+          # Point to a stable path so system updates immediately update
+          "nixpkgs=/run/current-system/nixpkgs"
+        ];
 
-      # Pinning flake registry entries, to avoid unpredictable cache invalidation and
-      # corresponding large downloads
-      registry = {
-        nixpkgs.flake = inputs.nixpkgs;
-        nixfiles.flake = inputs.self;
-      };
-      */
-      # Opinionated: make flake registry and nix path match flake inputs
-      registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+        # Pinning flake registry entries, to avoid unpredictable cache invalidation and
+        # corresponding large downloads
+        registry = {
+          nixpkgs.flake = inputs.nixpkgs;
+          nixfiles.flake = inputs.self;
+        };
+        */
+        # Opinionated: make flake registry and nix path match flake inputs
+        registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
+        nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 
-      settings = {
-        flake-registry = "";
+        settings = {
+          flake-registry = "";
 
-        auto-optimise-store = true;
+          auto-optimise-store = true;
 
-        log-lines = 500;
-        show-trace = true;
+          log-lines = 500;
+          show-trace = true;
 
-        nix-path = config.nix.nixPath;
+          nix-path = config.nix.nixPath;
+        };
       };
     };
 }

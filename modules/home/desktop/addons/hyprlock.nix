@@ -24,29 +24,28 @@ in {
     in {
       enable = true;
       settings = {
-        background =
-          /*
-                                    {
-            monitor = "DP-1";
-            path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
-            blur_passes = 3;
-            blur_size = 4;
-            brightness = 0.5;
-          };
-          */
-          builtins.map
-          (monitor: {
-            monitor = monitor.name;
-            path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
-            blur_passes = 3;
-            blur_size = 4;
-            brightness = 0.5;
-          })
-          (
-            builtins.filter
-            (m: m.enabled)
-            (builtins.attrValues monitorCfg.monitors)
-          );
+        background = {
+          monitor = "DP-1";
+          path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
+          blur_passes = 3;
+          blur_size = 4;
+          brightness = 0.5;
+        };
+        /*
+        builtins.map
+        (monitor: {
+          monitor = monitor.name;
+          path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
+          blur_passes = 3;
+          blur_size = 4;
+          brightness = 0.5;
+        })
+        (
+          builtins.filter
+          (m: m.enabled)
+          (builtins.attrValues monitorCfg.monitors)
+        );
+        */
         general = {
           grace = 5;
           disable_loading_bar = false;

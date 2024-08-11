@@ -26,15 +26,6 @@ in {
       enable = true;
       settings = {
         background =
-          /*
-                                    {
-            monitor = "DP-1";
-            path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
-            blur_passes = 3;
-            blur_size = 4;
-            brightness = 0.5;
-          };
-          */
           builtins.map
           (monitor: {
             monitor = fmtDesc monitor.name;

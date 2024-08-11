@@ -18,8 +18,15 @@ manpages
 manpage 
 neovim 
 .spl 
+perf
+systemd
+addons
 utf 
+perma 
+chmod 
 prog 
+pycharm 
+luasnip
 vesktop
 json 
 unwritable

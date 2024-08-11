@@ -28,16 +28,16 @@ in {
           colors = {
             error = ["DiagnosticError" "ErrorMsg" "#DC2626"];
             warning = ["DiagnosticWarn" "WarningMsg" "#FBBF24"];
-            info = ["DiagnosticInfo" "#2563EB"];
+            todo = ["DiagnosticInfo" "#2563EB"];
             hint = ["DiagnosticHint" "#10B981"];
             default = ["Identifier" "#7C3AED"];
             test = ["Identifier" "#FF00FF"];
           };
 
           highlight = {
-            multiline = true; # enable multine todo comments
+            multiline = true; # enable multiline todo comments
 
-            # only continue comment if folowing line is indented
+            # only continue comment if following line is indented
             multilinePattern = "^ "; # lua pattern to match the next multiline from the start of the matched keyword
 
             # multiline_context = 10; # extra lines that will be re-evaluated when changing a line
@@ -58,9 +58,13 @@ in {
               color = "error"; # Can be a hex color, or a named color.
               alt = ["FIXME" "BUG" "FIXIT" "ISSUE"]; # A set of other keywords that all map to this FIX keywords.
             };
+            EXPLORE = {
+              icon = "󰍉";
+              color = "todo";
+            };
             TODO = {
               icon = " ";
-              color = "#2563EB";
+              color = "todo";
               alt = ["todo"];
             };
             HACK = {

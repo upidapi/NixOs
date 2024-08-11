@@ -22,6 +22,9 @@ in {
   ags --quit;
   ags -c /persist/nixos/modules/home/desktop/addons/ags/config.js
   */
+
+  # TODO: use systemd-inhibit to inhibit idle with a switch
+
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
       exec-once = ["ags"];

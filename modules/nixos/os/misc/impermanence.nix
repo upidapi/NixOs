@@ -92,6 +92,9 @@ in {
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
         "/srv/restic-repo" # backups
+
+        "/var/cache/tuigreet/" # save last user / session
+
         # "/etc/ssh" NOTE: this might break things
         {
           directory = "/var/lib/colord";

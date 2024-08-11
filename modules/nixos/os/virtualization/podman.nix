@@ -18,7 +18,7 @@ in {
     environment.systemPackages = with pkgs; [
       podman-compose
       podman-desktop
-      podman-tui # TODO: shoud i keep this?
+      podman-tui
     ];
 
     # TODO: virtualisation.containers.enable ?

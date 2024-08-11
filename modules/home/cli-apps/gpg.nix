@@ -10,8 +10,7 @@
 in {
   options.modules.home.cli-apps.gpg = mkEnableOpt "enables pgp";
   config = mkIf cfg.enable {
-    # TODO: take a look at https://github.com/NotAShelf/nyx/blob/main/homes/notashelf/programs/terminal/tools/gpg.nix
-    # TODO: add EXPLORE: for things to take a look at
+    # EXPLORE: https://github.com/NotAShelf/nyx/blob/main/homes/notashelf/programs/terminal/tools/gpg.nix
     services.gpg-agent = {
       enable = true;
       # enableScDaemon = true; # ?

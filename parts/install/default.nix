@@ -21,6 +21,7 @@
   };
 }
 # TODO: bootstraping secrets
+#  figure out how to establish install / continued trust
 /*
 load the secrets/infra.yaml
 decrypt with admin key (+ passphrase?)

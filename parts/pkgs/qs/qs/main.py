@@ -216,7 +216,6 @@ class Steps:
             fi
         """
  
-        # TODO: remove the nice part?
         full_cmd = f"""
             nice -n 1 sudo -- sh -c {shlex.quote(sudo_part)}
         """

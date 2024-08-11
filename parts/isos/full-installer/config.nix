@@ -17,7 +17,6 @@ in {
   ];
 
   config = {
-    # Define a user account. Don't forget to set a password with ‘passwd’.
     users.users.upidapi = {
       isNormalUser = true;
       description = "upidapi";
@@ -27,6 +26,8 @@ in {
 
       openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
+
+    networking.wireless.enable = false;
 
     modules.nixos = {
       suites.all = enable;
@@ -39,8 +40,7 @@ in {
 
       # collides with the installer stuff
       os.networking = {
-        enable = lib.mkForce false; # TODO: only disable networkmaanger
-        openssh.enable = lib.mkForce false;
+        openssh.enable = lib.mkForce false; # does this really collide
       };
     };
   };

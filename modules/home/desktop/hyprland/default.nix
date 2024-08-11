@@ -21,9 +21,6 @@ in {
     mkEnableOpt "enables hyperland, a wayland tiling manager";
 
   config = mkIf cfg.enable {
-    # TODO: might whant to add a load screen for opening windows?
-    #  might be unfeasible / inconvenient
-
     home.packages = with pkgs; [
       brightnessctl
       hyprpicker

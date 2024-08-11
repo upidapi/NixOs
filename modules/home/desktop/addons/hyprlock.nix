@@ -24,24 +24,29 @@ in {
     in {
       enable = true;
       settings = {
-        background = {
-          monitor = "DP-1";
-          path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
-          blur_passes = 3;
-          blur_size = 4;
-          brightness = 0.5;
-        };
-        /*
-        builtins.map
-        (monitor: {
-          monitor = monitor.name;
-          path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
-          blur_passes = 3;
-          blur_size = 4;
-          brightness = 0.5;
-        })
-        (builtins.attrValues monitorCfg.monitors);
-        */
+        background =
+          /*
+                                    {
+            monitor = "DP-1";
+            path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
+            blur_passes = 3;
+            blur_size = 4;
+            brightness = 0.5;
+          };
+          */
+          builtins.map
+          (monitor: {
+            monitor = monitor.name;
+            path = "${./wallpaper/wallpapers/simple-tokyo-night.png}";
+            blur_passes = 3;
+            blur_size = 4;
+            brightness = 0.5;
+          })
+          (
+            builtins.filter
+            (m: m.enabled)
+            (builtins.attrValues monitorCfg.monitors)
+          );
         general = {
           grace = 5;
           disable_loading_bar = false;
@@ -50,7 +55,7 @@ in {
         };
         input-field = [
           {
-            monitor = "DP-1"; # primary;
+            monitor = primary;
             size = "350, 50";
             outline_thickness = 2;
             outer_color = "rgb(f7768e)";
@@ -74,7 +79,7 @@ in {
         ];
         label = [
           {
-            monitor = "DP-1"; # primary;
+            monitor = primary;
             text = ''
               Hi, <i><span foreground="##f7768e">$USER</span></i>
             '';
@@ -87,7 +92,7 @@ in {
             shadow_boost = 1.0;
           }
           {
-            monitor = "DP-1"; # primary;
+            monitor = primary;
             text = "$TIME";
             color = "rgb(c0caf5)";
             position = "0, 120";

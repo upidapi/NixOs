@@ -7,8 +7,9 @@
     ./pkgs
     ./shells
     ./templates
+    ./home-manager
   ];
 
   # ./lib and ./keys is imported in ./args.nix
-  # (actually in ./lib/mk_hosts.nix for now)
+  # (or actually in ./lib/mk_hosts.nix for now)
 }

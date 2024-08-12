@@ -23,7 +23,10 @@ in {
     # intel_iommu=on for intel chips
     # maybe add params based on nixos/hardware
     # nix-mineral sets it to force isolation
-    boot.kernelParams = ["amd_iommu=on"];
+    boot.kernelParams = ["iommu=pt" "amd_iommu=on"];
+
+    # Dont forget to enable iommu in the bios
+    # for me (on amd) auto didn't work
 
     # TODO: probably expand this config
 

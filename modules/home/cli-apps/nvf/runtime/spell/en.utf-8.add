@@ -26,6 +26,11 @@ perma
 chmod 
 prog 
 zfs
+iommu 
+amd 
+intel 
+pci 
+vfio 
 pycharm 
 luasnip
 goto

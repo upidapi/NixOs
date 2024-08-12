@@ -3,28 +3,70 @@
   my_lib,
   lib,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
   inherit (builtins) concatStringsSep;
   cfg = config.modules.nixos.os.virtualization.qemu;
+  username = "upidapi";
 in {
   options.modules.nixos.os.virtualization.qemu =
     mkEnableOpt "enables the qemu for running vm(s)";
-
+  imports = [inputs.NixVirt.nixosModules.default];
   config = mkIf cfg.enable {
+    programs.virt-manager.enable = true;
+    virtualisation.libvirt = {enable = true;};
+    virtualisation.libvirtd = {
+      enable = true;
+      package = pkgs.libvirt;
+      extraConfig = ''
+        user="${username}"
+      '';
+
+      # Don't start any VMs automatically on boot.
+      onBoot = "ignore";
+      # Stop all running VMs on shutdown.
+      onShutdown = "shutdown";
+
+      qemu = {
+        package = pkgs.qemu_kvm;
+        swtpm.enable = true;
+        ovmf = {
+          enable = true;
+          packages = [pkgs.OVMFFull.fd];
+        };
+      };
+    };
+
+    users.users.${username}.extraGroups = ["qemu-libvirtd" "libvirtd" "disk"];
+    boot = {
+      initrd.kernelModules = [
+        "vfio_pci"
+        "vfio"
+        "vfio_iommu_type1"
+        # "vfio_virqfd"
+      ];
+      kernelModules = ["vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio"];
+      kernelParams = ["amd_iommu=on" "amd_iommu=pt" "kvm.ignore_msrs=1"];
+      extraModprobeConfig = "options vfio-pci ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed";
+    };
+
+    # (writeScriptBin "iommu-groups" ''
+    # #!/usr/bin/env bash
+    # shopt -s nullglob
+    # for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
+    #     echo "IOMMU Group ''${g##*/}:"
+    #     for d in $g/devices/*; do
+    #         echo -e "\t$(lspci -nns ''${d##*/})"
+    #     done;
+    # done;
+    # '')
+
+    /*
     environment.systemPackages = with pkgs; [
-      # (writeScriptBin "iommu-groups" ''
-      # #!/usr/bin/env bash
-      # shopt -s nullglob
-      # for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
-      #     echo "IOMMU Group ''${g##*/}:"
-      #     for d in $g/devices/*; do
-      #         echo -e "\t$(lspci -nns ''${d##*/})"
-      #     done;
-      # done;
-      # '')
+
 
       # various os(s) vm images that can be started with one command
       quickemu
@@ -105,14 +147,12 @@ in {
         # 01:00.2 USB controller [0c03]: NVIDIA Corporation TU116 USB 3.1 Host Controller [10de:1aec] (rev a1)
         # 01:00.3 Serial bus controller [0c80]: NVIDIA Corporation TU116 USB Type-C UCSI Controller [10de:1aed] (rev a1)
         # breaks boot
-        /*
-        ''vfio-pci.ids=${concatStringsSep "," [
-            "10de:2182"
-            "10de:1aeb"
-            "10de:1aec"
-            "10de:1aed"
-          ]}''
-        */
+        #   ''vfio-pci.ids=${concatStringsSep "," [
+        #   "10de:2182"
+        #   "10de:1aeb"
+        #   "10de:1aec"
+        #   "10de:1aed"
+        #  ]}''
       ];
 
       extraModprobeConfig = ''
@@ -120,6 +160,8 @@ in {
         options vfio-pci ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed
       '';
     };
+
+    */
 
     # Dont forget to enable iommu in the bios
     # for me (on amd) auto didn't work

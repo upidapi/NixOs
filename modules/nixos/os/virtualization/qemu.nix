@@ -68,6 +68,9 @@ in {
         "kvm_amd"
       ];
 
+      kernelPackages = pkgs.linuxPackages_latest;
+      supportedFilesystems.zfs = lib.mkForce false;
+
       initrd.kernelModules = [
         # "vfio_virqfd"
         "vfio_pci"
@@ -90,8 +93,8 @@ in {
       # maybe add params based on nixos/hardware
       # nix-mineral sets it to force isolation
       kernelParams = [
-        "iommu=pt"
-        "amd_iommu=on"
+        # "iommu=pt"
+        # "amd_iommu=on"
         "kvm.ignore_msrs=1"
         # "intel_iommu=on"
 

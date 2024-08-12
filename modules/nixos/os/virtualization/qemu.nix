@@ -7,6 +7,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
+  inherit (builtins) concatStringsSep;
   cfg = config.modules.nixos.os.virtualization.qemu;
 in {
   options.modules.nixos.os.virtualization.qemu =
@@ -58,17 +59,30 @@ in {
     # referance
     boot = {
       kernelModules = [
+        "vfio_virqfd"
         "vfio_pci"
-        "vfio"
         "vfio_iommu_type1"
+        "vfio"
 
         "kvm"
         "kvm_amd"
       ];
+
+      initrd.kernelModules = [
+        # "vfio_virqfd"
+        "vfio_pci"
+        "vfio_iommu_type1"
+        "vfio"
+      ];
+
       # kernelParams = [ "intel_iommu=on" "iommu=pt" "vfio-pci.ids=1002:6fdf,1002:aaf0" "hugepages=8192" ];
 
       # proprietary nvidia drivers
-      extraModprobeConfig = "softdep nvidia pre: vfio-pci";
+      # extraModprobeConfig = "softdep nvidia pre: vfio-pci";
+      # extraModprobeConfig = optionalString (length cfg.vfioIds > 0) ''
+      #   softdep amdgpu pre: vfio vfio-pci
+      #   options vfio-pci ids=${concatStringsSep "," cfg.vfioIds}
+      # '';
       # else
       # extraModprobeConfig = "softdep drm pre: vfio-pci";
 
@@ -78,7 +92,8 @@ in {
       kernelParams = [
         "iommu=pt"
         "amd_iommu=on"
-        "intel_iommu=on"
+        "kvm.ignore_msrs=1"
+        # "intel_iommu=on"
 
         # specify the IDs of the devices you intend to passthrough
         # (this is hardware specific)
@@ -86,8 +101,9 @@ in {
         # 01:00.1 Audio device [0403]: NVIDIA Corporation TU116 High Definition Audio Controller [10de:1aeb] (rev a1)
         # 01:00.2 USB controller [0c03]: NVIDIA Corporation TU116 USB 3.1 Host Controller [10de:1aec] (rev a1)
         # 01:00.3 Serial bus controller [0c80]: NVIDIA Corporation TU116 USB Type-C UCSI Controller [10de:1aed] (rev a1)
+        # breaks boot
         /*
-        ''vfio-pci.ids=${builtins.concatStringsSep "," [
+        ''vfio-pci.ids=${concatStringsSep "," [
             "10de:2182"
             "10de:1aeb"
             "10de:1aec"
@@ -95,6 +111,8 @@ in {
           ]}''
         */
       ];
+
+      extraModprobeConfig = "options vfio-pci ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed";
     };
 
     # Dont forget to enable iommu in the bios

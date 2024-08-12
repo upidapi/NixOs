@@ -112,7 +112,10 @@ in {
         */
       ];
 
-      extraModprobeConfig = "options vfio-pci ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed";
+      extraModprobeConfig = ''
+        softdep nvidia pre: vfio-pci
+        options vfio-pci ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed
+      '';
     };
 
     # Dont forget to enable iommu in the bios

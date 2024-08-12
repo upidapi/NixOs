@@ -1,7 +1,7 @@
 This is just for my own sake
 its not actually markdown i just like the colors :)
 
-    
+
 # open the (infra) sops file
 ```bash
 cd "$NIXOS_CONFIG_PATH"; su --preserve-environment -c "
@@ -24,6 +24,7 @@ sudo nix build .#images.minimal-installer
 cp -rL $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 ```
 
+
 # fetch official iso(s)
 ```bash 
 function downloadFile {
@@ -44,11 +45,13 @@ downloadOfficialIso gnome
 downloadOfficialIso plasma6 
 ```
 
+
 # get logs
 ```bash
 systemctl --user status 
 journalctl -xeu home-manager-upidapi.service
 ```
+
 
 # format traces
 ```
@@ -58,6 +61,20 @@ journalctl -xeu home-manager-upidapi.service
 <PRIMOP-APP>
 <LAMBDA>
 «repeated»
+```
+
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
+```
+
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
 ```
 
 

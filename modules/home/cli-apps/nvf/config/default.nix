@@ -144,7 +144,7 @@ in {
           # TODO: config
         };
 
-        # tabline = {
+        # tabline = cope current_buffer_fuzzy_find
         #   nvimBufferline = {
         #     enable = true;
         #     mappings = {
@@ -161,12 +161,12 @@ in {
         in {
           normal =
             {
-              "<leader>fz".action = "Telescope current_buffer_fuzzy_find";
+              "<leader>fz".action = "<cmd>Telescope current_buffer_fuzzy_find<CR>";
 
               # neo tre
-              "<leader>tt".action = "Neotree toggle";
-              "<leader>tu".action = "Neotree";
-              "<leader>tr".action = "Neotree reveal";
+              "<leader>tt".action = "<cmd>Neotree toggle<CR>";
+              "<leader>tu".action = "<cmd>Neotree<CR>";
+              "<leader>tr".action = "<cmd>Neotree reveal<CR>";
             }
             // m;
           insert = {
@@ -183,7 +183,7 @@ in {
             findFiles = "<leader>ff"; # "<leader>ff";
             buffers = "<leader>fb"; # "<leader>fb";
 
-            liveGrep = "<leader>"; # "<leader>fg";
+            liveGrep = "<leader>fg"; # "<leader>fg";
             helpTags = null; # "<leader>fh";
             open = null; # "<leader>ft";
 

@@ -45,6 +45,10 @@ in {
             timeout = 330;
             on-timeout = "hyprlock --immediate --immediate-render";
           }
+          {
+            timeout = 60 * 30;
+            on-timeout = "systemctl suspend";
+          }
         ];
       };
     };

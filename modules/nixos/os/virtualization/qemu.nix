@@ -15,6 +15,15 @@ in {
     virtualisation.libvirtd.enable = true;
     programs.virt-manager.enable = true;
 
+    # referance
+    # boot.kernelModules = [ "vfio_pci" "vfio" "vfio_iommu_type1" "kvm" "kvm_amd" ];
+    # boot.kernelParams = [ "intel_iommu=on" "iommu=pt" "vfio-pci.ids=1002:6fdf,1002:aaf0" "hugepages=8192" ];
+    # boot.extraModprobeConfig = "softdep drm pre: vfio-pci";
+
+    # intel_iommu=on for intel chips
+    # maybe add params based on nixos/hardware
+    boot.kernelParams = ["amd_iommu=on"];
+
     # TODO: probably expand this config
 
     # TODO: add some sort of windows image for compatibility

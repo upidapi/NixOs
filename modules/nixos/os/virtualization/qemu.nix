@@ -54,6 +54,7 @@ in {
       # TODO: generalise
       "f /dev/shm/looking-glass 0660 upidapi kvm -"
     ];
+
     # referance
     boot = {
       kernelModules = [
@@ -85,7 +86,12 @@ in {
         # 01:00.1 Audio device [0403]: NVIDIA Corporation TU116 High Definition Audio Controller [10de:1aeb] (rev a1)
         # 01:00.2 USB controller [0c03]: NVIDIA Corporation TU116 USB 3.1 Host Controller [10de:1aec] (rev a1)
         # 01:00.3 Serial bus controller [0c80]: NVIDIA Corporation TU116 USB Type-C UCSI Controller [10de:1aed] (rev a1)
-        "vfio-pci.ids=10de:2182,10de:22bb,10de:1aeb,10de:1aec,10de:1aed"
+        ''vfio-pci.ids=${builtins.concatStringsSep "," [
+            "10de:2182"
+            "10de:1aeb"
+            "10de:1aec"
+            "10de:1aed"
+          ]}''
       ];
     };
 

@@ -22,6 +22,7 @@ in {
 
     # intel_iommu=on for intel chips
     # maybe add params based on nixos/hardware
+    # nix-mineral sets it to force isolation
     boot.kernelParams = ["amd_iommu=on"];
 
     # TODO: probably expand this config

@@ -145,4 +145,4 @@ nushell
 Ignore whitspace in git diffs
 
 
-
+remove the sudo warning

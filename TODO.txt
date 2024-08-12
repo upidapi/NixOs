@@ -122,6 +122,10 @@ himachi
     or some other manuall thing
 
 
+direnv 
+    auto enter env on cd 
+
+
 hyprcursor 
 
 

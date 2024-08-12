@@ -1,7 +1,4 @@
 # this is s̶t̶o̶l̶e̶n based on https://github.com/spikespaz/dotfiles/blob/a8f39cbf196e56628d24e406aa2d2bb4c55d19a9/hm-modules/keepassxc.nix
-# TODO: maybe?
-# <https://gist.github.com/dAnjou/b99f55de34b90246f381e71e3c8f9262>
-# <https://github.com/keepassxreboot/keepassxc/issues/613>
 {
   config,
   lib,

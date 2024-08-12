@@ -97,11 +97,10 @@ in {
         "$mod, S, exec, $TERMINAL"
         "$mod, D, exec, rofi -show drun"
         "$mod, F, exec, $BROWSER"
+        "$mod, ESC, exec, hyprlock"
 
         "$mod, C, killactive"
         "$mod, M, exit"
-
-        "$mod, ESC, hyprlock"
 
         "$mod, U, togglefloating"
         "$mod, I, fullscreen, 0" # entire display

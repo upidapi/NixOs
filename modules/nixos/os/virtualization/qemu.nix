@@ -68,7 +68,7 @@ in {
       # kernelParams = [ "intel_iommu=on" "iommu=pt" "vfio-pci.ids=1002:6fdf,1002:aaf0" "hugepages=8192" ];
 
       # proprietary nvidia drivers
-      # extraModprobeConfig = "softdep nvidia pre: vfio-pci";
+      extraModprobeConfig = "softdep nvidia pre: vfio-pci";
       # else
       # extraModprobeConfig = "softdep drm pre: vfio-pci";
 

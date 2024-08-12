@@ -59,9 +59,8 @@ in {
     #  (nix-shell -p wev)
 
     bindli =
-      []
       # media controls
-      ++ (let
+      let
         # Only try the currently focused one
         # Otherwise it's gonna try everyone (in order) until it
         # finds an available one, which can be one that isn't focused.
@@ -77,55 +76,46 @@ in {
         # to change this
         ",XF86AudioPlay${center}play-pause"
         ",XF86AudioPause${center}play-pause"
-      ]);
+      ];
 
     # kbd binds
-    bind =
+    bind = let
+      mkArrowBind = mods: cmd: [
+        "$mod ${mods}, left, ${cmd}, l"
+        "$mod ${mods}, right, ${cmd}, r"
+        "$mod ${mods}, up, ${cmd}, u"
+        "$mod ${mods}, down, ${cmd}, d"
+
+        "$mod ${mods}, H, ${cmd}, l"
+        "$mod ${mods}, L, ${cmd}, r"
+        "$mod ${mods}, K, ${cmd}, u"
+        "$mod ${mods}, J, ${cmd}, d"
+      ];
+    in
       [
         # "$mod, Q, exec, kitty"
         "$mod, S, exec, $TERMINAL"
         "$mod, D, exec, rofi -show drun"
-        "$mod, F, exec, firefox"
+        "$mod, F, exec, $BROWSER"
 
         "$mod, C, killactive"
         "$mod, M, exit"
 
+        "$mod, ESC, hyprlock"
+
+        "$mod, U, togglefloating"
+        "$mod, I, fullscreen, 0" # entire display
+
         # screen shot
-        (
-          ",Print , exec, "
-          + "grim -g \"$(slurp -w 0)\" - | wl-copy"
-        )
+        ",Print , exec, grim -g \"$(slurp -w 0)\" - | wl-copy"
 
-        # move focus with arrow keys
-        "$mod, left, movefocus, l"
-        "$mod, right, movefocus, r"
-        "$mod, up, movefocus, u"
-        "$mod, down, movefocus, d"
-
-        # move window with arrow keys
-        "$mod CTRL, left, movewindow, l"
-        "$mod CTRL, right, movewindow, r"
-        "$mod CTRL, up, movewindow, u"
-        "$mod CTRL, down, movewindow, d"
-
-        # move focus with vim keys
-        "$mod, H, movefocus, l"
-        "$mod, L, movefocus, r"
-        "$mod, K, movefocus, u"
-        "$mod, J, movefocus, d"
-
-        # move window with vim keys
-        "$mod CTRL, H, movewindow, l"
-        "$mod CTRL, L, movewindow, r"
-        "$mod CTRL, K, movewindow, u"
-        "$mod CTRL, J, movewindow, d"
         # "$mod, F, exec, firefox"
         # ", Print, exec, grimblast copy area"
       ]
+      ++ (mkArrowBind "" "movefocus")
+      ++ (mkArrowBind "CTRL" "movewindow")
+      ++ (mkArrowBind "SHIFT" "swapwindow")
       ++ (
-        # TODO: make SUPER + ALT + {num} go the the {num} display/monitor
-        # workspaces
-        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
         builtins.concatLists (
           builtins.genList (
             x: let
@@ -139,13 +129,13 @@ in {
               # go to workspace n
               # "$mod, ${nb}, workspace, ${wn}"
 
-              # move active to workspace n
+              # move active to workspace n, (preserve window focus)
               "$mod CTRL, ${nb}, movetoworkspace, ${wn}"
 
-              # move active to workspace n, preserve workspace focus
-              "$mod CTRL SHIFT, ${nb}, movetoworkspacesilent, ${wn}"
+              # throw active to workspace n, (preserve workspace focus)
+              "$mod ALT, ${nb}, movetoworkspacesilent, ${wn}"
 
-              # switch the place of two worksapces
+              # switch current workspace with workspace n
               "$mod, ${nb}, focusworkspaceoncurrentmonitor, ${wn}"
             ]
           )

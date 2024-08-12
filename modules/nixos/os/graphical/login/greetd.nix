@@ -33,11 +33,10 @@
       (getExe pkgs.greetd.tuigreet)
       "--time"
       "--remember"
-      # TODO: impermanence probably fucks with this
       "--remember-user-session"
       "--asterisks"
       "--sessions '${sessionPaths}'"
-      # FIXME: temporary fix since Hyprland cant open zlacritty directly (with bind)
+      # HACK: for some reason Hyprland cant open alacritty directly (with bind)
       #  if greetd starts Hyprland directly
       "--cmd \"zsh -c Hyprland\""
     ];

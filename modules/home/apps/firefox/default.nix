@@ -14,7 +14,6 @@ in {
     mkEnableOpt
     "enables firefox";
 
-  # TODO: rearrow (community thumbnails for youtube)
   # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
 
   # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/

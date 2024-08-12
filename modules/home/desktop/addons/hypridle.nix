@@ -43,7 +43,7 @@ in {
           }
           {
             timeout = 330;
-            on-timeout = "hyprlock";
+            on-timeout = "hyprlock --immediate --immediate-render";
           }
         ];
       };

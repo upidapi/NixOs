@@ -97,7 +97,7 @@ in {
         "$mod, S, exec, $TERMINAL"
         "$mod, D, exec, rofi -show drun"
         "$mod, F, exec, $BROWSER"
-        "$mod, ESC, exec, hyprlock"
+        "$mod, Escape, exec, hyprlock --immediate"
 
         "$mod, C, killactive"
         "$mod, M, exit"

@@ -8,6 +8,7 @@ cd "$NIXOS_CONFIG_PATH"; su --preserve-environment -c "
 env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml"
 ```
 
+
 # build image
 ```bash
 cd $NIXOS_CONFIG_PATH
@@ -71,16 +72,8 @@ journalctl -xeu home-manager-upidapi.service
 ```
 
 
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
-```
-
-
 youtube
 [vimjoyer](https://www.youtube.com/@vimjoyer) 
-
 
 
 imp := impermanence

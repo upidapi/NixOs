@@ -87,6 +87,7 @@ in {
         # too annoying cant use --preserve-env
         # sudo-rs = enable;
         cfg-perms = enable;
+        sudo = enable;
       };
 
       other = enable;

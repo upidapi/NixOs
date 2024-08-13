@@ -40,6 +40,9 @@ in {
       enable = true;
 
       qemu = {
+        # does this do anything?
+        package = pkgs.qemu_kvm;
+
         # passthrugh stuff
         ovmf = enable;
 

@@ -9,15 +9,18 @@
                 with py-pkgs; [
                   pandas
                   requests
-                  pwntools
+
+                  dbus-python
+                  pygobject3
+
+                  pillow
                 ]
             )
           )
         ];
 
         shellHook = ''
-          zsh
-          exit
+          exec zsh
         '';
       };
 
@@ -31,7 +34,7 @@
             name = "cmp-prog-fhs";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
               name="cmp-prog-fhs"
-              zsh
+              exec zsh
             '';
             targetPkgs = _pkgs: (with _pkgs; [
               # gcc

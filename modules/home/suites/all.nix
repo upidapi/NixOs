@@ -34,6 +34,7 @@ in {
       #    extensions/
       #    tools/
       cli-apps = {
+        direnv = enable;
         keepassxc = enable;
         # nixvim = enable;
         nvf = enable;

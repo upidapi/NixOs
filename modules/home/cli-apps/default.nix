@@ -13,6 +13,7 @@
     ./wine.nix
     ./zsh.nix
     ./nix-index.nix
+    ./direnv.nix
     ./ssh.nix
   ];
 }

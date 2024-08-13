@@ -44,7 +44,12 @@ in {
         package = pkgs.qemu_kvm;
 
         # passthrugh stuff
-        ovmf = enable;
+        ovmf = {
+          enable = true;
+
+          # Include OVMF_CODE.secboot.fd
+          packages = [pkgs.OVMFFull.fd];
+        };
 
         # virtual tpm
         swtpm = enable;

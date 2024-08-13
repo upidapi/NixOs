@@ -19,6 +19,6 @@ in {
     };
 
     # auto enter sec dev shell when going into the sec folder
-    home.file."persist/prog/sec/.envrc".text = "use flake \"$NIXOS_CONFIG_PATH\"#sec";
+    # home.file."persist/prog/sec/.envrc".text = "use flake \"$NIXOS_CONFIG_PATH\"#sec";
   };
 }

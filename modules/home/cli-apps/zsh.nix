@@ -45,11 +45,12 @@ in {
           # persistent env su
           pesu = "sudo --preserve-env su --preserve-environment";
           # pull file from the store into tha same place but editable
+          cdmk = ''_cdmk() {mkdir -p "$1"; cd "$1"}; _cdmk'';
           unstore =
-            ''unlink() {''
+            ''_unstore() {''
             + ''[ -L "$1" ] && cp --remove-destination "$(readlink "$1")" "$1";''
             + ''chown $(whoami) "$1"; chmod +w "$1"''
-            + ''}; unlink'';
+            + ''}; _unstore'';
           ".." = "cd ..";
           "..." = "cd ../..";
           "...." = "cd ../../..";

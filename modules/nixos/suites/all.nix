@@ -73,6 +73,7 @@ in {
           syncthing = enable;
           restic = enable;
         };
+
         virtualisation = {
           podman = enable;
           vfio = disable;

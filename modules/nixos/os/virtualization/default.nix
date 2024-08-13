@@ -1,9 +1,9 @@
 {
   imports = [
     ./podman.nix
-    ./qemu.nix
+    ./qemu
     ./distrobox.nix
     ./waydroid.nix
-    ./vfio
+    ./vfio.nix
   ];
 }

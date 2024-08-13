@@ -12,7 +12,12 @@ in {
     isNormalUser = true;
     description = "upidapi";
 
-    extraGroups = ["networkmanager" "wheel" "libvirtd"];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "libvirtd"
+    ];
+
     hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
 
     openssh.authorizedKeys.keys = [keys.users.upidapi];
@@ -39,6 +44,15 @@ in {
 
   modules.nixos = {
     suites.all = enable;
+
+    /*
+    os.virtualisation.vfio.devices = [
+       "10de:2182"
+       "10de:1aeb"
+       "10de:1aec"
+       "10de:1aed"
+    ];
+    */
 
     hardware = {
       cpu.amd = enable;

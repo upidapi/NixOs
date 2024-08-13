@@ -7,7 +7,6 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
-  inherit (builtins) concatStringsSep;
   cfg = config.modules.nixos.os.virtualization.qemu;
 in {
   options.modules.nixos.os.virtualization.qemu =
@@ -33,19 +32,30 @@ in {
       virt-manager
 
       # VGA PCI Pass-through without an attached physical monitor,
-      # keyboard or mouse.
+      # keyboard nor mouse.
       looking-glass-client
     ];
 
     virtualisation.libvirtd = {
       enable = true;
-      qemu.ovmf = enable;
+
+      qemu = {
+        # passthrugh stuff
+        ovmf = enable;
+
+        # virtual tpm
+        swtpm = enable;
+      };
+
       onBoot = "ignore";
       onShutdown = "shutdown";
       hooks.qemu = {
         events = ./virtualisation_events.sh;
       };
     };
+
+    virtualisation.spiceUSBRedirection.enable = true;
+
     programs.virt-manager.enable = true;
 
     # based on https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF

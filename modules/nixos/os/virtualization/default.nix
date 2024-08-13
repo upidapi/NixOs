@@ -4,5 +4,6 @@
     ./qemu.nix
     ./distrobox.nix
     ./waydroid.nix
+    ./vfio
   ];
 }

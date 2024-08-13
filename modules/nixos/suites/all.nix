@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (my_lib.opt) mkEnableOpt enable disable;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.suites.all;
 in {
@@ -76,6 +76,7 @@ in {
 
         virtualization = {
           podman = enable;
+          vfio = disable;
           qemu = enable;
           waydroid = enable;
           distrobox = enable;

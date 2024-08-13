@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.virtualization.distrobox;
+  cfg = config.modules.nixos.os.virtualisation.distrobox;
 in {
-  options.modules.nixos.os.virtualization.distrobox =
+  options.modules.nixos.os.virtualisation.distrobox =
     mkEnableOpt "enables distrobox for running varius distros";
 
   config = mkIf cfg.enable {

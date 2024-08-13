@@ -73,9 +73,9 @@ in {
           syncthing = enable;
           restic = enable;
         };
-        virtualization = {
+        virtualisation = {
           podman = enable;
-          # vfio.enable = false;
+          vfio = disable;
           qemu = enable;
           waydroid = enable;
           distrobox = enable;

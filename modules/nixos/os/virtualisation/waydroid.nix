@@ -8,7 +8,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.virtualization.waydroid;
+  cfg = config.modules.nixos.os.virtualisation.waydroid;
   waydroid-ui = pkgs.writeShellScriptBin "waydroid-ui" ''
     export WAYLAND_DISPLAY=wayland-0
     ${pkgs.weston}/bin/weston -Swayland-1 --width=600 --height=1000 --shell="kiosk-shell.so" &
@@ -21,7 +21,7 @@
     waydroid session stop
   '';
 in {
-  options.modules.nixos.os.virtualization.waydroid =
+  options.modules.nixos.os.virtualisation.waydroid =
     mkEnableOpt "enables waydroid (android on wayland)";
 
   config = mkIf cfg.enable {

@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.virtualization.qemu;
+  cfg = config.modules.nixos.os.virtualisation.qemu;
 in {
-  options.modules.nixos.os.virtualization.qemu =
+  options.modules.nixos.os.virtualisation.qemu =
     mkEnableOpt "enables the qemu for running vm(s)";
   # imports = [inputs.NixVirt.nixosModules.default];
   config = mkIf cfg.enable {

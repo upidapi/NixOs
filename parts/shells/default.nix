@@ -14,6 +14,8 @@
                   pygobject3
 
                   pillow
+
+                  beautifulsoup4
                 ]
             )
           )

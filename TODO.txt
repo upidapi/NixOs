@@ -6,19 +6,13 @@ nix
 
     use nixos-render-docs to create docs for this repo 
 
-    improve nix settings
-        https://github.com/Misterio77/nix-starter-configs
-
     automated deployments? 
         hydra?
 
     posibly change my_lib to lib.c (or smt similar)
 
-    add a way to do only home-manager 
-
     Index the nixos server for better searching
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
-
 
 
 Virtulisation
@@ -68,6 +62,9 @@ ricing
 
     stylix
 
+    theme firefox
+
+
 security 
     nix-mineral 
         general linux hardening
@@ -77,11 +74,6 @@ security
         do it when this mergers
             https://github.com/cynicsketch/nix-mineral/pull/19
 
-    more declarative secrets
-        this guy has a lot: 
-            https://github.com/alyraffauf/nixcfg/tree/master/secrets
-
-
     encrypted filesystem
         LUKS
 
@@ -89,9 +81,6 @@ security
 
     ybikeys
     
-    auto lock computer after a while
-        https://github.com/hyprwm/hypridle
-
 
 fix ethernet getting stuck on reconnect:
   enp12s0: connecting (getting IP configuration) to Wired connection 1
@@ -138,4 +127,6 @@ tmux
 nushell
 
 
-Ignore whitspace in git diffs
+Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)
+    maybe this happens when the files are changes?
+

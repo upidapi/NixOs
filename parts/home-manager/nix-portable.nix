@@ -25,6 +25,7 @@ r() {zsh "${which "$1"}"}
 alias nvim="zsh $(which nvim)"
 alias man="zsh $(which man)"
 */
+# should also work for standalone install
 {
   inputs,
   self,

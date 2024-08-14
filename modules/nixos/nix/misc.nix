@@ -42,10 +42,12 @@ in {
         nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 
         settings = {
+          # disable global registry
           flake-registry = "";
 
           auto-optimise-store = true;
 
+          # ALL THE LOGS
           log-lines = 500;
           show-trace = true;
 

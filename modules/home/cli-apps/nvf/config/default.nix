@@ -218,7 +218,7 @@ in {
           enable = true;
           name = "tokyonight";
           transparent = false;
-          style = "moon"; # maybe storm or night
+          style = "night";
         };
 
         treesitter = {

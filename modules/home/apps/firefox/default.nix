@@ -84,11 +84,27 @@ in {
                     ];
                   }
                 ];
-                definedAliases = [alias];
+                definedAliases = alias;
                 icon = "${pkgs.nordzy-icon-theme}/share/icons/Nordzy/places/16/folder-github.svg";
               };
             in {
               # add noogle.dev
+
+              "noogle" = {
+                urls = [
+                  {
+                    template = "https://noogle.dev/q";
+                    params = [
+                      {
+                        name = "term";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
+                icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                definedAliases = ["@ng" "@noogle"];
+              };
 
               "Nix Packages" = {
                 urls = [
@@ -107,30 +123,30 @@ in {
                   }
                 ];
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                definedAliases = ["@np"];
+                definedAliases = ["@np" "@nixpkgs"];
               };
               "NixOS Wiki" = {
                 urls = [{template = "https://nixos.wiki/index.php?search={searchTerms}";}];
                 iconUpdateURL = "https://nixos.wiki/favicon.png";
                 updateInterval = 24 * 60 * 60 * 1000;
-                definedAliases = ["@nw"];
+                definedAliases = ["@nw" "@nixwiki"];
               };
 
-              "Github" = mkGithubSearch "@ng" "";
+              "Github" = mkGithubSearch ["@g" "@gh" "@github"] "";
 
-              "Github Nix Code" = mkGithubSearch "@gi" "lang:nix";
+              "Github Nix Code" = mkGithubSearch ["@gn" "ghnix"] "lang:nix";
 
               "Github Nixpkgs" =
-                mkGithubSearch "@ngp"
+                mkGithubSearch ["@gnp" "@ghnixpkgs"]
                 "repo:NixOS/nixpkgs lang:nix";
 
               "Github Home Manager" =
-                mkGithubSearch "@ngh"
+                mkGithubSearch ["@ghm" "@ghhomemanager"]
                 "repo:nix-community/home-manager lang:nix";
 
               # "Wikipedia (en)".metaData.alias = "@wiki";
               # "Google".metaData.hidden = true;
-              "Google".metaData.alias = "@g";
+              "Google".metaData.hidden = true;
               "Amazon.com".metaData.hidden = true;
               "Bing".metaData.hidden = true;
               "eBay".metaData.hidden = true;

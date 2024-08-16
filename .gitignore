@@ -1,6 +1,7 @@
 __pycache__
 .ruff_cache
 .ccls-cache
+.direnv
 modules/home/desktop/addons/ags/types
 
 # this will be auto generated 

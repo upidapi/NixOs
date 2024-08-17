@@ -62,6 +62,7 @@ in {
         dconf = enable;
         sops = enable;
         persist = enable;
+        stylix = enable;
       };
 
       desktop = {

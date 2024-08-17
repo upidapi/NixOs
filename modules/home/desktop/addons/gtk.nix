@@ -20,11 +20,12 @@ in {
 
     gtk = {
       enable = true;
+      # stylix handles this
       # enable dark mode
-      theme = {
-        name = "Adwaita-dark";
-        package = pkgs.gnome.gnome-themes-extra;
-      };
+      # theme = {
+      #   name = "Adwaita-dark";
+      #   package = pkgs.gnome.gnome-themes-extra;
+      # };
     };
   };
 }

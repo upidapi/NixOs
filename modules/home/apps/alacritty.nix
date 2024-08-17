@@ -18,7 +18,8 @@ in {
     programs.alacritty = {
       enable = true;
       settings = {
-        font.size = 10;
+        # set by stylix
+        # font.size = 10;
       };
     };
 

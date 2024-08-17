@@ -16,11 +16,11 @@ in {
   imports = [inputs.stylix.homeManagerModules.stylix];
 
   config.stylix = mkIf cfg.enable {
-    # enable = true;
+    enable = true;
 
     image = "${self}/modules/home/desktop/addons/wallpaper/wallpapers/simple-tokyo-night.png";
     polarity = "dark";
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-city-dark.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
 
     fonts = {
       sizes.terminal = 10;

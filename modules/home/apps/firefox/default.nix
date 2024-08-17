@@ -313,44 +313,48 @@ in {
           */
 
           # Custom CSS style options
+          # TODO: remove most of the colourful colors from this
+          # / standardise them, i dont need one color per button
+
+          # TODO: fix the color / form of the tabs
           userChrome = with config.lib.stylix.colors.withHashtag; ''
-                   /* Set minimum width below which tabs will not shrink (minimum 22px) */
-                   :root {
-                     --my-tab-min-width: 22px;
-                   }
+            /* Set minimum width below which tabs will not shrink (minimum 22px) */
+            :root {
+              --my-tab-min-width: 22px;
+            }
 
-                   /* Essential rule for reducing minimum tab width */
-                   .tabbrowser-tab:not([pinned]){
-                     min-width: var(--my-tab-min-width) !important;
-                   }
+            /* Essential rule for reducing minimum tab width */
+            .tabbrowser-tab:not([pinned]){
+              min-width: var(--my-tab-min-width) !important;
+            }
 
-                   .tab-content {
-                     overflow: hidden !important;
-                   }
+            .tab-content {
+              overflow: hidden !important;
+            }
 
-                   /* Optional rules for widths below 40px */
-                   /* Reduce icon's right margin for less wasted space */
-                   .tabbrowser-tab:not([pinned]) .tab-icon-image {
-                     margin-right: 1px !important;
-                   }
+            /* Optional rules for widths below 40px */
+            /* Reduce icon's right margin for less wasted space */
+            .tabbrowser-tab:not([pinned]) .tab-icon-image {
+              margin-right: 1px !important;
+            }
 
-                   /* Adjust padding for better centering and less wasted space */
-                   .tabbrowser-tab:not([pinned]) .tab-content{
-                     padding-left: calc((var(--my-tab-min-width) - 22px)/2) !important;
-                     padding-right: calc((var(--my-tab-min-width) - 22px)/2) !important;
-                   }
+            /* Adjust padding for better centering and less wasted space */
+            .tabbrowser-tab:not([pinned]) .tab-content{
+              padding-left: calc((var(--my-tab-min-width) - 22px)/2) !important;
+              padding-right: calc((var(--my-tab-min-width) - 22px)/2) !important;
+            }
 
-                   /* Reduce close button's padding for less wasted space */
-                   .tab-close-button.close-icon {
-                     padding-left: 0 !important;
-                     padding-right: 3px !important;
-                   }
+            /* Reduce close button's padding for less wasted space */
+            .tab-close-button.close-icon {
+              padding-left: 0 !important;
+              padding-right: 3px !important;
+            }
 
 
-                 /*
-                 the following is copied from
-                 https://github.com/GideonWolfe/nix/blob/main/configs/users/gideon/configs/firefox/firefox.nix
-                 */
+            /*
+            the following is copied from
+            https://github.com/GideonWolfe/nix/blob/main/configs/users/gideon/configs/firefox/firefox.nix
+            */
 
             /*------------- STATUS PANEL ------------------*/
 
@@ -383,7 +387,7 @@ in {
             /*--------------- TOOLBAR ----------------*/
 
             /* Changes color of toolbar */
-            #navigator-toolbox{ --toolbar-bgcolor: ${base00} }
+            #navigator-toolbox{ --toolbar-bgcolor: ${base02} }
 
             /* List all tabs dropdown button */
             #alltabs-button { color: ${base0D} !important; }
@@ -398,7 +402,6 @@ in {
 
             /* Back button coloring color */
             #back-button:not([disabled="true"]):not([open="true"]):not(:active) .toolbarbutton-icon {
-            	background-color: ${base00} !important;
             	color: ${base09} !important;
             }
 
@@ -506,9 +509,8 @@ in {
             	font-weight: bold !important;
             }
 
-            /*-----------------------------------------*/
 
-
+            /*------------- Findbar ---------------*/
             .findbar {
             	background-color: ${base00};
             	-moz-appearance: none !important;
@@ -701,7 +703,21 @@ in {
             {
               :root[lwt-newtab-brighttext] {
                 --newtab-background-color: ${base00} !important;
+
+                --newtab-background-color-secondary: ${base02} !important;
+
+                /* fix the hover color for top site buttons */
+                --newtab-element-hover-color: ${base03} !important;
               }
+
+
+              /* hide non pinned sites (but doesn't fix centering)*/
+              /*
+              .top-site-button:not(:has(.pinned)) {
+                opacity: 0;
+              }
+              */
+
             }
           '';
         };

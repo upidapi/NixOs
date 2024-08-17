@@ -20,7 +20,12 @@ in {
 
     # TODO: don't do that
     # use a hand made one instead since this once kinda sucks
-    targets.vesktop.enable = false;
+    targets = {
+      vesktop.enable = false;
+
+      # default to no profiles
+      firefox.profileNames = ["${config.home.username}" "test"];
+    };
 
     image = "${self}/modules/home/desktop/addons/wallpaper/wallpapers/simple-tokyo-night.png";
     polarity = "dark";

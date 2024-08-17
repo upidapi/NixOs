@@ -33,8 +33,8 @@ in {
         };
       };
     };
-  
-  # TODO: change the startup gif, currently not possible but there is 
+
+  # TODO: change the startup gif, currently not possible but there is
   #  a pr that will change that
 
   config = mkIf cfg.enable {

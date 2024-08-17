@@ -68,6 +68,7 @@ in {
             ExtensionRecommendations = false;
             SkipOnboarding = true;
           };
+          /*
           ExtentionSettings = {
             # Vimium
             # tokyo-night-theme
@@ -77,6 +78,7 @@ in {
               "default_area" = "menupanel";
             };
           };
+          */
         };
       };
       profiles = {
@@ -365,6 +367,7 @@ in {
             	/* Non-private window background color */
             	#appcontent, #appcontent tabpanels, browser[type="content-primary"], browser[type="content"] > html, browser[type="content"] > html > body {
             		background-color: ${base00} !important;
+              }
             }
 
 

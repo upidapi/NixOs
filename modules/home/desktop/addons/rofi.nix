@@ -13,8 +13,10 @@ in {
     mkEnableOpt "enables rofi, a application runner";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      rofi-wayland
-    ];
+    # TODO: rice
+    programs.rofi = {
+      enable = true;
+      package = pkgs.rofi-wayland;
+    };
   };
 }

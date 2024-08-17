@@ -7,7 +7,7 @@
   self',
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
   cfg = config.modules.home.other;
 in {
@@ -17,6 +17,21 @@ in {
   # A place to put random packages, should not contain config.
   # If it is configured it should instead be placed in ./misc
   config = mkIf cfg.enable {
+    programs = {
+      # view resources
+      btop = enable;
+      htop = enable;
+
+      # ofc
+      fastfetch = enable;
+
+      # grep but better and faster
+      ripgrep = enable;
+
+      # minimal image viewer
+      feh = enable;
+    };
+
     home.packages =
       [
         # used to formatt nix code
@@ -49,9 +64,6 @@ in {
         # show file struct
         tree
 
-        # ofc
-        fastfetch
-
         # check network speed
         speedtest-cli
 
@@ -68,17 +80,8 @@ in {
         # find out what process is using a file
         lsof
 
-        # other
-        htop
-        btop
-
-        ripgrep
-
         # stats about code, logical lines, comments, etc
         scc
-
-        # minimal image viewer
-        feh
 
         # view/edit images
         gimp

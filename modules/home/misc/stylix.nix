@@ -16,7 +16,7 @@ in {
   imports = [inputs.stylix.homeManagerModules.stylix];
 
   config.stylix = mkIf cfg.enable {
-    enable = true;
+    # enable = true;
 
     image = "${self}/modules/home/desktop/addons/wallpaper/wallpapers/simple-tokyo-night.png";
     polarity = "dark";

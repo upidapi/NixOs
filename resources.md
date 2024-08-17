@@ -1,7 +1,6 @@
 This is just for my own sake
 its not actually markdown i just like the colors :)
 
-
 # open the (infra) sops file
 ```bash
 sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
@@ -13,7 +12,6 @@ env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $NIXOS_
 su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt 
 sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 ```
-
 
 
 # build image
@@ -71,6 +69,18 @@ journalctl -xeu home-manager-upidapi.service
 «repeated»
 ```
 
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
+```
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
+```
 
 # get logs
 ```bash

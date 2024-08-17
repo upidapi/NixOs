@@ -68,6 +68,15 @@ in {
             ExtensionRecommendations = false;
             SkipOnboarding = true;
           };
+          ExtentionSettings = {
+            # Vimium
+            # tokyo-night-theme
+            "{4520dc08-80f4-4b2e-982a-c17af42e5e4d}" = {
+              "installation_mode" = "force_installed";
+              "install_url" = "https://addons.mozilla.org/firefox/downloads/file/3952418/tokyo_night_milav-1.0.xpi";
+              "default_area" = "menupanel";
+            };
+          };
         };
       };
       profiles = {
@@ -275,6 +284,7 @@ in {
             "browser.newtabpage.pinned" = [
               {url = "https://www.youtube.com/";}
               {url = "https://github.com/";}
+              {url = "https://noogle.dev/";}
               {url = "https://www.netflix.com/browse";}
               {url = "https://www.samskolan.se/login/";}
             ];

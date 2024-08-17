@@ -3,7 +3,9 @@
     "autoUpdate": false,
     "autoUpdateNotification": true,
     "useQuickCss": true,
-    "themeLinks": [],
+    "themeLinks": [
+        "https://raw.githubusercontent.com/Dyzean/Tokyo-Night/main/themes/tokyo-night.theme.css"
+    ],
     "enabledThemes": [],
     "enableReactDevtools": false,
     "frameless": false,
@@ -46,7 +48,8 @@
             "enabled": false
         },
         "NoTrack": {
-            "enabled": true
+            "enabled": true,
+            "disableAnalytics": true
         },
         "Settings": {
             "enabled": true,
@@ -59,7 +62,9 @@
             "enabled": false
         },
         "AlwaysTrust": {
-            "enabled": true
+            "enabled": true,
+            "domain": true,
+            "file": true
         },
         "AnonymiseFileNames": {
             "enabled": false
@@ -133,7 +138,8 @@
         },
         "Experiments": {
             "enabled": true,
-            "enableIsStaff": false
+            "enableIsStaff": false,
+            "toolbarDevMenu": false
         },
         "F8Break": {
             "enabled": true
@@ -203,10 +209,17 @@
             "enabled": false
         },
         "LoadingQuotes": {
-            "enabled": false
+            "enabled": false,
+            "replaceEvents": true,
+            "enablePluginPresetQuotes": true,
+            "enableDiscordPresetQuotes": false,
+            "additionalQuotes": "",
+            "additionalQuotesDelimiter": "|"
         },
         "MemberCount": {
-            "enabled": true
+            "enabled": true,
+            "memberList": true,
+            "toolTip": true
         },
         "MessageClickActions": {
             "enabled": true,
@@ -223,7 +236,10 @@
             "ignoreSelf": false,
             "ignoreUsers": "",
             "ignoreChannels": "",
-            "ignoreGuilds": ""
+            "ignoreGuilds": "",
+            "collapseDeleted": false,
+            "logEdits": true,
+            "logDeletes": true
         },
         "MessageTags": {
             "enabled": false
@@ -271,9 +287,6 @@
         },
         "Moyai": {
             "enabled": false
-        },
-        "MuteNewGuild": {
-            "enabled": true
         },
         "MutualGroupDMs": {
             "enabled": false
@@ -335,9 +348,6 @@
             "enabled": false
         },
         "OpenInApp": {
-            "enabled": false
-        },
-        "Party mode 🎉": {
             "enabled": false
         },
         "PermissionFreeWill": {
@@ -412,9 +422,6 @@
         "ServerListIndicators": {
             "enabled": false
         },
-        "ServerProfile": {
-            "enabled": true
-        },
         "ShikiCodeblocks": {
             "enabled": false,
             "useDevIcon": "GREYSCALE",
@@ -436,9 +443,6 @@
             "mode": "user-nick",
             "displayNames": false,
             "inReplies": false
-        },
-        "ShowTimeouts": {
-            "enabled": false
         },
         "SilentMessageToggle": {
             "enabled": false
@@ -464,7 +468,9 @@
             "enabled": false
         },
         "SuperReactionTweaks": {
-            "enabled": true
+            "enabled": true,
+            "unlimitedSuperReactionPlaying": false,
+            "superReactionPlayingLimit": 20
         },
         "TextReplace": {
             "enabled": false
@@ -533,6 +539,134 @@
         },
         "XSOverlay": {
             "enabled": false
+        },
+        "NewGuildSettings": {
+            "enabled": true
+        },
+        "PartyMode": {
+            "enabled": false
+        },
+        "ServerInfo": {
+            "enabled": true
+        },
+        "ShowHiddenThings": {
+            "enabled": false
+        },
+        "MessageUpdaterAPI": {
+            "enabled": true
+        },
+        "UserSettingsAPI": {
+            "enabled": true
+        },
+        "AppleMusicRichPresence": {
+            "enabled": false
+        },
+        "WebRichPresence (arRPC)": {
+            "enabled": false
+        },
+        "AutomodContext": {
+            "enabled": false
+        },
+        "BetterRoleContext": {
+            "enabled": false
+        },
+        "BetterSessions": {
+            "enabled": false
+        },
+        "BetterSettings": {
+            "enabled": false,
+            "disableFade": true,
+            "organizeMenu": true,
+            "eagerLoad": true
+        },
+        "ConsoleJanitor": {
+            "enabled": false,
+            "disableNoisyLoggers": false,
+            "disableSpotifyLogger": true
+        },
+        "CopyEmojiMarkdown": {
+            "enabled": false
+        },
+        "CtrlEnterSend": {
+            "enabled": false
+        },
+        "CustomIdle": {
+            "enabled": false
+        },
+        "DontRoundMyTimestamps": {
+            "enabled": false
+        },
+        "FriendsSince": {
+            "enabled": false
+        },
+        "ImageLink": {
+            "enabled": false
+        },
+        "ImplicitRelationships": {
+            "enabled": false
+        },
+        "MentionAvatars": {
+            "enabled": false
+        },
+        "MessageLatency": {
+            "enabled": false
+        },
+        "NoDefaultHangStatus": {
+            "enabled": false
+        },
+        "NoOnboardingDelay": {
+            "enabled": true
+        },
+        "NoServerEmojis": {
+            "enabled": false
+        },
+        "OverrideForumDefaults": {
+            "enabled": false,
+            "defaultLayout": 1,
+            "defaultSortOrder": 0
+        },
+        "PauseInvitesForever": {
+            "enabled": false
+        },
+        "ReplaceGoogleSearch": {
+            "enabled": false
+        },
+        "ReplyTimestamp": {
+            "enabled": false
+        },
+        "Summaries": {
+            "enabled": false
+        },
+        "ShowAllRoles": {
+            "enabled": false
+        },
+        "ShowTimeoutDuration": {
+            "enabled": false
+        },
+        "StreamerModeOnStream": {
+            "enabled": false
+        },
+        "UnlockedAvatarZoom": {
+            "enabled": false
+        },
+        "ValidReply": {
+            "enabled": false
+        },
+        "VoiceDownload": {
+            "enabled": false
+        },
+        "WebKeybinds": {
+            "enabled": true
+        },
+        "WebScreenShareFixes": {
+            "enabled": true
+        },
+        "YoutubeAdblock": {
+            "enabled": true
+        },
+        "WebContextMenus": {
+            "enabled": true,
+            "addBack": true
         }
     },
     "notifications": {
@@ -545,6 +679,6 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1711055165253
+        "settingsSyncVersion": 1723905863002
     }
 }

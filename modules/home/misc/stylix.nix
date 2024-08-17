@@ -18,6 +18,10 @@ in {
   config.stylix = mkIf cfg.enable {
     enable = true;
 
+    # TODO: don't do that
+    # use a hand made one instead since this once kinda sucks
+    targets.vesktop.enable = false;
+
     image = "${self}/modules/home/desktop/addons/wallpaper/wallpapers/simple-tokyo-night.png";
     polarity = "dark";
     base16Scheme =

@@ -2,7 +2,7 @@
   config,
   lib,
   my_lib,
-  # pkgs,
+  pkgs,
   inputs',
   ...
 }: let
@@ -33,6 +33,9 @@ in {
         };
       };
     };
+  
+  # TODO: change the startup gif, currently not possible but there is 
+  #  a pr that will change that
 
   config = mkIf cfg.enable {
     home.packages = [

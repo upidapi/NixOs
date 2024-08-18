@@ -52,7 +52,7 @@ in {
       };
       ".config/ags/colors.scss".text =
         mapStylixColors config "\n"
-        (color: name: "\$${name}: #${color}");
+        (color: name: "\$${name}: #${color};");
     };
   };
 

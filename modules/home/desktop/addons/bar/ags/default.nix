@@ -33,6 +33,7 @@ in {
 
     home.packages = with pkgs; [
       bun
+      sassc
     ];
 
     programs.ags = {

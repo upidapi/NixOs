@@ -1,15 +1,4 @@
-@import "./colors.scss";
-
-/* 
-Unsets everything so you can style everything from scratch
-*/
-* {
-   all: unset; 
-}
-
-/*
-.workspace_inactive, .workspace_active, .workspace_focused, .workspace_current {
-*/
+@import "./colors";
 
 .workspace {
     padding: 0px;
@@ -25,12 +14,12 @@ Unsets everything so you can style everything from scratch
 
 .workspace_active {
     color: $base00;
-    background-color: $base03;
+    background-color:  mix($base03, $base04, 75%);
 }
 
 .workspace_focused {
     color: $base00;
-    background-color: $base05;
+    background-color: $base04;
 }
 
 .workspace_current {
@@ -40,15 +29,16 @@ Unsets everything so you can style everything from scratch
 
 
 .bar {
-  background-color: $base00;
-  color: $base07;
+  background-color: $base01;
+  color: mix($base04, $base05);
   padding: 3px;
 }
 
 
 .container {
+    /* background-color: mix($base02, $base03, 75%); */
     background-color: $base02;
-    color: $base07;
+    color: mix($base04, $base05);
     padding: 0px 5px;
     border-radius: 5px;
 }

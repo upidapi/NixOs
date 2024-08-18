@@ -99,8 +99,13 @@ function Bar(monitor = 0) {
 
 const bars = hyprland.monitors.map((_, i) => Bar(i))
 
+const scss = `${App.configDir}/style.scss`;
+const css = "/tmp/ags.css";
+
+Utils.exec(`sassc ${scss} ${css}`);
+
 App.config({
-    style: "./style.scss",
+    style: css,
     windows: [
         // ...exclusivity,
         ...bars,

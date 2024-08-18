@@ -37,16 +37,23 @@ in {
 
     programs.ags = {
       enable = true;
-      configDir = ./.;
+      # configDir = ./.;
       extraPackages = with pkgs; [
         bun
       ];
     };
 
     # This is so jank
-    home.file.".config/ags/colors.scss".text =
-      mapStylixColors config "\n"
-      (color: name: "\$${name}: #${color}");
+    # - some guy on github solving the same problem
+    home.file = {
+      ".config/ags" = {
+        recursive = true;
+        source = ./src;
+      };
+      ".config/ags/colors.scss".text =
+        mapStylixColors config "\n"
+        (color: name: "\$${name}: #${color}");
+    };
   };
 
   # to run exec: (in this dir)

@@ -1,3 +1,5 @@
+@import "./colors.scss";
+
 /* 
 Unsets everything so you can style everything from scratch
 */
@@ -22,31 +24,31 @@ Unsets everything so you can style everything from scratch
 }
 
 .workspace_active {
-    color: #000000;
-    background-color: #666666;
+    color: $base00;
+    background-color: $base03;
 }
 
 .workspace_focused {
-    color: #000000;
-    background-color: #aaaaaa;
+    color: $base00;
+    background-color: $base05;
 }
 
 .workspace_current {
-    color: #000000;
-    background-color: #ffffff;
+    color: $base00;
+    background-color: $base07;
 }
 
 
 .bar {
-  background-color: #3a3a3a;
-  color: #b0b4bc;
+  background-color: $base00;
+  color: $base07;
   padding: 3px;
 }
 
 
 .container {
-    background-color: #cccccc;
-    color: #000000;
+    background-color: $base02;
+    color: $base07;
     padding: 0px 5px;
     border-radius: 5px;
 }

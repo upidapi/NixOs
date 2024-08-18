@@ -7,6 +7,7 @@
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.misc) mapStylixColors;
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.addons.bar.ags;
 in {
@@ -41,6 +42,11 @@ in {
         bun
       ];
     };
+
+    # This is so jank
+    home.file.".config/ags/colors.scss".text =
+      mapStylixColors config "\n"
+      (color: name: "\$${name}: #${color}");
   };
 
   # to run exec: (in this dir)

@@ -1,0 +1,22 @@
+/* change background of new tab page */
+@-moz-document url("about:newtab"),
+url("about:home")
+{
+  :root[lwt-newtab-brighttext] {
+    --newtab-background-color: var(--base00) !important;
+
+    --newtab-background-color-secondary: var(--base02) !important;
+
+    /* fix the hover color for top site buttons */
+    --newtab-element-hover-color: var(--base03) !important;
+  }
+
+
+  /* hide non pinned sites (but doesn't fix centering)*/
+  /*
+  .top-site-button:not(:has(.pinned)) {
+    opacity: 0;
+  }
+  */
+
+}

@@ -6,7 +6,7 @@
   my_lib,
   ...
 }: let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf stringToCharacters;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.firefox;
 in {
@@ -82,9 +82,39 @@ in {
         };
       };
       profiles = {
-        "${config.home.username}" = {
+        "${config.home.username}" = let
+          colors = config.lib.stylix.colors.withHashtag;
+          mappedCssColors =
+            ''
+              :root {
+                ${builtins.concatStringsSep "\n" (
+                builtins.map
+                (x: "--base0${x}: ${colors."base0${x}"};")
+                (stringToCharacters "0123456789ABCDEF")
+              )}
+              }''
+            + "\n";
+        in {
           id = 0;
           name = config.home.username;
+
+          /*
+          for editing the broswer html
+
+          https://www.dedoimedo.com/computers/firefox-change-ui-tutorial.html
+
+          # pref:
+          devtools.chrome.enabled
+          devtools.debugger.remote-enabled
+          */
+          # Custom CSS style options
+          # TODO: remove most of the colourful colors from this
+          # / standardise them, i dont need one color per button
+
+          # TODO: fix the color / form of the tabs
+          userChrome = mappedCssColors + builtins.readFile ./userChrome.css;
+          userContent = mappedCssColors + builtins.readFile ./userContent.css;
+
           search = {
             force = true;
             default = "DuckDuckGo";
@@ -311,415 +341,6 @@ in {
             user_pref("media.rdd-vpx.enabled", true);
           '';
           */
-
-          # Custom CSS style options
-          # TODO: remove most of the colourful colors from this
-          # / standardise them, i dont need one color per button
-
-          # TODO: fix the color / form of the tabs
-          userChrome = with config.lib.stylix.colors.withHashtag; ''
-            /* Set minimum width below which tabs will not shrink (minimum 22px) */
-            :root {
-              --my-tab-min-width: 22px;
-            }
-
-            /* Essential rule for reducing minimum tab width */
-            .tabbrowser-tab:not([pinned]){
-              min-width: var(--my-tab-min-width) !important;
-            }
-
-            .tab-content {
-              overflow: hidden !important;
-            }
-
-            /* Optional rules for widths below 40px */
-            /* Reduce icon's right margin for less wasted space */
-            .tabbrowser-tab:not([pinned]) .tab-icon-image {
-              margin-right: 1px !important;
-            }
-
-            /* Adjust padding for better centering and less wasted space */
-            .tabbrowser-tab:not([pinned]) .tab-content{
-              padding-left: calc((var(--my-tab-min-width) - 22px)/2) !important;
-              padding-right: calc((var(--my-tab-min-width) - 22px)/2) !important;
-            }
-
-            /* Reduce close button's padding for less wasted space */
-            .tab-close-button.close-icon {
-              padding-left: 0 !important;
-              padding-right: 3px !important;
-            }
-
-
-            /*
-            the following is copied from
-            https://github.com/GideonWolfe/nix/blob/main/configs/users/gideon/configs/firefox/firefox.nix
-            */
-
-            /*------------- STATUS PANEL ------------------*/
-
-
-            /* color of url loading bar at bottom left */
-            #statuspanel-label {
-            	background-color: ${base00} !important;
-            	color: ${base0E} !important;
-            	border-color: ${base0D} !important;
-            }
-
-            /* Change background color for both private and non-private windows */
-            @-moz-document url("chrome://browser/content/browser.xhtml") {
-            	/* Non-private window background color */
-            	#appcontent, #appcontent tabpanels, browser[type="content-primary"], browser[type="content"] > html, browser[type="content"] > html > body {
-            		background-color: ${base00} !important;
-              }
-            }
-
-
-            /* Hover tooltip style, only themes some ie. refresh button*/
-            tooltip {
-            	color: ${base05} !important;
-            	background-color: ${base00} !important;
-            	-moz-appearance: none !important;
-            	border: 1px solid ${base0D};
-            	border-radius: 2;
-            }
-
-            /*--------------- TOOLBAR ----------------*/
-
-            /* Changes color of toolbar */
-            #navigator-toolbox{ --toolbar-bgcolor: ${base02} }
-
-            /* List all tabs dropdown button */
-            #alltabs-button { color: ${base0D} !important; }
-
-            /* Shield icon */
-            #tracking-protection-icon-box {
-            	color: ${base0C} !important;
-            }
-            #urlbar-input-container[pageproxystate="valid"] #tracking-protection-icon-box:not([hasException])[active] > #tracking-protection-icon{
-            	color: ${base08} !important;
-            }
-
-            /* Back button coloring color */
-            #back-button:not([disabled="true"]):not([open="true"]):not(:active) .toolbarbutton-icon {
-            	color: ${base09} !important;
-            }
-
-            /* Back button coloring */
-            #forward-button{
-            	color: ${base0B} !important;
-            }
-
-            /* Refresh button coloring */
-            #reload-button{
-            	color: ${base0D} !important;
-            }
-
-            /* Cancel Loading button coloring */
-            #stop-button{
-            	color: ${base08} !important;
-            }
-
-            /* Downloads button coloring */
-            #downloads-button{
-            	color: ${base0E} !important;
-            }
-            /* example of setting image as icon https://www.reddit.com/r/FirefoxCSS/comments/cy8w4d/new_tab_button_customization/ */
-            /* New Tab Buttons */
-            /* the weirdness of these buttons https://www.reddit.com/r/FirefoxCSS/comments/12mjsk1/change_color_of_add_new_tab_button/ */
-            :is(#new-tab-button, #tabs-newtab-button) > .toolbarbutton-icon {
-            	color: ${base0C} !important;
-            }
-            :is(#new-tab-button, #tabs-newtab-button):hover > .toolbarbutton-icon {
-            	color: ${base0C} !important;
-            }
-
-            /* Hamburger Menu icon in toolbar */
-            #PanelUI-menu-button {
-            	color: ${base0E} !important;
-            }
-            /* Extensions icon in toolbar */
-            #unified-extensions-button{
-            	color: ${base0F} !important;
-            }
-
-            /* Disable favorite star button */
-            #star-button-box { display:none !important; }
-
-            /* Reader view icon */
-            #reader-mode-button-icon { color: ${base09} !important }
-            #reader-mode-button[readeractive] > .urlbar-icon {
-            	color: ${base0E} !important
-            }
-
-
-            /*-----------------------------------------*/
-
-            /* */
-
-            /*----------------- TABS ------------------*/
-
-            /* Disable Favicons */
-            .tab-icon-image {
-            	display: none !important;
-            }
-
-            /* Colors text and background of tab label */
-            .tabbrowser-tab .tab-label {
-            	color: ${base05} !important;
-            	background-color: ${base00} !important;
-            }
-
-            /* Text of secondary tab text (ie. "Playing") */
-            .tab-secondary-label {
-            	color: ${base0D};
-            }
-            /* Secondary text when audio is muted */
-            .tab-secondary-label[muted] {
-            	color: ${base08};
-            }
-
-            /* Colors text and background of tab label (selected)*/
-            .tabbrowser-tab[selected="true"] .tab-label {
-            	color: ${base0B} !important;
-            	background-color: ${base00} !important;
-            	font-weight: bold !important;
-            }
-
-            /* Background color of tab itself (selected) */
-            .tabbrowser-tab[selected] .tab-content {
-            	background-color: ${base00} !important;
-            }
-
-            .tabbrowser-tab .tab-close-button {
-            	color: ${base08};
-            }
-
-            /* Style for Magnifying glass icon in search bar */
-            #urlbar:not(.searchButton) > #urlbar-input-container > #identity-box[pageproxystate="invalid"] {
-            	color: ${base0E} !important;
-            }
-
-            /* Style for close tab buttons */
-            .tabbrowser-tab:not([pinned]) .tab-close-button {
-            	color: ${base0D} !important;
-            }
-            .tabbrowser-tab:not([pinned]):hover .tab-close-button {
-            	color: ${base08} !important;
-            	font-weight: bold !important;
-            }
-
-
-            /*------------- Findbar ---------------*/
-            .findbar {
-            	background-color: ${base00};
-            	-moz-appearance: none !important;
-            }
-            .findbar-container {
-            	background-color: ${base00};
-            }
-
-
-            /* Search box when no results found */
-            .findbar-textbox[status="notfound"] {
-              background-color: ${base00} !important;
-              color: ${base08} !important;
-            }
-
-            /* Arrow buttons when no search entered */
-            .findbar-find-previous[disabled="true"] > .toolbarbutton-icon,
-            .findbar-find-next[disabled="true"] > .toolbarbutton-icon {
-            	fill: ${base08} !important;
-            }
-            /* Arrows when results found */
-            .findbar-find-previous {
-            	fill: ${base0A} !important;
-            }
-            .findbar-find-next {
-            	fill: ${base0B} !important;
-            }
-
-            /* Close Icon */
-            findbar > .close-icon{
-            	background-color: ${base00} !important;
-            	pointer-events: auto;
-            }
-            .close-icon.findbar-closebutton {
-              fill: ${base08} !important;
-            }
-
-            /* Color of "Phrase not Found" */
-            .findbar-find-status{
-            	color: ${base08};
-            }
-
-            /* Replace checkboxes with buttons */
-            findbar .checkbox-check {
-            	display: none !important;
-            }
-            findbar checkbox {
-            	background: ${base00};
-            	transition: 0.1s ease-in-out;
-            	border: 1px solid ${base0D};
-            	border-radius: 2;
-            	padding: 2px 4px;
-            	margin: -2px 4px !important;
-            }
-            findbar checkbox[checked="true"] {
-            	background: ${base00};
-            	color: ${base0B};
-            	transition: 0.1s ease-in-out;
-            }
-            .found-matches {
-            	color: ${base0B};
-            }
-
-
-            /*-----------------------------------------*/
-
-            /*------------- SITE SECURITY ICON --------*/
-
-            /* Green */
-            #identity-box[pageproxystate="valid"].verifiedDomain #identity-icon {
-            	fill: ${base0B} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-            #identity-box[pageproxystate="valid"].mixedActiveBlocked #identity-icon {
-            	fill: ${base0B} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-            #identity-box[pageproxystate="valid"].verifiedIdentity #identity-icon {
-            	fill: ${base0B} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-            #identity-popup[connection^="secure"] .identity-popup-security-connection {
-            	fill: ${base0B} !important;
-            }
-
-            /* Red */
-            #identity-box[pageproxystate="valid"].notSecure #identity-icon {
-            	fill: ${base08} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-            #identity-box[pageproxystate="valid"].mixedActiveContent #identity-icon {
-            	fill: ${base08} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-            #identity-box[pageproxystate="valid"].insecureLoginForms #identity-icon {
-            	fill: ${base08} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-            .identity-popup-security-connection {
-            	fill: ${base08};
-            }
-
-            /* Orange */
-            #identity-box[pageproxystate="valid"].mixedDisplayContent #identity-icon {
-            	fill: ${base09} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-            #identity-popup[mixedcontent~="passive-loaded"][isbroken] .identity-popup-security-connection {
-            	fill: ${base09} !important;
-            }
-
-            /* Yellow */
-            #identity-box[pageproxystate="valid"].mixedDisplayContentLoadedActiveBlocked #identity-icon {
-            	fill: ${base0A} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-            #identity-box[pageproxystate="valid"].certUserOverridden #identity-icon {
-            	fill: ${base0A} !important;
-            	fill-opacity: 1 !important;
-            	transition: 100ms linear !important;
-            }
-
-            /*-----------------------------------------*/
-
-            /*------------- CONTEXT MENUS  --------*/
-
-            /* TODO Star doesn't work?*/
-            #context-back {
-            	color: ${base09} !important;
-            }
-            #context-forward {
-            	color: ${base0B} !important;
-            }
-            #context-reload {
-            	color: ${base0D} !important;
-            }
-            #context-stop {
-            	color: ${base08} !important;
-            }
-            #context-star {
-            	color: ${base0A} !important;
-            }
-
-            /*-----------------------------------------*/
-
-            /* TODO this should style reader? idk if the reader pages start with about:reader*/
-            @-moz-document url-prefix("about:reader") {
-              body.dark {
-                color: ${base05} !important;
-                background-color: ${base00} !important;
-              }
-              body.light {
-                color: ${base00} !important;
-                background-color: ${base05}!important;
-              }
-              body.sepia {
-                color: ${base0D} !important;
-                background-color: ${base00} !important;
-              }
-
-              body.serif {
-                font-family: serif !important;
-              }
-              body.sans-serif {
-                font-family: sans-serif !important;
-              }
-            }
-
-
-
-
-            /*-------------- TODO: ----------------------*/
-            /* Change context menu separators *\
-            /* Close window button *\
-            /* Reader view button when reader is active *\
-          '';
-
-          userContent = with config.lib.stylix.colors.withHashtag; ''
-            /* change background of new tab page */
-            @-moz-document url("about:newtab"),
-            url("about:home")
-            {
-              :root[lwt-newtab-brighttext] {
-                --newtab-background-color: ${base00} !important;
-
-                --newtab-background-color-secondary: ${base02} !important;
-
-                /* fix the hover color for top site buttons */
-                --newtab-element-hover-color: ${base03} !important;
-              }
-
-
-              /* hide non pinned sites (but doesn't fix centering)*/
-              /*
-              .top-site-button:not(:has(.pinned)) {
-                opacity: 0;
-              }
-              */
-
-            }
-          '';
         };
 
         test =

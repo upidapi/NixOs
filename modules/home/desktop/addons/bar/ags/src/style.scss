@@ -1,5 +1,12 @@
 @import "./colors";
 
+/* 
+Unsets everything so you can style everything from scratch
+*/
+* {
+   all: unset; 
+}
+
 .workspace {
     padding: 0px;
     border-radius: 100%;

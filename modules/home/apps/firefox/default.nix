@@ -84,14 +84,15 @@ in {
       profiles = {
         "${config.home.username}" = let
           colors = config.lib.stylix.colors.withHashtag;
-          mappedCssColors =
+          mappedCssColors = builtins.concatStringsSep "\n" (
+            builtins.map
+            (x: "  --base0${x}: ${colors."base0${x}"};")
+            (stringToCharacters "0123456789ABCDEF")
+          );
+          cssColors =
             ''
               :root {
-                ${builtins.concatStringsSep "\n" (
-                builtins.map
-                (x: "--base0${x}: ${colors."base0${x}"};")
-                (stringToCharacters "0123456789ABCDEF")
-              )}
+              ${mappedCssColors}
               }''
             + "\n";
         in {
@@ -112,8 +113,8 @@ in {
           # / standardise them, i dont need one color per button
 
           # TODO: fix the color / form of the tabs
-          userChrome = mappedCssColors + builtins.readFile ./userChrome.css;
-          userContent = mappedCssColors + builtins.readFile ./userContent.css;
+          userChrome = cssColors + builtins.readFile ./userChrome.css;
+          userContent = cssColors + builtins.readFile ./userContent.css;
 
           search = {
             force = true;

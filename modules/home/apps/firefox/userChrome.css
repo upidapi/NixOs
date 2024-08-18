@@ -1,39 +1,32 @@
+/*----------------- TABS ------------------*/
 
-/* Set minimum width below which tabs will not shrink (minimum 22px) */
-:root {
-  --my-tab-min-width: 22px;
-}
-
-/* Essential rule for reducing minimum tab width */
+/* reducing minimum tab width */
 .tabbrowser-tab:not([pinned]){
-  min-width: var(--my-tab-min-width) !important;
+  min-width: var(35px) !important;
 }
 
-.tab-content {
-  overflow: hidden !important;
+/* fix tab colors */
+.tabbrowser-tab:hover .tab-content {
+    background-color: color-mix(in srgb, var(--base00), var(--base02)) !important;
+    /* opacity: 0.5; */
+    border-radius: 4px !important;
+
+    /* set top/bottom margin */
+    margin: 4px 0 !important;
 }
 
-/* Optional rules for widths below 40px */
-/* Reduce icon's right margin for less wasted space */
-.tabbrowser-tab:not([pinned]) .tab-icon-image {
-  margin-right: 1px !important;
+.tabbrowser-tab[selected] .tab-content {
+    background-color: var(--base02) !important;
+    border-radius: 4px !important;
+
+    /* set top/bottom margin */
+    margin: 4px 0 !important;
 }
 
-/* Adjust padding for better centering and less wasted space */
-.tabbrowser-tab:not([pinned]) .tab-content{
-  padding-left: calc((var(--my-tab-min-width) - 22px)/2) !important;
-  padding-right: calc((var(--my-tab-min-width) - 22px)/2) !important;
-}
-
-/* Reduce close button's padding for less wasted space */
-.tab-close-button.close-icon {
-  padding-left: 0 !important;
-  padding-right: 3px !important;
-}
 
 
 /*
-the following is copied from
+the following is based on
 https://github.com/GideonWolfe/nix/blob/main/configs/users/gideon/configs/firefox/firefox.nix
 */
 
@@ -43,8 +36,8 @@ https://github.com/GideonWolfe/nix/blob/main/configs/users/gideon/configs/firefo
 /* color of url loading bar at bottom left */
 #statuspanel-label {
     background-color: var(--base00) !important;
-    color: var(--base0E) !important;
-    border-color: var(--base0D) !important;
+    /* color: var(--base0E) !important; */
+    border-color: var(--base07) !important;
 }
 
 /* Change background color for both private and non-private windows */
@@ -57,12 +50,13 @@ https://github.com/GideonWolfe/nix/blob/main/configs/users/gideon/configs/firefo
 
 
 /* Hover tooltip style, only themes some ie. refresh button*/
+/* for some reason this doesn't work for the top lvl stuff */
 tooltip {
-    color: var(--base05) !important;
-    background-color: var(--base00) !important;
     -moz-appearance: none !important;
-    border: 1px solid var(--base0D);
-    border-radius: 2;
+    background-color: var(--base01) !important;
+    color: var(--base05) !important;
+    border: 1px solid var(--base02) !important;
+    border-radius: 4px !important;
 }
 
 /*--------------- TOOLBAR ----------------*/
@@ -71,124 +65,68 @@ tooltip {
 #navigator-toolbox{ --toolbar-bgcolor: var(--base02) }
 
 /* List all tabs dropdown button */
-#alltabs-button { color: var(--base0D) !important; }
+#alltabs-button { color: var(--base07) !important; }
 
 /* Shield icon */
 #tracking-protection-icon-box {
-    color: var(--base0C) !important;
+    color: var(--base07) !important;
 }
 #urlbar-input-container[pageproxystate="valid"] #tracking-protection-icon-box:not([hasException])[active] > #tracking-protection-icon{
-    color: var(--base08) !important;
+    color: var(--base07) !important;
 }
 
 /* Back button coloring color */
 #back-button:not([disabled="true"]):not([open="true"]):not(:active) .toolbarbutton-icon {
-    color: var(--base09) !important;
+    color: var(--base07) !important;
 }
 
 /* Back button coloring */
 #forward-button{
-    color: var(--base0B) !important;
+    color: var(--base07) !important;
 }
 
 /* Refresh button coloring */
 #reload-button{
-    color: var(--base0D) !important;
+    color: var(--base07) !important;
 }
 
 /* Cancel Loading button coloring */
 #stop-button{
-    color: var(--base08) !important;
+    color: var(--base07) !important;
 }
 
 /* Downloads button coloring */
 #downloads-button{
-    color: var(--base0E) !important;
+    color: var(--base07) !important;
 }
 /* example of setting image as icon https://www.reddit.com/r/FirefoxCSS/comments/cy8w4d/new_tab_button_customization/ */
 /* New Tab Buttons */
 /* the weirdness of these buttons https://www.reddit.com/r/FirefoxCSS/comments/12mjsk1/change_color_of_add_new_tab_button/ */
 :is(#new-tab-button, #tabs-newtab-button) > .toolbarbutton-icon {
-    color: var(--base0C) !important;
+    color: var(--base07) !important;
 }
 :is(#new-tab-button, #tabs-newtab-button):hover > .toolbarbutton-icon {
-    color: var(--base0C) !important;
+    color: var(--base07) !important;
 }
 
 /* Hamburger Menu icon in toolbar */
 #PanelUI-menu-button {
-    color: var(--base0E) !important;
+    color: var(--base07) !important;
 }
 /* Extensions icon in toolbar */
 #unified-extensions-button{
-    color: var(--base0F) !important;
+    color: var(--base07) !important;
 }
 
 /* Disable favorite star button */
 #star-button-box { display:none !important; }
 
 /* Reader view icon */
-#reader-mode-button-icon { color: var(--base09) !important }
+#reader-mode-button-icon { color: var(--base07) !important }
 #reader-mode-button[readeractive] > .urlbar-icon {
-    color: var(--base0E) !important
+    color: var(--base07) !important
 }
 
-
-/*-----------------------------------------*/
-
-/* */
-
-/*----------------- TABS ------------------*/
-
-/* Disable Favicons */
-.tab-icon-image {
-    display: none !important;
-}
-
-/* Colors text and background of tab label */
-.tabbrowser-tab .tab-label {
-    color: var(--base05) !important;
-    background-color: var(--base00) !important;
-}
-
-/* Text of secondary tab text (ie. "Playing") */
-.tab-secondary-label {
-    color: var(--base0D);
-}
-/* Secondary text when audio is muted */
-.tab-secondary-label[muted] {
-    color: var(--base08);
-}
-
-/* Colors text and background of tab label (selected)*/
-.tabbrowser-tab[selected="true"] .tab-label {
-    color: var(--base0B) !important;
-    background-color: var(--base00) !important;
-    font-weight: bold !important;
-}
-
-/* Background color of tab itself (selected) */
-.tabbrowser-tab[selected] .tab-content {
-    background-color: var(--base00) !important;
-}
-
-.tabbrowser-tab .tab-close-button {
-    color: var(--base08);
-}
-
-/* Style for Magnifying glass icon in search bar */
-#urlbar:not(.searchButton) > #urlbar-input-container > #identity-box[pageproxystate="invalid"] {
-    color: var(--base0E) !important;
-}
-
-/* Style for close tab buttons */
-.tabbrowser-tab:not([pinned]) .tab-close-button {
-    color: var(--base0D) !important;
-}
-.tabbrowser-tab:not([pinned]):hover .tab-close-button {
-    color: var(--base08) !important;
-    font-weight: bold !important;
-}
 
 
 /*------------- Findbar ---------------*/
@@ -210,14 +148,14 @@ tooltip {
 /* Arrow buttons when no search entered */
 .findbar-find-previous[disabled="true"] > .toolbarbutton-icon,
 .findbar-find-next[disabled="true"] > .toolbarbutton-icon {
-    fill: var(--base08) !important;
+    fill: var(--base07) !important;
 }
 /* Arrows when results found */
 .findbar-find-previous {
-    fill: var(--base0A) !important;
+    fill: var(--base07) !important;
 }
 .findbar-find-next {
-    fill: var(--base0B) !important;
+    fill: var(--base07) !important;
 }
 
 /* Close Icon */
@@ -234,50 +172,27 @@ findbar > .close-icon{
     color: var(--base08);
 }
 
-/* Replace checkboxes with buttons */
-findbar .checkbox-check {
-    display: none !important;
-}
-findbar checkbox {
-    background: var(--base00);
-    transition: 0.1s ease-in-out;
-    border: 1px solid var(--base0D);
-    border-radius: 2;
-    padding: 2px 4px;
-    margin: -2px 4px !important;
-}
-findbar checkbox[checked="true"] {
-    background: var(--base00);
-    color: var(--base0B);
-    transition: 0.1s ease-in-out;
-}
-.found-matches {
-    color: var(--base0B);
-}
-
-
-/*-----------------------------------------*/
 
 /*------------- SITE SECURITY ICON --------*/
 
 /* Green */
 #identity-box[pageproxystate="valid"].verifiedDomain #identity-icon {
-    fill: var(--base0B) !important;
+    fill: var(--base07) !important;
     fill-opacity: 1 !important;
     transition: 100ms linear !important;
 }
 #identity-box[pageproxystate="valid"].mixedActiveBlocked #identity-icon {
-    fill: var(--base0B) !important;
+    fill: var(--base07) !important;
     fill-opacity: 1 !important;
     transition: 100ms linear !important;
 }
 #identity-box[pageproxystate="valid"].verifiedIdentity #identity-icon {
-    fill: var(--base0B) !important;
+    fill: var(--base07) !important;
     fill-opacity: 1 !important;
     transition: 100ms linear !important;
 }
 #identity-popup[connection^="secure"] .identity-popup-security-connection {
-    fill: var(--base0B) !important;
+    fill: var(--base07) !important;
 }
 
 /* Red */
@@ -302,12 +217,12 @@ findbar checkbox[checked="true"] {
 
 /* Orange */
 #identity-box[pageproxystate="valid"].mixedDisplayContent #identity-icon {
-    fill: var(--base09) !important;
+    fill: var(--base0A) !important;
     fill-opacity: 1 !important;
     transition: 100ms linear !important;
 }
 #identity-popup[mixedcontent~="passive-loaded"][isbroken] .identity-popup-security-connection {
-    fill: var(--base09) !important;
+    fill: var(--base0A) !important;
 }
 
 /* Yellow */
@@ -328,19 +243,19 @@ findbar checkbox[checked="true"] {
 
 /* TODO Star doesn't work?*/
 #context-back {
-    color: var(--base09) !important;
+    color: var(--base07) !important;
 }
 #context-forward {
-    color: var(--base0B) !important;
+    color: var(--base07) !important;
 }
 #context-reload {
-    color: var(--base0D) !important;
+    color: var(--base07) !important;
 }
 #context-stop {
-    color: var(--base08) !important;
+    color: var(--base07) !important;
 }
 #context-star {
-    color: var(--base0A) !important;
+    color: var(--base07) !important;
 }
 
 /*-----------------------------------------*/
@@ -356,7 +271,7 @@ findbar checkbox[checked="true"] {
     background-color: var(--base05)!important;
   }
   body.sepia {
-    color: var(--base0D) !important;
+    /* color: var(--base0D) !important; */
     background-color: var(--base00) !important;
   }
 

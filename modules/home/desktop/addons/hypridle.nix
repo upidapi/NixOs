@@ -16,10 +16,17 @@ in {
 
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
-      exec-once = ["hypridle"];
+      exec-once = [
+        "hypridle"
+        # don't idle while playing audio
+        "sway-audio-idle-inhibit"
+      ];
     };
 
-    home.packages = [pkgs.hypridle];
+    home.packages = with pkgs; [
+      hypridle
+      sway-audio-idle-inhibit
+    ];
 
     services.hypridle = {
       enable = true;

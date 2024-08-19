@@ -68,8 +68,8 @@ in {
         speedtest-cli
 
         # you can't have both?
-        clang
-        # (lib.hiPrio gcc)
+        # clang
+        gcc
 
         cargo
         rustc

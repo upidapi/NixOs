@@ -1,6 +1,15 @@
+<<<<<<< Updated upstream
 This is just for my own sake
+||||||| Stash base
+This is just for my own sake, to easely find referances
+=======
+
+
+This is just for my own sake
+>>>>>>> Stashed changes
 its not actually markdown i just like the colors :)
 
+<<<<<<< Updated upstream
 # open the (infra) sops file
 ```bash
 sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
@@ -12,6 +21,19 @@ env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $NIXOS_
 su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt 
 sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 ```
+||||||| Stash base
+    
+# to open the sops file
+env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml
+(requires root)
+=======
+    
+# open the (infra) sops file
+```bash
+cd "$NIXOS_CONFIG_PATH"; su --preserve-environment -c "
+env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sops secrets/infra.yaml"
+```
+>>>>>>> Stashed changes
 
 
 # build image
@@ -69,6 +91,12 @@ journalctl -xeu home-manager-upidapi.service
 «repeated»
 ```
 
+
+# get logs
+```bash
+systemctl --user status 
+journalctl -xeu home-manager-upidapi.service
+```
 
 # get logs
 ```bash

@@ -125,10 +125,16 @@ in {
             vim.cmd[[hi clear SpellCap]];
             vim.cmd[[hi clear SpellRare]];
             vim.cmd[[hi SpellBad cterm=undercurl gui=undercurl guisp=#6E9E6E]];
+
           '';
           # set incorrect grammar color to #5C3539 (its what pycharm uses)
           fix-mouse = ''
             vim.o.mouse = "nvchr"
+
+          '';
+
+          set-word-wrap2 = ''
+            vim.o.linebreak = true
           '';
         };
 

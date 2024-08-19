@@ -48,21 +48,9 @@ nvim
 
     Softwrap
     
-    Bind I leader to ctrl space (in i mode)
-
     nixd (language server)
 
     quick fix buffer?
-
-
-ricing 
-    base16.nix 
-
-    nix-colors
-
-    stylix
-
-    theme firefox
 
 
 security 

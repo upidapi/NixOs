@@ -36,6 +36,7 @@ in {
         # Default background
         base00 = "#1a1b26"; # i.e bg
         # Alternate background
+        # (i think this should actually be lighter than base00)
         base01 = "#16161e"; # i.e bg_dark
         # Selection background
         base02 = "#292e42"; # ? i.e bg_highlight
@@ -79,6 +80,8 @@ in {
     };
     */
     # "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
+
+    cursor.size = 16;
 
     fonts = {
       sizes.terminal = 10;

@@ -436,6 +436,7 @@ def main():
                     "alias": ["p"],
                     "info": "pull for remote and rebuild",
                 },
+                # TODO: add a squash command to merge debug commits
             },
         ),
     )

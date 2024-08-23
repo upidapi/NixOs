@@ -42,6 +42,12 @@ Unsets everything so you can style everything from scratch
 }
 
 
+.battery-low {
+  // TODO: use a stylix color 
+  color: #ff0000;
+}
+
+
 .container {
      /* background-color: mix($base02, $base03, 75%); */
     /*

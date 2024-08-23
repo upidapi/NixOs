@@ -72,8 +72,6 @@ host_dir: {
 
   mkUser = profile: user-name: {...}: {
     imports = [
-      inputs.hyprland.homeManagerModules.default
-
       {
         home.username = user-name;
 

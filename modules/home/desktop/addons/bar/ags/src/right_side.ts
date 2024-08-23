@@ -75,7 +75,7 @@ function Battery() {
         .as((p: number) => 
             `${Math.round(p)}%`
     )
-   
+
     const icon = Utils.merge([
             battery.bind("charging"),
             battery.bind("percent"),
@@ -92,6 +92,11 @@ function Battery() {
             return [..."󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹"][Math.round(percent / 10)]
         })
 
+    
+    const low_battery_class = battery
+        .bind("percent")
+        .as((percent: number) => percent <= 10 ? ["battery-low"] : [])
+
     return [
         DataContainer({
         visible: battery.bind("available"),
@@ -106,10 +111,12 @@ function Battery() {
             }),
             */
             Widget.Label({ 
-                label: icon
+                label: icon,
+                class_names: low_battery_class,
             }),
             Widget.Label({
-                label: value
+                label: value,
+                class_names: low_battery_class,
             })
         ],
     })]

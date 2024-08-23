@@ -23,29 +23,6 @@ in {
     ./todo-comments.nix
   ];
 
-  # TODO: what is oil (probably in the nixos filder?
-  # TODO: multiple tabs?
-  # TODO: might switch away from the nixvim options
-  #  instead use it for pkgs management, but use extraLuaConfig for everything else
-
-  # TODO: fix nix str escape highliting
-  #  use :Inspect to inpect under cursor
-  #  use :InspectTree to get tresitter output
-  #  The problem is that the escape token color thingy is not in the
-  #  semantic rokens but in the TreeSitter things
-  /*
-  Treesitter
-    - @string.escape.nix links to @string.escape nix  # <== is here
-
-  Semantic Tokens
-    - @lsp.type.string.nix links to String priority: 125  # <== should be here
-    - @lsp.type.string.nix links to String priority: 125
-    - @lsp.mod.escape.nix links to @lsp priority: 126
-    - @lsp.typemod.string.escape.nix links to @lsp priority: 127
-  */
-
-  # x = "asd//// \\ \" \\ \${gjkhg} "; y = "";
-
   options.modules.home.cli-apps.nixvim =
     mkEnableOpt "enables nixvim";
 

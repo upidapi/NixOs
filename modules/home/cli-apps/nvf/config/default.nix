@@ -3,6 +3,7 @@
   inputs,
   lib,
   my_lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -19,6 +20,24 @@ in {
   ];
 
   config = mkIf cfg.enable {
+    # TODO: fix nix str escape highliting
+    #  use :Inspect to inpect under cursor
+    #  use :InspectTree to get tresitter output
+    #  The problem is that the escape token color thingy is not in the
+    #  semantic rokens but in the TreeSitter things
+    /*
+    Treesitter
+      - @string.escape.nix links to @string.escape nix  # <== is here
+
+    Semantic Tokens
+      - @lsp.type.string.nix links to String priority: 125  # <== should be here
+      - @lsp.type.string.nix links to String priority: 125
+      - @lsp.mod.escape.nix links to @lsp priority: 126
+      - @lsp.typemod.string.escape.nix links to @lsp priority: 127
+    */
+
+    # x = "asd//// \\ \" \\ \${gjkhg} "; y = "";
+
     programs.nvf = {
       settings.vim = {
         # ? syntaxHighlighting = true;
@@ -53,6 +72,33 @@ in {
 
         dashboard = {
           # ? alpha = enable;
+        };
+
+        extraPlugins = with pkgs.vimPlugins; {
+          aerial = {
+            package = auto-save-nvim;
+            setup =
+              /*
+              lua
+              */
+              ''
+                require("auto-save").setup {
+                  debounce_delay = 1000,
+
+                  condition = function(buf)
+                    local fn = vim.fn
+                    local utils = require("auto-save.utils.data")
+
+                    -- only save text files
+                    if utils.not_in(fn.getbufvar(buf, "&filetype"), {'txt', 'md'}) then
+                      return false
+                    end
+
+                    return true
+                  end
+                }
+              '';
+          };
         };
 
         filetree = {

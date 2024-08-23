@@ -84,6 +84,10 @@ store firefox extension data?
 
 optimise for battery
 
+notification on low battery
+
+hybernate to prevent data loss instead of dying?
+
 
 prelockd
     prevent freezes in low ram senarios
@@ -122,4 +126,5 @@ nushell
 
 Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)
     maybe this happens when the files are changes?
+
 

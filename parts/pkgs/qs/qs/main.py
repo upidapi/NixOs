@@ -11,7 +11,13 @@ def run_cmd(
     print_res: bool = False,
     ignore=(),
     color: bool = False,
+    exit_on_error = True,
 ):
+    # maybe use set -x to print commands before execution?
+
+    if exit_on_error: 
+        cmd = f"set -euo pipefail; \n {cmd}"
+
     if color:
         cmd = (
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"

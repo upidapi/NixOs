@@ -191,6 +191,8 @@ class Parser:
         """
         # TODO: add a help command
 
+    # TODO: add command completion
+
     @staticmethod
     def parse_sys_args(struct):
         return Parser._coherse_args(sys.argv[1:], struct)

@@ -1,5 +1,9 @@
 {
-  perSystem = {pkgs, ...}: {
+  perSystem = {
+    pkgs,
+    self',
+    ...
+  }: {
     devShells = {
       default = pkgs.mkShell {
         packages = [
@@ -24,6 +28,12 @@
         shellHook = ''
           exec zsh
         '';
+      };
+
+      kattis = pkgs.mkShell {
+        packages = [
+          self'.packages.problem-tools
+        ];
       };
 
       sec =

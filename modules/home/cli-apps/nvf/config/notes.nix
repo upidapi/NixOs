@@ -61,6 +61,7 @@ in {
             EXPLORE = {
               icon = "󰍉";
               color = "#2563EB";
+              alt = ["EXP"];
             };
             TODO = {
               icon = " ";

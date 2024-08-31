@@ -2,8 +2,9 @@ import json
 import os
 import shlex
 import subprocess
+import atexit
 
-from .parser import Parser, opt_part
+from parser import Parser, opt_part
 
 
 def run_cmd(
@@ -22,7 +23,7 @@ def run_cmd(
         cmd = (
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
-
+        
     process = subprocess.Popen(
         cmd,
         shell=True,
@@ -133,6 +134,13 @@ def print_warn(
         " ",
     )
 
+def exit_program(msg: str):
+    print()
+    print_warn(
+        msg,
+        41,
+    )
+    exit()
 
 def validate_new_branch(
     new_branch,
@@ -200,7 +208,15 @@ def check_needs_reboot():
 class Steps:
     @staticmethod
     def rebuild_nixos(args, profile):
-        print_devider(f"Rebuilding NixOs (profile: {profile})")
+        branch = list(
+            x for x in 
+            run_cmd("git branch").split("\n") 
+            if x.startswith("*")
+        )[0][2:]
+
+        print_devider(
+            f"Rebuilding NixOs (profile: {profile}, branch: {branch})"
+        )
         
         fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"
         succeed_id = "EdJNfWcs91MsOGHoOfWJ6rqTQ6h1HHsw"
@@ -238,12 +254,7 @@ class Steps:
         ret_val = raw_ret_val.splitlines()[-1]
 
         if ret_val == fail_id:
-            print()
-            print_warn(
-                "NixOs Rebuild Failed",
-                41,
-            )
-            exit()
+            exit_program("NixOs Rebuild Failed")
 
         if ret_val != succeed_id:
             raise TypeError(f"invallid {ret_val=}")
@@ -288,18 +299,23 @@ class Steps:
     def commit_changes(args, profile, last_gen_data):
         print_devider("Commit msg")
 
-        commit_msg = Steps._gen_commit_msg(
-            args,
-            profile,
-            last_gen_data,
-        )
+        if args["--no-rebuild"]:
+            message = args["--message"][0][0]
+        else:
+            message = Steps._gen_commit_msg(
+                args,
+                profile,
+                last_gen_data,
+            )
 
-        print(commit_msg)
+        print(message)
 
         print_devider("Committing changes")
+    
+        add_files = not bool(args['--no-auto-add'])
 
         run_cmd(
-            f"git commit --allow-empty -am {shlex.quote(commit_msg)}",
+            f"git commit -{'a' * add_files}m {shlex.quote(message)}",
             print_res=True,
             color=True,
         )
@@ -313,7 +329,7 @@ class Steps:
     def show_diff():
         print_devider("Git Diff")
         run_cmd(
-            "git --no-pager diff HEAD --color",
+            "git --no-pager diff HEAD --color --ignore-all-space",
             print_res=True,
             color=True,
         )
@@ -321,10 +337,9 @@ class Steps:
     @staticmethod
     def push_changes():
         print_devider("Pushing code to github")
-        origin = "git@github.com:upidapi/NixOs.git"
 
         run_cmd(
-            f"git push {origin} --all",
+            f"git push origin --all",
             print_res=True,
             color=True,
         )
@@ -357,15 +372,21 @@ def set_commit_msg(args, commit_msg):
 
 class Recipes:
     @staticmethod
-    def add_show_formatt_files():
+    def add_show_formatt_files(args):
         # nixos ignores files that are not added
+        
+        if not args["--no-auto-add"]:
+            Steps.add_all_files()
 
-        Steps.add_all_files()
         Steps.formatt_files()
         Steps.show_diff()
 
     @staticmethod
     def rebuild_and_commit(args):
+        if args["--no-rebuild"]:
+            Steps.commit_changes(args, "", {}) 
+            return
+        
         last_gen_data = Steps.get_gen_data()
 
         # rebuild nixos
@@ -387,8 +408,11 @@ def pp(data):
 # might want to add that possibility
 # (the kwarg would override the arg)
 def main():
-    # TODO add a not flag, if true, then dont allow it unless
-    # something explicitly permitts it
+    # TODO: add a not flag, if true, then dont allow it unless
+    # something explicitly permits it
+    
+    # TODO: add a fmt arg so that the raw data can easily be formatted 
+    #  into a better format that can be used with dot notation
 
     args = Parser.parse_sys_args(
         opt_part(
@@ -404,6 +428,14 @@ def main():
                     # "allow_sub": False,
                     "args": 1,
                     "default": None,
+                },
+                "--no-rebuild": {
+                    "alias": ["-c"], 
+                    "info": "only commit changes, dont rebuild",
+                },
+                "--no-auto-add": {
+                    "alias": ["-n"], 
+                    "info": "dont auto add/commit all files",
                 },
                 # "--no-add-files": {
                 #     "alias": ["-n"],
@@ -440,18 +472,18 @@ def main():
                 },
                 "pull": {
                     "alias": ["p"],
-                    "info": "pull for remote and rebuild",
+                    "info": "pull from remote and rebuild",
                 },
+                # TODO: maybe add branches to the workflow with a merge cmd
                 # TODO: add a squash command to merge debug commits
             },
         ),
     )
-
+    
     pp(args)
 
-    nixos_path = get_nixos_path()
-
     # make sure that we're in the right place
+    nixos_path = get_nixos_path()
     os.chdir(nixos_path)
 
     """
@@ -478,20 +510,18 @@ def main():
             return None
 
         elif sub_command == "diff":
-            return Recipes.add_show_formatt_files()
+            return Recipes.add_show_formatt_files(args)
 
         elif sub_command == "update":
             run_cmd("git stash", print_res=True)
+            atexit.register(lambda: run_cmd("git stash pop"))
 
             run_cmd("nix flake update", print_res=True, color=True)
 
             args = set_commit_msg(args, "update flake inputs")
 
-            try:
-                Recipes.add_show_formatt_files()
-                Recipes.rebuild_and_commit(args)
-            finally:
-                run_cmd("git stash pop")
+            Recipes.add_show_formatt_files(args)
+            Recipes.rebuild_and_commit(args)
 
             Steps.push_changes()
             Steps.print_success()
@@ -499,32 +529,41 @@ def main():
             return None
 
         elif sub_command == "pull":
+            run_cmd("git fetch")
+            if run_cmd("git diff HEAD origin/main").strip() == "":
+                print("Already up to date with remote.")
+                exit()
+
             print_devider("Pulling Changes")
 
             run_cmd("git stash")
+            atexit.register(lambda: run_cmd("git stash pop"))
+            
+            # remote could be git@github.com:upidapi/NixOs.git
             run_cmd(
-                "git pull git@github.com:upidapi/NixOs.git main",
+                "git pull origin main",
                 print_res=True,
                 color=True,
             )
 
             args = set_commit_msg(args, "Pulled changes from remote")
 
-            try:
-                Recipes.add_show_formatt_files()
-                Recipes.rebuild_and_commit(args)
-            finally:
-                run_cmd("git stash pop")
+            Recipes.add_show_formatt_files(args)
+            Recipes.rebuild_and_commit(args)
 
             Steps.push_changes()
             Steps.print_success()
 
             return None
+    
+    if run_cmd("git diff HEAD").strip() == "":
+        print("No changes found")
+        exit()
 
     if not args["--message"] or not args["--message"][0]:
         raise TypeError("missing --message argument")
 
-    Recipes.add_show_formatt_files()
+    Recipes.add_show_formatt_files(args)
     Recipes.rebuild_and_commit(args)
 
     Steps.push_changes()

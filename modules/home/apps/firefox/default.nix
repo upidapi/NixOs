@@ -19,6 +19,8 @@ in {
 
   # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
 
+  # EXP: https://github.com/refined-github/refined-github
+
   # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
   # add to sytlus to fix netflix spoilters
   /*

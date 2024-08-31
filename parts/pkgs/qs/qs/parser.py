@@ -21,7 +21,7 @@ class Parser:
                 pos_args[pos_name] = default
                 continue
 
-            raise TypeError(f'"{pos_name}" is missing it\'s arg')
+            Parser._error(f'"{pos_name}" is missing it\'s arg')
 
         return pos_args
 
@@ -34,7 +34,7 @@ class Parser:
             for alias in data["alias"]:
                 if alias in alias_to_main:
                     # add scope info
-                    raise TypeError(
+                    Parser._error(
                         f'the alias "{alias}" is used more than once',
                     )
 
@@ -50,9 +50,13 @@ class Parser:
                     continue
 
                 if not struct["flags"][arg]["allow_sub"]:
-                    raise TypeError(
+                    Parser._error(
                         f'the "{arg}" flag can\'t be used with sub commands',
                     )
+    
+    @staticmethod
+    def _error(msg):
+        raise TypeError(msg)
 
     @staticmethod
     def _coherse_args(args, struct):
@@ -80,7 +84,7 @@ class Parser:
         for i, arg in enumerate(args):
             if arg.startswith("-"):
                 if capturing_count != 0:
-                    raise TypeError(
+                    Parser._error(
                         f'flag defined before "{arg}" compleated'
                         f"({capturing_count} left)",
                     )
@@ -91,8 +95,8 @@ class Parser:
                     arg, *arg_pos = arg.split("=")
 
                 if arg not in alias_to_main:
-                    # add scope info
-                    raise TypeError(f'could not find arg "{arg}"')
+                    # TODO: add scope info
+                    Parser._error(f'could not find arg "{arg}"')
 
                 arg = alias_to_main[arg]
                 arg_data = struct["flags"][arg]
@@ -102,12 +106,18 @@ class Parser:
 
                 if arg_pos is not None:
                     if len(arg_pos) != capturing_count:
-                        raise TypeError(
+                        Parser._error(
                             f'too few args passed to "{arg}"',
                         )
 
                     flag_data[arg].append(arg_pos)
-
+                
+                # if it takes 0 args then we have to instantly terminate it
+                if capturing_count == 0:
+                    flag_data[capturing_arg].append(capturing_pos)
+                    capturing_pos = []
+                    capturing_arg = None
+                    
                 continue
 
             if capturing_arg is None:
@@ -117,14 +127,14 @@ class Parser:
                             pos_args["*args"].append(arg)
                             continue
 
-                        raise TypeError("too many positionall args")
+                        Parser._error("too many positionall args")
 
                     alias_to_sub_command = Parser._create_alias_map(
                         struct["sub_commands"],
                     )
 
                     if arg not in alias_to_sub_command.keys():
-                        raise TypeError(
+                        Parser._error(
                             f'unknown sub command "{arg}"',
                         )
 
@@ -158,9 +168,9 @@ class Parser:
                 flag_data[capturing_arg].append(capturing_pos)
                 capturing_pos = []
                 capturing_arg = None
-
+        
         if capturing_count != 0:
-            raise TypeError(
+            Parser._error(
                 f'too few args passed to "{capturing_arg}" '
                 f"({capturing_count} more needed)",
             )
@@ -208,7 +218,7 @@ def opt_part(
 ):
     if sub is not None:
         if allow_extra:
-            raise TypeError(
+            Parser._error(
                 "can't have arbitrary amount of args and sub commands",
             )
 
@@ -221,26 +231,25 @@ def opt_part(
         # has_default = "default" in pos.keys()
 
         if req_sub and has_default:
-            raise TypeError(
+            Parser._error(
                 "can't have default args if the sub command is required",
             )
 
         if setting_default:
             if not has_default:
-                raise TypeError(
+                Parser._error(
                     "can't have non default arg after default arg",
                 )
 
         setting_default = setting_default or has_default
 
     if len(poss) != len(list(set(poss))):
-        raise TypeError("can have duplicates in positional names")
+        Parser._error("can have duplicates in positional names")
 
     if flags is None:
         flags = {}
 
     for flag in flags.values():
-
         def set_default(key, val):
             if key not in flag.keys():
                 flag[key] = val

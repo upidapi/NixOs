@@ -72,7 +72,7 @@ in {
             path = "${ssh_path}/ssh_host_ed25519_key";
             owner = "root";
             group = "wheel";
-            mode = "0440";
+            mode = "0600";
             sopsFile = infraFile;
           };
         }

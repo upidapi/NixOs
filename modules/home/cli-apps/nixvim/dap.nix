@@ -8,9 +8,6 @@
       lldb
     ];
 
-    # TODO: possibly open dap-ui on dap start
-    # extraConfigLua = '''';
-
     plugins.dap = {
       enable = true;
       extensions = {

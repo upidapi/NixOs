@@ -163,7 +163,6 @@ host_dir: {
         extra_args = {
           inherit inputs inputs' self self';
 
-          # TODO: try to put thease in /parts
           my_lib = (import ./../lib) {inherit lib;};
           keys = (import ./../keys.nix) {inherit lib;};
         };

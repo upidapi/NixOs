@@ -70,6 +70,8 @@ security
         auto login?
 
     ybikeys
+
+    secureboot
     
 
 fix ethernet getting stuck on reconnect:

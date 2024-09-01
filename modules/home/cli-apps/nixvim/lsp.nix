@@ -13,8 +13,6 @@ in {
       # advanced syntax highliting, but quite surface level
       # (uses a abstract syntax tree)
       treesitter = {
-        # todo: might want to only install some language parsers
-        #   by default it adds all
         enable = true;
         settings = {
           incremental_selection = enable;

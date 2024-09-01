@@ -1,5 +1,9 @@
 {
-  perSystem = {pkgs, ...}: {
+  perSystem = {
+    pkgs,
+    self',
+    ...
+  }: {
     devShells = {
       default = pkgs.mkShell {
         packages = [
@@ -26,6 +30,12 @@
         '';
       };
 
+      kattis = pkgs.mkShell {
+        packages = [
+          self'.packages.problem-tools
+        ];
+      };
+
       sec =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
@@ -39,24 +49,39 @@
               exec zsh
             '';
             targetPkgs = _pkgs: (with _pkgs; [
-              # gcc
+              # crypto
+              sage
 
               # forensics
-              imhex # hex editor
-              audacity # audio foresics (and editor)
+              imhex
               binwalk
               file
-              ltrace
-              strace
+              audacity
+              gnuradio
+              wireshark
 
-              # binary decompilation
-              ghidra
-              radare2
-              # TODO: binary ninja
-
+              # hardware
               tio
 
-              sqlmap # sql injection
+              # pwn
+              # EXPLORE: formatStringExploiter
+              # EXPLORE: libformatstr
+              pwninit
+              checksec
+
+              # rev
+              gdb
+              gef
+              # EXPLORE: apktool and android rev in general
+              ghidra
+              radare2
+
+              strace
+              ltrace
+
+              # web
+              # TODO: burp suite or opensource alt
+              sqlmap
 
               # for compatibility
               udev

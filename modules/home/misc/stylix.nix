@@ -18,8 +18,10 @@ in {
   config.stylix = mkIf cfg.enable {
     enable = true;
 
-    # TODO: don't do that
-    # use a hand made one instead since this once kinda sucks
+    # TODO: make a custom vesktop template since the build in
+    #  kinda sucks
+
+    # HACK: using a pre made theme currently
     targets = {
       vesktop.enable = false;
 

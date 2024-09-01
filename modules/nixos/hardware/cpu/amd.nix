@@ -12,7 +12,6 @@ in {
     mkEnableOpt "enables amd cpu drivers for the system";
 
   config = mkIf cfg.enable {
-    # todo: what is this?
     services.xserver.videoDrivers = ["modesetting"];
 
     hardware.graphics = {

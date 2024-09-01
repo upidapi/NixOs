@@ -556,12 +556,12 @@ def main():
 
             return None
     
+    if not args["--message"] or not args["--message"][0]:
+        raise TypeError("--message argument required")
+
     if run_cmd("git diff HEAD").strip() == "":
         print("No changes found")
         exit()
-
-    if not args["--message"] or not args["--message"][0]:
-        raise TypeError("missing --message argument")
 
     Recipes.add_show_formatt_files(args)
     Recipes.rebuild_and_commit(args)

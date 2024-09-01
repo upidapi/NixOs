@@ -1,34 +1,20 @@
-This is just for my own sake
-<<<<<<< Updated upstream
-
-||||||| Stash base
-||||||| Stash base
-This is just for my own sake, to easely find referances
-=======
-
-
-This is just for my own sake
->>>>>>> Stashed changes
 its not actually markdown i just like the colors :)
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
 # open the (infra) sops file
 ```bash
-sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
+sudo --preserve-env sops $nixos_config_path/secrets/
 
 # not in direnv
-env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
+env sops_age_key_file=/persist/sops-nix-key.txt sudo --preserve-env sops $nixos_config_path/secrets/
 
 # without sudo
-su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt 
-sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
+su --preserve-environment -c "env sops_age_key_file=/persist/sops-nix-key.txt 
+sops $nixos_config_path/secrets/infra.yaml"
 ```
 
 # build image
 ```bash
-cd $NIXOS_CONFIG_PATH
+cd $nixos_config_path
 
 sudo mkdir /ventoy
 
@@ -39,28 +25,28 @@ sudo mount /dev/---disc-name--- /ventoy
 sudo nix build .#images.minimal-installer
 
 # move iso to usb
-cp -rL $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
+cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 ```
 
 
 # fetch official iso(s)
 ```bash 
-function downloadFile {
+function downloadfile {
     # resolve url redirect to get a more specific link
-    local url=$(curl -ILs -o /dev/null -w %{url_effective} "$1")
+    local url=$(curl -ils -o /dev/null -w %{url_effective} "$1")
     
     # curl said url and use the filename of it
-    curl -JOL "$url"
+    curl -jol "$url"
 }
 
-function downloadOfficialIso {
-    downloadFile \ 
+function downloadofficialiso {
+    downloadfile \ 
     "https://channels.nixos.org/nixos-24.05/latest-nixos-$1-x86_64-linux.iso"
 }
 
-downloadOfficialIso minimal 
-downloadOfficialIso gnome 
-downloadOfficialIso plasma6 
+downloadofficialiso minimal 
+downloadofficialiso gnome 
+downloadofficialiso plasma6 
 ```
 
 
@@ -74,10 +60,10 @@ journalctl -xeu home-manager-upidapi.service
 # format traces
 ```
 # replace the folowing with something else
-<CODE>
-<PRIMOP>
-<PRIMOP-APP>
-<LAMBDA>
+<code>
+<primop>
+<primop-app>
+<lambda>
 «repeated»
 ```
 
@@ -119,43 +105,43 @@ youtube
 
 imp := impermanence
 big := is there a lot?
-H-M := home manager
+h-m := home manager
 flk := flakes?
 flp := flake parts?
 sps := sops
 
 
- [adv] [imp] [H-M] [flk] [sps]
+ [adv] [imp] [h-m] [flk] [sps]
 [jakehamilton](https://github.com/jakehamilton/config) - modules
   [ ]   [ ]   [ ]   [x]   [ ]
 [lokegustafsson](https://github.com/lokegustafsson/nixos-getting-started) - nix opts 
   [ ]   [ ]   [ ]   [ ]   [ ]
-[ErrorNoInternet](https://github.com/ErrorNoInternet/configuration.nix) - nixvim
+[errornointernet](https://github.com/errornointernet/configuration.nix) - nixvim
   [ ]   [ ]   [x]   [x]   [ ]
-[NobbZ](https://github.com/NobbZ/nixos-config/)
+[nobbz](https://github.com/nobbz/nixos-config/)
   [x]   [ ]   [x]   [x]   [-]
-[SebastianStork](https://github.com/SebastianStork/nixos-config)
+[sebastianstork](https://github.com/sebastianstork/nixos-config)
   [ ]   [ ]   [x]   [x]   [x]
 [fufexan](https://github.com/fufexan/dotfiles)
   [x]   [ ]   [x]   [x]   [-]
-[mic92](https://github.com/Mic92/dotfiles) - dev shell
+[mic92](https://github.com/mic92/dotfiles) - dev shell
   [x]   [ ]   [x]   [x]   [x]
-[Workflow](https://github.com/workflow/dotfiles)
+[workflow](https://github.com/workflow/dotfiles)
   [ ]   [ ]   [x]   [x]   [ ]
-[Notohh](https://github.com/notohh/snowflake)
+[notohh](https://github.com/notohh/snowflake)
   [ ]   [ ]   [x]   [x]   [x]
-[Adamcstephens](https://codeberg.org/adamcstephens/dotfiles)
+[adamcstephens](https://codeberg.org/adamcstephens/dotfiles)
   [x]   [ ]   [x]   [x]   [ ]
 [vimjoyer](https://github.com/vimjoyer/nixconf) - vimjoyer
   [ ]   [x]   [x]   [x]   [x]
-[Librephoenix](https://github.com/librephoenix/nixos-config) - sops, auto-install
+[librephoenix](https://github.com/librephoenix/nixos-config) - sops, auto-install
   [x]   [ ]   [x]   [x]   [x]
-[Misterio77](https://github.com/Misterio77/nix-config)
+[misterio77](https://github.com/misterio77/nix-config)
   [x]   [x]   [x]   [x]   [x]
-[raf](https://github.com/NotAShelf/nyx) - well organised, huge
+[raf](https://github.com/notashelf/nyx) - well organised, huge
   [x]   [x]   [x]   [x]   [x]
 
-[nvf](https://github.com/NotAShelf/nvf) - nixvim alternative
+[nvf](https://github.com/notashelf/nvf) - nixvim alternative
 
 
 

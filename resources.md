@@ -1,36 +1,5 @@
 This is just for my own sake
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-
-its not actually markdown i just like the colors :)
-
-||||||| Stash base
-||||||| Stash base
-This is just for my own sake, to easely find referances
-=======
-
-
-This is just for my own sake
->>>>>>> Stashed changes
-its not actually markdown i just like the colors :)
-
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-||||||| Stash base
-||||||| Stash base
-This is just for my own sake, to easely find referances
-=======
-
-
-This is just for my own sake
->>>>>>> Stashed changes
-its not actually markdown i just like the colors :)
-
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
 # open the (infra) sops file
 ```bash
 sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/

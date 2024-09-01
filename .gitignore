@@ -2,6 +2,7 @@ __pycache__
 .ruff_cache
 .ccls-cache
 .direnv
+.nvimlog
 modules/home/desktop/addons/bar/ags/src/types
 
 # this will be auto generated 

@@ -24,8 +24,14 @@ in {
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems.zfs = lib.mkForce false;
-    # fix issues with keyboard after suspend
-    kernelParams = ["i8042.reset=1" "i8042.nomux=1" "i8042.nopnp=1" "i8042.noloo=1"];
+    # maybe fix issues with keyboard after suspend
+    kernelParams = [
+      "i8042.reset=1"
+      "i8042.nomux=1"
+      "i8042.noaux=1"
+      "i8042.nopnp=1"
+      "i8042.noloop=1"
+    ];
   };
 
   # TODO: use "tuxedo-drivers"

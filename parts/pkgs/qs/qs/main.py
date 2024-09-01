@@ -4,8 +4,11 @@ import shlex
 import subprocess
 import atexit
 
-from parser import Parser, opt_part
-
+# remove the dot for debugging
+try:
+    from .parser import Parser, opt_part
+except ImportError:
+    from parser import Parser, opt_part
 
 def run_cmd(
     cmd,

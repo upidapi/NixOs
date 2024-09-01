@@ -40,6 +40,10 @@ in {
     in {
       defaultSopsFile = "${secrets_path}/hosts/${hostName}.yaml";
 
+      # NOTE: if you want to generate the age key from host ssh keys:
+      # Sops needs access to the keys before the persist dirs are even mounted;
+      # so just persisting the keys won't work, we must point at /persist
+
       age.keyFile = "/persist/sops-nix-key.txt";
 
       secrets =

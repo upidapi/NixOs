@@ -2,19 +2,19 @@ its not actually markdown i just like the colors :)
 
 # open the (infra) sops file
 ```bash
-sudo --preserve-env sops $nixos_config_path/secrets/
+sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
 
 # not in direnv
-env sops_age_key_file=/persist/sops-nix-key.txt sudo --preserve-env sops $nixos_config_path/secrets/
+env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $$NIXOS_CONFIG_PATH/secrets/
 
 # without sudo
-su --preserve-environment -c "env sops_age_key_file=/persist/sops-nix-key.txt 
-sops $nixos_config_path/secrets/infra.yaml"
+su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt 
+sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 ```
 
 # build image
 ```bash
-cd $nixos_config_path
+cd $NIXOS_CONFIG_PATH
 
 sudo mkdir /ventoy
 

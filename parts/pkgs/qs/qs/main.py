@@ -331,6 +331,14 @@ class Steps:
             color=True,
         )
 
+    @staticmethod 
+    def tmp_stash_changes():
+        has_changes = run_cmd("git diff HEAD origin/main").strip() != ""
+        
+        if has_changes:
+            run_cmd("git stash", print_res=True, color=True)
+            atexit.register(lambda: run_cmd("git stash pop"))
+
     @staticmethod
     def push_changes():
         print_devider("Pushing code to github")
@@ -510,8 +518,7 @@ def main():
             return Recipes.add_show_formatt_files(args)
 
         elif sub_command == "update":
-            run_cmd("git stash", print_res=True)
-            atexit.register(lambda: run_cmd("git stash pop"))
+            Steps.tmp_stash_changes()
 
             run_cmd("nix flake update", print_res=True, color=True)
 
@@ -532,11 +539,10 @@ def main():
                 exit()
 
             print_devider("Pulling Changes")
-
-            run_cmd("git stash")
-            atexit.register(lambda: run_cmd("git stash pop"))
             
-            # remote could be git@github.com:upidapi/NixOs.git
+            Steps.tmp_stash_changes()
+            
+            # remote could be eg git@github.com:upidapi/NixOs.git
             run_cmd(
                 "git pull origin main",
                 print_res=True,

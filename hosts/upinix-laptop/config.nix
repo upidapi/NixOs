@@ -31,6 +31,7 @@ in {
       "i8042.noaux=1"
       "i8042.nopnp=1"
       "i8042.noloop=1"
+      "atkbd.reset=1"
     ];
   };
 

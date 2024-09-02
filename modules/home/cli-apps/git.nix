@@ -37,6 +37,8 @@ in {
           eol = "lf";
           whitespace = "space-before-tab,trailing-space";
         };
+        
+        pull.rebase = true;
 
         init = {
           defaultBranch = "main";

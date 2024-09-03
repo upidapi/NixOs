@@ -309,8 +309,8 @@ class Steps:
 
         print_devider("Committing changes")
     
-        add_files = not bool(args['--no-auto-add']) * "--all"
-        force = not bool(args["--force"]) * "--allow-empty" 
+        add_files = (not args['--no-auto-add']) * "--all"
+        force = (not args["--force"]) * "--allow-empty" 
 
         run_cmd(
             f"git commit {force} {add_files} -m {shlex.quote(message)}",

@@ -3,6 +3,7 @@
     #../packages/tuxedo-keyboard/tuxedo-keyboard.nix
     #../packages/tuxedo-control-center/tuxedo-control-center.nix
     ./tuxedo-drivers/tuxedo-drivers.nix
+    ./tuxedo-rs.nix
   ];
 
   disabledModules = ["hardware/tuxedo-keyboard.nix"];

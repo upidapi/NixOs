@@ -84,7 +84,6 @@ in {
   */
 
   # FIXME: enable when it works
-  /*
   hardware = {
     # tuxedo-keyboard = enable;
     tuxedo-rs = {
@@ -92,7 +91,6 @@ in {
       tailor-gui = enable;
     };
   };
-  */
 
   /*
   # not tested but should use my custom pkg with my overrides

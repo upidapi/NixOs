@@ -309,10 +309,11 @@ class Steps:
 
         print_devider("Committing changes")
     
-        add_files = not bool(args['--no-auto-add'])
+        add_files = not bool(args['--no-auto-add']) * "--all"
+        force = not bool(args["--force"]) * "--allow-empty" 
 
         run_cmd(
-            f"git commit -{'a' * add_files}m {shlex.quote(message)}",
+            f"git commit {force} {add_files} -m {shlex.quote(message)}",
             print_res=True,
             color=True,
         )
@@ -454,6 +455,10 @@ def main():
                     "args": 1,
                     "default": None,
                 },
+                "--force": {
+                    "alias": ["-f"],
+                    "info": "force rebuild even if there are no changes",
+                }
             },
             [
                 # "other",  # no default => required
@@ -561,10 +566,14 @@ def main():
     
     if not args["--message"] or not args["--message"][0]:
         raise TypeError("--message argument required")
+        
+    if args["--force"] and args["--no-rebuild"]: 
+        raise TypeError("using --force and --no-rebuild is a noop")
 
-    if run_cmd("git diff HEAD").strip() == "":
-        print("No changes found")
-        exit()
+    if not args["--force"]:
+        if run_cmd("git diff HEAD").strip() == "":
+            print("No changes found")
+            exit()
 
     Recipes.add_show_formatt_files(args)
     Recipes.rebuild_and_commit(args)

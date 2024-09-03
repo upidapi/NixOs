@@ -3,10 +3,15 @@
   lib,
   my_lib,
   keys,
+  self',
   ...
 }: let
   inherit (my_lib.opt) enable;
 in {
+  imports = [
+    ./tuxedo
+  ];
+
   system.stateVersion = "23.11";
 
   users.users.upidapi = {
@@ -50,9 +55,38 @@ in {
   );
 
   /*
+  nixpkgs.overlays = [
+    (_: _: {
+      inherit (self'.packages) tuxedo-keyboard;
+    })
+  ];
+
+  nixpkgs.overlays = [ (_: super: {
+      tuxedo-keyboard = super.tuxedo-keyboard.overrideAttrs (
+        prev: {
+          patches = (prev.patches or []) ++ [./tuxedo-keyboard.patch];
+        }
+      );
+    })
+  ];
+
+  nixpkgs.overlays = [ (self: super: {
+    picom = super.picom.overrideAttrs (prev: {
+      version = "git";
+      src = pkgs.fetchFromGitHub {
+        owner = "yshui";
+        repo = "picom";
+        rev = "31e58712ec11b198340ae217d33a73d8ac73b7fe";
+        sha256 = pkgs.lib.fakeSha256;
+      };
+    });
+  }) ];
+  */
+
   # FIXME: enable when it works
+  /*
   hardware = {
-    tuxedo-keyboard = enable;
+    # tuxedo-keyboard = enable;
     tuxedo-rs = {
       enable = true;
       tailor-gui = enable;

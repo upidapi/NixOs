@@ -3,7 +3,7 @@
   lib,
   my_lib,
   keys,
-  self',
+  inputs,
   ...
 }: let
   inherit (my_lib.opt) enable;
@@ -83,12 +83,17 @@ in {
   }) ];
   */
 
-  # FIXME: enable when it works
+  # FIXME: enable when it work
   hardware = {
     # tuxedo-keyboard = enable;
     tuxedo-rs = {
       enable = true;
       tailor-gui = enable;
+    };
+
+    tuxedo-control-center = {
+      package = lib.trace inputs.nixpkgs pkgs.hello;
+      enable = true;
     };
   };
 

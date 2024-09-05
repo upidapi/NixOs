@@ -20,6 +20,9 @@
 
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
+    # only for tuxedo cc
+    nixpkgs-23-05.url = "github:NixOS/nixpkgs/release-23.05";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     hyprland = {
@@ -88,6 +91,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    tuxedo-nixos = {
+      url = "github:sylvesterroos/tuxedo-nixos";
+
+      inputs.nixpkgs.follows = "nixpkgs-23-05";
+    };
     noshell = {
       url = "github:viperML/noshell";
       inputs.nixpkgs.follows = "nixpkgs";

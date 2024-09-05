@@ -1,8 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
+    inputs.tuxedo-nixos.nixosModules.default
     #../packages/tuxedo-keyboard/tuxedo-keyboard.nix
     #../packages/tuxedo-control-center/tuxedo-control-center.nix
     ./tuxedo-drivers/tuxedo-drivers.nix
+    # ./tuxedo-cc/tuxedo-cc.nix
     ./tuxedo-rs.nix
   ];
 
@@ -27,6 +33,15 @@
       '';
       destination = "/etc/udev/rules.d/99-z-tuxedo-systemd-fix.rules";
     })
+  ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-13.6.9"
+    "nodejs-14.21.3"
+    "openssl-1.1.1t"
+    "openssl-1.1.1u"
+    "openssl-1.1.1v"
+    "openssl-1.1.1w"
   ];
 
   environment.systemPackages = with pkgs; [

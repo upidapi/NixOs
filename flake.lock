@@ -343,6 +343,22 @@
         "type": "github"
       }
     },
+    "flake-compat_4": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1673956053,
+        "narHash": "sha256-4gtG9iQuiKITOjNQQeQIpoIB6b16fm+504Ch3sNKLd8=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "35bb57c0c8d8b62bbfd284272c928ceb64ddbde9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -943,6 +959,22 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-23-05": {
+      "locked": {
+        "lastModified": 1705957679,
+        "narHash": "sha256-Q8LJaVZGJ9wo33wBafvZSzapYsjOaNjP/pOnSiKVGHY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9a333eaa80901efe01df07eade2c16d183761fa3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-23.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -2890,12 +2922,14 @@
         "nix-index-db": "nix-index-db",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-23-05": "nixpkgs-23-05",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "noshell": "noshell",
         "nvf": "nvf",
         "sops-nix": "sops-nix",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "tuxedo-nixos": "tuxedo-nixos"
       }
     },
     "rust-analyzer-src": {
@@ -3103,6 +3137,27 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "tuxedo-nixos": {
+      "inputs": {
+        "flake-compat": "flake-compat_4",
+        "nixpkgs": [
+          "nixpkgs-23-05"
+        ]
+      },
+      "locked": {
+        "lastModified": 1723120958,
+        "narHash": "sha256-2zBh4E1hxWWvbg/5X4lH5tIF5NWep7t1aTbPuY/jDG0=",
+        "owner": "sylvesterroos",
+        "repo": "tuxedo-nixos",
+        "rev": "579d91969ec621bc6f09592145ef862cf19dc3a9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sylvesterroos",
+        "repo": "tuxedo-nixos",
         "type": "github"
       }
     },

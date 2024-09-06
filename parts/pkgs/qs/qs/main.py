@@ -297,7 +297,7 @@ class Steps:
         print_devider("Commit msg")
         
         # TODO: remove when i don't manually have to ado this 
-        run_cmd("ssh-add ~/.ssh/id_*")
+        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
 
         if args["--no-rebuild"]:
             message = args["--message"][0][0]

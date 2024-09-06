@@ -39,7 +39,7 @@ in {
         # nixvim = enable;
         nvf = enable;
         eza = enable;
-        # nushell = enable;
+        nushell = enable;
         tmux = enable;
         bat = enable;
         gpg = enable;

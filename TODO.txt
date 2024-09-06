@@ -84,8 +84,6 @@ store firefox extension data?
 
 optimise for battery
 
-hybernate to prevent data loss instead of dying?
-
 
 himachi
     for fake lan 
@@ -93,10 +91,6 @@ himachi
     could probalby do this with homelab too
 
     or some other manuall thing
-
-
-Change how lid switch is handeld?
-    https://github.com/Aylur/dotfiles/blob/18b83b2d2c6ef2b9045edefe49a66959f93b358a/nixos/system.nix#L44
 
 
 sync this config with syncthing?

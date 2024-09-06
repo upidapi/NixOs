@@ -46,8 +46,6 @@ Home lab
 nvim 
     fix cpp indentation
 
-    Softwrap
-    
     nixd (language server)
 
     quick fix buffer?

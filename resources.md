@@ -5,7 +5,7 @@ its not actually markdown i just like the colors :)
 sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
 
 # not in direnv
-env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $$NIXOS_CONFIG_PATH/secrets/
+env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
 
 # without sudo
 su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt 

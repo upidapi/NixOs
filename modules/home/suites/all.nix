@@ -29,11 +29,6 @@ in {
         keepassxc = enable;
       };
 
-      # TODO: probably refactor cli-apps/ into
-      #  terminal/
-      #    shells/
-      #    extensions/
-      #    tools/
       cli-apps = {
         bat = enable;
         cn-bth = enable;

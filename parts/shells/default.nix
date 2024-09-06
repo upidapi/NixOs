@@ -80,7 +80,10 @@
               ltrace
 
               # web
-              # TODO: burp suite or opensource alt
+              burpsuite
+              zap
+
+              mitmproxy
               sqlmap
 
               # for compatibility

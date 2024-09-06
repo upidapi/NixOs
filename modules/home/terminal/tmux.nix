@@ -19,6 +19,17 @@ in {
       keyMode = "vi";
       escapeTime = 0;
       # mouse = true;
+
+      # sets TERM var to advertise capabilitys
+      terminal = "tmux-256color";
+
+      extraConfig = ''
+        set -g @dracula-show-battery false
+        set -g @dracula-show-network false
+        set -g @dracula-show-weather false
+      '';
     };
+
+    # EXP: tmux-pain-control (better binds)
   };
 }

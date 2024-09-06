@@ -13,7 +13,6 @@ in {
   options.modules.nixos.nix.misc = mkEnableOpt "enables various nix things";
 
   # TODO: look at ca-derivations
-  # TODO: look at misterios templates
 
   config = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;

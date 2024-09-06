@@ -96,8 +96,5 @@ himachi
 sync this config with syncthing?
 
 
-tmux
-
-
 Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)
     maybe this happens when the files are changes?

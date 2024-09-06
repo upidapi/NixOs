@@ -7,9 +7,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.home.cli-apps.nushell;
+  cfg = config.modules.home.terminal.nushell;
 in {
-  options.modules.home.cli-apps.nushell =
+  options.modules.home.terminal.nushell =
     mkEnableOpt "Whether or not to enable nushell";
 
   config.programs = mkIf cfg.enable {
@@ -17,11 +17,7 @@ in {
     nushell = {
       configFile.source = ./config.nu;
 
-      shellAliases = {
-        vi = "nvim";
-        vim = "nvim";
-        c = "clear";
-      };
+      inherit (config.programs.zsh) shellAliases;
     };
 
     carapace.enable = true;

@@ -8,5 +8,6 @@
     ./misc
     ./other.nix
     ./files.nix
+    ./terminal
   ];
 }

@@ -7,13 +7,13 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.home.cli-apps.keepassxc;
+  cfg = config.modules.home.apps.keepassxc;
 in {
   imports = [
     ./base.nix
   ];
 
-  options.modules.home.cli-apps.keepassxc =
+  options.modules.home.apps.keepassxc =
     mkEnableOpt "Whether or not to add keepassxc";
 
   config = mkIf cfg.enable {

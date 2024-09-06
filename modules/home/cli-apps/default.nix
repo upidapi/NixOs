@@ -5,15 +5,10 @@
     ./eza.nix
     ./git.nix
     ./gpg.nix
-    ./keepassxc
-    ./nixvim
-    ./nushell
-    ./nvf
-    ./tmux.nix
-    ./wine.nix
-    ./zsh.nix
     ./nix-index.nix
-    ./direnv.nix
+    ./nixvim
+    ./nvf
     ./ssh.nix
+    ./wine.nix
   ];
 }

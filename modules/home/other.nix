@@ -57,6 +57,8 @@ in {
           )
         )
 
+        jq
+
         wget
 
         unzip
@@ -88,9 +90,6 @@ in {
 
         # video viewer
         vlc
-
-        # psw mgr
-        keepassxc
       ]);
   };
 }

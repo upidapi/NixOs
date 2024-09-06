@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.home.cli-apps.direnv;
+  cfg = config.modules.home.terminal.direnv;
 in {
-  options.modules.home.cli-apps.direnv =
+  options.modules.home.terminal.direnv =
     mkEnableOpt
     "Whether or not to add direnv, it automatically sets the env when cding";
 

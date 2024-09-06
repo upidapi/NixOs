@@ -26,6 +26,7 @@ in {
         firefox = enable;
         r2modman = enable;
         spotify = enable;
+        keepassxc = enable;
       };
 
       # TODO: probably refactor cli-apps/ into
@@ -34,24 +35,26 @@ in {
       #    extensions/
       #    tools/
       cli-apps = {
-        direnv = enable;
-        keepassxc = enable;
+        bat = enable;
+        cn-bth = enable;
+        eza = enable;
+        git = enable;
+        gpg = enable;
+        nix-index = enable;
         # nixvim = enable;
         nvf = enable;
-        eza = enable;
+        ssh = enable;
+        wine = enable;
+      };
+
+      terminal = {
+        direnv = enable;
         nushell = enable;
         tmux = enable;
-        bat = enable;
-        gpg = enable;
-        cn-bth = enable;
         zsh = {
           enable = true;
           set-shell = true;
         };
-        wine = enable;
-        git = enable;
-        ssh = enable;
-        nix-index = enable;
       };
 
       services = {

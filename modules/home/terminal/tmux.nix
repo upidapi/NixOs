@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.home.cli-apps.tmux;
+  cfg = config.modules.home.terminal.tmux;
 in {
-  options.modules.home.cli-apps.tmux =
+  options.modules.home.terminal.tmux =
     mkEnableOpt "Whether or not to add tmux";
 
   config = mkIf cfg.enable {

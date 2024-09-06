@@ -6,5 +6,6 @@
     ./bitwarden.nix
     ./alacritty.nix
     ./spotify.nix
+    ./keepassxc
   ];
 }

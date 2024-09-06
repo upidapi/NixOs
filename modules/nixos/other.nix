@@ -2,7 +2,6 @@
   config,
   my_lib,
   lib,
-  pkgs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
@@ -13,13 +12,6 @@ in {
     mkEnableOpt "enables config that i've not found a place for";
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      libimobiledevice
-    ];
-
-    services = {
-      fwupd = enable;
-      usbmuxd = enable;
-    };
+    services.fwupd = enable;
   };
 }

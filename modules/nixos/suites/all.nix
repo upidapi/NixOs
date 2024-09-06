@@ -57,15 +57,16 @@ in {
           sops = enable;
         };
 
-        networking =
-          enable
-          // {
-            openssh = enable;
+        networking = {
+          wifi = enable;
+          iphone-tethering = enable;
 
-            firewall = {
-              fail2ban = enable;
-            };
+          openssh = enable;
+
+          firewall = {
+            fail2ban = enable;
           };
+        };
 
         services = {
           ntpd = enable;

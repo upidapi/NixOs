@@ -13,6 +13,8 @@ in {
     mkEnableOpt "enables dunst, a notification handler";
 
   config = mkIf cfg.enable {
+    services.dunst.enable = true;
+
     home.packages = with pkgs; [
       dunst # notifications
       libnotify # notofication dep

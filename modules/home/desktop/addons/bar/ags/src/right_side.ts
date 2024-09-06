@@ -69,18 +69,44 @@ function Volume() {
 
 const battery = await Service.import("battery")
 
+let last_percent = -1;
+
 function Battery() {
     const value = battery
         .bind("percent")
         .as((p: number) => 
             `${Math.round(p)}%`
     )
-
+    
     const icon = Utils.merge([
             battery.bind("charging"),
             battery.bind("percent"),
         ], 
         (charging: boolean, percent: number) => {
+            if (last_percent === -1) {
+                last_percent = percent
+            } else if (last_percent != percent){
+                if (percent == 20) {
+                    execAsync(
+                        'notify-send -u normal' + 
+                        '"Low Battery"' + 
+                        '"20% battery remaining"'
+                    )
+                } else if (percent == 10) {
+                    execAsync(
+                        'notify-send -u normal' + 
+                        '"Low Battery"' + 
+                        '"10% battery remaining"'
+                    )
+                } else if (percent == 5) {
+                    execAsync(
+                        'notify-send -u critical' + 
+                        '"Low Battery"' + 
+                        '"5% battery remaining"'
+                    )
+                }
+            }
+
             if (charging) {
                 return "󰂄"
             }

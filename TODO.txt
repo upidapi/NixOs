@@ -84,8 +84,6 @@ store firefox extension data?
 
 optimise for battery
 
-notification on low battery
-
 hybernate to prevent data loss instead of dying?
 
 

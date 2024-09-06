@@ -295,6 +295,9 @@ class Steps:
     @staticmethod
     def commit_changes(args, profile, last_gen_data):
         print_devider("Commit msg")
+        
+        # TODO: remove when i don't manually have to ado this 
+        run_cmd("ssh-add ~/.ssh/id_*")
 
         if args["--no-rebuild"]:
             message = args["--message"][0][0]

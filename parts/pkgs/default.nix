@@ -7,6 +7,7 @@
       qs = pkgs.callPackage ./qs {};
       tuxedo-keyboard = pkgs.callPackage ./tuxedo-keyboard {};
       problem-tools = pkgs.callPackage ./problem-tools {};
+      prelockd = pkgs.callPackage ./prelockd {};
     };
   };
 }

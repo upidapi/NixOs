@@ -89,14 +89,6 @@ notification on low battery
 hybernate to prevent data loss instead of dying?
 
 
-prelockd
-    prevent freezes in low ram senarios
-
-add pueued
-    ask lokegustafsson for his pkg
-    prevent freezes in low ram senarios
-
-
 himachi
     for fake lan 
 

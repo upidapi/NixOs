@@ -4,5 +4,6 @@
     ./impermanence.nix
     ./noshell.nix
     ./sops.nix
+    ./prelockd.nix
   ];
 }

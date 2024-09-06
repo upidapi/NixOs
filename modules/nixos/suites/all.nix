@@ -55,6 +55,7 @@ in {
           impermanence = enable;
           noshell = enable;
           sops = enable;
+          # prelockd = enable;
         };
 
         networking = {

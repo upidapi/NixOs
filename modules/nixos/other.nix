@@ -12,6 +12,7 @@ in {
     mkEnableOpt "enables config that i've not found a place for";
 
   config = mkIf cfg.enable {
+    # for bios updates
     services.fwupd = enable;
   };
 }

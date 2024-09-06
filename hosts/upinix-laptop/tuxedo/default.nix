@@ -4,11 +4,11 @@
   ...
 }: {
   imports = [
-    inputs.tuxedo-nixos.nixosModules.default
+    # inputs.tuxedo-nixos.nixosModules.default
     #../packages/tuxedo-keyboard/tuxedo-keyboard.nix
     #../packages/tuxedo-control-center/tuxedo-control-center.nix
     ./tuxedo-drivers/tuxedo-drivers.nix
-    # ./tuxedo-cc/tuxedo-cc.nix
+    # ./tcc
     ./tuxedo-rs.nix
   ];
 

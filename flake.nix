@@ -20,19 +20,21 @@
 
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
-    # only for tuxedo cc
-    nixpkgs-23-05.url = "github:NixOS/nixpkgs/release-23.05";
-
     flake-parts.url = "github:hercules-ci/flake-parts";
-
-    hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # only for tuxedo cc
+    nixpkgs-23-05.url = "github:NixOS/nixpkgs/release-23.05";
+    tuxedo-nixos = {
+      url = "github:sylvesterroos/tuxedo-nixos";
+
+      inputs.nixpkgs.follows = "nixpkgs-23-05";
     };
 
     nix-index-db = {
@@ -40,10 +42,30 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    impermanence.url = "github:nix-community/impermanence";
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    noshell = {
+      url = "github:viperML/noshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     stylix = {
       url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprland = {
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -81,28 +103,6 @@
 
     ags = {
       url = "github:Aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    impermanence.url = "github:nix-community/impermanence";
-
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    tuxedo-nixos = {
-      url = "github:sylvesterroos/tuxedo-nixos";
-
-      inputs.nixpkgs.follows = "nixpkgs-23-05";
-    };
-    noshell = {
-      url = "github:viperML/noshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    disko = {
-      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

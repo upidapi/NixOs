@@ -1,14 +1,19 @@
 {
   config,
   lib,
+  inputs,
   pkgs,
   ...
 }:
 with lib; let
   cfg = config.hardware.tuxedo-control-center;
-  tuxedo-keyboard = config.boot.kernelPackages.tuxedo-keyboard;
-
-  tuxedo-control-center = pkgs.callPackage ./base {};
+  inherit (config.boot.kernelPackages) tuxedo-keyboard;
+  pkgs-23-05 = inputs.nixpkgs-23-05.legacyPackages.x86_64-linux;
+  tuxedo-control-center = pkgs-23-05.callPackage ./base {
+    # nodejs-14_x = pkgs.nodejs-18_x;
+    # electron_13 = pkgs.electron_31;
+    # inherit (pkgs-23-05) electron_13;
+  };
 in {
   options.hardware.tuxedo-control-center = {
     enable = mkEnableOption ''

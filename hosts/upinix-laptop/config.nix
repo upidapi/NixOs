@@ -91,10 +91,9 @@ in {
       tailor-gui = enable;
     };
 
-    tuxedo-control-center = {
-      package = lib.trace inputs.nixpkgs pkgs.hello;
-      enable = true;
-    };
+    # tuxedo-control-center = {
+    #  enable = true;
+    # };
   };
 
   /*

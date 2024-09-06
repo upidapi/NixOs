@@ -5,11 +5,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = inputs @ {
-    flake-parts,
-    self,
-    ...
-  }:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = [
         # systems for which you want to build the `perSystem` attributes
@@ -22,6 +18,7 @@
       perSystem = {
         pkgs,
         system,
+        self,
         ...
       }: let
         inherit
@@ -43,15 +40,10 @@
               pkgs.python3.pkgs.argcomplete
               "register-python-argcomplete";
           in ''
-            wrapProgram "$out/bin/default" \
+            wrapProgram "$out/bin/rico-hdl" \
               --prefix PATH : ${pkgs.lib.makeBinPath deps}
 
-            installShellCompletion --cmd ${
-              "the name of cmd"
-              /*
-              todo
-              */
-            } \
+            installShellCompletion --cmd dev-shell \
               --bash <(${argcomplete} --shell bash dev-shell) \
               --zsh <(${argcomplete} --shell zsh dev-shell) \
               --fish <(${argcomplete} --shell fish dev-shell)
@@ -65,16 +57,16 @@
 
           meta = {
             # with lib; {
-            # description = "";
+            description = "helper tool to quickly open dev shells";
             # homepage = "";
             # changelog = "";
-            # license = licenses.;
-            # mainProgram = "";
+            # license = licenses.mit;
+            mainProgram = "dev-shell";
             # maintainers = with maintainers; [];
           };
         };
 
-        devShells.default = pkgs.mkShellNoCC {
+        devShells.default = pkgs.${system}.mkShellNoCC {
           packages = with pkgs;
             [
               (mkPoetryEnv {projectDir = self;})

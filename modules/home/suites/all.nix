@@ -76,6 +76,7 @@ in {
           rofi = enable;
           hyprlock = enable;
           hypridle = enable;
+          hyprcursor = enable;
         };
       };
     };

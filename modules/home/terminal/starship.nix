@@ -12,7 +12,6 @@ in {
     mkEnableOpt "enable starship, a fancy promt";
 
   config = mkIf cfg.enable {
-    # might not what to hardcode this
     programs.starship = {
       enable = true;
       settings = {

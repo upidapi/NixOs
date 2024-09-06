@@ -55,6 +55,7 @@ in {
           enable = true;
           set-shell = true;
         };
+        starship = enable;
       };
 
       services = {

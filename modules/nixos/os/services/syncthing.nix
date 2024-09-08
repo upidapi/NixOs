@@ -96,6 +96,9 @@ in {
         };
       };
     };
+
+    # TODO: caddy
+    # ref: https://github.com/rishid/nix-config/blob/30ecd28045cb47b7792cacfa20e0596b56c02529/modules/vaultwarden/default.nix#L73
   };
 }
 # referance

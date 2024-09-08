@@ -395,22 +395,16 @@ if __name__ == "__main__":
                         debug: starship
                 """,
 
-                # -1 means no limit 
-                "count": 1,
+                # default
+                # "count": 1,
 
-                # not needed, default behaviour
-                # "allow_sub": False,
                 "args": [
                     {
                         # only for the help screen
                         "name": "message",
                         # for tab completion
-                        "type": "<choice [a, b, c]>",
                     },
                 ],
-                "extra_args": {
-                    "name": "idk"
-                }
             },
             "--no-rebuild": {
                 "alias": ["-c"], 

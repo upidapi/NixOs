@@ -438,6 +438,16 @@ def main():
                     eg:
                         debug: starship
                 """,
+                # default
+                # "count": 1,
+
+                "args": [
+                    {
+                        # only for the help screen
+                        "name": "message",
+                        # for tab completion
+                    },
+                ],
 
                 # not needed, default behaviour
                 # "allow_sub": False,

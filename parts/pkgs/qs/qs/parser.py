@@ -166,7 +166,10 @@ class _Parser:
 
         i = 0;
         while True:
-            if cur_key is not None and cur_n_val == 0 and not inf_args:
+            if cur_key is not None and \
+                cur_n_val - len(captured) == 0 and \
+                not inf_args:
+
                 _Parser._add_flag_args(
                     struct, 
                     cmd_args,
@@ -174,7 +177,8 @@ class _Parser:
                     captured,
                     scope
                 )
-
+                
+                captured = []
                 cur_key = None
                 cur_n_val = 0
 

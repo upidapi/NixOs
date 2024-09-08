@@ -1,9 +1,19 @@
 import sys
+from typing import Any, Self 
+import json
+from dataclasses import dataclass, field, is_dataclass
+import dataclasses
 
 
-class Parser:
+try:
+    from .parser_args import check_struct, parse_full_arg, FullArg, Flag
+except ImportError:
+    from parser_args import check_struct, parse_full_arg, FullArg, Flag
+
+
+class _Parser:
     @staticmethod
-    def _parse_pos_args(pos, struct):
+    def _parse_pos_args(pos, struct, scope):
         pos_args = {}
 
         for pos_data in struct["positional"]:
@@ -21,12 +31,12 @@ class Parser:
                 pos_args[pos_name] = default
                 continue
 
-            Parser._error(f'"{pos_name}" is missing it\'s arg')
+            _Parser._error(f'"{pos_name}" is missing it\'s arg', scope)
 
         return pos_args
 
     @staticmethod
-    def _create_alias_map(struct):
+    def _create_alias_map(struct, scope):
         # replace shorthands and aliases
         alias_to_main = {}
         for name, data in struct.items():
@@ -34,8 +44,9 @@ class Parser:
             for alias in data["alias"]:
                 if alias in alias_to_main:
                     # add scope info
-                    Parser._error(
+                    _Parser._error(
                         f'the alias "{alias}" is used more than once',
+                        scope
                     )
 
                 alias_to_main[alias] = name
@@ -43,150 +54,239 @@ class Parser:
         return alias_to_main
 
     @staticmethod
-    def _validate_allow(parsed_args, struct):
-        if parsed_args["sub_command"] is not None:
-            for arg, data in parsed_args["flags"].items():
-                if not data:
-                    continue
-
-                if not struct["flags"][arg]["allow_sub"]:
-                    Parser._error(
-                        f'the "{arg}" flag can\'t be used with sub commands',
-                    )
+    def _error(msg, scope):
+        raise TypeError(f"{msg} ({' '.join(scope)})")
     
     @staticmethod
-    def _error(msg):
-        raise TypeError(msg)
+    def _expand_shorthands(raw_args, scope):
+        # replace shorthands
 
-    @staticmethod
-    def _coherse_args(args, struct):
         expanded = []
         # expand -xyz to -x -y -z
-        for arg in args:
+        for i, arg in enumerate(raw_args):
+            if arg == "--":
+                expanded += raw_args[i + 1:]
+                break
+
             if not arg.startswith("--") and arg.startswith("-"):
-                expanded += [f"-{flag}" for flag in arg[1:]]
+                if arg[1] == "=":
+                    _Parser._error("arg cant be literal =", scope)
+
+                for j, flag in enumerate(arg[1:]):
+                    if flag == "=":
+                        expanded[-1] += arg[1:][j:]
+                        break
+
+                    expanded.append("-" + flag)
             else:
                 expanded.append(arg)
 
-        # replace shorthands and aliases
-        alias_to_main = Parser._create_alias_map(struct["flags"])
+        return expanded
+    
+    @staticmethod
+    def _check_can_add_args(
+            count: int,
+            data: FullArg.Req | Flag.Req,
+            too_few: str,
+            too_many: str,
+            scope: list[str]
+    ):
+        n_req_args = 0
+        for pos_arg in data["args"]:
+            if pos_arg["optional"]:
+                break
+            else:
+                n_req_args += 1
 
-        flag_data = {f: [] for f in struct["flags"].keys()}
-        pos_args = {"*args": []}
-
-        pos = []
-
-        pos_count = len(struct["positional"])
-
-        capturing_pos = []
-        capturing_arg = None
-        capturing_count = 0
-        for i, arg in enumerate(args):
-            if arg.startswith("-"):
-                if capturing_count != 0:
-                    Parser._error(
-                        f'flag defined before "{arg}" compleated'
-                        f"({capturing_count} left)",
-                    )
-
-                arg_pos = None
-
-                if "=" in arg:
-                    arg, *arg_pos = arg.split("=")
-
-                if arg not in alias_to_main:
-                    # TODO: add scope info
-                    Parser._error(f'could not find arg "{arg}"')
-
-                arg = alias_to_main[arg]
-                arg_data = struct["flags"][arg]
-                capturing_count = len(arg_data["args"])
-
-                capturing_arg = arg
-
-                if arg_pos is not None:
-                    if len(arg_pos) != capturing_count:
-                        Parser._error(
-                            f'too few args passed to "{arg}"',
-                        )
-
-                    flag_data[arg].append(arg_pos)
-                
-                # if it takes 0 args then we have to instantly terminate it
-                if capturing_count == 0:
-                    flag_data[capturing_arg].append(capturing_pos)
-                    capturing_pos = []
-                    capturing_arg = None
-                    
-                continue
-
-            if capturing_arg is None:
-                if len(pos) == pos_count:
-                    if not struct["sub_commands"]:
-                        if struct["allow_extra"]:
-                            pos_args["*args"].append(arg)
-                            continue
-
-                        Parser._error("too many positionall args")
-
-                    alias_to_sub_command = Parser._create_alias_map(
-                        struct["sub_commands"],
-                    )
-
-                    if arg not in alias_to_sub_command.keys():
-                        Parser._error(
-                            f'unknown sub command "{arg}"',
-                        )
-
-                    sub_command = alias_to_sub_command[arg]
-
-                    pos_args = Parser._parse_pos_args(pos, struct)
-
-                    parsed_args = {
-                        "flags": flag_data,
-                        "pos": pos_args,
-                        "sub_command": sub_command,
-                        "sub_data": Parser._parse_pos_args(
-                            args[i + 1 :],  # noqa
-                            struct["sub_commands"][sub_command][
-                                "sub_options"
-                            ],
-                        ),
-                    }
-
-                    Parser._validate_allow(parsed_args, struct)
-                    return parsed_args
-
-                pos.append(arg)
-                continue
-
-            if capturing_count != 0:
-                capturing_pos.append(arg)
-                capturing_count -= 1
-
-            if capturing_count == 0:
-                flag_data[capturing_arg].append(capturing_pos)
-                capturing_pos = []
-                capturing_arg = None
-        
-        if capturing_count != 0:
-            Parser._error(
-                f'too few args passed to "{capturing_arg}" '
-                f"({capturing_count} more needed)",
+        if count < n_req_args:
+            _Parser._error(
+                f"{too_few} ({n_req_args - count} more needed)",
+                scope
             )
 
-        pos_args = Parser._parse_pos_args(pos, struct)
-        parsed_args = {
-            "flags": flag_data,
-            "pos": pos_args,
-            "sub_command": None,
-            "sub_data": {},
-        }
+        if count > len(data["args"]) and \
+            not data["extra_args"]["enable"]:
 
-        Parser._validate_allow(parsed_args, struct)
+            _Parser._error(too_many, scope)
 
-        return parsed_args
+    @staticmethod
+    def _add_flag_args(
+            struct: FullArg.Req, 
+            cmd_args: "CmdArgs", 
+            flag: str, 
+            args: list[str],
+            scope: list[str]
+    ):
+        data = struct["flags"][flag]
+        
+        if data["count"] == len(cmd_args.flags[flag]):
+            _Parser._error(
+                f"you can only use the \"{flag}\" flag {data['count']} time(s)",
+                scope
+            )
+        
+        _Parser._check_can_add_args(
+            len(args), 
+            data, 
+            f'too few args passed to "{flag}" ',
+            f'too many args passed to "{flag}"',
+            scope
+        )
+        
+        cmd_args.flags[flag].append(args)
 
+    @staticmethod
+    def coherse_args(raw_args, struct: FullArg.Req, scope=None):
+        scope = scope or []
+        scope.append(struct["name"])
+        
+        def error(msg):
+            _Parser._error(msg, scope)
+
+        args = _Parser._expand_shorthands(raw_args, scope) 
+
+        alias_to_main = _Parser._create_alias_map(struct["flags"], scope)
+
+        cmd_args = CmdArgs(
+            flags = {f: [] for f in struct["flags"].keys()},
+        )
+        
+        captured = []
+        cur_key = None
+        cur_n_val = 0
+        
+        only_pos = False
+        inf_args = False
+
+        def conv_alias_to_name(alias: str):
+            if alias not in alias_to_main:
+                error(f'could not find arg "{alias}"')
+
+            return alias_to_main[alias]
+
+        i = 0;
+        while True:
+            if cur_key is not None and cur_n_val == 0 and not inf_args:
+                _Parser._add_flag_args(
+                    struct, 
+                    cmd_args,
+                    conv_alias_to_name(cur_key), 
+                    captured,
+                    scope
+                )
+
+                cur_key = None
+                cur_n_val = 0
+
+            if i == len(args):
+                break
+
+            arg = args[i]
+            i += 1
+
+            if arg.startswith("-") and not only_pos:
+                if arg == "--":
+                    only_pos = True
+                    continue
+
+                if cur_key is not None:
+                    if inf_args:
+                        error(
+                            f'flag "{arg}" defined after the flag "{cur_key}" '
+                            'that takes extra_args, you can use ' 
+                            f'{cur_key}=arg1=arg2=... to avoid this'
+                    )
+
+                    error(
+                        f'flag "{arg}" defined before "{cur_key}" compleated'
+                        f"({cur_n_val - len(captured)} left)",
+                    )
+
+                # handle arg=val1=val2 syntax
+                if "=" in arg:
+                    arg, *vals = arg.split("=")
+                    _Parser._add_flag_args(
+                        struct, 
+                        cmd_args,
+                        conv_alias_to_name(arg), 
+                        vals,
+                        scope
+                    )
+                    
+                    arg = None
+                    continue
+                
+                cur_key = conv_alias_to_name(arg)
+                
+                data = struct["flags"][cur_key]
+                cur_n_val = len(data["args"])
+                inf_args = data["extra_args"]["enable"]
+
+                continue
+            
+            # capture pos arg / sub command
+            if cur_key is None:
+                n_pos_args = len(cmd_args.args)
+
+                if n_pos_args < len(struct["args"]):
+                    # use this to get data
+                    # pos_data = struct["args"][n_pos_args]
+                    cmd_args.args.append(arg)
+                    continue
+                
+                if struct["extra_args"]["enable"]:
+                    cmd_args.args.append(arg)
+                    continue
+
+                if struct["sub_cmd"] is None:
+                    error("too many positionall arg(s)")
+                    continue
+                
+                # handle sub command
+                alias_to_sub_command = _Parser._create_alias_map(
+                    struct["sub_cmd"],
+                    scope
+                )
+
+                if arg not in alias_to_sub_command.keys():
+                    _Parser._error(
+                        f'unknown sub command "{arg}"',
+                        scope
+                    )
+
+                sub_command = alias_to_sub_command[arg]
+                
+                cmd_args.sub_cmd = sub_command
+                cmd_args.sub = _Parser.coherse_args(
+                    raw_args=args[i:],
+                    struct=struct["sub_cmd"][sub_command]["sub_data"],
+                    scope=scope
+                )
+                
+                break
+
+            captured.append(arg)
+        
+        if cur_key is not None:
+            _Parser._add_flag_args(
+                struct, 
+                cmd_args,
+                conv_alias_to_name(cur_key), 
+                captured,
+                scope
+            )
+
+        _Parser._check_can_add_args(
+            len(cmd_args.args),
+            struct,
+            "too few positional args",
+            "", # cant happen
+            scope
+        )
+
+        return cmd_args
+
+    
     @staticmethod
     def _print_help():  # parsed_arg, struct):
         """Something help
@@ -202,85 +302,166 @@ class Parser:
         # TODO: add a help command
 
     # TODO: add command completion
+    
+
+class _Validator: 
+    """
+    check if its following the constraints also computes the 
+    tab completions
+    """
 
     @staticmethod
-    def parse_sys_args(struct):
-        return Parser._coherse_args(sys.argv[1:], struct)
+    def validate(args: "CmdArgs", struct: FullArg.Req):
+        pass
 
 
-@staticmethod
-def opt_part(
-    flags: dict | None = None,
-    poss: list | None = None,
-    sub: dict | None = None,
-    allow_extra: bool = False,
-    req_sub: bool = False,
-):
-    if sub is not None:
-        if allow_extra:
-            Parser._error(
-                "can't have arbitrary amount of args and sub commands",
-            )
+class Fmt:
+    @staticmethod
+    def one(args: list[list[str]]):
+        return args[0][0] if args else None
 
-    if poss is None:
-        poss = []
+    @staticmethod
+    def bool(args: list[list[str]]):
+        return bool(args)
 
-    setting_default = False
-    for pos in poss:
-        has_default = isinstance(pos, tuple)
-        # has_default = "default" in pos.keys()
 
-        if req_sub and has_default:
-            Parser._error(
-                "can't have default args if the sub command is required",
-            )
+def parse_sys_args(struct: FullArg.Part):
+    full_struct: FullArg.Req = parse_full_arg(struct)
+    
+    check_struct(full_struct)
 
-        if setting_default:
-            if not has_default:
-                Parser._error(
-                    "can't have non default arg after default arg",
-                )
+    args = _Parser.coherse_args(sys.argv[1:], full_struct)
+    
+    _Validator.validate(args, full_struct)
+    # pp(sys.argv[1:])
 
-        setting_default = setting_default or has_default
+    return args
 
-    if len(poss) != len(list(set(poss))):
-        Parser._error("can have duplicates in positional names")
 
-    if flags is None:
-        flags = {}
+# StrDict = dict[str, str | Iterable['StrDict']]
 
-    for flag in flags.values():
-        def set_default(key, val):
-            if key not in flag.keys():
-                flag[key] = val
+@dataclass 
+class CmdArgs:
+    # raw: StrDict = field(default_factory=dict)
+    flags: dict[str, Any] = field(default_factory=dict)
+    args: list[str] = field(default_factory=list)
+    sub_cmd: str | None = None
+    sub: Self | None = None
 
-        set_default("alias", [])
-        set_default("args", [])
-        if isinstance(num_args := flag["args"], int):
-            flag["args"] = [lambda *_: []] * num_args
 
-        set_default("info", "")
-        set_default("doc", flag["info"])
-        set_default("allow_sub", False)
+def pp(data):
+    def custom_serializer(obj):
+        # Check if the object is callable (like a lambda or function)
+        if callable(obj):  
+            return "<lambda>"
+    
+        if is_dataclass(obj) and not isinstance(obj, type):
+            return dataclasses.asdict(obj)
 
-    if sub is None:
-        sub = {}
+        raise TypeError(
+            f"Object of type {type(obj).__name__} is not"
+            "JSON serializable"
+        )
 
-    for sub_command in sub.values():
+    print(json.dumps(data, indent=4, default=custom_serializer))
 
-        def set_default(key, val):
-            if key not in sub_command.keys():
-                sub_command[key] = val
+if __name__ == "__main__": 
+    args = parse_sys_args({
+        "name": "qs",
+        "flags": {
+            "--trace": {
+                "alias": ["-t"],
+                "info": "pass --show-trace to nixos-rebuild",
+            },
 
-        set_default("alias", [])
-        set_default("info", "")
-        set_default("doc", sub_command["info"])
-        set_default("sub_options", opt_part())
+            "--message": {
+                "alias": ["-m"],
+                "info": "commit msg for the rebuild",
 
-    return {
-        "flags": flags,
-        "positional": poss,
-        "sub_commands": sub,
-        "allow_extra": allow_extra,  # put into *args
-        "req_sub": req_sub,  # put into *args
-    }
+                "doc": """\
+                    The message that will be put ontop of the commit 
+                    should preferably start with some type of catagory.
+                    
+                    If you use the "debug:" tag then you can later colapse 
+                    multiple commits and or pull them out into their own 
+                    branch using "qs squash" for more info see "qs help 
+                    squash"
+
+                    eg:
+                        feat: add spicefy
+                            program to customise spotify
+
+                    eg:
+                        debug: starship
+                """,
+
+                # -1 means no limit 
+                "count": 1,
+
+                # not needed, default behaviour
+                # "allow_sub": False,
+                "args": [
+                    {
+                        # only for the help screen
+                        "name": "message",
+                        # for tab completion
+                        "type": "<choice [a, b, c]>",
+                    },
+                ],
+                "extra_args": {
+                    "name": "idk"
+                }
+            },
+            "--no-rebuild": {
+                "alias": ["-c"], 
+                "info": "only commit changes, dont rebuild",
+            },
+            "--no-auto-add": {
+                "alias": ["-n"], 
+                "info": "dont auto add/commit all files",
+            },
+            # "--no-add-files": {
+            #     "alias": ["-n"],
+            #     "info": "dont add any files",
+            #     # not needed, default behaviour
+            #     # "allow_sub": False,
+            # },
+            "--profile": {
+                "alias": ["-p"],
+                "info": "the flake profile to build",
+                "args": [
+                    {
+                        "name": "<profile>"
+                    }
+                ],
+            },
+            "--force": {
+                "alias": ["-f"],
+                "info": "force rebuild even if there are no changes",
+            },
+        },
+
+        "sub_cmd": {
+            # generated automatically
+            # "help": {
+            # },
+            "edit": {
+                "alias": ["e"],
+                "info": "open the config in the editor",
+            },
+            "diff": {
+                "alias": ["d"],
+                "info": "show diff between HEAD and last commit",
+            },
+            "update": {
+                "alias": ["u"],
+                "info": "update flake inputs and rebuild",
+            },
+            "pull": {
+                "alias": ["p"],
+                "info": "pull from remote and rebuild",
+            },
+        },
+    })
+        
+    pp(args)

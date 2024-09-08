@@ -85,7 +85,6 @@ in {
       foldlevelstart = 100;
       foldenable = true;
 
-      # TODO: fix spelling
       # spell = true;
       # spelllang = "en,ckj";
       # spelloptions = "camel";

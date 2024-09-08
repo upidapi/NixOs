@@ -6,9 +6,10 @@ import atexit
 
 # remove the dot for debugging
 try:
-    from .parser import Parser, opt_part
+    from .parser import parse_sys_args, pp
 except ImportError:
-    from parser import Parser, opt_part
+    from parser import parse_sys_args, pp
+
 
 def run_cmd(
     cmd,
@@ -313,10 +314,9 @@ class Steps:
         print_devider("Committing changes")
     
         add_files = (not args['--no-auto-add']) * "--all"
-        force = (not args["--force"]) * "--allow-empty" 
 
         run_cmd(
-            f"git commit {force} {add_files} -m {shlex.quote(message)}",
+            f"git commit --allow-empty {add_files} -m {shlex.quote(message)}",
             print_res=True,
             color=True,
         )
@@ -409,89 +409,90 @@ class Recipes:
         Steps.commit_changes(args, profile, last_gen_data)
 
 
-def pp(data):
-    print(json.dumps(data, indent=4))
-
-
-# currently you can't have a option in args and kwargs
-# might want to add that possibility
-# (the kwarg would override the arg)
 def main():
-    # TODO: add a not flag, if true, then dont allow it unless
-    # something explicitly permits it
-    
-    # TODO: add a fmt arg so that the raw data can easily be formatted 
-    #  into a better format that can be used with dot notation
+    args = parse_sys_args({
+        "name": "qs",
+        "flags": {
+            "--trace": {
+                "alias": ["-t"],
+                "info": "pass --show-trace to nixos-rebuild",
+            },
 
-    args = Parser.parse_sys_args(
-        opt_part(
-            {
-                "--trace": {
-                    "alias": ["-t"],
-                    "info": "pass --show-trace to nixos-rebuild",
-                },
-                "--message": {
-                    "alias": ["-m"],
-                    "info": "commit msg for the rebuild",
-                    # not needed, default behaviour
-                    # "allow_sub": False,
-                    "args": 1,
-                    "default": None,
-                },
-                "--no-rebuild": {
-                    "alias": ["-c"], 
-                    "info": "only commit changes, dont rebuild",
-                },
-                "--no-auto-add": {
-                    "alias": ["-n"], 
-                    "info": "dont auto add/commit all files",
-                },
-                # "--no-add-files": {
-                #     "alias": ["-n"],
-                #     "info": "dont add any files",
-                #     # not needed, default behaviour
-                #     # "allow_sub": False,
-                # },
-                "--profile": {
-                    "alias": ["-p"],
-                    "info": "the flake profile to build",
-                    "args": 1,
-                    "default": None,
-                },
-                "--force": {
-                    "alias": ["-f"],
-                    "info": "force rebuild even if there are no changes",
-                }
+            "--message": {
+                "alias": ["-m"],
+                "info": "commit msg for the rebuild",
+
+                "doc": """\
+                    The message that will be put ontop of the commit 
+                    should preferably start with some type of catagory.
+                    
+                    If you use the "debug:" tag then you can later colapse 
+                    multiple commits and or pull them out into their own 
+                    branch using "qs squash" for more info see "qs help 
+                    squash"
+
+                    eg:
+                        feat: add spicefy
+                            program to customise spotify
+
+                    eg:
+                        debug: starship
+                """,
+
+                # not needed, default behaviour
+                # "allow_sub": False,
             },
-            [
-                # "other",  # no default => required
-                # ("test", "default")  # has default => not required
-            ],
-            {
-                # generated automatically
-                # "help": {
-                # },
-                "edit": {
-                    "alias": ["e"],
-                    "info": "open the config in the editor",
-                },
-                "diff": {
-                    "alias": ["d"],
-                    "info": "show diff between HEAD and last commit",
-                },
-                "update": {
-                    "alias": ["u"],
-                    "info": "update flake inputs and rebuild",
-                },
-                "pull": {
-                    "alias": ["p"],
-                    "info": "pull from remote and rebuild",
-                },
-                # TODO: maybe add branches to the workflow with a merge cmd
-                # TODO: add a squash command to merge debug commits
+            "--no-rebuild": {
+                "alias": ["-c"], 
+                "info": "only commit changes, dont rebuild",
             },
-        ),
-    )
+            "--no-auto-add": {
+                "alias": ["-n"], 
+                "info": "dont auto add/commit all files",
+            },
+            # "--no-add-files": {
+            #     "alias": ["-n"],
+            #     "info": "dont add any files",
+            #     # not needed, default behaviour
+            #     # "allow_sub": False,
+            # },
+            "--profile": {
+                "alias": ["-p"],
+                "info": "the flake profile to build",
+                "args": [
+                    {
+                        "name": "<profile>"
+                    }
+                ],
+            },
+            "--force": {
+                "alias": ["-f"],
+                "info": "force rebuild even if there are no changes",
+            },
+        },
+
+        "sub_cmd": {
+            # generated automatically
+            # "help": {
+            # },
+            "edit": {
+                "alias": ["e"],
+                "info": "open the config in the editor",
+            },
+            "diff": {
+                "alias": ["d"],
+                "info": "show diff between HEAD and last commit",
+            },
+            "update": {
+                "alias": ["u"],
+                "info": "update flake inputs and rebuild",
+            },
+            "pull": {
+                "alias": ["p"],
+                "info": "pull from remote and rebuild",
+            },
+        },
+    })
     
     pp(args)
 
@@ -508,8 +509,8 @@ def main():
         )
     """
 
-    sub_command = args["sub_command"]
-    args = args["flags"]
+    sub_command = args.sub_cmd
+    args = args.flags
 
     if sub_command is not None:
         if sub_command == "edit":

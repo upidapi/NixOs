@@ -88,7 +88,6 @@ in {
     fonts = {
       sizes.terminal = 10;
 
-      # TODO: change (this is the defaults)
       serif = {
         package = pkgs.dejavu_fonts;
         name = "DejaVu Serif";

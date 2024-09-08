@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt enable;
   cfg = config.modules.home.cli-apps.git;
 in {
   options.modules.home.cli-apps.git =
@@ -72,6 +72,8 @@ in {
         };
       };
 
+      lfs = enable;
+
       signing = {
         key = keys.users."${config.home.username}";
         signByDefault = true;
@@ -85,12 +87,6 @@ in {
 
       userName = "upidapi";
       userEmail = "videw@icloud.com";
-
-      # EXPLORE: git
-      # - aliases
-      # - color
-      # - url
-      # - lfs
     };
   };
 }

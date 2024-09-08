@@ -31,8 +31,7 @@ in {
       isoName = mkImageMediaOverride "${name}.iso";
       volumeID = mkImageMediaOverride "${name}";
 
-      # TODO: is the tradeof worth it?
-      #  default: 5.3 GB, mod: 6.7 GB
+      # default: 5.3 GB, with this : 6.7 GB
       # The default compression-level is (6) and takes too long on some machines (>30m).
       # 3 takes <2m
       squashfsCompression = "zstd -Xcompression-level 3";

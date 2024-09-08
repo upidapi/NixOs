@@ -3,7 +3,6 @@
     ./args.nix
     ./install
     ./isos
-    ./npins
     ./pkgs
     ./shells
     ./templates

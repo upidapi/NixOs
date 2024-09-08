@@ -39,9 +39,7 @@ in {
           f = {
             user = "upidapi";
             group = "users";
-            # TODO: is this a good name?
-            #  maby use "local", "private", "not-shared"
-            argument = "/tmp";
+            argument = "/local";
           };
         };
       };

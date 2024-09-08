@@ -531,7 +531,7 @@ def check_struct(full_arg: FullArg.Req, scope=None):
         
 
     check_base(full_arg, "command")
-
+    
     def check_extra_args(data: ExtraArgs.Req):
         if not data["enable"]:
             return
@@ -539,8 +539,15 @@ def check_struct(full_arg: FullArg.Req, scope=None):
         check_base(data, "extra_arg")
 
     def check_args(data: list[Arg.Req]):
+        last_opt = True
+
         for i, arg in enumerate(data):
             scope.append(f"[{i}]")
+    
+            is_opt = arg["optional"]
+            if is_opt and not last_opt:
+                scope_error("cant have optional arg after required arg")
+            last_opt = is_opt
 
             check_base(arg, "arg")
 
@@ -598,5 +605,3 @@ def check_struct(full_arg: FullArg.Req, scope=None):
 
     if full_arg["extra_args"]["enable"] and full_arg["sub_cmd"]:
         scope_error("cant have both extra args and sub comands")
-
-    # TODO: check that no required args are before optional and vice versa

@@ -27,6 +27,7 @@ in {
         r2modman = enable;
         spotify = enable;
         keepassxc = enable;
+        vscode = enable;
       };
 
       cli-apps = {

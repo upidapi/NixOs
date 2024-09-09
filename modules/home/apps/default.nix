@@ -7,5 +7,6 @@
     ./alacritty.nix
     ./spotify.nix
     ./keepassxc
+    ./vscode.nix
   ];
 }

@@ -17,6 +17,9 @@ in {
   # EXPLORE: https://github.com/qutebrowser/qutebrowser
   #  a vim like browser with minimal gui and a focus on the keyboard
 
+  # EXP: enhancer-for-youtube
+  # EXP: https://github.com/bppdddqqqq/nixos-config/blob/d0fd4c2f013798235f716757aea5570fda38542a/home-manager/gui.nix#L168
+
   # EXPLORE: zen browser
 
   # TODO: add https://github.com/ray-lothian/UserAgent-Switcher

@@ -342,6 +342,13 @@ class Steps:
         if has_changes:
             run_cmd("git stash", print_res=True, color=True)
             atexit.register(lambda: run_cmd("git stash pop"))
+    
+    @staticmethod
+    def check_changes(args):
+        if not args["--force"]:
+            if run_cmd("git diff HEAD").strip() == "":
+                print("No changes found")
+                exit()
 
     @staticmethod
     def push_changes():
@@ -553,9 +560,8 @@ def main():
 
         elif sub_command == "pull":
             run_cmd("git fetch")
-            if run_cmd("git diff HEAD origin/main").strip() == "":
-                print("Already up to date with remote.")
-                exit()
+
+            Steps.check_changes(args)
 
             print_devider("Pulling Changes")
             
@@ -584,10 +590,7 @@ def main():
     if args["--force"] and args["--no-rebuild"]: 
         raise TypeError("using --force and --no-rebuild is a noop")
 
-    if not args["--force"]:
-        if run_cmd("git diff HEAD").strip() == "":
-            print("No changes found")
-            exit()
+    Steps.check_changes(args)
 
     Recipes.add_show_formatt_files(args)
     Recipes.rebuild_and_commit(args)

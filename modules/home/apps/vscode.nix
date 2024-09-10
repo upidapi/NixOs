@@ -23,7 +23,6 @@ in {
           dbaeumer.vscode-eslint
           esbenp.prettier-vscode
           hookyqr.beautify
-          rbbit.typescript-hero
 
           # Git
           donjayamanne.githistory

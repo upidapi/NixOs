@@ -3,7 +3,6 @@
   lib,
   my_lib,
   pkgs,
-  inputs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -16,6 +15,12 @@ in {
 
   config = mkIf cfg.enable {
     stylix.targets.vscode.enable = false;
+
+    home.packages = with pkgs; [
+      # maybe do this on project level
+      nodejs_22
+      typescript
+    ];
 
     programs.vscode = {
       enable = true;

@@ -102,3 +102,7 @@ sync this config with syncthing?
 
 Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)
     maybe this happens when the files are changes?
+
+
+use vite, and setup neovim to do so 
+    maybe take inspo from https://dev.to/craftzdog/my-neovim-setup-for-react-typescript-tailwind-css-etc-58fb

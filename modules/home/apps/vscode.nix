@@ -28,6 +28,8 @@ in {
       enable = true;
       extensions =
         with extensions.vscode-marketplace; [
+          vscodevim.vim
+
           eamodio.gitlens
 
           # JavaScript, React

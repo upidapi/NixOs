@@ -1,4 +1,4 @@
-# 95% of this file is directly copied from raf / NotAShelf
+# 95% of this file is directly copied from raf
 # the rest is based on it
 {
   config,
@@ -23,6 +23,11 @@ in {
     ./config
     ./modules
   ];
+
+  # TODO: move away from the nvf neovim config stuff and just use lua directly
+  #  basically use it as a package manager, and for not much else
+
+  # TODO: map ö to open the vim cmd
 
   options.modules.home.cli-apps.nvf =
     mkEnableOpt "enables nvf a neovim distro powerd by nix";

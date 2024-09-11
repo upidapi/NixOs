@@ -3,11 +3,13 @@
   lib,
   my_lib,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.vscode;
+  extensions = inputs.nix-vscode-extensions.extensions.${pkgs.system};
 in {
   options.modules.home.apps.vscode =
     mkEnableOpt
@@ -25,17 +27,25 @@ in {
     programs.vscode = {
       enable = true;
       extensions =
-        with pkgs.vscode-extensions; [
+        with extensions.vscode-marketplace; [
+          eamodio.gitlens
+
           # JavaScript, React
           dbaeumer.vscode-eslint
           esbenp.prettier-vscode
+          firefox-devtools.vscode-firefox-debug
 
           # Git
           donjayamanne.githistory
-          eamodio.gitlens
 
           # Go
           golang.go
+
+          # rust
+          rust-lang.rust-analyzer
+
+          # cpp (lldb)
+          vadimcn.vscode-lldb
 
           # Yaml
           redhat.vscode-yaml

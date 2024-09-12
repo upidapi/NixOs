@@ -219,6 +219,7 @@ in {
               "<leader>tt".action = "<cmd>Neotree toggle<CR>";
               "<leader>tu".action = "<cmd>Neotree<CR>";
               "<leader>tr".action = "<cmd>Neotree reveal<CR>";
+              "Ö".action = ":";
             }
             // m;
           insert = {

@@ -24,8 +24,6 @@ in {
 
   # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
 
-  # EXP: https://github.com/refined-github/refined-github
-
   # EXP: rofi shortcut to open about:profiles
 
   # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
@@ -219,18 +217,22 @@ in {
             # floccus  # syncs bookmarks
             # languagetool
 
+            # vim binds for the browser
             vimium
 
             ublock-origin
 
             # un clickbait youtube
             dearrow
+            sponsorblock
+            return-youtube-dislikes
+
+            # qol
+            refined-github
+            i-dont-care-about-cookies
+            darkreader
 
             react-devtools
-
-            i-dont-care-about-cookies
-
-            darkreader
 
             stylus # the config is in stylus.json
 
@@ -245,9 +247,6 @@ in {
             # privacy-redirect
 
             buster-captcha-solver
-
-            sponsorblock
-            return-youtube-dislikes
           ];
 
           settings = {

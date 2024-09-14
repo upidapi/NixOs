@@ -19,6 +19,9 @@ in {
     ./notes.nix
   ];
 
+  # TODO: various refactoring tools
+  #  eg rope for python
+
   config = mkIf cfg.enable {
     # TODO: fix nix str escape highliting
     #  use :Inspect to inpect under cursor

@@ -345,6 +345,7 @@ class Steps:
             [last_gen],
         )
     
+    """
     _PRE_REBUILD_COMMit_MSG = (
         "auto: pre rebuild commit \n" 
         "oarGglYzX06kMUsG2noeXhK3utMT2n56\n"
@@ -355,8 +356,10 @@ class Steps:
         expected_commit_msg = Steps._PRE_REBUILD_COMMit_MSG + id
         # check last 100 commits
         for i in range(100):
-            last_commit_msg = run_cmd(f"git log --skip={i} -1 --pretty=%B")
-            manual, data = Steps._parse_gen_commit_msg(last_commit_msg)
+            i_commit_msg = run_cmd(f"git log --skip={i} -1 --pretty=%B")
+            i_commit_hash = run_cmd(f"git log --skip={i} -1 --pretty=%H")
+
+            manual, data = Steps._parse_gen_commit_msg(i_commit_msg)
 
             if manual: 
                 # its a manual commit
@@ -365,6 +368,12 @@ class Steps:
             if data["msg"] != expected_commit_msg:
                 # not correct commit 
                 continue
+            
+            # found it
+
+            # test
+
+
 
             
                 
@@ -378,9 +387,16 @@ class Steps:
         )
 
         run_cmd("git commit ")
-    
+    """
+
+    # test
+
     # TODO: run a commit prebuild so that code changes during rebuild before 
     #  dont get put in the reabuild commit
+    
+    # before 
+
+    # after 
 
     @staticmethod
     def commit_changes(args, profile, last_gen_data):

@@ -85,7 +85,6 @@ in {
             );
         in
           mergeWifis [
-
             # NOTE: env vars cant start with number :)
 
             # [mkOpenWifi "Vannarps Bussarna 1"]

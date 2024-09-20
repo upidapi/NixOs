@@ -43,6 +43,10 @@ in {
           # Go
           golang.go
 
+          # python
+          ms-python.debugpy
+          ms-python.python
+
           # rust
           rust-lang.rust-analyzer
 

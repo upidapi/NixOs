@@ -85,12 +85,15 @@ in {
             );
         in
           mergeWifis [
+
+            # NOTE: env vars cant start with number :)
+
             # [mkOpenWifi "Vannarps Bussarna 1"]
-            [mkWPA2WiFi "$1_SSID" "$1_PSK"]
-            [mkWPA2WiFi "$2_SSID" "$2_PSK"]
-            [mkWPA2WiFi "$3_SSID" "$3_PSK"]
-            [mkWPA2WiFi "$4_SSID" "$4_PSK"]
-            [mkWPA2WiFi "$5_SSID" "$5_PSK"]
+            [mkWPA2WiFi "$SSID_1" "$PSK_1"]
+            [mkWPA2WiFi "$SSID_2" "$PSK_2"]
+            [mkWPA2WiFi "$SSID_3" "$PSK_3"]
+            [mkWPA2WiFi "$SSID_4" "$PSK_4"]
+            [mkWPA2WiFi "$SSID_5" "$PSK_5"]
           ];
       };
     };

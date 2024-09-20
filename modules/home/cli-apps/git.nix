@@ -75,6 +75,7 @@ in {
       lfs = enable;
 
       signing = {
+        # NOTE: dont forget to add it to github :)
         key = keys.users."${config.home.username}";
         signByDefault = true;
       };

@@ -3,6 +3,10 @@ import os
 import shlex
 import subprocess
 import atexit
+import yaml 
+import string
+import random
+from typing import Tuple, Any 
 
 # remove the dot for debugging
 try:
@@ -140,6 +144,11 @@ def exit_program(msg: str):
     )
     exit()
 
+def get_rand_id(length):
+    chars = string.ascii_letters + string.digits
+
+    return ''.join(random.choice(chars) for _ in range(length))
+
 def validate_new_branch(
     new_branch,
 ):
@@ -271,27 +280,107 @@ class Steps:
 
         if cur_gen_data is None:
             raise TypeError("current gen not found")
-
+   
+        """
+        {
+            "generation": 81,
+            "date": "2024-09-20T08:01:01Z",
+            "nixosVersion": "24.11.20240906.574d1ea",
+            "kernelVersion": "6.10.8",
+            "configurationRevision": "",
+            "specialisations": [
+                "*"
+            ],
+            "current": true
+        }
+        """
         return cur_gen_data
 
     @staticmethod
-    def _gen_commit_msg(args, profile, last_gen_data):
-        gen_data = Steps.get_gen_data()
+    def _parse_gen_commit_msg(commit_msg: str):
+        try:
+            raw_msg = commit_msg.split("\n")[:6]
+            data = commit_msg.split("\n")[6:]
+                
+            yaml_data = yaml.safe_load("\n".join(data))
 
-        last_gen = last_gen_data["generation"]
-        cur_gen = gen_data["generation"]
+            return (False, {
+                "msg": "\n".join(raw_msg),
+                "profile": yaml_data["Profile"],
+                "gens": yaml_data["Gen"].split(" -> "),
+                "nixosVerson": yaml_data["NixOs"],
+                "kernelVersion": yaml_data["Kernel"],
+            })
+
+        except IndexError | KeyError:
+            return (True, {"msg": commit_msg})
+
+    @staticmethod
+    def _fmt_gen_commit_msg(msg, profile, gen_data, extra_gens):
+        gen = " -> ".join([extra_gens, gen_data["generation"]])
 
         full_commit_msg = (
-            f"{args['--message'][0][0]}\n"
+            f"{msg}\n"
             f"\n"
-            f"info:\n"
-            f"  Profile: {profile}\n"
-            f"  Gen: {last_gen} -> {cur_gen}\n"
-            f"  NixOs: {gen_data['nixosVersion']}\n"
-            f"  Kernel: {gen_data['kernelVersion']}\n"
+            + yaml.dump({
+                "info": {
+                    "Profile": profile,
+                    "Gen": gen,
+                    "NixOs": gen_data['nixosVersion'],
+                    "Kernel": gen_data['kernelVersion'],
+                },
+            }, indent=2)
         )
 
         return full_commit_msg
+
+    @staticmethod
+    def _gen_commit_msg(args, profile, last_gen_data):
+        last_gen = last_gen_data["generation"]
+
+        return Steps._fmt_gen_commit_msg(
+            args['--message'][0][0],
+            profile, 
+            Steps.get_gen_data(),
+            [last_gen],
+        )
+    
+    _PRE_REBUILD_COMMit_MSG = (
+        "auto: pre rebuild commit \n" 
+        "oarGglYzX06kMUsG2noeXhK3utMT2n56\n"
+    )
+    
+    @staticmethod
+    def _ammend_pre_rebuild_commit(args, profile, last_gen_data, id):
+        expected_commit_msg = Steps._PRE_REBUILD_COMMit_MSG + id
+        # check last 100 commits
+        for i in range(100):
+            last_commit_msg = run_cmd(f"git log --skip={i} -1 --pretty=%B")
+            manual, data = Steps._parse_gen_commit_msg(last_commit_msg)
+
+            if manual: 
+                # its a manual commit
+                continue
+            
+            if data["msg"] != expected_commit_msg:
+                # not correct commit 
+                continue
+
+            
+                
+    @staticmethod
+    def pre_rebuild_commit(profile): 
+        commit_msg = Steps._fmt_gen_commit_msg(
+            Steps._PRE_REBUILD_COMMit_MSG,
+            profile, 
+            Steps.get_gen_data(),
+            []
+        )
+
+        run_cmd("git commit ")
+    
+    # TODO: run a commit prebuild so that code changes during rebuild before 
+    #  dont get put in the reabuild commit
 
     @staticmethod
     def commit_changes(args, profile, last_gen_data):

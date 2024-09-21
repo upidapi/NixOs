@@ -313,13 +313,15 @@ class Steps:
         try:
             raw_msg = commit_msg.split("\n")[:data_size]
             data = commit_msg.split("\n")[data_size:]
+
+            # print(data)
                 
-            yaml_data = yaml.safe_load("\n".join(data))
+            yaml_data = yaml.safe_load("\n".join(data))["info"]
             
             gens = [
                 x.strip() for x in 
-                yaml_data["Gen"].split(" -> ")
-                if x.strip != ""
+                yaml_data["Gen"].split("->")
+                if x.strip() != ""
             ]
 
             return (False, {
@@ -331,7 +333,7 @@ class Steps:
                 "kernelVersion": yaml_data["Kernel"],
             })
 
-        except IndexError | KeyError:
+        except (IndexError, KeyError):
             return (True, {"msg": commit_msg})
 
     @staticmethod
@@ -399,8 +401,8 @@ class Steps:
         # check last 100 commits
 
         for i in range(100):
-            i_commit_msg = run_cmd(f"git log --skip={i} -1 --pretty=%B")
-            i_commit_hash = run_cmd(f"git log --skip={i} -1 --pretty=%H")
+            i_commit_msg = run_cmd(f"git log --skip={i} -1 --pretty=%B").strip()
+            i_commit_hash = run_cmd(f"git log --skip={i} -1 --pretty=%H").strip()
 
             manual, last_gen_data = Steps._parse_gen_commit_msg(i_commit_msg)
 
@@ -427,12 +429,18 @@ class Steps:
         # can only amend it if it's the last commit
 
         print_devider("Amending pre rebuild commit")
-            
-        raw_commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B")
-        _, last_gen_data = Steps._parse_gen_commit_msg(raw_commit_msg)
+        
+        # print(hash)
+        
+        raw_commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B").strip()
+        manual, last_gen_data = Steps._parse_gen_commit_msg(raw_commit_msg)
+        if manual:
+            raise Exception("wut, commit is manua!?l")
+
+        # pp(last_gen_data)
         # commit_hash, last_gen_data = Steps._find_pre_rebuild_commit(id)
         
-        head_hash = run_cmd("git log HEAD --pretty=%H -1")
+        head_hash = run_cmd("git log HEAD --pretty=%H -1").strip()
         if head_hash != hash:
             raise Exception("The pre rebuild commit is not the last commit")
 
@@ -443,8 +451,31 @@ class Steps:
             Steps.get_gen_data(),
             [last_gen_data["gens"][-1]],
         )
+    
+        run_cmd(
+            f'git commit --amend -m {shlex.quote(full_commit_msg)}', 
+            print_res=True, 
+            color=True
+        )
+        
+        print()
 
-        run_cmd(f'git commit --amend -m {shlex.quote(full_commit_msg)}')
+        print(full_commit_msg)
+    
+    @staticmethod
+    def _cleanup_pre_rebuild_commit(hash):
+        rev_list = run_cmd("git rev-list HEAD").split("\n")
+
+        head_hash = run_cmd("git log HEAD --pretty=%H -1").strip()
+
+        if head_hash == hash:
+            run_cmd("git reset --soft HEAD~1", print_res=True, color=True)
+        elif hash not in rev_list: 
+            # commit amended or removed
+            return 
+        else:
+            raise Exception("The pre rebuild commit is not the last commit")
+        
 
     @staticmethod
     def amend_pre_rebuild_commit(args, profile, id):
@@ -458,30 +489,36 @@ class Steps:
             Steps.get_gen_data(),
             [last_gen_data["gens"][-1]],
         )
+ 
+        has_changes = run_cmd("git diff HEAD origin/main").strip() != ""
 
-        amend_commit_msg = shlex.quote(Steps._fmt_gen_commit_msg(
-            "auto: commit to save index before ammending the pre-commit",
-            "pre-ammend",
-            profile, 
-            Steps.get_gen_data(),
-            [],
-        ))
+        if has_changes:
+            amend_commit_msg = shlex.quote(Steps._fmt_gen_commit_msg(
+                "auto: commit to save index before ammending the pre-commit",
+                "pre-ammend",
+                profile, 
+                Steps.get_gen_data(),
+                [],
+            ))
 
-        run_cmd(
-            f"git commit -am {amend_commit_msg}", 
-            print_res=True,
-            color=True
-        )
+            run_cmd(
+                f"git commit -am {amend_commit_msg}", 
+                print_res=True,
+                color=True
+            )
 
         Steps._git_interactive_rebase(
             commit_hash, 0, "reword", full_commit_msg
         )
+    
+        atexit.register(lambda: run_cmd("git stash pop"))
 
-        run_cmd(
-            f"git reset --soft HEAD~1", 
-            print_res=True,
-            color=True
-        )
+        if has_changes:
+            run_cmd(
+                f"git reset --soft HEAD~1", 
+                print_res=True,
+                color=True
+            )
 
     @staticmethod 
     def _git_interactive_rebase(hash, command_index, cmd, data):
@@ -533,13 +570,31 @@ class Steps:
 
     @staticmethod 
     def _squash_pre_rebuild_commit(hash):
-        commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B")
+        commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B").strip()
        
         Steps._git_interactive_rebase(
             f"{hash}^", 
             1, 
             "squash", 
             commit_msg
+        )
+    
+    @staticmethod
+    def _raw_commit(args, commit_msg, commit_devider):
+        print_devider("Commit msg")
+        
+        # TODO: remove when i don't manually have to ado this 
+
+        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
+   
+        print_devider(commit_devider)
+    
+        add_files = (not args['--no-auto-add']) * "--all"
+
+        run_cmd(
+            f"git commit --allow-empty {add_files} -m {shlex.quote(commit_msg)}",
+            print_res=True,
+            color=True,
         )
     
     @staticmethod
@@ -584,7 +639,10 @@ class Steps:
             color=True,
         )
 
-        hash = run_cmd("git log HEAD --pretty=%H -1")
+        hash = run_cmd("git log HEAD --pretty=%H -1").strip()
+
+        if not no_rebuild: 
+            atexit.register(Steps._cleanup_pre_rebuild_commit, hash)
 
         return hash
 
@@ -619,8 +677,6 @@ class Steps:
 
     @staticmethod
     def push_changes():
-        return  # TODO: 
-
         print_devider("Pushing code to github")
 
         run_cmd(

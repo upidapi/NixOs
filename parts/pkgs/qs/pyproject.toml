@@ -5,5 +5,5 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "qs"
 version = "1.0"
-# dependencies = ["requests"]
+dependencies = ["pyyaml"]
 scripts.qs = "qs.main:main"

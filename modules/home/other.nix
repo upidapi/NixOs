@@ -44,6 +44,8 @@ in {
           python3.withPackages (
             python-pkgs:
               with python-pkgs; [
+                pyyaml
+
                 pandas
                 requests
 

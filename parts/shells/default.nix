@@ -11,6 +11,8 @@
             pkgs.python3.withPackages (
               py-pkgs:
                 with py-pkgs; [
+                  pyyaml
+
                   pandas
                   requests
 

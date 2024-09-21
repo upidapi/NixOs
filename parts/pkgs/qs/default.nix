@@ -7,6 +7,7 @@ python3.pkgs.buildPythonApplication {
   src = ./.;
   nativeBuildInputs = [
     python3.pkgs.setuptools
+    python3.pkgs.pyyaml
   ];
 
   # propagatedBuildInputs = [python3.pkg.requests];

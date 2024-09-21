@@ -5,9 +5,12 @@ python3.pkgs.buildPythonApplication {
   pyproject = true;
 
   src = ./.;
-  nativeBuildInputs = [
-    python3.pkgs.setuptools
-    python3.pkgs.pyyaml
+  nativeBuildInputs = with python3.pkgs; [
+    setuptools
+  ];
+
+  propagatedBuildInputs = with python3.pkgs; [
+    pyyaml
   ];
 
   # propagatedBuildInputs = [python3.pkg.requests];

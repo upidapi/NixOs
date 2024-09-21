@@ -6,7 +6,8 @@ import atexit
 import yaml 
 import string
 import random
-from typing import Tuple, Any 
+from typing import Literal, Tuple, Any 
+import tempfile
 
 # remove the dot for debugging
 try:
@@ -48,6 +49,16 @@ def run_cmd(
             )
 
     return res
+
+
+def de_indent(data):
+    if data == "":
+        return ""
+
+    data = data.split("\n")
+    spaces = len(data[0]) - len(data[0].lstrip(' '))
+    return "\n".join(d[spaces:] for d in data)
+
 
 
 def get_nixos_path():
@@ -298,16 +309,24 @@ class Steps:
 
     @staticmethod
     def _parse_gen_commit_msg(commit_msg: str):
+        data_size = 7 
         try:
-            raw_msg = commit_msg.split("\n")[:6]
-            data = commit_msg.split("\n")[6:]
+            raw_msg = commit_msg.split("\n")[:data_size]
+            data = commit_msg.split("\n")[data_size:]
                 
             yaml_data = yaml.safe_load("\n".join(data))
+            
+            gens = [
+                x.strip() for x in 
+                yaml_data["Gen"].split(" -> ")
+                if x.strip != ""
+            ]
 
             return (False, {
                 "msg": "\n".join(raw_msg),
                 "profile": yaml_data["Profile"],
-                "gens": yaml_data["Gen"].split(" -> "),
+                "gens": gens,
+                "type": yaml_data["Type"],
                 "nixosVerson": yaml_data["NixOs"],
                 "kernelVersion": yaml_data["Kernel"],
             })
@@ -316,8 +335,19 @@ class Steps:
             return (True, {"msg": commit_msg})
 
     @staticmethod
-    def _fmt_gen_commit_msg(msg, profile, gen_data, extra_gens):
-        gen = " -> ".join([extra_gens, gen_data["generation"]])
+    def _fmt_gen_commit_msg(
+            msg, 
+            commit_type: Literal["manuall", "pre-ammend", "pre-rebuild"], 
+            profile, 
+            gen_data, 
+            extra_gens: list[str],
+            empty_gen: bool = False
+    ):
+
+        gen = " -> ".join([
+            str(x) for x in 
+            [*extra_gens, gen_data["generation"]] + [""] * empty_gen
+        ]).strip()
 
         full_commit_msg = (
             f"{msg}\n"
@@ -328,95 +358,223 @@ class Steps:
                     "Gen": gen,
                     "NixOs": gen_data['nixosVersion'],
                     "Kernel": gen_data['kernelVersion'],
+                    "Type": commit_type
                 },
             }, indent=2)
         )
 
         return full_commit_msg
 
+    _PRE_REBUILD_COMMit_MSG = \
+        "auto: pre rebuild commit [probably broken]\n\n" \
+        "if you see this then the script failed to ammend it\n" \
+        "i.e something broke during the update\n" 
+        # "oarGglYzX06kMUsG2noeXhK3utMT2n56\n"
+    
+
     @staticmethod
     def _gen_commit_msg(args, profile, last_gen_data):
         last_gen = last_gen_data["generation"]
+        
+        # id = get_rand_id(32)
 
+        msg = Steps._PRE_REBUILD_COMMit_MSG + "\n" + args['--message'][0][0]
+            # f"{id}\n" + \
+
+    
         return Steps._fmt_gen_commit_msg(
-            args['--message'][0][0],
+            msg,
+            "pre-rebuild",
             profile, 
             Steps.get_gen_data(),
             [last_gen],
+            True,
         )
     
-    """
-    _PRE_REBUILD_COMMit_MSG = (
-        "auto: pre rebuild commit \n" 
-        "oarGglYzX06kMUsG2noeXhK3utMT2n56\n"
-    )
-    
     @staticmethod
-    def _ammend_pre_rebuild_commit(args, profile, last_gen_data, id):
+    def _find_pre_rebuild_commit(id):
+        print_devider("Amending pre rebuild commit")
+
         expected_commit_msg = Steps._PRE_REBUILD_COMMit_MSG + id
         # check last 100 commits
+
         for i in range(100):
             i_commit_msg = run_cmd(f"git log --skip={i} -1 --pretty=%B")
             i_commit_hash = run_cmd(f"git log --skip={i} -1 --pretty=%H")
 
-            manual, data = Steps._parse_gen_commit_msg(i_commit_msg)
+            manual, last_gen_data = Steps._parse_gen_commit_msg(i_commit_msg)
 
             if manual: 
                 # its a manual commit
                 continue
             
-            if data["msg"] != expected_commit_msg:
+            # if last_gen_data["type"] != "pre-rebuild":
+            #     # not a pre-rebuild commit
+
+            if not last_gen_data["msg"].startswith(expected_commit_msg):
                 # not correct commit 
                 continue
-            
+             
             # found it
-
-            # test
-
-
-
             
-                
+            return i_commit_hash, last_gen_data 
+
+        raise Exception(f"could not find pre commit ({id})")     
+
     @staticmethod
-    def pre_rebuild_commit(profile): 
-        commit_msg = Steps._fmt_gen_commit_msg(
-            Steps._PRE_REBUILD_COMMit_MSG,
-            profile, 
+    def lazy_ammend_pre_rebuild_commit(args, hash):
+        # simpler version of _amend_pre_rebuild_commit that 
+        # can only amend it if it's the last commit
+
+        print_devider("Amending pre rebuild commit")
+            
+        raw_commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B")
+        _, last_gen_data = Steps._parse_gen_commit_msg(raw_commit_msg)
+        # commit_hash, last_gen_data = Steps._find_pre_rebuild_commit(id)
+        
+        head_hash = run_cmd("git log HEAD --pretty=%H -1")
+        if head_hash != hash:
+            raise Exception("The pre rebuild commit is not the last commit")
+
+        full_commit_msg = Steps._fmt_gen_commit_msg(
+            args['--message'][0][0],
+            "manuall",
+            get_profile(args), 
             Steps.get_gen_data(),
-            []
+            [last_gen_data["gens"][-1]],
         )
 
-        run_cmd("git commit ")
-    """
+        run_cmd(f'git commit --amend -m {shlex.quote(full_commit_msg)}')
 
-    # test
+    @staticmethod
+    def amend_pre_rebuild_commit(args, profile, id):
+        print_devider("Amending pre rebuild commit")
+        
+        commit_hash, last_gen_data = Steps._find_pre_rebuild_commit(id)
+        full_commit_msg = Steps._fmt_gen_commit_msg(
+            args['--message'][0][0],
+            "manuall",
+            profile, 
+            Steps.get_gen_data(),
+            [last_gen_data["gens"][-1]],
+        )
 
-    # TODO: run a commit prebuild so that code changes during rebuild before 
-    #  dont get put in the reabuild commit
+        amend_commit_msg = shlex.quote(Steps._fmt_gen_commit_msg(
+            "auto: commit to save index before ammending the pre-commit",
+            "pre-ammend",
+            profile, 
+            Steps.get_gen_data(),
+            [],
+        ))
+
+        run_cmd(
+            f"git commit -am {amend_commit_msg}", 
+            print_res=True,
+            color=True
+        )
+
+        Steps._git_interactive_rebase(
+            commit_hash, 0, "reword", full_commit_msg
+        )
+
+        run_cmd(
+            f"git reset --soft HEAD~1", 
+            print_res=True,
+            color=True
+        )
+
+    @staticmethod 
+    def _git_interactive_rebase(hash, command_index, cmd, data):
+        # this is just so incredibly fucking cursed
+        
+        # basically emulates an editor to run the interactive rebase
+
+        # i = 1
+        # cmd = "reword"
+        # data = "new commit msg"
+
+        temp = tempfile.TemporaryFile()
+        try: 
+            # a program that will replace the second pick with squash
+            temp.write(de_indent(f"""\
+                import sys
+
+                file = sys.argv[1]
+                with open(file, "r") as f:
+                    data = f.read()
+
+                split = data.split("\n")
+
+                if split[0].startswith("pick"):
+                    data = "\n".join([
+                        split[:{command_index}],
+                        # squash the selected commit
+                        "{cmd}" + split[{command_index}][4:],
+                        *split[{command_index + 1}:]
+                    ])
+                    
+
+                    # with open("t.txt", "w") as f:
+                    #     f.write("")
+                else:  
+                    data = {repr(data)}
+
+
+                with open(file, "w") as f:
+                    f.write(data)
+
+                # with open("t.txt", "a") as f:
+                #     f.write(data + "\n----------------------------\n") 
+            """).encode())
+
+            run_cmd(f'env GIT_EDITOR="python {temp}" git rebase -i {hash}')
+        finally: 
+            temp.close() 
+
+    @staticmethod 
+    def _squash_pre_rebuild_commit(hash):
+        commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B")
+       
+        Steps._git_interactive_rebase(
+            f"{hash}^", 
+            1, 
+            "squash", 
+            commit_msg
+        )
     
-    # before 
-
-    # after 
-
     @staticmethod
     def commit_changes(args, profile, last_gen_data):
         print_devider("Commit msg")
         
         # TODO: remove when i don't manually have to ado this 
-        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
 
-        if args["--no-rebuild"]:
+        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
+   
+        no_rebuild = args["--no-rebuild"]
+
+        if no_rebuild:
             message = args["--message"][0][0]
+            print(message)
+
         else:
             message = Steps._gen_commit_msg(
                 args,
                 profile,
                 last_gen_data,
             )
+            
+            # show the final msg not the 
+            print(Steps._fmt_gen_commit_msg(
+                args['--message'][0][0],
+                "manuall",
+                profile, 
+                Steps.get_gen_data(),
+                [],
+                True,
+            ))
+    
 
-        print(message)
-
-        print_devider("Committing changes")
+        print_devider("Committing changes" if no_rebuild else "Pre rebuild commit")
     
         add_files = (not args['--no-auto-add']) * "--all"
 
@@ -425,6 +583,10 @@ class Steps:
             print_res=True,
             color=True,
         )
+
+        hash = run_cmd("git log HEAD --pretty=%H -1")
+
+        return hash
 
     @staticmethod
     def formatt_files():
@@ -457,6 +619,8 @@ class Steps:
 
     @staticmethod
     def push_changes():
+        return  # TODO: 
+
         print_devider("Pushing code to github")
 
         run_cmd(
@@ -513,12 +677,15 @@ class Recipes:
         # rebuild nixos
         profile = get_profile(args)
 
+        hash = Steps.commit_changes(args, profile, last_gen_data)
+
         Steps.rebuild_nixos(args, profile)
 
         check_needs_reboot()
 
         # commit
-        Steps.commit_changes(args, profile, last_gen_data)
+
+        Steps.lazy_ammend_pre_rebuild_commit(args, hash)
 
 
 def main():

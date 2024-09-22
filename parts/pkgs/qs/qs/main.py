@@ -1,13 +1,12 @@
 import json
 import os
-from re import T
 import shlex
 import subprocess
 import atexit
 import yaml 
 import string
 import random
-from typing import Literal, Tuple, Any 
+from typing import Literal
 import tempfile
 
 # remove the dot for debugging
@@ -17,12 +16,18 @@ except ImportError:
     from parser import parse_sys_args, pp
 
 
+DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"
 def run_cmd(
     cmd,
     print_res: bool = False,
-    ignore=(),
     color: bool = False,
+    data_cmd: str = "",
+    flush: bool = False
 ):
+    
+    if data_cmd:
+        cmd = f"{cmd}\necho -n {DATA_HEADER}\n{data_cmd}"
+    
     if color:
         cmd = (
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
@@ -33,21 +38,33 @@ def run_cmd(
         shell=True,
         stdout=subprocess.PIPE,
     )
-
+     
+    pos = 0
     res = ""
-    for line in iter(process.stdout.readline, b""):  # type: ignore[attr-defined]
-        dec = line.decode()
+    buf = ""
+    for l in iter(lambda: process.stdout.read(1), b""): # type: ignore[attr-defined]
+        dec = l.decode()
         res += dec
+        
+        if pos < len(DATA_HEADER) and dec == DATA_HEADER[pos]: 
+            # print(pos, repr(dec))
+            pos += 1
+            buf += dec
 
-        if print_res:
-            # print(repr(dec))
-            if dec in ignore:
-                continue
+            # print(pos, len(DATA_HEADER), flush=True)
 
-            print(
-                dec,
-                end="",
-            )
+            if pos == len(DATA_HEADER):
+                pos = 0
+                buf = ""
+                print_res = False
+
+        else: 
+            pos = 0
+            if print_res:
+                print(dec, end="", flush=True)
+    
+    if print_res:
+        print(buf, end="", flush=True)
 
     return res
 
@@ -236,9 +253,6 @@ class Steps:
         print_devider(
             f"Rebuilding NixOs (profile: {profile}, branch: {branch})"
         )
-        
-        fail_id = "9hLbAQzHXajZxei6dhXCOUoNIKD3nj9J"
-        succeed_id = "EdJNfWcs91MsOGHoOfWJ6rqTQ6h1HHsw"
 
         sudo_part = f"""
             # not necisary here but i dont whant to unlick sudo twice
@@ -251,10 +265,6 @@ class Steps:
                 {" --show-trace" * bool(args["--trace"])}
             );
 
-            if [ "$ret" ]; 
-                then echo "{succeed_id}"; 
-                else echo "{fail_id}";
-            fi
         """
  
         full_cmd = f"""
@@ -263,20 +273,19 @@ class Steps:
 
         raw_ret_val = run_cmd(
             full_cmd,
+            True, 
             True,
-            (
-                fail_id + "\n",
-                succeed_id + "\n",
-            ),
-        )
-
-        ret_val = raw_ret_val.splitlines()[-1]
-
-        if ret_val == fail_id:
+            data_cmd = "echo $?"
+        ).split(DATA_HEADER, 1)
+        
+        if len(raw_ret_val) == 1:
             exit_program("NixOs Rebuild Failed")
 
-        if ret_val != succeed_id:
-            raise TypeError(f"invallid {ret_val=}")
+        ret_val = raw_ret_val[1].strip()
+
+        if ret_val != "0":
+            print(f"{repr(ret_val) = }")
+            exit_program("NixOs Rebuild Failed")
 
         # everything is good
 
@@ -370,10 +379,9 @@ class Steps:
 
     _PRE_REBUILD_COMMit_MSG = \
         "auto: pre rebuild commit [probably broken]\n\n" \
-        "if you see this then the script failed to ammend it\n" \
+        "If you see this. Then the script failed to ammend it\n" \
         "i.e something broke during the update\n" 
         # "oarGglYzX06kMUsG2noeXhK3utMT2n56\n"
-    
 
     @staticmethod
     def _gen_commit_msg(args, profile, last_gen_data):

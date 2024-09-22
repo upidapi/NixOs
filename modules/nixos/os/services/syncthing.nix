@@ -45,7 +45,8 @@ in {
       };
     };
 
-    # TODO: setup caddy? (web server ish)
+    # TODO: setup nginx for creating the local servers (and for the ssh stuff)
+    # TODO: setup caddy? (web server cert thingy?)
     # TODO: setup ldap?
     services.syncthing = let
       hostName = config.modules.nixos.meta.host-name;

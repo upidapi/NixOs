@@ -22,9 +22,11 @@ def run_cmd(
     print_res: bool = False,
     color: bool = False,
     data_cmd: str = "",
-    flush: bool = False
+    # continuous: bool = False
 ):
-    
+    # TODO: maybe don't print every char by default 
+    #  it makes the output a bit jittery
+
     if data_cmd:
         cmd = f"{cmd}\necho -n {DATA_HEADER}\n{data_cmd}"
     
@@ -38,7 +40,7 @@ def run_cmd(
         shell=True,
         stdout=subprocess.PIPE,
     )
-     
+    
     pos = 0
     res = ""
     buf = ""
@@ -62,6 +64,7 @@ def run_cmd(
             pos = 0
             if print_res:
                 print(dec, end="", flush=True)
+
     
     if print_res:
         print(buf, end="", flush=True)

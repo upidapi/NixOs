@@ -142,3 +142,35 @@ sps := sops
   [x]   [x]   [x]   [x]   [x]
 
 [nvf](https://github.com/notashelf/nvf) - nixvim alternative
+
+
+# use to search some repos i trust for examples
+```py
+good = """\
+https://github.com/nobbz/nixos-config
+https://github.com/fufexan/dotfiles
+https://github.com/mitchellh/nixos-config
+https://github.com/mic92/dotfiles
+https://github.com/workflow/dotfiles
+https://github.com/notohh/snowflake
+https://github.com/misterio77/nix-config
+
+
+https://github.com/hlissner/dotfiles
+
+https://github.com/gvolpe/nix-config
+
+
+https://github.com/notashelf/nyx\
+"""
+
+good = [x.strip()[len("https://github.com/"):] for x in good.split("\n")]
+repos = " OR ".join([f"repo:{x}" for x in good])
+
+print(f"lang:nix ({repos})")
+
+```
+
+
+Schizosearch
+

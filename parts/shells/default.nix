@@ -51,9 +51,6 @@
               exec zsh
             '';
             targetPkgs = _pkgs: (with _pkgs; [
-              # crypto
-              sage
-
               # forensics
               imhex
               binwalk
@@ -77,6 +74,14 @@
               # EXPLORE: apktool and android rev in general
               ghidra
               radare2
+              # android / apk
+              apktool
+              dex2jar
+              # java decompilers
+              # jadx
+              jd-cli
+              jd-gui
+              # cfr
 
               strace
               ltrace
@@ -91,6 +96,9 @@
               # for compatibility
               udev
               alsa-lib
+
+              # crypto
+              sage
 
               (python3.withPackages (
                 python-pkgs:

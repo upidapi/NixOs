@@ -324,11 +324,12 @@ class Steps:
     def _parse_gen_commit_msg(commit_msg: str):
         data_size = 7 
         try:
-            raw_msg = commit_msg.split("\n")[:data_size]
-            data = commit_msg.split("\n")[data_size:]
+            raw_msg = commit_msg.split("\n")[:-data_size]
+            data = commit_msg.split("\n")[-data_size:]
 
             # print(data)
-                
+               
+            # print(data)
             yaml_data = yaml.safe_load("\n".join(data))["info"]
             
             gens = [

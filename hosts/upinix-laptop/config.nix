@@ -9,7 +9,7 @@
   inherit (my_lib.opt) enable;
 in {
   imports = [
-    ./tuxedo
+    # ./tuxedo
   ];
 
   system.stateVersion = "23.11";

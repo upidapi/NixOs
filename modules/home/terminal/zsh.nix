@@ -43,6 +43,7 @@ in {
           # l = "ls -lah";
           l = "eza -lah";
           # persistent env su
+          nix-unfree = "env NIXPKGS_ALLOW_UNFREE=1";
           pesu = "sudo --preserve-env su --preserve-environment";
           # pull file from the store into tha same place but editable
           /*

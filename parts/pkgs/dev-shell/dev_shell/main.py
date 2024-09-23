@@ -57,7 +57,7 @@ def main():
         )
 
     subprocess.run(
-        f"nix develop $NIXOS_CONFIG_PATH#{selected_shell}",
+        f"nix develop --impure $NIXOS_CONFIG_PATH#{selected_shell}",
         shell=True,
         check=False,
     )

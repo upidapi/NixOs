@@ -126,3 +126,5 @@ misc:
     https://github.com/facebook/sapling
 
     https://docs.google.com/document/d/1nnyByXcH0F6GOmEezNOUa2RFelpeRpDToBLYD_CtjWE/edit?pli=1
+
+    Schizosearch

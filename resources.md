@@ -172,5 +172,4 @@ print(f"lang:nix ({repos})")
 ```
 
 
-Schizosearch
 

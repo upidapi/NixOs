@@ -5,5 +5,6 @@
     ./distrobox.nix
     ./waydroid.nix
     ./vfio.nix
+    ./android.nix
   ];
 }

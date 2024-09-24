@@ -18,7 +18,12 @@ in {
     isNormalUser = true;
     description = "upidapi";
 
-    extraGroups = ["networkmanager" "wheel" "libvirtd"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+      "adbusers"
+    ];
     hashedPassword = "$y$j9T$P.ANM.hAc1bqSR7fJWfkZ.$vUxY3KyPB65PR3uTBKwYCa7u6LvUquy47SeAPjgnjD9";
 
     openssh.authorizedKeys.keys = [keys.users.upidapi];
@@ -84,6 +89,7 @@ in {
   */
 
   # FIXME: enable when it work
+  /*
   hardware = {
     # tuxedo-keyboard = enable;
     tuxedo-rs = {
@@ -95,6 +101,7 @@ in {
     #  enable = true;
     # };
   };
+  */
 
   /*
   # not tested but should use my custom pkg with my overrides

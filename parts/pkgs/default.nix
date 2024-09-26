@@ -6,6 +6,7 @@
       # TODO: just wait for https://github.com/NixOS/nixpkgs/pull/336633
       # or https://github.com/NixOS/nixpkgs/pull/343483
       # tuxedo-keyboard = pkgs.callPackage ./tuxedo-keyboard {};
+      tuxedo-drivers = pkgs.callPackage ./tuxedo-drivers {};
       problem-tools = pkgs.callPackage ./problem-tools {};
       prelockd = pkgs.callPackage ./prelockd {};
     };

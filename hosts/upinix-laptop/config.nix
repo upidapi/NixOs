@@ -3,7 +3,7 @@
   lib,
   my_lib,
   keys,
-  inputs,
+  self',
   ...
 }: let
   inherit (my_lib.opt) enable;
@@ -102,6 +102,15 @@ in {
     # };
   };
   */
+
+  boot.kernelModules = [
+    "tuxedo_keyboard"
+    "tuxedo_compatibility_check"
+    "tuxedo_io"
+  ];
+  boot.extraModulePackages = [
+    self'.packages.dev-shell
+  ];
 
   /*
   # not tested but should use my custom pkg with my overrides

@@ -26,6 +26,8 @@ in {
 
   # EXP: rofi shortcut to open about:profiles
 
+  # EXP: more extensions https://github.com/NotAShelf/nyx/blob/d407b4d6e5ab7f60350af61a3d73a62a5e9ac660/homes/notashelf/programs/graphical/apps/schizofox/default.nix#L79
+
   # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
   # add to sytlus to fix netflix spoilters
   /*

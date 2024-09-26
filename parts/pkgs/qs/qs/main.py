@@ -40,12 +40,19 @@ def run_cmd(
         shell=True,
         stdout=subprocess.PIPE,
     )
-    
+     
     pos = 0
     res = ""
     buf = ""
     for l in iter(lambda: process.stdout.read(1), b""): # type: ignore[attr-defined]
-        dec = l.decode()
+        # print(l, end="", flush=True)
+        try:
+            dec = l.decode() # FIXME: cant handle EOLs asdf?
+        except UnicodeDecodeError as e:
+            print(e)
+            dec = ""
+
+        # print(dec, end="", flush=True)
         res += dec
         
         if pos < len(DATA_HEADER) and dec == DATA_HEADER[pos]: 
@@ -64,7 +71,6 @@ def run_cmd(
             pos = 0
             if print_res:
                 print(dec, end="", flush=True)
-
     
     if print_res:
         print(buf, end="", flush=True)

@@ -44,13 +44,24 @@ def run_cmd(
     pos = 0
     res = ""
     buf = ""
+    char_buf = b""
+    raw = b""
     for l in iter(lambda: process.stdout.read(1), b""): # type: ignore[attr-defined]
+        raw += l
         # print(l, end="", flush=True)
         try:
-            dec = l.decode() # FIXME: cant handle EOLs asdf?
+            dec = l.decode("utf-8") 
         except UnicodeDecodeError as e:
+            # FIXME: cant handle EOLs?
+            # eg
+            # 'utf-8' codec can't decode byte 0xc3 in position 0: unexpected end of data
+            # 'utf-8' codec can't decode byte 0xb6 in position 0: invalid start byt
+
+            # print(l, char_buf + l)
             print(e)
-            dec = ""
+            char_buf += l 
+            continue
+            # dec = ""
 
         # print(dec, end="", flush=True)
         res += dec
@@ -74,7 +85,9 @@ def run_cmd(
     
     if print_res:
         print(buf, end="", flush=True)
-
+    
+    print("--------------------" + "\n" * 5)
+    print(raw)
     return res
 
 

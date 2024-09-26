@@ -27,6 +27,7 @@ in {
       };
     };
 
+    # /etc/profiles/per-user/$(whoami)/share/applications/
     /*
     # TODO: do some xdg stuff
     xdg = let

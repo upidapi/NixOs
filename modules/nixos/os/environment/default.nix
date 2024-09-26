@@ -3,6 +3,6 @@
     ./fonts.nix
     ./locale.nix
     ./paths.nix
-    ./vars.nix
+    ./xdg.nix
   ];
 }

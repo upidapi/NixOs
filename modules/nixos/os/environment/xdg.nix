@@ -26,53 +26,5 @@ in {
         WGETRC = "$XDG_CONFIG_HOME/wgetrc";
       };
     };
-
-    # /etc/profiles/per-user/$(whoami)/share/applications/
-    /*
-    # TODO: do some xdg stuff
-    xdg = let
-      browser = ["Schizofox.desktop"];
-      mailer = ["thunderbird.desktop"];
-      zathura = ["zathura.desktop"];
-      fileManager = ["org.kde.dolphin.desktop"];
-
-      associations = {
-        "text/html" = browser;
-        "x-scheme-handler/http" = browser;
-        "x-scheme-handler/https" = browser;
-        "x-scheme-handler/ftp" = browser;
-        "x-scheme-handler/about" = browser;
-        "x-scheme-handler/unknown" = browser;
-        "application/xhtml+xml" = browser;
-        "application/x-extension-htm" = browser;
-        "application/x-extension-html" = browser;
-        "application/x-extension-shtml" = browser;
-        "application/x-extension-xhtml" = browser;
-        "application/x-extension-xht" = browser;
-
-        "inode/directory" = fileManager;
-        "application/x-xz-compressed-tar" = ["org.kde.ark.desktop"];
-
-        "audio/*" = ["mpv.desktop"];
-        "video/*" = ["mpv.desktop"];
-        "image/*" = ["imv.desktop"];
-        "application/json" = browser;
-        "application/pdf" = zathura;
-
-        "x-scheme-handler/tg" = ["telegramdesktop.desktop"];
-        "x-scheme-handler/spotify" = ["spotify.desktop"];
-        "x-scheme-handler/discord" = ["WebCord.desktop"];
-        "x-scheme-handler/mailto" = mailer;
-      };
-    in {
-      enable = true;
-
-      mimeApps = {
-        enable = true;
-        associations.added = associations;
-        defaultApplications = associations;
-      };
-    };
-    */
   };
 }

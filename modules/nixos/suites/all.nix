@@ -47,7 +47,7 @@ in {
           fonts = enable;
           locale = enable;
           paths = enable;
-          vars = enable;
+          xdg = enable;
         };
 
         misc = {

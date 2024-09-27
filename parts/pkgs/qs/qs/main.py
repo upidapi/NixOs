@@ -6,6 +6,7 @@ import atexit
 import yaml 
 import string
 import random
+import time
 from typing import Literal
 import tempfile
 
@@ -22,10 +23,10 @@ def run_cmd(
     print_res: bool = False,
     color: bool = False,
     data_cmd: str = "",
-    # continuous: bool = False
 ):
-    # TODO: maybe don't print every char by default 
-    #  it makes the output a bit jittery
+    tokens = [
+        DATA_HEADER
+    ]
 
     if data_cmd:
         cmd = f"{cmd}\necho -n {DATA_HEADER}\n{data_cmd}"
@@ -34,61 +35,69 @@ def run_cmd(
         cmd = (
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
-        
+
     process = subprocess.Popen(
         cmd,
         shell=True,
         stdout=subprocess.PIPE,
     )
-     
-    pos = 0
-    res = ""
-    buf = ""
-    # char_buf = b""
-    # raw = b""
-    for l in iter(lambda: process.stdout.read(1), b""): # type: ignore[attr-defined]
-        # raw += l
-        # print(l, end="", flush=True)
-        try:
-            dec = l.decode("utf-8") 
-        except UnicodeDecodeError as e:
-            # FIXME: cant handle EOLs?
-            # eg
-            # 'utf-8' codec can't decode byte 0xc3 in position 0: unexpected end of data
-            # 'utf-8' codec can't decode byte 0xb6 in position 0: invalid start byt
+    os.set_blocking(process.stdout.fileno(), False)
+    
+    running = True 
+    p = print_res
+    out = ""
+    while running:
+        raw_data = b""
 
-            # print(l, char_buf + l)
-            print(e)
-            # char_buf += l 
-            continue
-            # dec = ""
+        # get data
+        while True:
+            # note: the absolute first one is "always" empty
+            # since the process has no time to output
 
-        # print(dec, end="", flush=True)
-        res += dec
+            raw_part = process.stdout.read()
+
+            if raw_part == b"":
+                # no more data
+                running = False
+                break 
+
+            if raw_part is None: 
+                # no more data atm
+                time.sleep(0.1)
+                break 
+            
+            # there is more data atm
+
+            raw_data += raw_part 
         
-        if pos < len(DATA_HEADER) and dec == DATA_HEADER[pos]: 
-            # print(pos, repr(dec))
-            pos += 1
-            buf += dec
+        if raw_data == b"":
+            continue
 
-            # print(pos, len(DATA_HEADER), flush=True)
+        data = [raw_data.decode()]
+        out += data[0]
+        
+        # split the data into parts 
+        # where each part is ether only data or only a token
+        for token in tokens:
+            data = sum([
+                sum([
+                    [x, token] 
+                    for x in d.split(token)
+                ], [])[:-1]
+                for d in data
+            ], [])
+        
+        for part in data:
+            if part == DATA_HEADER: 
+                # p = False 
+                continue
 
-            if pos == len(DATA_HEADER):
-                pos = 0
-                buf = ""
-                print_res = False
+            if p:
+                print(part, end="", flush=True)
 
-        else: 
-            pos = 0
-            if print_res:
-                print(dec, end="", flush=True)
-    
-    if print_res:
-        print(buf, end="", flush=True)
-    
-    # print("--------------------" + "\n" * 5)
-    # print(raw)
-    return res
+        # print(len(data))
+
+    return out
 
 
 def de_indent(data):
@@ -281,16 +290,15 @@ class Steps:
             chown -R root:wheel "$NIXOS_CONFIG_PATH";
             chmod -R 770 "$NIXOS_CONFIG_PATH";
 
-            ret=$(
-              nixos-rebuild switch \\
-                --flake .#{profile} \\
-                {" --show-trace" * bool(args["--trace"])}
-            );
-
+            nixos-rebuild switch \\
+              --flake .#{profile} \\
+              {" --show-trace" * bool(args["--trace"])}
         """
  
         full_cmd = f"""
-            nice -n 1 sudo -- sh -c {shlex.quote(sudo_part)}
+            ret=$(
+                nice -n 1 sudo -- sh -c {shlex.quote(sudo_part)}
+            );
         """
 
         raw_ret_val = run_cmd(
@@ -299,8 +307,8 @@ class Steps:
             True,
             data_cmd = """\
             if [ "$ret" ]; 
-                then echo 1;
-                else echo 0;
+                then echo "0";
+                else echo "1";
             fi
             """
         ).split(DATA_HEADER, 1)
@@ -309,10 +317,8 @@ class Steps:
         if len(raw_ret_val) == 1:
             exit_program("NixOs Rebuild Failed")
 
-        ret_val = raw_ret_val[1].split()
-        print(ret_val)
+        ret_val = raw_ret_val[1].strip()
         
-        exit_program("NixOs Rebuild Failed")
         if ret_val != "0":
             print(f"{repr(ret_val) = }")
             exit_program("NixOs Rebuild Failed")

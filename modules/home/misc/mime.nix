@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.nixos.os.environment.xdg;
+  cfg = config.modules.modules.home.misc.mime;
 in {
-  options.modules.nixos.os.environment.xdg = mkEnableOpt "default app stuff";
+  options.modules.home.misc.mime = mkEnableOpt "default app stuff";
 
   config = mkIf cfg.enable {
     # /etc/profiles/per-user/$(whoami)/share/applications/

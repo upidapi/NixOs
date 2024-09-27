@@ -63,6 +63,7 @@ in {
         sops = enable;
         persist = enable;
         stylix = enable;
+        mime = enable;
       };
 
       desktop = {

@@ -44,10 +44,10 @@ def run_cmd(
     pos = 0
     res = ""
     buf = ""
-    char_buf = b""
-    raw = b""
+    # char_buf = b""
+    # raw = b""
     for l in iter(lambda: process.stdout.read(1), b""): # type: ignore[attr-defined]
-        raw += l
+        # raw += l
         # print(l, end="", flush=True)
         try:
             dec = l.decode("utf-8") 
@@ -58,8 +58,8 @@ def run_cmd(
             # 'utf-8' codec can't decode byte 0xb6 in position 0: invalid start byt
 
             # print(l, char_buf + l)
-            print(e)
-            char_buf += l 
+            # print(e)
+            # char_buf += l 
             continue
             # dec = ""
 
@@ -86,8 +86,8 @@ def run_cmd(
     if print_res:
         print(buf, end="", flush=True)
     
-    print("--------------------" + "\n" * 5)
-    print(raw)
+    # print("--------------------" + "\n" * 5)
+    # print(raw)
     return res
 
 

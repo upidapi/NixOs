@@ -297,17 +297,22 @@ class Steps:
             full_cmd,
             True, 
             True,
-            data_cmd = "echo $?"
+            data_cmd = """\
+            if [ "$ret" ]; 
+                then echo 1;
+                else echo 0;
+            fi
+            """
         ).split(DATA_HEADER, 1)
     
 
         if len(raw_ret_val) == 1:
             exit_program("NixOs Rebuild Failed")
 
-        ret_val = raw_ret_val[1].strip()
-        print(raw_ret_val)
-        print(ret_val, ret_val != "0")
-
+        ret_val = raw_ret_val[1].split()
+        print(ret_val)
+        
+        exit_program("NixOs Rebuild Failed")
         if ret_val != "0":
             print(f"{repr(ret_val) = }")
             exit_program("NixOs Rebuild Failed")

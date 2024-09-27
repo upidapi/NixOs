@@ -300,12 +300,13 @@ class Steps:
             data_cmd = "echo $?"
         ).split(DATA_HEADER, 1)
     
-        print(raw_ret_val)
 
         if len(raw_ret_val) == 1:
             exit_program("NixOs Rebuild Failed")
 
         ret_val = raw_ret_val[1].strip()
+        print(raw_ret_val)
+        print(ret_val, ret_val != "0")
 
         if ret_val != "0":
             print(f"{repr(ret_val) = }")

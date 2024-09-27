@@ -58,7 +58,7 @@ def run_cmd(
             # 'utf-8' codec can't decode byte 0xb6 in position 0: invalid start byt
 
             # print(l, char_buf + l)
-            # print(e)
+            print(e)
             # char_buf += l 
             continue
             # dec = ""
@@ -299,7 +299,9 @@ class Steps:
             True,
             data_cmd = "echo $?"
         ).split(DATA_HEADER, 1)
-        
+    
+        print(raw_ret_val)
+
         if len(raw_ret_val) == 1:
             exit_program("NixOs Rebuild Failed")
 

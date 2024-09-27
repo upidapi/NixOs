@@ -78,9 +78,11 @@
               apktool
               dex2jar
               # java decompilers
-              # jadx
+              # https://kalilinuxtutorials.com/apk-sh/
               jd-cli
               jd-gui
+              # seams to be functionally objectively worse
+              # jadx
               # cfr
 
               strace

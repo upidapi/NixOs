@@ -164,12 +164,20 @@ https://github.com/gvolpe/nix-config
 https://github.com/notashelf/nyx\
 """
 
-good = [x.strip()[len("https://github.com/"):] for x in good.split("\n")]
+
+good = [
+    x.strip()[len("https://github.com/"):] 
+    for x in good.split("\n") 
+    if x.strip() != ""
+]
+
 repos = " OR ".join([f"repo:{x}" for x in good])
 
 print(f"lang:nix ({repos})")
 
+# lang:nix (repo:nobbz/nixos-config OR repo:fufexan/dotfiles OR repo:mitchellh/nixos-config OR repo:mic92/dotfiles OR repo:workflow/dotfiles OR repo:notohh/snowflake OR repo:misterio77/nix-config OR repo:hlissner/dotfiles OR repo:gvolpe/nix-config OR repo:notashelf/nyx)
 ```
+
 
 
 

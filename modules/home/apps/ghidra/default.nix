@@ -15,7 +15,7 @@ in {
   config = let
     # v = "11.1.2";
     # ghidra_dir = ".config/ghidra/ghidra_${v}_NIX";
-    ghidra_dir = ".config/ghidra/ghidra_${pkgs.ghidra.distroPrefix}_NIX";
+    ghidra_dir = ".config/ghidra/${pkgs.ghidra.distroPrefix}";
   in
     mkIf cfg.enable {
       home.packages = with pkgs; [

@@ -109,6 +109,8 @@
                     requests
                     pwntools
                     pillow
+                    beautifulsoup4
+                    pyyaml
                   ]
               ))
             ]);

@@ -37,13 +37,15 @@ in {
           # s = "doas -s";
           # sudo = "doas -s";
           unpage = "env PAGER=cat";
+          nix-unfree = "env NIXPKGS_ALLOW_UNFREE=1";
           ds = "dev-shell";
+          dsu = "env NIXPKGS_ALLOW_UNFREE=1 dev-shell";
+
           e = "$EDITOR";
           c = "clear";
           # l = "ls -lah";
           l = "eza -lah";
           # persistent env su
-          nix-unfree = "env NIXPKGS_ALLOW_UNFREE=1";
           pesu = "sudo --preserve-env su --preserve-environment";
           # pull file from the store into tha same place but editable
           /*

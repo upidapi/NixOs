@@ -41,7 +41,10 @@ def run_cmd(
         shell=True,
         stdout=subprocess.PIPE,
     )
-    os.set_blocking(process.stdout.fileno(), False)
+    os.set_blocking(
+        process.stdout.fileno(), # type: ignore[attr-defined]
+        False
+    ) 
     
     running = True 
     p = print_res
@@ -54,7 +57,7 @@ def run_cmd(
             # note: the absolute first one is "always" empty
             # since the process has no time to output
 
-            raw_part = process.stdout.read()
+            raw_part = process.stdout.read() # type: ignore[attr-defined]
 
             if raw_part == b"":
                 # no more data

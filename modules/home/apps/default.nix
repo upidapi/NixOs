@@ -8,5 +8,6 @@
     ./spotify.nix
     ./keepassxc
     ./vscode.nix
+    ./ghidra
   ];
 }

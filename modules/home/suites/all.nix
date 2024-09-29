@@ -28,6 +28,7 @@ in {
         spotify = enable;
         keepassxc = enable;
         vscode = enable;
+        ghidra = enable;
       };
 
       cli-apps = {

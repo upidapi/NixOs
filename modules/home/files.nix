@@ -61,7 +61,13 @@ in {
               Path to target file relative to ~.
             '';
           };
-
+          override = mkOption {
+            type = types.bool;
+            default = true;
+            description = ''
+              Whether this file should be replaced if it already exists
+            '';
+          };
           text = mkOption {
             # default = "";
             type = types.lines;
@@ -116,9 +122,19 @@ in {
             ''
               text=${escapeShellArg f.text}
               target=${escapeShellArg f.target}
+              override=${escapeShellArg (
+                if f.override
+                then "1"
+                else "0"
+              )}
 
               mkdir -p "$(dirname "$target")"
-              echo "$text" > "$target"
+
+              # only place content in file if its empty or if override is true
+              if [ "$override" -eq 1 ] || [ ! -e "$target" ]; then
+                  echo "$text" > "$target"
+              fi
+
             '')
         (attrValues cfg)));
     };

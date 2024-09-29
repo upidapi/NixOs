@@ -59,6 +59,8 @@ in {
           )
         )
 
+        anki
+
         jq
 
         wget

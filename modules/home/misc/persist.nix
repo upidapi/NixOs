@@ -65,6 +65,9 @@ in {
 
         ".local/share/Steam"
 
+        # anki stuff
+        ".local/share/Anki2"
+
         # podman images
         ".local/share/containers/storage"
         /*

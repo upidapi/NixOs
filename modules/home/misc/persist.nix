@@ -68,7 +68,7 @@ in {
         # ghidra stores state in here
         # its actually in a sub folder based on its version
         # but it too anoying to target that
-        ".config/ghidra"
+        # ".config/ghidra"
 
         # anki stuff
         ".local/share/Anki2"

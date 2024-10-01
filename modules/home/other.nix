@@ -27,9 +27,6 @@ in {
 
       # grep but better and faster
       ripgrep = enable;
-
-      # minimal image viewer
-      feh = enable;
     };
 
     home.packages =
@@ -59,8 +56,22 @@ in {
           )
         )
 
+        # minimal image viewer
+        gwenview
+
+        # terminal audio player
+        mpv
+
+        # video (/image/audio) viewer
+        vlc
+
+        # view/edit images
+        gimp
+
+        # flash card program
         anki
 
+        # json parsing cmd
         jq
 
         wget
@@ -88,12 +99,6 @@ in {
 
         # stats about code, logical lines, comments, etc
         scc
-
-        # view/edit images
-        gimp
-
-        # video viewer
-        vlc
       ]);
   };
 }

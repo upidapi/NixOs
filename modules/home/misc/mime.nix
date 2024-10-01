@@ -11,74 +11,73 @@
 in {
   options.modules.home.misc.mime = mkEnableOpt "default app stuff";
 
-  config = mkIf cfg.enable {
-    # make xdg run use alacritty
+  config = let
+    editor = ["nvim.desktop"];
+    browser = ["firefox.desktop"];
+    mailer = ["thunderbird.desktop"];
+    fileManager = ["org.kde.dolphin.desktop"];
+    terminal = ["alacritty.desktop"];
 
-    /*
-    xterm
+    associations = {
+      "text/plain" = editor;
 
-    if you run xterm from rofi you get the white terminal that
-    xdg-open seams to use
+      "text/html" = browser;
+      "x-scheme-handler/http" = browser;
+      "x-scheme-handler/https" = browser;
+      "x-scheme-handler/ftp" = browser;
+      "x-scheme-handler/about" = browser;
+      "x-scheme-handler/unknown" = browser;
+      "application/xhtml+xml" = browser;
+      "application/x-extension-htm" = browser;
+      "application/x-extension-html" = browser;
+      "application/x-extension-shtml" = browser;
+      "application/x-extension-xhtml" = browser;
+      "application/x-extension-xht" = browser;
 
-    xdg-open /persist/nixos/flake.nix
+      "inode/directory" = fileManager;
+      "application/x-xz-compressed-tar" = ["org.kde.ark.desktop"];
 
-    e /etc/profiles/per-user/upidapi/share/applications/
-    */
+      "audio/*" = ["mpv.desktop"];
+      "video/*" = ["vlc.desktop"];
+      "image/*" = ["gwenview.desktop"];
 
-    home.packages = with pkgs; [
-      xdg-terminal-exec
-    ];
+      "application/json" = browser; # change this?
+      "application/pdf" = browser;
 
-    xdg.configFile."xdg-terminals.list".text = ''
-      ${"alacritty.desktop"}
-    '';
+      "x-scheme-handler/tg" = ["telegramdesktop.desktop"];
+      "x-scheme-handler/spotify" = ["spotify.desktop"];
+      "x-scheme-handler/discord" = ["vesktop.desktop"];
+      "x-scheme-handler/mailto" = mailer;
+    };
+  in
+    mkIf cfg.enable {
+      /*
+      change what terminal xdg-run uses
 
-    # /etc/profiles/per-user/$(whoami)/share/applications/
-    /*
-    # TODO: implement this (mime stuff)
-    xdg = let
-      browser = ["Schizofox.desktop"];
-      mailer = ["thunderbird.desktop"];
-      zathura = ["zathura.desktop"];
-      fileManager = ["org.kde.dolphin.desktop"];
+      https://discourse.gnome.org/t/open-in-terminal-choose-which-terminal-application-to-open/15512/4
 
-      associations = {
-        "text/html" = browser;
-        "x-scheme-handler/http" = browser;
-        "x-scheme-handler/https" = browser;
-        "x-scheme-handler/ftp" = browser;
-        "x-scheme-handler/about" = browser;
-        "x-scheme-handler/unknown" = browser;
-        "application/xhtml+xml" = browser;
-        "application/x-extension-htm" = browser;
-        "application/x-extension-html" = browser;
-        "application/x-extension-shtml" = browser;
-        "application/x-extension-xhtml" = browser;
-        "application/x-extension-xht" = browser;
+      Basically what terminal is uses is hard coded, however
+      the one with the highest prio is xdg-terminal-exec and
+      that one runs the first working one in xdg-terminals.list
+      */
+      home.packages = with pkgs; [
+        xdg-terminal-exec
+      ];
 
-        "inode/directory" = fileManager;
-        "application/x-xz-compressed-tar" = ["org.kde.ark.desktop"];
-
-        "audio/*" = ["mpv.desktop"];
-        "video/*" = ["mpv.desktop"];
-        "image/*" = ["imv.desktop"];
-        "application/json" = browser;
-        "application/pdf" = zathura;
-
-        "x-scheme-handler/tg" = ["telegramdesktop.desktop"];
-        "x-scheme-handler/spotify" = ["spotify.desktop"];
-        "x-scheme-handler/discord" = ["WebCord.desktop"];
-        "x-scheme-handler/mailto" = mailer;
-      };
-    in {
-      enable = true;
-
-      mimeApps = {
+      xdg = {
         enable = true;
-        associations.added = associations;
-        defaultApplications = associations;
+
+        configFile."xdg-terminals.list".text = ''
+          ${builtins.elemAt terminal 0}
+        '';
+
+        # /etc/profiles/per-user/$(whoami)/share/applications/
+        # TODO: implement this (mime stuff)
+        mimeApps = {
+          enable = true;
+          associations.added = associations;
+          defaultApplications = associations;
+        };
       };
     };
-    */
-  };
 }

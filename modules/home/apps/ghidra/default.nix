@@ -34,6 +34,7 @@ in {
       # TODO: submit a pr or issue for that
       home.file."${ghidra_dir}/themes/apple.theme".text = builtins.readFile ./apple.theme;
 
+      # maybe disable the tips
       modules.home.standAloneFile."${ghidra_dir}/preferences" = {
         override = false;
         text = ''

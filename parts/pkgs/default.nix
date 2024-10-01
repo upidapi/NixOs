@@ -1,29 +1,37 @@
-/*
 # auto importer
 {
-  perSystem = {pkgs, inputs', lib, ...}: {
+  perSystem = {
+    pkgs,
+    inputs',
+    lib,
+    ...
+  }: {
     packages = let
+      # currently broken
+      ignore = ["tuxedo-drivers"];
+
       inherit (builtins) readDir;
-    in lib.mapAttrs
-        (k: _:
-          pkgs.callPackage ./${k} {}
+
+      autoImported =
+        lib.mapAttrs
+        (
+          k: _:
+            pkgs.callPackage ./${k} {}
         )
-        (lib.filterAttrs
-          (_: v: v == "directory")
+        (
+          lib.filterAttrs
+          (
+            k: v:
+              v
+              == "directory"
+              && ! builtins.elem k ignore
+          )
           (readDir ./.)
-        )
-      ;
-  };
-}
-*/
-{
-  perSystem = {pkgs, ...}: {
-    packages = {
-      dev-shell = pkgs.callPackage ./dev-shell {};
-      qs = pkgs.callPackage ./qs {};
-      # tuxedo-drivers = pkgs.callPackage ./tuxedo-drivers {};
-      problem-tools = pkgs.callPackage ./problem-tools {};
-      prelockd = pkgs.callPackage ./prelockd {};
-    };
+        );
+    in
+      autoImported
+      // {
+        vesktop = inputs'.nixpkgs-stable.legacyPackages.callPackage ./vesktop {};
+      };
   };
 }

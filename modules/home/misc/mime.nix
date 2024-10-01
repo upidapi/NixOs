@@ -71,8 +71,6 @@ in {
           ${builtins.elemAt terminal 0}
         '';
 
-        # /etc/profiles/per-user/$(whoami)/share/applications/
-        # TODO: implement this (mime stuff)
         mimeApps = {
           enable = true;
           associations.added = associations;

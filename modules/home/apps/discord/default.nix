@@ -2,7 +2,8 @@
   config,
   lib,
   my_lib,
-  pkgs,
+  self',
+  # pkgs,
   inputs',
   ...
 }: let
@@ -18,7 +19,9 @@ in {
         # TODO: switch back to unstable vesktop when it works
         # default = pkgs.vesktop.override {
         default = inputs'.nixpkgs-stable.legacyPackages.vesktop.override {
-          withSystemVencord = false;
+          # default = self'.packages.vesktop.override {
+          # default = self'.packages.vesktop;
+          withSystemVencord = true;
         };
       };
 

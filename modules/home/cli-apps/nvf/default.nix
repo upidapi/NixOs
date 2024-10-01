@@ -24,29 +24,6 @@ in {
     ./modules
   ];
 
-  # TODO: prevent xdg-open from breaking nvim
-  #  maybe fixable by creating custom desktop entry
-
-  /*
-  eg
-   desktopEntries = {
-     neomutt = {
-       name = "Neomutt";
-       genericName = "Email Client";
-       comment = "Read and send emails";
-       exec = "neomutt %U";
-       icon = "neomutt";
-       terminal = true;
-       categories = ["Network" "Email" "ConsoleOnly"];
-       type = "Application";
-       mimeType = ["x-scheme-handler/mailto"];
-     };
-   };
-   mimeApps.defaultApplications = {
-     "x-scheme-handler/mailto" = "neomutt.desktop";
-   };
-  */
-
   # TODO: move away from the nvf neovim config stuff and just use lua directly
   #  basically use it as a package manager, and for not much else
   #  might go as far as to switch to mnw

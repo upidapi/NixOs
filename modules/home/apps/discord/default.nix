@@ -3,8 +3,6 @@
   lib,
   my_lib,
   self',
-  # pkgs,
-  inputs',
   ...
 }: let
   inherit (lib) mkIf mkOption types;
@@ -16,11 +14,7 @@ in {
     // {
       package = mkOption {
         type = types.package;
-        # TODO: switch back to unstable vesktop when it works
-        # default = pkgs.vesktop.override {
-        # default = inputs'.nixpkgs-stable.legacyPackages.vesktop.override {
         default = self'.packages.vesktop.override {
-          # default = self'.packages.vesktop;
           withSystemVencord = false;
         };
       };
@@ -36,9 +30,6 @@ in {
         };
       };
     };
-
-  # TODO: change the startup gif, currently not possible but there is
-  #  a pr that will change that
 
   config = mkIf cfg.enable {
     home.packages = [

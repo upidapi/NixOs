@@ -2,19 +2,40 @@
   config,
   lib,
   my_lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.modules.home.misc.mime;
+  cfg = config.modules.home.misc.mime;
 in {
   options.modules.home.misc.mime = mkEnableOpt "default app stuff";
 
   config = mkIf cfg.enable {
+    # make xdg run use alacritty
+
+    /*
+    xterm
+
+    if you run xterm from rofi you get the white terminal that
+    xdg-open seams to use
+
+    xdg-open /persist/nixos/flake.nix
+
+    e /etc/profiles/per-user/upidapi/share/applications/
+    */
+
+    home.packages = with pkgs; [
+      xdg-terminal-exec
+    ];
+
+    xdg.configFile."xdg-terminals.list".text = ''
+      ${"alacritty.desktop"}
+    '';
+
     # /etc/profiles/per-user/$(whoami)/share/applications/
     /*
     # TODO: implement this (mime stuff)
-
     xdg = let
       browser = ["Schizofox.desktop"];
       mailer = ["thunderbird.desktop"];

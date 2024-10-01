@@ -8,9 +8,7 @@ vesktop.overrideAttrs (old: {
       ./tray-notifications.patch
     ];
 
-  /*
   pnpmDeps = old.pnpmDeps.overrideAttrs {
-    outputHash = "sha256-o7Hkyuh2HBYNBXYEauQocBrkWmP2CsFS0PiLkeDYrF8=";
+    outputHash = "sha256-ERaKH1r5chZeK2HvztD3xFwLvyakMJT9uM6IQiej6t4=";
   };
-  */
 })

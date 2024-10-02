@@ -1,15 +1,13 @@
-From fda971298e833b2dc37091a930130a85f00fbf70 Mon Sep 17 00:00:00 2001
+From 32aa71e8ae6637a5d5612d9239b69149bd305b07 Mon Sep 17 00:00:00 2001
 From: upidapi <videw@icloud.com>
-Date: Wed, 2 Oct 2024 16:25:07 +0200
+Date: Wed, 2 Oct 2024 18:58:04 +0200
 Subject: [PATCH] change shiggy to vesktop icon
 
 ---
  static/shiggy.gif        | Bin 16822 -> 0 bytes
- static/vesktop-icon.gif  | Bin 0 -> 1668 bytes
  static/views/splash.html |   4 ++--
- 3 files changed, 2 insertions(+), 2 deletions(-)
+ 2 files changed, 2 insertions(+), 2 deletions(-)
  delete mode 100644 static/shiggy.gif
- create mode 100755 static/vesktop-icon.gif
 
 diff --git a/static/shiggy.gif b/static/shiggy.gif
 deleted file mode 100644
@@ -194,50 +192,8 @@ z&C;IEWs_s43p9dq&f-sTaa)}WYW`Qq$O2v4YUyIiAg^7BiXZf2)$>9kZF5`!Pt~eT
 z31C0$u9N>rHzv23Vc&u>$<fP)HySbnWJQ@@#${iKJ{`-8?fEwS&?W7NvT**&PT+R6
 HPV_$j44lH<
 
-diff --git a/static/vesktop-icon.gif b/static/vesktop-icon.gif
-new file mode 100755
-index 0000000000000000000000000000000000000000..3a776158b7cd18c7b67b32bd5f3f0a6543655064
-GIT binary patch
-literal 1668
-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
-OV7G)(=-5Yu0029I!44__
-
-literal 0
-HcmV?d00001
-
 diff --git a/static/views/splash.html b/static/views/splash.html
-index bac2ad2..96f42e9 100644
+index bac2ad2..f852340 100644
 --- a/static/views/splash.html
 +++ b/static/views/splash.html
 @@ -34,8 +34,8 @@
@@ -246,8 +202,8 @@ index bac2ad2..96f42e9 100644
              draggable="false"
 -            src="../shiggy.gif"
 -            alt="shiggy"
-+            src="../vesktop-icon.gif"
-+            alt="Vesktop Icon"
++            src="../vencord-icon.gif"
++            alt="Vencord Icon"
              role="presentation"
          />
          <p>Loading Vesktop...</p>

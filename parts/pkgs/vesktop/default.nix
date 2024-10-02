@@ -14,6 +14,9 @@ vesktop.overrideAttrs (old: rec {
 
   p1 = ./0001-change-shiggy-to-vesktop-icon.patch;
 
+  # you can use https://www.piskelapp.com to create pixel art gifs
+  # then use gimp to remove the yellow pixel artifacts
+
   postPatch =
     (old.postPatch or "")
     + ''

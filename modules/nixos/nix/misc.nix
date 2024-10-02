@@ -12,8 +12,6 @@ in {
   # used by other modules
   options.modules.nixos.nix.misc = mkEnableOpt "enables various nix things";
 
-  # TODO: look at ca-derivations
-
   config = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in
@@ -51,6 +49,11 @@ in {
           show-trace = true;
 
           nix-path = config.nix.nixPath;
+
+          # content addressed derivations
+          experimental-features = [
+            "ca-derivations"
+          ];
         };
       };
     };

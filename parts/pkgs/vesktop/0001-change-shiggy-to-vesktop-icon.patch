@@ -1,13 +1,15 @@
-From 32aa71e8ae6637a5d5612d9239b69149bd305b07 Mon Sep 17 00:00:00 2001
+From ccde43bf6f406791cf4d048d126feff62ca5aaae Mon Sep 17 00:00:00 2001
 From: upidapi <videw@icloud.com>
-Date: Wed, 2 Oct 2024 18:58:04 +0200
+Date: Wed, 2 Oct 2024 19:04:27 +0200
 Subject: [PATCH] change shiggy to vesktop icon
 
 ---
  static/shiggy.gif        | Bin 16822 -> 0 bytes
+ static/vencord-icon.gif  | Bin 0 -> 2955 bytes
  static/views/splash.html |   4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ 3 files changed, 2 insertions(+), 2 deletions(-)
  delete mode 100644 static/shiggy.gif
+ create mode 100644 static/vencord-icon.gif
 
 diff --git a/static/shiggy.gif b/static/shiggy.gif
 deleted file mode 100644
@@ -191,6 +193,70 @@ zylJo_|BQ<2SGZ%yhRD34sBpm<jN8LWa28}Al)Hwq`J-Of*gP2T+gfERg~9ssr39bl
 z&C;IEWs_s43p9dq&f-sTaa)}WYW`Qq$O2v4YUyIiAg^7BiXZf2)$>9kZF5`!Pt~eT
 z31C0$u9N>rHzv23Vc&u>$<fP)HySbnWJQ@@#${iKJ{`-8?fEwS&?W7NvT**&PT+R6
 HPV_$j44lH<
+
+diff --git a/static/vencord-icon.gif b/static/vencord-icon.gif
+new file mode 100644
+index 0000000000000000000000000000000000000000..2a33115d75ad3238697afad52f5bbfc04e487e38
+GIT binary patch
+literal 2955
+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
+E3uo6lVgLXD
+
+literal 0
+HcmV?d00001
 
 diff --git a/static/views/splash.html b/static/views/splash.html
 index bac2ad2..f852340 100644

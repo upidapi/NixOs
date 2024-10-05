@@ -73,6 +73,18 @@
       (filterAttrs (n: _: n == "@import") attrs)
       (removeAttrs attrs ["@theme" "@import"])
     ]);
+
+  inherit (config.lib.formats.rasi) mkLiteral;
+  mkRgba = opacity: color: let
+    c = config.lib.stylix.colors;
+    r = c."${color}-rgb-r";
+    g = c."${color}-rgb-g";
+    b = c."${color}-rgb-b";
+  in
+    mkLiteral
+    "rgba ( ${r}, ${g}, ${b}, ${opacity} % )";
+  mkRgb = mkRgba "100";
+  rofiOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.popups * 100));
 in {
   options.modules.home.desktop.addons.rofi =
     mkEnableOpt "enables rofi, a application runner";
@@ -91,12 +103,12 @@ in {
         colors = config.lib.stylix.colors.withHashtag;
         colorCfg = toRasi {
           "*" = {
-            "background" = colors.base01;
-            "background-alt" = colors.base02;
-            "foreground" = colors.base07;
-            "selected" = colors.base0D;
-            "active" = "#FF00FF"; # add when needed
-            "urgent" = "#FF00FF";
+            "background" = mkRgb "base01";
+            "background-alt" = mkRgb "base02";
+            "foreground" = mkRgb "base07";
+            "selected" = mkRgb "base0D";
+            "active" = "#FF00FFFF"; # add when needed
+            "urgent" = "#FF00FFFF";
           };
         };
         styleImport = toRasi {

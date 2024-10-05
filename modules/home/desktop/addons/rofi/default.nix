@@ -86,8 +86,8 @@ in {
       configPath = "${config.xdg.configHome}/rofi/dummy.rasi";
     };
 
-    xdg.dataFile = {
-      "rofi/config.rasi".text = let
+    home.file = {
+      ".config/rofi/config.rasi".text = let
         colors = config.lib.stylix.colors.withHashtag;
         colorCfg = toRasi {
           "*" = {
@@ -105,7 +105,7 @@ in {
       in
         colorCfg + styleImport;
 
-      "rofi/style.rasi".source = ./style.rasi;
+      ".config/rofi/style.rasi".source = ./style.rasi;
     };
   };
 }

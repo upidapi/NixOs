@@ -83,21 +83,11 @@ in {
     programs.rofi = {
       enable = true;
       package = pkgs.rofi-wayland;
-      theme = let
-        colors = config.lib.stylix.colors.withHashtag;
-        colorCfg = toRasi {
-          "*" = {
-            "background" = colors.base01;
-            "background-alt" = colors.base02;
-            "foreground" = colors.base07;
-            "selected" = colors.base0D;
-            "active" = "#FF00FF"; # add when needed
-            "urgent" = "#FF00FF";
-          };
-        };
-        style = builtins.readFile ./style.rasi;
-      in
-        colorCfg + style;
+      configPath = "${config.xdg.configHome}/rofi/dummy.rasi";
+    };
+
+    xdg.dataFile = {
+      "rofi/style.rasi".source = ./style.rasi;
     };
   };
 }

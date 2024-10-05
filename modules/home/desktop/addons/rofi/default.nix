@@ -87,6 +87,21 @@ in {
     };
 
     xdg.dataFile = {
+      "rofi/config.rasi".text = let
+        colors = config.lib.stylix.colors.withHashtag;
+        colorCfg = toRasi {
+          "*" = {
+            "background" = colors.base01;
+            "background-alt" = colors.base02;
+            "foreground" = colors.base07;
+            "selected" = colors.base0D;
+            "active" = "#FF00FF"; # add when needed
+            "urgent" = "#FF00FF";
+          };
+        };
+      in
+        colorCfg;
+
       "rofi/style.rasi".source = ./style.rasi;
     };
   };

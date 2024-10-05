@@ -99,8 +99,11 @@ in {
             "urgent" = "#FF00FF";
           };
         };
+        styleImport = toRasi {
+          "@import" = "style.rasi";
+        };
       in
-        colorCfg;
+        colorCfg + styleImport;
 
       "rofi/style.rasi".source = ./style.rasi;
     };

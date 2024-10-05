@@ -2,7 +2,7 @@
   imports = [
     ./dunst.nix
     ./gtk.nix
-    ./rofi.nix
+    ./rofi
     ./bar
     ./wallpaper
     ./hypridle.nix

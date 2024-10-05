@@ -77,7 +77,12 @@
         devShells.default = pkgs.mkShellNoCC {
           packages = with pkgs;
             [
-              (mkPoetryEnv {projectDir = self;})
+              (mkPoetryEnv {
+                projectDir = self;
+                # seams to fix a lot of module issues,
+                # why is this not the this the default?
+                # preferWheels = true;
+              })
               poetry
             ]
             ++ deps;

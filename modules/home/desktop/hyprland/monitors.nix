@@ -56,7 +56,7 @@
         (
           m:
             "hyprctl dispatch focusmonitor \"${m.name}\";"
-            + "hyprctl dispatch focusworkspaceoncurrentmonitor ${toString m.workspace};"
+            + "hyprctl dispatch focusworkspaceoncurrentmonitor ${toString m.workspace}"
         )
         enabledMonitors
       )

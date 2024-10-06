@@ -38,17 +38,32 @@
       )
       monitorList;
 
-    # assign each monitor the correct workspace
+    # assign each monitor the correct workspace (this breaks switching
+    # with focusworkspaceoncurrentmonitor)
+    /*
     workspace =
-      map
-      (
-        m: "${toString m.workspace}, monitor:${m.name}, default:true"
-      )
-      enabledMonitors;
+     map
+     (
+       m: "${toString m.workspace}, monitor:${m.name}, default:true"
+     )
+     enabledMonitors;
+    */
 
-    # move cursor to primary workspace
-    exec-once = [
-      "hyprctl dispatch focusmonitor ${monitorCfg.primaryMonitor}"
-    ];
+    exec-once =
+      (
+        # move each workspace to their correct default workspace
+        map
+        (
+          m:
+            "hyprctl dispatch focusmonitor \"${m.name}\";"
+            + "hyprctl dispatch focusworkspaceoncurrentmonitor ${toString m.workspace};"
+        )
+        enabledMonitors
+      )
+      ++ [
+        # move cursor to primary workspace
+        # move cursor to primary workspace
+        "hyprctl dispatch focusmonitor ${monitorCfg.primaryMonitor}"
+      ];
   };
 }

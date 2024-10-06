@@ -50,16 +50,17 @@
     */
 
     exec-once =
-      (
+      (lib.flatten (
         # move each workspace to their correct default workspace
         map
         (
-          m:
-            "hyprctl dispatch focusmonitor \"${m.name}\";"
-            + "hyprctl dispatch focusworkspaceoncurrentmonitor ${toString m.workspace}"
+          m: [
+            "hyprctl dispatch focusmonitor \"${m.name}\""
+            "hyprctl dispatch focusworkspaceoncurrentmonitor ${toString m.workspace}"
+          ]
         )
         enabledMonitors
-      )
+      ))
       ++ [
         # move cursor to primary workspace
         # move cursor to primary workspace

@@ -18,6 +18,8 @@ nix
 tldr 
     short tldr for manpages with examples
 
+use desktop files to create firefox base 
+    shortcut for firefox prfoile "base"
 
 Virtulisation
     MAS

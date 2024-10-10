@@ -80,7 +80,7 @@ in {
         "desc:ASUSTek COMPUTER INC VG246H1A R2LMTF144267" = {
           width = 1920;
           height = 1080;
-          refreshRate = 60;
+          refreshRate = 100;
           x = 0;
           y = 0;
           workspace = 2;

@@ -62,7 +62,7 @@ in {
           end
 
           lspconfig.nixd.setup({
-            on_attach = on_attach(),
+            on_attach = on_attach(),.
             capabilities = capabilities,
             settings = {
                 nixd = {
@@ -112,6 +112,7 @@ in {
         cmd =
           [(getExe package)]
           ++ [
+            "server"
             "--preview"
             "--config"
             "${../cfg-files/ruff.toml}"

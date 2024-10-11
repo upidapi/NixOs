@@ -936,13 +936,16 @@ def main():
             return None
 
         elif sub_command == "pull":
+            Steps.tmp_stash_changes()
+
             run_cmd("git fetch")
 
-            Steps.check_changes(args)
+            if not args["--force"]:
+                if run_cmd("git diff origin/HEAD").strip() == "":
+                    print("No changes found")
+                    exit()
 
             print_devider("Pulling Changes")
-            
-            Steps.tmp_stash_changes()
             
             # remote could be eg git@github.com:upidapi/NixOs.git
             run_cmd(
@@ -950,6 +953,8 @@ def main():
                 print_res=True,
                 color=True,
             )
+
+            Steps.check_changes(args)
 
             args = set_commit_msg(args, "Pulled changes from remote")
 

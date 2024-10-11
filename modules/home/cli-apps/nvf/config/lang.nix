@@ -96,6 +96,46 @@ in {
       '';
       */
 
+      /*
+      programs.nvf.modules.lspSources.ruff-server = {
+        package = pkgs.ruff;
+        settings =
+        arguments = [
+
+        ];
+
+      };
+      */
+
+      lsp.lspconfig.sources.ruff = let
+        package = pkgs.ruff;
+        cmd =
+          [(getExe package)]
+          ++ [
+            "--preview"
+            "--config"
+            "${../cfg-files/ruff.toml}"
+            # "select = [ \"ALL\" ]"
+          ];
+      in
+        /*
+        lua
+        */
+        ''
+          require('lspconfig').ruff.setup {
+            trace = 'messages',
+            init_options = {
+              settings = {
+                logLevel = 'debug',
+              }
+            },
+            cmd = ${toLuaObject cmd},
+            settings = {
+
+            },
+          }
+        '';
+
       languages = {
         enableDAP = true;
         enableLSP = true;
@@ -118,7 +158,10 @@ in {
         #   lsp.enable = false;
         # };
         go = enable;
-        python = enable;
+        python = {
+          enable = true;
+          lsp.enable = false;
+        };
         bash = enable;
         sql = enable;
 

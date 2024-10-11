@@ -9,7 +9,7 @@ nix
     automated deployments? 
         hydra?
 
-    posibly change my_lib to lib.c (or smt similar)
+    possibly change my_lib to lib.c (or smt similar)
 
     Index the nixos server for better searching
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
@@ -131,3 +131,7 @@ misc:
     https://docs.google.com/document/d/1nnyByXcH0F6GOmEezNOUa2RFelpeRpDToBLYD_CtjWE/edit?pli=1
 
     Schizosearch
+
+
+(fix spelling)
+

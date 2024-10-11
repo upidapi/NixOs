@@ -61,6 +61,7 @@ in {
           silent = true;
         };
         */
+
         servers = {
           nil-ls = enable; # static lsp
           nixd = enable; # eval lsp

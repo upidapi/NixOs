@@ -95,6 +95,10 @@ in {
                 "INFO"
               ];
             };
+            REF = {
+              icon = " ";
+              color = "hint";
+            };
             /*
                TEST = {
               icon = "⏲ ";

@@ -55,6 +55,8 @@ in {
     ];
     */
 
+    os.services.jellyfin = enable;
+
     hardware = {
       cpu.amd = enable;
       gpu.nvidia = enable;

@@ -95,6 +95,15 @@ in {
 
         "/var/cache/tuigreet/" # save last user / session
 
+        "/var/lib/jellyfin"
+        # also persist cache so we don't have to fetch metadata on every reboot
+        "/var/cache/jellyfin"
+
+        "/var/lib/bazarr"
+        config.services.radarr.dataDir
+        config.services.sonarr.dataDir
+        config.services.jackett.dataDir
+
         # "/etc/ssh" NOTE: this might break things
         {
           directory = "/var/lib/colord";

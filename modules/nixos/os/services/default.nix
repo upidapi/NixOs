@@ -5,5 +5,6 @@
     ./syncthing.nix
     ./restic.nix
     ./caddy.nix
+    ./jellyfin.nix
   ];
 }

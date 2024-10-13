@@ -27,16 +27,16 @@ in {
     services.caddy = {
       enable = true;
       virtualHosts = {
-        "test".extraConfig = ''
+        "localhost".extraConfig = ''
           respond "Hello, world!"
         '';
-        "test.dev".extraConfig = ''
+        "localhost.dev".extraConfig = ''
           respond "Hello, world!"
         '';
-        "test.com".extraConfig = ''
+        "localhost.com".extraConfig = ''
           respond "Hello, world!"
         '';
-        "test.upidapi.dev".extraConfig = ''
+        "localhost.upidapi.dev".extraConfig = ''
           respond "Hello, world!"
         '';
       };

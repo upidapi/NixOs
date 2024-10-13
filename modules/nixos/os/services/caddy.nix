@@ -26,6 +26,7 @@ in {
     */
     services.caddy = {
       enable = true;
+      /*
       virtualHosts = {
         "localhost".extraConfig = ''
           respond "Hello, world!"
@@ -40,6 +41,7 @@ in {
           respond "Hello, world!"
         '';
       };
+      */
     };
 
     # Ensure nginx isn't turned on by some services (e.g. services using PHP)

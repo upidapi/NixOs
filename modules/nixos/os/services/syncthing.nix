@@ -47,6 +47,7 @@ in {
 
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/syncthing.nix#L60
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/caddy.nix#L9
+    /*
     services.caddy.virtualHosts."syncthing.localhost" = {
       #         import ${config.sops.templates.cf-tls.path}
 
@@ -60,6 +61,7 @@ in {
         # }
       '';
     };
+    */
 
     services.syncthing = let
       hostName = config.modules.nixos.meta.host-name;

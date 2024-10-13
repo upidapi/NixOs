@@ -15,6 +15,9 @@ nix
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
 
+host private pastebin
+
+
 tldr 
     short tldr for manpages with examples
 

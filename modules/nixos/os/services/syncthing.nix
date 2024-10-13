@@ -54,9 +54,7 @@ in {
         addr = toString config.services.syncthing.guiAddress;
       in ''
         reverse_proxy ${addr}
-        tls {
-          on_demand
-        }
+        tls internal
         # reverse_proxy ${addr} {
         #   header_up Host {upstream_hostport}
         # }

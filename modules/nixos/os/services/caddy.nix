@@ -26,6 +26,7 @@ in {
     */
     services.caddy = {
       enable = true;
+      ca = "https://acme-staging-v02.api.letsencrypt.org/directory";
       /*
       virtualHosts = {
         "localhost".extraConfig = ''

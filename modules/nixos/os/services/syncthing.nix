@@ -53,9 +53,10 @@ in {
       extraConfig = let
         addr = toString config.services.syncthing.guiAddress;
       in ''
-        reverse_proxy ${addr} {
-          header_up Host {upstream_hostport}
-        }
+        reverse_proxy ${addr}
+        # reverse_proxy ${addr} {
+        #   header_up Host {upstream_hostport}
+        # }
       '';
     };
 

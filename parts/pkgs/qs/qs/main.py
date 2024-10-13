@@ -18,6 +18,8 @@ except ImportError:
 
 
 DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"
+
+
 def run_cmd(
     cmd,
     print_res: bool = False,
@@ -564,7 +566,7 @@ class Steps:
 
         if has_changes:
             run_cmd(
-                f"git reset --soft HEAD~1", 
+                "git reset --soft HEAD~1", 
                 print_res=True,
                 color=True
             )
@@ -729,7 +731,7 @@ class Steps:
         print_devider("Pushing code to github")
 
         run_cmd(
-            f"git push origin --all",
+            "git push origin --all",
             print_res=True,
             color=True,
         )

@@ -101,7 +101,8 @@ in {
 
         "/var/cache/tuigreet/" # save last user / session
 
-        (chown "jellyfin" "/var/lib/jellyfin")
+        # (chown "jellyfin" "/var/lib/jellyfin")
+        "/var/lib/jellyfin"
         # also persist cache so we don't have to fetch metadata on every reboot
         "/var/cache/jellyfin"
 

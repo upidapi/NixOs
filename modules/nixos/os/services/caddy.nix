@@ -24,7 +24,23 @@ in {
         allowedUDPPorts = [ 443 ];
     };
     */
-    services.caddy = enable;
+    services.caddy = {
+      enable = true;
+      virtualHosts = {
+        "testcaddy".extraConfig = ''
+          respond "Hello, world!"
+        '';
+        "testcaddy.dev".extraConfig = ''
+          respond "Hello, world!"
+        '';
+        "testcaddy.com".extraConfig = ''
+          respond "Hello, world!"
+        '';
+        "testcaddy.upidapi.dev".extraConfig = ''
+          respond "Hello, world!"
+        '';
+      };
+    };
 
     # Ensure nginx isn't turned on by some services (e.g. services using PHP)
     # services.nginx.enable = lib.mkForce false;

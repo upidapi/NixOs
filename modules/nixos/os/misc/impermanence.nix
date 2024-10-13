@@ -76,7 +76,7 @@ in {
       );
 
     environment.persistence."/persist/system" = {
-      hideMounts = true;
+      # hideMounts = true;
       directories = [
         /*
            {
@@ -88,7 +88,7 @@ in {
         */
         "/var/log"
         "/var/lib/bluetooth"
-        "/var/lib/nixos"
+        "/var/lib/nixos" # contains user/group id map
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
         "/srv/restic-repo" # backups

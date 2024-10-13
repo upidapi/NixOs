@@ -13,6 +13,10 @@ in {
     "enable caddy, a web server with auto certs";
 
   config = mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = [80 443];
+
+    # EXP: https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/profiles/services/caddy/common.nix#L2
+
     /*
        for opening to the internet
     networking.firewall = {
@@ -21,5 +25,8 @@ in {
     };
     */
     services.caddy = enable;
+
+    # Ensure nginx isn't turned on by some services (e.g. services using PHP)
+    # services.nginx.enable = lib.mkForce false;
   };
 }

@@ -48,6 +48,7 @@ in {
       # ${config.services.bazarr.user}.extraGroups = [mediaGroup];
     };
 
+    /*
     services.caddy.virtualHosts = {
       ${domainJellyfin} = {
         # enableACME = true;
@@ -56,5 +57,6 @@ in {
         '';
       };
     };
+    */
   };
 }

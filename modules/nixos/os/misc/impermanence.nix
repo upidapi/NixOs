@@ -75,7 +75,13 @@ in {
         )
       );
 
-    environment.persistence."/persist/system" = {
+    environment.persistence."/persist/system" = let
+      chown = user: directory: {
+        inherit user directory;
+        # group = user;
+        mode = "700";
+      };
+    in {
       # hideMounts = true;
       directories = [
         /*
@@ -95,7 +101,7 @@ in {
 
         "/var/cache/tuigreet/" # save last user / session
 
-        "/var/lib/jellyfin"
+        (chown "jellyfin" "/var/lib/jellyfin")
         # also persist cache so we don't have to fetch metadata on every reboot
         "/var/cache/jellyfin"
 

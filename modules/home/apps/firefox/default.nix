@@ -46,6 +46,19 @@ in {
       BROWSER = "firefox";
     };
 
+    home.files.".local/share/applications/firefox-base.desktop".text = ''
+      [Desktop Entry]
+      Categories=Network;WebBrowser
+      Exec=firefox --name "firefox base" -P "base" %U
+      GenericName=Web Browser
+      Icon=firefox
+      Name=Firefox Base
+      StartupNotify=true
+      StartupWMClass=firefox
+      Terminal=false
+      Type=Application
+    '';
+
     programs.firefox = rec {
       enable = true;
       package = pkgs.wrapFirefox pkgs.firefox-unwrapped {

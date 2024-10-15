@@ -11,6 +11,9 @@
 in {
   options.modules.home.misc.mime = mkEnableOpt "default app stuff";
 
+  # .desktop files all seem to be located at
+  # /etc/profiles/per-user/upidapi/share/applications/
+
   config = let
     editor = ["nvim.desktop"];
     browser = ["firefox.desktop"];

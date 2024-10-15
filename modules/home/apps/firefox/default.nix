@@ -11,8 +11,7 @@
   cfg = config.modules.home.apps.firefox;
 in {
   options.modules.home.apps.firefox =
-    mkEnableOpt
-    "enables firefox";
+    mkEnableOpt "enables firefox";
 
   # EXPLORE: https://github.com/qutebrowser/qutebrowser
   #  a vim like browser with minimal gui and a focus on the keyboard
@@ -46,7 +45,7 @@ in {
       BROWSER = "firefox";
     };
 
-    home.files.".local/share/applications/firefox-base.desktop".text = ''
+    home.file.".local/share/applications/firefox-base.desktop".text = ''
       [Desktop Entry]
       Categories=Network;WebBrowser
       Exec=firefox --name "firefox base" -P "base" %U

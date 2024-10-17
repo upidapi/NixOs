@@ -40,8 +40,8 @@ in {
 
     # maybe fix issues with keyboard after suspend
     kernelParams = [
-      # "i8042.direct=1"
       # "atkbd.reset=1"
+      # "i8042.direct=1"
       # "i8042.dumbkbd=1"
       # "i8042.noaux=1"
       # "i8042.noloop=1"
@@ -51,12 +51,12 @@ in {
 
       "i8042.direct=1" # Put keyboard port into non-translated mode
       "i8042.dumbkbd=1" # Pretend that controller can only read data from keyboard and cannot control its state (Don't attempt to blink the leds)
-      # "i8042.noaux=1" # Don't check for auxiliary (== mouse) port
-      # "i8042.nokbd=1" # Don't check/create keyboard port
-      # "i8042.noloop=1" # Disable the AUX Loopback command while probing for the AUX port
-      # "i8042.nomux=1" # Don't check presence of an active multiplexing controller
-      # "i8042.nopnp=1" # Don't use ACPIPnP / PnPBIOS to discover KBD/AUX controllers
-      # "i8042.reset=1" # Reset the controller during init and cleanup
+      "i8042.noaux=1" # Don't check for auxiliary (== mouse) port
+      "i8042.nokbd=1" # Don't check/create keyboard port
+      "i8042.noloop=1" # Disable the AUX Loopback command while probing for the AUX port
+      "i8042.nomux=1" # Don't check presence of an active multiplexing controller
+      "i8042.nopnp=1" # Don't use ACPIPnP / PnPBIOS to discover KBD/AUX controllers
+      "i8042.reset=1" # Reset the controller during init and cleanup
       # "i8042.unlock=1" # Unlock (ignore) the keylock
     ];
   };

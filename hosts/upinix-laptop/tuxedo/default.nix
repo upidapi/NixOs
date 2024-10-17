@@ -35,6 +35,17 @@
     })
   ];
 
+  /*
+  boot.kernelModules = [
+    "tuxedo_keyboard"
+    "tuxedo_compatibility_check"
+    "tuxedo_io"
+  ];
+  boot.extraModulePackages = [
+    self'.packages.dev-shell
+  ];
+  */
+
   nixpkgs.config.permittedInsecurePackages = [
     "electron-13.6.9"
     "nodejs-14.21.3"

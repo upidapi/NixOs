@@ -1,6 +1,8 @@
 {
   my_lib,
   keys,
+  lib,
+  pkgs,
   ...
 }: let
   inherit (my_lib.opt) enable;
@@ -11,6 +13,11 @@ in {
   ];
 
   system.stateVersion = "23.11";
+
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    supportedFilesystems.zfs = lib.mkForce false;
+  };
 
   users.users.upidapi = {
     isNormalUser = true;

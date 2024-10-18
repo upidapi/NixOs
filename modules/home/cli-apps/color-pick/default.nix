@@ -27,6 +27,10 @@ in {
         # color="#00ff00"
         color="$(hyprpicker)"
 
+        if [ -z "$color" ]; then
+          exit 1
+        fi
+
         sed "s/#f0d906/$color/g" "$original_svg" > "$temp_svg"
 
         # echo "$temp_svg"

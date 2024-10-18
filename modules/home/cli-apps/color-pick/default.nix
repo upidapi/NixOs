@@ -36,12 +36,15 @@ in {
         # echo "$temp_svg"
         # cat "$temp_svg"
 
+        wl-copy "$color"
+
+        # echo to std out
+        echo "$color"
+
         # Notify the user with a message
         notify-send -i "$temp_svg" "Hyprpicker" "$color"
 
         rm "$temp_svg"
-
-        wl-copy "$color"
       '')
     ];
   };

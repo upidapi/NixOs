@@ -1,0 +1,205 @@
+
+>>> script --return --quiet -c 'git add --all' /dev/null
+>>> script --return --quiet -c 'alejandra . || true' /dev/nullChecking style in 211 files using 8 threads.
+
+
+Failed! 4 errors found at:
+- ./modules/home/misc/docs.nix: unexpected end of file
+- ./hosts/upinix-laptop/tuxedo/tuxedo-drivers/overlay.nix: unexpected TOKEN_CURLY_B_OPEN at 61..66, wanted any of [TOKEN_IDENT]
+- ./modules/home/services/syncthing/default.nix: unexpected end of file
+- ./modules/nixos/os/virtualisation/qemu/windows.nix: unexpected end of file
+
+>>> script --return --quiet -c 'git --no-pager diff HEAD --color --ignore-all-space' /dev/null[1mdiff --git a/parts/pkgs/qs/qs/main.py b/parts/pkgs/qs/qs/main.py[m
+[1mindex e462703..8f3f4e2 100755[m
+[1m--- a/parts/pkgs/qs/qs/main.py[m
+[1m+++ b/parts/pkgs/qs/qs/main.py[m
+[36m@@ -10,7 +10,7 @@[m [mimport time[m
+ from typing import Literal[m
+ import tempfile[m
+ [m
+[31m-# TODO: ooutput full logs to somewhere [m
+[32m+[m[32m# TODO: output full logs to somewhere[m[41m [m
+ [m
+ # remove the dot for debugging[m
+ try:[m
+[36m@@ -19,8 +19,13 @@[m [mexcept ImportError:[m
+     from parser import parse_sys_args, pp[m
+ [m
+ [m
+[32m+[m[32mLOG_PATH = "~/.cache/quick-switch/commands.log"[m
+ DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"[m
+ [m
+[32m+[m[32mos.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)[m
+[32m+[m[32mlog_file = open(LOG_PATH, "a")[m
+[32m+[m[32matexit.register(log_file.close)[m
+[32m+[m
+ [m
+ def run_cmd([m
+     cmd,[m
+[36m@@ -40,6 +45,8 @@[m [mdef run_cmd([m
+             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"[m
+         )[m
+ [m
+[32m+[m[32m    log_file.write(f"\n>>> {cmd}")[m
+[32m+[m
+     process = subprocess.Popen([m
+         cmd,[m
+         shell=True,[m
+[36m@@ -83,6 +90,8 @@[m [mdef run_cmd([m
+         data = [raw_data.decode()][m
+         out += data[0][m
+         [m
+[32m+[m[32m        log_file.write(data[0])[m
+[32m+[m
+         # split the data into parts [m
+         # where each part is ether only data or only a token[m
+         for token in tokens:[m
+[36m@@ -796,7 +805,6 @@[m [mclass Recipes:[m
+ [m
+         Steps.lazy_ammend_pre_rebuild_commit(args, hash)[m
+ [m
+[31m-[m
+ def main():[m
+     args = parse_sys_args({[m
+         "name": "qs",[m
+[1mdiff --git a/parts/pkgs/qs/qs/~/.cache/quick-switch/commands.log b/parts/pkgs/qs/qs/~/.cache/quick-switch/commands.log[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+
+>>> script --return --quiet -c 'git add --all' /dev/null
+>>> script --return --quiet -c 'alejandra . || true' /dev/nullChecking style in 211 files using 8 threads.
+
+
+Failed! 4 errors found at:
+- ./modules/home/misc/docs.nix: unexpected end of file
+- ./hosts/upinix-laptop/tuxedo/tuxedo-drivers/overlay.nix: unexpected TOKEN_CURLY_B_OPEN at 61..66, wanted any of [TOKEN_IDENT]
+- ./modules/home/services/syncthing/default.nix: unexpected end of file
+- ./modules/nixos/os/virtualisation/qemu/windows.nix: unexpected end of file
+
+>>> script --return --quiet -c 'git --no-pager diff HEAD --color --ignore-all-space' /dev/null[1mdiff --git a/parts/pkgs/qs/qs/main.py b/parts/pkgs/qs/qs/main.py[m
+[1mindex e462703..c4678d2 100755[m
+[1m--- a/parts/pkgs/qs/qs/main.py[m
+[1m+++ b/parts/pkgs/qs/qs/main.py[m
+[36m@@ -10,7 +10,7 @@[m [mimport time[m
+ from typing import Literal[m
+ import tempfile[m
+ [m
+[31m-# TODO: ooutput full logs to somewhere [m
+[32m+[m[32m# TODO: output full logs to somewhere[m[41m [m
+ [m
+ # remove the dot for debugging[m
+ try:[m
+[36m@@ -19,8 +19,14 @@[m [mexcept ImportError:[m
+     from parser import parse_sys_args, pp[m
+ [m
+ [m
+[32m+[m[32mLOG_PATH = "~/.cache/quick-switch/commands.log"[m
+ DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"[m
+ [m
+[32m+[m[32mos.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)[m
+[32m+[m[32mlog_file = open(LOG_PATH, "a")[m
+[32m+[m[32matexit.register(log_file.close)[m
+[32m+[m[32mprint("hello")[m
+[32m+[m[32mprint(os.path.dirname(LOG_PATH))[m
+ [m
+ def run_cmd([m
+     cmd,[m
+[36m@@ -40,6 +46,8 @@[m [mdef run_cmd([m
+             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"[m
+         )[m
+ [m
+[32m+[m[32m    log_file.write(f"\n>>> {cmd}")[m
+[32m+[m
+     process = subprocess.Popen([m
+         cmd,[m
+         shell=True,[m
+[36m@@ -83,6 +91,8 @@[m [mdef run_cmd([m
+         data = [raw_data.decode()][m
+         out += data[0][m
+         [m
+[32m+[m[32m        log_file.write(data[0])[m
+[32m+[m
+         # split the data into parts [m
+         # where each part is ether only data or only a token[m
+         for token in tokens:[m
+[36m@@ -796,7 +806,6 @@[m [mclass Recipes:[m
+ [m
+         Steps.lazy_ammend_pre_rebuild_commit(args, hash)[m
+ [m
+[31m-[m
+ def main():[m
+     args = parse_sys_args({[m
+         "name": "qs",[m
+[1mdiff --git a/parts/pkgs/qs/qs/~/.cache/quick-switch/commands.log b/parts/pkgs/qs/qs/~/.cache/quick-switch/commands.log[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fac3e16[m
+[1m--- /dev/null[m
+[1m+++ b/parts/pkgs/qs/qs/~/.cache/quick-switch/commands.log[m
+[36m@@ -0,0 +1,67 @@[m
+[32m+[m
+[32m+[m[32m>>> script --return --quiet -c 'git add --all' /dev/null[m
+[32m+[m[32m>>> script --return --quiet -c 'alejandra . || true' /dev/nullChecking style in 211 files using 8 threads.[m[41m[m
+[32m+[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32mFailed! 4 errors found at:[m[41m[m
+[32m+[m[32m- ./modules/home/misc/docs.nix: unexpected end of file[m[41m[m
+[32m+[m[32m- ./hosts/upinix-laptop/tuxedo/tuxedo-drivers/overlay.nix: unexpected TOKEN_CURLY_B_OPEN at 61..66, wanted any of [TOKEN_IDENT][m[41m[m
+[32m+[m[32m- ./modules/home/services/syncthing/default.nix: unexpected end of file[m[41m[m
+[32m+[m[32m- ./modules/nixos/os/virtualisation/qemu/windows.nix: unexpected end of file[m[41m[m
+[32m+[m
+[32m+[m[32m>>> script --return --quiet -c 'git --no-pager diff HEAD --color --ignore-all-space' /dev/null[1mdiff --git a/parts/pkgs/qs/qs/main.py b/parts/pkgs/qs/qs/main.py[m[m[41m[m
+[32m+[m[32m[1mindex e462703..8f3f4e2 100755[m[m[41m[m
+[32m+[m[32m[1m--- a/parts/pkgs/qs/qs/main.py[m[m[41m[m
+[32m+[m[32m[1m+++ b/parts/pkgs/qs/qs/main.py[m[m[41m[m
+[32m+[m[32m[36m@@ -10,7 +10,7 @@[m [mimport time[m[m[41m[m
+[32m+[m[32m from typing import Literal[m[m[41m[m
+[32m+[m[32m import tempfile[m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m[31m-# TODO: ooutput full logs to somewhere [m[m[41m[m
+[32m+[m[32m[32m+[m[32m# TODO: output full logs to somewhere[m[41m [m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m # remove the dot for debugging[m[m[41m[m
+[32m+[m[32m try:[m[m[41m[m
+[32m+[m[32m[36m@@ -19,8 +19,13 @@[m [mexcept ImportError:[m[m[41m[m
+[32m+[m[32m     from parser import parse_sys_args, pp[m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m[32m+[m[32mLOG_PATH = "~/.cache/quick-switch/commands.log"[m[m[41m[m
+[32m+[m[32m DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"[m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m[32m+[m[32mos.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)[m[m[41m[m
+[32m+[m[32m[32m+[m[32mlog_file = open(LOG_PATH, "a")[m[m[41m[m
+[32m+[m[32m[32m+[m[32matexit.register(log_file.close)[m[m[41m[m
+[32m+[m[32m[32m+[m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m def run_cmd([m[m[41m[m
+[32m+[m[32m     cmd,[m[m[41m[m
+[32m+[m[32m[36m@@ -40,6 +45,8 @@[m [mdef run_cmd([m[m[41m[m
+[32m+[m[32m             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"[m[m[41m[m
+[32m+[m[32m         )[m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m[32m+[m[32m    log_file.write(f"\n>>> {cmd}")[m[m[41m[m
+[32m+[m[32m[32m+[m[m[41m[m
+[32m+[m[32m     process = subprocess.Popen([m[m[41m[m
+[32m+[m[32m         cmd,[m[m[41m[m
+[32m+[m[32m         shell=True,[m[m[41m[m
+[32m+[m[32m[36m@@ -83,6 +90,8 @@[m [mdef run_cmd([m[m[41m[m
+[32m+[m[32m         data = [raw_data.decode()][m[m[41m[m
+[32m+[m[32m         out += data[0][m[m[41m[m
+[32m+[m[32m         [m[m[41m[m
+[32m+[m[32m[32m+[m[32m        log_file.write(data[0])[m[m[41m[m
+[32m+[m[32m[32m+[m[m[41m[m
+[32m+[m[32m         # split the data into parts [m[m[41m[m
+[32m+[m[32m         # where each part is ether only data or only a token[m[m[41m[m
+[32m+[m[32m         for token in tokens:[m[m[41m[m
+[32m+[m[32m[36m@@ -796,7 +805,6 @@[m [mclass Recipes:[m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m         Steps.lazy_ammend_pre_rebuild_commit(args, hash)[m[m[41m[m
+[32m+[m[32m [m[m[41m[m
+[32m+[m[32m[31m-[m[m[41m[m
+[32m+[m[32m def main():[m[m[41m[m
+[32m+[m[32m     args = parse_sys_args({[m[m[41m[m
+[32m+[m[32m         "name": "qs",[m[m[41m[m
+[32m+[m[32m[1mdiff --git a/parts/pkgs/qs/qs/~/.cache/quick-switch/commands.log b/parts/pkgs/qs/qs/~/.cache/quick-switch/commands.log[m[m[41m[m
+[32m+[m[32m[1mnew file mode 100644[m[m[41m[m
+[32m+[m[32m[1mindex 0000000..e69de29[m[m[41m[m

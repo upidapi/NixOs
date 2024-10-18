@@ -9,8 +9,8 @@ import random
 import time
 from typing import Literal
 import tempfile
+import re
 
-# TODO: ooutput full logs to somewhere 
 
 # remove the dot for debugging
 try:
@@ -19,7 +19,32 @@ except ImportError:
     from parser import parse_sys_args, pp
 
 
+LOG_DIR = "~/.cache/quick-switch"
 DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"
+
+def create_log_file(path):
+    expanded = os.path.expanduser(path)
+    os.makedirs(os.path.dirname(expanded), exist_ok=True)
+
+    new_log_file = open(expanded, "a")
+
+    atexit.register(new_log_file.close)
+
+    new_log_file.write("\n\n\n\n-------------start-------------")
+    return new_log_file
+
+
+full_log = create_log_file(f"{LOG_DIR}/commands-full.log")
+log_file = create_log_file(f"{LOG_DIR}/commands.log")
+
+def log_data(data):
+    ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
+
+    # Removing ANSI escape codes from the string
+    clean_string = ansi_escape.sub('', data).replace("\r", "")
+
+    log_file.write(clean_string)
+    full_log.write(data)
 
 
 def run_cmd(
@@ -39,6 +64,8 @@ def run_cmd(
         cmd = (
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
+
+    log_data(f"\n>>> {cmd}")
 
     process = subprocess.Popen(
         cmd,
@@ -83,6 +110,8 @@ def run_cmd(
         data = [raw_data.decode()]
         out += data[0]
         
+        log_data(data[0])
+
         # split the data into parts 
         # where each part is ether only data or only a token
         for token in tokens:
@@ -327,7 +356,6 @@ class Steps:
         ret_val = raw_ret_val[1].strip()
         
         if ret_val != "0":
-            print(f"{repr(ret_val) = }")
             exit_program("NixOs Rebuild Failed")
 
         # everything is good
@@ -795,7 +823,6 @@ class Recipes:
         # commit
 
         Steps.lazy_ammend_pre_rebuild_commit(args, hash)
-
 
 def main():
     args = parse_sys_args({

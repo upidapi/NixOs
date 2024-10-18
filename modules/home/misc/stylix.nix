@@ -18,13 +18,7 @@ in {
   config.stylix = mkIf cfg.enable {
     enable = true;
 
-    # TODO: make a custom vesktop template since the build in
-    #  kinda sucks
-
-    # HACK: using a pre made theme currently
     targets = {
-      vesktop.enable = false;
-
       # default to no profiles
       firefox.profileNames = ["${config.home.username}" "test"];
     };

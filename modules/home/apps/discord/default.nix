@@ -36,10 +36,34 @@ in {
       cfg.package
     ];
 
+    stylix.targets.vesktop.enable = false;
+
     xdg.configFile = {
-      "vesktop/settings/settings.json".text = (
-        builtins.readFile ./vencord-config.json
+      "vesktop/settings/settings.json".text = builtins.toJSON (
+        (builtins.fromJSON (builtins.readFile ./vencord-config.json))
+        // {
+          notifyAboutUpdates = true;
+          autoUpdate = false;
+          autoUpdateNotification = true;
+          useQuickCss = true;
+          themeLinks = [
+            # halfbroken tokyo night theme
+            # "https://raw.githubusercontent.com/Dyzean/Tokyo-Night/main/themes/tokyo-night.theme.css"
+          ];
+          enabledThemes = [
+            # custom theme
+            "theme.css"
+          ];
+          enableReactDevtools = false;
+          frameless = false;
+          transparent = false;
+          winCtrlQ = false;
+          disableMinSize = false;
+          winNativeTitleBar = false;
+        }
       );
+
+      "vesktop/themes/theme.css".text = builtins.readFile ./theme.css;
 
       "vesktop/settings.json".text = builtins.toJSON {
         arRPC = "on";

@@ -91,7 +91,10 @@ in {
         "$mod ${mods}, K, ${cmd}, u"
         "$mod ${mods}, J, ${cmd}, d"
       ];
-      mkScreenshotBind = core: ''mkdir images; grimblast ${core} "images/$(date "+%Y-%m-%-d_%H:%M:%S").png"'';
+      mkScreenshotBind = let
+        date = ''$(date "+%Y-%m-%-d_%H:%M:%S")'';
+      in
+        core: ''mkdir images; grimblast ${core} "images/${date}.png"'';
     in
       [
         # "$mod, Q, exec, kitty"

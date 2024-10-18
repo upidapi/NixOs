@@ -70,11 +70,11 @@ in {
         discordBranch = "stable";
         hardwareAcceleration = false;
         minimizeToTray = "on";
-        splashColor = "rgb(219, 222, 225)";
-        splashBackground = "rgb(49, 51, 56)";
-        # splashBackground = "rgb(59, 66, 82)";
-        # splashColor = "rgb(216, 222, 233)";
+
         splashTheming = true;
+        splashColor = config.stylix.base16Scheme.base07;
+        splashBackground = config.stylix.base16Scheme.base01;
+
         tray = true;
         trayBadge = true;
       };

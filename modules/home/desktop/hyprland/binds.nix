@@ -120,7 +120,7 @@ in {
         # all screens
         ''CTRL, Print, exec, ${mkScreenshotBind "copysave screen"}''
 
-        "$mod, P, exec, ${pkgs.writeShellScript "color-pick-bind" ''color-pick''}"
+        "$mod, P, exec, color-pick"
 
         # "$mod, F, exec, firefox"
         # ", Print, exec, grimblast copy area"

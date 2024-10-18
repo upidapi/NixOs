@@ -32,15 +32,6 @@ Virtulisation
     scripts to auto setup vm
 
 
-add a keybind for 
-    hyprpicker
-
-    full screen screenshot 
-
-    also pause screen while selecting area
-
-
-
 Home lab
     nas
         local share?

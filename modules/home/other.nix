@@ -56,6 +56,9 @@ in {
           )
         )
 
+        # short tldr for manpages with examples
+        tldr
+
         # minimal image viewer
         gwenview
 

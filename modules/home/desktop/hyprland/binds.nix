@@ -91,7 +91,7 @@ in {
         "$mod ${mods}, K, ${cmd}, u"
         "$mod ${mods}, J, ${cmd}, d"
       ];
-      mkScreenshotBind = core: ''mkdir images; grimblast ${core} copysave "images/$(date "+%Y-%m-%-d_%H:%M:%S").png"'';
+      mkScreenshotBind = core: ''mkdir images; grimblast ${core} "images/$(date "+%Y-%m-%-d_%H:%M:%S").png"'';
     in
       [
         # "$mod, Q, exec, kitty"
@@ -111,13 +111,13 @@ in {
         # ", Print, exec, grim -g \"$(slurp -w 0)\" - | wl-copy"
 
         # manual select
-        '', Print, exec, ${mkScreenshotBind "--freeze area"}''
+        '', Print, exec, ${mkScreenshotBind "--freeze copysave area"}''
         # current screen
-        ''SHIFT, Print, exec, ${mkScreenshotBind "output"}''
+        ''SHIFT, Print, exec, ${mkScreenshotBind "copysave output"}''
         # all screens
-        ''CTRL, Print, exec, ${mkScreenshotBind "screen"}''
+        ''CTRL, Print, exec, ${mkScreenshotBind "copysave screen"}''
 
-        "$mod , P, exec, ${pkgs.writeShellScript "color-pick-bind" ''color-pick''}"
+        "$mod, P, exec, ${pkgs.writeShellScript "color-pick-bind" ''color-pick''}"
 
         # "$mod, F, exec, firefox"
         # ", Print, exec, grimblast copy area"

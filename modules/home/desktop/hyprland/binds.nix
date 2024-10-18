@@ -149,6 +149,7 @@ in {
               "$mod, ${nb}, focusworkspaceoncurrentmonitor, ${wn}"
             ]
           )
+          10
         )
       );
   };

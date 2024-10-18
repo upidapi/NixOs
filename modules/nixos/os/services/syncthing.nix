@@ -45,6 +45,11 @@ in {
       };
     };
 
+    # FIXME: Syncthing seems to sometimes syncthing prevents linux suspend
+    # https://forum.syncthing.net/t/syncthing-prevents-linux-suspend/12885/6
+    # Adding this to the file config should fix it
+    # "x-systemd.device-timeout=200ms"
+
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/syncthing.nix#L60
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/caddy.nix#L9
     /*

@@ -1,4 +1,4 @@
-{...}: let
+{pkgs, ...}: let
   mod = a: b: a - builtins.floor (a / b) * b;
 in {
   wayland.windowManager.hyprland.settings = {
@@ -91,6 +91,7 @@ in {
         "$mod ${mods}, K, ${cmd}, u"
         "$mod ${mods}, J, ${cmd}, d"
       ];
+      mkScreenshotBind = core: ''mkdir images; grimblast ${core} copysave "images/$(date "+%Y-%m-%-d_%H:%M:%S").png"'';
     in
       [
         # "$mod, Q, exec, kitty"
@@ -105,8 +106,18 @@ in {
         "$mod, U, togglefloating"
         "$mod, I, fullscreen, 0" # entire display
 
-        # screen shot
-        ",Print , exec, grim -g \"$(slurp -w 0)\" - | wl-copy"
+        # old screen shot
+        # deps: grim, slurp
+        # ", Print, exec, grim -g \"$(slurp -w 0)\" - | wl-copy"
+
+        # manual select
+        '', Print, exec, ${mkScreenshotBind "--freeze area"}''
+        # current screen
+        ''SHIFT, Print, exec, ${mkScreenshotBind "output"}''
+        # all screens
+        ''CTRL, Print, exec, ${mkScreenshotBind "screen"}''
+
+        "$mod , P, exec, ${pkgs.writeShellScript "color-pick-bind" ''color-pick''}"
 
         # "$mod, F, exec, firefox"
         # ", Print, exec, grimblast copy area"
@@ -138,7 +149,6 @@ in {
               "$mod, ${nb}, focusworkspaceoncurrentmonitor, ${wn}"
             ]
           )
-          10
         )
       );
   };

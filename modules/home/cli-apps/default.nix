@@ -10,5 +10,6 @@
     ./nvf
     ./ssh.nix
     ./wine.nix
+    ./color-pick
   ];
 }

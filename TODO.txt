@@ -15,9 +15,6 @@ nix
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
 
-host private pastebin
-
-
 tldr 
     short tldr for manpages with examples
 
@@ -33,6 +30,15 @@ Virtulisation
         https://discord.com/channels/568306982717751326/1257693396173328468/1257701485568065557
     
     scripts to auto setup vm
+
+
+add a keybind for 
+    hyprpicker
+
+    full screen screenshot 
+
+    also pause screen while selecting area
+
 
 
 Home lab
@@ -53,8 +59,6 @@ Home lab
 
 
 nvim 
-    fix cpp indentation
-
     nixd (language server)
 
     quick fix buffer?
@@ -79,7 +83,10 @@ security
     ybikeys
 
     secureboot
-    
+
+
+How do the preformace modes work on tuxedo?
+
 
 fix ethernet getting stuck on reconnect:
   enp12s0: connecting (getting IP configuration) to Wired connection 1
@@ -99,20 +106,11 @@ himachi
 
     could probalby do this with homelab too
 
-    or some other manuall thing
-
-
-sync this config with syncthing?
+    or some other manual thing
 
 
 Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)
     maybe this happens when the files are changes?
-
-add anki for spanish
-
-use vite, and setup neovim to do so 
-    maybe take inspo from https://dev.to/craftzdog/my-neovim-setup-for-react-typescript-tailwind-css-etc-58fb
-
 
 
 misc:
@@ -134,7 +132,4 @@ misc:
     https://docs.google.com/document/d/1nnyByXcH0F6GOmEezNOUa2RFelpeRpDToBLYD_CtjWE/edit?pli=1
 
     Schizosearch
-
-
-(fix spelling)
 

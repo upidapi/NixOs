@@ -32,6 +32,7 @@ in {
       };
 
       cli-apps = {
+        color-pick = enable;
         bat = enable;
         cn-bth = enable;
         eza = enable;

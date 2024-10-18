@@ -10,6 +10,8 @@ import time
 from typing import Literal
 import tempfile
 
+# TODO: ooutput full logs to somewhere 
+
 # remove the dot for debugging
 try:
     from .parser import parse_sys_args, pp

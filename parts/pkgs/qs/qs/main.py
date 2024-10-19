@@ -456,7 +456,7 @@ class Steps:
         # "oarGglYzX06kMUsG2noeXhK3utMT2n56\n"
 
     @staticmethod
-    def _gen_commit_msg(args, profile, last_gen_data):
+    def _gen_build_commit_msg(args, profile, last_gen_data):
         last_gen = last_gen_data["generation"]
         
         # id = get_rand_id(32)
@@ -677,7 +677,7 @@ class Steps:
             print_res=True,
             color=True,
         )
-    
+         
     @staticmethod
     def commit_changes(args, profile, last_gen_data):
         print_devider("Commit msg")
@@ -693,7 +693,7 @@ class Steps:
             print(message)
 
         else:
-            message = Steps._gen_commit_msg(
+            message = Steps._gen_build_commit_msg(
                 args,
                 profile,
                 last_gen_data,
@@ -743,7 +743,7 @@ class Steps:
 
     @staticmethod 
     def tmp_stash_changes():
-        has_changes = run_cmd("git diff HEAD origin/main").strip() != ""
+        has_changes = run_cmd("git diff HEAD").strip() != ""
         
         if has_changes:
             run_cmd("git stash", print_res=True, color=True)
@@ -977,6 +977,10 @@ def main():
                 if run_cmd("git diff origin/HEAD").strip() == "":
                     print("No changes found")
                     exit()
+            
+            # if there are changes, force them to be applied 
+            # otherwise rebuild_and_commit will exit
+            args["--force"].append([])
 
             print_devider("Pulling Changes")
             

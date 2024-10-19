@@ -987,7 +987,7 @@ def main():
                 color=True,
             )
 
-            Steps.check_changes(args)
+            # Steps.check_changes(args)
 
             args = set_commit_msg(args, "Pulled changes from remote")
 

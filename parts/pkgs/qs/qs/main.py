@@ -970,6 +970,8 @@ def main():
             Steps.tmp_stash_changes()
 
             run_cmd("git fetch")
+            
+            # test 
 
             if not args["--force"]:
                 if run_cmd("git diff origin/HEAD").strip() == "":

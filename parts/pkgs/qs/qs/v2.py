@@ -44,8 +44,8 @@ class Logger:
         # Removing ANSI escape codes from the string
         clean_string = ansi_escape.sub('', data).replace("\r", "")
 
-        cls.log_file.write(clean_string)
-        cls.full_log.write(data)
+        cls._log_file.write(clean_string)
+        cls._full_log.write(data)
 
 
 DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"
@@ -239,7 +239,7 @@ class Part:
         return flake_profile
 
     def get_profile(args):
-        return (args["--profile"] or [[Part.get_last_profile()]])[0][0]
+        return (args["--profile"] or [[Part._get_last_profile()]])[0][0]
 
     # def get_profiles():
     #     return []
@@ -279,7 +279,7 @@ class Part:
             )
 
     @staticmethod
-    def formatt_files():
+    def format_files():
         Print.devider("Formatting Files")
         run_cmd("alejandra . || true", print_res=True, color=True)
     
@@ -440,16 +440,16 @@ class Part:
             profile = ""
         else:
             last_gen_data = Part.get_gen_data()
-            profile = Part.get_profile()
+            profile = Part.get_profile(args)
 
         hash = Commit.commit_changes(args, profile, last_gen_data) 
 
         if no_rebuild:
             return
 
-        Part.rebuild_nixos()
+        Part.rebuild_nixos(args, profile)
         
-        Commit.ammend_rebuild_commit(args, hash)
+        Commit.lazy_ammend_rebuild_commit(args, hash)
 
 
 class Commit:
@@ -752,7 +752,7 @@ class Command:
     def rebuild(args, cmp_target="HEAD"):  
         # prep
         Command.add_format_show(args, cmp_target)
-        Part.check_changes(cmp_target)
+        Part.check_changes(args)
        
         # rebuild
         Part.rebuild_and_commit(args)(args)
@@ -914,13 +914,13 @@ def main():
             return None
 
         elif sub_command == "diff":
-            return Command.add_format_show()
+            return Command.add_format_show(args)
 
         elif sub_command == "update":
-            return Command.update()
+            return Command.update(args)
 
         elif sub_command == "pull":
-            return Command.pull()
+            return Command.pull(args)
     
     if not args["--message"] or not args["--message"][0]:
         raise TypeError("--message argument required")
@@ -928,7 +928,7 @@ def main():
     if args["--force"] and args["--no-rebuild"]: 
         raise TypeError("using --force and --no-rebuild is a noop")
 
-    Command.rebuild()
+    Command.rebuild(args)
 
 if __name__ == "__main__":
     main()

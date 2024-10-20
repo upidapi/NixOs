@@ -36,6 +36,9 @@ in {
           after_sleep_cmd = "hyprctl dispatch dpms on";
           # lock before suspend.
           before_sleep_cmd = "${pkgs.systemd}/bin/loginctl lock-session";
+
+          # I'm unsure when this is used but its probably called
+          # when the lid is closed
           # avoid starting multiple hyprlock instances.
           lock_cmd = "pidof hyprlock || hyprlock";
           # whether to ignore dbus-sent idle inhibit events (e.g. from firefox)
@@ -50,7 +53,7 @@ in {
           }
           {
             timeout = 330;
-            on-timeout = "hyprlock --immediate --immediate-render";
+            on-timeout = "pidof hyprlock || hyprlock --immediate --immediate-render";
           }
           {
             timeout = 60 * 30;

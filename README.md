@@ -1,7 +1,31 @@
 ## description
-Welcome to my overengineerd configuration for my computer systems. A concoction of my better hallucinations, not very carefully orchestrated to (hopefully) do something that is at least partially useful. I've made this public for it to be used as a reference (and so that i can install it faster on random systems)
+Welcome to my overengineerd configuration for my computer systems. A 
+concoction of my better hallucinations, very carefully bashed together  
+to (hopefully) do something that is partially useful. I've made this 
+public for it to be used as a reference (and so that i can install it 
+faster on my friends computers when they aren't looking)
 
-This config is not a finished product, and will change as a continue to learn about nix. Things will be modified, updated, added, removed and restructured without warning. I commit each time I (successfully) rebuild so a large amount of commits are incomplete and or broken. So if you take someting make sure that you understand what it does. It is also made specifically for my machine with their own quirks. Dont expect it to work on yours. If you decide to (against my advice) try to boot this. Please make sure you have backups of your data. And a good backup plan in the case that you can't boot. 
+If there's anything you take from this. Id recommend you to take a 
+look at the quick-switch script (in /parts/pkgs/qs). Its a rebuild 
+helper that forces you to commit for each change, while adding some 
+metadata to each commit, along with other things you probably want 
+to do when rebuilding and working on your config. It's really nice 
+to have when you eventually really mess something up.
+
+> [!CAUTION]
+> This config is not a finished product, and will change as a continue 
+> to learn about nix. Things will be modified, updated, added, removed 
+> and restructured without warning. 
+> 
+> I commit each time I (successfully) rebuild. So a large amount of commits 
+> are incomplete and or broken. And as in any other code, there is 
+> definetly a ton of mistakes sprinkled throughout the code :(.
+>
+> I'm not gonna tell you not to try to boot it, but I'll warn you that 
+> there's a good chance that it will break. This config is made for my 
+> machines, that have their own quirks. So make sure you backup your 
+> data before trying.
+
 
 ![my desktop](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop.png?raw=true)
 
@@ -19,11 +43,12 @@ This config is not a finished product, and will change as a continue to learn ab
   - users defined in hosts/\${host name}/users/\${user name}
 - custom top bar made with ags
 
-The structure of my config was inpired by raf and jakehamilton
+The structure of my config is heavily inspired by raf and jakehamilton
 
 ## install
 ```bash 
 # Warning this will format your system with disko 
+# and probably doesn't work
 nix --extra-experimental-features "flakes " run github:upidapi/nixos#install 
 ```
 
@@ -37,10 +62,12 @@ to create the isos you have to run the folowing commands
 
 
 ## insperation
-Some of the people that I've ~stolen from~ been insperd by. Theres probably a lot more but i tend to forget to add them. 
+Some of the people that I've ~stolen from~ been inspired by. There's probably 
+a lot more but i tend to forget to add them. Check the bottom of the resources.md 
+file for repos i like to check for examples in.
 
-- [jakehamilton](https://github.com/jakehamilton/config) - config organised into modules and suites 
-- [lokegustafsson](https://github.com/lokegustafsson/nixos-getting-started) - nix defaults, especially the global pining of nixpkgs
+- [jakehamilton](https://github.com/jakehamilton/config) - Config structure, modules, suites, etc
+- [lokegustafsson](https://github.com/lokegustafsson/nixos-getting-started) - nix config, especially the global pining of nixpkgs
 - [ErrorNoInternet](https://github.com/ErrorNoInternet/configuration.nix) - nixvim config used as a reference
 - [vimjoyer](https://www.youtube.com/@vimjoyer) - easy to follow guides for everything nix
 - [NoBoilerplate](https://www.youtube.com/@NoBoilerplate) - made me start my stockholm syndrome filled journey with nixos

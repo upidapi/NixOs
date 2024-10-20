@@ -166,7 +166,8 @@ class Print:
     @classmethod
     def devider(
         cls,
-        text, color=33,
+        text, 
+        color=33,
         fill="-",
     ):
         print("\n")
@@ -195,8 +196,8 @@ class Print:
 
     @classmethod
     def banner_warn(cls, text):
-        print("\n")
-        cls.banner(text, 33)
+        print()
+        cls.banner(text, "43;30")
 
     # @classmethod
     # def banner_error(cls, text):
@@ -249,7 +250,7 @@ class Part:
     #     return []
 
     def exit_program(msg: str):
-        print()
+        print("\n")
         Print.banner(
             msg,
             "41;30", # red
@@ -257,7 +258,6 @@ class Part:
         exit()
 
     def check_needs_reboot():
-        # this doesn't work
         computer_needs_reboot = (
             run_cmd(
                 """
@@ -278,7 +278,7 @@ class Part:
 
         if computer_needs_reboot:
             Print.banner_warn(
-                "The new profile changed system files, please reboot",
+                "You have changes that cant be applied until rebooot",
             )
 
     @staticmethod

@@ -272,7 +272,7 @@ class Part:
                 else echo "0";
             fi 
         """,
-            )
+            ).strip()
             == "0"
         )
 

@@ -303,9 +303,6 @@ class _Parser:
             other-sub-command  info
 
         """
-        # TODO: add a help command
-
-    # TODO: add command completion
     
 
 class _Validator: 

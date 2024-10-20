@@ -15,10 +15,6 @@ nix
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
 
-tldr 
-    short tldr for manpages with examples
-
-
 Virtulisation
     MAS
         free windows keys

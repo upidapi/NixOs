@@ -145,7 +145,6 @@ def de_indent(data):
     return "\n".join(d[spaces:] for d in data)
 
 
-
 def get_nixos_path():
     flake_profile = os.environ.get("NIXOS_CONFIG_PATH")
     if flake_profile is None:
@@ -570,7 +569,8 @@ class Steps:
             Steps.get_gen_data(),
             [last_gen_data["gens"][-1]],
         )
- 
+        
+        # should this not be "git diff HEAD"?
         has_changes = run_cmd("git diff HEAD origin/main").strip() != ""
 
         if has_changes:
@@ -661,31 +661,13 @@ class Steps:
         )
     
     @staticmethod
-    def _raw_commit(args, commit_msg, commit_devider):
-        print_devider("Commit msg")
-        
-        # TODO: remove when i don't manually have to ado this 
+    def get_last_commit_hash():
+        return run_cmd("git log HEAD --pretty=%H -1").strip()
 
-        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
-   
-        print_devider(commit_devider)
-    
-        add_files = (not args['--no-auto-add']) * "--all"
-
-        run_cmd(
-            f"git commit --allow-empty {add_files} -m {shlex.quote(commit_msg)}",
-            print_res=True,
-            color=True,
-        )
-         
     @staticmethod
     def commit_changes(args, profile, last_gen_data):
         print_devider("Commit msg")
-        
-        # TODO: remove when i don't manually have to ado this 
-
-        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
-   
+           
         no_rebuild = args["--no-rebuild"]
 
         if no_rebuild:
@@ -708,24 +690,22 @@ class Steps:
                 [],
                 True,
             ))
-    
 
         print_devider("Committing changes" if no_rebuild else "Pre rebuild commit")
-    
-        add_files = (not args['--no-auto-add']) * "--all"
 
+        # TODO: remove when i don't manually have to do this 
+        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
+    
         run_cmd(
-            f"git commit --allow-empty {add_files} -m {shlex.quote(message)}",
+            f"git commit --allow-empty -m {shlex.quote(message)}",
             print_res=True,
             color=True,
         )
 
-        hash = run_cmd("git log HEAD --pretty=%H -1").strip()
-
         if not no_rebuild: 
             atexit.register(Steps._cleanup_pre_rebuild_commit, hash)
 
-        return hash
+        return Steps.get_last_commit_hash() 
 
     @staticmethod
     def formatt_files():
@@ -735,8 +715,9 @@ class Steps:
     @staticmethod
     def show_diff():
         print_devider("Git Diff")
+        # --cached diffs only what has been staged
         run_cmd(
-            "git --no-pager diff HEAD --color --ignore-all-space",
+            "git --no-pager diff HEAD --cached --color --ignore-all-space",
             print_res=True,
             color=True,
         )
@@ -926,7 +907,7 @@ def main():
     os.chdir(nixos_path)
 
     """
-    is_up_to_date = run_cmd("git diff origin/main HEAD") == ""
+    is_up_to_date = run_cmd("xgit diff origin/main HEAD") == ""
     if not is_up_to_date:
         print_warn(
             "Local is not up to date with remote",

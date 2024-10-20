@@ -127,6 +127,9 @@ def run_cmd(
             ], [])
         
         for part in data:
+            # you could add more "headers" / "signlas"
+            # for example one, when echoed could turn on the printing 
+            # again
             if part == DATA_HEADER: 
                 p = False 
                 continue

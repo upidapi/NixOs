@@ -645,8 +645,9 @@ class Commit:
             [last_gen_data["gens"][-1]],
         )
     
+        esc_msg = shlex.quote(full_commit_msg)
         run_cmd(
-            f'git commit --amend -m {shlex.quote(full_commit_msg)}', 
+            f'git commit --amend --allow-empty -m {esc_msg}', 
             print_res=True, 
             color=True
         )

@@ -19,40 +19,43 @@ except ImportError:
     from parser import parse_sys_args, pp
 
 
-LOG_DIR = "~/.cache/quick-switch"
+class Logger:
+    _LOG_DIR = "~/.cache/quick-switch"
+
+    def _create_log_file(path):
+        expanded = os.path.expanduser(path)
+        os.makedirs(os.path.dirname(expanded), exist_ok=True)
+
+        new_log_file = open(expanded, "a")
+
+        atexit.register(new_log_file.close)
+
+        new_log_file.write("\n\n\n\n-------------start-------------")
+        return new_log_file
+
+
+    _full_log = _create_log_file(f"{_LOG_DIR}/commands-full.log")
+    _log_file = _create_log_file(f"{_LOG_DIR}/commands.log")
+
+    @classmethod
+    def log(cls, data):
+        ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
+
+        # Removing ANSI escape codes from the string
+        clean_string = ansi_escape.sub('', data).replace("\r", "")
+
+        cls._log_file.write(clean_string)
+        cls._full_log.write(data)
+
+
 DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"
-
-def create_log_file(path):
-    expanded = os.path.expanduser(path)
-    os.makedirs(os.path.dirname(expanded), exist_ok=True)
-
-    new_log_file = open(expanded, "a")
-
-    atexit.register(new_log_file.close)
-
-    new_log_file.write("\n\n\n\n-------------start-------------")
-    return new_log_file
-
-
-full_log = create_log_file(f"{LOG_DIR}/commands-full.log")
-log_file = create_log_file(f"{LOG_DIR}/commands.log")
-
-def log_data(data):
-    ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
-
-    # Removing ANSI escape codes from the string
-    clean_string = ansi_escape.sub('', data).replace("\r", "")
-
-    log_file.write(clean_string)
-    full_log.write(data)
-
-
 def run_cmd(
     cmd,
     print_res: bool = False,
     color: bool = False,
     data_cmd: str = "",
 ):
+
     tokens = [
         DATA_HEADER
     ]
@@ -65,7 +68,7 @@ def run_cmd(
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
 
-    log_data(f"\n>>> {cmd}")
+    Logger.log(f"\n>>> {cmd}")
 
     process = subprocess.Popen(
         cmd,
@@ -110,7 +113,7 @@ def run_cmd(
         data = [raw_data.decode()]
         out += data[0]
         
-        log_data(data[0])
+        Logger.log(data[0])
 
         # split the data into parts 
         # where each part is ether only data or only a token
@@ -136,178 +139,249 @@ def run_cmd(
     return out
 
 
-def de_indent(data):
-    if data == "":
-        return ""
-
-    data = data.split("\n")
-    spaces = len(data[0]) - len(data[0].lstrip(' '))
-    return "\n".join(d[spaces:] for d in data)
-
-
-def get_nixos_path():
-    flake_profile = os.environ.get("NIXOS_CONFIG_PATH")
-    if flake_profile is None:
-        raise TypeError("nixos config path not found")
-    return flake_profile
-
-
-def get_last_profile():
-    flake_profile = os.environ.get("FLAKE_PROFILE")
-    if flake_profile is None:
-        raise TypeError("flake profile not found")
-    return flake_profile
-
-
-def get_profile(args):
-    return (args["--profile"] or [[get_last_profile()]])[0][0]
-
-
-def get_profiles():
-    return []
-
-
-DIV_LEN = 80
-
-
-def colored_centerd_text(
-    text,
-    color,
-    fill,
-):
-    out = ""
-
-    tot_pad = DIV_LEN - len(text)
-    out += fill * (tot_pad // 2)
-    out += text
-    out += fill * (tot_pad // 2 + tot_pad % 2)
-
-    # the comment at the end is to fix my indent detector
-    # if not there, it makes it indent everything 2 tabs
-    print(f"\033[0;{color}m{out}\033[0m")  # ]]
-
-
-def print_devider(
-    text, color=33,
-    fill="-",
-):
-    print("\n")
-    colored_centerd_text(
+class Print:
+    _DIV_LEN = 80
+    
+    @classmethod
+    def _colored_centerd_text(
+        cls,
         text,
         color,
         fill,
-    )
+    ):
+        out = ""
 
+        tot_pad = cls._DIV_LEN - len(text)
+        out += fill * (tot_pad // 2)
+        out += text
+        out += fill * (tot_pad // 2 + tot_pad % 2)
 
-# rename to print banner
-def print_warn(
-    text,
-    color: int | str = 33,
-):
-    # make sure that you don't miss it
-    colored_centerd_text(
-        "",
-        color,
-        " ",
-    )
-    colored_centerd_text(
-        "",
-        color,
-        " ",
-    )
-    colored_centerd_text(
+        # the comment at the end is to fix my indent detector
+        # if not there, it makes it indent everything 2 tabs
+        print(f"\033[0;{color}m{out}\033[0m")  # ]]
+
+    @classmethod
+    def devider(
+        cls,
+        text, color=33,
+        fill="-",
+    ):
+        print("\n")
+        cls._colored_centerd_text(
+            text,
+            color,
+            fill,
+        )
+
+    @classmethod
+    def banner(
+        cls,
         text,
-        color,
-        " ",
-    )
-    colored_centerd_text(
-        "",
-        color,
-        " ",
-    )
-    colored_centerd_text(
-        "",
-        color,
-        " ",
-    )
+        color: int | str,
+    ):
+        # make sure that you don't miss it
+        empty = ["", color, " "]
+        for p in [
+            empty, 
+            empty, 
+            [text, color, " "],
+            empty, 
+            empty
+        ]:
+            cls._colored_centerd_text(*p)
 
-def exit_program(msg: str):
-    print()
-    print_warn(
-        msg,
-        41,
-    )
-    exit()
+    @classmethod
+    def banner_warn(cls, text):
+        cls.banner(text, 33)
 
-def get_rand_id(length):
-    chars = string.ascii_letters + string.digits
+    # @classmethod
+    # def banner_error(cls, text):
+    #     print()
+    #     cls.banner(text, 41)
+    #     exit()
 
-    return ''.join(random.choice(chars) for _ in range(length))
+    @classmethod
+    def success(cls):
+        print("\n")
+        cls.banner(
+            "Successfully applied nixos configuration changes",
+            "42;30",
+        )
 
-def validate_new_branch(
-    new_branch,
-):
-    branch_exists_locally = (
+
+class Helpers:
+    def de_indent(data):
+        if data == "":
+            return ""
+
+        data = data.split("\n")
+        spaces = len(data[0]) - len(data[0].lstrip(' '))
+        return "\n".join(d[spaces:] for d in data)
+
+    def get_rand_id(length):
+        chars = string.ascii_letters + string.digits
+
+        return ''.join(random.choice(chars) for _ in range(length))
+
+
+class Part:
+    def get_nixos_path():
+        flake_profile = os.environ.get("NIXOS_CONFIG_PATH")
+        if flake_profile is None:
+            raise TypeError("nixos config path not found")
+        return flake_profile
+
+
+    def _get_last_profile():
+        flake_profile = os.environ.get("FLAKE_PROFILE")
+        if flake_profile is None:
+            raise TypeError("flake profile not found")
+        return flake_profile
+
+    def get_profile(args):
+        return (args["--profile"] or [[Part._get_last_profile()]])[0][0]
+
+    # def get_profiles():
+    #     return []
+
+    def exit_program(msg: str):
+        print()
+        Print.banner(
+            msg,
+            "41;30", # red
+        )
+        exit()
+
+    def check_needs_reboot():
+        # this doesn't work
+        computer_needs_reboot = (
+            run_cmd(
+                """
+            booted="$(
+                readlink /run/booted-system/{initrd,kernel,kernel-modules}
+            )"
+            built="$(
+                readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}
+            )"
+
+            if [ "$booted" = "$built" ]; 
+                then echo "1"; 
+                else echo "0";
+            fi 
+        """,
+            )
+            == "0"
+        )
+
+        if computer_needs_reboot:
+            Print.banner_warn(
+                "The new profile changed system files, please reboot",
+            )
+
+    @staticmethod
+    def format_files():
+        Print.devider("Formatting Files")
+        run_cmd("alejandra . || true", print_res=True, color=True)
+    
+
+    # git stuff
+    @staticmethod
+    def show_diff(target="HEAD"):
+        Print.devider("Git Diff")
+        # --cached diffs with what has been staged
+
         run_cmd(
-            "git show-ref"
-            "--verify"
-            f"--quiet refs/heads/{new_branch}"
-            "; echo $?",
-        )
-        == "0"
-    )
-
-    if branch_exists_locally:
-        raise TypeError(
-            f'branch "{new_branch}" already exist locally',
+            f"git --no-pager diff {target} --cached --color --ignore-all-space",
+            print_res=True,
+            color=True,
         )
 
-    branch_exists_on_remote = run_cmd(
-        f"git ls-remote --heads origin refs/heads/{new_branch}",
-    )
-    if branch_exists_on_remote:
-        raise TypeError(
-            f'branch "{new_branch}" already exist on remote',
-        )
+    @staticmethod
+    def check_changes(args, target="HEAD --cached"):
+        has_changes = run_cmd(
+            f"git diff {target}"
+        ).strip() != ""
 
-    if new_branch == "":
-        raise TypeError("branch can't be empty string")
+        if not (args["--force"] or has_changes):
+            print()
+            print("No Changes Found")
+            exit()
 
+    @staticmethod
+    def add_all_files():
+        run_cmd("git add --all", print_res=True, color=True)
 
-def check_needs_reboot():
-    needs_reboot = (
-        run_cmd(
-            """
-        booted="$(
-            readlink /run/booted-system/{initrd,kernel,kernel-modules}
-        )"
-        built="$(
-            readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}
-        )"
+    @staticmethod
+    def push_changes():
+        Print.devider("Pushing code to github")
 
-        if [ "$booted" = "$built" ]; 
-            then echo "1"; 
-            else echo "0";
-        fi 
-    """,
-        )
-        == "0"
-    )
+        exit_code = run_cmd(
+            "git push origin --all",
+            print_res=True,
+            color=True,
+            data_cmd="echo $?"
+        ).split(DATA_HEADER, 1)[1].strip()
+        
+        # return true if push succeeded
+        return exit_code == "0"
+    
+    @staticmethod
+    def pull_changes():
+        Print.devider("Pulling Changes")
 
-    if needs_reboot:
-        print_warn(
-            "The new profile changed system files, please reboot",
-        )
+        # remote could be eg git@github.com:upidapi/NixOs.git
+        exit_code = run_cmd(
+            "git pull origin main",
+            print_res=True,
+            color=True,
+            data_cmd="echo $?"
+        ).split(DATA_HEADER, 1)[1].strip()
+        
+        if exit_code != "0":
+            Part.exit_program("Pull Failed")
 
+    @staticmethod
+    def update_inputs():
+        Print.devider("Updating Flake Inputs")
+        run_cmd("nix flake update", print_res=True, color=True)
+    
+    def set_message(args, commit_msg):
+        if args["--message"]:
+            raise TypeError("this command doesn't take a msg")
 
-# --debug and --append never returns to the main branch
-# you have to do that manually
+        args["--message"] = [[commit_msg]]
 
+        # i don't think you have to set it to itself
+        # return args
 
-# it assumes that your main branch is called "main"
+    @staticmethod
+    def get_gen_data():
+        gen_data = run_cmd("nixos-rebuild list-generations --json")
 
+        cur_gen_data = None
+        for gen in json.loads(gen_data):
+            if gen["current"]:
+                cur_gen_data = gen
+                break
 
-class Steps:
+        if cur_gen_data is None:
+            raise TypeError("current gen not found")
+   
+        """
+        {
+            "generation": 81,
+            "date": "2024-09-20T08:01:01Z",
+            "nixosVersion": "24.11.20240906.574d1ea",
+            "kernelVersion": "6.10.8",
+            "configurationRevision": "",
+            "specialisations": [
+                "*"
+            ],
+            "current": true
+        }
+        """
+        return cur_gen_data
+
     @staticmethod
     def rebuild_nixos(args, profile):
         branch = list(
@@ -316,7 +390,7 @@ class Steps:
             if x.startswith("*")
         )[0][2:]
 
-        print_devider(
+        Print.devider(
             f"Rebuilding NixOs (profile: {profile}, branch: {branch})"
         )
 
@@ -350,73 +424,64 @@ class Steps:
     
 
         if len(raw_ret_val) == 1:
-            exit_program("NixOs Rebuild Failed")
+            Part.exit_program("NixOs Rebuild Failed")
 
         ret_val = raw_ret_val[1].strip()
         
         if ret_val != "0":
-            exit_program("NixOs Rebuild Failed")
+            Part.exit_program("NixOs Rebuild Failed")
 
         # everything is good
 
+    def rebuild_and_commit(args):
+        no_rebuild = bool(args["--no-rebuild"])
+    
+        if no_rebuild:
+            # not used
+            last_gen_data = {}
+            profile = ""
+        else:
+            last_gen_data = Part.get_gen_data()
+            profile = Part.get_profile(args)
+
+        hash = Commit.commit_changes(args, profile, last_gen_data) 
+
+        if no_rebuild:
+            return
+
+        Part.rebuild_nixos(args, profile)
+        
+        Commit.lazy_ammend_rebuild_commit(args, hash)
+
+    def stash_changes():
+        has_changes = run_cmd(
+            "git diff HEAD"
+        ).strip() != ""
+
+        if has_changes:
+            run_cmd("git stash", print_res=True, color=True)
+            atexit.register(lambda: run_cmd("git stash pop"))
+
+
+class Commit:
     @staticmethod
-    def get_gen_data():
-        gen_data = run_cmd("nixos-rebuild list-generations --json")
+    def get_last_commit_hash():
+        return run_cmd("git log HEAD --pretty=%H -1").strip()
 
-        cur_gen_data = None
-        for gen in json.loads(gen_data):
-            if gen["current"]:
-                cur_gen_data = gen
-                break
+    @staticmethod
+    def _cleanup_pre_rebuild_commit(hash):
+        rev_list = run_cmd("git rev-list HEAD").split("\n")
 
-        if cur_gen_data is None:
-            raise TypeError("current gen not found")
+        head_hash = run_cmd("git log HEAD --pretty=%H -1").strip()
+
+        if head_hash == hash:
+            run_cmd("git reset --soft HEAD~1", print_res=True, color=True)
+        elif hash not in rev_list: 
+            # commit amended or removed
+            return 
+        else:
+            raise Exception("The pre rebuild commit is not the last commit")
    
-        """
-        {
-            "generation": 81,
-            "date": "2024-09-20T08:01:01Z",
-            "nixosVersion": "24.11.20240906.574d1ea",
-            "kernelVersion": "6.10.8",
-            "configurationRevision": "",
-            "specialisations": [
-                "*"
-            ],
-            "current": true
-        }
-        """
-        return cur_gen_data
-
-    @staticmethod
-    def _parse_gen_commit_msg(commit_msg: str):
-        data_size = 7 
-        try:
-            raw_msg = commit_msg.split("\n")[:-data_size]
-            data = commit_msg.split("\n")[-data_size:]
-
-            # print(data)
-               
-            # print(data)
-            yaml_data = yaml.safe_load("\n".join(data))["info"]
-            
-            gens = [
-                x.strip() for x in 
-                yaml_data["Gen"].split("->")
-                if x.strip() != ""
-            ]
-
-            return (False, {
-                "msg": "\n".join(raw_msg),
-                "profile": yaml_data["Profile"],
-                "gens": gens,
-                "type": yaml_data["Type"],
-                "nixosVerson": yaml_data["NixOs"],
-                "kernelVersion": yaml_data["Kernel"],
-            })
-
-        except (IndexError, KeyError):
-            return (True, {"msg": commit_msg})
-
     @staticmethod
     def _fmt_gen_commit_msg(
             msg, 
@@ -448,74 +513,122 @@ class Steps:
 
         return full_commit_msg
 
-    _PRE_REBUILD_COMMit_MSG = \
+    _PRE_REBUILD_COMMIT_MSG = \
         "auto: pre rebuild commit [probably broken]\n\n" \
         "If you see this. Then the script failed to ammend it\n" \
         "i.e something broke during the update\n" 
         # "oarGglYzX06kMUsG2noeXhK3utMT2n56\n"
 
     @staticmethod
-    def _gen_build_commit_msg(args, profile, last_gen_data):
+    def _gen_pre_build_commit_msg(args, profile, last_gen_data):
         last_gen = last_gen_data["generation"]
         
         # id = get_rand_id(32)
 
-        msg = Steps._PRE_REBUILD_COMMit_MSG + "\n" + args['--message'][0][0]
+        msg = Commit._PRE_REBUILD_COMMIT_MSG + "\n" + args['--message'][0][0]
             # f"{id}\n" + \
 
-    
-        return Steps._fmt_gen_commit_msg(
+        return Commit._fmt_gen_commit_msg(
             msg,
             "pre-rebuild",
             profile, 
-            Steps.get_gen_data(),
+            Part.get_gen_data(),
             [last_gen],
             True,
         )
+
+    @staticmethod
+    def commit_changes(args, profile, last_gen_data):
+        Print.devider("Commit msg")
+           
+        no_rebuild = args["--no-rebuild"]
+
+        if no_rebuild:
+            message = args["--message"][0][0]
+            print(message)
+
+        else:
+            message = Commit._gen_pre_build_commit_msg(
+                args,
+                profile,
+                last_gen_data,
+            )
+            
+            # show an approximation of the final message instead 
+            # of the pre rebuild commit
+            print(Commit._fmt_gen_commit_msg(
+                args['--message'][0][0],
+                "manuall",
+                profile, 
+                Part.get_gen_data(),
+                [],
+                True,
+            ))
+
+        Print.devider("Committing changes" if no_rebuild else "Pre rebuild commit")
+
+        # TODO: remove when i don't manually have to do this (something 
+        #  is wrong about my git signing config)
+        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
     
-    @staticmethod
-    def _find_pre_rebuild_commit(id):
-        print_devider("Amending pre rebuild commit")
+        run_cmd(
+            f"git commit --allow-empty -m {shlex.quote(message)}",
+            print_res=True,
+            color=True,
+        )
 
-        expected_commit_msg = Steps._PRE_REBUILD_COMMit_MSG + id
-        # check last 100 commits
+        # get hash for commit in case user commits during rebuild
+        hash = Commit.get_last_commit_hash() 
 
-        for i in range(100):
-            i_commit_msg = run_cmd(f"git log --skip={i} -1 --pretty=%B").strip()
-            i_commit_hash = run_cmd(f"git log --skip={i} -1 --pretty=%H").strip()
+        if not no_rebuild: 
+            atexit.register(Commit._cleanup_pre_rebuild_commit, hash)
 
-            manual, last_gen_data = Steps._parse_gen_commit_msg(i_commit_msg)
+        return hash
+    
+    @staticmethod 
+    def _parse_gen_commit_msg(commit_msg: str):
+        data_size = 7 
+        try:
+            raw_msg = commit_msg.split("\n")[:-data_size]
+            data = commit_msg.split("\n")[-data_size:]
 
-            if manual: 
-                # its a manual commit
-                continue
+            # print(data)
+               
+            # print(data)
+            yaml_data = yaml.safe_load("\n".join(data))["info"]
             
-            # if last_gen_data["type"] != "pre-rebuild":
-            #     # not a pre-rebuild commit
+            gens = [
+                x.strip() for x in 
+                yaml_data["Gen"].split("->")
+                if x.strip() != ""
+            ]
 
-            if not last_gen_data["msg"].startswith(expected_commit_msg):
-                # not correct commit 
-                continue
-             
-            # found it
-            
-            return i_commit_hash, last_gen_data 
+            return (False, {
+                "msg": "\n".join(raw_msg),
+                "profile": yaml_data["Profile"],
+                "gens": gens,
+                "type": yaml_data["Type"],
+                "nixosVerson": yaml_data["NixOs"],
+                "kernelVersion": yaml_data["Kernel"],
+            })
 
-        raise Exception(f"could not find pre commit ({id})")     
+        except (IndexError, KeyError):
+            return (True, {"msg": commit_msg})
+
 
     @staticmethod
-    def lazy_ammend_pre_rebuild_commit(args, hash):
+    def lazy_ammend_rebuild_commit(args, hash):
         # simpler version of _amend_pre_rebuild_commit that 
         # can only amend it if it's the last commit
 
-        print_devider("Amending pre rebuild commit")
+        Print.devider("Amending pre rebuild commit")
         
         # print(hash)
         
         raw_commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B").strip()
-        manual, last_gen_data = Steps._parse_gen_commit_msg(raw_commit_msg)
+        manual, last_gen_data = Commit._parse_gen_commit_msg(raw_commit_msg)
         if manual:
-            raise Exception("wut, commit is manua!?l")
+            raise Exception("wut, commit is manua!?")
 
         # pp(last_gen_data)
         # commit_hash, last_gen_data = Steps._find_pre_rebuild_commit(id)
@@ -524,11 +637,11 @@ class Steps:
         if head_hash != hash:
             raise Exception("The pre rebuild commit is not the last commit")
 
-        full_commit_msg = Steps._fmt_gen_commit_msg(
+        full_commit_msg = Commit._fmt_gen_commit_msg(
             args['--message'][0][0],
             "manuall",
-            get_profile(args), 
-            Steps.get_gen_data(),
+            Part.get_profile(args), 
+            Part.get_gen_data(),
             [last_gen_data["gens"][-1]],
         )
     
@@ -542,65 +655,7 @@ class Steps:
 
         print(full_commit_msg)
     
-    @staticmethod
-    def _cleanup_pre_rebuild_commit(hash):
-        rev_list = run_cmd("git rev-list HEAD").split("\n")
-
-        head_hash = run_cmd("git log HEAD --pretty=%H -1").strip()
-
-        if head_hash == hash:
-            run_cmd("git reset --soft HEAD~1", print_res=True, color=True)
-        elif hash not in rev_list: 
-            # commit amended or removed
-            return 
-        else:
-            raise Exception("The pre rebuild commit is not the last commit")
-        
-
-    @staticmethod
-    def amend_pre_rebuild_commit(args, profile, id):
-        print_devider("Amending pre rebuild commit")
-        
-        commit_hash, last_gen_data = Steps._find_pre_rebuild_commit(id)
-        full_commit_msg = Steps._fmt_gen_commit_msg(
-            args['--message'][0][0],
-            "manuall",
-            profile, 
-            Steps.get_gen_data(),
-            [last_gen_data["gens"][-1]],
-        )
-        
-        # should this not be "git diff HEAD"?
-        has_changes = run_cmd("git diff HEAD origin/main").strip() != ""
-
-        if has_changes:
-            amend_commit_msg = shlex.quote(Steps._fmt_gen_commit_msg(
-                "auto: commit to save index before ammending the pre-commit",
-                "pre-ammend",
-                profile, 
-                Steps.get_gen_data(),
-                [],
-            ))
-
-            run_cmd(
-                f"git commit -am {amend_commit_msg}", 
-                print_res=True,
-                color=True
-            )
-
-        Steps._git_interactive_rebase(
-            commit_hash, 0, "reword", full_commit_msg
-        )
-    
-        atexit.register(lambda: run_cmd("git stash pop"))
-
-        if has_changes:
-            run_cmd(
-                "git reset --soft HEAD~1", 
-                print_res=True,
-                color=True
-            )
-
+    # unused
     @staticmethod 
     def _git_interactive_rebase(hash, command_index, cmd, data):
         # this is just so incredibly fucking cursed
@@ -614,7 +669,7 @@ class Steps:
         temp = tempfile.TemporaryFile()
         try: 
             # a program that will replace the second pick with squash
-            temp.write(de_indent(f"""\
+            temp.write(Helpers.de_indent(f"""\
                 import sys
 
                 file = sys.argv[1]
@@ -648,162 +703,105 @@ class Steps:
             run_cmd(f'env GIT_EDITOR="python {temp}" git rebase -i {hash}')
         finally: 
             temp.close() 
-
-    @staticmethod 
-    def _squash_pre_rebuild_commit(hash):
-        commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B").strip()
-       
-        Steps._git_interactive_rebase(
-            f"{hash}^", 
-            1, 
-            "squash", 
-            commit_msg
-        )
     
+    # untested and unused
     @staticmethod
-    def get_last_commit_hash():
-        return run_cmd("git log HEAD --pretty=%H -1").strip()
+    def amend_pre_rebuild_commit(args, profile, commit_hash):
+        Print.devider("Amending pre rebuild commit")
+        
+        commit_message = run_cmd(
+            f"git log {commit_hash} --pretty=%H -n 1"
+        )
+        last_gen_data = Commit._parse_gen_commit_msg(commit_message)
 
-    @staticmethod
-    def commit_changes(args, profile, last_gen_data):
-        print_devider("Commit msg")
-           
-        no_rebuild = args["--no-rebuild"]
+        full_commit_msg = Commit._fmt_gen_commit_msg(
+            args['--message'][0][0],
+            "manuall",
+            profile, 
+            Part.get_gen_data(),
+            [last_gen_data["gens"][-1]],
+        )
+        
+        has_changes = run_cmd("git diff HEAD").strip() != ""
 
-        if no_rebuild:
-            message = args["--message"][0][0]
-            print(message)
-
-        else:
-            message = Steps._gen_build_commit_msg(
-                args,
-                profile,
-                last_gen_data,
-            )
-            
-            # show the final msg not the 
-            print(Steps._fmt_gen_commit_msg(
-                args['--message'][0][0],
-                "manuall",
+        if has_changes:
+            amend_commit_msg = shlex.quote(Commit._fmt_gen_commit_msg(
+                "auto: commit to save index before ammending the pre-commit",
+                "pre-ammend",
                 profile, 
-                Steps.get_gen_data(),
+                Part.get_gen_data(),
                 [],
-                True,
             ))
 
-        print_devider("Committing changes" if no_rebuild else "Pre rebuild commit")
+            run_cmd(
+                f"git commit -am {amend_commit_msg}", 
+                print_res=True,
+                color=True
+            )
 
-        # TODO: remove when i don't manually have to do this 
-        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
+        Commit._git_interactive_rebase(
+            commit_hash, 0, "reword", full_commit_msg
+        )
     
-        run_cmd(
-            f"git commit --allow-empty -m {shlex.quote(message)}",
-            print_res=True,
-            color=True,
-        )
-
-        if not no_rebuild: 
-            atexit.register(Steps._cleanup_pre_rebuild_commit, hash)
-
-        return Steps.get_last_commit_hash() 
-
-    @staticmethod
-    def formatt_files():
-        print_devider("Formatting Files")
-        run_cmd("alejandra . || true", print_res=True, color=True)
-
-    @staticmethod
-    def show_diff():
-        print_devider("Git Diff")
-        # --cached diffs only what has been staged
-        run_cmd(
-            "git --no-pager diff HEAD --cached --color --ignore-all-space",
-            print_res=True,
-            color=True,
-        )
-
-    @staticmethod 
-    def tmp_stash_changes():
-        has_changes = run_cmd("git diff HEAD").strip() != ""
-        
         if has_changes:
-            run_cmd("git stash", print_res=True, color=True)
-            atexit.register(lambda: run_cmd("git stash pop"))
-    
-    @staticmethod
-    def check_changes(args):
-        if not args["--force"]:
-            if run_cmd("git diff HEAD").strip() == "":
-                print("No changes found")
-                exit()
-
-    @staticmethod
-    def push_changes():
-        print_devider("Pushing code to github")
-
-        run_cmd(
-            "git push origin --all",
-            print_res=True,
-            color=True,
-        )
-
-    @staticmethod
-    def add_all_files():
-        run_cmd("git add --all", print_res=True, color=True)
-
-    @staticmethod
-    def print_success():
-        print("\n")
-        print_warn(
-            "Successfully applied nixos configuration changes",
-            "42;30",
-        )
-
-    class Pull:
-        @staticmethod
-        def pre():
-            pass
+            run_cmd(
+                "git reset --soft HEAD~1", 
+                print_res=True,
+                color=True
+            )
 
 
-def set_commit_msg(args, commit_msg):
-    if args["--message"]:
-        raise TypeError("this command doesn't take a msg")
+class Command:
+    def add_format_show(args, cmp_target="HEAD"):
+        Part.format_files()
 
-    args["--message"] = [[commit_msg]]
-    return args
-
-
-class Recipes:
-    @staticmethod
-    def add_show_formatt_files(args):
-        # nixos ignores files that are not added
-        
         if not args["--no-auto-add"]:
-            Steps.add_all_files()
-
-        Steps.formatt_files()
-        Steps.show_diff()
-
-    @staticmethod
-    def rebuild_and_commit(args):
-        if args["--no-rebuild"]:
-            Steps.commit_changes(args, "", {}) 
-            return
+            Part.add_all_files()
         
-        last_gen_data = Steps.get_gen_data()
+        Part.show_diff(cmp_target)
 
-        # rebuild nixos
-        profile = get_profile(args)
+    def rebuild(args, cmp_target="HEAD"):  
+        # prep
+        Command.add_format_show(args, cmp_target)
+        Part.check_changes(args)
+       
+        # rebuild
+        Part.rebuild_and_commit(args)
 
-        hash = Steps.commit_changes(args, profile, last_gen_data)
+        # exit and warn
+        Print.success()
+        
+        if not Part.push_changes():
+            Print.banner_warn("Push to remote failed")
 
-        Steps.rebuild_nixos(args, profile)
+        Part.check_needs_reboot()
 
-        check_needs_reboot()
+    def pull(args):
+        Part.stash_changes() # un stashes at exit
 
-        # commit
+        hash = Commit.get_last_commit_hash()
+        
+        run_cmd("git fetch")
+        if not Part.check_changes(args, "HEAD origin/main"):
+            print()
+            print("No Changes Found")
+            exit()
+        
+        Part.pull_changes()
 
-        Steps.lazy_ammend_pre_rebuild_commit(args, hash)
+        Part.set_message(args, "pull changes")
+
+        Command.rebuild(args, hash)
+
+    def update(args):
+        Part.stash_changes() # un stashes at exit
+
+        Part.update_inputs()
+
+        Part.set_message(args, "update flake inputs")
+
+        Command.rebuild(args)
+
 
 def main():
     args = parse_sys_args({
@@ -903,7 +901,7 @@ def main():
     pp(args)
 
     # make sure that we're in the right place
-    nixos_path = get_nixos_path()
+    nixos_path = Part.get_nixos_path()
     os.chdir(nixos_path)
 
     """
@@ -930,59 +928,13 @@ def main():
             return None
 
         elif sub_command == "diff":
-            return Recipes.add_show_formatt_files(args)
+            return Command.add_format_show(args)
 
         elif sub_command == "update":
-            Steps.tmp_stash_changes()
-
-            run_cmd("nix flake update", print_res=True, color=True)
-
-            args = set_commit_msg(args, "update flake inputs")
-
-            Recipes.add_show_formatt_files(args)
-            Recipes.rebuild_and_commit(args)
-
-            Steps.push_changes()
-            Steps.print_success()
-
-            return None
+            return Command.update(args)
 
         elif sub_command == "pull":
-            Steps.tmp_stash_changes()
-
-            run_cmd("git fetch")
-            
-            # test 
-
-            if not args["--force"]:
-                if run_cmd("git diff origin/HEAD").strip() == "":
-                    print("No changes found")
-                    exit()
-            
-            # if there are changes, force them to be applied 
-            # otherwise rebuild_and_commit will exit
-            args["--force"].append([])
-
-            print_devider("Pulling Changes")
-            
-            # remote could be eg git@github.com:upidapi/NixOs.git
-            run_cmd(
-                "git pull origin main",
-                print_res=True,
-                color=True,
-            )
-
-            # Steps.check_changes(args)
-
-            args = set_commit_msg(args, "Pulled changes from remote")
-
-            Recipes.add_show_formatt_files(args)
-            Recipes.rebuild_and_commit(args)
-
-            Steps.push_changes()
-            Steps.print_success()
-
-            return None
+            return Command.pull(args)
     
     if not args["--message"] or not args["--message"][0]:
         raise TypeError("--message argument required")
@@ -990,14 +942,7 @@ def main():
     if args["--force"] and args["--no-rebuild"]: 
         raise TypeError("using --force and --no-rebuild is a noop")
 
-    Steps.check_changes(args)
-
-    Recipes.add_show_formatt_files(args)
-    Recipes.rebuild_and_commit(args)
-
-    Steps.push_changes()
-    Steps.print_success()
-
+    Command.rebuild(args)
 
 if __name__ == "__main__":
     main()

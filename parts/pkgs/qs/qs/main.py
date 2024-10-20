@@ -195,6 +195,7 @@ class Print:
 
     @classmethod
     def banner_warn(cls, text):
+        print("\n")
         cls.banner(text, 33)
 
     # @classmethod
@@ -272,8 +273,7 @@ class Part:
                 else echo "0";
             fi 
         """,
-            ).strip()
-            == "0"
+            ).strip() == "0"
         )
 
         if computer_needs_reboot:
@@ -309,6 +309,15 @@ class Part:
             print()
             print("No Changes Found")
             exit()
+
+    @staticmethod 
+    def check_up_to_date_with_remote():
+        run_cmd("git fetch")
+        is_up_to_date = run_cmd("git diff origin/main HEAD") == ""
+        if not is_up_to_date:
+            Print.banner_warn(
+                "Local is not up to date with remote",
+            )
 
     @staticmethod
     def add_all_files():
@@ -437,7 +446,8 @@ class Part:
             Part.exit_program("NixOs Rebuild Failed")
 
         # everything is good
-
+    
+    @staticmethod
     def rebuild_and_commit(args):
         no_rebuild = bool(args["--no-rebuild"])
     
@@ -458,6 +468,7 @@ class Part:
         
         Commit.lazy_ammend_rebuild_commit(args, hash)
 
+    @staticmethod
     def stash_changes():
         has_changes = run_cmd(
             "git diff HEAD"
@@ -779,6 +790,8 @@ class Command:
         
         if not Part.push_changes():
             Print.banner_warn("Push to remote failed")
+        
+        Part.check_up_to_date_with_remote()
 
         Part.check_needs_reboot()
 
@@ -788,10 +801,7 @@ class Command:
         hash = Commit.get_last_commit_hash()
         
         run_cmd("git fetch")
-        if not Part.check_changes(args, "HEAD origin/main"):
-            print()
-            print("No Changes Found")
-            exit()
+        Part.check_changes(args, "HEAD origin/main")
         
         Part.pull_changes()
 
@@ -910,14 +920,6 @@ def main():
     nixos_path = Part.get_nixos_path()
     os.chdir(nixos_path)
 
-    """
-    is_up_to_date = run_cmd("xgit diff origin/main HEAD") == ""
-    if not is_up_to_date:
-        print_warn(
-            "Local is not up to date with remote",
-            43,
-        )
-    """
 
     sub_command = args.sub_cmd
     args = args.flags

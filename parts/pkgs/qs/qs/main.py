@@ -128,7 +128,7 @@ def run_cmd(
         
         for part in data:
             if part == DATA_HEADER: 
-                # p = False 
+                p = False 
                 continue
 
             if p:
@@ -314,7 +314,9 @@ class Part:
     @staticmethod
     def push_changes():
         Print.devider("Pushing code to github")
-
+        
+        # TODO: figure out how to detect this 
+        #  it seems like git doesn't return 1 on error
         exit_code = run_cmd(
             "git push origin --all",
             print_res=True,

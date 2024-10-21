@@ -74,30 +74,6 @@ systemctl --user status
 journalctl -xeu home-manager-upidapi.service
 ```
 
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
-```
-
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
-```
-
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
-```
-
-# get logs
-```bash
-systemctl --user status 
-journalctl -xeu home-manager-upidapi.service
-```
-
 
 youtube
 [vimjoyer](https://www.youtube.com/@vimjoyer) 
@@ -146,7 +122,7 @@ sps := sops
 
 # use to search some repos i trust for examples
 ```py
-good = """\
+repos = """\
 https://github.com/nobbz/nixos-config
 https://github.com/fufexan/dotfiles
 https://github.com/mitchellh/nixos-config
@@ -155,25 +131,39 @@ https://github.com/workflow/dotfiles
 https://github.com/notohh/snowflake
 https://github.com/misterio77/nix-config
 
-
 https://github.com/hlissner/dotfiles
 
 https://github.com/gvolpe/nix-config
 
-
 https://github.com/notashelf/nyx\
 """
 
-
-good = [
-    x.strip()[len("https://github.com/"):] 
-    for x in good.split("\n") 
+parsed = [
+    x.strip()
+    for x in repos.split("\n") 
     if x.strip() != ""
 ]
 
-repos = " OR ".join([f"repo:{x}" for x in good])
+data = [{
+        "url": data,
+        "host": data.split("/")[2],
+        "user": data.split("/")[3],
+        "name": data.split("/")[4],
+    } for data in parsed 
+]
 
-print(f"lang:nix ({repos})")
+def get_github_seartch():
+    repos = " OR ".join([f"repo:{d['user']}/{d['name']}" for d in data])
+
+    print(f"lang:nix ({repos})")
+
+def gen_md_credits():
+    print(
+        " - ".join([f"[{d['user']}]({d['url']})" for d in data])
+    )
+
+gen_md_credits()
+
 
 # lang:nix (repo:nobbz/nixos-config OR repo:fufexan/dotfiles OR repo:mitchellh/nixos-config OR repo:mic92/dotfiles OR repo:workflow/dotfiles OR repo:notohh/snowflake OR repo:misterio77/nix-config OR repo:hlissner/dotfiles OR repo:gvolpe/nix-config OR repo:notashelf/nyx)
 ```

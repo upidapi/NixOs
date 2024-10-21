@@ -67,7 +67,7 @@ security
 
         auto login?
 
-    ybikeys
+    yubikeys 
 
     secureboot
 

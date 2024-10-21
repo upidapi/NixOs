@@ -35,7 +35,7 @@ It might sound a bit to verbose but its really nice to have when you eventually
 really mess something up.
 
 
-![desktop](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop.png?raw=true)
+![desktop](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop-minimal.png?raw=true)
 
 
 ## Features

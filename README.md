@@ -7,7 +7,7 @@ faster on my friends computers when they aren't looking)
 
 <!----------------------this comment is 80 characters wide--------------------->
 
-[!CAUTION]
+> [!CAUTION]
 > This config is not a finished product, and will change as a continue to learn 
 > about nix. Things will be modified, updated, added, removed and restructured 
 > without warning. 

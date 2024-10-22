@@ -42,7 +42,9 @@ in {
     # x = "asd//// \\ \" \\ \${gjkhg} "; y = "";
     home.packages = with pkgs; [
       nixd
-      nixfmt
+      # nixfmt
+      nixfmt-rfc-style
+      nixpkgs-fmt
     ];
 
     programs.nvf = {

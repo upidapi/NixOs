@@ -43,6 +43,27 @@ in {
 
     programs.nvf = {
       settings.vim = {
+        startPlugins = with pkgs.vimPlugins; [
+          (nvim-treesitter.withPlugins (
+            parsers: builtins.attrValues {inherit (parsers) nix markdown markdown_inline;}
+          ))
+          friendly-snippets
+          luasnip
+          nvim-cmp
+          cmp-nvim-lsp
+          cmp-buffer
+          cmp_luasnip
+          cmp-path
+          cmp-cmdline
+          none-ls-nvim
+          nvim-lspconfig
+          nord-nvim
+          noice-nvim
+          lualine-nvim
+          bufferline-nvim
+          lspsaga-nvim
+        ];
+
         # ? syntaxHighlighting = true;
         hideSearchHighlight = false; # ?
         searchCase = "sensitive";

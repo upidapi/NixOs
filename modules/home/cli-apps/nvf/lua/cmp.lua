@@ -347,7 +347,7 @@ nvim_lsp.nixd.setup({
                 expr = "import <nixpkgs> { }",
             },
             formatting = {
-                command = { "nixfmt" },
+                command = { "alejandra" },
             },
             options = {
                 -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                

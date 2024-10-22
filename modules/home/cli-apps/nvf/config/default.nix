@@ -34,12 +34,16 @@ in {
 
     Semantic Tokens
       - @lsp.type.string.nix links to String priority: 125  # <== should be here
-      - @lsp.type.string.nix links to String priority: 125
+     - @lsp.type.string.nix links to String priority: 125
       - @lsp.mod.escape.nix links to @lsp priority: 126
       - @lsp.typemod.string.escape.nix links to @lsp priority: 127
     */
 
     # x = "asd//// \\ \" \\ \${gjkhg} "; y = "";
+    home.packages = with pkgs; [
+      nixd
+      nixfmt
+    ];
 
     programs.nvf = {
       settings.vim = {

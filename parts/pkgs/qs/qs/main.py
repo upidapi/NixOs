@@ -68,7 +68,7 @@ def run_cmd(
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
 
-    Logger.log(f"\n>>> {cmd}")
+    Logger.log(f"\n>>> {cmd}\n")
 
     process = subprocess.Popen(
         cmd,
@@ -780,7 +780,7 @@ class Command:
     def rebuild(args, cmp_target="HEAD"):  
         # prep
         Command.add_format_show(args, cmp_target)
-        Part.check_changes(args)
+        Part.check_changes(args, cmp_target)
        
         # rebuild
         Part.rebuild_and_commit(args)

@@ -28,6 +28,8 @@ Virtulisation
     scripts to auto setup vm
 
 
+Use the "native" nixd editor config to reduce it down into the smallest parts 
+
 Home lab
     nas
         local share?

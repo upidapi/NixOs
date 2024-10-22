@@ -9,8 +9,7 @@
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.nixos.hardware.sound;
 in {
-  options.modules.nixos.hardware.sound =
-    mkEnableOpt "enables sound for the system";
+  options.modules.nixos.hardware.sound = mkEnableOpt "enables sound for the system";
 
   config = mkIf cfg.enable {
     environment.systemPackages = [

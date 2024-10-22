@@ -32,6 +32,16 @@
         '';
       };
 
+      # for debugging
+      nvim = pkgs.mkShell {
+        nativeBuildInputs = [
+          pkgs.nixd
+          # pkgs.nixfmt-rfc-style
+          pkgs.git
+          (import ./nvim-lsp.nix {inherit pkgs;})
+        ];
+      };
+
       kattis = pkgs.mkShell {
         packages = [
           self'.packages.problem-tools
@@ -123,51 +133,51 @@
 # example
 
 {self, ...}: {
-  imports = [
-    ./rust.nix
-    ./sandbox.nix
-  ];
+imports = [
+./rust.nix
+./sandbox.nix
+];
 
-  perSystem = {
-    inputs',
-    pkgs,
-    self',
-    system,
-    ...
-  }: {
-    devShells.default = pkgs.mkShell {
-      name = "configuration.nix";
-      packages = let
-        customPkgs = import ../packages {
-          inherit inputs' pkgs self system;
-        };
-      in
-        [
-          inputs'.agenix.packages.default
-          inputs'.disko.packages.default
-          self'.formatter
+perSystem = {
+inputs',
+pkgs,
+self',
+system,
+...
+}: {
+devShells.default = pkgs.mkShell {
+    name = "configuration.nix";
+    packages = let
+      customPkgs = import ../packages {
+        inherit inputs' pkgs self system;
+      };
+    in
+      [
+        inputs'.agenix.packages.default
+        inputs'.disko.packages.default
+        self'.formatter
+      ]
+      ++ (
+        with customPkgs; [
+          delta
+          neovim-unwrapped
+          nix
+          tmux
         ]
-        ++ (
-          with customPkgs; [
-            delta
-            neovim-unwrapped
-            nix
-            tmux
-          ]
-        )
-        ++ (
-          with pkgs; [
-            bat
-            deadnix
-            git
-            nix-output-monitor
-            parted
-            smartmontools
-            statix
-          ]
-        );
-    };
-  };
+      )
+      ++ (
+        with pkgs; [
+          bat
+          deadnix
+          git
+          nix-output-monitor
+          parted
+          smartmontools
+          statix
+        ]
+      );
+};
+};
 }
 */
 

@@ -230,6 +230,7 @@ in {
             "<down>".action = "<c-o>g<down>";
           };
           visual = m;
+          terminal."<Esc>".action = "<C-\><C-n>";
         };
 
         telescope = {

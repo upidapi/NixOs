@@ -3,6 +3,7 @@
   lib,
   my_lib,
   self',
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkOption types;
@@ -14,9 +15,7 @@ in {
     // {
       package = mkOption {
         type = types.package;
-        default = self'.packages.vesktop.override {
-          withSystemVencord = false;
-        };
+        default = self'.packages.vesktop.override {withSystemVencord = false;};
       };
 
       finalPackage = mkOption {
@@ -32,9 +31,7 @@ in {
     };
 
   config = mkIf cfg.enable {
-    home.packages = [
-      cfg.package
-    ];
+    home.packages = [cfg.package];
 
     stylix.targets.vesktop.enable = false;
 

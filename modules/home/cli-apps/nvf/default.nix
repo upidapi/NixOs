@@ -80,9 +80,12 @@ in {
         git clone https://github.com/psliwka/vim-dirtytalk.git
         cat vim-dirtytalk/wordlists/* > programing.words
 
+
         # in nvim
         :mkspell /persist/nixos/modules/home/cli-apps/nvf/runtime/spell/prog ~/programing.words
         */
+
+        # (this can probable be automated)
 
         # recreate the add.spl file
         /*

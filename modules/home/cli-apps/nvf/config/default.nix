@@ -12,10 +12,10 @@
   cfg = config.modules.home.cli-apps.nvf;
 in {
   imports = [
-    ./cmp.nix
+    ## ./cmp.nix
     ./dap.nix
-    ./text.nix
-    ./lang.nix
+    ## ./text.nix
+    ## ./lang.nix
     ./notes.nix
   ];
 
@@ -122,6 +122,7 @@ in {
         # TODO: binds?
         git.vim-fugitive = enable;
 
+        /*
         lsp = {
           enable = true;
           formatOnSave = false;
@@ -157,6 +158,7 @@ in {
 
           # trouble = enable;
         };
+        */
 
         notify = {
           # ? nvim-notify = enable;
@@ -278,6 +280,7 @@ in {
           style = "night";
         };
 
+        /*
         treesitter = {
           enable = true;
           autotagHtml = true;
@@ -297,6 +300,7 @@ in {
             # TODO:
           };
         };
+        */
 
         ui = {
           borders = disable;

@@ -352,14 +352,18 @@ nvim_lsp.nixd.setup({
             options = {
                 -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
                 nixos = {
-                    expr = get_expr("nixosConfigurations"),
+                    expr = [[let configs = (builtins.getFlake "/persist/nixos").nixosConfigurations; in (builtins.head (builtins.attrValues configs)).options]];
+
+                    -- expr = get_expr("nixosConfigurations"),
                 },
                 home_manager = {
-                    expr = get_expr("homeConfigurations"),
+                    expr = [[let configs = (builtins.getFlake "/persist/nixos").homeConfigurations; in (builtins.head (builtins.attrValues configs)).options]]
+                    -- expr = get_expr("homeConfigurations"),
+                    
                 },
-                flake_parts = {
-                    expr = 'let flake = builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"); in flake.debug.options // flake.currentSystem.options',
-                },
+                -- flake_parts = {
+                    -- expr = 'let flake = builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"); in flake.debug.options // flake.currentSystem.options',
+                -- },
             },
         },
     },

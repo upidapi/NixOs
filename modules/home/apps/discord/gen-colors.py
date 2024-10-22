@@ -39,6 +39,9 @@ def get_data():
         --primary-900: hsl(245 0% 0.8%);\
     """
 
+    # --primary-400: hsl(223 5.8% 52.9%);
+    # --primary-400-hsl: 223 calc(var(--saturation-factor, 1) * 5.8%) 52.9%;
+
     data = []
     for line in raw.split("\n"):
         res = line.strip().split(" ")
@@ -147,14 +150,16 @@ def interpolate(a, b):
     
     
     for x in out: 
-        print(f"--primary-{x[0]:.0f}: hsl({x[1]:.0f} {x[2]:.1f}% {x[3]:.1f}%);")
+        hsl_part = f"{x[1]:.0f} {x[2]:.1f}% {x[3]:.1f}%"
+        print(f"--primary-{x[0]:.0f}: hsl({hsl_part});")
+        print(f"--primary-{x[0]:.0f}-hsl: {hsl_part};")
 
 
 # discord defaults
-interpolate(
-    [100, 200, 14, 97.6],
-    [900, 245, 4, 0.8]
-)
+# interpolate(
+#     [100, 200, 14, 97.6],
+#     [900, 245, 4, 0.8]
+# )
 
 interpolate(
     [100, 200,  40, 90.6], # dark

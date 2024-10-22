@@ -100,5 +100,10 @@ repos i typically to check for examples in.
 - [EmergentMind](https://github.com/EmergentMind/nix-config) - yubikeys, remote bootstrapping
 - [mic92](https://github.com/mic92/dotfiles) - dev shell
 
-[fufexan](https://github.com/fufexan/dotfiles) - [mitchellh](https://github.com/mitchellh/nixos-config) - [workflow](https://github.com/workflow/dotfiles) - [notohh](https://github.com/notohh/snowflake) - [hlissner](https://github.com/hlissner/dotfiles) - [gvolpe](https://github.com/gvolpe/nix-config) - [notashelf](https://github.com/notashelf/nyx)
+[fufexan](https://github.com/fufexan/dotfiles) - 
+[mitchellh](https://github.com/mitchellh/nixos-config) - 
+[workflow](https://github.com/workflow/dotfiles) - 
+[notohh](https://github.com/notohh/snowflake) - 
+[hlissner](https://github.com/hlissner/dotfiles) - 
+[gvolpe](https://github.com/gvolpe/nix-config)
 

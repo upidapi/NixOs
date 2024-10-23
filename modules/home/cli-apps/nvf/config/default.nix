@@ -335,7 +335,7 @@ in {
           borders = disable;
           breadcrumbs = disable;
 
-          colorizer = enable;
+          # colorizer = enable;
           illuminate = disable;
 
           # alternative ui
@@ -349,7 +349,6 @@ in {
 
         utility = {
           # NOTE: enabling ccc and colorizer breaks nixd
-          /*
           ccc = {
             enable = true;
             mappings = {
@@ -358,10 +357,6 @@ in {
               quit = "<Esc>";
             };
           };
-                quit = "<Esc>";
-            };
-          };
-          */
 
           diffview-nvim = enable;
           # icon-picker = enable;

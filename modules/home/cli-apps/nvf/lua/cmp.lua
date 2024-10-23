@@ -362,7 +362,6 @@ nvim_lsp.nixd.setup({
                 },
                 home_manager = {
                     expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").homeConfigurations."user@hostname".options',
-                },
                     -- expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
                     -- expr = [[let configs = (builtins.getFlake "/persist/nixos").homeConfigurations; in (builtins.head (builtins.attrValues configs)).options]]
                     -- expr = get_expr("homeConfigurations"),

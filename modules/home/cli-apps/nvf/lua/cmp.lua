@@ -351,15 +351,19 @@ nvim_lsp.nixd.setup({
             },
             options = {
                 -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
+                --
                 nixos = {
-                    expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
+                    expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").nixosConfigurations.hostname.options',
+                    -- expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
                     -- expr = '(builtins.getFlake "/persist/nixos").nixosConfigurations.hostname.options'
                     -- expr = [[let configs = (builtins.getFlake "/persist/nixos").nixosConfigurations; in (builtins.head (builtins.attrValues configs)).options]];
 
                     -- expr = get_expr("nixosConfigurations"),
                 },
                 home_manager = {
-                    expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
+                    expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").homeConfigurations."user@hostname".options',
+                },
+                    -- expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
                     -- expr = [[let configs = (builtins.getFlake "/persist/nixos").homeConfigurations; in (builtins.head (builtins.attrValues configs)).options]]
                     -- expr = get_expr("homeConfigurations"),
                     

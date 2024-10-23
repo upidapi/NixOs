@@ -267,7 +267,7 @@ end
 require("null-ls").setup({
     sources = {
         -- you must download code formatter by yourself!
-        require("null-ls").builtins.formatting.nixpkgs_fmt,
+        require("null-ls").builtins.formatting.alejandra,
     },
     debug = false,
     on_attach = function(client, bufnr)
@@ -328,16 +328,19 @@ local on_attach = function(bufnr)
         end,
     })
 end
-local function get_expr(attr)
+
+local nix_flake_code = '(builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"))'
+local function get_nix_expr(attr)
     return string.format([[
         let
-          inherit (builtins) head attrValues getFlake getEnv;
+          inherit (builtins) head attrValues;
         in 
           configs = (head (attrValues (
             (getFlake (getEnv "NIXOS_CONFIG_PATH")).%s
           )).options;
     ]], attr)
 end
+
 nvim_lsp.nixd.setup({
     on_attach = on_attach(),
     capabilities = capabilities,
@@ -350,28 +353,23 @@ nvim_lsp.nixd.setup({
                 command = { "alejandra" },
             },
             options = {
-                nixos = {
-                    expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").nixosConfigurations.hostname.options',
-                },
-                home_manager = {
-                    expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").homeConfigurations."user@hostname".options',
-                },
-                --[=[
                 -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
                 nixos = {
-                    expr = [[let configs = (builtins.getFlake "/persist/nixos").nixosConfigurations; in (builtins.head (builtins.attrValues configs)).options]];
-
-                    -- expr = get_expr("nixosConfigurations"),
+                    expr = get_expr("nixosConfigurations"),
                 },
                 home_manager = {
-                    expr = [[let configs = (builtins.getFlake "/persist/nixos").homeConfigurations; in (builtins.head (builtins.attrValues configs)).options]]
-                    -- expr = get_expr("homeConfigurations"),
-                    
+                    expr = get_expr("homeConfigurations"),
                 },
-                ]=]--
-                -- flake_parts = {
-                    -- expr = 'let flake = builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"); in flake.debug.options // flake.currentSystem.options',
-                -- },
+                flake_parts = {
+                    expr = string.format([[
+                        let flake = %s; 
+                        in 
+                            flake.debug.options // 
+                            flake.currentSystem.options
+                        ]], 
+                        nix_flake_code
+                    ),
+                },
             },
         },
     },

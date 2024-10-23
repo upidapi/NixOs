@@ -8,6 +8,9 @@
         ./hosts # entry point for all machines / users
       ];
 
+      # required for nixd
+      debug = true;
+
       systems = [
         # systems for which you want to build the `perSystem` attributes
         "x86_64-linux"

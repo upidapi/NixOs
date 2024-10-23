@@ -346,7 +346,7 @@ in {
         };
 
         utility = {
-          # NOTE: enabling ccc and colorizer breaks nixd
+          # NOTE: ccc breaks nixd :)
           /*
           ccc = {
             enable = true;

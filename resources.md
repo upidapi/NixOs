@@ -28,6 +28,10 @@ sudo nix build .#images.minimal-installer
 cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 ```
 
+# mount full disk 
+```bash
+mkdir /btrfs_tmp; mount /dev/root_vg/root /btrfs_tmp
+```
 
 # fetch official iso(s)
 ```bash 

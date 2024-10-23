@@ -12,9 +12,9 @@ in {
   options.modules.nixos.hardware.sound = mkEnableOpt "enables sound for the system";
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [
-      pkgs.pamixer
-      pkgs.pulseaudio
+    environment.systemPackages = with pkgs; [
+      pamixer
+      pulseaudio
     ];
 
     # Enable sound with pipewire.

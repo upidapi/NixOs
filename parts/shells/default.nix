@@ -1,4 +1,10 @@
 {
+  config,
+  inputs,
+  lib,
+  # , pkgs
+  ...
+} @ args: {
   perSystem = {
     pkgs,
     self',
@@ -41,6 +47,61 @@
           (import ./nvim-lsp.nix {inherit pkgs;})
         ];
       };
+
+      /*
+      nvf = let
+        n = inputs.nvf.lib.neovimConfiguration {
+          modules = [
+            {
+              # Add any custom options (and do feel free to upstream them!)
+              # options = { ... };
+
+              config.vim =
+                (import ./nvf.nix (args // {inherit pkgs;}))
+                // {
+                  # theme.enable = true;
+                  # and more options as you see fit...
+
+                  startPlugins = with pkgs.vimPlugins; [
+                    (nvim-treesitter.withPlugins (
+                      parsers: builtins.attrValues {inherit (parsers) nix markdown markdown_inline;}
+                    ))
+                    friendly-snippets
+                    luasnip
+                    nvim-cmp
+                    cmp-nvim-lsp
+                    cmp-buffer
+                    cmp_luasnip
+                    cmp-path
+                    cmp-cmdline
+                    none-ls-nvim
+                    nvim-lspconfig
+                    nord-nvim
+                    noice-nvim
+                    lualine-nvim
+                    bufferline-nvim
+                    lspsaga-nvim
+                  ];
+
+                  luaConfigRC."lua-cfg" =
+                    builtins.readFile
+                    ../../modules/home/cli-apps/nvf/lua/cmp.lua;
+                  #"${self}/modules/home/"
+                };
+            }
+          ];
+          inherit pkgs;
+        };
+      in
+        pkgs.mkShell {
+          nativeBuildInputs = [
+            (pkgs.runCommand "nvf-lsp" {} ''
+              mkdir -p $out/bin
+              ln -s ${n.neovim}/bin/nvim $out/bin/nvf-lsp
+            '')
+          ];
+        };
+      */
 
       kattis = pkgs.mkShell {
         packages = [
@@ -146,38 +207,37 @@ system,
 ...
 }: {
 devShells.default = pkgs.mkShell {
-    name = "configuration.nix";
-    packages = let
-      customPkgs = import ../packages {
-        inherit inputs' pkgs self system;
-      };
-    in
-      [
-        inputs'.agenix.packages.default
-        inputs'.disko.packages.default
-        self'.formatter
-      ]
-      ++ (
-        with customPkgs; [
-          delta
-          neovim-unwrapped
-          nix
-          tmux
-        ]
-      )
-      ++ (
-        with pkgs; [
-          bat
-          deadnix
-          git
-          nix-output-monitor
-          parted
-          smartmontools
-          statix
-        ]
-      );
+name = "configuration.nix";
+packages = let
+customPkgs = import ../packages {
+    inherit inputs' pkgs self system;
+};
+in
+[
+    inputs'.agenix.packages.default
+    inputs'.disko.packages.default
+    self'.formatter
+]
+++ (
+    with customPkgs; [
+      delta
+      neovim-unwrapped
+      nix
+      tmux
+    ]
+)
+++ (
+    with pkgs; [
+      bat
+      deadnix
+      git
+      nix-output-monitor
+      parted
+      smartmontools
+      statix
+    ]
+);
 };
 };
-}
 */
 

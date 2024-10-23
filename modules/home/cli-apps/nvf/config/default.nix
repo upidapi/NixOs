@@ -30,13 +30,13 @@ in {
     #  semantic rokens but in the TreeSitter things
     /*
     Treesitter
-      - @string.escape.nix links to @string.escape nix  # <== is here
+    - @string.escape.nix links to @string.escape nix  # <== is here
 
     Semantic Tokens
-      - @lsp.type.string.nix links to String priority: 125  # <== should be here
+    - @lsp.type.string.nix links to String priority: 125  # <== should be here
      - @lsp.type.string.nix links to String priority: 125
-      - @lsp.mod.escape.nix links to @lsp priority: 126
-      - @lsp.typemod.string.escape.nix links to @lsp priority: 127
+    - @lsp.mod.escape.nix links to @lsp priority: 126
+    - @lsp.typemod.string.escape.nix links to @lsp priority: 127
     */
 
     # x = "asd//// \\ \" \\ \${gjkhg} "; y = "";
@@ -262,6 +262,7 @@ in {
           terminal."<Esc>".action = "<C-\><C-n>";
         };
 
+        /*
         telescope = {
           enable = true;
           mappings = {
@@ -290,6 +291,7 @@ in {
             lspTypeDefinitions = null; # "<leader>flt";
           };
         };
+        */
 
         terminal = {
           toggleterm = {
@@ -346,6 +348,8 @@ in {
         };
 
         utility = {
+          # NOTE: enabling ccc and colorizer breaks nixd
+          /*
           ccc = {
             enable = true;
             mappings = {
@@ -354,6 +358,10 @@ in {
               quit = "<Esc>";
             };
           };
+                quit = "<Esc>";
+            };
+          };
+          */
 
           diffview-nvim = enable;
           # icon-picker = enable;

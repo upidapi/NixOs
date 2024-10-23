@@ -767,6 +767,8 @@ class Commit:
                 color=True
             )
 
+def noop():
+    pass
 
 class Command:
     def add_format_show(args, cmp_target="HEAD"):
@@ -777,7 +779,7 @@ class Command:
         
         Part.show_diff(cmp_target)
 
-    def rebuild(args, cmp_target="HEAD"):  
+    def rebuild(args, cmp_target="HEAD", pre_rebuild_callback=noop):  
         # prep
         Command.add_format_show(args, cmp_target)
         Part.check_changes(args, cmp_target)
@@ -801,7 +803,15 @@ class Command:
         hash = Commit.get_last_commit_hash()
         
         run_cmd("git fetch")
-        Part.check_changes(args, "HEAD origin/main")
+        Part.check_changes(
+            args, 
+            "HEAD origin/main",
+            lambda: run_cmd(
+                "git log --oneline --no-decorate HEAD ^HEAD~3^",
+                print_res=True,
+                color=True
+            )
+        )
         
         Part.pull_changes()
 

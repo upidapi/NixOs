@@ -328,7 +328,48 @@ local on_attach = function(bufnr)
         end,
     })
 end
+local function get_expr(attr)
+    return string.format([[
+        let
+          inherit (builtins) head attrValues getFlake getEnv;
+        in 
+          configs = (head (attrValues (
+            (getFlake (getEnv "NIXOS_CONFIG_PATH")).%s
+          )).options;
+    ]], attr)
+end
+nvim_lsp.nixd.setup({
+    on_attach = on_attach(),
+    capabilities = capabilities,
+    settings = {
+        nixd = {
+            nixpkgs = {
+                expr = "import <nixpkgs> { }",
+            },
+            formatting = {
+                command = { "alejandra" },
+            },
+            options = {
+                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
+                nixos = {
+                    expr = [[let configs = (builtins.getFlake "/persist/nixos").nixosConfigurations; in (builtins.head (builtins.attrValues configs)).options]];
 
+                    -- expr = get_expr("nixosConfigurations"),
+                },
+                home_manager = {
+                    expr = [[let configs = (builtins.getFlake "/persist/nixos").homeConfigurations; in (builtins.head (builtins.attrValues configs)).options]]
+                    -- expr = get_expr("homeConfigurations"),
+                    
+                },
+                -- flake_parts = {
+                    -- expr = 'let flake = builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"); in flake.debug.options // flake.currentSystem.options',
+                -- },
+            },
+        },
+    },
+})
+--
+--[=[
 local nix_flake_code = '(builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"))'
 local function get_nix_expr(attr)
     return string.format([[
@@ -374,7 +415,7 @@ nvim_lsp.nixd.setup({
         },
     },
 })
---
+]=]--
 
 -------------------
 -- About lspsaga --

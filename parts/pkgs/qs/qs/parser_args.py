@@ -3,16 +3,17 @@
 from typing import Callable, Any, Required, Dict, cast
 from typing import TypedDict
 
+
 class Base:
     class Part(TypedDict, total=False):
         info: str
         # defaults to what info is
-        doc: str 
+        doc: str
 
     class Req(TypedDict):
         info: str
         # defaults to what info is
-        doc: str 
+        doc: str
 
 
 class Arg:
@@ -21,8 +22,8 @@ class Arg:
         name: Required[str]
 
         # for tab completion
-        type: str # "<choice [a, b, c]>"
-        
+        type: str  # "<choice [a, b, c]>"
+
         # can it be skipped
         optional: bool
 
@@ -36,8 +37,8 @@ class ExtraArgs:
     class Part(Base.Part, total=False):
         # only for the help screen
         name: Required[str]
-        
-        type: str 
+
+        type: str
 
         enable: bool
         # types: Callable[[int], str]
@@ -45,7 +46,8 @@ class ExtraArgs:
     class Req(Base.Req):
         name: str
         type: str
-        enable: bool 
+        enable: bool
+
 
 class Flag:
     class Part(Base.Part, total=False):
@@ -53,11 +55,11 @@ class Flag:
         alias: list[str]
 
         # amount of times you can use this flag
-        # -1 means no limit 
+        # -1 means no limit
         count: int
 
-        # a function to format the result 
-        fmt: Callable[[list[list[str]] | None], Any] 
+        # a function to format the result
+        fmt: Callable[[list[list[str]] | None], Any]
 
         # list of other flags reqired
         block: list[str]
@@ -72,7 +74,7 @@ class Flag:
     class Req(Base.Req):
         alias: list[str]
         count: int
-        fmt: Callable[[list[list[str]] | None], Any] 
+        fmt: Callable[[list[list[str]] | None], Any]
         block: list[str]
         require: list[str]
         args: list[Arg.Req]
@@ -109,12 +111,11 @@ class FullArg:
         extra_args: ExtraArgs.Req
         sub_cmd: Dict[str, SubCmd.Req]
 
+
 # https://github.com/python/typing/issues/1454
 
 id = lambda x: x
-test_empty: FullArg.Part = {
-    "name": ""
-}
+test_empty: FullArg.Part = {"name": ""}
 
 test_req: FullArg.Req = {
     "name": "",
@@ -137,13 +138,15 @@ test_req: FullArg.Req = {
             },
         }
     },
-    "args": [{
-        "info": "",
-        "doc": "",
-        "name": "",
-        "type": "",
-        "optional": False,
-    }],
+    "args": [
+        {
+            "info": "",
+            "doc": "",
+            "name": "",
+            "type": "",
+            "optional": False,
+        }
+    ],
     "extra_args": {
         "info": "",
         "doc": "",
@@ -167,7 +170,7 @@ test_req: FullArg.Req = {
                     "name": "",
                     "type": "",
                     "enable": False,
-                }
+                },
             },
         },
     },
@@ -194,13 +197,15 @@ test_part: FullArg.Part = {
             },
         }
     },
-    "args": [{
-        "info": "",
-        "doc": "",
-        "name": "",
-        "type": "",
-        "optional": False,
-    }],
+    "args": [
+        {
+            "info": "",
+            "doc": "",
+            "name": "",
+            "type": "",
+            "optional": False,
+        }
+    ],
     "extra_args": {
         "info": "",
         "doc": "",
@@ -224,7 +229,7 @@ test_part: FullArg.Part = {
                     "name": "",
                     "type": "",
                     "enable": False,
-                }
+                },
             },
         },
     },
@@ -243,18 +248,15 @@ example: FullArg.Part = {
             "alias": ["-t"],
             "info": "pass --show-trace to nixos-rebuild",
         },
-
         # >>> qs help
-        # cmd 
-        #   -m --message: <message> [*<tags>] commit message for rebuild 
-        
+        # cmd
+        #   -m --message: <message> [*<tags>] commit message for rebuild
         # >>> qs help --message
         #  -m --message: <message> [*<tags>]
-        # 
+        #
         "--message": {
             "alias": ["-m"],
             "info": "commit msg for the rebuild",
-
             # defaults to the "info"
             # shown on help --message
             "doc": """\
@@ -273,20 +275,14 @@ example: FullArg.Part = {
                 eg:
                     debug: starship
             """,
-
-            # -1 means no limit 
+            # -1 means no limit
             # amount of times you can use this flag
             "count": 1,
-
             "fmt": lambda x: x,
             # list of other flags required
-            "require": [
-                "trace"
-            ],
-            # list of other flags not allowed 
-            "block": [
-                "profile"
-            ],
+            "require": ["trace"],
+            # list of other flags not allowed
+            "block": ["profile"],
             # not needed, default behaviour
             # "allow_sub": False,
             "args": [
@@ -295,24 +291,23 @@ example: FullArg.Part = {
                     "name": "message",
                     # for tab completion
                     "type": "<choice [a, b, c]>",
-
                     "optional": False,
                 },
             ],
             "extra_args": {
                 # only for the help screen
                 "name": "<tags>",
-                # "count": -1, # -1 means no limit 
-                "info": "some info about the extra args", 
+                # "count": -1, # -1 means no limit
+                "info": "some info about the extra args",
                 "type": "<dir>",
             },
         },
         "--no-rebuild": {
-            "alias": ["-c"], 
+            "alias": ["-c"],
             "info": "only commit changes, dont rebuild",
         },
         "--no-auto-add": {
-            "alias": ["-n"], 
+            "alias": ["-n"],
             "info": "dont auto add/commit all files",
         },
         # "--no-add-files": {
@@ -324,18 +319,13 @@ example: FullArg.Part = {
         "--profile": {
             "alias": ["-p"],
             "info": "the flake profile to build",
-            "args": [
-                {
-                    "name": "<profile>"
-                }
-            ],
+            "args": [{"name": "<profile>"}],
         },
         "--force": {
             "alias": ["-f"],
             "info": "force rebuild even if there are no changes",
         },
     },
-
     # positional args
     "args": [
         {
@@ -343,18 +333,15 @@ example: FullArg.Part = {
             "name": "<message>",
             # for tab completion
             "type": "<choice [a, b, c]>",
-
             "optional": False,
         },
     ],
-
     "extra_args": {
         "name": "<tags>",
-        # "count": -1, # -1 means no limit 
-        "info": "some info about the extra args", 
+        # "count": -1, # -1 means no limit
+        "info": "some info about the extra args",
         "type": "<dir>",
     },
-
     "sub_cmd": {
         # generated automatically
         # "help": {
@@ -383,14 +370,14 @@ class D:
     def __init__(self, key, default, func=lambda x: x):
         self.key = key
         self.default = default
-        self.func = func 
+        self.func = func
 
 
 def parse_dict(data, defaults: dict[str, Any]):
     def get_default(key, default):
-        if isinstance(default, D): 
+        if isinstance(default, D):
             default = default.func(get_default(default.key, default.default))
-        
+
         return data[key] if key in data else default
 
     for key, default in defaults.items():
@@ -400,56 +387,59 @@ def parse_dict(data, defaults: dict[str, Any]):
 
 
 def parse_base(base):
-    return parse_dict(base, {
-        "info": "",
-        "doc": D("info", ""),
-    })
+    return parse_dict(
+        base,
+        {
+            "info": "",
+            "doc": D("info", ""),
+        },
+    )
 
 
 def parse_extra_args(extra_args: ExtraArgs.Part) -> ExtraArgs.Req:
     return cast(
-        ExtraArgs.Req, 
+        ExtraArgs.Req,
         parse_dict(
-            parse_base(extra_args), 
+            parse_base(extra_args),
             {
                 "name": "",
                 "type": "",
                 # enable if name is set
-                "enable": D(
-                    "name", 
-                    False, 
-                    lambda x: x if x is False else bool(x)
-                )
-            }
-        )
+                "enable": D("name", False, lambda x: x if x is False else bool(x)),
+            },
+        ),
     )
 
 
 def parse_args(args: list[Arg.Part]) -> list[Arg.Req]:
     out: list = []
-    
+
     for arg in args:
         out.append(
             parse_dict(
-                parse_base(arg), 
+                parse_base(arg),
                 {
                     "name": "",
                     "type": "",
                     "optional": False,
-                }
+                },
             )
         )
 
     return cast(list[Arg.Req], out)
 
+
 import json
+
+
 def pp(data):
     print(json.dumps(data, indent=4))
+
 
 def parse_flags(flags: Dict[str, SubCmd.Part]) -> Dict[str, SubCmd.Req]:
     for flag, data in flags.items():
         data = parse_dict(
-            parse_base(data), 
+            parse_base(data),
             {
                 "alias": [],
                 "count": 1,
@@ -458,12 +448,12 @@ def parse_flags(flags: Dict[str, SubCmd.Part]) -> Dict[str, SubCmd.Req]:
                 "require": [],
                 "args": [],
                 "extra_args": {},
-            }
+            },
         )
 
         data["extra_args"] = parse_extra_args(data["extra_args"])
         data["args"] = parse_args(data["args"])
-        
+
         flags[flag] = data
 
     return cast(Dict[str, SubCmd.Req], flags)
@@ -472,15 +462,15 @@ def parse_flags(flags: Dict[str, SubCmd.Part]) -> Dict[str, SubCmd.Req]:
 def parse_sub_cmds(sub_cmds: dict[str, SubCmd.Part]) -> dict[str, SubCmd.Req]:
     for sub_cmd, data in sub_cmds.items():
         data = parse_dict(
-            parse_base(data), 
+            parse_base(data),
             {
                 "alias": [],
                 "sub_data": {},
-            }
+            },
         )
         data["sub_data"]["name"] = sub_cmd
         data["sub_data"] = parse_full_arg(data["sub_data"])
-        
+
         sub_cmds[sub_cmd] = data
 
     return cast(dict[str, SubCmd.Req], sub_cmds)
@@ -488,28 +478,25 @@ def parse_sub_cmds(sub_cmds: dict[str, SubCmd.Part]) -> dict[str, SubCmd.Req]:
 
 def parse_full_arg(full_arg: FullArg.Part) -> FullArg.Req:
     out = parse_dict(
-        full_arg, 
+        full_arg,
         {
             "name": "",
             "flags": {},
             "args": [],
             "extra_args": {},
             "sub_cmd": {},
-        }
+        },
     )
 
     for key, func in {
         "flags": parse_flags,
-        "args": parse_args, 
+        "args": parse_args,
         "extra_args": parse_extra_args,
         "sub_cmd": parse_sub_cmds,
     }.items():
         out[key] = func(out[key])
 
-    return cast(
-        FullArg.Req,
-        out
-    )
+    return cast(FullArg.Req, out)
 
 
 def _error(msg):
@@ -521,21 +508,20 @@ def check_struct(full_arg: FullArg.Req, scope=None):
 
     def scope_error(msg):
         _error(f"{msg} ({' '.join(scope)})")
-    
+
     def check_base(
         data: FullArg.Req | Arg.Req | ExtraArgs.Req,
         name: str,
     ):
         if data["name"] == "":
             scope_error(f"the {name} name \"{data["name"]}\" cant be empty str")
-        
 
     check_base(full_arg, "command")
-    
+
     def check_extra_args(data: ExtraArgs.Req):
         if not data["enable"]:
             return
-        
+
         check_base(data, "extra_arg")
 
     def check_args(data: list[Arg.Req]):
@@ -543,7 +529,7 @@ def check_struct(full_arg: FullArg.Req, scope=None):
 
         for i, arg in enumerate(data):
             scope.append(f"[{i}]")
-    
+
             is_opt = arg["optional"]
             if is_opt and not last_opt:
                 scope_error("cant have optional arg after required arg")
@@ -554,30 +540,26 @@ def check_struct(full_arg: FullArg.Req, scope=None):
             scope.pop(-1)
 
     for flag, data in full_arg["flags"].items():
-        if not flag.startswith("-"): 
-            scope_error(
-                f"the flag \"{flag}\" does not start with -"
-            )
+        if not flag.startswith("-"):
+            scope_error(f'the flag "{flag}" does not start with -')
 
         scope.append(flag)
 
         for x in data["block"]:
             if x not in full_arg["flags"].keys():
-                scope_error(f"the blocked \"{x}\" is not in the list of flags")
+                scope_error(f'the blocked "{x}" is not in the list of flags')
 
         for x in data["require"]:
             if x not in full_arg["flags"].keys():
-                scope_error(f"the required \"{x}\" is not in the list of flags")
-        
+                scope_error(f'the required "{x}" is not in the list of flags')
+
         for alias in data["alias"]:
             if not alias.startswith("-"):
-                scope_error(f"the alias \"{alias}\" does not start with -")
+                scope_error(f'the alias "{alias}" does not start with -')
 
         if data["count"] < -1:
-            scope_error(
-                f"the count \"{data["count"]}\" has to be -1 or positive"
-            )
-        
+            scope_error(f"the count \"{data["count"]}\" has to be -1 or positive")
+
         check_extra_args(data["extra_args"])
         check_args(data["args"])
 
@@ -585,20 +567,16 @@ def check_struct(full_arg: FullArg.Req, scope=None):
 
     check_extra_args(full_arg["extra_args"])
     check_args(full_arg["args"])
-    
+
     for sub_cmd, data in full_arg["sub_cmd"].items():
         scope.append(f"[{sub_cmd}]")
-        if sub_cmd.startswith("-"): 
-            scope_error(
-                f"the sub_cmd \"{sub_cmd}\" cant start with -"
-            )
-        
+        if sub_cmd.startswith("-"):
+            scope_error(f'the sub_cmd "{sub_cmd}" cant start with -')
+
         for alias in data["alias"]:
-            if alias.startswith("-"): 
-                scope_error(
-                    f"the alias \"{alias}\" cant start with -"
-                )
-        
+            if alias.startswith("-"):
+                scope_error(f'the alias "{alias}" cant start with -')
+
         check_struct(data["sub_data"], scope)
 
         scope.pop(-1)

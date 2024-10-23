@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 # this script (should) fully install my nixos config (or create a new one)
-# requiring only a nixos install (eg the installer iso) and python, but that's 
+# requiring only a nixos install (eg the installer iso) and python, but that's
 # provided by the app output
 
 
@@ -22,10 +22,8 @@ def run_cmd(
     cmd = f"set -euxo pipefail\n{cmd}"
 
     if color:
-        cmd = (
-            f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
-        )
-    
+        cmd = f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
+
     # todo exit on error
     process = subprocess.Popen(
         cmd,
@@ -97,11 +95,11 @@ def has_internet(host="8.8.8.8", port=53, timeout=3):
 
 
 def get_hardware_cfg():
-    return "\n".join(run_cmd(""
-        "nixos-generate-config "
-        "--root /mnt "
-        "--show-hardware-config ",
-    ).split("\n")[1:])
+    return "\n".join(
+        run_cmd(
+            "" "nixos-generate-config " "--root /mnt " "--show-hardware-config ",
+        ).split("\n")[1:]
+    )
 
 
 def to_file(data, file_path):
@@ -119,13 +117,11 @@ def promt_create_new_host(profiles):
     if host_template_name == "none":
         run_cmd(f"mkdir /tmp/nixos/hosts/{new_host_name}")
     else:
-        run_cmd(f"cp -r /tmp/nixos/hosts/{host_template_name} /tmp/nixos/hosts/{new_host_name}")
+        run_cmd(
+            f"cp -r /tmp/nixos/hosts/{host_template_name} /tmp/nixos/hosts/{new_host_name}"
+        )
 
-
-    to_file(
-        get_hardware_cfg(), 
-        f"/tmp/nixos/hosts/{new_host_name}/hardware.nix"
-    )
+    to_file(get_hardware_cfg(), f"/tmp/nixos/hosts/{new_host_name}/hardware.nix")
 
     print(
         "",
@@ -152,7 +148,7 @@ def init_bootstrap_cfg(profile):
     # Therefore we have to manually create this folder
     # (this took me me about 2 full days to figure out, :) )
     run_cmd("mkdir /mnt/persist/system")
-    
+
     print("\ncreating bootstrap config files")
     # now we have to create a conventional config to start,
     # since nixos-install can't handle flakes
@@ -169,16 +165,14 @@ def init_bootstrap_cfg(profile):
         "/mnt/persist/nixos/parts/install/bootstrap-config.nix "
         "/mnt/etc/nixos/configuration.nix ",
     )
-    
+
     print("\ninstalling bootstrap config")
     run_cmd(
         "nixos-install "
         "--root /mnt "
-
-        # if you've done some fuckery with the nix path 
+        # if you've done some fuckery with the nix path
         # (eg pinning it to the flake inputs)
         # "--extra-experimental-features \"flakes\""
-
         # all cores
         "--cores 0 "
         "--no-root-passwd ",
@@ -193,7 +187,7 @@ def install_system(profile):
     run_cmd(
         "nixos-install "
         "--root /mnt "
-        # all cores 
+        # all cores
         "--cores 0 "
         "--no-root-passwd "
         f"--flake /mnt/persist/nixos#{profile}",
@@ -214,13 +208,15 @@ def parse_args():
     parser.add_argument("-p", "--profile", type=str, help="Profile name")
 
     parser.add_argument(
-        "-s", "--silent",
+        "-s",
+        "--silent",
         action="store_true",
         help="Run in silent mode, ei no further inputs required",
     )
 
     parser.add_argument(
-        "-n", "--new-profile",
+        "-n",
+        "--new-profile",
         action="store_true",
         help="Create a new profile",
     )
@@ -270,7 +266,6 @@ def main():
     # since /mnt gets wiped when reformatting the disk with disko
     run_cmd("git clone https://github.com/upidapi/NixOs /tmp/nixos")
 
-
     profiles = next(os.walk("/tmp/nixos/hosts"))[1]
 
     if args.profile and args.profile not in profiles:
@@ -284,9 +279,8 @@ def main():
 
         if selected == "create new host":
             args.profile = promt_create_new_host(profiles)
-        else: 
+        else:
             args.profile = selected
-
 
     notify("format the file system with disko")
     run_cmd(f"""
@@ -296,17 +290,15 @@ def main():
       --mode disko "/tmp/nixos/hosts/{args.profile}/disko.nix"
     """)
 
-
     # move the config to the correct place, since disko would've
     # erased it (along with everything else in /persist)
     print("\nplacing the comfig in the right place")
     run_cmd("mkdir /mnt/persist")
     run_cmd("cp -r /tmp/nixos /mnt/persist/nixos")
-    
+
     print("\ncreating secret file templates")
     run_cmd("touch /mnt/persist/sops-nix-key.txt")
     run_cmd("chmod 700 /mnt/persist/sops-nix-key.txt")
-
 
     mode = "bootstrap"
 
@@ -315,7 +307,7 @@ def main():
 
         notify("reboot to continue")
         run_cmd("reboot")
-    
+
     # using nix install --flake has a tendency to break things
     elif mode == "flake":
         install_system(args.profile)
@@ -326,4 +318,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

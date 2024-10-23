@@ -2,7 +2,6 @@
 use to generate the colors from two colors: dark, light
 """
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -47,12 +46,19 @@ def get_data():
         res = line.strip().split(" ")
         # print(res)
 
-        data.append(list(map(float, [
-            res[0][len("--primary-"):-len(":")],
-            res[1][len("hsl("):],
-            res[2][:-len("%")],
-            res[3][:-len("%);")],
-        ])))
+        data.append(
+            list(
+                map(
+                    float,
+                    [
+                        res[0][len("--primary-") : -len(":")],
+                        res[1][len("hsl(") :],
+                        res[2][: -len("%")],
+                        res[3][: -len("%);")],
+                    ],
+                )
+            )
+        )
 
     """
     data = [(100, 200, 0, 97.6),
@@ -92,7 +98,7 @@ labels = np.array([d[0] for d in data])
 lightness_values = np.array([d[3] for d in data])
 
 # Fit a polynomial of degree 10
-degree = 8 # arbitrary
+degree = 8  # arbitrary
 coefficients = np.polyfit(labels, lightness_values, degree)
 
 # Create a polynomial function using the coefficients
@@ -105,15 +111,16 @@ def plot():
     y_fit = polynomial(x_fit)
 
     # Plot the original data and the fitted polynomial curve
-    plt.scatter(labels, lightness_values, label='Data', color='red')
-    plt.plot(x_fit, y_fit, label=f'Fitted {degree}th Degree Polynomial', color='blue')
-    plt.xlabel('Labels')
-    plt.ylabel('Lightness Values')
-    plt.title('10th Degree Polynomial Fit to Data')
+    plt.scatter(labels, lightness_values, label="Data", color="red")
+    plt.plot(x_fit, y_fit, label=f"Fitted {degree}th Degree Polynomial", color="blue")
+    plt.xlabel("Labels")
+    plt.ylabel("Lightness Values")
+    plt.title("10th Degree Polynomial Fit to Data")
     plt.legend()
     plt.grid()
 
     plt.show()
+
 
 # plot()
 
@@ -125,31 +132,33 @@ def plot():
 
 # 100 * 0.08 * x = 0
 
-def interpolate(a, b): 
+
+def interpolate(a, b):
     # make sure that the first and last one correlate
     # to a and b
-    # a[3] /= (100 - 2.4) / 100 
+    # a[3] /= (100 - 2.4) / 100
     # b[3] /= (100 - 0.8) / 100
-    a[3] /= polynomial(data[0][0]) / 100 
+    a[3] /= polynomial(data[0][0]) / 100
     b[3] /= (100 - polynomial(data[-1][0])) / 100
     # a = (100, 200, 14, 97.6 + 2.4)
     # b = (900, 245, 4, 0.8 - 0.8)
-    
+
     out = []
     for dat in data:
         d = dat[0]
-        p = (d - 100) / 800 # normalize to 0..1
+        p = (d - 100) / 800  # normalize to 0..1
         pp = polynomial(d) / 100
 
-        out.append([
-            d,
-            a[1] + (b[1] - a[1]) * p,
-            a[2] + (b[2] - a[2]) * p,
-            a[3] * pp + b[3] * (1 - pp)
-        ])
-    
-    
-    for x in out: 
+        out.append(
+            [
+                d,
+                a[1] + (b[1] - a[1]) * p,
+                a[2] + (b[2] - a[2]) * p,
+                a[3] * pp + b[3] * (1 - pp),
+            ]
+        )
+
+    for x in out:
         hsl_part = f"{x[1]:.0f} {x[2]:.1f}% {x[3]:.1f}%"
         print(f"--primary-{x[0]:.0f}: hsl({hsl_part});")
         print(f"--primary-{x[0]:.0f}-hsl: {hsl_part};")
@@ -162,14 +171,9 @@ def interpolate(a, b):
 # )
 
 interpolate(
-    [100, 200,  40, 90.6], # dark
-    [900, 245, 4, -5] # light
+    [100, 200, 40, 90.6],  # dark
+    [900, 245, 4, -5],  # light
 )
 
 # x * p + y * (1 - p)
 # x * p + y - yp
-
-
-
-
-

@@ -27,7 +27,7 @@ input("Input 2: ")
 sleep(1)
 
 print("JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq", flush=True)
-print("Input 3: ", end = "", flush=True)
+print("Input 3: ", end="", flush=True)
 print("JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq", flush=True)
 input()
 print("JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq", flush=True)

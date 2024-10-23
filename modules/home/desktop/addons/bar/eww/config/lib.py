@@ -74,15 +74,9 @@ def main():
     last = ""
 
     while True:
-        status = run_command(
-            f"cat /sys/class/power_supply/{battery}/status"
-        )
+        status = run_command(f"cat /sys/class/power_supply/{battery}/status")
 
-        charge = int(
-            run_command(
-                f"cat /sys/class/power_supply/{battery}/capacity"
-            )
-        )
+        charge = int(run_command(f"cat /sys/class/power_supply/{battery}/capacity"))
 
         if status.startswith("Charging"):
             icon = "󰂄"

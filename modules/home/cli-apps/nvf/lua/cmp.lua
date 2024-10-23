@@ -267,7 +267,7 @@ end
 require("null-ls").setup({
     sources = {
         -- you must download code formatter by yourself!
-        require("null-ls").builtins.formatting.alejandra,
+        require("null-ls").builtins.formatting.nixpkgs_fmt,
     },
     debug = false,
     on_attach = function(client, bufnr)
@@ -350,23 +350,25 @@ nvim_lsp.nixd.setup({
                 command = { "alejandra" },
             },
             options = {
-                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
-                --
                 nixos = {
                     expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").nixosConfigurations.hostname.options',
-                    -- expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
-                    -- expr = '(builtins.getFlake "/persist/nixos").nixosConfigurations.hostname.options'
-                    -- expr = [[let configs = (builtins.getFlake "/persist/nixos").nixosConfigurations; in (builtins.head (builtins.attrValues configs)).options]];
+                },
+                home_manager = {
+                    expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").homeConfigurations."user@hostname".options',
+                },
+                --[=[
+                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
+                nixos = {
+                    expr = [[let configs = (builtins.getFlake "/persist/nixos").nixosConfigurations; in (builtins.head (builtins.attrValues configs)).options]];
 
                     -- expr = get_expr("nixosConfigurations"),
                 },
                 home_manager = {
-                    expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").homeConfigurations."user@hostname".options',
-                    -- expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
-                    -- expr = [[let configs = (builtins.getFlake "/persist/nixos").homeConfigurations; in (builtins.head (builtins.attrValues configs)).options]]
+                    expr = [[let configs = (builtins.getFlake "/persist/nixos").homeConfigurations; in (builtins.head (builtins.attrValues configs)).options]]
                     -- expr = get_expr("homeConfigurations"),
                     
                 },
+                ]=]--
                 -- flake_parts = {
                     -- expr = 'let flake = builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"); in flake.debug.options // flake.currentSystem.options',
                 -- },
@@ -375,53 +377,6 @@ nvim_lsp.nixd.setup({
     },
 })
 --
---[=[
-local nix_flake_code = '(builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"))'
-local function get_nix_expr(attr)
-    return string.format([[
-        let
-          inherit (builtins) head attrValues;
-        in 
-          configs = (head (attrValues (
-            (getFlake (getEnv "NIXOS_CONFIG_PATH")).%s
-          )).options;
-    ]], attr)
-end
-
-nvim_lsp.nixd.setup({
-    on_attach = on_attach(),
-    capabilities = capabilities,
-    settings = {
-        nixd = {
-            nixpkgs = {
-                expr = "import <nixpkgs> { }",
-            },
-            formatting = {
-                command = { "alejandra" },
-            },
-            options = {
-                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
-                nixos = {
-                    expr = get_nix_expr("nixosConfigurations"),
-                },
-                home_manager = {
-                    expr = get_nix_expr("homeConfigurations"),
-                },
-                flake_parts = {
-                    expr = string.format([[
-                        let flake = %s; 
-                        in 
-                            flake.debug.options // 
-                            flake.currentSystem.options
-                        ]], 
-                        nix_flake_code
-                    ),
-                },
-            },
-        },
-    },
-})
-]=]--
 
 -------------------
 -- About lspsaga --

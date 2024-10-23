@@ -262,7 +262,6 @@ in {
           terminal."<Esc>".action = "<C-\><C-n>";
         };
 
-        /*
         telescope = {
           enable = true;
           mappings = {
@@ -291,7 +290,6 @@ in {
             lspTypeDefinitions = null; # "<leader>flt";
           };
         };
-        */
 
         terminal = {
           toggleterm = {

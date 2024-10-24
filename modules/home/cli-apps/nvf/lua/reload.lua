@@ -42,7 +42,7 @@ end
 -- Usage example: recursively require all Lua files in "my_directory"
 require_lua_files("my_directory")
 
-vim.api.nvim_set_keymap('n', '<leader>sc', 
+vim.keymap.set('n', '<leader>sc', 
     function()
         local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
         require_lua_files(nixos_config_path)

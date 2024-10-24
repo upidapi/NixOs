@@ -1,3 +1,5 @@
+
+--[=[
 -- Cross-platform function to get all Lua files in a directory recursively
 local function get_lua_files(dir)
     local files = {}
@@ -15,6 +17,8 @@ local function get_lua_files(dir)
     for file in pfile:lines() do
         -- Only add files that end with .lua
         if file:match("%.lua$") then
+            file = string.sub(file, #(dir) + 2)
+            print(file)
             table.insert(files, file)
         end
     end
@@ -26,26 +30,77 @@ end
 -- Function to require all Lua files in the given directory
 local function require_lua_files(dir)
     local lua_files = get_lua_files(dir)
+
     for _, file in ipairs(lua_files) do
         -- Convert file path to require path (replace / or \ with . and remove .lua extension)
         local require_path = file:gsub("/", "."):gsub("\\", "."):gsub("%.lua$", "")
         
         -- Remove the initial directory from the path to make it relative
         require_path = require_path:gsub("^" .. dir:gsub("/", "."):gsub("\\", "."), "")
-
+    
+        print(require_path)
         -- Require the file
         require(require_path)
     end
 end
 
+local function source_lua_files()
+    --[[
+    local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
+    local lua_cfg_path = nixos_config_path .. "/modules/home/cli-apps/nvf/lua"
+    get_lua_files(lua_cfg_path)
+    require_lua_files(lua_cfg_path)
+    ]]--
 
--- Usage example: recursively require all Lua files in "my_directory"
-require_lua_files("my_directory")
+    require("test") 
+    
+    require("cmp")
+end
 
-vim.keymap.set('n', '<leader>sc', 
-    function()
-        local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
-        require_lua_files(nixos_config_path)
-    end, 
+source_lua_files()
+]=]--
+
+
+
+local function source_lua_files_in_directory(dir)
+    local function source_files(path)
+        for _, file in ipairs(vim.fn.readdir(path)) do
+            local full_path = path .. '/' .. file
+            if vim.fn.isdirectory(full_path) == 1 then
+                -- Recursively source files in subdirectory
+                source_files(full_path)
+            elseif file:match('%.lua$') then
+                -- Source the Lua file
+                print(full_path)
+                vim.cmd('luafile ' .. full_path)
+            end
+        end
+    end
+
+    source_files(dir)
+end
+    
+
+local function source_lua_files()
+    local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
+    local lua_cfg_path = nixos_config_path .. "/modules/home/cli-apps/nvf/lua"
+    
+    source_lua_files_in_directory(lua_cfg_path)
+    
+    print("sourced config")
+end
+
+-- source_lua_files()
+
+--[[
+wa | source $nixos_config_path/modules/home/cli-apps/nvf/lua/reload.lua
+
+-- get config file
+echo stdpath('config')
+]]--
+
+vim.keymap.set(
+    'n', '<leader>sc', 
+    source_lua_files,
     { noremap = true, silent = true }
 )

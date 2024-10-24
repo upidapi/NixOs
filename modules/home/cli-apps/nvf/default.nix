@@ -9,7 +9,7 @@
   ...
 }: let
   inherit (builtins) filter map toString path;
-  inherit (inputs.nvf.lib.nvim.dag) entryBefore;
+  inherit (inputs.nvf.lib.nvim.dag) entryAfter;
   inherit (my_lib.opt) mkEnableOpt;
 
   inherit (lib.attrsets) genAttrs;
@@ -114,7 +114,7 @@ in {
           #  `<filePath> = entryAnywhere ''<contents of filePath>''`
           # which is expected by nvf's modified DAG library
           luaConfig = genAttrs configPaths (file:
-            entryBefore ["luaScript"] ''
+            entryAfter ["luaScript"] ''
               ${fileContents file}
             '');
         in

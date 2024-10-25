@@ -101,6 +101,9 @@ wa | source $nixos_config_path/modules/home/cli-apps/nvf/lua/reload.lua
 echo stdpath('config')
 ]]--
 
+
+vim.g.mapleader = " "
+
 print("loaded reload")
 vim.keymap.set(
     'n', '<leader>sc', 
@@ -108,15 +111,19 @@ vim.keymap.set(
     -- { noremap = true, silent = true }
 )
 
+
+
+vim.keymap.set("n", "<leader>gl", "<cmd> Telescope find_files<CR>", {["desc"] = "Find files [Telescope]",["expr"] = false,["noremap"] = true,["nowait"] = false,["script"] = false,["silent"] = true,["unique"] = false})
+
 vim.keymap.set(
     'n', '<leader>st', 
-    function() print("test") end
+    function() print("test leader") end
     -- { noremap = true, silent = true }
 )
-
 
 vim.keymap.set(
     'n', 'ge', 
     function() print("test") end
     -- { noremap = true, silent = true }
 )
+

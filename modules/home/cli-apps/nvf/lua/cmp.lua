@@ -453,7 +453,6 @@ keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true, desc = "Lsp fi
 
 -- Code action
 keymap("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true, desc = "Code action" })
-keymap("v", "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true, desc = "Code action" })
 
 -- Rename
 keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true, desc = "Rename" })
@@ -487,7 +486,7 @@ vim.keymap.set(
 
 vim.keymap.set(
     'n', 'gT', 
-    function() print("test main silent") end,
+    function() print("test main silent") end
     { noremap = true, silent = true }
 )
 

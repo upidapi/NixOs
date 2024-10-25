@@ -481,7 +481,7 @@ keymap(
 
 vim.keymap.set(
     'n', 'gt', 
-    function() print("test main") end,
+    function() print("test main") end
     -- { noremap = true, silent = true }
 )
 

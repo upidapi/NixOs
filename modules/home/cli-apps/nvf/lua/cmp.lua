@@ -34,7 +34,10 @@ vim.g.mapleader = " "
 
 --[[
 -- source manually 
-lua package.path = "/persist/nixos/modules/home/cli-apps/nvf/?.lua;" .. package.path; require("lua.init")
+lua package.path = "/persist/nixos/modules/home/cli-apps/nvf/?.lua;" .. package.path; vim.cmd("luafile /persist/nixos/modules/home/cli-apps/nvf/lua/init.lua"); print("manuall source")
+
+-- copy to a reg
+vim.fn.setreg('a', vim.api.nvim_exec("nmap", true))
 ]]--
 function hotload_config()
   local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
@@ -56,9 +59,9 @@ function hotload_config()
 end 
 
 vim.keymap.set(
-    'n', '<leader>sc', 
-    hotload_config,
-    { noremap = true }
+    'n', '<leader>rc', 
+    hotload_config
+    -- { noremap = true }
 )
 
 --[[
@@ -97,6 +100,8 @@ require("noice").setup({
     },
 })
 
+
+
 --[[
 -------------------
 -- About lualine --
@@ -132,6 +137,18 @@ require("nvim-treesitter.configs").setup({
         enable = true,
     },
 })
+
+
+----auto pairs-----
+local npairs = require("nvim-autopairs")
+npairs.setup({ map_cr = ${boolToString (!cfg.autocomplete.enable)} })
+
+local Rule = require('nvim-autopairs.rule')
+
+npairs.add_rules({
+  Rule("/*", "*/", {"javascript", "typescript", "nix"}),
+})
+
 
 ---------------
 -- About cmp --
@@ -365,7 +382,7 @@ local function get_expr(attr)
         let
           inherit (builtins) head attrValues getFlake getEnv;
         in 
-          configs = (head (attrValues (
+          with builtins; (head (attrValues (
             (getFlake (getEnv "NIXOS_CONFIG_PATH")).%s
           )).options;
     ]], attr)
@@ -385,19 +402,18 @@ nvim_lsp.nixd.setup({
                 -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
                 --
                 nixos = {
-                    -- expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").nixosConfigurations.hostname.options',
-                    expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
-                    -- expr = '(builtins.getFlake "/persist/nixos").nixosConfigurations.hostname.options'
-                    -- expr = [[let configs = (builtins.getFlake "/persist/nixos").nixosConfigurations; in (builtins.head (builtins.attrValues configs)).options]];
-
-                    -- expr = get_expr("nixosConfigurations"),
+                    expr = [[
+                        with builtins; (head (attrValues (
+                            (getFlake (getEnv "NIXOS_CONFIG_PATH")).nixosConfigurations
+                        )).options
+                    ]]
                 },
                 home_manager = {
-                    -- expr = '(builtins.getFlake "/tmp/NixOS_Home-Manager").homeConfigurations."user@hostname".options',
-                    expr = [[with builtins; (head (attrValues ((getFlake "/persist/nixos").nixosConfigurations))).options]]
-                    -- expr = [[let configs = (builtins.getFlake "/persist/nixos").homeConfigurations; in (builtins.head (builtins.attrValues configs)).options]]
-                    -- expr = get_expr("homeConfigurations"),
-                    
+                    expr = [[
+                        with builtins; (head (attrValues (
+                            (getFlake (getEnv "NIXOS_CONFIG_PATH")).homeConfigurations
+                        )).options
+                    ]]
                 },
                 -- flake_parts = {
                     -- expr = 'let flake = builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"); in flake.debug.options // flake.currentSystem.options',
@@ -406,54 +422,7 @@ nvim_lsp.nixd.setup({
         },
     },
 })
---
---[=[
-local nix_flake_code = '(builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"))'
-local function get_nix_expr(attr)
-    return string.format([[
-        let
-          inherit (builtins) head attrValues;
-        in 
-          configs = (head (attrValues (
-            (getFlake (getEnv "NIXOS_CONFIG_PATH")).%s
-          )).options;
-    ]], attr)
-end
 
-nvim_lsp.nixd.setup({
-    on_attach = on_attach(),
-    capabilities = capabilities,
-    settings = {
-        nixd = {
-            nixpkgs = {
-                expr = "import <nixpkgs> { }",
-            },
-            formatting = {
-                command = { "alejandra" },
-            },
-            options = {
-                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
-                nixos = {
-                    expr = get_nix_expr("nixosConfigurations"),
-                },
-                home_manager = {
-                    expr = get_nix_expr("homeConfigurations"),
-                },
-                flake_parts = {
-                    expr = string.format([[
-                        let flake = %s; 
-                        in 
-                            flake.debug.options // 
-                            flake.currentSystem.options
-                        ]], 
-                        nix_flake_code
-                    ),
-                },
-            },
-        },
-    },
-})
-]=]--
 
 -------------------
 -- About lspsaga --
@@ -470,7 +439,12 @@ require("lspsaga").setup({
         win_width = 25,
     },
 })
-vim.cmd([[ colorscheme nord ]])
+
+require('tokyonight').setup {
+  transparent = false;
+}
+vim.cmd[[colorscheme tokyonight-night]]
+
 
 local keymap = vim.keymap.set
 
@@ -504,27 +478,6 @@ keymap(
     "<cmd>Lspsaga show_cursor_diagnostics<CR>",
     { silent = true, desc = "Show cursor diagnostic" }
 )
-
-
-
-vim.keymap.set(
-    'n', 'gt', 
-    function() print("test main") end
-    -- { noremap = true, silent = true }
-)
-
-vim.keymap.set(
-    'n', 'gT', 
-    function() print("test main silent") end,
-    { noremap = true, silent = true }
-)
-
-vim.keymap.set(
-    'n', '<leader>gT', 
-    function() print("test main leader") end
-    -- { noremap = true, silent = true }
-)
-
 
 -- Show buffer diagnostics
 keymap("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>", { silent = true, desc = "Show buffer diagnostic" })

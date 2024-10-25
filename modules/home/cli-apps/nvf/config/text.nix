@@ -12,22 +12,6 @@
   cfg = config.programs.nvf.settings.vim;
 in {
   programs.nvf.settings.vim = {
-    pluginRC.autopairs =
-      /*
-      lua
-      */
-      # add "entryAnywhere" here?
-      entryAnywhere ''
-        local npairs = require("nvim-autopairs")
-        npairs.setup({ map_cr = ${boolToString (!cfg.autocomplete.enable)} })
-
-        local Rule = require('nvim-autopairs.rule')
-
-        npairs.add_rules({
-          Rule("/*", "*/", {"javascript", "typescript", "nix"}),
-        })
-      '';
-
     autopairs = enable;
 
     comments = {

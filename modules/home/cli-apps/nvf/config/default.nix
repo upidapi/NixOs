@@ -14,8 +14,8 @@ in {
   imports = [
     ## ./cmp.nix
     ./dap.nix
-    ## ./text.nix
-    ## ./lang.nix
+    ./text.nix
+    ./lang.nix
     ./notes.nix
   ];
 
@@ -53,6 +53,7 @@ in {
           (nvim-treesitter.withPlugins (
             parsers: builtins.attrValues {inherit (parsers) nix markdown markdown_inline;}
           ))
+          "nvim-autopairs"
           friendly-snippets
           luasnip
           nvim-cmp

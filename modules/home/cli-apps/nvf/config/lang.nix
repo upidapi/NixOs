@@ -154,7 +154,9 @@ in {
         ts = enable; # also adds js support
 
         # TODO: nixd
-        nix = enable;
+        nix = {
+          lsp.enable = false;
+        };
         # // {
         #   lsp.enable = false;
         # };

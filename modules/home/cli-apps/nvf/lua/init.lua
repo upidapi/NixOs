@@ -3,6 +3,9 @@
 
 local modules = {
   "lua.cmp",
+  "lua.spell",
+  "lua.luasnip",
+  "lua.mouse",
 }
 
 -- Refresh module cache

@@ -61,7 +61,6 @@ source_lua_files()
 ]=]--
 
 
-
 local function source_lua_files_in_directory(dir)
     local function source_files(path)
         for _, file in ipairs(vim.fn.readdir(path)) do
@@ -95,7 +94,7 @@ end
 -- source_lua_files()
 
 --[[
-wa | source $nixos_config_path/modules/home/cli-apps/nvf/lua/reload.lua
+wa | source $NIXOS_CONFIG_PATH/modules/home/cli-apps/nvf/lua/reload.lua
 
 -- get config file
 echo stdpath('config')

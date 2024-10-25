@@ -29,6 +29,38 @@ for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
+
+vim.g.mapleader = " "
+
+--[[
+-- source manually 
+lua package.path = "/persist/nixos/modules/home/cli-apps/nvf/?.lua;" .. package.path; require("lua.init")
+]]--
+function hotload_config()
+  local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
+  local modules_path = nixos_config_path .. "/modules/home/cli-apps/nvf"
+
+  -- add config to path if required
+  local add_to_path = modules_path .. "/?.lua"
+  if not string.match(package.path, add_to_path) then 
+      package.path = add_to_path .. ";" .. package.path
+  end
+  
+  -- force reload  
+  -- package.loaded["lua.init"] = nil
+  -- require("lua.init")
+
+  vim.cmd('luafile ' .. modules_path .. '/lua/init.lua')
+
+  print("sourced config")
+end 
+
+vim.keymap.set(
+    'n', '<leader>sc', 
+    hotload_config,
+    { noremap = true }
+)
+
 --[[
 ----------------
 -- nord theme --

@@ -80,7 +80,7 @@ in {
           })
         ];
 
-        luaConfigPost = "require(\"lua\")";
+        # luaConfigPost = "require(\"lua\")";
 
         # use the following cmd to recreate the vim dirtytalk plugin
         /*

@@ -39,7 +39,7 @@ lua package.path = "/persist/nixos/modules/home/cli-apps/nvf/?.lua;" .. package.
 -- copy to a reg
 vim.fn.setreg('a', vim.api.nvim_exec("nmap", true))
 ]]--
-function hotload_config()
+local function hotload_config()
   local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
   local modules_path = nixos_config_path .. "/modules/home/cli-apps/nvf"
 
@@ -141,7 +141,7 @@ require("nvim-treesitter.configs").setup({
 
 ----auto pairs-----
 local npairs = require("nvim-autopairs")
-npairs.setup({ map_cr = ${boolToString (!cfg.autocomplete.enable)} })
+npairs.setup({ map_cr = true })
 
 local Rule = require('nvim-autopairs.rule')
 

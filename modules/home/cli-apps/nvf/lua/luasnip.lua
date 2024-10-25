@@ -27,7 +27,7 @@ local f = ls.function_node
 local extras = require("luasnip.extras")
 -- local l = extras.lambda
 local rep = extras.rep
--- local p = extras.partial
+local p = extras.partial
 -- local m = extras.match
 -- local n = extras.nonempty
 -- local dl = extras.dynamic_lambda
@@ -47,8 +47,11 @@ ls.add_snippets("all", {
         f(function()
             return os.date "FIXME: (%Y-%m-%d) "
         end)
-    )
+    ),
+
+    s("time", p(vim.fn.strftime, "%H:%M:%S")),
 })
+
 
 ls.add_snippets("nix", {
     s(

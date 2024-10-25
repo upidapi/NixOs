@@ -102,5 +102,13 @@ echo stdpath('config')
 vim.keymap.set(
     'n', '<leader>sc', 
     source_lua_files,
-    { noremap = true, silent = true }
+    -- { noremap = true, silent = true }
+)
+
+
+
+vim.keymap.set(
+    'n', '<leader>st', 
+    function() print("test") end,
+    -- { noremap = true, silent = true }
 )

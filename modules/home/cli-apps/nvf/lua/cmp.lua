@@ -477,6 +477,15 @@ keymap(
     { silent = true, desc = "Show cursor diagnostic" }
 )
 
+
+
+vim.keymap.set(
+    'n', 'gt', 
+    function() print("test main") end,
+    -- { noremap = true, silent = true }
+)
+
+
 -- Show buffer diagnostics
 keymap("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>", { silent = true, desc = "Show buffer diagnostic" })
 

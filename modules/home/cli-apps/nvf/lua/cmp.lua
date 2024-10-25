@@ -485,6 +485,18 @@ vim.keymap.set(
     -- { noremap = true, silent = true }
 )
 
+vim.keymap.set(
+    'n', 'gT', 
+    function() print("test main silent") end,
+    { noremap = true, silent = true }
+)
+
+vim.keymap.set(
+    'n', '<leader>gT', 
+    function() print("test main leader") end
+    -- { noremap = true, silent = true }
+)
+
 
 -- Show buffer diagnostics
 keymap("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>", { silent = true, desc = "Show buffer diagnostic" })

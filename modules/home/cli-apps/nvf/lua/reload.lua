@@ -79,7 +79,9 @@ local function source_lua_files_in_directory(dir)
 
     source_files(dir)
 end
-    
+   
+
+
 
 local function source_lua_files()
     local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
@@ -99,16 +101,22 @@ wa | source $nixos_config_path/modules/home/cli-apps/nvf/lua/reload.lua
 echo stdpath('config')
 ]]--
 
+print("loaded reload")
 vim.keymap.set(
     'n', '<leader>sc', 
     source_lua_files
     -- { noremap = true, silent = true }
 )
 
+vim.keymap.set(
+    'n', '<leader>st', 
+    function() print("test") end
+    -- { noremap = true, silent = true }
+)
 
 
 vim.keymap.set(
-    'n', '<leader>st', 
+    'n', 'ge', 
     function() print("test") end
     -- { noremap = true, silent = true }
 )

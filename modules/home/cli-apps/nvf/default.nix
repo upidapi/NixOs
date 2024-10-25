@@ -73,7 +73,14 @@ in {
             name = "nvim-runtime";
             path = toString ./runtime;
           })
+
+          (path {
+            name = "nvim-lua-config";
+            path = toString ./.;
+          })
         ];
+
+        luaConfigPost = "require(\"lua\")";
 
         # use the following cmd to recreate the vim dirtytalk plugin
         /*
@@ -115,7 +122,7 @@ in {
           # which is expected by nvf's modified DAG library
           luaConfig = genAttrs configPaths (file:
             entryAfter ["luaScript"] ''
-              ${fileContents file}
+              --[=====[${fileContents file}]=====]--
             '');
         in
           luaConfig // {spell = "vim.o.spellfile = \"${spellFile}\"";};

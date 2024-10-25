@@ -74,10 +74,12 @@ in {
             path = toString ./runtime;
           })
 
+          /*
           (path {
             name = "nvim-lua-config";
             path = toString ./.;
           })
+          */
         ];
 
         # luaConfigPost = "require(\"lua\")";

@@ -3,9 +3,9 @@
 
 
 print("loaded init-lua")
-require("lua.cmp")
-require("lua.reload")
-require("lua.test")
+require("cmp")
+require("reload")
+require("test")
 
 
 

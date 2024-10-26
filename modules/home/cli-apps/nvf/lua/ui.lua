@@ -4,6 +4,7 @@ require('tokyonight').setup {
 vim.cmd[[colorscheme tokyonight-night]]
 
 
+
 -----------------
 -- About noice --
 -----------------
@@ -151,6 +152,75 @@ vim.keymap.set('n', 'zM', ufo.closeAllFolds)
 vim.keymap.set('n', 'zr', ufo.openFoldsExceptKinds)
 vim.keymap.set('n', 'zm', ufo.closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
 
+
+---- highlight undo -------
+-- 
+require('highlight-undo').setup({
+  duration = 500,
+  highlight_for_count = true,
+  undo = {
+    -- hlgroup = HighlightUndo, -- what is this defines as?
+    mode = 'n',
+    lhs = 'u',
+    map = 'undo',
+    opts = {}
+  },
+
+  redo = {
+    -- hlgroup = HighlightUndo,
+    mode = 'n',
+    lhs = '<C-r>',
+    map = 'redo',
+    opts = {}
+  },
+})
+
+
+------ indent blank line -------
+-- https://github.com/lukas-reineke/indent-blankline.nvim
+require("ibl").setup({
+	debounce = 200,
+	indent = {
+		char = "│",
+		priority = 1,
+		repeat_linebreak = true,
+		smart_indent_cap = true
+	},
+	scope = {
+		char = "│",
+		enabled = true,
+		exclude = {
+			language = {},
+			node_type = {
+				["*"] = {
+					"source_file",
+					"program"
+				},
+				lua = {
+					"chunk"
+				},
+				python = {
+					"module"
+				}
+			}
+		},
+		include = {
+			node_type = {}
+		},
+		injected_languages = true,
+		priority = 1024,
+		show_end = false,
+		show_exact_scope = false,
+		show_start = false
+	},
+	viewport_buffer = {
+		max = 500,
+		min = 30
+	},
+	whitespace = {
+		remove_blankline_trail = true
+	}
+})
 
 ----- todo commens -----
 -- https://github.com/folke/todo-comments.nvim

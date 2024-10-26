@@ -58,6 +58,8 @@ in {
           "neo-tree-nvim"
           "smartcolumn"
           "nvim-colorizer-lua"
+          "indent-blankline"
+          "highlight-undo"
 
           friendly-snippets
           luasnip
@@ -237,13 +239,6 @@ in {
 
           # for notifications
           # fidget-nvim = enable; ?
-
-          highlight-undo = enable;
-
-          indentBlankline = {
-            enable = true;
-            # debounce = 0; ?
-          };
 
           nvimWebDevicons = enable;
 

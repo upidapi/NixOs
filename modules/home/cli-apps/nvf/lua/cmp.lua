@@ -72,8 +72,8 @@ vim.g.mkdp_port = {["_type"] = "if",["condition"] = false,["content"] = ""}
 vim.g.mkdp_refresh_slow = false
 ]==]--
 
-vim.opt.mapleader = " "
-vim.opt.maplocalleader = " "
+vim.g.mapleader = " "
+-- vim.g.maplocalleader = " "
 -- map <C-Space> to <Leader> in insert
 vim.api.nvim_set_keymap(
     'i', '<C-Space>', '<C-o><leader>',

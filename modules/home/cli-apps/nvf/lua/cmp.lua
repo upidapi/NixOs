@@ -3,8 +3,6 @@ local options = {
 
     showtabline = 2, -- always show tab line
 
-    formatsave = false,
-
     encoding = "utf-8",
     hidden = true,
 
@@ -59,6 +57,8 @@ local options = {
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
+
+-- TODO: format on save?
 
 --[==[
 -- for markdow preview

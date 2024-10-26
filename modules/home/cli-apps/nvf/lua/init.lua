@@ -2,7 +2,8 @@
 -- of things.
 
 local modules = {
-  "lua.cmp",
+  -- "lua.cmp",
+  "lua.reload",
   "lua.spell",
   "lua.luasnip",
   "lua.mouse",
@@ -11,7 +12,7 @@ local modules = {
 }
 
 -- Refresh module cache
-for k, v in pairs(modules) do
+for _, v in pairs(modules) do
   package.loaded[v] = nil
   require(v)
 end

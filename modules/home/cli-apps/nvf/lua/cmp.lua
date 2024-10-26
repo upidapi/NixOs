@@ -29,57 +29,9 @@ for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
+-- vim.o.winbar = ""
 
-vim.g.mapleader = " "
 
---[[
--- source manually 
-lua package.path = "/persist/nixos/modules/home/cli-apps/nvf/?.lua;" .. package.path; vim.cmd("luafile /persist/nixos/modules/home/cli-apps/nvf/lua/init.lua"); print("manuall source")
-
--- copy to a reg
-vim.fn.setreg('a', vim.api.nvim_exec("nmap", true))
-]]--
-local function hotload_config()
-  local nixos_config_path = os.getenv("NIXOS_CONFIG_PATH")
-  local modules_path = nixos_config_path .. "/modules/home/cli-apps/nvf"
-
-  -- add config to path if required
-  local add_to_path = modules_path .. "/?.lua"
-  if not string.match(package.path, add_to_path) then 
-      package.path = add_to_path .. ";" .. package.path
-  end
-  
-  -- force reload  
-  -- package.loaded["lua.init"] = nil
-  -- require("lua.init")
-
-  vim.cmd('luafile ' .. modules_path .. '/lua/init.lua')
-
-  print("sourced config")
-end 
-
-vim.keymap.set(
-    'n', '<leader>rc', 
-    hotload_config
-    -- { noremap = true }
-)
-
---[[
-----------------
--- nord theme --
-----------------
-vim.g.nord_contrast = false
-vim.g.nord_borders = true
-vim.g.nord_disable_background = false
-vim.g.nord_italic = true
-vim.g.nord_uniform_diff_background = true
-vim.g.nord_enable_sidebar_background = true
-vim.g.nord_bold = true
-vim.g.nord_cursorline_transparent = false
-require("nord").set()
-]]--
-
-----------------
 ----------------------
 -- About treesitter --
 ----------------------
@@ -96,6 +48,10 @@ require("nvim-treesitter.configs").setup({
 ---------------
 -- About cmp --
 ---------------
+
+-- move this part to a separate file 
+-- to avoid exiting before other stuff runs
+--[[
 local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
     return
@@ -104,6 +60,10 @@ local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
     return
 end
+]]--
+
+local cmp = require("cmp")
+local luasnip = require("luasnip")
 
 require("luasnip/loaders/from_vscode").lazy_load()
 
@@ -380,6 +340,12 @@ require("lspsaga").setup({
     },
     outline = {
         win_width = 25,
+    },
+    lightbulb = {
+        enable = false,
+    },
+    symbol_in_winbar = {
+        enable = false,
     },
 })
 

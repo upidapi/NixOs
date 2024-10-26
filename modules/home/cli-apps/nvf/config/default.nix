@@ -55,6 +55,7 @@ in {
           "nvim-autopairs"
           "todo-comments"
           "tokyonight"
+          "neo-tree-nvim"
 
           friendly-snippets
           luasnip

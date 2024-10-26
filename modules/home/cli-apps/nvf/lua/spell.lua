@@ -14,7 +14,7 @@ vim.opt.spell = true
 vim.opt.spelllang = { "en", "sv" }
 
 -- from vim-dirtytalk
-vim.opt.spelllang:append("programming")
+vim.opt.spelllang:append("prog")
 
 -- disable spellchecking for asian characters (VIM algorithm does not support it) 
 vim.opt.spelllang:append('cjk')

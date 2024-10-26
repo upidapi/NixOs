@@ -1,9 +1,6 @@
 {
   config,
-  lib,
   inputs,
-  pkgs,
-  ...
 }: let
   inherit (builtins) toJSON;
   inherit (inputs.nvf.lib.nvim.binds) mkLuaBinding;
@@ -45,19 +42,6 @@ in {
         next = "<Tab>";
         previous = "<S-Tab>";
       };
-
-      /*
-      sources = builtins.listToAttrs (map (x: {
-          name = x;
-          value = x;
-        }) [
-          "luasnip"
-          # "treesitter"
-          # "nvim_lsp"
-          # "buffer"
-          # "path"
-        ]);
-      */
     };
 
     # TODO: cmp-calc

@@ -6,6 +6,8 @@ local modules = {
   "lua.spell",
   "lua.luasnip",
   "lua.mouse",
+  "lua.text",
+  "lua.ui"
 }
 
 -- Refresh module cache

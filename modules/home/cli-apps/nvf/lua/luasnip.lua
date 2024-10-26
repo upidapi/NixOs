@@ -50,8 +50,8 @@ ls.add_snippets("all", {
     ),
 
     s("time", p(vim.fn.strftime, "%H:%M:%S")),
+    s("date", p(vim.fn.strftime, "%Y-%m-%d"))
 })
-
 
 ls.add_snippets("nix", {
     s(
@@ -97,8 +97,3 @@ ls.add_snippets("nix", {
         })
     )
 })
-
-
-
-
-

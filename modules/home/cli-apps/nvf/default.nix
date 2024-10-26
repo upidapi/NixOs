@@ -53,7 +53,7 @@ in {
 
         # defaults
         withNodeJs = false;
-        withPython3 = false;
+        withPython3 = true;
         withRuby = false;
 
         preventJunkFiles = true;
@@ -73,13 +73,6 @@ in {
             name = "nvim-runtime";
             path = toString ./runtime;
           })
-
-          /*
-          (path {
-            name = "nvim-lua-config";
-            path = toString ./.;
-          })
-          */
         ];
 
         # inclue this directory (/nvf) in the lua path
@@ -119,22 +112,9 @@ in {
             name = "nvf-en.utf-8.add";
             path = ./runtime/spell/en.utf-8.add;
           };
-
-          # get the name of each lua file in the lua directory, where setting
-          # files reside and import them recursively
-          configPaths =
-            filter
-            (hasSuffix ".lua")
-            (map toString (listFilesRecursive ./lua));
-
-          # generates a key-value pair that looks roughly as follows:
-          #  `<filePath> = entryAnywhere ''<contents of filePath>''`
-          # which is expected by nvf's modified DAG library
-          luaConfig = genAttrs configPaths (file:
-            entryAfter ["luaScript"] ''
-            '');
-        in
-          luaConfig // {spell = "vim.o.spellfile = \"${spellFile}\"";};
+        in {
+          spell = "vim.o.spellfile = \"${spellFile}\"";
+        };
       };
     };
   };

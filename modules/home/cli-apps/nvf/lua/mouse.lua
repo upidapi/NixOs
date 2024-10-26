@@ -8,6 +8,9 @@ vim.cmd.amenu([[PopUp.Telescope <Cmd>Telescope<CR>]])
 vim.cmd.amenu([[PopUp.Code\ action <Cmd>lua vim.lsp.buf.code_action()<CR>]])
 vim.cmd.amenu([[PopUp.LSP\ Hover <Cmd>lua vim.lsp.buf.hover()<CR>]])
 
+-- no mouse insert
+vim.o.mouse = "nvchr"
+
 -- Add a blinking cursor in certain modes.
 --[[
 vim.opt.guicursor = {

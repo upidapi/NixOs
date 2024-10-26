@@ -79,53 +79,7 @@ vim.g.nord_cursorline_transparent = false
 require("nord").set()
 ]]--
 
------------------
--- About noice --
------------------
-require("noice").setup({
-    routes = {
-        {
-            filter = {
-                event = "msg_show",
-                any = {
-                    { find = "%d+L, %d+B" },
-                    { find = "; after #%d+" },
-                    { find = "; before #%d+" },
-                    { find = "%d fewer lines" },
-                    { find = "%d more lines" },
-                },
-            },
-            opts = { skip = true },
-        },
-    },
-})
-
-
-
---[[
--------------------
--- About lualine --
--------------------
-require("lualine").setup({
-    options = {
-        theme = "auto",
-        globalstatus = true,
-    },
-})
-
-----------------------
--- About bufferline --
-----------------------
-local highlights
-highlights = require("nord").bufferline.highlights({
-    italic = true,
-    bold = true,
-})
-require("bufferline").setup({
-    highlights = highlights,
-})
-]]--
-
+----------------
 ----------------------
 -- About treesitter --
 ----------------------
@@ -136,17 +90,6 @@ require("nvim-treesitter.configs").setup({
     indent = {
         enable = true,
     },
-})
-
-
-----auto pairs-----
-local npairs = require("nvim-autopairs")
-npairs.setup({ map_cr = true })
-
-local Rule = require('nvim-autopairs.rule')
-
-npairs.add_rules({
-  Rule("/*", "*/", {"javascript", "typescript", "nix"}),
 })
 
 
@@ -439,12 +382,6 @@ require("lspsaga").setup({
         win_width = 25,
     },
 })
-
-require('tokyonight').setup {
-  transparent = false;
-}
-vim.cmd[[colorscheme tokyonight-night]]
-
 
 local keymap = vim.keymap.set
 

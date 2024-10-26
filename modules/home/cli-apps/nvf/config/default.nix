@@ -14,9 +14,7 @@ in {
   imports = [
     ## ./cmp.nix
     ./dap.nix
-    ./text.nix
     ./lang.nix
-    ./notes.nix
   ];
 
   # TODO: various refactoring tools
@@ -53,22 +51,28 @@ in {
           (nvim-treesitter.withPlugins (
             parsers: builtins.attrValues {inherit (parsers) nix markdown markdown_inline;}
           ))
+          "comment-nvim"
           "nvim-autopairs"
+          "todo-comments"
+
           friendly-snippets
           luasnip
+
           nvim-cmp
           cmp-nvim-lsp
           cmp-buffer
           cmp_luasnip
           cmp-path
           cmp-cmdline
+
           none-ls-nvim
           nvim-lspconfig
-          nord-nvim
+          lspsaga-nvim
+
+          # nord-nvim
           noice-nvim
           lualine-nvim
           bufferline-nvim
-          lspsaga-nvim
         ];
 
         # ? syntaxHighlighting = true;
@@ -217,15 +221,17 @@ in {
           '';
         };
 
+        /*
         spellcheck = {
-          enable = true;
-          languages = ["en" "sv"];
+          # enable = true;
+          # languages = ["en" "sv"];
           # TODO: programmingWordlist = enable;
           # i.e. vim-dirtytalk = enable;
         };
+        */
 
         statusline = {
-          lualine = enable;
+          # lualine = enable;
           # TODO: config
         };
 

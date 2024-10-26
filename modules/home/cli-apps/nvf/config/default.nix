@@ -57,6 +57,7 @@ in {
           "tokyonight"
           "neo-tree-nvim"
           "smartcolumn"
+          "nvim-colorizer-lua"
 
           friendly-snippets
           luasnip

@@ -56,6 +56,7 @@ in {
           "todo-comments"
           "tokyonight"
           "neo-tree-nvim"
+          "smartcolumn"
 
           friendly-snippets
           luasnip

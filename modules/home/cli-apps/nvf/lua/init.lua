@@ -2,13 +2,13 @@
 -- of things.
 
 local modules = {
-  -- "lua.cmp",
+  "lua.cmp",
   "lua.reload",
-  "lua.spell",
   "lua.luasnip",
   "lua.mouse",
+  "lua.spell",
   "lua.text",
-  "lua.ui"
+  "lua.ui",
 }
 
 -- Refresh module cache

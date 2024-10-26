@@ -44,3 +44,15 @@ require('Comment').setup({
         extra = true,
     },
 })
+
+
+-- Don't auto-comment new lines automatically
+-- that happens when you press enter at the end
+-- of a comment line, and comments the next line
+-- That's annoying and we don't want it!
+-- don't continue comments automagically
+-- https://neovim.io/doc/user/options.html#'formatoptions'
+vim.opt.formatoptions:remove('c')
+vim.opt.formatoptions:remove('r')
+vim.opt.formatoptions:remove('o')
+

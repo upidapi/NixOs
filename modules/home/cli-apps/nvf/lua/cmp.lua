@@ -1,35 +1,102 @@
--------------------
--- Basic options --
--------------------
 local options = {
-    clipboard = "unnamedplus",
-    mouse = "a",
-    undofile = true,
-    ignorecase = true,
-    showmode = false,
-    showtabline = 2,
-    smartindent = true,
-    autoindent = true,
+    showmode = true,
+
+    showtabline = 2, -- always show tab line
+
+    formatsave = false,
+
+    encoding = "utf-8",
+    hidden = true,
+
+    vim.opt.shortmess:append("c"),
+    vim.opt.clipboard:append("unnamedplus"),
+
+    termguicolors = true,
+
+    wrap = true,
+    linebreak = true,
+
+    -- for search
+    smartcase = false,
+    ignorecase = false,
+
     swapfile = false,
-    hidden = true, --default on
+    backup = false,
+    writebackup = false,
+    undofile = true,
+
+    -- a great prank to turn on for an enemy   
+    errorbells = false,
+    visualbell = false,
+
+    -- default tab size
+    tabstop = 4,
+    shiftwidth = 4,
+    softtabstop = 4,
+
     expandtab = true,
+    autoindent = true,
+    smartindent = true,
+
     cmdheight = 1,
-    shiftwidth = 2, --insert 2 spaces for each indentation
-    tabstop = 2, --insert 2 spaces for a tab
-    cursorline = true, --Highlight the line where the cursor is located
+
+    updatetime = 50, -- for general actions
+    timeoutlen = 500, -- for keybinds
+
+    cursorlineopt = "line",
     cursorcolumn = false,
+    scrolloff = 0,
+
+    splitbelow = true,
+    splitright = true,
+
+    signcolumn = "yes",
     number = true,
-    numberwidth = 4,
+    numberwidth = 1,
     relativenumber = true,
-    scrolloff = 8,
-    updatetime = 50, -- faster completion (4000ms default)
 }
 
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
--- vim.o.winbar = ""
+--[==[
+-- for markdow preview
+vim.g.mkdp_auto_close = true
+vim.g.mkdp_auto_start = false
+vim.g.mkdp_command_for_global = false
+vim.g.mkdp_filetypes = {"'markdown'"}
+vim.g.mkdp_open_ip = {["_type"] = "if",["condition"] = false,["content"] = ""}
+vim.g.mkdp_open_to_the_world = false
+vim.g.mkdp_port = {["_type"] = "if",["condition"] = false,["content"] = ""}
+vim.g.mkdp_refresh_slow = false
+]==]--
+
+vim.opt.mapleader = " "
+vim.opt.maplocalleader = " "
+-- map <C-Space> to <Leader> in insert
+vim.api.nvim_set_keymap(
+    'i', '<C-Space>', '<C-o><leader>',
+    { noremap = true, silent = true }
+)
+
+
+require("auto-save").setup {
+  debounce_delay = 1000,
+
+  condition = function(buf)
+    local fn = vim.fn
+    local utils = require("auto-save.utils.data")
+
+    -- only save text files
+    if utils.not_in(fn.getbufvar(buf, "&filetype"), {'txt', 'md'}) then
+      return false
+    end
+
+    return true
+  end
+}
+
 
 
 ----------------------
@@ -138,6 +205,7 @@ cmp.setup({
                 luasnip = "[Snippet]",
                 nvim_lua = "[NVIM_LUA]",
                 path = "[Path]",
+
                 buffer = "[Buffer]",
             })[entry.source.name]
             return vim_item

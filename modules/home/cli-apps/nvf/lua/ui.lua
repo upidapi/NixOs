@@ -8,21 +8,65 @@ vim.cmd[[colorscheme tokyonight-night]]
 -- About noice --
 -----------------
 require("noice").setup({
-    routes = {
-        {
-            filter = {
-                event = "msg_show",
-                any = {
-                    { find = "%d+L, %d+B" },
-                    { find = "; after #%d+" },
-                    { find = "; before #%d+" },
-                    { find = "%d fewer lines" },
-                    { find = "%d more lines" },
-                },
+    routes = {{
+        filter = {
+            event = "msg_show",
+            any = {
+                { find = "%d+L, %d+B" },
+                { find = "; after #%d+" },
+                { find = "; before #%d+" },
+                { find = "%d fewer lines" },
+                { find = "%d more lines" },
             },
-            opts = { skip = true },
         },
-    },
+        opts = { skip = true },
+    }},
+})
+
+
+----- neo-tree -----
+-- https://github.com/nvim-neo-tree/neo-tree.nvim 
+-- TODO: config neo-tree
+require("neo-tree").setup({
+	add_blank_line_at_top = false,
+	auto_clean_after_session_restore = false,
+	default_source = "filesystem",
+	enable_cursor_hijack = false,
+	enable_diagnostics = true,
+	enable_git_status = true,
+	enable_modified_markers = true,
+	enable_opened_markers = true,
+	enable_refresh_on_write = true,
+	git_status_async = false,
+	hide_root_node = false,
+	log_level = "info",
+	log_to_file = false,
+	open_files_do_not_replace_types = {
+		"terminal",
+		"Trouble",
+		"qf",
+		"edgy"
+	},
+	open_files_in_last_window = true,
+	retain_hidden_root_indent = false,
+	window = {
+		width = 30
+	}
+})
+
+
+----- smart column ------
+-- https://github.com/m4xshen/smartcolumn.nvim
+require("smartcolumn").setup({
+    colorcolumn = {"80","100"},
+    custom_colorcolumn = {};
+    disabled_filetypes = {
+        "help",
+        "text",
+        "markdown",
+        "NvimTree",
+        "alpha"
+    }
 })
 
 
@@ -78,7 +122,33 @@ require("bufferline").setup({
     always_show_bufferline = true,
     sort_by = 'id',
   },
-}) 
+})
+
+
+---- colorizer ----
+-- https://github.com/norcalli/nvim-colorizer.lua
+require('colorizer').setup({
+    -- for all filetypes
+    -- filetypes = {},
+
+    -- i don't think this is a option
+    -- user_default_options = {}
+})
+-- NOTE: ccc breaks nixd :)
+
+
+----- nvim ufo ------
+local ufo = require('ufo').setup()
+
+vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+vim.keymap.set('n', 'zR', ufo.openAllFolds)
+vim.keymap.set('n', 'zM', ufo.closeAllFolds)
+vim.keymap.set('n', 'zr', ufo.openFoldsExceptKinds)
+vim.keymap.set('n', 'zm', ufo.closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
 
 
 ----- todo commens -----

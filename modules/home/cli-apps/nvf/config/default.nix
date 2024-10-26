@@ -59,6 +59,8 @@ in {
           friendly-snippets
           luasnip
 
+          colorizer
+
           nvim-cmp
           cmp-nvim-lsp
           cmp-buffer
@@ -74,32 +76,11 @@ in {
           noice-nvim
           lualine-nvim
           bufferline-nvim
+
+          nvim-ufo
+
+          auto-save-nvim
         ];
-
-        # ? syntaxHighlighting = true;
-        hideSearchHighlight = false; # ?
-        searchCase = "sensitive";
-        # ? showSignColumn = false
-
-        splitRight = true;
-        lineNumberMode = "relNumber";
-        wordWrap = true;
-
-        tabWidth = 4;
-
-        # n	Normal mode
-        # v	Visual mode
-        # i	Insert mode
-        # c	Command-line mode
-        # h	all previous modes when editing a help file
-        # a	all previous modes
-        # r	for hit-enter and more-prompt prompt
-        # TODO: submit pr since options only allow for single char
-        # mouseSupport = "nvchr";
-        disableArrows = false;
-
-        leaderKey = " ";
-        mapTimeout = 500;
 
         binds = {
           # ? cheatsheet = enable;
@@ -110,44 +91,6 @@ in {
           # ? alpha = enable;
         };
 
-        extraPlugins = with pkgs.vimPlugins; {
-          aerial = {
-            package = auto-save-nvim;
-            setup =
-              /*
-              lua
-              */
-              ''
-                require("auto-save").setup {
-                  debounce_delay = 1000,
-
-                  condition = function(buf)
-                    local fn = vim.fn
-                    local utils = require("auto-save.utils.data")
-
-                    -- only save text files
-                    if utils.not_in(fn.getbufvar(buf, "&filetype"), {'txt', 'md'}) then
-                      return false
-                    end
-
-                    return true
-                  end
-                }
-              '';
-          };
-        };
-
-        filetree = {
-          # TODO: neo-tree or nvimTree ?
-          #  nvimTree has a lot better support (1.5k lines of docs lol)
-          neo-tree = {
-            enable = true;
-            setupOpts = {
-              window.width = 30;
-            };
-          };
-        };
-
         # TODO: neorg
         # https://github.com/Soliprem/nix-config/blob/main/home-manager/nvim.nix
 
@@ -155,72 +98,11 @@ in {
         # TODO: binds?
         git.vim-fugitive = enable;
 
-        /*
-        lsp = {
-          enable = true;
-          formatOnSave = false;
-
-          lspconfig = enable;
-
-          # TODO: config this?
-          # lightbulb = enable;
-
-          # TODO: config this?
-          lspSignature = enable;
-
-          # already enabled by lang.nix
-          # lspconfig = enable;
-
-          # pictograms for lsp options
-          lspkind = enable;
-
-          # inline lsp diagnostics
-          # lsplines = enable;
-
-          # TODO: binds
-          # TODO: remove this?
-          #  its probably unecisary
-          # lspsaga = enable;
-
-          # enabled automatically
-          # null-ls = enable;
-
-          mappings = {
-            # TODO:
-          };
-
-          # trouble = enable;
-        };
-        */
-
         notify = {
           # ? nvim-notify = enable;
         };
 
         projects.project-nvim = enable;
-
-        /*
-        spellcheck = {
-          # enable = true;
-          # languages = ["en" "sv"];
-          # TODO: programmingWordlist = enable;
-          # i.e. vim-dirtytalk = enable;
-        };
-        */
-
-        statusline = {
-          # lualine = enable;
-          # TODO: config
-        };
-
-        # tabline = cope current_buffer_fuzzy_find
-        #   nvimBufferline = {
-        #     enable = true;
-        #     mappings = {
-        #       # TODO:
-        #     };
-        #   };
-        # };
 
         maps = let
           m = {
@@ -232,7 +114,7 @@ in {
             {
               "<leader>fz".action = "<cmd>Telescope current_buffer_fuzzy_find<CR>";
 
-              # neo tre
+              # neo tree
               "<leader>tt".action = "<cmd>Neotree toggle<CR>";
               "<leader>tu".action = "<cmd>Neotree<CR>";
               "<leader>tr".action = "<cmd>Neotree reveal<CR>";
@@ -307,22 +189,6 @@ in {
         };
         */
 
-        ui = {
-          borders = disable;
-          breadcrumbs = disable;
-
-          colorizer = enable;
-          illuminate = disable;
-
-          # alternative ui
-          # noice = enable;
-
-          smartcolumn = {
-            enable = true;
-            setupOpts.colorcolumn = ["80" "100"];
-          };
-        };
-
         utility = {
           # NOTE: ccc breaks nixd :)
           /*
@@ -365,8 +231,6 @@ in {
             # add game_of_life?
             mappings.makeItRain = "<leader>fml";
           };
-
-          cursorline = enable;
 
           # for notifications
           # fidget-nvim = enable; ?

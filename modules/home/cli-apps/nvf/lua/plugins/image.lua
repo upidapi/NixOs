@@ -3,7 +3,8 @@
 
 -- default config + ueberzug
 require("image").setup({
-    backend = "ueberzug",
+    -- backend = "ueberzug",
+    backend = "kitty",
     integrations = {
         markdown = {
             enabled = true,

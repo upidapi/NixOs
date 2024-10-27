@@ -19,7 +19,7 @@ in {
     browser = ["firefox.desktop"];
     mailer = ["thunderbird.desktop"];
     fileManager = ["org.kde.dolphin.desktop"];
-    terminal = ["alacritty.desktop"];
+    terminal = ["kitty.desktop"];
 
     associations = {
       "text/plain" = editor;

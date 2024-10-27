@@ -20,7 +20,8 @@ in {
       other = enable;
 
       apps = {
-        alacritty = enable;
+        # alacritty = enable;
+        kitty = enable;
         # bitwarden = enable;
         discord = enable;
         firefox = enable;

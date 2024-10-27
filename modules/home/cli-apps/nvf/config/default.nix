@@ -60,46 +60,46 @@ in {
           (nvim-treesitter.withPlugins (
             parsers: builtins.attrValues {inherit (parsers) nix markdown markdown_inline;}
           ))
-          # "comment-nvim"
-          # "nvim-autopairs"
-          # "todo-comments"
-          # "tokyonight"
-          # "neo-tree-nvim"
-          # "smartcolumn"
-          # "nvim-colorizer-lua"
-          # "indent-blankline"
-          # "highlight-undo"
-          # "treesitter"
-          # "cellular-automaton"
-          # "toggleterm"
-          # "nvim-web-devicons"
-          #
-          # "image-nvim"
-          #
-          # friendly-snippets
-          # luasnip
-          #
-          # colorizer
-          #
-          # nvim-cmp
-          # cmp-nvim-lsp
-          # cmp-buffer
-          # cmp_luasnip
-          # cmp-path
-          # cmp-cmdline
-          #
-          # none-ls-nvim
-          # nvim-lspconfig
-          # lspsaga-nvim
+          "comment-nvim"
+          "nvim-autopairs"
+          "todo-comments"
+          "tokyonight"
+          "neo-tree-nvim"
+          "smartcolumn"
+          "nvim-colorizer-lua"
+          "indent-blankline"
+          "highlight-undo"
+          "nvim-treesitter"
+          "cellular-automaton"
+          "toggleterm-nvim"
+          "nvim-web-devicons"
 
-          # nord-nvim
-          # noice-nvim
-          # lualine-nvim
-          # bufferline-nvim
-          #
-          # nvim-ufo
-          #
-          # auto-save-nvim
+          "image-nvim"
+
+          friendly-snippets
+          luasnip
+
+          colorizer
+
+          nvim-cmp
+          cmp-nvim-lsp
+          cmp-buffer
+          cmp_luasnip
+          cmp-path
+          cmp-cmdline
+
+          none-ls-nvim
+          nvim-lspconfig
+          lspsaga-nvim
+
+          nord-nvim
+          noice-nvim
+          lualine-nvim
+          bufferline-nvim
+
+          nvim-ufo
+
+          auto-save-nvim
 
           # why does neorg have so many deps?!
           # start

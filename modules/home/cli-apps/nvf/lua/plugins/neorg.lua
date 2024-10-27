@@ -8,14 +8,12 @@ require('neorg').setup({
         ["core.export"] = {},
         ["core.summary"] = {},
         ["core.text-objects"] = {},
-        --[[
         ["core.dirman"] = {
             config = {
                 workspaces = {
-                    notes = "~/Documents/neorg",
+                    notes = "~/neorg",
                 },
             },
         },
-        ]]--
     },
 })

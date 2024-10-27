@@ -14,8 +14,10 @@ local mappings = {
     -- move one visual line with arrow keys
     {"i", "<up>", "<c-o>g<up>"},
     {"i", "<down>", "<c-o>g<down>"},
-    {"vn", "<up>", "g<up>"},
-    {"vn", "<down>", "g<down>"},
+    {"n", "<up>", "g<up>"},
+    {"n", "<down>", "g<down>"},
+    {"v", "<up>", "g<up>"},
+    {"v", "<down>", "g<down>"},
 
     -- exit terminal mode with esc
     {"t", "<Esc>", "<C-><C-n>"},
@@ -62,7 +64,7 @@ local mappings = {
 
 
 for _, map in ipairs(mappings) do
-    vim.keymap.set(table.unpack(map))
+    vim.keymap.set(unpack(map))
 end
 
 

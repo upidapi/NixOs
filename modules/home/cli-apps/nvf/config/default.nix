@@ -118,6 +118,28 @@ in {
         # TODO: binds?
         git.vim-fugitive = enable;
 
+        lsp.mappings = {
+          goToDefinition = null;
+          goToDeclaration = null;
+          goToType = null;
+          listImplementations = null;
+          listReferences = null;
+          nextDiagnostic = null;
+          previousDiagnostic = null;
+          openDiagnosticFloat = null;
+          documentHighlight = null;
+          listDocumentSymbols = null;
+          addWorkspaceFolder = null;
+          removeWorkspaceFolder = null;
+          listWorkspaceFolders = null;
+          listWorkspaceSymbols = null;
+          hover = null;
+          signatureHelp = null;
+          renameSymbol = null;
+          codeAction = null;
+          format = null;
+          toggleFormatOnSave = null;
+        };
         /*
         treesitter = {
           enable = true;

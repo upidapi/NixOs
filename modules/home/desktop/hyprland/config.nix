@@ -1,4 +1,4 @@
-{...}: {
+{
   wayland.windowManager.hyprland.settings = {
     debug.disable_logs = false;
 
@@ -30,5 +30,9 @@
         # disable_while_typing = false;
       };
     };
+
+    # disable animations for the images (that are actually
+    # wayland windows) created by ueberzugpp
+    windowrulev2 = "noanim, title:ueberzugpp";
   };
 }

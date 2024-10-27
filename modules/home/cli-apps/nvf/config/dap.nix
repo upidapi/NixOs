@@ -7,10 +7,33 @@ in {
       nvim-dap = {
         enable = true;
 
-        ui = enable;
+        # done in lua
+        # ui = enable;
 
         # what does this do?
         sources = {};
+
+        mappings = {
+          # continue = null; -- breaks (errors) rust.nix (in nvf)
+          restart = null;
+          terminate = null;
+          runLast = null;
+
+          toggleRepl = null;
+          hover = null;
+          toggleBreakpoint = null;
+
+          runToCursor = null;
+          stepInto = null;
+          stepOut = null;
+          stepOver = null;
+          stepBack = null;
+
+          goUp = null;
+          goDown = null;
+
+          toggleDapUI = null;
+        };
       };
     };
   };

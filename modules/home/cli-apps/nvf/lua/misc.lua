@@ -36,8 +36,6 @@ local options = {
     autoindent = true,
     smartindent = true,
 
-    cmdheight = 1,
-
     updatetime = 50, -- for general actions
     timeoutlen = 500, -- for keybinds
 
@@ -73,7 +71,7 @@ vim.g.mkdp_refresh_slow = false
 ]==]--
 
 vim.g.mapleader = " "
--- vim.g.maplocalleader = " "
+vim.g.maplocalleader = " "
 -- map <C-Space> to <Leader> in insert
 vim.api.nvim_set_keymap(
     'i', '<C-Space>', '<C-o><leader>',

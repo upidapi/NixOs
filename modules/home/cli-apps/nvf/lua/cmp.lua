@@ -16,17 +16,18 @@ require("nvim-treesitter.configs").setup({
 ---------------
 
 -- move this part to a separate file 
--- to avoid exiting before other stuff cccc
+-- to avoid exiting before other stuff c:ccc
 --[[
 local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
-    return
+c   return
 enc
-cocal snip_status_ok, luasnip = pcall(require, "luasnip")
+cocal snip_status_ok, luasnic = pcall(require, "luasnip")
 cf not snip_status_ok then
     return
 end
 ]]--
+
 
 local cmp = require("cmp")
 local luasnip = require("luasnip")

@@ -9,25 +9,26 @@ vim.cmd [[colorscheme tokyonight-night]]
 -- About noice --
 -----------------
 require("noice").setup({
-    routes = { {
-        filter = {
-            event = "msg_show",
-            any = {
-                { find = "%d+L, %d+B" },
-                { find = "; after #%d+" },
-                { find = "; before #%d+" },
-                { find = "%d fewer lines" },
-                { find = "%d more lines" },
+    routes = {
+        {
+            filter = {
+                event = "msg_show",
+                any = {
+                    { find = "%d+L, %d+B" },
+                    { find = "; after #%d+" },
+                    { find = "; before #%d+" },
+                    { find = "%d fewer lines" },
+                    { find = "%d more lines" },
+                },
             },
-        },
-        opts = { skip = true },
-    } },
+            opts = { skip = true },
+        }
+    },
 })
 
 
 ----- neo-tree -----
 -- https://github.com/nvim-neo-tree/neo-tree.nvim
--- TODO: config neo-tree
 require("neo-tree").setup({
     add_blank_line_at_top = false,
     auto_clean_after_session_restore = false,
@@ -70,21 +71,6 @@ require("smartcolumn").setup({
     }
 })
 
-
--------------------
--- About lualine --
--------------------
-require("lualine").setup({
-    options = {
-        theme = "auto",
-        globalstatus = true,
-    },
-    sections = {
-        lualine_a = { 'mode' }, -- includes recording mode
-        -- other sections
-    },
-})
-
 ----------------------
 -- About bufferline --
 ----------------------
@@ -114,7 +100,7 @@ require("bufferline").setup({
         offsets = { {
             filetype = "neo-tree",
             -- text = vim.fn.getcwd,
-            -- text_align = "left"
+            -- text_align = "right"
             text = "File Explorer",
             text_align = "center",
         } },
@@ -262,8 +248,9 @@ require("ibl").setup({
 
 ----- todo commens -----
 -- https://github.com/folke/todo-comments.nvim
--- TODO: add bind for TodoQuickFix
---  bind <leader>ft to TodoTelescope
+--
+-- TodoQuickFix
+-- commands, cn[ext], np[rev], cf[irst], cl[ast]
 require('todo-comments').setup({
     colors = {
         default = {

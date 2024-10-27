@@ -8,14 +8,10 @@
   pkgs,
   ...
 }: let
-  inherit (builtins) filter map toString path;
-  inherit (inputs.nvf.lib.nvim.dag) entryAfter;
+  inherit (builtins) toString path;
   inherit (my_lib.opt) mkEnableOpt;
 
-  inherit (lib.attrsets) genAttrs;
-  inherit (lib.filesystem) listFilesRecursive;
   inherit (lib) mkIf;
-  inherit (lib.strings) hasSuffix fileContents;
   cfg = config.modules.home.cli-apps.nvf;
 in {
   imports = [
@@ -23,14 +19,6 @@ in {
     ./config
     ./modules
   ];
-
-  # TODO: move away from the nvf neovim config stuff and just use lua directly
-  #  basically use it as a package manager, and for not much else
-  #  might go as far as to switch to mnw
-
-  # TODO: might make this into a flake and consume it to make quick iteration
-  #  much easier. Its annoying having to rebuild the system just for a
-  #  neovim setting
 
   options.modules.home.cli-apps.nvf =
     mkEnableOpt "enables nvf a neovim distro powerd by nix";

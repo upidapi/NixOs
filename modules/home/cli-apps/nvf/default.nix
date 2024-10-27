@@ -71,7 +71,7 @@ in {
         additionalRuntimePaths = [
           (path {
             name = "nvim-runtime";
-            path = toString ./runtime/spell;
+            path = toString ./runtime;
           })
         ];
 

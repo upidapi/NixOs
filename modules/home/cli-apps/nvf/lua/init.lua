@@ -4,14 +4,17 @@
 local modules = {
   "lua.cmp",
 
-  "lua.reload",
+  "lua.mappings",
+  "lua.misc",
   "lua.mouse",
+  "lua.reload",
   "lua.spell",
   "lua.text",
   "lua.ui",
 
   "lua.plugins.cell-auto",
   "lua.plugins.dap",
+  "lua.plugins.image",
   "lua.plugins.luasnip",
   "lua.plugins.neorg",
   "lua.plugins.telescope",

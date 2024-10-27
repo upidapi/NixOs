@@ -114,10 +114,6 @@ in {
           "plenary-nvim"
         ];
 
-        dashboard = {
-          # ? alpha = enable;
-        };
-
         # git intergration
         # TODO: binds?
         git.vim-fugitive = enable;
@@ -146,12 +142,6 @@ in {
 
         utility = {
           diffview-nvim = enable;
-
-          images.image-nvim = {
-            # doesn't work
-            # enable = true;
-            # setupOpts.backend = "ueberzug"; # TODO: "kitty"; ?
-          };
 
           # prob not
           # motion.leap = enable;

@@ -1,11 +1,4 @@
 {
-  config,
-  inputs,
-}: let
-  inherit (builtins) toJSON;
-  inherit (inputs.nvf.lib.nvim.binds) mkLuaBinding;
-  cfg = config.programs.nvf.settings.vim;
-in {
   programs.nvf.settings.vim = {
     # had to copy all this just to change {select = true} :)
     autocomplete = {
@@ -27,7 +20,5 @@ in {
         previous = "<S-Tab>";
       };
     };
-
-    # TODO: cmp-calc
   };
 }

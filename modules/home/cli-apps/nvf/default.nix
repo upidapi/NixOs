@@ -75,13 +75,13 @@ in {
           })
         ];
 
-        # inclue this directory (/nvf) in the lua path
-        # so that we can use it like we would normally
-        luaConfigPre = ''
-          package.path = package.path .. ";" .. "${./.}/?.lua"
-        '';
+        # NOTE: luaConfigPre and luaConfigPost override the
+        #  values internally
 
+        # include this directory (/nvf) in the lua path
+        # so that we can use it like we would normally
         luaConfigPost = ''
+          package.path = package.path .. ";" .. "${./.}/?.lua"
           require("lua.init")
         '';
 

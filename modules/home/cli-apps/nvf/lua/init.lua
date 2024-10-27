@@ -27,3 +27,5 @@ for _, v in pairs(modules) do
   require(v)
 end
 
+-- TODO: figure out what part causes all the underscores on load config
+

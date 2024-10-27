@@ -299,7 +299,7 @@ require('todo-comments').setup({
         keyword = "wide",
         maxLineLen = 1000,
         multiline = true,
-        multilinePattern = "^ ",
+        multilinePattern = "^  ",
         pattern = ".*<(KEYWORDS)(\\([^\\)]*\\))?:"
     },
     keywords = {

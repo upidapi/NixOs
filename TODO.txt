@@ -4,6 +4,8 @@ nix
         
         or maybe just nix-super?
 
+    switch to tvix when possible
+
     use nixos-render-docs to create docs for this repo 
 
     automated deployments? 
@@ -14,7 +16,7 @@ nix
     Index the nixos server for better searching
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
-
+    
 Virtulisation
     MAS
         free windows keys

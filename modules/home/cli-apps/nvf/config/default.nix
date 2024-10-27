@@ -93,22 +93,23 @@ in {
           # lspsaga-nvim
 
           # nord-nvim
-          noice-nvim
-          lualine-nvim
-          bufferline-nvim
+          # noice-nvim
+          # lualine-nvim
+          # bufferline-nvim
+          #
+          # nvim-ufo
+          #
+          # auto-save-nvim
 
-          nvim-ufo
-
-          auto-save-nvim
-
-          # # why does neorg have so many deps?!
-          # "neorg"
-          # "neorg-telescope"
-          # "lua-utils-nvim"
-          # "nui-nvim"
-          # "nvim-nio"
-          # "pathlib-nvim"
-          # "plenary-nvim"
+          # why does neorg have so many deps?!
+          # start
+          "neorg"
+          "neorg-telescope"
+          "lua-utils-nvim"
+          "nui-nvim"
+          "nvim-nio"
+          "pathlib-nvim"
+          "plenary-nvim"
         ];
 
         dashboard = {

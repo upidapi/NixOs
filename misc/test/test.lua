@@ -1,1 +1,1 @@
-local x = " \\  asd".lua
+local x = 1

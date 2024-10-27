@@ -47,7 +47,7 @@ in {
       # for image nvim
       imagemagick
       curl # (Remote images)
-      ueberzug
+      ueberzugpp
     ];
 
     programs.nvf = {

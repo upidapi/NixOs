@@ -73,6 +73,7 @@ in {
           "cellular-automaton"
           "toggleterm-nvim"
           "nvim-web-devicons"
+          "project-nvim"
 
           "image-nvim"
 

@@ -91,16 +91,16 @@ in {
           # none-ls-nvim
           # nvim-lspconfig
           # lspsaga-nvim
-          #
-          # # nord-nvim
-          # noice-nvim
-          # lualine-nvim
-          # bufferline-nvim
-          #
-          # nvim-ufo
-          #
-          # auto-save-nvim
-          #
+
+          # nord-nvim
+          noice-nvim
+          lualine-nvim
+          bufferline-nvim
+
+          nvim-ufo
+
+          auto-save-nvim
+
           # # why does neorg have so many deps?!
           # "neorg"
           # "neorg-telescope"

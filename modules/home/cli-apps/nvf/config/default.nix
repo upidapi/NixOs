@@ -1,14 +1,12 @@
 {
   config,
-  inputs,
   lib,
   my_lib,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) enable disable;
-  inherit (inputs.nvf.lib.nvim.dag) entryAnywhere;
+  inherit (my_lib.opt) enable;
   cfg = config.modules.home.cli-apps.nvf;
 in {
   imports = [
@@ -43,134 +41,34 @@ in {
       # nixfmt
       nixfmt-rfc-style
       nixpkgs-fmt
+
+      fd # used by treesitter
+
+      # for image nvim
+      imagemagick
+      curl # (Remote images)
+      ueberzug
     ];
 
     programs.nvf = {
       settings.vim = {
+        luaPackages = [
+          "magick" # for image nvim
+        ];
+
         startPlugins = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (
             parsers: builtins.attrValues {inherit (parsers) nix markdown markdown_inline;}
           ))
-          "comment-nvim"
-          "nvim-autopairs"
-          "todo-comments"
-          "tokyonight"
-          "neo-tree-nvim"
-          "smartcolumn"
-          "nvim-colorizer-lua"
-          "indent-blankline"
-          "highlight-undo"
-
-          friendly-snippets
-          luasnip
-
-          colorizer
-
-          nvim-cmp
-          cmp-nvim-lsp
-          cmp-buffer
-          cmp_luasnip
-          cmp-path
-          cmp-cmdline
-
-          none-ls-nvim
-          nvim-lspconfig
-          lspsaga-nvim
-
-          # nord-nvim
-          noice-nvim
-          lualine-nvim
-          bufferline-nvim
-
-          nvim-ufo
-
-          auto-save-nvim
         ];
-
-        binds = {
-          # ? cheatsheet = enable;
-          # ? whichKey = enable;
-        };
 
         dashboard = {
           # ? alpha = enable;
         };
 
-        # TODO: neorg
-        # https://github.com/Soliprem/nix-config/blob/main/home-manager/nvim.nix
-
         # git intergration
         # TODO: binds?
         git.vim-fugitive = enable;
-
-        notify = {
-          # ? nvim-notify = enable;
-        };
-
-        projects.project-nvim = enable;
-
-        maps = let
-          m = {
-            "<up>".action = "g<up>";
-            "<down>".action = "g<down>";
-          };
-        in {
-          normal =
-            {
-              "<leader>fz".action = "<cmd>Telescope current_buffer_fuzzy_find<CR>";
-
-              # neo tree
-              "<leader>tt".action = "<cmd>Neotree toggle<CR>";
-              "<leader>tu".action = "<cmd>Neotree<CR>";
-              "<leader>tr".action = "<cmd>Neotree reveal<CR>";
-              "Ö".action = ":";
-            }
-            // m;
-          insert = {
-            "<up>".action = "<c-o>g<up>";
-            "<down>".action = "<c-o>g<down>";
-          };
-          visual = m;
-          terminal."<Esc>".action = "<C-\><C-n>";
-        };
-
-        telescope = {
-          enable = true;
-          mappings = {
-            findProjects = "<leader>fp"; # "<leader>fp";
-            findFiles = "<leader>ff"; # "<leader>ff";
-            buffers = "<leader>fb"; # "<leader>fb";
-
-            liveGrep = "<leader>fg"; # "<leader>fg";
-            helpTags = null; # "<leader>fh";
-            open = null; # "<leader>ft";
-
-            diagnostics = null; # "<leader>fld";
-            treesitter = null; # "<leader>fs";
-
-            gitCommits = "<leader>fC"; # "<leader>fvcw";
-            gitBufferCommits = "<leader>fc"; # "<leader>fvcb";
-            gitBranches = null; # "<leader>fvb";
-            gitStatus = null; # "<leader>fvs";
-            gitStash = null; # "<leader>fvx";
-
-            lspDocumentSymbols = null; # "<leader>flsb";
-            lspWorkspaceSymbols = null; # "<leader>flsw";
-            lspReferences = null; # "<leader>flr";
-            lspImplementations = null; # "<leader>fli";
-            lspDefinitions = null; # "<leader>flD";
-            lspTypeDefinitions = null; # "<leader>flt";
-          };
-        };
-
-        terminal = {
-          toggleterm = {
-            enable = true;
-            mappings = {
-              open = "<c-t>";
-            };
-          };
-        };
 
         /*
         treesitter = {
@@ -195,20 +93,7 @@ in {
         */
 
         utility = {
-          # NOTE: ccc breaks nixd :)
-          /*
-          ccc = {
-            enable = true;
-            mappings = {
-              decrease10 = "<H>";
-              increase10 = "<L>";
-              quit = "<Esc>";
-            };
-          };
-          */
-
           diffview-nvim = enable;
-          # icon-picker = enable;
 
           images.image-nvim = {
             # doesn't work
@@ -222,27 +107,6 @@ in {
           preview.markdownPreview = enable;
 
           # surround = enable;
-        };
-
-        visuals = {
-          # TODO: nvim ufo
-
-          enable = true;
-
-          # give characters gravity
-          cellularAutomaton = {
-            enable = true;
-
-            # add game_of_life?
-            mappings.makeItRain = "<leader>fml";
-          };
-
-          # for notifications
-          # fidget-nvim = enable; ?
-
-          nvimWebDevicons = enable;
-
-          # scrollBar = enable; ?
         };
       };
     };

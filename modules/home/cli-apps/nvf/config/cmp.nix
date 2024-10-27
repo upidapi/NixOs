@@ -8,22 +8,6 @@
 in {
   programs.nvf.settings.vim = {
     # had to copy all this just to change {select = true} :)
-    maps.insert = let
-      defaultKeys =
-        if cfg.autopairs.enable
-        then "require('nvim-autopairs').autopairs_cr()"
-        else "vim.api.nvim_replace_termcodes(${
-          toJSON cfg.autocomplete.mappings.confirm.value
-        }, true, false, true)";
-    in
-      mkLuaBinding "<CR>" ''
-        function()
-          if not require('cmp').confirm({ select = false }) then
-            vim.fn.feedkeys(${defaultKeys}, 'n')
-          end
-        end
-      '' "confirm cmp completion";
-
     autocomplete = {
       enable = true;
 

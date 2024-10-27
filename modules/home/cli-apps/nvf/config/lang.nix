@@ -19,9 +19,8 @@ in {
         tailwind = enable;
         ts = enable; # also adds js support
 
-        # TODO: nixd
         nix = {
-          # enable = true;
+          enable = true;
           lsp.enable = false;
         };
         # // {

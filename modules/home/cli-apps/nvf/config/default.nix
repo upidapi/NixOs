@@ -75,6 +75,7 @@ in {
           "nvim-web-devicons"
           "project-nvim"
           "telescope" # dep: plenary-nvim
+          "nvim-dap-ui"
 
           "image-nvim"
 

@@ -14,7 +14,7 @@ in {
     programs.kitty = enable;
 
     home.sessionVariables = {
-      TERMINAL = "alacritty";
+      TERMINAL = "kitty";
     };
   };
 }

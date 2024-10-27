@@ -79,6 +79,10 @@ require("lualine").setup({
         theme = "auto",
         globalstatus = true,
     },
+    sections = {
+        lualine_a = { 'mode' }, -- includes recording mode
+        -- other sections
+    },
 })
 
 ----------------------

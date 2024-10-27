@@ -81,8 +81,12 @@ in {
         # include this directory (/nvf) in the lua path
         # so that we can use it like we would normally
         luaConfigPost = ''
-          package.path = package.path .. ";" .. "${./.}/?.lua"
-          require("lua.init")
+          -- Add a debug "option" so that we can avoid running
+          -- the "built" in init if needed, for debugging
+          if not vim.env.NVF_NO_LOAD_INIT then
+              package.path = package.path .. ";" .. "${./.}/?.lua"
+              require("lua.init")
+          end
         '';
 
         # use the following cmd to recreate the vim dirtytalk plugin

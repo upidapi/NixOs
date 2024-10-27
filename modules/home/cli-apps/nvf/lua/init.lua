@@ -2,16 +2,16 @@
 -- of things.
 
 local modules = {
-  "lua.cmp",
-
-  "lua.mappings",
   "lua.misc",
+  
+  "lua.cmp",
+  "lua.mappings",
   "lua.mouse",
   "lua.reload",
   "lua.spell",
   "lua.text",
   "lua.ui",
-
+  
   "lua.plugins.cell-auto",
   "lua.plugins.dap",
   "lua.plugins.image",
@@ -28,4 +28,3 @@ for _, v in pairs(modules) do
 end
 
 -- TODO: figure out what part causes all the underscores on load config
-

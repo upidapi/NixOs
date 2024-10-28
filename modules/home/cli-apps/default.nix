@@ -6,7 +6,6 @@
     ./git.nix
     ./gpg.nix
     ./nix-index.nix
-    ./nixvim
     ./nvf
     ./ssh.nix
     ./wine.nix

@@ -31,5 +31,10 @@ for _, v in pairs(modules) do
     require(v)
 end 
 
+print("loaded init-lua")
+require("cmp")
+require("reload")
+require("test")
+
 
 -- TODO: python ruff (lsp, and formatter)

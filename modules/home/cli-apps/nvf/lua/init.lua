@@ -29,12 +29,7 @@ local modules = {
 for _, v in pairs(modules) do
     package.loaded[v] = nil
     require(v)
-end 
-
-print("loaded init-lua")
-require("cmp")
-require("reload")
-require("test")
+end
 
 
 -- TODO: python ruff (lsp, and formatter)

@@ -10,6 +10,8 @@
   inherit (lib.modules) mkIf;
   inherit (lib.strings) concatStringsSep;
   inherit (lib.meta) getExe;
+  inherit (lib.strings) escapeShellArg;
+  inherit (lib) optional;
 
   # env = config.modules.usrEnv;
   # sys = config.modules.system;
@@ -21,30 +23,32 @@
     "${sessionData}/share/wayland-sessions"
   ];
 
+  loginCfg = config.modules.nixos.os.env.login;
+
   initialSession = {
-    # TODO: make this configurable
-    user = "upidapi"; # "${sys.mainUser}";
-    command = "Hyprland"; # "${env.desktop}";
+    user = "upidapi"; # TODO: "${sys.mainUser}";
+    inherit (loginCfg) command;
   };
 
   defaultSession = {
     user = "greeter";
-    command = concatStringsSep " " [
-      (getExe pkgs.greetd.tuigreet)
-      "--time"
-      "--remember"
-      "--remember-user-session"
-      "--asterisks"
-      "--sessions '${sessionPaths}'"
-      # HACK: for some reason Hyprland cant open alacritty directly (with bind)
-      #  if greetd starts Hyprland directly
-      "--cmd \"zsh -c Hyprland\""
-    ];
+    command = concatStringsSep " " (
+      [
+        (getExe pkgs.greetd.tuigreet)
+        "--time"
+        "--remember"
+        "--remember-user-session"
+        "--asterisks"
+        "--sessions '${sessionPaths}'"
+      ]
+      ++ (optional (loginCfg.command != null)
+        "--cmd ${escapeShellArg loginCfg.command}")
+    );
   };
 
-  cfg = config.modules.nixos.os.graphical.login.greetd;
+  cfg = config.modules.nixos.os.env.login.greetd;
 in {
-  options.modules.nixos.os.graphical.login.greetd =
+  options.modules.nixos.os.env.login.greetd =
     mkEnableOpt "enables the greetd login manager";
 
   config = mkIf cfg.enable {
@@ -59,8 +63,8 @@ in {
         # in this case it'll be a TUI greeter
         default_session = defaultSession;
 
-        # initial session
-        # initial_session = mkIf sys.autoLogin initialSession;
+        # initial session (auto login)
+        initial_session = mkIf loginCfg.autoLogin initialSession;
       };
     };
 

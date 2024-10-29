@@ -17,8 +17,8 @@ for mod in modules:
         print(mod)
         fixed = ""
 
-        RE_CFG = "  cfg = config[.]modules[^ ;]*;"
-        RE_OPT = "  options[.]modules[^ ]* ="
+        RE_CFG = "^  cfg = config[.]modules[^ ;]*;"
+        RE_OPT = "^  options[.]modules[^ ]* ="
 
         correct = mod[1:].replace("/", ".")[:-4]
         if correct.endswith(".default"):

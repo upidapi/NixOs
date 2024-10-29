@@ -4,6 +4,7 @@
   lib,
   inputs,
   pkgs,
+  osConfig,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt;
@@ -21,6 +22,12 @@ in {
     mkEnableOpt "enables hyperland, a wayland tiling manager";
 
   config = mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = !cfg.enable || (cfg.enable || osConfig.programs.hyprland.enable);
+        message = "You have to enable the nixos packages.hyprland option for hyprland properly work";
+      }
+    ];
     home.packages = with pkgs; [
       brightnessctl
       hyprpicker

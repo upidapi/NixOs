@@ -1,8 +1,7 @@
 {
   imports = [
     ./boot
-    ./graphical
-    ./environment
+    ./env
     ./misc
     ./networking
     ./programs

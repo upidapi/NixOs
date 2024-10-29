@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.nixos.os.environment.xdg;
+  cfg = config.modules.nixos.os.env.xdg;
 in {
-  options.modules.nixos.os.environment.xdg = mkEnableOpt "xdg stuff";
+  options.modules.nixos.os.env.xdg = mkEnableOpt "xdg stuff";
 
   config = mkIf cfg.enable {
     environment = {

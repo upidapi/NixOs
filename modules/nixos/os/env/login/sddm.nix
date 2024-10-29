@@ -4,11 +4,11 @@
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.graphical.login.sddm;
+  cfg = config.modules.nixos.os.env.login.sddm;
 in {
-  options.modules.nixos.os.graphical.login.sddm =
+  options.modules.nixos.os.env.login.sddm =
     mkEnableOpt "enables the sddm login manager";
 
   config = mkIf cfg.enable {

@@ -310,8 +310,6 @@ class Part:
     def push_changes():
         Print.devider("Pushing code to github")
 
-        # TODO: figure out how to detect this
-        #  it seems like git doesn't return 1 on error
         exit_code = (
             run_cmd(
                 "git push origin --all", print_res=True, color=True, data_cmd="echo $?"
@@ -661,7 +659,8 @@ class Commit:
         try:
             # a program that will replace the second pick with squash
             temp.write(
-                Helpers.de_indent(f"""\
+                Helpers.de_indent(
+                    f"""\
                 import sys
 
                 file = sys.argv[1]
@@ -690,7 +689,8 @@ class Commit:
 
                 # with open("t.txt", "a") as f:
                 #     f.write(data + "\n----------------------------\n") 
-            """).encode()
+            """
+                ).encode()
             )
 
             run_cmd(f'env GIT_EDITOR="python {temp}" git rebase -i {hash}')

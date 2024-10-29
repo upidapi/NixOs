@@ -41,19 +41,24 @@ in {
       os = {
         boot = enable;
 
-        graphical = {
-          hyprland = enable;
-          login = {
-            greetd = enable;
-          };
-          xserver = enable;
-        };
-
-        environment = {
+        env = {
           fonts = enable;
           locale = enable;
           paths = enable;
           xdg = enable;
+
+          login = {
+            # FIXME: for some reason when Hyprland is run by greetd, you can open
+            # terminals (at lest kitty and alacritty) with the binds
+            command = "zsh -c Hyprland";
+            autoLogin = false;
+            greetd = enable;
+          };
+
+          graphical = {
+            hyprland = enable;
+            xserver = enable;
+          };
         };
 
         misc = {

@@ -20,6 +20,10 @@ in {
         enable_audio_bell = "no";
         bell_on_tab = "no";
       };
+
+      extraConfig = ''
+        map ctrl+shift+r no_op
+      '';
     };
 
     home.sessionVariables = {

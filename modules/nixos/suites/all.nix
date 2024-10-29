@@ -4,14 +4,20 @@
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
-  inherit (lib) mkIf;
+  inherit (my_lib.opt) mkEnableOpt;
+  inherit (lib) mkIf mkDefault;
   cfg = config.modules.nixos.suites.all;
+  enable = {
+    enable = mkDefault true;
+  };
+  # disable = {
+  #   enable = mkDefault false;
+  # };
 in {
   options.modules.nixos.suites.all =
     mkEnableOpt "enables everything except for the hardware specific stuff";
 
-  # TODO: split this into smaller parts
+  # could split this into parts when (or if) needed
   config = mkIf cfg.enable {
     modules.nixos = {
       hardware = {

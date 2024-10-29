@@ -4,16 +4,18 @@
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
-  inherit (lib) mkIf;
+  inherit (my_lib.opt) mkEnableOpt;
+  inherit (lib) mkIf mkDefault;
   cfg = config.modules.home.suites.all;
+  enable = {
+    enable = mkDefault true;
+  };
+  # disable = {
+  #   enable = mkDefault false;
+  # };
 in {
   options.modules.home.suites.all =
     mkEnableOpt "enables everything except the hardware specific stuff";
-
-  # TODO: split this into smaller parts
-  # TODO: dont just enable it but use something like mkDefault
-  #  so that a user can override a suite
 
   config = mkIf cfg.enable {
     modules.home = {

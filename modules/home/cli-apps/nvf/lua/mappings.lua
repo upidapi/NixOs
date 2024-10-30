@@ -61,30 +61,59 @@ local mappings = {
     { "n", "<leader>tt",  "<cmd> Neotree toggle<CR>" },
     { "n", "<leader>tu",  "<cmd> Neotree<CR>" },
 
-    { 'n', '<leader>lgD', vim.lsp.buf.declaration },
-    { 'n', '<leader>lgd', vim.lsp.buf.definition },
-    { 'n', '<leader>lgt', vim.lsp.buf.type_definition },
-    { 'n', '<leader>lgi', vim.lsp.buf.implementation },
-    { 'n', '<leader>lgr', vim.lsp.buf.references },
-    { 'n', '<leader>lgn', vim.diagnostic.goto_next },
-    { 'n', '<leader>lgp', vim.diagnostic.goto_prev },
-    { 'n', '<leader>le',  vim.diagnostic.open_float },
-    { 'n', '<leader>lH',  vim.lsp.buf.document_highlight },
-    { 'n', '<leader>lS',  vim.lsp.buf.document_symbol },
-    { 'n', '<leader>lwa', vim.lsp.buf.add_workspace_folder },
-    { 'n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder },
-    { 'n', '<leader>lwl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    -- Lsp
+    { "n", "gh",          "<cmd>Lspsaga lsp_finder<CR>" },
+    { "n", "<leader>ca",  "<cmd>Lspsaga code_action<CR>" },
+    { "n", "gr",          "<cmd>Lspsaga rename<CR>" },
+    { "n", "gr",          "<cmd>Lspsaga rename ++project<CR>" },
+    { "n", "gD",          "<cmd>Lspsaga peek_definition<CR>" },
+    { "n", "gd",          "<cmd>Lspsaga goto_definition<CR>" },
+    { "n", "<leader>sl",  "<cmd>Lspsaga show_line_diagnostics<CR>" },
+    { "n", "<leader>sc",  "<cmd>Lspsaga show_cursor_diagnostics<CR>" },
+    { "n", "<leader>sb",  "<cmd>Lspsaga show_buf_diagnostics<CR>" },
+    { "n", "[e",          "<cmd>Lspsaga diagnostic_jump_prev<CR>" },
+    { "n", "]e",          "<cmd>Lspsaga diagnostic_jump_next<CR>" },
+    { "n", "[E", function()
+        require("lspsaga.diagnostic"):goto_prev({
+            severity = vim.diagnostic.severity.ERROR }
+        )
     end },
-    { 'n', '<leader>lws', vim.lsp.buf.workspace_symbol },
-    { 'n', '<leader>lh',  vim.lsp.buf.hover },
-    { 'n', '<leader>ls',  vim.lsp.buf.signature_help },
-    { 'n', '<leader>ln',  vim.lsp.buf.rename },
-    { 'n', '<leader>la',  vim.lsp.buf.code_action },
-    { 'n', '<leader>lf',  vim.lsp.buf.format },
-    { 'n', '<leader>ltf', function()
-        vim.b.disableFormatSave = not vim.b.disableFormatSave
+    { "n", "]E", function()
+        require("lspsaga.diagnostic"):goto_next(
+            { severity = vim.diagnostic.severity.ERROR }
+        )
     end },
+    { "n", "ss",          "<cmd>Lspsaga outline<CR>" },
+    { "n", "K",           "<cmd>Lspsaga hover_doc ++keep<CR>" },
+    { "n", "<Leader>ci",  "<cmd>Lspsaga incoming_calls<CR>" },
+    { "n", "<Leader>co",  "<cmd>Lspsaga outgoing_calls<CR>" },
+    -- { "n", "<A-d>",       "<cmd>Lspsaga term_toggle<CR>" },
+    -- { "t", "<A-d>",       "<cmd>Lspsaga term_toggle<CR>" },
+
+    -- { 'n', '<leader>lgD', vim.lsp.buf.declaration },
+    -- { 'n', '<leader>lgd', vim.lsp.buf.definition },
+    -- { 'n', '<leader>lgt', vim.lsp.buf.type_definition },
+    -- { 'n', '<leader>lgi', vim.lsp.buf.implementation },
+    -- { 'n', '<leader>lgr', vim.lsp.buf.references },
+    -- { 'n', '<leader>lgn', vim.diagnostic.goto_next },
+    -- { 'n', '<leader>lgp', vim.diagnostic.goto_prev },
+    -- { 'n', '<leader>le',  vim.diagnostic.open_float },
+    -- { 'n', '<leader>lH',  vim.lsp.buf.document_highlight },
+    -- { 'n', '<leader>lS',  vim.lsp.buf.document_symbol },
+    -- { 'n', '<leader>lwa', vim.lsp.buf.add_workspace_folder },
+    -- { 'n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder },
+    -- { 'n', '<leader>lwl', function()
+    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    -- end },
+    -- { 'n', '<leader>lws', vim.lsp.buf.workspace_symbol },
+    -- { 'n', '<leader>lh',  vim.lsp.buf.hover },
+    -- { 'n', '<leader>ls',  vim.lsp.buf.signature_help },
+    -- { 'n', '<leader>ln',  vim.lsp.buf.rename },
+    -- { 'n', '<leader>la',  vim.lsp.buf.code_action },
+    -- { 'n', '<leader>lf',  vim.lsp.buf.format },
+    -- { 'n', '<leader>ltf', function()
+    --     vim.b.disableFormatSave = not vim.b.disableFormatSave
+    -- end },
 }
 
 

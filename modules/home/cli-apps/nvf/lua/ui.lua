@@ -255,20 +255,20 @@ require("ibl").setup({
 require('todo-comments').setup({
     colors = {
         default = {
-            -- "Identifier",
+            "Identifier",
             "#7C3AED"
         },
         error = {
-            -- "DiagnosticError",
-            -- "ErrorMsg",
+            "DiagnosticError",
+            "ErrorMsg",
             "#DC2626"
         },
         hint = {
-            -- "DiagnosticHint",
+            "DiagnosticHint",
             "#10B981"
         },
         test = {
-            -- "Identifier",
+            "Identifier",
             "#FF00FF"
         },
         todo = {
@@ -276,8 +276,8 @@ require('todo-comments').setup({
             "#2563EB"
         },
         warning = {
-            -- "DiagnosticWarn",
-            -- "WarningMg",
+            "DiagnosticWarn",
+            "WarningMg",
             "#FBBF24"
         }
     },

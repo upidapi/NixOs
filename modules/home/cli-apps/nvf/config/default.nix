@@ -50,6 +50,7 @@ in {
       ueberzugpp
 
       ruff
+      pyright
     ];
 
     programs.nvf = {

@@ -4,7 +4,7 @@
 local modules = {
     "lua.misc",
 
-    "lua.cmp",
+    "lua.lsp",
     "lua.mappings",
     "lua.mouse",
     "lua.reload",

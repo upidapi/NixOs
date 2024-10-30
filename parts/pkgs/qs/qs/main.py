@@ -1,16 +1,17 @@
-import json
 import os
 import shlex
-
 import subprocess
-import atexit
+import tempfile
+
+import json
 import yaml
-import string
+
+import atexit
 import random
+import re
+import string
 import time
 from typing import Literal
-import tempfile
-import re
 
 
 # remove the dot for debugging
@@ -64,7 +65,9 @@ def run_cmd(
         cmd = f"{cmd}\necho -n {DATA_HEADER}\n{data_cmd}"
 
     if color:
-        cmd = f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
+        cmd = (
+            f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
+        )
 
     Logger.log(f"\n>>> {cmd}\n")
 
@@ -117,7 +120,10 @@ def run_cmd(
         # where each part is ether only data or only a token
         for token in tokens:
             data = sum(
-                [sum([[x, token] for x in d.split(token)], [])[:-1] for d in data],
+                [
+                    sum([[x, token] for x in d.split(token)], [])[:-1]
+                    for d in data
+                ],
                 [],
             )
 
@@ -235,7 +241,9 @@ class Part:
 
     @staticmethod
     def get_profile(args):
-        return (args["--profile"] or [[Part._get_last_profile()]])[0][0]
+        return (args["--profile"] or [[Part._get_last_profile()]])[0][
+            0
+        ]
 
     # def get_profiles():
     #     return []
@@ -394,10 +402,14 @@ class Part:
     @staticmethod
     def rebuild_nixos(args, profile):
         branch = list(
-            x for x in run_cmd("git branch").split("\n") if x.startswith("*")
+            x
+            for x in run_cmd("git branch").split("\n")
+            if x.startswith("*")
         )[0][2:]
 
-        Print.devider(f"Rebuilding NixOs (profile: {profile}, branch: {branch})")
+        Print.devider(
+            f"Rebuilding NixOs (profile: {profile}, branch: {branch})"
+        )
 
         sudo_part = f"""
             # not necisary here but i dont whant to unlick sudo twice
@@ -479,12 +491,16 @@ class Commit:
         head_hash = run_cmd("git log HEAD --pretty=%H -1").strip()
 
         if head_hash == hash:
-            run_cmd("git reset --soft HEAD~1", print_res=True, color=True)
+            run_cmd(
+                "git reset --soft HEAD~1", print_res=True, color=True
+            )
         elif hash not in rev_list:
             # commit amended or removed
             return
         else:
-            raise Exception("The pre rebuild commit is not the last commit")
+            raise Exception(
+                "The pre rebuild commit is not the last commit"
+            )
 
     @staticmethod
     def _fmt_gen_commit_msg(
@@ -495,9 +511,11 @@ class Commit:
         extra_gens: list[str],
         empty_gen: bool = False,
     ):
-        gen = " -> ".join(
-            [str(x) for x in [*extra_gens, gen_data["generation"]] + [""] * empty_gen]
-        ).strip()
+        gen = " -> ".join([
+            str(x)
+            for x in [*extra_gens, gen_data["generation"]]
+            + [""] * empty_gen
+        ]).strip()
 
         full_commit_msg = f"{msg}\n" f"\n" + yaml.dump(
             {
@@ -527,7 +545,11 @@ class Commit:
 
         # id = get_rand_id(32)
 
-        msg = Commit._PRE_REBUILD_COMMIT_MSG + "\n" + args["--message"][0][0]
+        msg = (
+            Commit._PRE_REBUILD_COMMIT_MSG
+            + "\n"
+            + args["--message"][0][0]
+        )
         # f"{id}\n" + \
 
         return Commit._fmt_gen_commit_msg(
@@ -569,7 +591,11 @@ class Commit:
                 )
             )
 
-        Print.devider("Committing changes" if no_rebuild else "Pre rebuild commit")
+        Print.devider(
+            "Committing changes"
+            if no_rebuild
+            else "Pre rebuild commit"
+        )
 
         # TODO: remove when i don't manually have to do this (something
         #  is wrong about my git signing config)
@@ -601,7 +627,11 @@ class Commit:
             # print(data)
             yaml_data = yaml.safe_load("\n".join(data))["info"]
 
-            gens = [x.strip() for x in yaml_data["Gen"].split("->") if x.strip() != ""]
+            gens = [
+                x.strip()
+                for x in yaml_data["Gen"].split("->")
+                if x.strip() != ""
+            ]
 
             return (
                 False,
@@ -627,8 +657,12 @@ class Commit:
 
         # print(hash)
 
-        raw_commit_msg = run_cmd(f"git log {hash} -1 --pretty=%B").strip()
-        manual, last_gen_data = Commit._parse_gen_commit_msg(raw_commit_msg)
+        raw_commit_msg = run_cmd(
+            f"git log {hash} -1 --pretty=%B"
+        ).strip()
+        manual, last_gen_data = Commit._parse_gen_commit_msg(
+            raw_commit_msg
+        )
         if manual:
             raise Exception("wut, commit is manua!?")
 
@@ -637,7 +671,9 @@ class Commit:
 
         head_hash = run_cmd("git log HEAD --pretty=%H -1").strip()
         if head_hash != hash:
-            raise Exception("The pre rebuild commit is not the last commit")
+            raise Exception(
+                "The pre rebuild commit is not the last commit"
+            )
 
         full_commit_msg = Commit._fmt_gen_commit_msg(
             args["--message"][0][0],
@@ -707,7 +743,9 @@ class Commit:
                 ).encode()
             )
 
-            run_cmd(f'env GIT_EDITOR="python {temp}" git rebase -i {hash}')
+            run_cmd(
+                f'env GIT_EDITOR="python {temp}" git rebase -i {hash}'
+            )
         finally:
             temp.close()
 
@@ -716,7 +754,9 @@ class Commit:
     def amend_pre_rebuild_commit(args, profile, commit_hash):
         Print.devider("Amending pre rebuild commit")
 
-        commit_message = run_cmd(f"git log {commit_hash} --pretty=%H -n 1")
+        commit_message = run_cmd(
+            f"git log {commit_hash} --pretty=%H -n 1"
+        )
         last_gen_data = Commit._parse_gen_commit_msg(commit_message)
 
         full_commit_msg = Commit._fmt_gen_commit_msg(
@@ -746,10 +786,14 @@ class Commit:
                 color=True,
             )
 
-        Commit._git_interactive_rebase(commit_hash, 0, "reword", full_commit_msg)
+        Commit._git_interactive_rebase(
+            commit_hash, 0, "reword", full_commit_msg
+        )
 
         if has_changes:
-            run_cmd("git reset --soft HEAD~1", print_res=True, color=True)
+            run_cmd(
+                "git reset --soft HEAD~1", print_res=True, color=True
+            )
 
 
 def noop():
@@ -823,18 +867,17 @@ class Command:
 
 
 def main():
-    args = parse_sys_args(
-        {
-            "name": "qs",
-            "flags": {
-                "--trace": {
-                    "alias": ["-t"],
-                    "info": "pass --show-trace to nixos-rebuild",
-                },
-                "--message": {
-                    "alias": ["-m"],
-                    "info": "commit msg for the rebuild",
-                    "doc": """\
+    args = parse_sys_args({
+        "name": "qs",
+        "flags": {
+            "--trace": {
+                "alias": ["-t"],
+                "info": "pass --show-trace to nixos-rebuild",
+            },
+            "--message": {
+                "alias": ["-m"],
+                "info": "commit msg for the rebuild",
+                "doc": """\
                     The message that will be put ontop of the commit 
                     should preferably start with some type of catagory.
                     
@@ -850,65 +893,64 @@ def main():
                     eg:
                         debug: starship
                 """,
-                    # default
-                    # "count": 1,
-                    "args": [
-                        {
-                            # only for the help screen
-                            "name": "message",
-                            # for tab completion
-                        },
-                    ],
-                    # not needed, default behaviour
-                    # "allow_sub": False,
-                },
-                "--no-rebuild": {
-                    "alias": ["-c"],
-                    "info": "only commit changes, dont rebuild",
-                },
-                "--no-auto-add": {
-                    "alias": ["-n"],
-                    "info": "dont auto add/commit all files",
-                },
-                # "--no-add-files": {
-                #     "alias": ["-n"],
-                #     "info": "dont add any files",
-                #     # not needed, default behaviour
-                #     # "allow_sub": False,
-                # },
-                "--profile": {
-                    "alias": ["-p"],
-                    "info": "the flake profile to build",
-                    "args": [{"name": "<profile>"}],
-                },
-                "--force": {
-                    "alias": ["-f"],
-                    "info": "force rebuild even if there are no changes",
-                },
+                # default
+                # "count": 1,
+                "args": [
+                    {
+                        # only for the help screen
+                        "name": "message",
+                        # for tab completion
+                    },
+                ],
+                # not needed, default behaviour
+                # "allow_sub": False,
             },
-            "sub_cmd": {
-                # generated automatically
-                # "help": {
-                # },
-                "edit": {
-                    "alias": ["e"],
-                    "info": "open the config in the editor",
-                },
-                "diff": {
-                    "alias": ["d"],
-                    "info": "show diff between HEAD and last commit",
-                },
-                "update": {
-                    "alias": ["u"],
-                    "info": "update flake inputs and rebuild",
-                },
-                "pull": {
-                    "alias": ["p"],
-                    "info": "pull from remote and rebuild",
-                },
+            "--no-rebuild": {
+                "alias": ["-c"],
+                "info": "only commit changes, dont rebuild",
             },
-        }
-    )
+            "--no-auto-add": {
+                "alias": ["-n"],
+                "info": "dont auto add/commit all files",
+            },
+            # "--no-add-files": {
+            #     "alias": ["-n"],
+            #     "info": "dont add any files",
+            #     # not needed, default behaviour
+            #     # "allow_sub": False,
+            # },
+            "--profile": {
+                "alias": ["-p"],
+                "info": "the flake profile to build",
+                "args": [{"name": "<profile>"}],
+            },
+            "--force": {
+                "alias": ["-f"],
+                "info": "force rebuild even if there are no changes",
+            },
+        },
+        "sub_cmd": {
+            # generated automatically
+            # "help": {
+            # },
+            "edit": {
+                "alias": ["e"],
+                "info": "open the config in the editor",
+            },
+            "diff": {
+                "alias": ["d"],
+                "info": "show diff between HEAD and last commit",
+            },
+            "update": {
+                "alias": ["u"],
+                "info": "update flake inputs and rebuild",
+            },
+            "pull": {
+                "alias": ["p"],
+                "info": "pull from remote and rebuild",
+            },
+        },
+    })
 
     pp(args)
 

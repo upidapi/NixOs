@@ -47,7 +47,7 @@ select = [
   # flake8-simplify
   "SIM",
   # isort
-  "I",
+  # "I",
   # name stuff?
   "N",
 ]

@@ -30,6 +30,3 @@ for _, v in pairs(modules) do
     package.loaded[v] = nil
     require(v)
 end
-
-
--- TODO: python ruff (lsp, and formatter)

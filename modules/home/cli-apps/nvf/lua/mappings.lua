@@ -3,7 +3,7 @@ local dap = require("dap")
 
 local mappings = {
     -- open toggle term
-    { "n", "<c-t>",       "<Cmd>execute v:count . \"ToggleTerm\"<CR>" },
+    -- { "n", "<c-t>",       "<Cmd>execute v:count . \"ToggleTerm\"<CR>" },
 
     { "n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>" },
 

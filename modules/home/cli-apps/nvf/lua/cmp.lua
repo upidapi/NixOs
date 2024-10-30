@@ -290,7 +290,7 @@ nvim_lsp.nixd.setup({
 nvim_lsp.ruff.setup({
   init_options = {
     settings = {
-      -- Ruff language server settings go here
+      configuration = "$NIXOS_CONFIG_PATH/modules/home/cli-apps/nvf/cfg-files/ruff.toml"
     }
   }
 })

@@ -30,7 +30,9 @@ in {
         go = enable;
         python = {
           enable = true;
-          lsp.enable = false; # use ruff
+          # use ruff
+          lsp = disable;
+          format = disable;
         };
         bash = enable;
         sql = enable;

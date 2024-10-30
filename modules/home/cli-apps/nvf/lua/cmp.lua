@@ -188,6 +188,7 @@ require("null-ls").setup({
     sources = {
         -- you must download code formatter by yourself!
         require("null-ls").builtins.formatting.alejandra,
+        require("null-ls").builtins.formatting.ruff,
     },
     debug = false,
     on_attach = function(client, bufnr)

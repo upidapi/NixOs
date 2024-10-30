@@ -1,5 +1,5 @@
 {my_lib, ...}: let
-  inherit (my_lib.opt) enable;
+  inherit (my_lib.opt) enable disable;
 in {
   programs.nvf = {
     settings.vim = {
@@ -21,7 +21,8 @@ in {
 
         nix = {
           enable = true;
-          lsp.enable = false;
+          lsp = disable;
+          format = disable;
         };
         # // {
         #   lsp.enable = false;

@@ -87,19 +87,19 @@ function Battery() {
                 last_percent = percent
             } else if (last_percent != percent){
                 if (percent == 20) {
-                    execAsync(
+                    Utils.execAsync(
                         'notify-send -u normal' + 
                         '"Low Battery"' + 
                         '"20% battery remaining"'
                     )
                 } else if (percent == 10) {
-                    execAsync(
+                    Utils.execAsync(
                         'notify-send -u normal' + 
                         '"Low Battery"' + 
                         '"10% battery remaining"'
                     )
                 } else if (percent == 5) {
-                    execAsync(
+                    Utils.execAsync(
                         'notify-send -u critical' + 
                         '"Low Battery"' + 
                         '"5% battery remaining"'

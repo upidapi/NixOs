@@ -13,19 +13,11 @@ in {
   options.modules.home.apps.firefox =
     mkEnableOpt "enables firefox";
 
-  # EXPLORE: https://github.com/qutebrowser/qutebrowser
+  # https://github.com/qutebrowser/qutebrowser
   #  a vim like browser with minimal gui and a focus on the keyboard
 
-  # EXP: enhancer-for-youtube
-  # EXP: https://github.com/bppdddqqqq/nixos-config/blob/d0fd4c2f013798235f716757aea5570fda38542a/home-manager/gui.nix#L168
-
-  # EXPLORE: zen browser
-
-  # TODO: add https://github.com/ray-lothian/UserAgent-Switcher
-
-  # EXP: rofi shortcut to open about:profiles
-
-  # EXP: more extensions https://github.com/NotAShelf/nyx/blob/d407b4d6e5ab7f60350af61a3d73a62a5e9ac660/homes/notashelf/programs/graphical/apps/schizofox/default.nix#L79
+  # switch zen browser?
+  #  not until they add horizontal tabs
 
   # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
   # add to sytlus to fix netflix spoilters
@@ -130,10 +122,7 @@ in {
           devtools.debugger.remote-enabled
           */
           # Custom CSS style options
-          # TODO: remove most of the colourful colors from this
-          # / standardise them, i dont need one color per button
 
-          # TODO: fix the color / form of the tabs
           userChrome = cssColors + builtins.readFile ./userChrome.css;
           userContent = cssColors + builtins.readFile ./userContent.css;
 
@@ -234,7 +223,7 @@ in {
             # vim binds for the browser
             vimium
 
-            ublock-origin
+            react-devtools
 
             # un clickbait youtube
             dearrow
@@ -245,20 +234,21 @@ in {
             refined-github
             i-dont-care-about-cookies
             darkreader
-
-            react-devtools
-
             stylus # the config is in stylus.json
 
             # privacy
             # https-everywhere  # not on system
+            user-agent-string-switcher
+            ublock-origin
             clearurls
-            disconnect
-            decentraleyes
-            duckduckgo-privacy-essentials
+            decentraleyes # local cdn
+            # privacy-redirect
+
+            # unnecessary with ubo
+            # duckduckgo-privacy-essentials
+            # disconnect
             # ghostery
             # privacy-badger
-            # privacy-redirect
 
             buster-captcha-solver
           ];

@@ -318,74 +318,72 @@ function AirplaneIcon() {
     ];
 }
 
-/*
-const bluetooth = await Service.import("bluetooth")
-
-const raw_bth_data = Variable("", {
-    poll: [100, "bash -c 'bluetoothctl info || :'"]
-})
-
-function getParsedBthCtl(data: string): { [key: string]: any }[] {
-  try {
-    const rawDataLines = data.split('\n');
-
-    const devices: string[][] = [];
-    let start = -1;
-    for (let i = 0; i < rawDataLines.length; i++) {
-      const line = rawDataLines[i];
-      if (line.startsWith('Device ')) {
-        if (start !== -1) {
-          devices.push(rawDataLines.slice(start, i));
-        }
-        start = i;
-      }
-    }
-    devices.push(rawDataLines.slice(start));
-
-    const parsed: { [key: string]: any }[] = [];
-    for (const device of devices) {
-      const parsedDevice: { [key: string]: any } = { name: device[0] };
-
-      for (let i = 1; i < device.length; i++) {
-        const [name, data] = device[i].split(': ', 2);
-        const key = name.slice(1);
-        if (!(key in parsedDevice)) {
-          parsedDevice[key] = data;
-        } else if (Array.isArray(parsedDevice[key])) {
-          parsedDevice[key].push(data);
-        } else {
-          parsedDevice[key] = [parsedDevice[key], data];
-        }
-      }
-
-      parsed.push(parsedDevice);
-    }
-
-    return parsed;
-  } catch (error) {
-    return [];
-  }
-}
-
-function BthHeadphoneIcon() {
-    const icon = raw_bth_data.bind().as((data) => {
-        if (data == "") {
-            return ""
-        }
-
-        const parsed = getParsedBthCtl(data)
-        for (const connection of parsed) {
-            if (connection['Icon'] === 'audio-headset') {
-                return '󰋋';
-            }
-        }
-
-        return '';
-    })
-
-  return Icon(icon);
-}
-*/
+// const bluetooth = await Service.import("bluetooth");
+//
+// const raw_bth_data = Variable("", {
+//     poll: [100, "bash -c 'bluetoothctl info || :'"],
+// });
+//
+// function getParsedBthCtl(data: string): { [key: string]: any }[] {
+//     try {
+//         const rawDataLines = data.split("\n");
+//
+//         const devices: string[][] = [];
+//         let start = -1;
+//         for (let i = 0; i < rawDataLines.length; i++) {
+//             const line = rawDataLines[i];
+//             if (line.startsWith("Device ")) {
+//                 if (start !== -1) {
+//                     devices.push(rawDataLines.slice(start, i));
+//                 }
+//                 start = i;
+//             }
+//         }
+//         devices.push(rawDataLines.slice(start));
+//
+//         const parsed: { [key: string]: any }[] = [];
+//         for (const device of devices) {
+//             const parsedDevice: { [key: string]: any } = { name: device[0] };
+//
+//             for (let i = 1; i < device.length; i++) {
+//                 const [name, data] = device[i].split(": ", 2);
+//                 const key = name.slice(1);
+//                 if (!(key in parsedDevice)) {
+//                     parsedDevice[key] = data;
+//                 } else if (Array.isArray(parsedDevice[key])) {
+//                     parsedDevice[key].push(data);
+//                 } else {
+//                     parsedDevice[key] = [parsedDevice[key], data];
+//                 }
+//             }
+//
+//             parsed.push(parsedDevice);
+//         }
+//
+//         return parsed;
+//     } catch (error) {
+//         return [];
+//     }
+// }
+//
+// function BthHeadphoneIcon() {
+//     const icon = raw_bth_data.bind().as((data) => {
+//         if (data == "") {
+//             return "";
+//         }
+//
+//         const parsed = getParsedBthCtl(data);
+//         for (const connection of parsed) {
+//             if (connection["Icon"] === "audio-headset") {
+//                 return "󰋋";
+//             }
+//         }
+//
+//         return "";
+//     });
+//
+//     return Icon(icon);
+// }
 
 function AudioIcons() {
     const icon = audio.speaker.bind("stream").as((data) => {
@@ -405,28 +403,23 @@ function AudioIcons() {
             visible: icon.as((x: string) => x != ""),
             label: icon,
         }),
-        /*
-                                Icon(
-                                    audio.microphone.bind("stream")
-                                    .as((data) => {
-                                        if (data === null) {
-                                            return ""
-                                        }
-                        
-                                        return data["icon-name"]
-                                    })
-                                )
-                                */
+        // Icon(
+        //     audio.microphone.bind("stream").as((data) => {
+        //         if (data === null) {
+        //             return "";
+        //         }
+        //
+        //         return data["icon-name"];
+        //     }),
+        // ),
     ];
 }
 
-/*
-function MicIcon() {
-    // print(JSON.stringify(audio))
-    // print()
-    return []
-}
-*/
+// function MicIcon() {
+//     // print(JSON.stringify(audio))
+//     // print()
+//     return []
+// }
 
 function StatusIcons() {
     return [

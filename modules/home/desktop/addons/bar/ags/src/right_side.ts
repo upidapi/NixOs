@@ -448,13 +448,3 @@ export function RightSide() {
         children: [StatusIcons(), Battery(), Brigtness(), Volume(), Time()].flat(1),
     });
 }
-
-Utils.execAsync([
-    "notify-send",
-    "-u",
-    "normal",
-    "Low Battery",
-    `% battery remaining`,
-])
-    .then((out) => print(out))
-    .catch((err) => print(err));

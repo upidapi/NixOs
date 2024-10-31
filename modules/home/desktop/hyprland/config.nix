@@ -24,6 +24,11 @@
     input = {
       kb_layout = "se"; # swedish layout
 
+      # faster and less delay for the repeating
+      # of keypresses when held down
+      repeat_delay = 300;
+      repeat_rate = 50;
+
       touchpad = {
         natural_scroll = true;
         scroll_factor = 0.5;

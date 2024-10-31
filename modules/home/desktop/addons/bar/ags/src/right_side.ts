@@ -132,15 +132,13 @@ function Battery() {
         DataContainer({
             visible: battery.bind("available"),
             children: [
-                /*
-                                                    Widget.Label({
-                                                        label: battery.bind().as(() => {
-                                                            print(JSON.stringify(Object.entries(battery)));
-                                                            print(battery.percent())
-                                                            return "-"
-                                                        })
-                                                    }),
-                                                    */
+                // Widget.Label({
+                //     label: battery.bind().as(() => {
+                //         print(JSON.stringify(Object.entries(battery)));
+                //         print(battery.percent());
+                //         return "-";
+                //     }),
+                // }),
                 Widget.Label({
                     label: icon,
                     class_names: low_battery_class,
@@ -408,17 +406,17 @@ function AudioIcons() {
             label: icon,
         }),
         /*
-                            Icon(
-                                audio.microphone.bind("stream")
-                                .as((data) => {
-                                    if (data === null) {
-                                        return ""
-                                    }
-                    
-                                    return data["icon-name"]
-                                })
-                            )
-                            */
+                                Icon(
+                                    audio.microphone.bind("stream")
+                                    .as((data) => {
+                                        if (data === null) {
+                                            return ""
+                                        }
+                        
+                                        return data["icon-name"]
+                                    })
+                                )
+                                */
     ];
 }
 

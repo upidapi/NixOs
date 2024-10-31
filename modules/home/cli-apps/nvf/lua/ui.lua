@@ -147,12 +147,12 @@ require('project_nvim').setup({
 ---- colorizer ----
 -- https://github.com/norcalli/nvim-colorizer.lua
 require('colorizer').setup({
-    RGB      = true,  -- #RGB hex codes
-    RRGGBB   = true,  -- #RRGGBB hex codes
+    RGB      = true,  -- #f0f hex codes
+    RRGGBB   = true,  -- #ff00ff hex codes
     names    = false, -- "Name" codes like Blue
-    RRGGBBAA = true,  -- #RRGGBBAA hex codes
-    rgb_fn   = true,  -- CSS rgb() and rgba() functions
-    hsl_fn   = true,  -- CSS hsl() and hsla() functions
+    RRGGBBAA = true,  -- #ff00ff00 hex codes
+    rgb_fn   = true,  -- CSS rgb(100, 0, 100) and rgba() functions
+    hsl_fn   = true,  -- CSS hsl(240, 100%, 50%) and hsla() functions
     css      = false,  -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
     css_fn   = false,  -- Enable all CSS *functions*: rgb_fn, hsl_fn
 

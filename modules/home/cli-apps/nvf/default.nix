@@ -16,8 +16,7 @@
 in {
   imports = [
     inputs.nvf.homeManagerModules.default
-    ./config
-    ./modules
+    ./config.nix
   ];
 
   options.modules.home.cli-apps.nvf =

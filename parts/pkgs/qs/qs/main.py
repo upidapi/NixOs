@@ -14,7 +14,6 @@ import time
 from typing import Literal
 
 
-# remove the dot for debugging
 try:
     from .parser import parse_sys_args, pp
 except ImportError:

@@ -153,8 +153,8 @@ require('colorizer').setup({
     RRGGBBAA = true,  -- #RRGGBBAA hex codes
     rgb_fn   = true,  -- CSS rgb() and rgba() functions
     hsl_fn   = true,  -- CSS hsl() and hsla() functions
-    css      = true,  -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-    css_fn   = true,  -- Enable all CSS *functions*: rgb_fn, hsl_fn
+    css      = false,  -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+    css_fn   = false,  -- Enable all CSS *functions*: rgb_fn, hsl_fn
 
     -- Available modes: foreground, background
     mode     = 'background',
@@ -257,6 +257,7 @@ require("ibl").setup({
 --
 -- TodoQuickFix
 -- commands, cn[ext], np[rev], cf[irst], cl[ast]
+
 require('todo-comments').setup({
     colors = {
         default = {
@@ -292,11 +293,11 @@ require('todo-comments').setup({
     highlight = {
         after = "fg",
         before = "",
-        commentsOnly = true,
+        comments_only = true,
         keyword = "wide",
-        maxLineLen = 1000,
+        max_line_len = 1000,
         multiline = true,
-        multilinePattern = "^  ",
+        multiline_pattern = "^ ",
         pattern = ".*<(KEYWORDS)(\\([^\\)]*\\))?:"
     },
     keywords = {

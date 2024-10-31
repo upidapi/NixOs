@@ -42,10 +42,11 @@ local mappings = {
     { "n", "<leader>dh",  require('dap.ui.widgets').hover },
     { "n", "<leader>du",  require('dapui').toggle },
 
-    { "n", "gnn",         nvim_tree_select.init_selection },
-    { "x", "grc",         nvim_tree_select.scope_incremental },
-    { "x", "grm",         nvim_tree_select.node_decremental },
-    { "x", "grn",         nvim_tree_select.node_incremental },
+    -- seams to do the same as node_incremental
+    -- { "n", "gnn",         nvim_tree_select.init_selection },
+    { "x", "gsJ",         nvim_tree_select.scope_incremental },
+    { "n", "gsj",         nvim_tree_select.node_decremental },
+    { "n", "gsk",         nvim_tree_select.node_incremental },
 
     { "n", "<leader>fC",  "<cmd> Telescope git_commits<CR>" },
     { "n", "<leader>fb",  "<cmd> Telescope buffers<CR>" },
@@ -83,10 +84,10 @@ local mappings = {
             { severity = vim.diagnostic.severity.ERROR }
         )
     end },
-    { "n", "ss",          "<cmd>Lspsaga outline<CR>" },
-    { "n", "K",           "<cmd>Lspsaga hover_doc ++keep<CR>" },
-    { "n", "<Leader>ci",  "<cmd>Lspsaga incoming_calls<CR>" },
-    { "n", "<Leader>co",  "<cmd>Lspsaga outgoing_calls<CR>" },
+    { "n", "ss",         "<cmd>Lspsaga outline<CR>" },
+    { "n", "K",          "<cmd>Lspsaga hover_doc ++keep<CR>" },
+    { "n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>" },
+    { "n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>" },
     -- { "n", "<A-d>",       "<cmd>Lspsaga term_toggle<CR>" },
     -- { "t", "<A-d>",       "<cmd>Lspsaga term_toggle<CR>" },
 

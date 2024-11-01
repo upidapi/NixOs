@@ -13,8 +13,6 @@ in {
   config = mkIf cfg.enable {
     stylix.targets.kitty.enable = false;
 
-    # TODO: remove the stylix theming for the everything but the actual
-    #  background
     programs.kitty = {
       enable = true;
       settings = {
@@ -23,6 +21,18 @@ in {
         visual_bell_duration = 0;
         enable_audio_bell = "no";
         bell_on_tab = "no";
+
+        background_opacity = "${
+          builtins.toString
+          config.stylix.opacity.terminal
+        }";
+      };
+
+      # usually done by stylix, but since we want a custom theme
+      # we have to readd this manually
+      font = {
+        inherit (config.stylix.fonts.monospace) package name;
+        size = config.stylix.fonts.sizes.terminal;
       };
 
       extraConfig = with config.lib.stylix.colors.withHashtag; ''

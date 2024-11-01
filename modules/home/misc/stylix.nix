@@ -48,12 +48,19 @@ in {
         # Urgent
         base09 = "#ffc777";
         # Warning
-        base0A = "#ffc777";
+        base0A = "#fcf56c";
         base0B = "#c3e88d";
         base0C = "#86e1fc";
         base0D = "#82aaff";
         base0E = "#fca7ea";
         base0F = "#c53b53";
+
+        # color10 = "#"; # Darker Background
+        # color11 = "#"; # The Darkest Background
+        # color12 = "#ff3240"; # red  #ff0010
+        # color13 = "#fcf125"; # yellow
+        # color14 = "#adff32"; # green
+        # color15 = "#32cdfc"; # cyan
       };
     /*
     {

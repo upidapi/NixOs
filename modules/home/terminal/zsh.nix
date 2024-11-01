@@ -36,8 +36,8 @@ in {
         shellAliases = {
           # s = "doas -s";
           # sudo = "doas -s";
-          unpage = "env PAGER=cat";
-          nix-unfree = "env NIXPKGS_ALLOW_UNFREE=1";
+          unpage = "PAGER=cat";
+          nix-unfree = "NIXPKGS_ALLOW_UNFREE=1";
           ds = "dev-shell";
           dsu = "env NIXPKGS_ALLOW_UNFREE=1 dev-shell";
 

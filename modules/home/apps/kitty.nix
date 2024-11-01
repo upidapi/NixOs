@@ -66,7 +66,7 @@ in {
         color6 ${base0C}
         color7 ${base05}
 
-        # bright
+        # bright text colors
         color8 ${base00}
         color9 ${base08}
         color10 ${base0B}

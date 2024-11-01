@@ -17,8 +17,6 @@ nix
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
    
-increase repeat speed for keyboard keys
-
 Virtulisation
     MAS
         free windows keys
@@ -31,8 +29,6 @@ Virtulisation
     
     scripts to auto setup vm
 
-
-Use the "native" nixd editor config to reduce it down into the smallest parts 
 
 Home lab
     nas
@@ -49,12 +45,6 @@ Home lab
     plex
 
     paste bin
-
-
-nvim 
-    nixd (language server)
-
-    quick fix buffer?
 
 
 security 
@@ -78,32 +68,21 @@ security
     secureboot
 
 
-How do the preformace modes work on tuxedo?
-
-
-fix ethernet getting stuck on reconnect:
-  enp12s0: connecting (getting IP configuration) to Wired connection 1
-
-
-store firefox extension data?
-    since you cant set the settings declaritivly
-
-    add a command to place these into the repo?
-
-
 optimise for battery
 
 
 himachi
     for fake lan 
 
-    could probalby do this with homelab too
+    could probably do this with homelab too
 
     or some other manual thing
 
 
 Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)
     maybe this happens when the files are changes?
+
+    i think this is fixed
 
 
 misc:

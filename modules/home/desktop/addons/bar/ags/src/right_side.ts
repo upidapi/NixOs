@@ -76,7 +76,9 @@ function Battery() {
         (charging: boolean, percent: number) => {
             if (last_percent === -1) {
                 last_percent = percent;
-            } else if (last_percent != percent) {
+                 
+                // notify when battery decreases
+            } else if (last_percent > percent) {
                 // Utils.execAsync([
                 //     "notify-send",
                 //     "-u",

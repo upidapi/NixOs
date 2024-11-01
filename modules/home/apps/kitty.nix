@@ -67,14 +67,14 @@ in {
         color7 ${base05}
 
         # bright
-        # color8 ${base00}
-        # color9 ${base08}
-        # color10 ${base0B}
-        # color11 ${base0A}
-        # color12 ${base0D}
-        # color13 ${base0E}
-        # color14 ${base0C}
-        # color15 ${base05}
+        color8 ${base00}
+        color9 ${base08}
+        color10 ${base0B}
+        color11 ${base0A}
+        color12 ${base0D}
+        color13 ${base0E}
+        color14 ${base0C}
+        color15 ${base05}
 
         # bright (real)
         # color8 #{{base02-hex}}

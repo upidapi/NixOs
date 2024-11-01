@@ -11,6 +11,8 @@ in {
   options.modules.home.apps.kitty = mkEnableOpt "enable kitty, the terminal";
 
   config = mkIf cfg.enable {
+    # TODO: remove the stylix theming for the everything but the actual
+    #  background
     programs.kitty = {
       enable = true;
       settings = {

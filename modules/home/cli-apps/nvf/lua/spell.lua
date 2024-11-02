@@ -1,11 +1,14 @@
-
 vim.o.linebreak = true
 
--- added from the nix
--- vim.o.spellfile = "/nix/store/2ic8l7dfqi80bmwlrvzpq5y94si8h3ds-nvf-en.utf-8.add"
+-- use the spell file in the repo 
+-- if NIXOS_CONFIG_PATH is unset it falls back to the one 
+-- generated ad build time
+local cfg = vim.env.NIXOS_CONFIG_PATH
+if not cfg then
+    vim.o.spellfile = cfg .. "/modules/home/cli-apps/nvf/runtime/spell/en.utf-8.add"
+end
 
-vim.opt.spelloptions = {"camel", "noplainbuffer"};
--- end
+vim.opt.spelloptions = { "camel", "noplainbuffer" };
 
 vim.opt.spell = true
 vim.opt.spelllang = { "en", "sv" }
@@ -13,18 +16,18 @@ vim.opt.spelllang = { "en", "sv" }
 -- from vim-dirtytalk
 vim.opt.spelllang:append("prog")
 
--- disable spellchecking for asian characters (VIM algorithm does not support it) 
+-- disable spellchecking for asian characters (VIM algorithm does not support it)
 -- vim.opt.spelllang:append('cjk')
 
 -- as configured by `vim.spellcheck.ignoredFiletypes`
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "toggleterm" },
-  callback = function()
-    vim.opt_local.spell = false
-  end,
+    pattern = { "toggleterm" },
+    callback = function()
+        vim.opt_local.spell = false
+    end,
 })
 
 
-vim.cmd[[hi clear SpellCap]];
-vim.cmd[[hi clear SpellRare]];
-vim.cmd[[hi SpellBad cterm=undercurl gui=undercurl guisp=#6E9E6E]];
+vim.cmd [[hi clear SpellCap]];
+vim.cmd [[hi clear SpellRare]];
+vim.cmd [[hi SpellBad cterm=undercurl gui=undercurl guisp=#6E9E6E]];

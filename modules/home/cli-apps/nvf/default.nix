@@ -1,5 +1,3 @@
-# 95% of this file is directly copied from raf
-# the rest is based on it
 {
   config,
   inputs,
@@ -67,7 +65,16 @@ in {
 
         # include this directory (/nvf) in the lua path
         # so that we can use it like we would normally
-        luaConfigPost = ''
+        luaConfigPost = let
+          spellFile = path {
+            name = "nvf-en.utf-8.add";
+            path = ./runtime/spell/en.utf-8.add;
+          };
+        in ''
+          -- added as a fallback
+          -- set in the lua cfg if NIXOS_CONFIG_PATH is set
+          vim.o.spellfile = "${spellFile}";
+
           -- Add a debug "option" so that we can avoid running
           -- the "built" in init if needed, for debugging
           if not vim.env.NVF_NO_LOAD_INIT then
@@ -81,7 +88,6 @@ in {
         git clone https://github.com/psliwka/vim-dirtytalk.git
         cat vim-dirtytalk/wordlists/* > programing.words
 
-
         # in nvim
         :mkspell /persist/nixos/modules/home/cli-apps/nvf/runtime/spell/prog ~/programing.words
         */
@@ -90,22 +96,8 @@ in {
 
         # recreate the add.spl file
         /*
-        cd $NIXOS_CONFIG_PATH/modules/home/cli-apps/nvf/runtime/spell/ | mkspell! en.utf-8.add.spl en.utf-8.add
+        cd $NIXOS_CONFIG_PATH/modules/home/cli-apps/nvf/runtime/spell/ | mkspell! en.utf-8.add.spl en.utf-8.add | cd $NIXOS_CONFIG_PATH
         */
-
-        # notashelf
-        # additional lua configuration that I can append or, to be more
-        # precise, randomly inject into the lua configuration of my Neovim
-        # configuration wrapper. This is recursively read from the lua
-        # directory, so we do not need to use require
-        luaConfigRC = let
-          spellFile = path {
-            name = "nvf-en.utf-8.add";
-            path = ./runtime/spell/en.utf-8.add;
-          };
-        in {
-          spell = "vim.o.spellfile = \"${spellFile}\"";
-        };
       };
     };
   };

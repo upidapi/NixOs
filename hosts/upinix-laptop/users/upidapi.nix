@@ -6,7 +6,7 @@
 }: let
   inherit (my_lib.opt) enable;
 in {
-  # Dont change this unless you reinsall from scratch.
+  # Dont change this unless you reinstall from scratch.
   home.stateVersion = "23.11"; # Read comment
   modules.home.suites.all = enable;
 }

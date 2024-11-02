@@ -4,7 +4,7 @@ vim.o.linebreak = true
 -- if NIXOS_CONFIG_PATH is unset it falls back to the one 
 -- generated ad build time
 local cfg = vim.env.NIXOS_CONFIG_PATH
-if not cfg then
+if cfg then
     vim.o.spellfile = cfg .. "/modules/home/cli-apps/nvf/runtime/spell/en.utf-8.add"
 end
 

@@ -16,7 +16,6 @@ args
 async
 attr
 attrs
-Attrs
 attrsets 
 auth
 autoconnect
@@ -168,7 +167,6 @@ lol
 lsp 
 luasnip
 luks
-LUKS
 lvl
 macos 
 manpage 
@@ -178,7 +176,6 @@ mk
 monospace
 mozilla
 msg
-Msg
 multiline 
 nas
 neo 
@@ -317,7 +314,6 @@ util
 utils
 vc 
 vencord
-Vencord
 ventoy
 vesktop
 vfio

@@ -12,11 +12,11 @@
   inherit
     (opt)
     mkOpt
-    mkOp
-    mkBoolOpt
-    mkBoolOp
+    mkOpt'
     mkEnableOpt
     enable
     disable
+    enableAnd
+    disableAnd
     ;
 }

@@ -3,7 +3,9 @@ require('neorg').setup({
         ["core.defaults"] = {},
         ["core.concealer"] = {},
         ["core.completion"] = {
-            ["config.engine"] = "nvim-cmp",
+            config = {
+                engine = "nvim-cmp",
+            },
         },
         ["core.export"] = {},
         ["core.summary"] = {},

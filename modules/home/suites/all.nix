@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt enableAnd;
   inherit (lib) mkIf mkDefault;
   cfg = config.modules.home.suites.all;
   enable = {
@@ -37,7 +37,9 @@ in {
       cli-apps = {
         color-pick = enable;
         bat = enable;
-        cn-bth = enable;
+        cn-bth = enableAnd {
+          deviceAddr = "AC:80:0A:2E:81:6A";
+        };
         eza = enable;
         git = enable;
         gpg = enable;
@@ -52,8 +54,7 @@ in {
         direnv = enable;
         nushell = enable;
         tmux = enable;
-        zsh = {
-          enable = true;
+        zsh = enableAnd {
           set-shell = true;
         };
         starship = enable;

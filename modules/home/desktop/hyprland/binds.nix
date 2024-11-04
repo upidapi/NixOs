@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+let
   mod = a: b: a - builtins.floor (a / b) * b;
 in {
   wayland.windowManager.hyprland.settings = {

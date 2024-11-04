@@ -8,7 +8,6 @@
   inherit (my_lib.opt) enable;
 in {
   imports = [
-    # ./tuxedo
     ./suspend-keyboard-fix.nix
   ];
 

@@ -49,7 +49,7 @@ in {
 
           login = {
             # FIXME: for some reason when Hyprland is run by greetd, you can open
-            # terminals (at lest kitty and alacritty) with the binds
+            #  terminals (at lest kitty and alacritty) with the binds
             command = "zsh -c Hyprland";
             autoLogin = false;
             greetd = enable;
@@ -57,7 +57,7 @@ in {
 
           graphical = {
             hyprland = enable;
-            xserver = enable;
+            # xserver = enable;
           };
         };
 

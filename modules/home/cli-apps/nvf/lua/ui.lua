@@ -146,19 +146,40 @@ require('project_nvim').setup({
 
 ---- colorizer ----
 -- https://github.com/norcalli/nvim-colorizer.lua
-require('colorizer').setup({
-    RGB      = true,  -- #f0f hex codes
-    RRGGBB   = true,  -- #ff00ff hex codes
-    names    = false, -- "Name" codes like Blue
-    RRGGBBAA = true,  -- #ff00ff00 hex codes
-    rgb_fn   = true,  -- CSS rgb(100, 0, 100) and rgba() functions
-    hsl_fn   = true,  -- CSS hsl(240, 100%, 50%) and hsla() functions
-    css      = false,  -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-    css_fn   = false,  -- Enable all CSS *functions*: rgb_fn, hsl_fn
+require("colorizer").setup {
+    filetypes = { "*" },
+    user_default_options = {
+        RGB = true,          -- #faa hex codes
+        RRGGBB = true,       -- #ffaaaa hex codes
+        RRGGBBAA = true,     -- #RRGGBBAA hex codes
+        AARRGGBB = true,     -- 0xAARRGGBB hex codes
+        rgb_fn = true,       -- CSS rgb(255, 170, 170) and rgba() functions
+        hsl_fn = true,       -- CSS hsl(0, 100%, 85%) and hsla() functions
 
-    -- Available modes: foreground, background
-    mode     = 'background',
-})
+        names = false,       -- "Name" codes like Blue or blue
+        css = false,         -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false,      -- Enable all CSS *functions*: rgb_fn, hsl_fn
+
+        -- Available modes for `mode`: foreground, background,  virtualtext
+        mode = "background", -- Set the display mode.
+        -- Available methods are false / true / "normal" / "lsp" / "both"
+        -- True is same as normal
+        tailwind = true, -- Enable tailwind colors
+        virtualtext = "■",
+
+        -- parsers can contain values used in |user_default_options|
+        sass = {
+            enable = false,
+            parsers = { "css" },
+        }, -- Enable sass colors
+
+        -- update color values even if buffer is not focused
+        -- example use: cmp_menu, cmp_docs
+        always_update = false
+    },
+    -- all the sub-options of filetypes apply to buftypes
+    buftypes = {},
+}
 -- NOTE: ccc breaks nixd :)
 
 
@@ -252,7 +273,7 @@ require("ibl").setup({
     }
 })
 
------ todo commens -----
+----- todo comments -----
 -- https://github.com/folke/todo-comments.nvim
 --
 -- TodoQuickFix
@@ -365,7 +386,7 @@ require('todo-comments').setup({
             "--line-number",
             "--column"
         },
-        command = "/nix/store/jpylriswiywbbs2dw5x8v5db6jc25nj0-ripgrep-14.1.1/bin/rg",
+        command = "rg",
         pattern = "\\b(KEYWORDS)(\\([^\\)]*\\))?:"
     },
     signs = false

@@ -290,7 +290,7 @@ tls
 tmp
 todo
 tokyo
-.toml 
+toml 
 treesitter
 tui 
 tvix
@@ -338,7 +338,6 @@ www
 xdg
 xkb
 xserver
-.yaml 
 yaml
 .yml 
 youtube

@@ -56,7 +56,8 @@ local mappings = {
     { "n", "<leader>fp",  "<cmd> Telescope projects<CR>" },
     { "n", "<leader>fr",  "<cmd> Telescope resume<CR>" },
     { "n", "<leader>fz",  "<cmd> Telescope current_buffer_fuzzy_find<CR>" },
-    { "n", "<leader>ft",  "<cmd> TodoTelescope<CR>" },
+    -- find todos in telescope, but exclude some types
+    { "n", "<leader>ft",  "<cmd> TodoTelescopeCat<CR>" }, 
 
     { "n", "<leader>tr",  "<cmd> Neotree reveal<CR>" },
     { "n", "<leader>tt",  "<cmd> Neotree toggle<CR>" },

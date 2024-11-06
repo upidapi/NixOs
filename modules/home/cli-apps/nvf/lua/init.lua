@@ -16,12 +16,14 @@ local modules = {
     -- setting the theme in ui also sets spell color
     "lua.spell",
 
+    "lua.plugins.telescope",
+    "lua.plugins.todo-comments", -- has to be after telescope
+
     "lua.plugins.cell-auto",
     "lua.plugins.dap",
     "lua.plugins.image",
     "lua.plugins.luasnip",
     "lua.plugins.neorg",
-    "lua.plugins.telescope",
     "lua.plugins.toggleterm",
 }
 

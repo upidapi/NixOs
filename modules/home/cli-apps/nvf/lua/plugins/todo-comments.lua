@@ -127,10 +127,6 @@ require('todo-comments').setup({
     signs = false
 })
 
-
-local config = require("todo-comments.config")
-local options = config.options
-
 local default_cat = {
     "EXPLORE",
     "FIX",
@@ -155,6 +151,9 @@ local default_cat = {
 --         return "[[" .. tostring(o) .. "]]"
 --     end
 -- end
+
+local config = require("todo-comments.config")
+local options = config._options
 
 local function keywords_to_aliases(keywords)
     -- get the names and aliases of the keywords in the
@@ -202,7 +201,7 @@ local function catagory_search(args)
 
     local cmd =
         "TodoTelescope keywords=" ..
-       table.concat(search_words, ",")
+        table.concat(search_words, ",")
     -- vim.fn.setreg("+", x)
     -- print(x)
 

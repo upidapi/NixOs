@@ -149,16 +149,16 @@ require('project_nvim').setup({
 require("colorizer").setup {
     filetypes = { "*" },
     user_default_options = {
-        RGB = true,          -- #faa hex codes
-        RRGGBB = true,       -- #ffaaaa hex codes
-        RRGGBBAA = true,     -- #RRGGBBAA hex codes
-        AARRGGBB = true,     -- 0xAARRGGBB hex codes
-        rgb_fn = true,       -- CSS rgb(255, 170, 170) and rgba() functions
-        hsl_fn = true,       -- CSS hsl(0, 100%, 85%) and hsla() functions
+        RGB = true,      -- #faa hex codes
+        RRGGBB = true,   -- #ffaaaa hex codes
+        RRGGBBAA = true, -- #RRGGBBAA hex codes
+        AARRGGBB = true, -- 0xAARRGGBB hex codes
+        rgb_fn = true,   -- CSS rgb(255, 170, 170) and rgba() functions
+        hsl_fn = true,   -- CSS hsl(0, 100%, 85%) and hsla() functions
 
-        names = false,       -- "Name" codes like Blue or blue
-        css = false,         -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = false,      -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        names = false,   -- "Name" codes like Blue or blue
+        css = false,     -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false,  -- Enable all CSS *functions*: rgb_fn, hsl_fn
 
         -- Available modes for `mode`: foreground, background,  virtualtext
         mode = "background", -- Set the display mode.
@@ -379,6 +379,16 @@ require('todo-comments').setup({
         }
     },
     search = {
+        -- this is a custom option
+        -- list of categories that will be shown on :TodoTelescope
+        categories = {
+            "EXPLORE",
+            "FIX",
+            "HACK",
+            "PREF",
+            "TODO",
+            "WARN",
+        },
         args = {
             "--color=never",
             "--no-heading",
@@ -391,3 +401,12 @@ require('todo-comments').setup({
     },
     signs = false
 })
+
+require('todo-comments').options.search.categories = {
+    "EXPLORE",
+    "FIX",
+    "HACK",
+    "PREF",
+    "TODO",
+    "WARN",
+}

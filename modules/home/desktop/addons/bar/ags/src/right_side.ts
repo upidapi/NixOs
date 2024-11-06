@@ -74,6 +74,7 @@ function Battery() {
     const icon = Utils.merge(
         [battery.bind("charging"), battery.bind("percent")],
         (charging: boolean, percent: number) => {
+            print(last_percent, percent)
             if (last_percent === -1) {
                 last_percent = percent;
                  

@@ -69,6 +69,9 @@ security
 
 
 optimise for battery
+    green: efficiency 
+    purple: balanced
+    blue: performance 
 
 
 himachi

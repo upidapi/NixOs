@@ -2,6 +2,7 @@
   imports = [
     ./bat.nix
     ./cn-bth.nix
+    ./cn-phone.nix
     ./eza.nix
     ./git.nix
     ./gpg.nix

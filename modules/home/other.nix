@@ -56,6 +56,9 @@ in {
           )
         )
 
+        # search nixpkgs with the terminal
+        nix-search-cli
+
         # short tldr for manpages with examples
         tldr
 

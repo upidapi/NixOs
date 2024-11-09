@@ -16,6 +16,8 @@ in {
   # https://github.com/qutebrowser/qutebrowser
   #  a vim like browser with minimal gui and a focus on the keyboard
 
+  # prevent firefox from opening in fullscreen when you restore with ctrl shift t
+
   # switch zen browser?
   #  not until they add horizontal tabs
 

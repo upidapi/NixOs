@@ -81,6 +81,10 @@ himachi
 
     or some other manual thing
 
+keyboard 
+    home row mods 
+
+    iso (english) layout
 
 Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)
     maybe this happens when the files are changes?

@@ -36,6 +36,13 @@ in {
       };
 
       extraConfig = let
+        kittyConfig = ''
+          map ctrl+shift+r no_op
+
+          # places the "characters" of the window to the top left
+          # so it padds to the bottom-right
+          placement_strategy top-left  # default center
+        '';
         colorConfig = with config.lib.stylix.colors.withHashtag; ''
           # window colors
           background ${base00}
@@ -86,7 +93,7 @@ in {
           # color15 #{{base07-hex}}
         '';
       in
-        colorConfig;
+        kittyConfig + colorConfig;
     };
 
     home.sessionVariables = {

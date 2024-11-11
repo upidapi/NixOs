@@ -41,7 +41,8 @@ in {
 
           # places the "characters" of the window to the top left
           # so it padds to the bottom-right
-          placement_strategy top-left  # default center
+          # default center
+          placement_strategy top-left
         '';
         colorConfig = with config.lib.stylix.colors.withHashtag; ''
           # window colors

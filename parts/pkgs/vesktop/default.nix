@@ -9,7 +9,7 @@ vesktop.overrideAttrs (old: rec {
     ++ [
       ./fix-readonly.patch
       # ./remove-splash.patch
-      ./tray-notifications.patch
+      # ./tray-notifications.patch
     ];
 
   p1 = ./0001-change-shiggy-to-vesktop-icon.patch;
@@ -26,6 +26,6 @@ vesktop.overrideAttrs (old: rec {
   # without this the build fails, you may wonder why, if you do
   # then you'll have to continue wondering since i don't know
   pnpmDeps = old.pnpmDeps.overrideAttrs {
-    outputHash = "sha256-ERaKH1r5chZeK2HvztD3xFwLvyakMJT9uM6IQiej6t4=";
+    outputHash = "sha256-rizJu6v04wFEpJtakC2tfPg/uylz7gAOzJiXvUwdDI4=";
   };
 })

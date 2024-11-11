@@ -141,10 +141,13 @@
 
               # rev
               gdb
-              gef
+              gef # gef extensions
+              pwndbg # gef extensions
+
+              radare2
+
               # EXPLORE: apktool and android rev in general
               ghidra
-              radare2
               # android / apk
               apktool
               dex2jar

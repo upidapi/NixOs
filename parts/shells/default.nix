@@ -109,6 +109,22 @@
         ];
       };
 
+      # TODO: fix ldconfig: file /nix/store... .so is truncated
+      #  error / notification when entering fhs env
+      #  https://github.com/NixOS/nixpkgs/issues/352717
+      # test =
+      #   (pkgs.buildFHSEnv
+      #     {
+      #       name = "cmp-prog-fhs";
+      #       runScript = pkgs.writeShellScript "cmp-prog-init" ''
+      #         name="cmp-prog-fhs"
+      #         exec zsh
+      #       '';
+      #       targetPkgs = _pkgs: (with _pkgs; [
+      #         ]);
+      #     })
+      #   .env;
+
       sec =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
@@ -151,13 +167,18 @@
               # android / apk
               apktool
               dex2jar
+
               # java decompilers
               # https://kalilinuxtutorials.com/apk-sh/
-              jd-cli
-              jd-gui
-              # seams to be functionally objectively worse
+              # there is no longer a source for the upstream dep
+              # jd-cli
+              # jd-gui
+
+              # seams to be functionally objectively worse than jq-cli/gui
               # jadx
-              # cfr
+              cfr
+              # procyon
+              # bytecode-viewer
 
               strace
               ltrace

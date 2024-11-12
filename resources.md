@@ -12,6 +12,12 @@ su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt
 sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 ```
 
+# run something without internet 
+```bash
+# (doesn't work)
+firejail --net=none
+```
+
 # build image
 ```bash
 cd $NIXOS_CONFIG_PATH

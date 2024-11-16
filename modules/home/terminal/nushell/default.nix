@@ -17,7 +17,11 @@ in {
 
       extraConfig = builtins.readFile ./config.nu;
 
-      inherit (config.modules.home.terminal) shellAliases;
+      # the default is broken, set in config.nu insted
+      shellAliases =
+        builtins.removeAttrs
+        config.modules.home.terminal.shellAliases
+        ["e"];
     };
 
     # multi-shell multi-command argument completer

@@ -47,7 +47,7 @@ $env.config = {
 } 
 
 # just using $EDITOR doesnt work in nushell
-alias e = "nu -c $EDITOR";
+alias e = nu -c $EDITOR
 
 # $env.PATH = (
 #   $env.PATH | 

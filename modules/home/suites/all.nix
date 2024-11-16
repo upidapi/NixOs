@@ -2,6 +2,7 @@
   my_lib,
   config,
   lib,
+  pkgs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enableAnd;
@@ -51,12 +52,13 @@ in {
       };
 
       terminal = {
-        direnv = enable;
+        defaultShell = pkgs.nushell;
+
         nushell = enable;
+        zsh = enable;
+
+        direnv = enable;
         tmux = enable;
-        zsh = enableAnd {
-          set-shell = true;
-        };
         starship = enable;
       };
 

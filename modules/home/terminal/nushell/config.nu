@@ -4,6 +4,9 @@ let carapace_completer = {|spans|
 
 $env.config = {
   show_banner: false,
+  edit_mode: vi,
+  use_kitty_protocol: true,
+
   completions: {
     # case-sensitive completions
     case_sensitive: false 
@@ -27,91 +30,81 @@ $env.config = {
       max_results: 100 
       completer: $carapace_completer # check 'carapace_completer' 
     }
+
+    shell_integration: {
+      osc2: false,
+      osc7: true,
+      osc8: true,
+      osc133: true,
+      osc633: true,
+      reset_application_mode: true,
+    },
+
+    history: {
+      sync_on_enter: true,
+    },
   }
 } 
 
-$env.PATH = (
-  $env.PATH | 
-  split row (char esep) |
-  prepend /home/myuser/.apps |
-  append /usr/bin/env
-)
+# just using $EDITOR doesnt work in nushell
+alias e = "nu -c $EDITOR";
+
+# $env.PATH = (
+#   $env.PATH | 
+#   split row (char esep) |
+#   prepend /home/myuser/.apps |
+#   append /usr/bin/env
+# )
 
 
-# {
-#   programs.nushell = {
-#     enable = true;
-#     extraConfig = /* nu */ ''
-#       def create_left_prompt [] {
-#           let dir = match (do --ignore-shell-errors { $env.PWD | path relative-to $nu.home-path }) {
-#               null => $env.PWD
-#               ''' => '~'
-#               $relative_pwd => ([~ $relative_pwd] | path join)
-#           }
-#
-#           let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
-#           let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
-#           let path_segment = $"($path_color)($dir)"
-#
-#           $path_segment | str replace --all (char path_sep) $"($separator_color)(char path_sep)($path_color)"
-#       }
-#
-#       def create_right_prompt [] {
-#           # create a right prompt in magenta with green separators and am/pm underlined
-#           let time_segment = ([
-#               (ansi reset)
-#               (ansi magenta)
-#               (date now | format date '%x %X') # try to respect user's locale
-#           ] | str join | str replace --regex --all "([/:])" $"(ansi green)''${1}(ansi magenta)" |
-#               str replace --regex --all "([AP]M)" $"(ansi magenta_underline)''${1}")
-#
-#           let last_exit_code = if ($env.LAST_EXIT_CODE != 0) {([
-#               (ansi rb)
-#               ($env.LAST_EXIT_CODE)
-#           ] | str join)
-#           } else { "" }
-#
-#           ([$last_exit_code, (char space), $time_segment] | str join)
-#       }
-#
-#       def create_title [] {
-#         let prefix = if SSH_TTY in $env {$"[(hostname | str replace -r "\\..*" "")] "}
-#         let path = pwd | str replace $env.HOME "~"
-#         ([$prefix, $path] | str join)
-#       }
-#
-#       $env.PROMPT_COMMAND = { || create_left_prompt }
-#       $env.PROMPT_COMMAND_RIGHT = { || create_right_prompt }
-#       $env.PROMPT_INDICATOR = {|| "> " }
-#       $env.PROMPT_INDICATOR_VI_INSERT = {|| "> " }
-#       $env.PROMPT_INDICATOR_VI_NORMAL = {|| "| " }
-#       $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
-#
-#       $env.config = {
-#         edit_mode: vi,
-#         show_banner: false,
-#         use_kitty_protocol: true,
-#         shell_integration: {
-#           osc2: false,
-#           osc7: true,
-#           osc8: true,
-#           osc133: true,
-#           osc633: true,
-#           reset_application_mode: true,
-#         },
-#         completions: {
-#           algorithm: "fuzzy",
-#         },
-#         history: {
-#           sync_on_enter: true,
-#         },
-#         hooks: {
-#           pre_prompt: [{
-#             print -n $"(ansi title)(create_title)(ansi st)"
-#           }]
-#         }
-#       }
-#       $env.KITTY_SHELL_INTEGRATION = "enabled"
-#     '';
-#   };
-# }
+# $env.PROMPT_COMMAND = { || create_left_prompt }
+# $env.PROMPT_COMMAND_RIGHT = { || create_right_prompt }
+
+$env.PROMPT_INDICATOR = {|| "> " }
+$env.PROMPT_INDICATOR_VI_INSERT = {|| "> " }
+$env.PROMPT_INDICATOR_VI_NORMAL = {|| "| " }
+$env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
+
+$env.KITTY_SHELL_INTEGRATION = "enabled"
+
+
+
+def cdmk [path: path] {
+  mkdir -p $path
+  cd $path
+}
+
+# Takes a symlink to the store and unlinks it so that the
+# file (or dir) it pointed to is placed there insted
+def unstore [path: path] {
+  
+  # [$path (realpath $path)] | any {|p| {
+  #    $p | path type | if $in != "symlink"       
+  # }}
+  #   
+  #
+  #  {return}
+    
+  # KISS 
+  (realpath $path) | path type | if $in != "symlink" {
+    echo "only symlinks to files supported"
+    return
+  }
+
+  (realpath $path) | path type | if $in != "file" {
+    echo "only symlinks to files supported"
+    return
+  }
+
+  # might be some better way to do this
+  run-external "cp" "--remove-destination" (readlink $path) $path  
+
+  chown (whoami) $path 
+  chmod +w $path
+}
+
+def store-edit [path: path] {
+  unstore $path
+
+  nu -c $env.TERMINAL $path
+}

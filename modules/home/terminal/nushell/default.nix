@@ -1,6 +1,5 @@
 {
   config,
-  # pkgs,
   lib,
   my_lib,
   ...
@@ -13,27 +12,13 @@ in {
     mkEnableOpt "Whether or not to enable nushell";
 
   config.programs = mkIf cfg.enable {
-    # shell = pkgs.nushell;
     nushell = {
-      configFile.source = ./config.nu;
+      extraConfig = builtins.readfile ./config.nu;
 
-      inherit (config.programs.zsh) shellAliases;
+      inherit (config.modules.home.terminal) shellAliases;
     };
 
+    # multi-shell multi-command argument completer
     carapace.enable = true;
-    carapace.enableNushellIntegration = true;
-
-    /*
-       starship = {
-      enable = true;
-      settings = {
-        add_newline = true;
-        character = {
-          success_symbol = "[➜](bold green)";
-          error_symbol = "[➜](bold red)";
-        };
-      };
-    };
-    */
   };
 }

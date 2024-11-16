@@ -1,8 +1,6 @@
-its not actually markdown i just like the colors :)
-
 # open the (infra) sops file
-
 ```bash
+# in direnv
 sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
 
 # not in direnv
@@ -13,15 +11,8 @@ su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt
 sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 ```
 
-# run something without internet
-
-```bash
-# (doesn't work)
-firejail --net=none
-```
 
 # build image
-
 ```bash
 cd $NIXOS_CONFIG_PATH
 
@@ -37,20 +28,20 @@ sudo nix build .#images.minimal-installer
 cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 ```
 
-# mount full disk
 
+# mount full disk
 ```bash
 mkdir /btrfs_tmp; mount /dev/root_vg/root /btrfs_tmp
 ```
 
-# resan and connect to phone
 
+# resan and connect to phone
 ```bash
 unpage nmcli device wifi list --rescan yes; nmcli device wifi connect upi-phone
 ```
 
-# fetch official iso(s)
 
+# fetch official iso(s)
 ```bash
 function downloadfile {
     # resolve url redirect to get a more specific link
@@ -73,15 +64,15 @@ for name in $iso_names; do
 done
 ```
 
-# get logs
 
+# get logs
 ```bash
 systemctl --user status
 journalctl -xeu home-manager-upidapi.service
 ```
 
-# format traces
 
+# format traces
 ```
 # replace the folowing with something else
 <code>
@@ -91,17 +82,18 @@ journalctl -xeu home-manager-upidapi.service
 «repeated»
 ```
 
-# get logs
 
+# get logs
 ```bash
 systemctl --user status
 journalctl -xeu home-manager-upidapi.service
 ```
 
-# use to search some repos i trust for examples
 
+# use to search some repos i trust for examples
 ```py
 repos = """\
+https://github.com/notashelf/nyx
 https://github.com/nobbz/nixos-config
 https://github.com/fufexan/dotfiles
 https://github.com/mitchellh/nixos-config
@@ -111,10 +103,7 @@ https://github.com/notohh/snowflake
 https://github.com/misterio77/nix-config
 
 https://github.com/hlissner/dotfiles
-
 https://github.com/gvolpe/nix-config
-
-https://github.com/notashelf/nyx\
 """
 
 parsed = [
@@ -131,18 +120,21 @@ data = [{
     } for data in parsed
 ]
 
-def get_github_seartch():
+def get_github_search():
     repos = " OR ".join([f"repo:{d['user']}/{d['name']}" for d in data])
 
     print(f"lang:nix ({repos})")
 
-def gen_md_credits():
-    print(
-        " - ".join([f"[{d['user']}]({d['url']})" for d in data])
-    )
+# def gen_md_credits():
+#     print(
+#         " - ".join([f"[{d['user']}]({d['url']})" for d in data])
+#     )
+#
+# gen_md_credits()
 
-gen_md_credits()
+get_github_search()
 
 
-# lang:nix (repo:nobbz/nixos-config OR repo:fufexan/dotfiles OR repo:mitchellh/nixos-config OR repo:mic92/dotfiles OR repo:workflow/dotfiles OR repo:notohh/snowflake OR repo:misterio77/nix-config OR repo:hlissner/dotfiles OR repo:gvolpe/nix-config OR repo:notashelf/nyx)
+# lang:nix (repo:notashelf/nyx OR repo:nobbz/nixos-config OR repo:fufexan/dotfiles OR repo:mitchellh/nixos-config OR repo:mic92/dotfiles OR repo:workflow/dotfiles OR repo:notohh/snowflake OR repo:misterio77/nix-config OR repo:hlissner/dotfiles OR repo:gvolpe/nix-config)
+
 ```

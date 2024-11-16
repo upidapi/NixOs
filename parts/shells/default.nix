@@ -34,7 +34,7 @@
         ];
 
         shellHook = ''
-          exec zsh
+          exec $TERMINAL
         '';
       };
 
@@ -135,7 +135,7 @@
             name = "cmp-prog-fhs";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
               name="cmp-prog-fhs"
-              exec zsh
+              exec $TERMINAL
             '';
             targetPkgs = _pkgs: (with _pkgs; [
               # forensics

@@ -50,7 +50,7 @@ in {
           login = {
             # FIXME: for some reason when Hyprland is run by greetd, you can open
             #  terminals (at lest kitty and alacritty) with the binds
-            command = "zsh -c Hyprland";
+            command = "sh -c Hyprland";
             autoLogin = false;
             greetd = enable;
           };

@@ -30,20 +30,26 @@ $env.config = {
       max_results: 100 
       completer: $carapace_completer # check 'carapace_completer' 
     }
-
-    shell_integration: {
-      osc2: false,
-      osc7: true,
-      osc8: true,
-      osc133: true,
-      osc633: true,
-      reset_application_mode: true,
-    },
-
-    history: {
-      sync_on_enter: true,
-    },
   }
+
+  cursor_shape: {
+    vi_insert: line 
+    vi_normal: block
+    # emacs: line
+  }
+
+  shell_integration: {
+    osc2: false,
+    osc7: true,
+    osc8: true,
+    osc133: true,
+    osc633: true,
+    reset_application_mode: true,
+  },
+
+  history: {
+    sync_on_enter: true,
+  },
 } 
 
 # just using $EDITOR doesnt work in nushell
@@ -70,7 +76,7 @@ $env.KITTY_SHELL_INTEGRATION = "enabled"
 
 
 def cdmk [path: path] {
-  mkdir -p $path
+  mkdir $path
   cd $path
 }
 

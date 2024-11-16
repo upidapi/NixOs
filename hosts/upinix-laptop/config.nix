@@ -35,6 +35,14 @@ in {
 
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
+  hardware = {
+    tuxedo-drivers = enable;
+    tuxedo-rs = {
+      enable = true;
+      tailor-gui = enable;
+    };
+  };
+
   modules.nixos = {
     suites.all = enable;
 

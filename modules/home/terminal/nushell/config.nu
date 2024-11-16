@@ -67,10 +67,6 @@ $env.config = {
     osc633: true,
     reset_application_mode: true,
   },
-
-  history: {
-    sync_on_enter: true,
-  },
 } 
 
 # just using $EDITOR doesnt work in nushell

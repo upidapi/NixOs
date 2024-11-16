@@ -18,7 +18,8 @@ $env.config = {
     partial: true
 
     # prefix or fuzzy
-    algorithm: "fuzzy"
+    # algorithm: "fuzzy"
+    algorithm: "prefix"
 
     external: {
       # set to false to prevent nushell looking into 
@@ -72,7 +73,6 @@ $env.PROMPT_INDICATOR_VI_NORMAL = {|| "| " }
 $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 
 $env.KITTY_SHELL_INTEGRATION = "enabled"
-
 
 
 def cdmk [path: path] {

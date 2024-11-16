@@ -23,7 +23,7 @@ in {
 
     services.caddy = {
       enable = true;
-      ca = "https://acme-staging-v02.api.letsencrypt.org/directory";
+      acmeCA = "https://acme-staging-v02.api.letsencrypt.org/directory";
       virtualHosts = {
         "upidapi.com".extraConfig = ''
           respond "Hello, world!"

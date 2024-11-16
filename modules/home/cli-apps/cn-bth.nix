@@ -13,7 +13,7 @@ in {
     (mkEnableOpt "Whether or not to add the cn-bth command")
     // {
       deviceAddr = mkOption {
-        type = types.nullOr types.string;
+        type = types.nullOr types.str;
         default = null;
         description = "The device cn-bth tries to connect to";
       };

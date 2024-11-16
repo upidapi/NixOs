@@ -1,27 +1,23 @@
 {
   config,
   lib,
-  my_lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
-  inherit (lib) mkIf mkOption;
+  inherit (lib) mkOption;
   inherit (lib.types) attrsOf str package;
   cfg = config.modules.home.terminal;
 in {
-  options.modules.home.terminal =
-    (mkEnableOpt "enables the zsh shell")
-    // {
-      shellAliases = mkOption {
-        type = attrsOf str;
-        default = {};
-        description = "a set of all shell aliases";
-      };
-
-      defaultShell = mkOption {
-        type = package;
-      };
+  options.modules.home.terminal = {
+    shellAliases = mkOption {
+      type = attrsOf str;
+      default = {};
+      description = "a set of all shell aliases";
     };
+
+    defaultShell = mkOption {
+      type = package;
+    };
+  };
 
   imports = [
     ./nushell
@@ -31,7 +27,7 @@ in {
     ./zsh.nix
   ];
 
-  config = mkIf cfg.enable {
+  config = {
     xdg.configFile."shell".source = lib.getExe cfg.defaultShell;
 
     # xdg.configFile."shell" = {

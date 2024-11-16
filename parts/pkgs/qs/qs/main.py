@@ -65,6 +65,9 @@ def run_cmd(
 
     if color:
         cmd = (
+            # by default it uses the shell in the $SHELL var
+            # this is a unnecessary source of impurity
+            f"SHELL=bash " 
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
 

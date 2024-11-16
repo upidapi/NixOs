@@ -34,7 +34,7 @@
         ];
 
         shellHook = ''
-          exec $TERMINAL
+          exec $SHELL
         '';
       };
 
@@ -135,7 +135,7 @@
             name = "cmp-prog-fhs";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
               name="cmp-prog-fhs"
-              exec $TERMINAL
+              exec $SHELL
             '';
             targetPkgs = _pkgs: (with _pkgs; [
               # forensics

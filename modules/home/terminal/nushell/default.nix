@@ -13,7 +13,9 @@ in {
 
   config.programs = mkIf cfg.enable {
     nushell = {
-      extraConfig = builtins.readfile ./config.nu;
+      enable = true;
+
+      extraConfig = builtins.readFile ./config.nu;
 
       inherit (config.modules.home.terminal) shellAliases;
     };

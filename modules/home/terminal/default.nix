@@ -32,14 +32,15 @@ in {
   ];
 
   config = mkIf cfg.enable {
-    # xdg.configFile."shell".source = mkIf cfg.set-shell (lib.getExe pkgs.zsh);
-    xdg.configFile."shell" = {
-      executable = true;
-      text = ''
-        #!/bin/sh
-        exec ${cfg.defaultShell}/bin/zsh "$@"
-      '';
-    };
+    xdg.configFile."shell".source = lib.getExe cfg.defaultShell;
+
+    # xdg.configFile."shell" = {
+    #   executable = true;
+    #   text = ''
+    #     #!/bin/sh
+    #     exec ${cfg.defaultShell}/bin/zsh "$@"
+    #   '';
+    # };
 
     modules.home.terminal.shellAliases = {
       # s = "doas -s";

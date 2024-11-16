@@ -1,11 +1,25 @@
 let carapace_completer = {|spans|
-  carapace $spans.0 nushell $spans | from json
+  carapace $spans.0 nushell ...$spans | from json
 }
+
+# TODO: how to scroll terminal with keybinds
+
+# TODO: change the completion colors
 
 $env.config = {
   show_banner: false,
   edit_mode: vi,
   use_kitty_protocol: true,
+    
+  table: {
+    # remove the left and right edges from tables
+    mode: compact 
+  }
+
+  ls: {
+    use_ls_colors: true # use the LS_COLORS environment variable to colorize output
+    clickable_links: true # enable or disable clickable links. Your terminal has to support links.
+  }
 
   completions: {
     # case-sensitive completions
@@ -39,6 +53,12 @@ $env.config = {
     # emacs: line
   }
 
+  history: {
+    max_size: 10000 # Session has to be reloaded for this to take effect
+    sync_on_enter: true # Enable to share history between multiple sessions, else you have to close the session to write history to file
+    file_format: "plaintext" # "sqlite" or "plaintext"
+  }
+
   shell_integration: {
     osc2: false,
     osc7: true,
@@ -67,9 +87,14 @@ alias e = nu -c $env.EDITOR
 # $env.PROMPT_COMMAND = { || create_left_prompt }
 # $env.PROMPT_COMMAND_RIGHT = { || create_right_prompt }
 
-$env.PROMPT_INDICATOR = {|| "> " }
-$env.PROMPT_INDICATOR_VI_INSERT = {|| "> " }
-$env.PROMPT_INDICATOR_VI_NORMAL = {|| "| " }
+# handled by starship
+# $env.PROMPT_INDICATOR = {|| "> " }
+# $env.PROMPT_INDICATOR_VI_INSERT = {|| "> " }
+# $env.PROMPT_INDICATOR_VI_NORMAL = {|| "| " }
+$env.PROMPT_INDICATOR = {|| "" }
+$env.PROMPT_INDICATOR_VI_INSERT = {|| "" }
+$env.PROMPT_INDICATOR_VI_NORMAL = {|| "" }
+
 $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 
 $env.KITTY_SHELL_INTEGRATION = "enabled"

@@ -39,12 +39,13 @@ in {
         };
 
         url = {
-          "git@github.com:".insteadOf = [
+          "git@github.com".insteadOf = [
             "gh"
             "github"
           ];
 
           # always use ssh
+          # NOTE: might cause problems
           "ssh://git@github.com/".insteadOf = "https://github.com/";
         };
 

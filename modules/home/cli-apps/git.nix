@@ -39,12 +39,10 @@ in {
         };
 
         url = {
-          "git@github.com:" = {
-            instedOf = [
-              "gh:"
-              "github:"
-            ];
-          };
+          "git@github.com:".instedOf = [
+            "gh"
+            "github"
+          ];
         };
 
         pull.rebase = true;

@@ -7,6 +7,7 @@ require('neorg').setup({
                 engine = "nvim-cmp",
             },
         },
+        -- ["core.integrations.image"] = {},
         ["core.export"] = {},
         ["core.summary"] = {},
         ["core.text-objects"] = {},

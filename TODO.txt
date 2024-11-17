@@ -32,6 +32,7 @@ Virtulisation
 add a no-internet group
     https://askubuntu.com/questions/45072/how-to-control-internet-access-for-each-program
 
+
 Home lab
     nas
         local share?

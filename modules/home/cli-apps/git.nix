@@ -38,6 +38,20 @@ in {
           whitespace = "space-before-tab,trailing-space";
         };
 
+        url = {
+          # NOTE: in the git config you can use multiple ones
+          #  however since these are generated from attrsets that
+          #  is impossible
+          "git@github.com:" = {
+            instedOf = "gh:";
+          };
+
+          # so this is not cursed at all
+          "git@github.com" = {
+            instedOf = "github";
+          };
+        };
+
         pull.rebase = true;
 
         init = {

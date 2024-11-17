@@ -43,6 +43,8 @@ in {
           # so it padds to the bottom-right
           # default center
           placement_strategy top-left
+
+          # you can scroll with ctrl + shift + arrow upp/down/end/home
         '';
         colorConfig = with config.lib.stylix.colors.withHashtag; ''
           # window colors

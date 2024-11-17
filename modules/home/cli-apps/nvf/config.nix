@@ -25,6 +25,8 @@ in {
 
       ruff
       pyright
+
+      nufmt
     ];
 
     programs.nvf = {

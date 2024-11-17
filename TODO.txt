@@ -101,22 +101,5 @@ Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)
 
 
 misc:
-    "toXML is particularly exciting, as it's the only format that allows expressing" - https://tvl.fyi/blog/tvix-update-february-24 
-
-
-    https://blog.layus.be/posts/2021-06-25-frankenbuilds.html
-
-    use the detsys installer
-
-    https://opentelemetry.io/
-
-    https://github.com/the-nix-way/dev-templates
-
-    https://github.com/nixos-bsd/nixbsd
-
-    https://github.com/facebook/sapling
-
-    https://docs.google.com/document/d/1nnyByXcH0F6GOmEezNOUa2RFelpeRpDToBLYD_CtjWE/edit?pli=1
-
     Schizosearch
 

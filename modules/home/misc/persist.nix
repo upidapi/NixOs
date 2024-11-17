@@ -86,6 +86,8 @@ in {
         # save zsh command history
         ".zsh/history"
 
+        ".config/nushell/history.txt"
+
         ".ssh/known_hosts"
         ".screenrc"
         # ".zsh_history"  # zsh command history

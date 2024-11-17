@@ -184,8 +184,32 @@ local lsp_formatting = function(bufnr)
         bufnr = bufnr,
     })
 end
+
+
+-- TODO: add nufmt
+--  probably doesnt work
+local helper = require("null-ls.helpers")
+local nufmt = helper.make_builtin({
+    name = "nufmt",
+    meta = {
+        url = "https://github.com/nushell/nufmt",
+        description = "",
+    },
+    method = require("null-ls.methods").internal.FORMATTING,
+    filetypes = { "nu" },
+    generator_opts = {
+        command = "nufmt",
+        args = { "--stdin" },
+        to_stdin = true,
+    },
+    factory = helper.formatter_factory,
+})
+
+-- TODO: use none-ls
 require("null-ls").setup({
     sources = {
+        nufmt,
+
         -- you must download code formatter by yourself!
         require("null-ls").builtins.formatting.alejandra,
         require("null-ls").builtins.formatting.ruff,
@@ -325,6 +349,10 @@ require('lspconfig').pyright.setup {
     },
   },
 }
+
+
+--- nushell ----
+require('lspconfig').nushell.setup {}
 
 
 -------------------

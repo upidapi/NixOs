@@ -2,9 +2,7 @@ let carapace_completer = {|spans|
   carapace $spans.0 nushell ...$spans | from json
 }
 
-# TODO: how to scroll terminal with keybinds
-
-# TODO: change the completion colors
+let colors = $env.config.color_config
 
 $env.config = {
   show_banner: false,
@@ -17,8 +15,10 @@ $env.config = {
   }
 
   ls: {
-    use_ls_colors: true # use the LS_COLORS environment variable to colorize output
-    clickable_links: true # enable or disable clickable links. Your terminal has to support links.
+    # use the LS_COLORS environment variable to colorize output
+    use_ls_colors: true 
+    # enable or disable clickable links. Your terminal has to support links.
+    clickable_links: true 
   }
 
   completions: {
@@ -67,10 +67,89 @@ $env.config = {
     osc633: true,
     reset_application_mode: true,
   },
+
+  menus: [
+    {
+      name: completion_menu
+      # Search is done on the text written after activating the menu
+      only_buffer_difference: false 
+      # marker: "| "
+      marker: ""
+      # Indicator that appears with the menu is active
+      type: {
+        # Type of menu
+        layout: columnar          
+        # Number of columns where the options are displayed
+        columns: 4                
+        # Optional value. If missing all the screen width is used to calculate column width
+        col_width: 20             
+        # Padding between columns
+        col_padding: 2            
+      }
+
+      style: {
+        # The style
+        text: {
+          fg: $colors.shape_garbage.fg 
+          attr: n
+        }
+
+        # The style for description
+        description_text: {
+           fg: $colors.leading_trailing_space_bg      
+           attr: n
+        }
+
+        # The style for selected option
+        selected_text: {
+          fg: black # $colors.separator
+          bg: $colors.shape_garbage.fg        
+          attr: b
+        }
+
+        match_text: {
+            fg: u
+            attr: b
+        }
+
+        selected_match_text: {
+          fg: blue
+          attr: rb
+        }
+      }
+    }
+    # {
+    #   name: history_menu
+    #   only_buffer_difference: true
+    #   marker: "? "
+    #   type: {
+    #     layout: list
+    #     page_size: 10
+    #   }
+    #   style: {
+    #     text: $colors.shape_garbage.fg 
+    #     selected_text: {attr: r}
+    #     description_text: $colors.leading_trailing_space_bg
+    #
+    #     # text: red
+    #     # selected_text: purple
+    #     # description_text: blue
+    #   }
+    #   source: { |buffer, position|
+    #     scope variables
+    #     | where name =~ $buffer
+    #     | sort-by name
+    #     | each { |row| {value: $row.name description: $row.type} }
+    #   }
+    # }
+  ]
 } 
 
 # just using $EDITOR doesnt work in nushell
-alias e = nu -c $env.EDITOR
+def e [path: path] {
+    nu -c $"($env.EDITOR) ($path)"
+}
+# alias e = nu -c $env.EDITOR
 
 # $env.PATH = (
 #   $env.PATH | 
@@ -104,27 +183,15 @@ def cdmk [path: path] {
 # Takes a symlink to the store and unlinks it so that the
 # file (or dir) it pointed to is placed there insted
 def unstore [path: path] {
-  
-  # [$path (realpath $path)] | any {|p| {
-  #    $p | path type | if $in != "symlink"       
-  # }}
-  #   
-  #
-  #  {return}
-    
-  # KISS 
-  (realpath $path) | path type | if $in != "symlink" {
-    echo "only symlinks to files supported"
+  let real_path = realpath $path 
+
+  $path | path type | if $in != "symlink" {
+    echo "only symlinks are supported"
     return
   }
 
-  (realpath $path) | path type | if $in != "file" {
-    echo "only symlinks to files supported"
-    return
-  }
-
-  # might be some better way to do this
-  run-external "cp" "--remove-destination" (readlink $path) $path  
+  rm $path
+  cp -r $real_path $path
 
   chown (whoami) $path 
   chmod +w $path
@@ -133,5 +200,5 @@ def unstore [path: path] {
 def store-edit [path: path] {
   unstore $path
 
-  nu -c $env.TERMINAL $path
+  e $path
 }

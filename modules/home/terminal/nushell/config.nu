@@ -1,5 +1,20 @@
 let carapace_completer = {|spans|
-  carapace $spans.0 nushell ...$spans | from json
+  # carapace doesn't give completions if you don't give it any additional
+  # args
+  mut spans = $spans
+  if ($spans | is-empty) {
+    $spans = [""]
+  }
+  
+  carapace $spans.0 nushell ...$spans | from json 
+    # sort by color
+    | sort-by {
+        let fg = $in | get -i style.fg
+        let attr = $in | get -i style.attr
+        
+        # the ~ there to make "empty" results appear at the end
+        $"($fg)~($attr)"
+    }
 }
 
 let colors = $env.config.color_config
@@ -71,36 +86,36 @@ $env.config = {
   menus: [
     {
       name: completion_menu
-      # Search is done on the text written after activating the menu
+      # search is done on the text written after activating the menu
       only_buffer_difference: false 
       # marker: "| "
       marker: ""
-      # Indicator that appears with the menu is active
+      # indicator that appears with the menu is active
       type: {
-        # Type of menu
+        # type of menu
         layout: columnar          
-        # Number of columns where the options are displayed
+        # number of columns where the options are displayed
         columns: 4                
-        # Optional value. If missing all the screen width is used to calculate column width
+        # optional value. if missing all the screen width is used to calculate column width
         col_width: 20             
-        # Padding between columns
+        # padding between columns
         col_padding: 2            
       }
 
       style: {
-        # The style
+        # the style
         text: {
           fg: $colors.shape_garbage.fg 
           attr: n
         }
 
-        # The style for description
+        # the style for description
         description_text: {
            fg: $colors.leading_trailing_space_bg      
            attr: n
         }
 
-        # The style for selected option
+        # the style for selected option
         selected_text: {
           fg: black # $colors.separator
           bg: $colors.shape_garbage.fg        
@@ -108,8 +123,8 @@ $env.config = {
         }
 
         match_text: {
-            fg: u
-            attr: b
+          # fg: u
+          attr: u
         }
 
         selected_match_text: {

@@ -1,12 +1,24 @@
+let zoxide_completer = {|spans|
+    $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
+}
+
+let fish_completer = {|spans|
+    fish --command $'complete "--do-complete=($spans | str join " ")"'
+    | $"value(char tab)description(char newline)" + $in
+    | from tsv --flexible --no-infer
+}
+
 let carapace_completer = {|spans|
   # carapace doesn't give completions if you don't give it any additional
-  # args
-  mut spans = $spans
-  if ($spans | is-empty) {
-    $spans = [""]
-  }
+  # # args
+  # mut spans = $spans
+  # if ($spans | is-empty) {
+  #   $spans = [""]
+  # }
   
   carapace $spans.0 nushell ...$spans | from json 
+    # remove ERR(ors)
+    | if ($in | default [] | where value == $"($spans | last)ERR" | is-empty) { $in } else { null }
     # sort by color
     | sort-by {
         let fg = $in | get -i style.fg
@@ -17,7 +29,45 @@ let carapace_completer = {|spans|
     }
 }
 
+
+let external_completer = {|spans|
+    let expanded_alias = scope aliases
+    | where name == $spans.0
+    | get -i 0.expansion
+
+    mut spans = if $expanded_alias != null {
+        $spans
+        | skip 1
+        | prepend ($expanded_alias | split row ' ' | take 1)
+    } else {
+        $spans
+    }
+
+    match $spans.0 {
+        # carapace completions are incorrect for nu
+        # (i don't think that is the case)
+        # nu => $fish_completer
+        # fish completes commits and branch names in a nicer way
+        # but has no colors :(
+        git => $fish_completer
+        # carapace doesn't have completions for asdf
+        asdf => $fish_completer
+        # use zoxide completions for zoxide commands
+    # __zoxide_z | __zoxide_zi => $zoxide_completer
+        _ => $carapace_completer
+    } | do $in $spans
+}
+
 let colors = $env.config.color_config
+
+# increment SHLVL when entering sub-shell
+# cant detect exec
+# TODO: submit issue that nushell doesn't respect SHLVL
+$env.SHLVL = $env | get -si SHLVL | default 0 | into int | $in + 1
+# def exec [...args] {
+#     $env.SHLVL -= 1 
+#     exec ...args
+# }
 
 $env.config = {
   show_banner: false,
@@ -58,7 +108,7 @@ $env.config = {
       # set to lower can improve completion performance at 
       # the cost of omitting some options
       max_results: 100 
-      completer: $carapace_completer # check 'carapace_completer' 
+      completer: $external_completer # check 'carapace_completer' 
     }
   }
 
@@ -159,6 +209,9 @@ $env.config = {
     # }
   ]
 } 
+
+# $env.SHLVL = $env | get -si SHLVL | if ($in == "" ) {"0"} else {($env.SHLVL | into int) + 1}
+
 
 # just using $EDITOR doesnt work in nushell
 def e [path: path] {

@@ -49,7 +49,8 @@ in {
         nvf = enable;
         ssh = enable;
         wine = enable;
-        zoxide = enable;
+        # might enable if i manage to get better completions
+        # zoxide = enable;
       };
 
       terminal = {

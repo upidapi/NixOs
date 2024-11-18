@@ -49,6 +49,7 @@ in {
         nvf = enable;
         ssh = enable;
         wine = enable;
+        zoxide = enable;
       };
 
       terminal = {

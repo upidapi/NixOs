@@ -11,5 +11,6 @@
     ./ssh.nix
     ./wine.nix
     ./color-pick
+    ./zoxide.nix
   ];
 }

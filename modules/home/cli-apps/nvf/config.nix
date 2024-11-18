@@ -3,6 +3,7 @@
   lib,
   my_lib,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -68,6 +69,10 @@ in {
           "nvim-dap-ui"
 
           "image-nvim"
+          (pkgs.vimUtils.buildVimPlugin {
+            name = "img-clip";
+            src = inputs.plugin-img-clip;
+          })
 
           "diffview-nvim"
           "vim-fugitive"

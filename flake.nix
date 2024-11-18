@@ -89,14 +89,6 @@
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
-      # url = "github:nix-community/nixvim/nixos-23.05";
-
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # An extensible Neovim configuration wrapper.
     nvf = {
       url = "github:NotAShelf/nvf/v0.7"; # TODO: remove once v0.7 merges
@@ -104,6 +96,11 @@
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
       };
+    };
+    # nvf plugins
+    plugin-img-clip = {
+      url = "github:HakonHarnes/img-clip.nvim";
+      flake = false;
     };
 
     alejandra = {

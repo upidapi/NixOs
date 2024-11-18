@@ -37,7 +37,7 @@ mkdir /btrfs_tmp; mount /dev/root_vg/root /btrfs_tmp
 
 # resan and connect to phone
 ```bash
-unpage nmcli device wifi list --rescan yes; nmcli device wifi connect upi-phone
+PAGER=cat nmcli device wifi list --rescan yes; nmcli device wifi connect upi-phone
 ```
 
 

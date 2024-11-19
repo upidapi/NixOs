@@ -29,7 +29,6 @@ let carapace_completer = {|spans|
     }
 }
 
-
 let external_completer = {|spans|
     let expanded_alias = scope aliases
     | where name == $spans.0

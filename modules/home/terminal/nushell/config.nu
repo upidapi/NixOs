@@ -1,3 +1,84 @@
+# just using $EDITOR doesnt work in nushell
+def e [path: path] {
+    nu -c $"($env.EDITOR) ($path)"
+}
+# alias e = nu -c $env.EDITOR
+
+# $env.PATH = (
+#   $env.PATH | 
+#   split row (char esep) |
+#   prepend /home/myuser/.apps |
+#   append /usr/bin/env
+# )
+
+
+# $env.PROMPT_COMMAND = { || create_left_prompt }
+# $env.PROMPT_COMMAND_RIGHT = { || create_right_prompt }
+
+# handled by starship
+# $env.PROMPT_INDICATOR = {|| "> " }
+# $env.PROMPT_INDICATOR_VI_INSERT = {|| "> " }
+# $env.PROMPT_INDICATOR_VI_NORMAL = {|| "| " }
+$env.PROMPT_INDICATOR = {|| "" }
+$env.PROMPT_INDICATOR_VI_INSERT = {|| "" }
+$env.PROMPT_INDICATOR_VI_NORMAL = {|| "" }
+
+$env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
+
+$env.KITTY_SHELL_INTEGRATION = "enabled"
+
+
+def cdmk [path: path] {
+  mkdir $path
+  cd $path
+}
+
+# Takes a symlink to the store and unlinks it so that the
+# file (or dir) it pointed to is placed there insted
+def unstore [path: path] {
+  let real_path = realpath $path 
+
+  $path | path type | if $in != "symlink" {
+    echo "only symlinks are supported"
+    return
+  }
+
+  rm $path
+  cp -r $real_path $path
+
+  chown (whoami) $path 
+  chmod +w $path
+}
+
+def store-edit [path: path] {
+  unstore $path
+
+  e $path
+}
+
+
+# increment SHLVL when entering sub-shell
+# HACK: this is a temporary fix remove once 
+#  https://github.com/nushell/nushell/issues/14384 gets resolved
+
+$env.SHLVL = $env | get -si SHLVL | default 0 | into int | $in + 1
+
+alias _exec = exec
+def exec [
+    command: string
+    --help (-h): string
+] {
+    $env.SHLVL -= 1
+
+    if ($help | is-empty) {
+        _exec $command
+    } else {
+        _exec -h $help
+    }
+}
+
+# $env.STARSHIP_SHELL = "bash"
+
 let zoxide_completer = {|spans|
     $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
 }
@@ -58,27 +139,6 @@ let external_completer = {|spans|
 }
 
 let colors = $env.config.color_config
-
-# increment SHLVL when entering sub-shell
-# HACK: this is a temporary fix remove once 
-#  https://github.com/nushell/nushell/issues/14384 gets resolved
-
-$env.SHLVL = $env | get -si SHLVL | default 0 | into int | $in + 1
-
-alias _exec = exec
-def exec [
-    command: string
-    --help (-h): string
-] {
-    $env.SHLVL -= 1
-
-    if ($help | is-empty) {
-        _exec $command
-    } else {
-        _exec -h $help
-    }
-}
-
 $env.config = {
   show_banner: false,
   edit_mode: vi,
@@ -219,64 +279,3 @@ $env.config = {
     # }
   ]
 } 
-
-# $env.SHLVL = $env | get -si SHLVL | if ($in == "" ) {"0"} else {($env.SHLVL | into int) + 1}
-
-
-# just using $EDITOR doesnt work in nushell
-def e [path: path] {
-    nu -c $"($env.EDITOR) ($path)"
-}
-# alias e = nu -c $env.EDITOR
-
-# $env.PATH = (
-#   $env.PATH | 
-#   split row (char esep) |
-#   prepend /home/myuser/.apps |
-#   append /usr/bin/env
-# )
-
-
-# $env.PROMPT_COMMAND = { || create_left_prompt }
-# $env.PROMPT_COMMAND_RIGHT = { || create_right_prompt }
-
-# handled by starship
-# $env.PROMPT_INDICATOR = {|| "> " }
-# $env.PROMPT_INDICATOR_VI_INSERT = {|| "> " }
-# $env.PROMPT_INDICATOR_VI_NORMAL = {|| "| " }
-$env.PROMPT_INDICATOR = {|| "" }
-$env.PROMPT_INDICATOR_VI_INSERT = {|| "" }
-$env.PROMPT_INDICATOR_VI_NORMAL = {|| "" }
-
-$env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
-
-$env.KITTY_SHELL_INTEGRATION = "enabled"
-
-
-def cdmk [path: path] {
-  mkdir $path
-  cd $path
-}
-
-# Takes a symlink to the store and unlinks it so that the
-# file (or dir) it pointed to is placed there insted
-def unstore [path: path] {
-  let real_path = realpath $path 
-
-  $path | path type | if $in != "symlink" {
-    echo "only symlinks are supported"
-    return
-  }
-
-  rm $path
-  cp -r $real_path $path
-
-  chown (whoami) $path 
-  chmod +w $path
-}
-
-def store-edit [path: path] {
-  unstore $path
-
-  e $path
-}

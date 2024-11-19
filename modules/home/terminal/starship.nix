@@ -63,6 +63,7 @@ in {
 
         # the output is trimmed so we have to do this shit instead
         custom.spacing = {
+          shell = ["bash"];
           when = ''
             if [[ -z "$SSH_CONNECTION" ]]; then
               if [[ "$(whoami)" == "root" ]]; then
@@ -75,6 +76,7 @@ in {
         };
 
         custom.shell_lvl = {
+          shell = ["bash"];
           when = ''if [[ "$SHLVL" == 2 ]]; then exit 1; fi'';
           command = ''(( res = "$SHLVL" - 1 )); echo "$res"'';
           format = "$output ";

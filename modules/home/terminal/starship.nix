@@ -79,7 +79,7 @@ in {
           shell = ["bash"];
           when = ''if [[ "$SHLVL" == 2 ]]; then exit 1; fi'';
           command = ''(( res = "$SHLVL" - 1 )); echo "$res"'';
-          format = "$output ";
+          format = "[$output](white) ";
         };
 
         # format = "\${custom.username}\${custom.userroot}$hostname$nix_shell$directory$character";

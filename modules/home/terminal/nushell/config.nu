@@ -60,13 +60,24 @@ let external_completer = {|spans|
 let colors = $env.config.color_config
 
 # increment SHLVL when entering sub-shell
-# cant detect exec
-# TODO: submit issue that nushell doesn't respect SHLVL
+# HACK: this is a temporary fix remove once 
+#  https://github.com/nushell/nushell/issues/14384 gets resolved
+
 $env.SHLVL = $env | get -si SHLVL | default 0 | into int | $in + 1
-# def exec [...args] {
-#     $env.SHLVL -= 1 
-#     exec ...args
-# }
+
+alias _exec = exec
+def exec [
+    command: string
+    --help (-h): string
+] {
+    $env.SHLVL -= 1
+
+    if ($help | is-empty) {
+        _exec $command
+    } else {
+        _exec -h $help
+    }
+}
 
 $env.config = {
   show_banner: false,

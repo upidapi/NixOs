@@ -57,8 +57,8 @@ in {
 
     # I think this fixes it
     fileSystems = {
-      # "/".options = ["x-systemd.device-timeout=200ms"];
-      "/persist".options = ["x-systemd.device-timeout=200ms"];
+      "/".options = ["x-systemd.device-timeout=200ms"];
+      # "/persist".options = ["x-systemd.device-timeout=200ms"];
     };
 
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/syncthing.nix#L60

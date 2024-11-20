@@ -81,6 +81,10 @@ in {
           method = "symlink";
         }
         */
+
+        # spotify downloaded stuff
+        ".cache/spotify/Storage" # "encrypted"
+        ".cache/spotify/Users" # keys in here # keys in here
       ];
       files = [
         # save zsh command history

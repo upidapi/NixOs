@@ -55,9 +55,9 @@ in {
     #  click rescan all (in the web gui)
     #  >>> systemctl suspend
 
-    # maybe this fixes it?
+    # I think this fixes it
     fileSystems = {
-      "/".options = ["x-systemd.device-timeout=200ms"];
+      # "/".options = ["x-systemd.device-timeout=200ms"];
       "/persist".options = ["x-systemd.device-timeout=200ms"];
     };
 

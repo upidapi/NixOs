@@ -47,8 +47,8 @@ in {
 
     # maybe fix the suspend issue?
     systemd.services."syncthing" = {
-      before = ["sleep.target"];
-      wantedBy = ["sleep.target"];
+      before = ["suspend.target"];
+      wantedBy = ["suspend.target"];
     };
 
     # FIXME: Syncthing seems to sometimes syncthing prevents linux suspend

@@ -45,6 +45,11 @@ in {
       };
     };
 
+    # maybe fix the suspend issue?
+    systemd.services."syncthing" = {
+      before = ["sleep.target"];
+    };
+
     # FIXME: Syncthing seems to sometimes syncthing prevents linux suspend
     #  https://forum.syncthing.net/t/syncthing-prevents-linux-suspend/12885/6
 

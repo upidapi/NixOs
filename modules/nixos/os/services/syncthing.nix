@@ -47,8 +47,12 @@ in {
 
     # maybe fix the suspend issue?
     systemd.services."syncthing" = {
-      before = ["suspend.target"];
-      wantedBy = ["suspend.target"];
+      before = ["suspend.target" "sleep.target" "hibernate.target"];
+      after = ["resumed.target"];
+      wantedBy = ["suspend.target" "sleep.target" "hibernate.target"];
+      serviceConfig = {
+        ExecStop = "systemctl stop syncthing.service";
+      };
     };
 
     # FIXME: Syncthing seems to sometimes syncthing prevents linux suspend

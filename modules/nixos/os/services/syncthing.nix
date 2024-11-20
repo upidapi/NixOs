@@ -25,8 +25,8 @@ in {
     };
 
     # make syncthing ignore /home/upidapi/persist/tmp
-    # its good to have a persistant place for stuff you dont
-    # whant to sync, eg big downloaded iso(s)
+    # its good to have a persistent place for stuff you don't
+    # want to sync, eg big downloaded iso(s)
     systemd.tmpfiles.settings = {
       "syncthing-ignore" = {
         "/home/upidapi/persist" = {
@@ -46,31 +46,42 @@ in {
     };
 
     # FIXME: Syncthing seems to sometimes syncthing prevents linux suspend
-    # https://forum.syncthing.net/t/syncthing-prevents-linux-suspend/12885/6
+    #  https://forum.syncthing.net/t/syncthing-prevents-linux-suspend/12885/6
+
     # Adding this to the file config should fix it
     # "x-systemd.device-timeout=200ms
-    # I think this happens if you suspend while syncing
+
+    # reproducible way to cause the bug
+    #  click rescan all (in the web gui)
+    #  >>> systemctl suspend
+
+    # maybe this fixes it?
+    fileSystems = {
+      "/".options = ["x-systemd.device-timeout=200ms"];
+      "/persist".options = ["x-systemd.device-timeout=200ms"];
+    };
 
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/syncthing.nix#L60
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/caddy.nix#L9
     /*
-    services.caddy.virtualHosts."syncthing.localhost" = {
-      #         import ${config.sops.templates.cf-tls.path}
+        services.caddy.virtualHosts."syncthing.localhost" = {
+          #         import ${config.sops.templates.cf-tls.path}
 
-      extraConfig = let
-        addr = toString config.services.syncthing.guiAddress;
-      in ''
-        reverse_proxy ${addr}
-        # tls internal
-        # reverse_proxy ${addr} {
-        #   header_up Host {upstream_hostport}
-        # }
-      '';
-    };
+          extraConfig = let
+            addr = toString config.services.syncthing.guiAddress;
+          in ''
+            reverse_proxy ${addr}
+            # tls internal
+            # reverse_proxy ${addr} {
+            #   header_up Host {upstream_hostport}
+            # }
+          '';
+        };
+    e
     */
 
     services.syncthing = let
-      hostName = config.modules.nixos.meta.host-name;
+      # hostName = config.modules.nixos.meta.host-name;
       sopsSyncthing = val: config.sops.secrets."syncthing/${val}".path;
 
       devices = {

@@ -49,9 +49,6 @@ in {
         # save vesktop login
         ".config/vesktop/sessionData/Local Storage"
 
-        # save spotify login
-        ".config/spotify"
-
         # save sops keys
         ".config/sops"
 
@@ -81,6 +78,9 @@ in {
           method = "symlink";
         }
         */
+
+        # save spotify login
+        ".config/spotify"
 
         # spotify downloaded stuff
         ".cache/spotify/Storage" # "encrypted"

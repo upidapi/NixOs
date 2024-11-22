@@ -135,7 +135,7 @@
             name = "cmp-prog-fhs";
             runScript = pkgs.writeShellScript "cmp-prog-init" ''
               name="cmp-prog-fhs"
-              exec $SHELL
+              exec nu
             '';
             targetPkgs = _pkgs: (with _pkgs; [
               # forensics
@@ -214,54 +214,52 @@
     };
   };
 }
-/*
-# example
-
-{self, ...}: {
-imports = [
-./rust.nix
-./sandbox.nix
-];
-
-perSystem = {
-inputs',
-pkgs,
-self',
-system,
-...
-}: {
-devShells.default = pkgs.mkShell {
-name = "configuration.nix";
-packages = let
-customPkgs = import ../packages {
-    inherit inputs' pkgs self system;
-};
-in
-[
-    inputs'.agenix.packages.default
-    inputs'.disko.packages.default
-    self'.formatter
-]
-++ (
-    with customPkgs; [
-      delta
-      neovim-unwrapped
-      nix
-      tmux
-    ]
-)
-++ (
-    with pkgs; [
-      bat
-      deadnix
-      git
-      nix-output-monitor
-      parted
-      smartmontools
-      statix
-    ]
-);
-};
-};
-*/
+# # example
+# {self, ...}: {
+#   imports = [
+#     ./rust.nix
+#     ./sandbox.nix
+#   ];
+#
+#   perSystem = {
+#     inputs',
+#     pkgs,
+#     self',
+#     system,
+#     ...
+#   }: {
+#     devShells.default = pkgs.mkShell {
+#       name = "configuration.nix";
+#       packages = let
+#         customPkgs = import ../packages {
+#           inherit inputs' pkgs self system;
+#         };
+#       in
+#         [
+#           inputs'.agenix.packages.default
+#           inputs'.disko.packages.default
+#           self'.formatter
+#         ]
+#         ++ (
+#           with customPkgs; [
+#             delta
+#             neovim-unwrapped
+#             nix
+#             tmux
+#           ]
+#         )
+#         ++ (
+#           with pkgs; [
+#             bat
+#             deadnix
+#             git
+#             nix-output-monitor
+#             parted
+#             smartmontools
+#             statix
+#           ]
+#         );
+#     };
+#   };
+# }
 

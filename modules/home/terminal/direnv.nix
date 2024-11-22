@@ -22,10 +22,14 @@ in {
     home.file."persist/prog/sec/.envrc".text = ''
       export NIXPKGS_ALLOW_UNFREE=1
 
+      cwd=$PWD
+
       # avoid recursive calls in fhs env
       if [ -z "$IN_NIX_SHELL" ]; then
           use flake $NIXOS_CONFIG_PATH#sec --builders "" --impure
       fi
+
+      cd $cwd
     '';
   };
 }

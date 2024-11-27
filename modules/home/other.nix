@@ -19,7 +19,6 @@ in {
   config = mkIf cfg.enable {
     programs = {
       # view resources
-      btop = enable;
       htop = enable;
 
       # ofc

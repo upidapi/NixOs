@@ -42,6 +42,7 @@ in {
           deviceAddr = "AC:80:0A:2E:81:6A";
         };
         eza = enable;
+        btop = enable;
         git = enable;
         gpg = enable;
         nix-index = enable;

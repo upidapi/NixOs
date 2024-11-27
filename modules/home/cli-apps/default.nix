@@ -1,6 +1,7 @@
 {
   imports = [
     ./bat.nix
+    ./btop.nix
     ./cn-bth.nix
     ./cn-phone.nix
     ./eza.nix

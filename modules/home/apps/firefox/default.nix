@@ -18,22 +18,20 @@ in {
 
   # prevent firefox from opening in fullscreen when you restore with ctrl shift t
 
-  # switch zen browser?
+  # switch to zen browser?
   #  not until they add horizontal tabs
-
-  # https://www.reddit.com/r/imdb/comments/109gc27/is_there_any_working_method_to_hide_the_episodes/
-  # add to sytlus to fix netflix spoilters
-  /*
-  @-moz-document domain("www.netflix.com") {
-    span.duration:not(:hover), div.titleCard-title_index:not(:hover)  {
-        color: rgb(0, 0, 0);
-        background-color: rgb(0, 0, 0);
-    }
-  }
-  */
+  #  could use https://github.com/mmmintdesign/Zen-Mod-Forbidden-Horizontal-Tabs
+  #
+  #  can be run thrugh this flake
+  #  https://github.com/VCPYC/zen-browser-flake
 
   # possibly might disable the restore screen
   # browser.sessionstore.resume_from_crash
+
+  # setting "full-screen-api.ignore-widgets" to true
+  # allows for psudo-fullscreen where it doesn't actually full screen it
+  # https://superuser.com/a/1742237
+
   config = mkIf cfg.enable {
     home.sessionVariables = {
       BROWSER = "firefox";
@@ -236,7 +234,11 @@ in {
             refined-github
             i-dont-care-about-cookies
             darkreader
-            stylus # the config is in stylus.json
+
+            # all you can do with this can be exported and placed in userContent.css
+            # so it's used to quickly iterate before placing it in there
+            # since you cant config extensions declaratively
+            stylus
 
             # privacy
             # https-everywhere  # not on system

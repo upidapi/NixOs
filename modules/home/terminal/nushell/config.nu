@@ -61,7 +61,7 @@ def store-edit [path: path] {
 # HACK: this is a temporary fix remove once 
 #  https://github.com/nushell/nushell/issues/14384 gets resolved
 
-$env.SHLVL = $env | get -si SHLVL | default 0 | into int | $in + 1
+$env.SHLVL = $env.SHLVL? | default 0 | into int | $in + 1
 
 alias _exec = exec
 def exec [
@@ -102,9 +102,9 @@ let carapace_completer = {|spans|
     | if ($in | default [] | where value == $"($spans | last)ERR" | is-empty) { $in } else { null }
     # sort by color
     | sort-by {
-        let fg = $in | get -i style.fg
-        let attr = $in | get -i style.attr
-        
+        let fg = $in.style?.fg? | default ""
+        let attr = $in.style?.attr? | default ""        
+
         # the ~ there to make "empty" results appear at the end
         $"($fg)~($attr)"
     }
@@ -133,7 +133,7 @@ let external_completer = {|spans|
         # carapace doesn't have completions for asdf
         asdf => $fish_completer
         # use zoxide completions for zoxide commands
-    # __zoxide_z | __zoxide_zi => $zoxide_completer
+        # __zoxide_z | __zoxide_zi => $zoxide_completer
         _ => $carapace_completer
     } | do $in $spans
 }

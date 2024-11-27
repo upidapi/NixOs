@@ -8,6 +8,15 @@ require("nvim-treesitter.configs").setup({
     indent = {
         enable = true,
     },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = 'gsi',
+            node_incremental = 'gsi',
+            scope_incremental = 'gsc',
+            node_decremental = 'gsm',
+        },
+    },
 })
 
 
@@ -15,7 +24,7 @@ require("nvim-treesitter.configs").setup({
 -- About cmp --
 ---------------
 
--- move this part to a separate file 
+-- move this part to a separate file
 -- to avoid exiting before other stuff c:ccc
 --[[
 local cmp_status_ok, cmp = pcall(require, "cmp")
@@ -26,7 +35,7 @@ cocal snip_status_ok, luasnic = pcall(require, "luasnip")
 cf not snip_status_ok then
     return
 end
-]]--
+]] --
 
 
 local cmp = require("cmp")
@@ -70,8 +79,8 @@ cmp.setup({
     },
     mapping = cmp.mapping.preset.insert({
         ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
-        ["<C-d>"] = cmp.mapping.scroll_docs(4), -- Down
-    -- C-b (back) C-f (forward) for snippet placeholder navigation.
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),  -- Down
+        -- C-b (back) C-f (forward) for snippet placeholder navigation.
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
@@ -286,7 +295,7 @@ nvim_lsp.nixd.setup({
                 command = { "alejandra" },
             },
             options = {
-                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48                
+                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48
                 --
                 nixos = {
                     expr = [[
@@ -303,7 +312,7 @@ nvim_lsp.nixd.setup({
                     ]]
                 },
                 -- flake_parts = {
-                    -- expr = 'let flake = builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"); in flake.debug.options // flake.currentSystem.options',
+                -- expr = 'let flake = builtins.getFlake (builtins.getEnv "NIXOS_CONFIG_PATH"); in flake.debug.options // flake.currentSystem.options',
                 -- },
             },
         },
@@ -312,42 +321,42 @@ nvim_lsp.nixd.setup({
 
 
 nvim_lsp.ruff.setup({
-  init_options = {
-    settings = {
-      configuration = "$NIXOS_CONFIG_PATH/modules/home/cli-apps/nvf/cfg-files/ruff.toml"
+    init_options = {
+        settings = {
+            configuration = "$NIXOS_CONFIG_PATH/modules/home/cli-apps/nvf/cfg-files/ruff.toml"
+        }
     }
-  }
 })
 
 -- defer hover to pyright
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client == nil then
-      return
-    end
-    if client.name == 'ruff' then
-      -- Disable hover in favor of Pyright
-      client.server_capabilities.hoverProvider = false
-    end
-  end,
-  desc = 'LSP: Disable hover capability from Ruff',
+    group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client == nil then
+            return
+        end
+        if client.name == 'ruff' then
+            -- Disable hover in favor of Pyright
+            client.server_capabilities.hoverProvider = false
+        end
+    end,
+    desc = 'LSP: Disable hover capability from Ruff',
 })
 
 require('lspconfig').pyright.setup {
-  settings = {
-    pyright = {
-      -- Using Ruff's import organizer
-      disableOrganizeImports = true,
+    settings = {
+        pyright = {
+            -- Using Ruff's import organizer
+            disableOrganizeImports = true,
+        },
+        python = {
+            analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = { '*' },
+            },
+        },
     },
-    python = {
-      analysis = {
-        -- Ignore all files for analysis to exclusively use Ruff for linting
-        ignore = { '*' },
-      },
-    },
-  },
 }
 
 

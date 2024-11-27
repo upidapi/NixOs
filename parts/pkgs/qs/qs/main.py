@@ -67,7 +67,7 @@ def run_cmd(
         cmd = (
             # by default it uses the shell in the $SHELL var
             # this is a unnecessary source of impurity
-            f"SHELL=bash " 
+            f"SHELL=bash "
             f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
         )
 
@@ -519,7 +519,7 @@ class Commit:
             + [""] * empty_gen
         ]).strip()
 
-        full_commit_msg = f"{msg}\n" f"\n" + yaml.dump(
+        full_commit_msg = f"{msg}\n\n" + yaml.dump(
             {
                 "info": {
                     "Profile": profile,

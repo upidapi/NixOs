@@ -26,5 +26,7 @@ in {
 
     # multi-shell multi-command argument completer
     carapace.enable = true;
+
+    # TODO: bump nushell version in nixpkgs
   };
 }

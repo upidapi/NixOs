@@ -46,30 +46,33 @@ in {
     };
 
     # maybe fix the suspend issue?
-    systemd.services."syncthing" = {
-      before = ["suspend.target" "sleep.target" "hibernate.target"];
-      after = ["resumed.target"];
-      wantedBy = ["suspend.target" "sleep.target" "hibernate.target"];
-      serviceConfig = {
-        ExecStop = "systemctl stop syncthing.service";
-      };
-    };
+    # doesnt seem like it
+    # systemd.services."syncthing" = {
+    #   before = ["suspend.target" "sleep.target" "hibernate.target"];
+    #   after = ["resumed.target"];
+    #   wantedBy = ["suspend.target" "sleep.target" "hibernate.target"];
+    #   serviceConfig = {
+    #     ExecStop = "systemctl stop syncthing.service";
+    #   };
+    # };
 
     # FIXME: Syncthing seems to sometimes syncthing prevents linux suspend
+    #  on laptop lid close
     #  https://forum.syncthing.net/t/syncthing-prevents-linux-suspend/12885/6
+    #  lid close / systemctl suspend
 
-    # Adding this to the file config should fix it
+    # Adding this to the file config should fix it (nope)
     # "x-systemd.device-timeout=200ms
 
     # reproducible way to cause the bug
     #  click rescan all (in the web gui)
     #  >>> systemctl suspend
 
-    # I think this fixes it
-    fileSystems = {
-      "/".options = ["x-systemd.device-timeout=200ms"];
-      "/persist".options = ["x-systemd.device-timeout=200ms"];
-    };
+    # I think this fixes it (nope)
+    # fileSystems = {
+    #   "/".options = ["x-systemd.device-timeout=200ms"];
+    #   "/persist".options = ["x-systemd.device-timeout=200ms"];
+    # };
 
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/syncthing.nix#L60
     # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/caddy.nix#L9

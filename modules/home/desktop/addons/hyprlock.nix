@@ -18,6 +18,8 @@ in {
   config = mkIf cfg.enable {
     home.packages = [pkgs.hyprlock];
 
+    stylix.targets.hyprlock.enable = false;
+
     programs.hyprlock = let
       monitorCfg = osConfig.modules.nixos.hardware.monitors;
       fmtDesc = name: removePrefix "desc:" name;

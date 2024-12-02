@@ -69,7 +69,7 @@ alias man="zsh $(which man)"
                     sessionVariables.PATH = "$HOME/.nix-profile/bin:$PATH";
 
                     packages = [
-                      (pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
+                      pkgs.nerd-fonts.symbols-only
                     ];
                   };
                 }

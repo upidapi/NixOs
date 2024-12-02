@@ -38,16 +38,22 @@ Home lab
         local share?
 
     backups
-        syncthing
+        bord / restic
 
     file sync
-        bord / restic
+        syncthing
 
     vpn
 
-    plex
+    SSO
+        authelia?
+
+    plex 
 
     paste bin
+        fiche - terminal paste bin
+
+        microbin - gui term bin
 
 
 security 

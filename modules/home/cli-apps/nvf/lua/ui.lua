@@ -55,6 +55,8 @@ require("neo-tree").setup({
         width = 30
     }
 })
+-- TODO: fix getting that error where you cant open Telescope until you 
+--  goto something in the file selector
 
 
 ----- smart column ------

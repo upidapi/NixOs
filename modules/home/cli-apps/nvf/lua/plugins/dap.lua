@@ -6,7 +6,9 @@ vim.fn.sign_define(
         linehl = "",
         numhl = ""
     }
-)
+) 
+
+-- TODO: change the color of the pointer where the code is 
 
 
 local dapui = require("dapui")

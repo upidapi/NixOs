@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) enable;
+  inherit (my_lib.opt) enable disable;
 in {
   imports = [
     ./suspend-keyboard-fix.nix
@@ -45,6 +45,8 @@ in {
 
   modules.nixos = {
     suites.all = enable;
+
+    os.services.syncthing = disable;
 
     hardware = {
       cpu.amd = enable;

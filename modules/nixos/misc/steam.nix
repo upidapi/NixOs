@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt enable;
   cfg = config.modules.nixos.misc.steam;
 in {
   options.modules.nixos.misc.steam = mkEnableOpt "Whether or not to enable Steam.";
@@ -16,6 +16,8 @@ in {
     environment.systemPackages = [
       pkgs.protontricks
     ];
+
+    programs.gamemode = enable;
 
     programs.steam = {
       enable = true;

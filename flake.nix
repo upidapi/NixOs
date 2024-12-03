@@ -74,7 +74,8 @@
 
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # We use the cachix cache provided by hyprland instead
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     NixVirt = {

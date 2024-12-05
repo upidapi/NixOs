@@ -92,7 +92,13 @@
 
     # An extensible Neovim configuration wrapper.
     nvf = {
+<<<<<<< HEAD
       url = "github:NotAShelf/nvf";
+||||||| parent of 2945586 (update inputs)
+      url = "github:NotAShelf/nvf/v0.7"; # TODO: remove once v0.7 merges
+=======
+      url = "github:horriblename/neovim-flake/fix/null-keymap";
+>>>>>>> 2945586 (update inputs)
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";

@@ -30,13 +30,13 @@
       "locked": {
         "lastModified": 1731591309,
         "narHash": "sha256-2qL6CAoQjCJLsxpy0Ac/9pLFoItf3L9KMCSLpoJ6jSw=",
-        "owner": "Aylur",
+        "owner": "aylur",
         "repo": "ags",
         "rev": "67b0e31ded361934d78bddcfc01f8c3fcf781aad",
         "type": "github"
       },
       "original": {
-        "owner": "Aylur",
+        "owner": "aylur",
         "ref": "v1",
         "repo": "ags",
         "type": "github"

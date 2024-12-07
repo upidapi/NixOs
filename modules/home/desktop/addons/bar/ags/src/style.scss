@@ -1,61 +1,20 @@
-@import "./colors";
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+$theme_fg_color: "@theme_fg_color";
+$theme_bg_color: "@theme_bg_color";
 
-/* 
-Unsets everything so you can style everything from scratch
-*/
-* {
-   all: unset; 
-}
+window.Bar {
+    background: transparent;
+    color: #{$theme_bg_color};
+    font-weight: bold;
 
-.workspace {
-    padding: 0px;
-    border-radius: 100%;
-    min-height: 20px;
-    min-width: 20px;
-}
+    >centerbox {
+        background: #{$theme_bg_color};
+        border-radius: 10px;
+        margin: 8px;
+    }
 
-.workspace_inactive {
-    background-color: inherit;
-    color: inherit;
-}
-
-.workspace_active {
-    color: $base00;
-    background-color:  mix($base03, $base04, 75%);
-}
-
-.workspace_focused {
-    color: $base00;
-    background-color: $base04;
-}
-
-.workspace_current {
-    color: $base00;
-    background-color: $base07;
-}
-
-
-.bar {
-  background-color: $base01;
-  color: mix($base04, $base05);
-  padding: 3px;
-}
-
-
-.battery-low {
-  color: #ff0000;
-}
-
-
-.container {
-     /* background-color: mix($base02, $base03, 75%); */
-    /*
-    background-color: $base02;
-    color: mix($base04, $base05);
-    */
-
-    background-color: $base05;
-    color: $base00;
-    padding: 0px 5px;
-    border-radius: 5px;
+    button {
+        border-radius: 8px;
+        margin: 2px;
+    }
 }

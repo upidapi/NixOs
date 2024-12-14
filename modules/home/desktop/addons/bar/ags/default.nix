@@ -18,24 +18,6 @@ in {
     inputs.ags.homeManagerModules.default
   ];
 
-  /*
-  # to run this manually use
-  #!/bin/env bash
-
-  # to run this manually use
-  ags --quit;
-
-  cd || return
-  color_cfg="$(realpath .config/ags/colors.scss)"
-  mkdir .config/ags-dbg
-
-  ags_src="$NIXOS_CONFIG_PATH/modules/home/desktop/addons/bar/ags/src"
-  cp -r "$ags_src"/* .config/ags-dbg
-  cp "$color_cfg" .config/ags-dbg/colors.scss
-
-  ags -c ./.config/ags-dbg/config.js
-  */
-
   # TODO: use systemd-inhibit to inhibit idle with a switch
 
   config = mkIf cfg.enable {

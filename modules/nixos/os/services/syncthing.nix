@@ -44,6 +44,18 @@ in {
             '';
           };
         };
+        "/home/upidapi/persist/prog/.stignore" = {
+          f = {
+            user = "upidapi";
+            group = "users";
+            argument = ''
+              /cp
+              /projects/*/
+              /ref/*/
+              /ctf
+            '';
+          };
+        };
       };
     };
 

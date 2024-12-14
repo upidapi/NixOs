@@ -125,6 +125,8 @@
       #     })
       #   .env;
 
+      fhs-test = (pkgs.buildFHSEnv {name = "test";}).env;
+
       sec =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/

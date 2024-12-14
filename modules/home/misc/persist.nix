@@ -85,6 +85,9 @@ in {
         # spotify downloaded stuff
         ".cache/spotify/Storage" # "encrypted"
         ".cache/spotify/Users" # keys in here # keys in here
+
+        # persist gh (cli) logins
+        ".config/gh/hosts.yml"
       ];
       files = [
         # save zsh command history

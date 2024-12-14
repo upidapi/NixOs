@@ -39,7 +39,9 @@ in {
           f = {
             user = "upidapi";
             group = "users";
-            argument = "/local";
+            argument = ''
+              /local
+            '';
           };
         };
       };

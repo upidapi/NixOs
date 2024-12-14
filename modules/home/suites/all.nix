@@ -44,6 +44,7 @@ in {
         eza = enable;
         btop = enable;
         git = enable;
+        gh = enable;
         gpg = enable;
         nix-index = enable;
         # nixvim = enable;

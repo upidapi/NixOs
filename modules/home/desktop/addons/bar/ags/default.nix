@@ -33,9 +33,25 @@ in {
     programs.ags = {
       enable = true;
       # configDir = ./.;
-      extraPackages = with pkgs; [
-        bun
-      ];
+      # https://github.com/DaRacci/nix-config/blob/42f3b6ea528bcf614f08201e74c4e9e3b9db80ef/home/racci/features/desktop/hyprland/ags.nix
+      extraPackages = with pkgs;
+        [
+          bun
+        ]
+        ++ (with inputs.ags.packages.${pkgs.system}; [
+          apps
+          auth
+          battery
+          bluetooth
+          hyprland
+          mpris
+          network
+          notifd
+          powerprofiles
+          tray
+          wireplumber
+          inputs.astal.packages.${pkgs.system}.default
+        ]);
     };
 
     # This is so jank

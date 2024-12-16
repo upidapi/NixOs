@@ -143,7 +143,10 @@ function BatteryLevel() {
         >
             <label label={icon()} />
             <label
-                label={bind(battery, "percentage").as((p) => `${Math.round(p)}%`)}
+                label={bind(battery, "percentage")
+                    .as(p => {
+                        pp(p)
+                        return `${Math.round(p)}%`})}
             />
         </DataContainer>
     );
@@ -166,7 +169,7 @@ function StatusIcons() {
         <AudioIcons/>
     </DataContainer>
 }
-export default function Left() {
+export default function Right() {
     return (
         <box halign={Gtk.Align.END} spacing={5}>
             <StatusIcons />

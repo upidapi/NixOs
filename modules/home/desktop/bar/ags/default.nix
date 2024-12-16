@@ -32,8 +32,8 @@ in {
 
     # don't forget to generate the types in the correct dir
     # :(
-    # ags types -d ./
-
+    #
+    # nix shell github:aylur/ags#agsFull -c bash -c "ags types -d ./"
     # nix shell nixpkgs#inotify-tools github:aylur/ags#agsFull
 
     programs.ags = {

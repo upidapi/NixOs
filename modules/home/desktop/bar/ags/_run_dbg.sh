@@ -7,7 +7,7 @@ run_code() {
 	cd || return
 
 	color_cfg="$(realpath .config/ags/colors.scss)"
-	ags_src="$NIXOS_CONFIG_PATH/modules/home/desktop/addons/bar/ags/src"
+	ags_src="$NIXOS_CONFIG_PATH/modules/home/desktop/bar/ags/src"
 
 	mkdir .config/ags-dbg &>/dev/null
 

@@ -23,7 +23,7 @@ in {
       firefox.profileNames = ["${config.home.username}" "test"];
     };
 
-    image = "${self}/modules/home/desktop/addons/wallpaper/wallpapers/simple-tokyo-night.png";
+    image = "${self}/modules/home/desktop/wallpaper/wallpapers/simple-tokyo-night.png";
     polarity = "dark";
     base16Scheme =
       builtins.mapAttrs

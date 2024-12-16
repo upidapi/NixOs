@@ -65,15 +65,13 @@ in {
     desktop = {
       wayland = enable;
       hyprland = enable;
-      addons = {
-        swww = enable;
-        # eww = enable;
-        ags = enable;
-        dunst = enable;
-        gtk = enable;
-        rofi = enable;
-        waybar = enable;
-      };
+      swww = enable;
+      # eww = enable;
+      ags = enable;
+      dunst = enable;
+      gtk = enable;
+      rofi = enable;
+      waybar = enable;
     };
   };
 }

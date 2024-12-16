@@ -80,17 +80,17 @@ in {
 
       desktop = {
         wayland = enable;
+        gtk = enable;
+
         hyprland = enable;
-        addons = {
-          wallpaper.hyprpaper = enable;
-          bar.ags = enable;
-          dunst = enable;
-          gtk = enable;
-          rofi = enable;
-          hyprlock = enable;
-          hypridle = enable;
-          hyprcursor = enable;
-        };
+        hyprlock = enable;
+        hypridle = enable;
+        hyprcursor = enable;
+
+        wallpaper.hyprpaper = enable;
+        bar.ags = enable;
+        dunst = enable;
+        rofi = enable;
       };
     };
   };

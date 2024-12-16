@@ -9,9 +9,9 @@
   inherit (my_lib.opt) mkEnableOpt;
   inherit (my_lib.misc) mapStylixColors;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.bar.ags;
+  cfg = config.modules.home.desktop.bar.ags;
 in {
-  options.modules.home.desktop.addons.bar.ags =
+  options.modules.home.desktop.bar.ags =
     mkEnableOpt "enables ags, used to create a bar";
 
   imports = [

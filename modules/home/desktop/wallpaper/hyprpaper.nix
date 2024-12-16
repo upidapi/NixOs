@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.wallpaper.hyprpaper;
+  cfg = config.modules.home.desktop.wallpaper.hyprpaper;
 in {
-  options.modules.home.desktop.addons.wallpaper.hyprpaper =
+  options.modules.home.desktop.wallpaper.hyprpaper =
     mkEnableOpt "enables hyprpaper, a wallpaper daemion";
 
   config = mkIf cfg.enable {

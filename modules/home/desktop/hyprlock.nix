@@ -10,9 +10,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf removePrefix;
-  cfg = config.modules.home.desktop.addons.hyprlock;
+  cfg = config.modules.home.desktop.hyprlock;
 in {
-  options.modules.home.desktop.addons.hyprlock =
+  options.modules.home.desktop.hyprlock =
     mkEnableOpt "enables hyprlock, a relogin screen for hyprland";
 
   config = mkIf cfg.enable {

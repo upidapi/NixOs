@@ -9,9 +9,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.hypridle;
+  cfg = config.modules.home.desktop.hypridle;
 in {
-  options.modules.home.desktop.addons.hypridle =
+  options.modules.home.desktop.hypridle =
     mkEnableOpt "enables hypridle, an idle listener for hyprland";
 
   config = mkIf cfg.enable {

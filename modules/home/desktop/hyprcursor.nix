@@ -50,9 +50,9 @@
   cursor = "Bibata-Modern-Ice";
   cursorPackage = cursors.bibata-ice;
 
-  cfg = config.modules.home.desktop.addons.hyprcursor;
+  cfg = config.modules.home.desktop.hyprcursor;
 in {
-  options.modules.home.desktop.addons.hyprcursor =
+  options.modules.home.desktop.hyprcursor =
     mkEnableOpt "Enables hyprcursors";
 
   config = mkIf cfg.enable {

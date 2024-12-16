@@ -26,7 +26,7 @@
     concatMap
     ;
 
-  cfg = config.modules.home.desktop.addons.rofi;
+  cfg = config.modules.home.desktop.rofi;
   mkValueString = value:
     if isBool value
     then
@@ -86,7 +86,7 @@
   mkRgb = mkRgba "100";
   rofiOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.popups * 100));
 in {
-  options.modules.home.desktop.addons.rofi =
+  options.modules.home.desktop.rofi =
     mkEnableOpt "enables rofi, a application runner";
 
   config = mkIf cfg.enable {

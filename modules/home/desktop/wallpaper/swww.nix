@@ -7,7 +7,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.wallpaper.swww;
+  cfg = config.modules.home.desktop.wallpaper.swww;
 
   startSwww = pkgs.writeShellScriptBin "start-swww" ''
     ${pkgs.swww}/bin/swww-daemon & sleep 1
@@ -16,7 +16,7 @@
       --transition-type=none
   '';
 in {
-  options.modules.home.desktop.addons.wallpaper.swww =
+  options.modules.home.desktop.wallpaper.swww =
     mkEnableOpt "enables swww, a wallpaper daemion";
 
   config = mkIf cfg.enable {

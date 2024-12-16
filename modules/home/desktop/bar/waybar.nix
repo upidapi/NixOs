@@ -7,9 +7,9 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.home.desktop.addons.bar.waybar;
+  cfg = config.modules.home.desktop.bar.waybar;
 in {
-  options.modules.home.desktop.addons.bar.waybar =
+  options.modules.home.desktop.bar.waybar =
     mkEnableOpt "enables a waybar status bar";
 
   # this is not actually setup

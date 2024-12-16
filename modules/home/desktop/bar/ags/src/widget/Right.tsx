@@ -81,6 +81,7 @@ function BatteryLevel() {
     const icon = Variable.derive(
         [bind(battery, "charging"), bind(battery, "percentage")],
         (charging: boolean, percent: number) => {
+            percent *= 100
             // print(last_percent, percent)
 
             // notify when battery decreases
@@ -137,7 +138,7 @@ function BatteryLevel() {
     return (
         <DataContainer
             className={bind(battery, "percentage").as((p) =>
-                p <= 10 ? "battery-low" : "",
+                p <= 0.1 ? "battery-low" : "",
             )}
             visible={bind(battery, "isPresent")}
         >
@@ -145,8 +146,8 @@ function BatteryLevel() {
             <label
                 label={bind(battery, "percentage")
                     .as(p => {
-                        pp(p)
-                        return `${Math.round(p)}%`})}
+                        pp(p * 100)
+                        return `${Math.round(p * 100)}%`})}
             />
         </DataContainer>
     );

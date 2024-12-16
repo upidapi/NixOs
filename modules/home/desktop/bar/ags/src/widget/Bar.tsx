@@ -1,6 +1,6 @@
 import { App, Astal } from "astal/gtk3";
 import Workspaces from "./Workspaces";
-import Left from "./Left";
+import Right from "./Right";
 
 export default function Bar(monitor: number) {
     return (
@@ -18,7 +18,7 @@ export default function Bar(monitor: number) {
             <centerbox className="bar">
                 <Workspaces monitor_id={monitor} />
                 <label label={"hello"}/>
-                <Left/>
+                <Right/>
             </centerbox>
         </window>
     );

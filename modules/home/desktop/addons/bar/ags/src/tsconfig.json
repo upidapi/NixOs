@@ -8,7 +8,7 @@
         "moduleResolution": "Bundler",
         // "checkJs": true,
         // "allowJs": true,
-sx",
+        "jsx": "react-jsx",
         "jsxImportSource": "/home/upidapi/.local/share/ags/gtk3",
         "paths": {
             "astal": [

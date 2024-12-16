@@ -30,6 +30,12 @@ in {
       sassc
     ];
 
+    # don't forget to generate the types in the correct dir
+    # :(
+    # ags types -d ./
+
+    # nix shell nixpkgs#inotify-tools github:aylur/ags#agsFull
+
     programs.ags = {
       enable = true;
       # configDir = ./.;
@@ -39,6 +45,7 @@ in {
           bun
         ]
         ++ (with inputs.ags.packages.${pkgs.system}; [
+          # most of these are unecesary
           apps
           auth
           battery

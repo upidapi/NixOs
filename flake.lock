@@ -1184,7 +1184,6 @@
         "plugin-tokyonight": "plugin-tokyonight",
         "plugin-trouble": "plugin-trouble",
         "plugin-ts-error-translator": "plugin-ts-error-translator",
-        "plugin-typst-preview-nvim": "plugin-typst-preview-nvim",
         "plugin-vim-dirtytalk": "plugin-vim-dirtytalk",
         "plugin-vim-fugitive": "plugin-vim-fugitive",
         "plugin-vim-illuminate": "plugin-vim-illuminate",
@@ -1196,16 +1195,17 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1734023787,
-        "narHash": "sha256-0yBJIYIFNqwg2BuL0410jqdEulKcxnd54vINtzL3tAc=",
-        "owner": "NotAShelf",
-        "repo": "nvf",
-        "rev": "a0a57757a07941c5523e646f0a97176492704bd4",
+        "lastModified": 1733356703,
+        "narHash": "sha256-4I+GenvQhcTVj1wkGkX//nzBVkB3HPkUxfTFg1TE/go=",
+        "owner": "horriblename",
+        "repo": "neovim-flake",
+        "rev": "ff07905bb8b3150daad92634c125444f63b35ca5",
         "type": "github"
       },
       "original": {
-        "owner": "NotAShelf",
-        "repo": "nvf",
+        "owner": "horriblename",
+        "ref": "fix/null-keymap",
+        "repo": "neovim-flake",
         "type": "github"
       }
     },
@@ -2968,22 +2968,6 @@
       "original": {
         "owner": "dmmulroy",
         "repo": "ts-error-translator.nvim",
-        "type": "github"
-      }
-    },
-    "plugin-typst-preview-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1733120663,
-        "narHash": "sha256-uYMZ2PONiiI3UDvCgNvyy4+jhzmUDbAyxX0phKxELXw=",
-        "owner": "chomosuke",
-        "repo": "typst-preview.nvim",
-        "rev": "0cb5f5627312f50ce089f785ec42b55a85f30ce7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chomosuke",
-        "repo": "typst-preview.nvim",
         "type": "github"
       }
     },

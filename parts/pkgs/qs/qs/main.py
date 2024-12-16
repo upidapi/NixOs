@@ -260,8 +260,8 @@ class Part:
         exit()
 
     def check_needs_reboot():
-        computer_needs_reboot = (
-            run_cmd("""
+        # fmt: off
+        computer_needs_reboot = run_cmd(""" 
             booted="$(
                 readlink /run/booted-system/{initrd,kernel,kernel-modules}
             )"
@@ -273,9 +273,8 @@ class Part:
                 then echo "1"; 
                 else echo "0";
             fi 
-        """).strip()
-            == "0"
-        )
+        """).strip() == "0"
+        # fmt: on
 
         if computer_needs_reboot:
             Print.banner_warn(

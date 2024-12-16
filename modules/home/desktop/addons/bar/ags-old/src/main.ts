@@ -1,54 +1,45 @@
-import { RightSide } from "right_side"
+import { RightSide } from "right_side";
 
-
-const hyprland = await Service.import("hyprland")
+const hyprland = await Service.import("hyprland");
 
 function Workspaces(monitor_id: number) {
-    const workspaces = Array.from({length: 10}, (_, index) => {
-        const id = index + 1
+    const workspaces = Array.from({ length: 10 }, (_, index) => {
+        const id = index + 1;
         return Widget.Button({
-            on_clicked: () => hyprland.messageAsync(
-                `dispatch focusworkspaceoncurrentmonitor ${id}`
-            ),
+            on_clicked: () =>
+                hyprland.messageAsync(`dispatch focusworkspaceoncurrentmonitor ${id}`),
 
             child: Widget.Label({
                 label: id.toString(),
                 class_name: Utils.merge(
-                    [
-                        hyprland.bind("workspaces"), 
-                        hyprland.bind("monitors"),
-                    ],
+                    [hyprland.bind("workspaces"), hyprland.bind("monitors")],
                     (workspaces, monitors) => {
                         const workspace_type = (() => {
                             if (id === monitors[monitor_id].activeWorkspace.id) {
-                                return "current"
-                            }
-                            
-                            if (
-                                monitors.map((monitor) => 
-                                    monitor.activeWorkspace.id
-                                ).includes(id)
-                            ) {
-                                return "focused"
-                            }
-                            
-                            if (
-                                workspaces.map((workspace) => 
-                                    workspace.id
-                                ).includes(id)
-                            ) {
-                                return "active"
+                                return "current";
                             }
 
-                            return "inactive"
-                        })()
+                            if (
+                                monitors
+                                    .map((monitor) => monitor.activeWorkspace.id)
+                                    .includes(id)
+                            ) {
+                                return "focused";
+                            }
 
-                        return `workspace workspace_${workspace_type}`
-                    }
-                )
-            })
-        })
-    })
+                            if (workspaces.map((workspace) => workspace.id).includes(id)) {
+                                return "active";
+                            }
+
+                            return "inactive";
+                        })();
+
+                        return `workspace workspace_${workspace_type}`;
+                    },
+                ),
+            }),
+        });
+    });
 
     return Widget.Box({
         class_name: "workspaces",
@@ -66,7 +57,7 @@ function Left(monitor: number) {
             Workspaces(monitor),
             // ClientTitle(),
         ],
-    })
+    });
 }
 
 /*
@@ -88,16 +79,16 @@ function Bar(monitor = 0) {
         anchor: ["top", "left", "right"],
         exclusivity: "exclusive",
         child: Widget.CenterBox({
-        class_name: "bar",
+            class_name: "bar",
 
             start_widget: Left(monitor),
             // center_widget: Center(),
             end_widget: RightSide(),
         }),
-    })
+    });
 }
 
-const bars = hyprland.monitors.map((_, i) => Bar(i))
+const bars = hyprland.monitors.map((_, i) => Bar(i));
 
 const scss = `${App.configDir}/style.scss`;
 const css = "/tmp/ags.css";
@@ -113,4 +104,4 @@ App.config({
         // applauncher,
         // NotificationPopups()
     ],
-})
+});

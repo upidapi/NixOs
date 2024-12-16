@@ -5,3 +5,5 @@
     ./wayland.nix
   ];
 }
+# TODO: remove the addons folder, just put them in the desktop file
+

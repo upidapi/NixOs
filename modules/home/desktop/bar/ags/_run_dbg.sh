@@ -2,7 +2,7 @@
 
 run_code() {
 	# to run this manually use
-	ags quit
+    ags quit &>/dev/null
 
 	cd || return
 

@@ -7,7 +7,7 @@ const hyprland = Hyprland.get_default();
 App.start({
     css: style,
     main() {
-        hyprland.monitors.map((i, j) => Bar(i.id));
+        hyprland.monitors.map((i, _) => Bar(i.id));
         // App.get_monitors().map(Bar);
     },
 });

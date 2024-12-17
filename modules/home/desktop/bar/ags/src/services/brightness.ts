@@ -29,7 +29,6 @@ export default class Brightness extends GObject.Object {
         }
     }
 
-
     constructor() {
         super()
         this._interface = exec("sh -c 'ls -w1 /sys/class/backlight | head -1'");

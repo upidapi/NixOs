@@ -225,7 +225,7 @@ const rfkill_data = Variable<RfkillData>(initial_frkill_data).watch(
 
         // Variables to hold the extracted values
         if (match) {
-            const [idx, type, op, soft, hard] = match.slice(1).map(Number);
+            const [idx, _type, _op, soft, hard] = match.slice(1).map(Number);
 
             // Output the variables
             // console.log("idx:", idx);

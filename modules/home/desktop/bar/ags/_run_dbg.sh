@@ -2,7 +2,7 @@
 
 run_code() {
 	# to run this manually use
-    ags quit &>/dev/null
+	ags quit &>/dev/null
 
 	cd || return
 
@@ -13,8 +13,10 @@ run_code() {
 
 	cp -rf "$ags_src"/* .config/ags-dbg
 
-	chmod +w .config/ags-dbg/colors.scss
-	cp "$color_cfg" .config/ags-dbg/colors.scss
+	if [ -f .config/ags-dbg/colors.scss ]; then
+		chmod +w .config/ags-dbg/colors.scss
+		cp "$color_cfg" .config/ags-dbg/colors.scss
+	fi
 
 	ags run -d "$(realpath ./.config/ags-dbg)"
 }
@@ -24,7 +26,7 @@ run_on_change() {
 	function execute() {
 		# clear
 		# echo "$@"
-        echo
+		echo
 		echo "run ags"
 		eval "$1"
 		sleep 0.2

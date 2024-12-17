@@ -2,7 +2,9 @@ import { Gtk } from "astal/gtk3";
 import { Binding, Variable, bind, exec, execAsync } from "astal";
 import { Widget } from "astal/gtk3";
 import Wp from "gi://AstalWp";
+import Bluetooth from "gi://AstalBluetooth";
 import Battery from "gi://AstalBattery";
+import Network from "gi://AstalNetwork";
 import { pp } from "../Helpers";
 import Astal from "gi://Astal?version=3.0";
 import Brightness from "../services/brightness";
@@ -145,7 +147,6 @@ function BatteryLvl() {
             <label label={icon()} />
             <label
                 label={bind(battery, "percentage").as((p) => {
-                    // pp(p * 100);
                     return `${Math.round(p * 100)}%`;
                 })}
             />
@@ -159,16 +160,6 @@ function Icon({ icon }: { icon: Binding<string> }) {
 
 function AsciiIcon({ icon }: { icon: Binding<string> }) {
     return <label label={icon} visible={icon.as((i) => i != "")} />;
-}
-
-function AudioIcons() {
-    const audio = Wp.get_default()!;
-    // pp(audio);
-    return (
-        <>
-            <AsciiIcon icon={bind(audio, "audio").as(() => "O")} />
-        </>
-    );
 }
 
 type RfkillData = {
@@ -262,6 +253,50 @@ function AirplainIcon() {
             })}
         />
     );
+
+}
+
+function NetworkIcon() {
+    const network = Network.get_default();
+    // pp(network);
+
+    return (
+        <Icon
+            icon={Variable.derive(
+                [
+                    // bind(network, "primary"),
+                    bind(network, "wifi"),
+                    bind(network, "wired"),
+                ],
+                (wifi, wired) => {
+                    if (wifi == null && wired === null) {
+                        return "network-wireless-offline-symbolic";
+                    }
+
+                    if (wired === null) {
+                        return wifi.iconName;
+                    }
+
+                    return wired.iconName;
+                },
+            )()}
+        />
+    );
+}
+
+function AudioIcons() {
+    const audio = Wp.get_default()!;
+    return (
+        <AsciiIcon
+            icon={bind(audio.audio.defaultSpeaker, "icon").as((icon) => {
+                if (icon === "audio-headset-bluetooth") {
+                    return "󰋋";
+                }
+
+                return "";
+            })}
+        />
+    );
 }
 
 function StatusIcons() {
@@ -269,6 +304,7 @@ function StatusIcons() {
         <DataContainer>
             <AudioIcons />
             <AirplainIcon />
+            <NetworkIcon />
         </DataContainer>
     );
 }
@@ -303,3 +339,98 @@ export default function Right() {
         </box>
     );
 }
+
+/* 
+{
+  "audio": {
+    "microphones": [],
+    "speakers": [],
+    "streams": [],
+    "recorders": [],
+    "devices": [],
+    "default-speaker": {
+      "id": 0,
+      "volume": 0,
+      "mute": true,
+      "description": null,
+      "name": null,
+      "media-class": 0,
+      "is-default": false,
+      "icon": "audio-card-symbolic",
+      "volume-icon": "microphone-sensitivity-muted-symbolic",
+      "lock-channels": false
+    },
+    "default-microphone": {
+      "id": 0,
+      "volume": 0,
+      "mute": true,
+      "description": null,
+      "name": null,
+      "media-class": 0,
+      "is-default": false,
+      "icon": "audio-card-symbolic",
+      "volume-icon": "microphone-sensitivity-muted-symbolic",
+      "lock-channels": false
+    }
+  },
+  "video": {
+    "sources": [],
+    "sinks": [],
+    "streams": [],
+    "recorders": [],
+    "devices": []
+  },
+  "endpoints": [],
+  "devices": [],
+  "default-speaker": "[CIRCULAR REFERANCE]",
+  "default-microphone": "[CIRCULAR REFERANCE]",
+  "scale": 1
+}
+
+# after
+{
+  "audio": {
+    "microphones": [],
+    "speakers": [],
+    "streams": [],
+    "recorders": [],
+    "devices": [],
+    "default-speaker": {
+      "id": 0,
+      "volume": 0,
+      "mute": true,
+      "description": null,
+      "name": null,
+      "media-class": 0,
+      "is-default": false,
+      "icon": "audio-card-symbolic",
+      "volume-icon": "microphone-sensitivity-muted-symbolic",
+      "lock-channels": false
+    },
+    "default-microphone": {
+      "id": 0,
+      "volume": 0,
+      "mute": true,
+      "description": null,
+      "name": null,
+      "media-class": 0,
+      "is-default": false,
+      "icon": "audio-card-symbolic",
+      "volume-icon": "microphone-sensitivity-muted-symbolic",
+      "lock-channels": false
+    }
+  },
+  "video": {
+    "sources": [],
+    "sinks": [],
+    "streams": [],
+    "recorders": [],
+    "devices": []
+  },
+  "endpoints": [],
+  "devices": [],
+  "default-speaker": "[CIRCULAR REFERANCE]",
+  "default-microphone": "[CIRCULAR REFERANCE]",
+  "scale": 1
+}
+*/

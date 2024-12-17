@@ -33,6 +33,8 @@ add a no-internet group
     https://askubuntu.com/questions/45072/how-to-control-internet-access-for-each-program
 
 
+prevent the cursor from showing upp in screenshots
+
 Home lab
     nas
         local share?

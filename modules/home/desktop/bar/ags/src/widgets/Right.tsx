@@ -1,32 +1,16 @@
 import { Gtk } from "astal/gtk3";
 import { Binding, Variable, bind, exec, execAsync } from "astal";
-import { Widget } from "astal/gtk3";
+// import Astal from "gi://Astal?version=3.0";
+
 import Wp from "gi://AstalWp";
-import Bluetooth from "gi://AstalBluetooth";
 import Battery from "gi://AstalBattery";
 import Network from "gi://AstalNetwork";
-import { pp } from "../Helpers";
-import Astal from "gi://Astal?version=3.0";
 import Brightness from "../services/brightness";
+// import Bluetooth from "gi://AstalBluetooth";
 
-function DataContainer({
-    child,
-    children,
-    className = "",
-    visible = true,
-}: Widget.BoxProps) {
-    return (
-        <box
-            spacing={5}
-            className={"container " + className}
-            homogeneous={false}
-            visible={visible}
-        >
-            {child}
-            {children}
-        </box>
-    );
-}
+import { pp } from "../Helpers";
+
+import DataContainer from "./DataContainer";
 
 const date = Variable("").poll(
     1000,
@@ -253,7 +237,6 @@ function AirplainIcon() {
             })}
         />
     );
-
 }
 
 function NetworkIcon() {
@@ -313,7 +296,7 @@ function BrightnessLvl() {
     const brightness = new Brightness();
 
     return (
-        <DataContainer>
+        <DataContainer visible={bind(brightness, "hasBacklight")}>
             <AsciiIcon
                 icon={bind(brightness, "value").as(
                     (p: number) => [..."󰛩󱩎󱩏󱩐󱩑󱩒󱩓󱩔󱩕󱩖󰛨"][Math.round(p * 10)],
@@ -321,7 +304,7 @@ function BrightnessLvl() {
             />
             <label
                 label={bind(brightness, "value").as(
-                    (p: number) => `${Math.round(p * 100)}%`
+                    (p: number) => `${Math.round(p * 100)}%`,
                 )}
             />
         </DataContainer>

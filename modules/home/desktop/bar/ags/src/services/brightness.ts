@@ -28,6 +28,11 @@ export default class Brightness extends GObject.Object {
             return "display-brightness-high-symbolic"
         }
     }
+    
+    @property(Boolean)
+    get hasBacklight() {
+        return this._interface == "" ? false : true;
+    }
 
     constructor() {
         super()

@@ -21,6 +21,8 @@ run_code() {
 	ags run -d "$(realpath ./.config/ags-dbg)"
 }
 
+last_run=0
+
 run_on_change() {
 
 	function execute() {
@@ -29,14 +31,17 @@ run_on_change() {
 		echo
 		echo "run ags"
 		eval "$1"
-		sleep 0.2
 	}
 
 	execute "$2"
 
 	inotifywait --quiet --recursive --monitor --event modify --format "%w%f" "$1" |
-		while read change; do
-			execute "$2"
+		while read -r _; do
+            cur_time=$(date +%s%3N)
+            if ((cur_time - last_run > 500)); then 
+                last_run=$cur_time
+                execute "$2"
+            fi
 		done
 
 }

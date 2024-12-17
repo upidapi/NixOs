@@ -1,6 +1,16 @@
 import { App, Astal } from "astal/gtk3";
+import { Variable } from "astal";
+
 import Workspaces from "./Workspaces";
 import Right from "./Right";
+
+// const date = Variable("").poll(
+//     1000,
+//     `bash -c "LC_ALL=en_GB.utf8 date +'%Y-%m-%d %a %H:%M:%S'"`,
+// );
+// function Time() {
+//     return <label className={"time"} label={date()} />;
+// }
 
 export default function Bar(monitor: number) {
     return (
@@ -17,8 +27,8 @@ export default function Bar(monitor: number) {
         >
             <centerbox className="bar">
                 <Workspaces monitor_id={monitor} />
-                <label label={"hello"}/>
-                <Right/>
+                <box />
+                <Right />
             </centerbox>
         </window>
     );

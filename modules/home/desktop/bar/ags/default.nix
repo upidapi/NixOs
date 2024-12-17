@@ -64,7 +64,7 @@ in {
     # This is so jank
     # - some guy on github solving the same problem
     home.file = {
-      ".config/ags/app" = {
+      ".config/ags" = {
         recursive = true;
         source = ./src;
       };

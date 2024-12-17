@@ -1,11 +1,11 @@
 import { Gtk } from "astal/gtk3";
-import { Variable, bind, execAsync } from "astal";
+import { Binding, Variable, bind, exec, execAsync } from "astal";
 import { Widget } from "astal/gtk3";
 import Wp from "gi://AstalWp";
 import Battery from "gi://AstalBattery";
 import { pp } from "../Helpers";
 import Astal from "gi://Astal?version=3.0";
-import Bar from "./Bar";
+import Brightness from "../services/brightness";
 
 function DataContainer({
     child,
@@ -75,13 +75,13 @@ function Volume() {
 
 let last_percent = -1;
 const battery = Battery.get_default();
-function BatteryLevel() {
+function BatteryLvl() {
     // pp(battery);
 
     const icon = Variable.derive(
         [bind(battery, "charging"), bind(battery, "percentage")],
         (charging: boolean, percent: number) => {
-            percent *= 100
+            percent *= 100;
             // print(last_percent, percent)
 
             // notify when battery decreases
@@ -144,37 +144,160 @@ function BatteryLevel() {
         >
             <label label={icon()} />
             <label
-                label={bind(battery, "percentage")
-                    .as(p => {
-                        pp(p * 100)
-                        return `${Math.round(p * 100)}%`})}
+                label={bind(battery, "percentage").as((p) => {
+                    // pp(p * 100);
+                    return `${Math.round(p * 100)}%`;
+                })}
             />
         </DataContainer>
     );
 }
 
-function Icon({icon}: {icon: string}) {
-    return <label label={icon} visible={icon != ""}/>
+function Icon({ icon }: { icon: Binding<string> }) {
+    return <icon icon={icon} visible={icon.as((i) => i != "")} />;
+}
+
+function AsciiIcon({ icon }: { icon: Binding<string> }) {
+    return <label label={icon} visible={icon.as((i) => i != "")} />;
 }
 
 function AudioIcons() {
-    const audio = Wp.get_default()
-    pp(audio)
-    return <>
-        <Icon icon="a"/>
-    </>
+    const audio = Wp.get_default()!;
+    // pp(audio);
+    return (
+        <>
+            <AsciiIcon icon={bind(audio, "audio").as(() => "O")} />
+        </>
+    );
+}
+
+type RfkillData = {
+    rfkilldevices: {
+        id: number;
+        type: string;
+        device: string;
+        soft: "unblocked" | "blocked";
+        hard: "unblocked" | "blocked";
+    }[];
+};
+
+const initial_frkill_data: RfkillData = JSON.parse(exec("rfkill -J"));
+const rfkill_data = Variable<RfkillData>(initial_frkill_data).watch(
+    "rfkill event",
+    // {
+    //    "rfkilldevices": [
+    //       {
+    //          "id": 0,
+    //          "type": "bluetooth",
+    //          "device": "hci0",
+    //          "soft": "unblocked",
+    //          "hard": "unblocked"
+    //       },{
+    //          "id": 1,
+    //          "type": "wlan",
+    //          "device": "phy0",
+    //          "soft": "unblocked",
+    //          "hard": "unblocked"
+    //       }
+    //    ]
+    // }
+    //
+    // 2024-12-17 08:59:18,270941+01:00: idx 0 type 2 op 0 soft 0 hard 0
+    // 2024-12-17 08:59:18,270982+01:00: idx 1 type 1 op 0 soft 0 hard 0
+    //
+    // op
+    //     0 := init
+    //     2 := update
+    //
+    // soft/hard 1 turns it on
+    // soft/hard 0 turns it off
+    //
+    // idx is the id of the device
+    (d: string, prev: RfkillData) => {
+        prev.rfkilldevices.sort((a, b) => a.id - b.id);
+
+        const next = JSON.parse(JSON.stringify(prev));
+        const regex = /idx (\d+) type (\d+) op (\d+) soft (\d+) hard (\d+)/;
+
+        // Execute regex on the string
+        // print(d)
+        const match = d.match(regex);
+
+        // Variables to hold the extracted values
+        if (match) {
+            const [idx, type, op, soft, hard] = match.slice(1).map(Number);
+
+            // Output the variables
+            // console.log("idx:", idx);
+            // console.log("type:", type);
+            // console.log("op:", op);
+            // console.log("soft:", soft);
+            // console.log("hard:", hard);
+
+            next.rfkilldevices[idx].soft = soft ? "blocked" : "unblocked";
+            next.rfkilldevices[idx].hard = hard ? "blocked" : "unblocked";
+        } else {
+            // console.log("No match found.");
+            throw "fuck";
+        }
+
+        return next;
+    },
+);
+
+function AirplainIcon() {
+    return (
+        <AsciiIcon
+            icon={rfkill_data((d: RfkillData): string => {
+                // print(d);
+
+                for (const dev of d.rfkilldevices) {
+                    if (dev.soft == "blocked") {
+                        return "󰀝";
+                    }
+                    // return "";
+                }
+
+                return "";
+            })}
+        />
+    );
 }
 
 function StatusIcons() {
-    return <DataContainer>
-        <AudioIcons/>
-    </DataContainer>
+    return (
+        <DataContainer>
+            <AudioIcons />
+            <AirplainIcon />
+        </DataContainer>
+    );
 }
+
+function BrightnessLvl() {
+    const brightness = new Brightness();
+
+    return (
+        <DataContainer>
+            <AsciiIcon
+                icon={bind(brightness, "value").as(
+                    (p: number) => [..."󰛩󱩎󱩏󱩐󱩑󱩒󱩓󱩔󱩕󱩖󰛨"][Math.round(p * 10)],
+                )}
+            />
+            <label
+                label={bind(brightness, "value").as(
+                    (p: number) => `${Math.round(p * 100)}%`
+                )}
+            />
+        </DataContainer>
+    );
+}
+
 export default function Right() {
     return (
         <box halign={Gtk.Align.END} spacing={5}>
             <StatusIcons />
-            <BatteryLevel />
+            <BatteryLvl />
+            <BrightnessLvl />
             <Volume />
             <Time />
         </box>

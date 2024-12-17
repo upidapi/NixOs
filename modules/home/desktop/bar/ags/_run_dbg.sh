@@ -24,6 +24,7 @@ run_on_change() {
 	function execute() {
 		# clear
 		# echo "$@"
+        echo
 		echo "run ags"
 		eval "$1"
 		sleep 0.2

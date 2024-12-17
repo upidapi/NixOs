@@ -22,7 +22,7 @@ in {
 
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
-      exec-once = ["ags"];
+      exec-once = ["ags run"];
     };
 
     home.packages = with pkgs; [

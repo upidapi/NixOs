@@ -57,7 +57,7 @@ in {
           powerprofiles
           tray
           wireplumber
-          inputs.astal.packages.${pkgs.system}.default
+          # inputs.astal.packages.${pkgs.system}.default
         ]);
     };
 

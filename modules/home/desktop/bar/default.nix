@@ -1,6 +1,6 @@
 {
   imports = [
-    ./ags-old
+    ./ags
     ./waybar.nix
   ];
 }

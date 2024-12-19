@@ -1,12 +1,13 @@
 ## Description
-Welcome to my overengineerd configuration for my computer systems. A 
-concoction of my better hallucinations, very carefully bashed together  
-to (hopefully) do something that is partially useful. I've made this 
-public for it to be used as a reference (and so that i can install it 
-faster on my friends computers when they aren't looking)
+Welcome to my overengineerd configuration for my computer systems. A concoction 
+of my better hallucinations, very carefully bashed together  to (hopefully) do 
+something that is partially useful. I've made this public primarily so that it 
+can be used as a referance. Credits are always nice, but not at all a requirement 
+I've based large parts of it on the work of others (see the Inspiration section 
+bellow) So it feels like the only right thing to do. (and also so that I can 
+install it faster on my friends computers when they are looking the other way) 
 
 <!----------------------this comment is 80 characters wide--------------------->
-
 > [!CAUTION]
 > This config is not a finished product, and will change as a continue to learn 
 > about nix. Things will be modified, updated, added, removed and restructured 
@@ -16,14 +17,13 @@ faster on my friends computers when they aren't looking)
 > incomplete and or broken. And as in any other code, there is definetly a ton 
 > of mistakes sprinkled throughout the code :(.
 > 
-> I'm not gonna tell you not to try to boot it, but I'll warn you that there's a 
+> I'm not gonna tell you not to just run it, but I'll warn you that there's a 
 > good chance that it will break. This config is made for my machines, that have
 > their own quirks. So make sure you backup your data before trying.
 > 
-> I'd urge you against taking significant parts out of the config without making 
-> sure that you understand why it works, how it does that, (and what it actually 
-> does). Credit is nice, but not at all a requirement. 
- 
+> You should probably avoid taking major parts of the code since it kinda 
+> cripples your ability to make quick changes to it. And if you do, make 
+> sure that you have some sort of overarching understanding of what it does. 
 <!----------------------this comment is 80 characters wide--------------------->
 
 If there's anything you take out of this, (both figuratively and literally)
@@ -32,28 +32,31 @@ Its a rebuild helper that commits each time you rebuild, while adding some
 useful metadata to each commit, like generation and kernel version, along with 
 other things you probably want to do when rebuilding and working on your config. 
 It might sound a bit to verbose but its really nice to have when you eventually 
-really mess something up.
+mess something up. 
 
 
 ![desktop](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop-minimal.png?raw=true)
 
 
 ## Features
-- home-manager, used to configure users 
-- impermanence, everything is wiped in reboot, only /persist persists
+A list of some of the more notable features 
+- [home-manager](https://github.com/nix-community/home-manager), used to configure users 
+- [impermanence](https://github.com/nix-community/impermanence), everything is wiped in reboot, only /persist actually persists
 - modular, each thing is it's own module that you can enable
   - nixos modules are in modules/nixos
   - home-manager modules are in modules/home
-- disko, for declarative disks
+- [quick-switch](https://github.com/upidapi/NixOs/tree/main/parts/pkgs/qs), a rebuild and config helper 
+- [disko](https://github.com/nix-community/disko), for declarative disks
 - file hierarchy based hosts and users
   - logic in hosts/default.nix
   - machines defined in hosts/${host name}
   - users defined in hosts/\${host name}/users/\${user name}
-- custom top bar made with ags
-- stylix, for system styling
-- nvf, config neovim
-- quick-switch, a rebuild and config helper 
-- nix-portable, for when you don't have nix nor root
+- [ags](https://github.com/Aylur/ags), to create my top bar
+- [stylix](https://github.com/danth/stylix), for system styling
+- [nvf](https://github.com/NotAShelf/nvf), a wrapper around neovim
+- [nix-portable](https://github.com/DavHau/nix-portable), for when you don't have nix nor root (probably doesn't atm)
+- [sops-nix](https://github.com/Mic92/sops-nix), used for declarative secrets
+  - stored (encrypted) in /secrets
 
 
 ## Install
@@ -66,18 +69,19 @@ nix --extra-experimental-features "flakes " run github:upidapi/nixos#install
 ```
 
 
-## Create iso
+## Create install iso
 ```bash 
 # see /parts/isos for more info
 cd $NIXOS_CONFIG_PATH # where this repo is located
 
-sudo mkdir /ventoy
-
-# eg /dev/sdb1
-sudo mount /dev/---disc-name--- /ventoy
-
 # build image 
 sudo nix build .#images.minimal-installer
+
+# move to usb formatted with ventoy
+sudo mkdir /ventoy
+
+usb_drive=/dev/sdb1
+sudo mount $usb_drive /ventoy
 
 # move iso to usb
 cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy

@@ -241,27 +241,23 @@ function AirplainIcon() {
 
 function NetworkIcon() {
     const network = Network.get_default();
-    // pp(network);
 
     return (
         <Icon
             icon={Variable.derive(
                 [
-                    // bind(network, "primary"),
-                    bind(network, "wifi"),
-                    bind(network, "wired"),
+                    bind(network, "primary"),
+
+                    bind(network.wifi, "iconName"),
+                    bind(network.wired, "iconName"),
                 ],
-                (wifi, wired) => {
-                    if (wifi == null && wired === null) {
-                        return "network-wireless-offline-symbolic";
-                    }
-
-                    if (wired === null) {
-                        return wifi.iconName;
-                    }
-
-                    return wired.iconName;
-                },
+                (primary, wifiIcon, wiredIcon) =>
+                    ({
+                        // should not occur
+                        [Network.Primary.UNKNOWN]: "network-wireless-offline-symbolic",
+                        [Network.Primary.WIFI]: wifiIcon,
+                        [Network.Primary.WIRED]: wiredIcon,
+                    })[primary],
             )()}
         />
     );
@@ -322,98 +318,3 @@ export default function Right() {
         </box>
     );
 }
-
-/* 
-{
-  "audio": {
-    "microphones": [],
-    "speakers": [],
-    "streams": [],
-    "recorders": [],
-    "devices": [],
-    "default-speaker": {
-      "id": 0,
-      "volume": 0,
-      "mute": true,
-      "description": null,
-      "name": null,
-      "media-class": 0,
-      "is-default": false,
-      "icon": "audio-card-symbolic",
-      "volume-icon": "microphone-sensitivity-muted-symbolic",
-      "lock-channels": false
-    },
-    "default-microphone": {
-      "id": 0,
-      "volume": 0,
-      "mute": true,
-      "description": null,
-      "name": null,
-      "media-class": 0,
-      "is-default": false,
-      "icon": "audio-card-symbolic",
-      "volume-icon": "microphone-sensitivity-muted-symbolic",
-      "lock-channels": false
-    }
-  },
-  "video": {
-    "sources": [],
-    "sinks": [],
-    "streams": [],
-    "recorders": [],
-    "devices": []
-  },
-  "endpoints": [],
-  "devices": [],
-  "default-speaker": "[CIRCULAR REFERANCE]",
-  "default-microphone": "[CIRCULAR REFERANCE]",
-  "scale": 1
-}
-
-# after
-{
-  "audio": {
-    "microphones": [],
-    "speakers": [],
-    "streams": [],
-    "recorders": [],
-    "devices": [],
-    "default-speaker": {
-      "id": 0,
-      "volume": 0,
-      "mute": true,
-      "description": null,
-      "name": null,
-      "media-class": 0,
-      "is-default": false,
-      "icon": "audio-card-symbolic",
-      "volume-icon": "microphone-sensitivity-muted-symbolic",
-      "lock-channels": false
-    },
-    "default-microphone": {
-      "id": 0,
-      "volume": 0,
-      "mute": true,
-      "description": null,
-      "name": null,
-      "media-class": 0,
-      "is-default": false,
-      "icon": "audio-card-symbolic",
-      "volume-icon": "microphone-sensitivity-muted-symbolic",
-      "lock-channels": false
-    }
-  },
-  "video": {
-    "sources": [],
-    "sinks": [],
-    "streams": [],
-    "recorders": [],
-    "devices": []
-  },
-  "endpoints": [],
-  "devices": [],
-  "default-speaker": "[CIRCULAR REFERANCE]",
-  "default-microphone": "[CIRCULAR REFERANCE]",
-  "scale": 1
-}
-*/

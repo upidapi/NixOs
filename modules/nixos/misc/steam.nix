@@ -20,16 +20,41 @@ in {
         "steam-original"
         "steam-run"
       ];
-    programs.steam = {
-      enable = true;
-      remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
-      dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
-      #extraPackages = with pkgs; [
-      #  steamcmd
-      #];
+    programs = {
+      gamescope = enable;
+
+      steam = {
+        enable = true;
+        remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
+        dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
+        #extraPackages = with pkgs; [
+        #  steamcmd
+        #];
+        extraCompatPackages = [
+          pkgs.proton-ge-bin
+        ];
+
+        gamescopeSession.enable = true;
+      };
+
+      gamemode = {
+        enable = true;
+        settings = {
+          general = {
+            inhibit_screensaver = 0;
+            renice = 10;
+          };
+          # custom = {
+          #   start = "${heyBin} hook gamemode --on";
+          #   end = "${heyBin} hook gamemode --off";
+          # };
+        };
+      };
     };
 
     environment.systemPackages = with pkgs; [
+      pkgs.protontricks
+
       (wineWowPackages.full.override {
         wineRelease = "staging";
         mingwSupport = true;
@@ -46,11 +71,10 @@ in {
     ];
 
     # environment.systemPackages = [
-    #   pkgs.protontricks
     # ];
     #
     # programs = {
-    #   gamescope = enable;
+    #
     #
     #   #   gamemode = {
     #   #     enable = true;

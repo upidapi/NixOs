@@ -17,20 +17,37 @@ in {
       pkgs.protontricks
     ];
 
-    programs.gamemode = enable;
+    programs = {
+      gamescope = enable;
 
-    programs.steam = {
-      enable = true;
+      #   gamemode = {
+      #     enable = true;
+      #     settings = {
+      #       general = {
+      #         inhibit_screensaver = 0;
+      #         renice = 10;
+      #       };
+      #       custom = {
+      #         start = "${heyBin} hook gamemode --on";
+      #         end = "${heyBin} hook gamemode --off";
+      #       };
+      #     };
+      #   };
+      # };
 
-      # Open ports in the firewall for Steam Remote Play
-      remotePlay.openFirewall = true;
+      steam = {
+        enable = true;
 
-      # Open ports in the firewall for Source Dedicated Server
-      dedicatedServer.openFirewall = true;
+        # Open ports in the firewall for Steam Remote Play
+        remotePlay.openFirewall = true;
 
-      extraCompatPackages = [
-        pkgs.proton-ge-bin
-      ];
+        # Open ports in the firewall for Source Dedicated Server
+        dedicatedServer.openFirewall = true;
+
+        extraCompatPackages = [
+          pkgs.proton-ge-bin
+        ];
+      };
     };
   };
 }

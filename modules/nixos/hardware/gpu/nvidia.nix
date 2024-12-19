@@ -45,6 +45,8 @@ in {
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.production;
 
+      open = true;
+
       # optimus prime
       # if you have and Nvidia GPU in a laptop you need to enable the following
       # find your bus IDs using lshw

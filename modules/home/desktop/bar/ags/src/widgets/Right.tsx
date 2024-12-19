@@ -242,22 +242,24 @@ function AirplainIcon() {
 function NetworkIcon() {
     const network = Network.get_default();
 
+    pp(network);
     return (
         <Icon
             icon={Variable.derive(
                 [
                     bind(network, "primary"),
 
-                    bind(network.wifi, "iconName"),
-                    bind(network.wired, "iconName"),
+                    bind(network, "wifi"),
+                    bind(network, "wired"),
                 ],
-                (primary, wifiIcon, wiredIcon) =>
-                    ({
+                (primary, wifi, wired) => {
+                    return {
                         // should not occur
                         [Network.Primary.UNKNOWN]: "network-wireless-offline-symbolic",
-                        [Network.Primary.WIFI]: wifiIcon,
-                        [Network.Primary.WIRED]: wiredIcon,
-                    })[primary],
+                        [Network.Primary.WIFI]: wifi == null ? "error" : wifi.iconName,
+                        [Network.Primary.WIRED]: wired.iconName,
+                    }[primary];
+                },
             )()}
         />
     );

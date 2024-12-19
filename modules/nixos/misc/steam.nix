@@ -29,6 +29,22 @@ in {
       #];
     };
 
+    environment.systemPackages = with pkgs; [
+      (wineWowPackages.full.override {
+        wineRelease = "staging";
+        mingwSupport = true;
+      })
+      winetricks
+
+      (lutris.override {
+        extraPkgs = pkgs: [
+          # List package dependencies here
+          wineWowPackages.stable
+          winetricks
+        ];
+      })
+    ];
+
     # environment.systemPackages = [
     #   pkgs.protontricks
     # ];

@@ -78,6 +78,10 @@ in {
           method = "symlink";
         }
         */
+        # lutris
+        # "Games/Lutris"
+        "config/lutris"
+        ".local/share/lutris"
 
         # save spotify login
         ".config/spotify"

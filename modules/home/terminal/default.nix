@@ -23,7 +23,7 @@ in {
     ./nushell
     ./direnv.nix
     ./starship.nix
-    ./tmux.nix
+    ./tmux
     ./zsh.nix
   ];
 

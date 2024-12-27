@@ -1,0 +1,15 @@
+-- require("auto-save").setup {
+--   debounce_delay = 1000,
+--
+--   condition = function(buf)
+--     local fn = vim.fn
+--     local utils = require("auto-save.utils.data")
+--
+--     -- only save text files
+--     if utils.not_in(fn.getbufvar(buf, "&filetype"), {'txt', 'md'}) then
+--       return false
+--     end
+--
+--     return true
+--   end
+-- }

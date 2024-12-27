@@ -1,7 +1,8 @@
 {
-  config,
-  inputs,
-  lib,
+  # config,
+  # inputs,
+  # lib,
+  self,
   # , pkgs
   ...
 } @ args: {
@@ -38,94 +39,25 @@
         '';
       };
 
-      # for debugging
-      nvim = pkgs.mkShell {
-        nativeBuildInputs = [
-          pkgs.nixd
-          # pkgs.nixfmt-rfc-style
-          pkgs.git
-          (import ./nvim-lsp.nix {inherit pkgs;})
+      # a devshell that builds and opens an editor with the current mnw
+      # (neovim) config
+      # nix develop /persist/nixos#mnw
+      mnw = pkgs.mkShellNoCC {
+        shellHook = ''
+          cd /persist/nixos/modules/home/cli-apps/neovim/lua/
+          nvim .
+          exit
+        '';
+        packages = [
+          self.nixosConfigurations.upinix-pc.config.home-manager.users.upidapi.programs.mnw.finalPackage
         ];
       };
-
-      /*
-      nvf = let
-        n = inputs.nvf.lib.neovimConfiguration {
-          modules = [
-            {
-              # Add any custom options (and do feel free to upstream them!)
-              # options = { ... };
-
-              config.vim =
-                (import ./nvf.nix (args // {inherit pkgs;}))
-                // {
-                  # theme.enable = true;
-                  # and more options as you see fit...
-
-                  startPlugins = with pkgs.vimPlugins; [
-                    (nvim-treesitter.withPlugins (
-                      parsers: builtins.attrValues {inherit (parsers) nix markdown markdown_inline;}
-                    ))
-                    friendly-snippets
-                    luasnip
-                    nvim-cmp
-                    cmp-nvim-lsp
-                    cmp-buffer
-                    cmp_luasnip
-                    cmp-path
-                    cmp-cmdline
-                    none-ls-nvim
-                    nvim-lspconfig
-                    nord-nvim
-                    noice-nvim
-                    lualine-nvim
-                    bufferline-nvim
-                    lspsaga-nvim
-                  ];
-
-                  luaConfigRC."lua-cfg" =
-                    builtins.readFile
-                    ../../modules/home/cli-apps/nvf/lua/cmp.lua;
-                  #"${self}/modules/home/"
-                };
-            }
-          ];
-          inherit pkgs;
-        };
-      in
-        pkgs.mkShell {
-          nativeBuildInputs = [
-            (pkgs.runCommand "nvf-lsp" {} ''
-              mkdir -p $out/bin
-              ln -s ${n.neovim}/bin/nvim $out/bin/nvf-lsp
-            '')
-          ];
-        };
-      */
 
       kattis = pkgs.mkShell {
         packages = [
           self'.packages.problem-tools
         ];
       };
-
-      # TODO: fix ldconfig: file /nix/store... .so is truncated
-      #  error / notification when entering fhs env
-      #  https://github.com/NixOS/nixpkgs/issues/352717
-      # test =
-      #   (pkgs.buildFHSEnv
-      #     {
-      #       name = "cmp-prog-fhs";
-      #       runScript = pkgs.writeShellScript "cmp-prog-init" ''
-      #         name="cmp-prog-fhs"
-      #         exec zsh
-      #       '';
-      #       targetPkgs = _pkgs: (with _pkgs; [
-      #         ]);
-      #     })
-      #   .env;
-
-      fhs-test = (pkgs.buildFHSEnv {name = "test";}).env;
 
       sec =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
@@ -152,8 +84,6 @@
               tio
 
               # pwn
-              # EXPLORE: formatStringExploiter
-              # EXPLORE: libformatstr
               pwninit
               checksec
 
@@ -216,52 +146,3 @@
     };
   };
 }
-# # example
-# {self, ...}: {
-#   imports = [
-#     ./rust.nix
-#     ./sandbox.nix
-#   ];
-#
-#   perSystem = {
-#     inputs',
-#     pkgs,
-#     self',
-#     system,
-#     ...
-#   }: {
-#     devShells.default = pkgs.mkShell {
-#       name = "configuration.nix";
-#       packages = let
-#         customPkgs = import ../packages {
-#           inherit inputs' pkgs self system;
-#         };
-#       in
-#         [
-#           inputs'.agenix.packages.default
-#           inputs'.disko.packages.default
-#           self'.formatter
-#         ]
-#         ++ (
-#           with customPkgs; [
-#             delta
-#             neovim-unwrapped
-#             nix
-#             tmux
-#           ]
-#         )
-#         ++ (
-#           with pkgs; [
-#             bat
-#             deadnix
-#             git
-#             nix-output-monitor
-#             parted
-#             smartmontools
-#             statix
-#           ]
-#         );
-#     };
-#   };
-# }
-

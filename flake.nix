@@ -90,18 +90,16 @@
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
-    # An extensible Neovim configuration wrapper.
-    nvf = {
-      # TODO: remove once https://github.com/NotAShelf/nvf/pull/485 merges
-      url = "github:horriblename/neovim-flake/fix/null-keymap";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
-    # nvf plugins
+    mnw.url = "github:Gerg-L/mnw";
+
+    # neovim plugins
     plugin-img-clip = {
       url = "github:HakonHarnes/img-clip.nvim";
+      flake = false;
+    };
+
+    plugin-neorg-interim-ls = {
+      url = "github:benlubas/neorg-interim-ls";
       flake = false;
     };
 

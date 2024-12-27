@@ -32,6 +32,9 @@ in {
   # allows for psudo-fullscreen where it doesn't actually full screen it
   # https://superuser.com/a/1742237
 
+  # EXP: tampermonkey
+  #  better cf dark mode: https://github.com/GaurangTandon/codeforces-darktheme?tab=readme-ov-file
+
   config = mkIf cfg.enable {
     home.sessionVariables = {
       BROWSER = "firefox";

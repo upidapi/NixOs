@@ -48,7 +48,7 @@ in {
         gpg = enable;
         nix-index = enable;
         # nixvim = enable;
-        nvf = enable;
+        neovim = enable;
         ssh = enable;
         wine = enable;
         # might enable if i manage to get better completions

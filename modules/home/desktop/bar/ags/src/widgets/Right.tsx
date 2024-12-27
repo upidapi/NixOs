@@ -16,6 +16,7 @@ const date = Variable("").poll(
     1000,
     `bash -c "LC_ALL=en_GB.utf8 date +'%Y-%m-%d %a %H:%M:%S'"`,
 );
+// TODO: fix the time zone
 function Time() {
     return (
         <DataContainer>

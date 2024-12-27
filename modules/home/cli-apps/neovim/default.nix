@@ -1,0 +1,265 @@
+{
+  config,
+  inputs,
+  lib,
+  my_lib,
+  pkgs,
+  ...
+}: let
+  inherit (builtins) toString path;
+  inherit (my_lib.opt) mkEnableOpt;
+
+  inherit (lib) mkIf;
+  cfg = config.modules.home.cli-apps.neovim;
+  inherit (import ./lib.nix lib) listToLuaTable;
+in {
+  imports = [
+    inputs.mnw.homeManagerModules.mnw
+  ];
+
+  options.modules.home.cli-apps.neovim =
+    mkEnableOpt "enables my neovim config";
+
+  config = mkIf cfg.enable {
+    home.sessionVariables = {EDITOR = "nvim";};
+
+    programs.mnw = {
+      enable = true;
+
+      neovim = pkgs.neovim-unwrapped;
+
+      desktopEntry = false;
+
+      withNodeJs = false;
+      withPython3 = true;
+      withRuby = false;
+
+      viAlias = false;
+      vimAlias = false;
+
+      initLua = let
+        additionalRuntimePaths = [
+          (path {
+            name = "nvim-runtime";
+            path = toString ./runtime;
+          })
+        ];
+
+        pythonDebugpy = pkgs.python3.withPackages (ps: with ps; [debugpy]);
+        # a file to passthrough values to the lua config
+        passthrough = pkgs.writeTextDir "passthrough.lua" ''
+          local M = {}
+
+          M.dap = {
+              python = "${pythonDebugpy}/bin/python3"
+          }
+
+          return M
+        '';
+      in ''
+        -- added as a fallback
+        -- set in the lua cfg if NIXOS_CONFIG_PATH is set
+        vim.opt.runtimepath:append(${listToLuaTable additionalRuntimePaths})
+
+        -- Add a debug "option" so that we can avoid running
+        -- the "built" in init if needed, for debugging
+        if not vim.env.NEOVIM_NO_LOAD_INIT then
+            package.path = package.path
+              .. ";${./.}/?.lua"
+              .. ";${passthrough}/?.lua"
+
+            require("lua.init")
+        end
+      '';
+
+      extraBinPath = with pkgs; [
+        fd # used by treesitter
+
+        # for image nvim
+        imagemagick
+        curl # (Remote images)
+        ueberzugpp
+
+        # nix
+        nixd
+        # nixfmt
+        nixfmt-rfc-style
+        nixpkgs-fmt
+        statix
+        deadnix
+
+        # python
+        ruff
+        pyright
+
+        # nu
+        nufmt # not needed?
+        nushell # nu --lsp used for the lsp
+
+        # bash
+        bash-language-server
+        shfmt
+        shellcheck
+
+        # c/cpp
+        clang-tools
+        vscode-extensions.vadimcn.vscode-lldb.adapter # codelldb - debugger
+
+        # markdown
+        markdownlint-cli2
+        marksman
+
+        # rust
+        clippy
+        rustfmt
+        rust-analyzer
+
+        # lua
+        lua-language-server
+        stylua
+
+        # css / html / json / eslint
+        vscode-langservers-extracted
+        prettierd
+
+        tailwindcss-language-server
+
+        yaml-language-server
+
+        luajitPackages.luacheck
+      ];
+
+      extraLuaPackages = ps:
+        with ps; [
+          magick # for image nvim
+
+          # for neorg
+          lua-utils-nvim
+          pathlib-nvim
+
+          cjson
+        ];
+
+      plugins = with pkgs.vimPlugins; [
+        (nvim-treesitter.withPlugins (
+          parsers:
+            with parsers; [
+              bash
+              nu
+
+              lua
+              python
+              nix
+
+              c
+              cpp
+              rust
+
+              norg
+              markdown
+              markdown_inline
+
+              regex
+
+              javascript # also jsx
+              typescript # also tsx
+              html
+              css
+
+              json
+              yaml
+              toml
+            ]
+        ))
+
+        comment-nvim
+        nvim-autopairs
+        todo-comments-nvim
+        tokyonight-nvim
+        neo-tree-nvim
+        smartcolumn-nvim
+        nvim-colorizer-lua
+        indent-blankline-nvim
+        highlight-undo-nvim
+
+        nvim-treesitter
+
+        cellular-automaton-nvim
+        toggleterm-nvim
+        nvim-web-devicons # project-nvim
+        project-nvim # dep: plenary-nvim
+        telescope-nvim
+
+        image-nvim
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "img-clip";
+          src = inputs.plugin-img-clip;
+        })
+
+        diffview-nvim
+        vim-fugitive
+
+        friendly-snippets
+        luasnip
+
+        colorizer
+
+        # completions
+        blink-cmp
+
+        # lsp
+        nvim-lspconfig
+        lspsaga-nvim
+
+        conform-nvim
+        nvim-lint
+
+        nvim-dap # dep: plenary
+        nvim-dap-virtual-text
+        nvim-dap-ui
+
+        # ui
+        nord-nvim
+        noice-nvim
+        lualine-nvim
+        bufferline-nvim
+
+        nvim-ufo
+
+        auto-save-nvim
+        guess-indent-nvim
+
+        # lua
+        lazydev-nvim
+        neodev-nvim
+        one-small-step-for-vimkind
+
+        # markdown
+
+        # python
+        nvim-dap-python
+
+        # rust
+        rustaceanvim
+        crates-nvim
+        # might need rustfmt and clippy
+
+        # ts
+        typescript-tools-nvim
+        nvim-ts-autotag
+
+        # why does neorg have so many deps?!
+        # start
+        neorg
+        neorg-telescope
+        nui-nvim
+        nvim-nio
+        plenary-nvim
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "neorg-interim-ls";
+          src = inputs.plugin-neorg-interim-ls;
+        })
+      ];
+    };
+  };
+}

@@ -9,7 +9,7 @@
     ./git.nix
     ./gpg.nix
     ./nix-index.nix
-    ./nvf
+    ./neovim
     ./ssh.nix
     ./wine.nix
     ./color-pick

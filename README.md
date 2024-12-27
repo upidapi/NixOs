@@ -53,7 +53,7 @@ A list of some of the more notable features
   - users defined in hosts/\${host name}/users/\${user name}
 - [ags](https://github.com/Aylur/ags), to create my top bar
 - [stylix](https://github.com/danth/stylix), for system styling
-- [nvf](https://github.com/NotAShelf/nvf), a wrapper around neovim
+- custom neovim config using [mnw](https://github.com/Gerg-L/mnw), a simple wrapper around neovim
 - [nix-portable](https://github.com/DavHau/nix-portable), for when you don't have nix nor root (probably doesn't atm)
 - [sops-nix](https://github.com/Mic92/sops-nix), used for declarative secrets
   - stored (encrypted) in /secrets

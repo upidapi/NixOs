@@ -54,8 +54,6 @@ in {
           (hostname: key: {
             publicKey = key;
             extraHostNames =
-              []
-              ++
               # Alias self as localhost
               lib.optional (hostname == config.networking.hostName) "localhost";
           })

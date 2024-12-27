@@ -48,8 +48,10 @@ in {
           xdg = enable;
 
           login = {
-            # FIXME: for some reason when Hyprland is run by greetd, you can open
-            #  terminals (at lest kitty and alacritty) with the binds
+            # FIXME: for some reason, when Hyprland is run in the login shell,
+            #  it results in you not being able to you can open firefox nor
+            #  kitty with the binds, however the (eg) rofi, screenshot and
+            #  color-picker's keybinds do work
             command = "sh -c Hyprland";
             autoLogin = false;
             greetd = enable;

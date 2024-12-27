@@ -12,6 +12,8 @@ in {
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
+      # TODO: check if ssh-agent is running before calling ssh-add
+      #  ps -e | grep ssh-agent
       # addKeysToAgent = "5m" ?
       # startAgent = true;
       # agentTimeout = "1m";

@@ -597,9 +597,10 @@ class Commit:
             if no_rebuild
             else "Pre rebuild commit"
         )
-
+        
         # TODO: remove when i don't manually have to do this (something
         #  is wrong about my git signing config)
+        #  (i changed the ssh config so it might not be needed)
         run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
 
         run_cmd(

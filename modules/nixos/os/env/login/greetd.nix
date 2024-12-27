@@ -25,8 +25,13 @@
 
   loginCfg = config.modules.nixos.os.env.login;
 
-  initialSession = {
-    user = "upidapi"; # TODO: "${sys.mainUser}";
+  initialSession = let
+    inherit (config.modules.nixos.os) primaryUser;
+  in {
+    user =
+      if primaryUser == null
+      then ""
+      else primaryUser;
     inherit (loginCfg) command;
   };
 

@@ -224,6 +224,8 @@ in {
         lualine-nvim
         bufferline-nvim
 
+        vim-bbye
+
         nvim-ufo
 
         auto-save-nvim

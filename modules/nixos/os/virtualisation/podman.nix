@@ -6,7 +6,7 @@
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (my_lib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.os.virtualisation.podman;
 in {
@@ -21,12 +21,10 @@ in {
       podman-tui
     ];
 
-    # TODO: virtualisation.containers.enable ?
-    #  "Enable common container config files in /etc/container"
-
-    # TODO: only enable if drivers are present?
-    # builtins.any (driver: driver == "nvidia") config.services.xserver.videoDrivers;
-    hardware.nvidia-container-toolkit = enable;
+    hardware.nvidia-container-toolkit.enable =
+      builtins.any
+      (driver: driver == "nvidia")
+      config.services.xserver.videoDrivers;
 
     virtualisation = {
       # Registries to search for images on `podman pull`

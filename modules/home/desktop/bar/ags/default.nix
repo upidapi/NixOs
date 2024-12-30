@@ -19,6 +19,7 @@ in {
   ];
 
   # TODO: use systemd-inhibit to inhibit idle with a switch
+  # TODO: fix the timezone
 
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {

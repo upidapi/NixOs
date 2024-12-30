@@ -56,27 +56,6 @@ def store-edit [path: path] {
   e $path
 }
 
-
-# increment SHLVL when entering sub-shell
-# HACK: this is a temporary fix remove once 
-#  https://github.com/nushell/nushell/issues/14384 gets resolved
-
-$env.SHLVL = $env.SHLVL? | default 0 | into int | $in + 1
-
-alias _exec = exec
-def exec [
-    command: string
-    --help (-h): string
-] {
-    $env.SHLVL -= 1
-
-    if ($help | is-empty) {
-        _exec $command
-    } else {
-        _exec -h $help
-    }
-}
-
 # $env.STARSHIP_SHELL = "bash"
 
 let zoxide_completer = {|spans|

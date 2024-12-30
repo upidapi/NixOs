@@ -66,7 +66,6 @@ in {
         diff.colorMoved = "default";
         fetch.prune = true;
         apply.whitespace = "fix";
-        # TODO: add or make it into an option: commit.template = "~/.gitmessage";
         gpg = {
           format = "ssh";
           /*

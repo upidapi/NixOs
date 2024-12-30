@@ -97,6 +97,21 @@ in {
         core: ''mkdir images; grimblast ${core} "images/${date}.png"'';
     in
       [
+        # old screen shot
+        # deps: grim, slurp
+        # ", Print, exec, grim -g \"$(slurp -w 0)\" - | wl-copy"
+
+        # manual select
+        '', Print, exec, ${mkScreenshotBind "--freeze copysave area"}''
+        # current window
+        ''SHIFT, Print, exec, ${mkScreenshotBind "copysave output"}''
+        # current screen
+        ''SHIFT, Print, exec, ${mkScreenshotBind "copysave output"}''
+        # all screens
+        ''CTRL, Print, exec, ${mkScreenshotBind "copysave screen"}''
+
+        "$mod, P, exec, color-pick"
+
         # "$mod, Q, exec, kitty"
         "$mod, S, exec, $TERMINAL"
         "$mod, D, exec, rofi -show drun"
@@ -108,19 +123,6 @@ in {
 
         "$mod, U, togglefloating"
         "$mod, I, fullscreen, 0" # entire display
-
-        # old screen shot
-        # deps: grim, slurp
-        # ", Print, exec, grim -g \"$(slurp -w 0)\" - | wl-copy"
-
-        # manual select
-        '', Print, exec, ${mkScreenshotBind "--freeze copysave area"}''
-        # current screen
-        ''SHIFT, Print, exec, ${mkScreenshotBind "copysave output"}''
-        # all screens
-        ''CTRL, Print, exec, ${mkScreenshotBind "copysave screen"}''
-
-        "$mod, P, exec, color-pick"
 
         # "$mod, F, exec, firefox"
         # ", Print, exec, grimblast copy area"

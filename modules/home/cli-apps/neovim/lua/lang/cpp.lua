@@ -5,36 +5,35 @@
 -- use same offsetEncoding as null-ls
 -- NOTE: not doing this might break things
 -- clangd_cap.offsetEncoding = { "utf-16" }
-require("lspconfig").clangd.setup {
+require("lspconfig").clangd.setup({
     -- capabilities = clangd_cap,
     -- cmd = { "/nix/store/kw7y8ysgzasbwxb8qw1a486s35nfdnlv-clang-tools-18.1.8/bin/clangd" }
-}
-
+})
 
 local dap = require("dap")
-if not dap.adapters["codelldb"] then
-    require("dap").adapters["codelldb"] = {
-        type = "server",
-        host = "localhost",
-        port = "${port}",
-        executable = {
-            command = "codelldb",
-            args = { "--port", "${port}" },
-        },
-    }
-end
+-- if not dap.adapters["codelldb"] then
+require("dap").adapters["codelldb"] = {
+    type = "server",
+    host = "127.0.0.1",
+    port = "${port}",
+    executable = {
+        command = "codelldb",
+        args = { "--port", "${port}" },
+    },
+}
+-- end
 
 dap.configurations.cpp = {
-  {
-    name = "Launch file",
-    type = "codelldb",
-    request = "launch",
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    cwd = '${workspaceFolder}',
-    stopOnEntry = false,
-  },
+    {
+        name = "Launch file",
+        type = "codelldb",
+        request = "launch",
+        program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+        end,
+        cwd = "${workspaceFolder}",
+        stopOnEntry = false,
+    },
 }
 
 dap.configurations.c = dap.configurations.cpp

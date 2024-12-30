@@ -17,8 +17,6 @@ nix
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
 
-prevent the cursor showing upp in screenshots 
-
 Virtulisation
     MAS
         free windows keys
@@ -38,6 +36,8 @@ add a no-internet group
 prevent the cursor from showing upp in screenshots
 
 replace all "upidapi" with primaryUser or adminUser
+
+
 Home lab
     nas
         local share?
@@ -95,15 +95,11 @@ himachi
 
     or some other manual thing
 
+
 keyboard 
     home row mods 
 
     iso (english) layout
-
-
-start using tmux
-    (or maybe zellij)
-
 
 
 Fix home manager backing up .zsh/history (and possibly .zsh/known_hosts)

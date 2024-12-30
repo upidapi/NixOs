@@ -1,4 +1,5 @@
 # open the (infra) sops file
+
 ```bash
 # in direnv
 sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
@@ -11,8 +12,8 @@ su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt
 sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 ```
 
+## build image
 
-# build image
 ```bash
 cd $NIXOS_CONFIG_PATH
 
@@ -28,20 +29,20 @@ sudo nix build .#images.minimal-installer
 cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 ```
 
+## mount full disk
 
-# mount full disk
 ```bash
 mkdir /btrfs_tmp; mount /dev/root_vg/root /btrfs_tmp
 ```
 
+## resan and connect to phone
 
-# resan and connect to phone
 ```bash
 PAGER=cat nmcli device wifi list --rescan yes; nmcli device wifi connect upi-phone
 ```
 
+## fetch official iso(s)
 
-# fetch official iso(s)
 ```bash
 function downloadfile {
     # resolve url redirect to get a more specific link
@@ -64,16 +65,16 @@ for name in $iso_names; do
 done
 ```
 
+## get logs
 
-# get logs
 ```bash
 systemctl --user status
 journalctl -xeu home-manager-upidapi.service
 ```
 
+## format traces
 
-# format traces
-```
+```txt
 # replace the folowing with something else
 <code>
 <primop>
@@ -82,15 +83,15 @@ journalctl -xeu home-manager-upidapi.service
 «repeated»
 ```
 
+## get logs
 
-# get logs
 ```bash
 systemctl --user status
 journalctl -xeu home-manager-upidapi.service
 ```
 
+## use to search some repos i trust for examples
 
-# use to search some repos i trust for examples
 ```py
 repos = """\
 https://github.com/notashelf/nyx

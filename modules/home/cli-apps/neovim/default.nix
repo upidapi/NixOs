@@ -103,7 +103,10 @@ in {
 
         # c/cpp
         clang-tools
+        gdb
+        lldb
         vscode-extensions.vadimcn.vscode-lldb.adapter # codelldb - debugger
+        python312Packages.six
 
         # markdown
         markdownlint-cli2

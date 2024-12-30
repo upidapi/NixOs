@@ -75,6 +75,8 @@ in {
     #  https://forum.syncthing.net/t/syncthing-prevents-linux-suspend/12885/6
     #  lid close / systemctl suspend
 
+    # NOTE: currently I've disabled syncthing to avoid this
+
     # Adding this to the file config should fix it (nope)
     # "x-systemd.device-timeout=200ms
 

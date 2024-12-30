@@ -66,15 +66,13 @@ in {
 
     programs.virt-manager.enable = true;
 
-    # based on https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF
-    # and https://github.com/nimueller/dotfiles/blob/main/nixos/hosts/desktop/virtualisation.nix
+    # REF: https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF
+    # REF: https://github.com/nimueller/dotfiles/blob/main/nixos/hosts/desktop/virtualisation.nix
 
     systemd.tmpfiles.rules = [
-      # TODO: generalise
-      "f /dev/shm/looking-glass 0660 upidapi kvm -"
+      "f /dev/shm/looking-glass 0660 root kvm -"
     ];
 
-    # referance
     boot = {
       kernelModules = [
         "kvm"
@@ -82,9 +80,8 @@ in {
       ];
     };
 
-    # TODO: probably expand this config
-
-    # TODO: add some sort of windows image for compatibility
+    # TODO: add declarative config for windows using nix-virt
+    #  and scripts to create the windows image
   };
 }
 /*

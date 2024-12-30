@@ -43,11 +43,11 @@
       # (neovim) config
       # nix develop /persist/nixos#mnw
       mnw = pkgs.mkShellNoCC {
-        shellHook = ''
-          cd /persist/nixos/modules/home/cli-apps/neovim/lua/
-          nvim .
-          exit
-        '';
+        # shellHook = ''
+        #   cd /persist/nixos/modules/home/cli-apps/neovim/lua/
+        #   nvim .
+        #   exit
+        # '';
         packages = [
           self.nixosConfigurations.upinix-pc.config.home-manager.users.upidapi.programs.mnw.finalPackage
         ];

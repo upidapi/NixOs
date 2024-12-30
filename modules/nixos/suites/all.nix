@@ -39,6 +39,9 @@ in {
       };
 
       os = {
+        primaryUser = "upidapi";
+        adminUser = "upidapi";
+
         boot = enable;
 
         env = {

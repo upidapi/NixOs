@@ -12,16 +12,8 @@ su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt
 sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 ```
 
-<<<<<<< Updated upstream
 ## build image
 
-||||||| Stash base
-
-# build image
-=======
-# build image
-
->>>>>>> Stashed changes
 ```bash
 cd $NIXOS_CONFIG_PATH
 
@@ -37,44 +29,20 @@ sudo nix build .#images.minimal-installer
 cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 ```
 
-<<<<<<< Updated upstream
 ## mount full disk
 
-||||||| Stash base
-
-# mount full disk
-=======
-# mount full disk
-
->>>>>>> Stashed changes
 ```bash
 mkdir /btrfs_tmp; mount /dev/root_vg/root /btrfs_tmp
 ```
 
-<<<<<<< Updated upstream
 ## resan and connect to phone
 
-||||||| Stash base
-
-# resan and connect to phone
-=======
-# resan and connect to phone
-
->>>>>>> Stashed changes
 ```bash
 PAGER=cat nmcli device wifi list --rescan yes; nmcli device wifi connect upi-phone
 ```
 
-<<<<<<< Updated upstream
 ## fetch official iso(s)
 
-||||||| Stash base
-
-# fetch official iso(s)
-=======
-# fetch official iso(s)
-
->>>>>>> Stashed changes
 ```bash
 function downloadfile {
     # resolve url redirect to get a more specific link
@@ -97,34 +65,16 @@ for name in $iso_names; do
 done
 ```
 
-<<<<<<< Updated upstream
 ## get logs
 
-||||||| Stash base
-
-# get logs
-=======
-# get logs
-
->>>>>>> Stashed changes
 ```bash
 systemctl --user status
 journalctl -xeu home-manager-upidapi.service
 ```
 
-<<<<<<< Updated upstream
 ## format traces
 
 ```txt
-||||||| Stash base
-
-# format traces
-```
-=======
-# format traces
-
-```
->>>>>>> Stashed changes
 # replace the folowing with something else
 <code>
 <primop>
@@ -133,31 +83,8 @@ journalctl -xeu home-manager-upidapi.service
 «repeated»
 ```
 
-<<<<<<< Updated upstream
-## get logs
-
-||||||| Stash base
-
-# get logs
-=======
-# get logs
-
->>>>>>> Stashed changes
-```bash
-systemctl --user status
-journalctl -xeu home-manager-upidapi.service
-```
-
-<<<<<<< Updated upstream
 ## use to search some repos i trust for examples
 
-||||||| Stash base
-
-# use to search some repos i trust for examples
-=======
-# use to search some repos i trust for examples
-
->>>>>>> Stashed changes
 ```py
 repos = """\
 https://github.com/notashelf/nyx

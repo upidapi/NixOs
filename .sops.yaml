@@ -1,19 +1,19 @@
 keys:
   # each key has a corresponding ssh key
 
-  - &users:
+  - &users
     - &admin age17j8hypc3ae5n3y2s20qv942ycnn33msrq3529t5zpv72mkvhgf4qx4n09e
-    
+
     - &upidapi age1ehtnj2jqzrqz4dhy7d465d0nw80v7hnsddpygtgujyyerfjyjsvsf5q7e7
 
-  - &hosts:
+  - &hosts
     - &upinix-pc age1jg86srj56t8khvv6enf3vuxyzv8ws5j7rwzy4ar2zyf082ytqcsq43s773
 
     - &upinix-laptop age1j35qp3h86grdkzk3m468gqcdpsvlsqnumakgpwc3jjt4a2cfweyqm4ewjl
 
     - &minimal-installer-x86_64 age13cn9z4c93t4wm6pr54g6sgl9jtllkljpu74nfxfq7py4vwq4c33swyw3hu
 
-    - &full-installer-x86_64 age1pv4vess6fmduczjf82f9fzemumjugl67skye6hcwytqxd9kkx9dqatxyg7  
+    - &full-installer-x86_64 age1pv4vess6fmduczjf82f9fzemumjugl67skye6hcwytqxd9kkx9dqatxyg7
 
     # host keys stored in infra.yaml/${host name}
     # user keys stored in users/${user name}.yaml/ssh-key
@@ -24,24 +24,23 @@ creation_rules:
   # - path_regex: secrets/*
   #   key_groups:
   #    - age:
-    
+
   # contains everything that is needed to setup all systems
   - path_regex: secrets/infra.yaml$
     key_groups:
       - age:
           - *admin
-  
-  # thins that all host should have accsess to           
+
+  # thins that all host should have accsess to
   - path_regex: secrets/shared.yaml$
     key_groups:
       - age:
           - *admin
 
-          - *upinix-pc 
-          - *upinix-laptop 
-          - *minimal-installer-x86_64 
-          - *full-installer-x86_64   
-  
+          - *upinix-pc
+          - *upinix-laptop
+          - *minimal-installer-x86_64
+          - *full-installer-x86_64
 
   # host secrets (eg host syncthing, however this shoud not actually be on a host level)
   - path_regex: secrets/hosts/upinix-pc.yaml$
@@ -55,7 +54,6 @@ creation_rules:
       - age:
           - *admin
           - *upinix-laptop
-  
 
   - path_regex: secrets/hosts/minimal-installer-x86_64.yaml$
     key_groups:
@@ -79,5 +77,3 @@ creation_rules:
           - *upinix-laptop
 
           - *upidapi
-
-

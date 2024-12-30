@@ -5,9 +5,9 @@ import Hyprland from "gi://AstalHyprland";
 
 const hyprland = Hyprland.get_default();
 App.start({
-    css: style,
-    main() {
-        hyprland.monitors.map((i, _) => Bar(i.id));
-        // App.get_monitors().map(Bar);
-    },
+  css: style,
+  main() {
+    hyprland.monitors.map((i, _) => Bar(i.id));
+    // App.get_monitors().map(Bar);
+  },
 });

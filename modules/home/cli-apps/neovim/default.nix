@@ -123,6 +123,7 @@ in {
 
         # css / html / json / eslint
         vscode-langservers-extracted
+        eslint_d
         prettierd
 
         tailwindcss-language-server

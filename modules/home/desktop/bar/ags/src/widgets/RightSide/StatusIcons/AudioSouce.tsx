@@ -2,7 +2,7 @@ import { bind } from "astal";
 import Wp from "gi://AstalWp";
 import { AsciiStatusIcon } from "../../StatusIcon";
 
-export default function AudioStatusIcons() {
+export default function AudioSource() {
   const audio = Wp.get_default()!;
   return (
     <AsciiStatusIcon

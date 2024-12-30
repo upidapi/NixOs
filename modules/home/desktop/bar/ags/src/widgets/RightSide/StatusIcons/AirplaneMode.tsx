@@ -1,5 +1,5 @@
 import { Variable, exec } from "astal";
-import { StatusAsciiIcon } from "./StatusIcon";
+import { AsciiStatusIcon } from "../../StatusIcon";
 
 type RfkillData = {
   rfkilldevices: {
@@ -75,9 +75,9 @@ const rfkill_data = Variable<RfkillData>(initial_frkill_data).watch(
   },
 );
 
-export default function AirplainStatusIcon() {
+export default function AirplainMode() {
   return (
-    <StatusAsciiIcon
+    <AsciiStatusIcon
       icon={rfkill_data((d: RfkillData): string => {
         // print(d);
 

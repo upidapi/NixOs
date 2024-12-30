@@ -1,14 +1,14 @@
 import DataContainer from "../../DataContainer";
-import AirplainStatusIcon from "./AirplaneStatusIcon";
-import AudioStatusIcons from "./AudioStatusIcons";
-import NetworkStatusIcon from "./NetworkStatusIcon";
+import AirplainMode from "./AirplaneMode";
+import AudioSource from "./AudioSouce";
+import NetworkStatus from "./NetworkStatus";
 
 export default function StatusIcons() {
   return (
     <DataContainer>
-      <AudioStatusIcons />
-      <AirplainStatusIcon />
-      <NetworkStatusIcon />
+      <AudioSource />
+      <AirplainMode />
+      <NetworkStatus />
     </DataContainer>
   );
 }

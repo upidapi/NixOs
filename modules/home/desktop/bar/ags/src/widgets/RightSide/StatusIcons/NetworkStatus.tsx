@@ -1,13 +1,13 @@
 import Network from "gi://AstalNetwork";
 import { Variable, bind } from "astal";
-import { StatusIcon } from "./StatusIcon";
+import { StatusIcon } from "../../StatusIcon";
 
-export default function NetworkStatusIcon() {
+export default function NetworkStatus() {
   const network = Network.get_default();
 
   // pp(network);
   return (
-    <StatusIcon
+    <StatusIcon 
       icon={Variable.derive(
         [
           bind(network, "primary"),

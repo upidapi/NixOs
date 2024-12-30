@@ -28,7 +28,11 @@ run_on_change() {
 	function execute() {
 		# clear
 		# echo "$@"
-		echo
+		echo 
+		echo 
+		echo 
+		echo 
+		echo 
 		echo "run ags"
 		eval "$1"
 	}

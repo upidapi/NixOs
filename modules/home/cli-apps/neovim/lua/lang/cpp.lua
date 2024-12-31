@@ -20,17 +20,40 @@ require("dap").adapters["codelldb"] = {
     },
 }
 
+local base_cfg = {
+    name = "Launch file",
+    type = "codelldb",
+    request = "launch",
+    program = function()
+        return vim.fn.input(
+            "Path to executable: ", --
+            vim.fn.getcwd() .. "/",
+            "file"
+        )
+    end,
+    cwd = "${workspaceFolder}",
+    stopOnEntry = false,
+}
+
+-- NOTE: has to be compiled with -ggdb
+--  g++ -ggdb main.cpp -o main.out
 dap.configurations.cpp = {
-    {
-        name = "Launch file",
-        type = "codelldb",
-        request = "launch",
-        program = function()
-            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+    base_cfg,
+    vim.tbl_deep_extend("force", base_cfg, {
+        name = "Launch file, redirect stdio",
+        stdio = function()
+            return {
+                -- vim.fn.input(
+                --     "Path to input file: ", --
+                --     vim.fn.getcwd() .. "/",
+                --     "file"
+                -- ),
+                "inp.txt",
+                nil,
+                nil,
+            }
         end,
-        cwd = "${workspaceFolder}",
-        stopOnEntry = false,
-    },
+    })
 }
 
 dap.configurations.c = dap.configurations.cpp

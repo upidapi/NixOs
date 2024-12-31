@@ -22,4 +22,6 @@
     "i8042.nopnp=1" # Don't use ACPIPnP / PnPBIOS to discover KBD/AUX controllers
     "i8042.reset=1" # Reset the controller during init and cleanup
   ];
+
+  # FIXME: i think that the update from 6.12.4 to 6.12.5 broke this
 }

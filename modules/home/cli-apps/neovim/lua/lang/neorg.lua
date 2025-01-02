@@ -20,20 +20,20 @@ require('neorg').setup({
                 },
             },
         },
-        ["external.interim-ls"] = {
-            config = {
-                -- default config shown
-                completion_provider = {
-                    -- Enable or disable the completion provider
-                    enable = true,
-
-                    -- Show file contents as documentation when you complete a file name
-                    documentation = true,
-
-                    -- Try to complete categories provided by Neorg Query. Requires `benlubas/neorg-query`
-                    categories = false,
-                }
-            }
-        },
+        -- ["external.interim-ls"] = {
+        --     config = {
+        --         -- default config shown
+        --         completion_provider = {
+        --             -- Enable or disable the completion provider
+        --             enable = true,
+        --
+        --             -- Show file contents as documentation when you complete a file name
+        --             documentation = true,
+        --
+        --             -- Try to complete categories provided by Neorg Query. Requires `benlubas/neorg-query`
+        --             categories = false,
+        --         }
+        --     }
+        -- },
     },
 })

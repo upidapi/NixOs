@@ -98,10 +98,10 @@
       flake = false;
     };
 
-    plugin-neorg-interim-ls = {
-      url = "github:benlubas/neorg-interim-ls";
-      flake = false;
-    };
+    # plugin-neorg-interim-ls = {
+    #   url = "github:benlubas/neorg-interim-ls";
+    #   flake = false;
+    # };
 
     alejandra = {
       url = "github:kamadorueda/alejandra/3.0.0";

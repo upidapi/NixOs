@@ -261,10 +261,11 @@ in {
         nui-nvim
         nvim-nio
         plenary-nvim
-        (pkgs.vimUtils.buildVimPlugin {
-          name = "neorg-interim-ls";
-          src = inputs.plugin-neorg-interim-ls;
-        })
+        # broken
+        # (pkgs.vimUtils.buildVimPlugin {
+        #   name = "neorg-interim-ls";
+        #   src = inputs.plugin-neorg-interim-ls;
+        # })
       ];
     };
   };

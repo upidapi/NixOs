@@ -26,14 +26,16 @@ in {
 
     environment.systemPackages = with pkgs; [
       # various os(s) vm images that can be started with one command
-      quickemu
+      # FIXME: broken, fixed by https://github.com/NixOS/nixpkgs/pull/369622
+      #  quickemu
 
       # frontend for libvirt
       virt-manager
 
       # VGA PCI Pass-through without an attached physical monitor,
       # keyboard nor mouse.
-      looking-glass-client
+      # FIXME: broken,  https://github.com/NixOS/nixpkgs/pull/369556
+      #  looking-glass-client
     ];
 
     virtualisation.libvirtd = {

@@ -58,16 +58,22 @@ in {
       };
 
       os = {
+        primaryUser = "upidapi";
+        adminUser = "upidapi";
+
         boot = enable;
 
-        environment = {
+        env = {
           fonts = enable;
           locale = enable;
           paths = enable;
-          vars = enable;
+          xdg = enable;
         };
 
-        networking = enable;
+        networking = {
+          wifi = enable;
+          iphone-tethering = enable;
+        };
 
         misc = {
           console = enable;

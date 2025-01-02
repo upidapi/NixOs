@@ -41,6 +41,7 @@ mkdir /btrfs_tmp; mount /dev/root_vg/root /btrfs_tmp
 PAGER=cat nmcli device wifi list --rescan yes; nmcli device wifi connect upi-phone
 ```
 
+<<<<<<< HEAD
 ## fetch official iso(s)
 
 ```bash

@@ -42,5 +42,10 @@ def get_github_search():
 
 get_github_search()
 
-
-# lang:nix (repo:notashelf/nyx OR repo:nobbz/nixos-config OR repo:fufexan/dotfiles OR repo:mitchellh/nixos-config OR repo:mic92/dotfiles OR repo:workflow/dotfiles OR repo:notohh/snowflake OR repo:misterio77/nix-config OR repo:hlissner/dotfiles OR repo:gvolpe/nix-config)
+"""
+lang:nix (repo:notashelf/nyx OR repo:nobbz/nixos-config OR 
+repo:fufexan/dotfiles OR repo:mitchellh/nixos-config OR 
+repo:mic92/dotfiles OR repo:workflow/dotfiles OR 
+repo:notohh/snowflake OR repo:misterio77/nix-config OR 
+repo:hlissner/dotfiles OR repo:gvolpe/nix-config)
+"""

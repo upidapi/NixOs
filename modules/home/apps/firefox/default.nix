@@ -320,6 +320,9 @@ in {
             "privacy.trackingprotection.socialtracking.enabled" = true;
 
             # ---------- the following is my custom ---------
+            # disable the "is now full-screen" thingy
+            "full-screen-api.warning.timeout" = 0;
+
             # enable extensions by default
             # https://support.mozilla.org/en-US/questions/1219401
             "extensions.autoDisableScopes" = 0;

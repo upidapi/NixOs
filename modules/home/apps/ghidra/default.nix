@@ -31,7 +31,6 @@ in {
       #  the version so you have to update this each time ghidra
       #  updates
 
-      # TODO: submit a pr or issue for that
       home.file."${ghidra_dir}/themes/apple.theme".text = builtins.readFile ./apple.theme;
 
       # maybe disable the tips

@@ -19,7 +19,6 @@ in {
     };
 
     # FIXME: this does not correctly sync the time
-    # TODO: fix the time zone
 
     networking.timeServers = [
       "0.nixos.pool.ntp.org"

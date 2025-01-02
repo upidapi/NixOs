@@ -77,6 +77,7 @@ require('todo-comments').setup({
         },
         FIX = {
             alt = {
+                "BROKEN",
                 "FIXME",
                 "BUG",
                 "FIXIT",

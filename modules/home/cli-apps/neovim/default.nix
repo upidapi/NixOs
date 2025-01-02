@@ -210,6 +210,7 @@ in {
 
         # completions
         blink-cmp
+        blink-compat
 
         # lsp
         nvim-lspconfig

@@ -4,9 +4,10 @@ require('neorg').setup({
         ["core.concealer"] = {},
         ["core.completion"] = {
             config = {
-                engine = {
-                    module_name = "external.lsp-completion"
-                },
+                -- engine = {
+                --     module_name = "external.lsp-completion"
+                -- },
+                engine = "nvim-cmp";
             },
         },
         -- ["core.integrations.image"] = {},

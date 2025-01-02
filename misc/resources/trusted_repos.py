@@ -12,24 +12,26 @@ https://github.com/hlissner/dotfiles
 https://github.com/gvolpe/nix-config
 """
 
-parsed = [
-    x.strip()
-    for x in repos.split("\n")
-    if x.strip() != ""
-]
+parsed = [x.strip() for x in repos.split("\n") if x.strip() != ""]
 
-data = [{
+data = [
+    {
         "url": data,
         "host": data.split("/")[2],
         "user": data.split("/")[3],
         "name": data.split("/")[4],
-    } for data in parsed
+    }
+    for data in parsed
 ]
 
+
 def get_github_search():
-    repos = " OR ".join([f"repo:{d['user']}/{d['name']}" for d in data])
+    repos = " OR ".join(
+        [f"repo:{d['user']}/{d['name']}" for d in data]
+    )
 
     print(f"lang:nix ({repos})")
+
 
 # def gen_md_credits():
 #     print(

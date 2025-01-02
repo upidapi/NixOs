@@ -1,4 +1,4 @@
-## Description
+# Description
 
 Welcome to my overengineerd configuration for my computer systems. A concoction
 of my better hallucinations, very carefully bashed together to (hopefully) do
@@ -97,14 +97,15 @@ cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 
 ## Inspiration
 
-Some of the people that I've ~stolen from~ been inspired by. There's a lot more
-but i tend to forget to add them. Check the bottom of the resources.md file for
-repos i typically to check for examples in.
+Some of the people that I've ~stolen from~ been inspired by. There's probably
+a lot more but I tend to forget to add them. Check the bottom of the
+[resources.md](/misc/resources.md) and my github stars for repos i typically to
+check for examples in.
 
 - [jakehamilton](https://github.com/jakehamilton/config) -
-  Config structure, modules, suites, etc
+  config structure, modules, suites, etc
 - [notashelf](https://github.com/notashelf/nyx) -
-  Config file structure, random things
+  config file structure, random things
 - [lokegustafsson](https://github.com/lokegustafsson/nixos-getting-started) -
   nix config, especially the global pining of nixpkgs
 - [ErrorNoInternet](https://github.com/ErrorNoInternet/configuration.nix) -

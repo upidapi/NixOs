@@ -38,6 +38,8 @@ in {
     };
 
     virtualisation.libvirt = {
+      enable = true;
+
       swtpm.enable = true;
 
       connections."qemu:///session".domains = [
@@ -66,7 +68,7 @@ in {
       connections."qemu:///session".pools = [
         {
           active = true;
-          definition = nlib.pool.getXML {
+          definition = nlib.pool.writeXML {
             name = "home";
             uuid = "fef60081-fb06-47f2-aa34-f23e1ec12dbc";
             type = "dir";

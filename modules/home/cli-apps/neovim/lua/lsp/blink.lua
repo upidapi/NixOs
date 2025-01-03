@@ -47,14 +47,13 @@ require("blink.cmp").setup({
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
         default = { 'lsp', 'path', 'snippets', 'luasnip', 'buffer' },
+        -- doesn't work?
+        providers = {
+            lsp = { score_offset = 2, },
+            path = { score_offset = 1, },
+            snippets = { score_offset = 5, },
+            luasnip = { score_offset = 5, },
+            buffer = { score_offset = -1, },
+        }
     },
-
-    -- doesn't work?
-    providers = {
-        lsp = { score_offset = 2, },
-        path = { score_offset = 1, },
-        snippets = { score_offset = 5, },
-        luasnip = { score_offset = 5, },
-        buffer = { score_offset = -1, },
-    }
 })

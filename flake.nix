@@ -78,7 +78,7 @@
       # inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    NixVirt = {
+    nixvirt = {
       url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };

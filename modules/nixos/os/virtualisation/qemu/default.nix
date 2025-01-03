@@ -3,6 +3,7 @@
   my_lib,
   lib,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
@@ -11,7 +12,9 @@
 in {
   options.modules.nixos.os.virtualisation.qemu =
     mkEnableOpt "enables the qemu for running vm(s)";
-  # imports = [inputs.NixVirt.nixosModules.default];
+
+  imports = [inputs.nixvirt.nixosModules.default];
+
   config = mkIf cfg.enable {
     # (writeScriptBin "iommu-groups" ''
     # #!/usr/bin/env bash
@@ -38,6 +41,7 @@ in {
       #  looking-glass-client
     ];
 
+    # REF: https://github.com/Lillecarl/nixos/blob/ba287ceaf13ee9ceb940db6454838582959c5d3e/hosts/_shared/libvirt.nix#L25
     virtualisation.libvirtd = {
       enable = true;
 
@@ -55,6 +59,11 @@ in {
 
         # virtual tpm
         swtpm = enable;
+
+        # maybe
+        # vhostUserPackages = [
+        #   pkgs.virtiofsd
+        # ];
       };
 
       onBoot = "ignore";
@@ -81,9 +90,6 @@ in {
         "kvm_amd"
       ];
     };
-
-    # TODO: add declarative config for windows using nix-virt
-    #  and scripts to create the windows image
   };
 }
 /*

@@ -29,6 +29,15 @@ in {
     # want to sync, eg big downloaded iso(s)
     systemd.tmpfiles.settings = {
       "syncthing-ignore" = {
+        # prevent race condition for creating it
+        # otherwise the creation of .config/syncthing might cause .config
+        # to be owned by root
+        "/home/upidapi/.config" = {
+          d = {
+            user = "upidapi";
+            group = "users";
+          };
+        };
         "/home/upidapi/persist" = {
           d = {
             user = "upidapi";

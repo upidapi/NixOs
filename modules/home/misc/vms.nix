@@ -51,7 +51,7 @@ in {
         (mkIf cfg.w11 {
           definition = nlib.domain.writeXML (nlib.domain.templates.windows
             rec {
-              name = "w11";
+              name = "w11-test";
               uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593aaa";
               memory = {
                 count = 16;
@@ -88,6 +88,20 @@ in {
               present = true;
               definition = nlib.volume.writeXML {
                 name = "w11.qcow2";
+                capacity = {
+                  count = 100;
+                  unit = "GiB";
+                };
+                target = {
+                  format.type = "qcow2";
+                };
+              };
+            })
+
+            (mkIf cfg.w11 {
+              present = true;
+              definition = nlib.volume.writeXML {
+                name = "w11-test.qcow2";
                 capacity = {
                   count = 100;
                   unit = "GiB";

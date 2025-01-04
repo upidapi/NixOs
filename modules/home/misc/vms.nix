@@ -11,7 +11,7 @@
   nlib = nixvirt.lib;
 
   cfg = config.modules.home.misc.vms;
-  home-persist = "/persist/system/home/${config.home.username}/persist";
+  home-persist = "/home/${config.home.username}/persist";
 in {
   imports = [
     inputs.nixvirt.homeModules.default
@@ -38,7 +38,10 @@ in {
     };
 
     # REF: https://github.com/Svenum/holynix/blob/295a24e8e2f97298f21e8b2d0112ed8cb919b657/systems/x86_64-linux/Yon/kvm.nix#L134
+
     # NOTE: the config is located at .config/libvirt/qemu
+    #  and the virt-manager is located at /var/lib/libvirt/
+
     virtualisation.libvirt = {
       enable = true;
 
@@ -80,6 +83,7 @@ in {
           };
           volumes = [
             (mkIf cfg.w11 {
+              present = true;
               definition = nlib.volume.writeXML {
                 name = "w11.qcow2";
                 capacity = {

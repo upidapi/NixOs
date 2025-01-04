@@ -359,3 +359,5 @@ lcm
 passthrough
 tsx
 linter
+vms
+libvirt

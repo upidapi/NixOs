@@ -37,6 +37,8 @@ in {
       uris = ["qemu:///system"];
     };
 
+    # REF: https://github.com/Svenum/holynix/blob/295a24e8e2f97298f21e8b2d0112ed8cb919b657/systems/x86_64-linux/Yon/kvm.nix#L134
+    # NOTE: the config is located at .config/libvirt/qemu
     virtualisation.libvirt = {
       enable = true;
 
@@ -70,7 +72,7 @@ in {
           active = true;
           definition = nlib.pool.writeXML {
             name = "home";
-            uuid = "fef60081-fb06-47f2-aa34-f23e1ec12dbc";
+            uuid = "ac82824e-567a-43f2-8915-644f4809f540";
             type = "dir";
             target = {
               path = "${home-persist}/vms/storage/";

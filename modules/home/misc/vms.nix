@@ -11,7 +11,7 @@
   nlib = nixvirt.lib;
 
   cfg = config.modules.home.misc.vms;
-  home-persist = "/home/${config.home.username}/persist";
+  home-persist = "/home/${config.home.username}/test";
 in {
   imports = [
     inputs.nixvirt.homeModules.default

@@ -11,7 +11,7 @@
   nlib = nixvirt.lib;
 
   cfg = config.modules.home.misc.vms;
-  home-persist = "/home/${config.home.username}/test";
+  home-persist = "/persist/system/home/${config.home.username}/persist";
 in {
   imports = [
     inputs.nixvirt.homeModules.default
@@ -78,6 +78,8 @@ in {
             uuid = "ac82824e-567a-43f2-8915-644f4809f540";
             type = "dir";
             target = {
+              # NOTE: if this doesn't exist then libvirt chrashes and since its
+              #  a part of the home-manager activation script it too chrashes
               path = "${home-persist}/vms/storage/";
             };
           };

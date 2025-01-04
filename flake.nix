@@ -78,8 +78,12 @@
       # inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # nixvirt = {
+    #   url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nixvirt = {
-      url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
+      url = "github:upidapi/NixVirt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -916,11 +916,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1736002965,
-        "narHash": "sha256-kKHtzM3a0HVWsHgK8BsM9KW8yXN+Eze8A/8nrf8KM7Q=",
+        "lastModified": 1736004150,
+        "narHash": "sha256-dpT1tP7WhkubMd/0YoiEU5JhLXBTeX4+7gi2MSLDW0A=",
         "owner": "upidapi",
         "repo": "NixVirt",
-        "rev": "2e01f41a1982ae085df80fcd0fac68c018635b0a",
+        "rev": "18de3476cc2fab682f96f4f4250470a7d17fc1a7",
         "type": "github"
       },
       "original": {

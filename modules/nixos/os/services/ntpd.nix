@@ -18,7 +18,9 @@ in {
       hardwareClockInLocalTime = false; # this somehow breaks if Impermanence is enabled
     };
 
-    # FIXME: this does not correctly sync the time
+    # NOTE: this might not work
+    #  had an issue before but after reinstalling the bootloader it seams to
+    #  have fixed itself
 
     networking.timeServers = [
       "0.nixos.pool.ntp.org"

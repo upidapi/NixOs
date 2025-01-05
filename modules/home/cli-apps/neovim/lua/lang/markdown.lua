@@ -26,7 +26,7 @@ require("conform").formatters_by_ft.markdown = {
 
 
 require("lint").linters_by_ft.markdown = {
-    "markdownlint-cli2"
+    -- "markdownlint-cli"
 }
 
 

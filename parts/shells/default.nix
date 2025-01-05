@@ -41,7 +41,7 @@
 
       # a devshell that builds and opens an editor with the current mnw
       # (neovim) config
-      # nix develop /persist/nixos#mnw -c bash -c "nvim /persist/nixos"
+      # nix develop /persist/nixos#mnw -c bash -c "nvim /persist/nixos; exit"
       #
       mnw = pkgs.mkShellNoCC {
         # shellHook = ''

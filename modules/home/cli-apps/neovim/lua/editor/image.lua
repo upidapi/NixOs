@@ -7,6 +7,7 @@
 --    https://github.com/3rd/image.nvim/issues/62#issuecomment-2250831591
 --
 -- default config + ueberzug
+--
 require("image").setup({
     -- backend = "ueberzug",
     backend = "kitty",

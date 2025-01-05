@@ -194,7 +194,7 @@ in {
         project-nvim # dep: plenary-nvim
         telescope-nvim
 
-        image-nvim
+        # image-nvim
         (pkgs.vimUtils.buildVimPlugin {
           name = "img-clip";
           src = inputs.plugin-img-clip;

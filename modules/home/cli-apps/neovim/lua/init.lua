@@ -30,7 +30,7 @@ local modules = {
     -- "lua.plugins.toggleterm",
 
     "lua.reload",
-    "lua.dbg-load", 
+    "lua.tmp", 
     "lua.mappings",
     "lua.icons",
 

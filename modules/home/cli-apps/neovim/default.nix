@@ -66,7 +66,9 @@ in {
         if not vim.env.NEOVIM_NO_LOAD_INIT then
             package.path = package.path
               .. ";${./.}/?.lua"
+              .. ";${./.}/?/init.lua"
               .. ";${passthrough}/?.lua"
+              .. ";${passthrough}/?/init.lua"
 
             require("lua.init")
         end
@@ -195,6 +197,31 @@ in {
         telescope-nvim
 
         # image-nvim
+        # TODO: switch bask to the "image-nvim" pkgs when my pr merges
+        #  https://github.com/3rd/image.nvim/pull/266
+        (pkgs.neovimUtils.buildNeovimPlugin {
+          pname = "image.nvim";
+          version = "2024-11-10";
+          src = pkgs.fetchFromGitHub {
+            owner = "upidapi";
+            repo = "image.nvim";
+            rev = "6915dd057ed8a29d09db8495b8746a54073b028d";
+            sha256 = "sha256-SgTr0AhlPMmGDKAFpaL+W/nK6zLmh/s+wGD5XcaMFyo=";
+          };
+          meta.homepage = "https://github.com/3rd/image.nvim/";
+        })
+
+        # (buildNeovimPlugin {
+        #   pname = "image.nvim";
+        #   version = "2024-11-10";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "3rd";
+        #     repo = "image.nvim";
+        #     rev = "7f61c1940a8b072ca47a28928d2375dc1e11f464";
+        #     sha256 = "0fqnz4wpw7ab1j0y4zqafazjg6q0rc66n71awx4wbxilikca80ml";
+        #   };
+        #   meta.homepage = "https://github.com/3rd/image.nvim/";
+        # })
         (pkgs.vimUtils.buildVimPlugin {
           name = "img-clip";
           src = inputs.plugin-img-clip;

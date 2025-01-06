@@ -37,7 +37,7 @@ other things you probably want to do when rebuilding and working on your config.
 It might sound a bit to verbose but its really nice to have when you eventually
 mess something up.
 
-![desktop](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop-minimal.png?raw=true)
+![document](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop-minimal.png?raw=true)
 
 ## Features
 

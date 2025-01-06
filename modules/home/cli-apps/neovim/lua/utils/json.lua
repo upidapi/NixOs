@@ -128,7 +128,7 @@ encode = function(val, stack)
         if status then
             return result
         else
-            return "\"[ERROR]\""
+            return "\"[ERROR: " .. result .. "]\""
         end
     end
 

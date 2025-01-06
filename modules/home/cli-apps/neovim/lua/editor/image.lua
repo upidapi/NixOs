@@ -1,11 +1,5 @@
 ----- image nvim ------
 -- https://github.com/3rd/image.nvim
-
--- TODO: image nvim miss calculates where images should be
---  when you use wrapping
---  this issue mentions it: 
---    https://github.com/3rd/image.nvim/issues/62#issuecomment-2250831591
---
 -- default config + ueberzug
 --
 require("image").setup({

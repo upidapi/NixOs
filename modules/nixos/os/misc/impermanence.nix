@@ -96,6 +96,7 @@ in {
         "/var/lib/bluetooth"
         "/var/lib/nixos" # contains user/group id map
         "/var/lib/systemd/coredump"
+        "/var/lib/systemd/backlight/" # persist backlight
         "/etc/NetworkManager/system-connections"
         "/srv/restic-repo" # backups
 

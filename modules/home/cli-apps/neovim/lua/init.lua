@@ -5,30 +5,6 @@
 vim.loader.enable()
 
 local modules = {
-    -- "lua.misc",
-    --
-    -- "lua.lsp",
-    -- "lua.mappings",
-    -- "lua.mouse",
-    -- "lua.reload",
-    -- "lua.text",
-    --
-    -- "lua.ui",
-    -- "lua.plugins.lualine",
-    --
-    -- -- setting the theme in ui also sets spell color
-    -- "lua.spell",
-    --
-    -- "lua.plugins.telescope",
-    -- "lua.plugins.todo-comments", -- has to be after telescope
-    --
-    -- "lua.plugins.cell-auto",
-    -- "lua.plugins.dap",
-    -- "lua.plugins.image",
-    -- "lua.plugins.luasnip",
-    -- "lua.plugins.neorg",
-    -- "lua.plugins.toggleterm",
-
     "lua.reload",
     "lua.tmp", 
     "lua.mappings",

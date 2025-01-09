@@ -62,6 +62,8 @@ in {
 
         ".local/share/Steam"
 
+        ".local/share/zoxide" # zoxide history
+
         # ghidra stores state in here
         # its actually in a sub folder based on its version
         # but it too anoying to target that

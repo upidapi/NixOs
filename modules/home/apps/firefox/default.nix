@@ -23,7 +23,9 @@ in {
   #  could use https://github.com/mmmintdesign/Zen-Mod-Forbidden-Horizontal-Tabs
   #
   #  can be run thrugh this flake
-  #  https://github.com/VCPYC/zen-browser-flake
+  #  https://github.com/0xc000022070/zen-browser-flake
+  #
+  #  good config https://github.com/SergioRibera/dotfiles/blob/main/home/desktop/browser/zen/default.nix
 
   # possibly might disable the restore screen
   # browser.sessionstore.resume_from_crash
@@ -261,7 +263,7 @@ in {
           ];
 
           settings = {
-            # "barrowed" from https://github.com/TLATER/dotfiles/blob/b39af91fbd13d338559a05d69f56c5a97f8c905d/home-config/config/graphical-applications/firefox.nix
+            # REF: https://github.com/TLATER/dotfiles/blob/main/home-config/config/graphical-applications/firefox.nix
             "general.smoothScroll" = true;
 
             # Performance settings

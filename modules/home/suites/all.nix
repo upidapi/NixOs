@@ -51,8 +51,7 @@ in {
         neovim = enable;
         ssh = enable;
         wine = enable;
-        # might enable if i manage to get better completions
-        # zoxide = enable;
+        zoxide = enable;
       };
 
       terminal = {

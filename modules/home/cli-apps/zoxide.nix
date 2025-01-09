@@ -12,7 +12,12 @@ in {
     mkEnableOpt "Whether or not to add zoxide a modern replacement for cd";
 
   config = mkIf cfg.enable {
-    programs.zoxide = enable;
+    programs.zoxide = {
+      enable = true;
+      options = [
+        "--no-cmd"
+      ];
+    };
 
     modules.home.terminal.shellAliases = {
       cd = "__zoxide_z";

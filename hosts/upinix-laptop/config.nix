@@ -37,10 +37,10 @@ in {
 
   hardware = {
     tuxedo-drivers = enable;
-    tuxedo-rs = {
-      enable = true;
-      tailor-gui = enable;
-    };
+    # tuxedo-rs = {
+    #   enable = true;
+    #   tailor-gui = enable;
+    # };
   };
 
   modules.nixos = {

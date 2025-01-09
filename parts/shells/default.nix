@@ -128,7 +128,7 @@
               alsa-lib
 
               # crypto
-              sage
+              # BROKEN: sage
 
               (python3.withPackages (
                 python-pkgs:

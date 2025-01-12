@@ -21,10 +21,11 @@ in {
 
   config = mkIf cfg.enable {
     # allow spotify to be installed if you don't have unfree enabled already
-    nixpkgs.config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "spotify"
-      ];
+    # wouldn't do anything? since useGlobalPkgs is enabled
+    # nixpkgs.config.allowUnfreePredicate = pkg:
+    #   builtins.elem (lib.getName pkg) [
+    #     "spotify"
+    #   ];
 
     programs.spicetify = {
       enable = true;

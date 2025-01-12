@@ -30,7 +30,7 @@ in {
     environment.systemPackages = with pkgs; [
       # various os(s) vm images that can be started with one command
       # BROKEN: fixed by https://github.com/NixOS/nixpkgs/pull/369622
-      # quickemu
+      quickemu
 
       # frontend for libvirt
       virt-manager
@@ -38,7 +38,7 @@ in {
       # VGA PCI Pass-through without an attached physical monitor,
       # keyboard nor mouse.
       # BROKEN:  https://github.com/NixOS/nixpkgs/pull/369556
-      # looking-glass-client
+      looking-glass-client
     ];
 
     # REF: https://github.com/Lillecarl/nixos/blob/ba287ceaf13ee9ceb940db6454838582959c5d3e/hosts/_shared/libvirt.nix#L25

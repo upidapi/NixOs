@@ -5,7 +5,12 @@ require("blink.cmp").setup({
     -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
     -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
     -- See the full "keymap" documentation for information on defining your own keymap.
-    keymap = { preset = 'default' },
+    keymap = {
+        preset = "default",
+
+        ["<C-j>"] = { 'snippet_forward', 'fallback' },
+        ["<C-k>"] = { 'snippet_backward', 'fallback' },
+    },
 
     appearance = {
         -- Sets the fallback highlight groups to nvim-cmp's highlight groups
@@ -14,9 +19,9 @@ require("blink.cmp").setup({
         use_nvim_cmp_as_default = true,
         -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = 'mono',
+        nerd_font_variant = "mono",
 
-        kind_icons = require("lua.icons").kinds
+        kind_icons = require("lua.icons").kinds,
     },
 
     completion = {
@@ -27,10 +32,10 @@ require("blink.cmp").setup({
         menu = {
             border = "rounded",
             draw = {
-                columns = { { 'kind' }, { 'label', 'label_description', gap = 1 } },
+                columns = { { "kind" }, { "label", "label_description", gap = 1 } },
                 treesitter = { "lsp" },
                 -- winhighligh = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,EndOfBuffer:BlinkCmpDoc"
-            }
+            },
         },
 
         documentation = {
@@ -39,21 +44,21 @@ require("blink.cmp").setup({
 
             window = {
                 border = "rounded",
-            }
-        }
+            },
+        },
     },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-        default = { 'lsp', 'path', 'snippets', 'luasnip', 'buffer' },
+        default = { "lsp", "path", "snippets", "luasnip", "buffer" },
         -- doesn't work?
         providers = {
-            lsp = { score_offset = 2, },
-            path = { score_offset = 1, },
-            snippets = { score_offset = 3, },
-            luasnip = { score_offset = 3, },
-            buffer = { score_offset = 0, },
-        }
+            lsp = { score_offset = 2 },
+            path = { score_offset = 1 },
+            snippets = { score_offset = 3 },
+            luasnip = { score_offset = 3 },
+            buffer = { score_offset = 0 },
+        },
     },
 })

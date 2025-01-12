@@ -35,6 +35,18 @@ def main():
     )
 
     dev_shells = get_dev_shells()
+  
+    parser.add_argument(
+        "-u", "--unfree",
+        action="store_true",
+        default=False,
+    )
+
+    parser.add_argument(
+        "-i", "--impure",
+        action="store_true",
+        default=False,
+    )
 
     parser.add_argument(
         "devshell",
@@ -49,9 +61,11 @@ def main():
     selected_shell = args.devshell
     if selected_shell not in dev_shells:
         print(f'invallid shell: "{selected_shell}" valid shells: "{dev_shells}"')
-
+    
+    imp = (args.impure + args.unfree) * "--impure"
+    unf = args.unfree * "NIXPKGS_ALLOW_UNFREE=1 "
     subprocess.run(
-        f"nix develop --impure $NIXOS_CONFIG_PATH#{selected_shell}",
+        f"{unf}nix develop {imp} $NIXOS_CONFIG_PATH#{selected_shell}",
         shell=True,
         check=False,
     )

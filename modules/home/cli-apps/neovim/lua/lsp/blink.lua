@@ -26,7 +26,17 @@ require("blink.cmp").setup({
 
     completion = {
         list = {
-            selection = "auto_insert",
+            selection = {
+                -- auto select first item
+                preselect = true,
+
+                -- When `true`, inserts the completion item automatically when 
+                -- selecting it
+                -- You may want to bind a key to the `cancel` command 
+                -- (default <C-e>) when using this option, 
+                -- which will both undo the selection and hide the completion menu
+                auto_insert = true,
+            },
         },
 
         menu = {
@@ -40,24 +50,25 @@ require("blink.cmp").setup({
 
         documentation = {
             auto_show = true,
-            auto_show_delay_ms = 0,
+            auto_show_delay_ms = 100,
 
             window = {
                 border = "rounded",
             },
         },
     },
+    
+    snippets = { preset = 'luasnip' },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-        default = { "lsp", "path", "snippets", "luasnip", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer" },
         -- doesn't work?
         providers = {
             lsp = { score_offset = 2 },
             path = { score_offset = 1 },
             snippets = { score_offset = 3 },
-            luasnip = { score_offset = 3 },
             buffer = { score_offset = 0 },
         },
     },

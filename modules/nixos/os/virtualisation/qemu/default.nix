@@ -29,7 +29,6 @@ in {
 
     environment.systemPackages = with pkgs; [
       # various os(s) vm images that can be started with one command
-      # BROKEN: fixed by https://github.com/NixOS/nixpkgs/pull/369622
       quickemu
 
       # frontend for libvirt
@@ -37,7 +36,6 @@ in {
 
       # VGA PCI Pass-through without an attached physical monitor,
       # keyboard nor mouse.
-      # BROKEN:  https://github.com/NixOS/nixpkgs/pull/369556
       looking-glass-client
     ];
 

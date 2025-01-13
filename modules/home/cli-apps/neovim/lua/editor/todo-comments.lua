@@ -106,6 +106,9 @@ require('todo-comments').setup({
             icon = "󰅒 "
         },
         REF = {
+            alt = {
+                "FROM",
+            },
             color = "hint",
             icon = " "
         },

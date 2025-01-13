@@ -10,6 +10,10 @@
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.firefox;
 in {
+  imports = [
+    ./extension-settings.nix
+  ];
+
   options.modules.home.apps.firefox =
     mkEnableOpt "enables firefox";
 
@@ -34,8 +38,7 @@ in {
   # allows for psudo-fullscreen where it doesn't actually full screen it
   # https://superuser.com/a/1742237
 
-  # EXP: tampermonkey
-  #  better cf dark mode: https://github.com/GaurangTandon/codeforces-darktheme?tab=readme-ov-file
+  # tampermonkey and stylus can be a good source for user scripts
 
   config = mkIf cfg.enable {
     home.sessionVariables = {

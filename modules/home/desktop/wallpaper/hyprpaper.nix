@@ -12,6 +12,8 @@ in {
   options.modules.home.desktop.wallpaper.hyprpaper =
     mkEnableOpt "enables hyprpaper, a wallpaper daemion";
 
+  # FIXME: the bottom row of pixels don't get cleared on my laptop
+  #  (it has fractional scaling)
   config = mkIf cfg.enable {
     home.packages = [pkgs.hyprpaper];
 

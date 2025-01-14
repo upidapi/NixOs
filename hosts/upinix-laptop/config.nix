@@ -13,10 +13,11 @@ in {
 
   system.stateVersion = "23.11";
 
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    supportedFilesystems.zfs = lib.mkForce false;
-  };
+  # not needed
+  # boot = {
+  #   kernelPackages = pkgs.linuxPackages_latest;
+  #   supportedFilesystems.zfs = lib.mkForce false;
+  # };
 
   users.users.upidapi = {
     isNormalUser = true;

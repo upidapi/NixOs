@@ -14,7 +14,8 @@ in {
   system.stateVersion = "23.11";
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_11;
+    # kernelPackages = pkgs.linuxPackages_6_11;
+    kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems.zfs = lib.mkForce false;
   };
 

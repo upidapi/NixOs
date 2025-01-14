@@ -266,7 +266,7 @@ in {
           ];
 
           settings = {
-            # REF: https://github.com/TLATER/dotfiles/blob/main/home-config/config/graphical-applications/firefox.nix
+            # FROM: https://github.com/TLATER/dotfiles/blob/main/home-config/config/graphical-applications/firefox.nix
             "general.smoothScroll" = true;
 
             # Performance settings
@@ -340,6 +340,9 @@ in {
             # 0 auto, 1 light, 2 dark
             "blayout.css.prefers-color-scheme.content-override" = 2;
 
+            # enable the userChrome
+            "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
             "browser.newtabpage.activity-stream.feeds.topsites" = true;
             "browser.newtabpage.pinned" = [
               {url = "https://www.youtube.com/";}
@@ -353,16 +356,6 @@ in {
           # firefox hardening
           # https://github.com/arkenfox/user.js/blob/master/user.js
 
-          extraConfig = ''
-            user_pref("extensions.autoDisableScopes", 0);
-            user_pref("browser.aboutConfig.showWarning", false);
-
-            // 0 auto, 1 light, 2 dark
-            user_pref("blayout.css.prefers-color-scheme.content-override", 2);
-
-            # enable the userChrome
-            user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
-          '';
           /*
             user_pref("full-screen-api.ignore-widgets", true);
             user_pref("media.ffmpeg.vaapi.enabled", true);

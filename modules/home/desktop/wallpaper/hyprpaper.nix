@@ -13,10 +13,6 @@ in {
     mkEnableOpt "enables hyprpaper, a wallpaper daemion";
 
   config = mkIf cfg.enable {
-    wayland.windowManager.hyprland.settings = {
-      exec-once = ["hyprpaper"];
-    };
-
     home.packages = [pkgs.hyprpaper];
 
     services.hyprpaper = {

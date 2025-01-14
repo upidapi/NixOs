@@ -3,7 +3,6 @@
 there's a few more at [/misc/resources](/misc/resources)
 
 ## open the (infra) sops file
-
 ```bash
 # in direnv
 sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
@@ -72,13 +71,14 @@ mount -o subvol=/root /dev/sda/root_vg/root /mnt
 ## install the nixos bootloader
 
 ```bash
-mount -o subvol=/root /dev/sda/root_vg/root /mnt
-mount -o subvol=/nix /dev/sda/root_vg/root /nix
-mount -o subvol=/persist /dev/sda/root_vg/root /persist
+mount -o subvol=/root /dev/root_vg/root /mnt
+mount -o subvol=/nix /dev/root_vg/root /mnt/nix
+mount -o subvol=/persist /dev/root_vg/root /mnt/persist
 
-mount /dev/sda2 /boot
+mount /dev/sda2 /mnt/boot
 
 nixos-enter
+
 NIXOS_INSTALL_BOOTLOADER=1 \ 
-    /nix/var/nix/profiles/system/bin/switch-to-configuration boo
+    /nix/var/nix/profiles/system/bin/switch-to-configuration boot
 ```

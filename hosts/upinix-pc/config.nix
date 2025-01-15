@@ -2,6 +2,7 @@
   pkgs,
   my_lib,
   keys,
+  inputs,
   ...
 }: let
   inherit (my_lib.opt) enable;
@@ -10,6 +11,10 @@ in {
 
   # FIXME: (2025-01-13) "systemctl suspend" seams to be always get stuck in
   #  some sort of loop, that makes it so that you cant get out of it.
+
+  imports = [
+    inputs.nixos-hardware.nixosModules.gigabyte-b550
+  ];
 
   users.users.upidapi = {
     isNormalUser = true;

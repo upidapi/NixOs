@@ -1,5 +1,4 @@
-# based on / taken from
-# https://github.com/notohh/snowflake/blob/master/home/wayland/programs/hyprlock.nix
+# REF: https://github.com/notohh/snowflake/blob/master/home/wayland/programs/hyprlock.nix
 {
   config,
   my_lib,
@@ -39,7 +38,7 @@ in {
           # I'm unsure when this is used but its probably called
           # when the lid is closed
           # avoid starting multiple hyprlock instances.
-          lock_cmd = "pidof hyprlock || hyprlock --immediate --immediate-render";
+          lock_cmd = "pidof hyprlock || hyprlock --immediate --immediate-render --no-fade-in";
           # whether to ignore dbus-sent idle inhibit events (e.g. from firefox)
           ignore_dbus_inhibit = false;
         };
@@ -52,7 +51,7 @@ in {
           }
           {
             timeout = 60 * 5.5;
-            on-timeout = "pidof hyprlock || hyprlock --immediate --immediate-render";
+            on-timeout = "pidof hyprlock || hyprlock --immediate --immediate-render --no-fade-in";
           }
           {
             timeout = 60 * 30;

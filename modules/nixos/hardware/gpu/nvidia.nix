@@ -45,7 +45,8 @@ in {
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.production;
 
-      # FIXME: currently breaks suspend
+      # FIXME: (2025-01-15 23:05:20) currently breaks suspend
+      # open = true
       open = false;
 
       # optimus prime

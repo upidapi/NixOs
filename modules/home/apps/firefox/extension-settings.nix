@@ -1,85 +1,16 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkIf;
-  cfg = config.modules.home.apps.firefox;
-
+pkgs: lib: settings: profile-path: let
   # REF: https://github.com/simonwjackson/mountainous/blob/dabb8ceea7f6750b6c533e4c035a2e2531898a34/modules/home/firefox/extensions.nix#L14
-  extensionSettingsJson = builtins.toJSON {
-    commands = {
-      styleDisableAll = {
-        precedenceList = [
-          {
-            # set disable keybind for stylus
-            id = "{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}";
-            value = {
-              shortcut = "Alt+Shift+W";
-            };
-          }
-        ];
-      };
-      # _execute_browser_action = {
-      #   precedenceList = [
-      #     {
-      #       id = "{d634138d-c276-4fc8-924b-40a0ea21d284}";
-      #       value = {
-      #         shortcut = "Ctrl+Alt+P";
-      #       };
-      #       enabled = true;
-      #     }
-      #   ];
-      # };
-      # lock = {
-      #   precedenceList = [
-      #     {
-      #       id = "{d634138d-c276-4fc8-924b-40a0ea21d284}";
-      #       value = {
-      #         shortcut = "";
-      #       };
-      #       enabled = true;
-      #     }
-      #   ];
-      # };
-      # toggle = {
-      #   precedenceList = [
-      #     {
-      #       id = "addon@darkreader.org";
-      #       value = {
-      #         shortcut = "";
-      #       };
-      #       enabled = true;
-      #     }
-      #   ];
-      # };
-      # addSite = {
-      #   precedenceList = [
-      #     {
-      #       id = "addon@darkreader.org";
-      #       value = {
-      #         shortcut = "Ctrl+Alt+D";
-      #       };
-      #       enabled = true;
-      #     }
-      #   ];
-      # };
-    };
-  };
+  extensionSettingsJson = builtins.toJSON settings;
 
   # FILE="$HOME/.mozilla/firefox/${config.mountainous.user.name}/extension-settings.json"
   # comes from the guy i took this from:
 
-  # TODO: genralise the config.home.username for the profile name
-  #  currently this only works for that profile
-
-  # BUG: If a precedenceList is empty, the object wont append
+  # NOTE: an empty list doesn't override a list
   updateScript = pkgs.writeScript "update-firefox-extension-settings" ''
     #!${pkgs.stdenv.shell}
     set -euo pipefail
 
-    FILE="$HOME/.mozilla/firefox/${config.home.username}/extension-settings.json"
+    FILE="$HOME/${profile-path}/extension-settings.json"
     TEMP_FILE=$(mktemp)
 
     # Ensure the directory exists
@@ -102,7 +33,7 @@
     mv "$TEMP_FILE" "$FILE"
   '';
 in {
-  config = mkIf cfg.enable {
+  config = {
     home.activation.updateFirefoxExtensionSettings =
       lib.hm.dag.entryAfter
       ["writeBoundary"] ''

@@ -9,10 +9,9 @@
 in {
   system.stateVersion = "23.11";
 
-  # FIXME: (2025-01-13) "systemctl suspend" seams to be always get stuck in
-  #  some sort of loop, that makes it so that you cant get out of it.
-
   imports = [
+    # i have the b650 but the config for it is here :)
+    # fixes suspend issues
     inputs.nixos-hardware.nixosModules.gigabyte-b550
   ];
 

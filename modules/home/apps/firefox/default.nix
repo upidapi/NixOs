@@ -9,9 +9,28 @@
   inherit (lib) mkIf stringToCharacters;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.firefox;
+
+  firefox-pkgs = inputs.firefox-addons.packages.${pkgs.system};
+
+  extension-settings = import ./extension-settings.nix pkgs lib;
+  config-extension-for = extension-settings {
+    commands = {
+      # set keybind to toggles stylus
+      styleDisableAll = {
+        precedenceList = [
+          {
+            id = firefox-pkgs.stylus;
+            value = {
+              shortcut = "Alt+Shift+W";
+            };
+          }
+        ];
+      };
+    };
+  };
 in {
   imports = [
-    ./extension-settings.nix
+    (config-extension-for ".mozilla/firefox/${config.home.username}")
   ];
 
   options.modules.home.apps.firefox =
@@ -158,8 +177,6 @@ in {
                 icon = "${pkgs.nordzy-icon-theme}/share/icons/Nordzy/places/16/folder-github.svg";
               };
             in {
-              # add noogle.dev
-
               "noogle" = {
                 urls = [
                   {
@@ -222,8 +239,8 @@ in {
               "eBay".metaData.hidden = true;
             };
           };
-          extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-            # bitwarden  # security problem
+          extensions = with firefox-pkgs; [
+            # bitwarden
 
             # floccus  # syncs bookmarks
             # languagetool

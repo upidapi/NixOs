@@ -39,19 +39,19 @@ in {
           # I'm unsure when this is used but its probably called
           # when the lid is closed
           # avoid starting multiple hyprlock instances.
-          lock_cmd = "pidof hyprlock || hyprlock";
+          lock_cmd = "pidof hyprlock || hyprlock --immediate --immediate-render";
           # whether to ignore dbus-sent idle inhibit events (e.g. from firefox)
           ignore_dbus_inhibit = false;
         };
 
         listener = [
           {
-            timeout = 300;
+            timeout = 60 * 5;
             on-timeout = "hyprctl dispatch dpms off";
             on-resume = "hyprctl dispatch dpms on";
           }
           {
-            timeout = 330;
+            timeout = 60 * 5.5;
             on-timeout = "pidof hyprlock || hyprlock --immediate --immediate-render";
           }
           {

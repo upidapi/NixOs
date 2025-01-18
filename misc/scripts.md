@@ -3,6 +3,7 @@
 there's a few more at [/misc/resources](/misc/resources)
 
 ## open the (infra) sops file
+
 ```bash
 # in direnv
 sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
@@ -68,6 +69,12 @@ journalctl -xeu home-manager-upidapi.service
 mount -o subvol=/root /dev/sda/root_vg/root /mnt
 ```
 
+## ocr image
+
+```bash
+, tesseract test.png stdout
+```
+
 ## install the nixos bootloader
 
 ```bash
@@ -79,6 +86,6 @@ mount /dev/sda2 /mnt/boot
 
 nixos-enter
 
-NIXOS_INSTALL_BOOTLOADER=1 \ 
+NIXOS_INSTALL_BOOTLOADER=1 \
     /nix/var/nix/profiles/system/bin/switch-to-configuration boot
 ```

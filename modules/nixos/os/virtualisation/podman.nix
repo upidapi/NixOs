@@ -36,7 +36,7 @@ in {
       ];
 
       oci-containers.backend = "podman";
-      docker.enable = false;
+      docker.enable = true;
 
       podman = {
         enable = true;
@@ -45,8 +45,8 @@ in {
         # Certain interface elements will be different, but unless any
         # of said values are hardcoded, it should not pose a problem
         # for us.
-        dockerCompat = true;
-        dockerSocket.enable = true;
+        # dockerCompat = true;
+        # dockerSocket.enable = true;
 
         defaultNetwork.settings.dns_enabled = true;
 

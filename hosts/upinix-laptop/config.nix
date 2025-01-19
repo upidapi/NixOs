@@ -30,6 +30,7 @@ in {
       "wheel"
       "libvirtd"
       "adbusers"
+      "docker"
     ];
     hashedPassword = "$y$j9T$P.ANM.hAc1bqSR7fJWfkZ.$vUxY3KyPB65PR3uTBKwYCa7u6LvUquy47SeAPjgnjD9";
 

@@ -100,6 +100,8 @@ in {
         "/etc/NetworkManager/system-connections"
         "/srv/restic-repo" # backups
 
+        "/var/lib/docker"
+
         "/var/cache/tuigreet/" # save last user / session
 
         # (chown "jellyfin" "/var/lib/jellyfin")

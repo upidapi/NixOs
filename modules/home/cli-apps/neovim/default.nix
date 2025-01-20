@@ -103,6 +103,21 @@ in {
         shfmt
         shellcheck
 
+        # go
+        gofumpt
+        golangci-lint
+        gopls
+
+        # java
+        java-language-server
+        google-java-format
+        checkstyle
+
+        # php
+        phpactor
+        php # includes the linter
+        php.packages.php-cs-fixer
+
         # c/cpp
         clang-tools
         gdb

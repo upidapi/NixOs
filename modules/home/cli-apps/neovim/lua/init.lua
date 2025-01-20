@@ -6,7 +6,7 @@ vim.loader.enable()
 
 local modules = {
     "lua.reload",
-    "lua.tmp", 
+    "lua.tmp",
     "lua.mappings",
     "lua.icons",
 
@@ -45,11 +45,14 @@ local modules = {
 
     "lua.lang.bash",
     "lua.lang.cpp",
+    "lua.lang.go",
+    "lua.lang.java",
     "lua.lang.lua",
     "lua.lang.markdown",
     "lua.lang.neorg",
     "lua.lang.nix",
     "lua.lang.nu",
+    "lua.lang.php",
     "lua.lang.python",
     "lua.lang.rust",
     "lua.lang.web",
@@ -62,7 +65,6 @@ local modules = {
     "lua.misc.options",
     "lua.misc.project-nvim",
 }
-
 
 -- Refresh module cache
 for _, v in pairs(modules) do

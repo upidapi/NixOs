@@ -252,7 +252,7 @@ def main():
                 print("cancelling install")
                 exit()
 
-            print("choice myst be one of [y, n]")
+            print("choice must be one of [y, n]")
 
     if not has_internet():
         print("installer requires an internett connection")

@@ -119,6 +119,7 @@
               # web
               burpsuite
               zap
+              brave
 
               mitmproxy
               sqlmap

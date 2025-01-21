@@ -60,6 +60,10 @@ in {
         # to only save tabs, bookmarks and enabled extensions
         ".mozilla/firefox"
 
+        # used to save "initial run" config
+        ".config/BraveSoftware/Brave-Browser/"
+        ".config/google-chrome/"
+
         ".local/share/Steam"
 
         ".local/share/zoxide" # zoxide history

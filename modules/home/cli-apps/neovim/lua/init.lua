@@ -60,6 +60,7 @@ local modules = {
     -- has to be after lang/
     "lua.lsp.lspconfig", -- modifies the config
 
+
     "lua.misc.auto-save",
     "lua.misc.mouse",
     "lua.misc.options",

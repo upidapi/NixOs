@@ -59,6 +59,8 @@ in {
 
   # tampermonkey and stylus can be a good source for user scripts
 
+  # https://www.reddit.com/r/firefox/comments/17hlkhp/what_are_your_must_have_changes_in_aboutconfig/
+
   config = mkIf cfg.enable {
     home.sessionVariables = {
       BROWSER = "firefox";
@@ -350,6 +352,9 @@ in {
             "extensions.autoDisableScopes" = 0;
 
             "browser.aboutConfig.showWarning" = false;
+
+            # disable the allow paste pop upp
+            "devtools.selfxss.count" = 5;
 
             # anything smaller doesn't do anything
             "browser.tabs.tabMinWidth" = 22;

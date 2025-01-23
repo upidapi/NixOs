@@ -1,7 +1,6 @@
 -- NOTE: has to be run after lang/ since it modifies the config
 
-
-local lspconfig = require('lspconfig')
+local lspconfig = require("lspconfig")
 
 -- vim.config({
 --     -- options for vim.diagnostic.config()
@@ -129,7 +128,16 @@ for server, config in pairs(require("lspconfig.configs")) do
     -- passing config.capabilities to blink.cmp merges with the capabilities in your
     -- `opts[server].capabilities, if you've defined it
     local cfg = clean(config.manager.config)
-    cfg.capabilities = require('blink.cmp')
-        .get_lsp_capabilities(cfg)
+    cfg.capabilities = require("blink.cmp").get_lsp_capabilities(cfg)
+
+    cfg.capabilities = vim.tbl_deep_extend("force", cfg.capabilities, {
+        {
+            textDocument = {
+                dynamicRegistration = false,
+                lineFoldingOnly = true,
+            },
+        },
+    })
+
     lspconfig[server].setup(cfg)
 end

@@ -1,5 +1,8 @@
 -- REF: (taken from) image.nvim
 
+-- usage
+-- require("lua.utls.loger").log()
+
 local defaults = {
   handler = nil,
   output_file = nil,

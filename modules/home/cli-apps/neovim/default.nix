@@ -248,7 +248,8 @@ in {
         friendly-snippets
         luasnip
 
-        colorizer
+        # the "colorizer" plugin is the vim version which is horribly slow
+        nvim-colorizer-lua
 
         # completions
         blink-cmp

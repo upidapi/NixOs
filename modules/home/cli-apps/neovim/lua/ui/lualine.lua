@@ -36,7 +36,6 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
     end,
 })
 
-
 require("lualine").setup({
     options = {
         theme = "auto",
@@ -45,10 +44,10 @@ require("lualine").setup({
 
     sections = {
         lualine_a = {
-            'mode'
+            "mode",
         },
         lualine_b = {
-            'branch',
+            "branch",
             {
                 "diff",
                 symbols = require("lua.icons").git,
@@ -63,10 +62,10 @@ require("lualine").setup({
                     end
                 end,
             },
-            'diagnostics'
+            "diagnostics",
         },
         lualine_c = {
-            'filename'
+            "filename",
         },
 
         -- midpoint
@@ -77,14 +76,13 @@ require("lualine").setup({
             "%S", -- showcmd buffer
         },
         lualine_y = {
-            show_macro_recording
+            show_macro_recording,
         },
         lualine_z = {
-            'location'
-        }
+            "location",
+        },
     },
 })
-
 
 -- required for %S to work
 -- https://github.com/nvim-lualine/lualine.nvim/issues/1129

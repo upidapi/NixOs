@@ -8,8 +8,8 @@ require("blink.cmp").setup({
     keymap = {
         preset = "default",
 
-        ["<C-j>"] = { 'snippet_forward', 'fallback' },
-        ["<C-k>"] = { 'snippet_backward', 'fallback' },
+        ["<C-j>"] = { "snippet_forward", "fallback" },
+        ["<C-k>"] = { "snippet_backward", "fallback" },
     },
 
     appearance = {
@@ -30,10 +30,10 @@ require("blink.cmp").setup({
                 -- auto select first item
                 preselect = true,
 
-                -- When `true`, inserts the completion item automatically when 
+                -- When `true`, inserts the completion item automatically when
                 -- selecting it
-                -- You may want to bind a key to the `cancel` command 
-                -- (default <C-e>) when using this option, 
+                -- You may want to bind a key to the `cancel` command
+                -- (default <C-e>) when using this option,
                 -- which will both undo the selection and hide the completion menu
                 auto_insert = true,
             },
@@ -42,7 +42,10 @@ require("blink.cmp").setup({
         menu = {
             border = "rounded",
             draw = {
-                columns = { { "kind" }, { "label", "label_description", gap = 1 } },
+                columns = {
+                    { "kind" },
+                    { "label", "label_description", gap = 1 },
+                },
                 treesitter = { "lsp" },
                 -- winhighligh = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,EndOfBuffer:BlinkCmpDoc"
             },
@@ -57,8 +60,8 @@ require("blink.cmp").setup({
             },
         },
     },
-    
-    snippets = { preset = 'luasnip' },
+
+    snippets = { preset = "luasnip" },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`

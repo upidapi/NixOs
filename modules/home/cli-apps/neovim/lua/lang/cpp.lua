@@ -53,7 +53,7 @@ dap.configurations.cpp = {
                 nil,
             }
         end,
-    })
+    }),
 }
 
 dap.configurations.c = dap.configurations.cpp

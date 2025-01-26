@@ -1,6 +1,6 @@
 vim.api.nvim_create_user_command("LspCapabilities", function()
     local curBuf = vim.api.nvim_get_current_buf()
-    local clients = vim.lsp.get_active_clients { bufnr = curBuf }
+    local clients = vim.lsp.get_active_clients({ bufnr = curBuf })
 
     for _, client in pairs(clients) do
         if client.name ~= "null-ls" then
@@ -12,7 +12,10 @@ vim.api.nvim_create_user_command("LspCapabilities", function()
                 end
             end
             table.sort(capAsList) -- sorts alphabetically
-            local msg = "# " .. client.name .. "\n" .. table.concat(capAsList, "\n")
+            local msg = "# "
+                .. client.name
+                .. "\n"
+                .. table.concat(capAsList, "\n")
             vim.notify(msg, "trace", {
                 on_open = function(win)
                     local buf = vim.api.nvim_win_get_buf(win)
@@ -20,7 +23,10 @@ vim.api.nvim_create_user_command("LspCapabilities", function()
                 end,
                 timeout = 14000,
             })
-            fn.setreg("+", "Capabilities = " .. vim.inspect(client.server_capabilities))
+            fn.setreg(
+                "+",
+                "Capabilities = " .. vim.inspect(client.server_capabilities)
+            )
         end
     end
 end, {})

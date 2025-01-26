@@ -1,4 +1,4 @@
-require('neorg').setup({
+require("neorg").setup({
     load = {
         ["core.defaults"] = {},
         ["core.concealer"] = {},
@@ -7,7 +7,7 @@ require('neorg').setup({
                 -- engine = {
                 --     module_name = "external.lsp-completion"
                 -- },
-                engine = "nvim-cmp";
+                engine = "nvim-cmp",
             },
         },
         -- ["core.integrations.image"] = {},

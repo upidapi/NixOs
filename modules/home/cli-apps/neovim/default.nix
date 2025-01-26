@@ -198,7 +198,7 @@ in {
         todo-comments-nvim
         tokyonight-nvim
         neo-tree-nvim
-        smartcolumn-nvim
+        # smartcolumn-nvim # inlined
         nvim-colorizer-lua
         indent-blankline-nvim
         highlight-undo-nvim

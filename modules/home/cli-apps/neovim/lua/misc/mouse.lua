@@ -19,4 +19,5 @@ vim.opt.guicursor = {
   'i-ci-ve:ver25-Cursor',
   'r-cr-o:hor20-Cursor',
 }
-]]--
+]]
+--

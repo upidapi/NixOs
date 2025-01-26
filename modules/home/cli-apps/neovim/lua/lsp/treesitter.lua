@@ -11,7 +11,7 @@ require("nvim-treesitter.configs").setup({
 
     highlight = {
         enable = true,
-        additional_vim_regex_highlighting = false
+        additional_vim_regex_highlighting = false,
     },
 
     indent = {
@@ -21,10 +21,10 @@ require("nvim-treesitter.configs").setup({
     incremental_selection = {
         enable = true,
         keymaps = {
-            init_selection = 'gsi',
-            node_incremental = 'gsi',
-            scope_incremental = 'gsc',
-            node_decremental = 'gsm',
+            init_selection = "gsi",
+            node_incremental = "gsi",
+            scope_incremental = "gsc",
+            node_decremental = "gsm",
         },
     },
 })

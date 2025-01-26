@@ -32,16 +32,13 @@ vim.diagnostic.config({
     },
 })
 
-
-local attach_keymaps = function(client, bufnr)
-end
+local attach_keymaps = function(client, bufnr) end
 
 -- Enable formatting
 
-
-vim.api.nvim_create_autocmd('LspAttach', {
-    desc = 'LSP actions',
+vim.api.nvim_create_autocmd("LspAttach", {
+    desc = "LSP actions",
     callback = function(client, bufnr)
         attach_keymaps(client, bufnr)
-    end
+    end,
 })

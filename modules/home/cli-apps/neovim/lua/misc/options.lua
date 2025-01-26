@@ -36,7 +36,7 @@ local options = {
     autoindent = true,
     smartindent = true,
 
-    updatetime = 50,  -- for general actions
+    updatetime = 50, -- for general actions
     timeoutlen = 500, -- for keybinds
 
     cursorlineopt = "line",
@@ -56,7 +56,6 @@ for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
-
 --[==[
 -- for markdow preview
 vim.g.mkdp_auto_close = true
@@ -67,17 +66,20 @@ vim.g.mkdp_open_ip = {["_type"] = "if",["condition"] = false,["content"] = ""}
 vim.g.mkdp_open_to_the_world = false
 vim.g.mkdp_port = {["_type"] = "if",["condition"] = false,["content"] = ""}
 vim.g.mkdp_refresh_slow = false
-]==] --
+]==]
+--
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.g.editorconfig = true,
--- map <C-Space> to <Leader> in insert
-vim.api.nvim_set_keymap(
-    'i', '<C-Space>', '<C-o><leader>',
-    { noremap = true, silent = true }
-)
-
+vim.g.editorconfig =
+    true,
+    -- map <C-Space> to <Leader> in insert
+    vim.api.nvim_set_keymap(
+        "i",
+        "<C-Space>",
+        "<C-o><leader>",
+        { noremap = true, silent = true }
+    )
 
 --[[
    x  l    use "999L, 888B" instead of "999 lines, 888 bytes"	shm-l

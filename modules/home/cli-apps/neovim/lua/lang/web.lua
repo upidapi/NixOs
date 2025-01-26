@@ -23,9 +23,12 @@ require("lspconfig").yamlls.setup({})
 --  also prettierd is just prettier but run as a daemon for performance
 --  reasons
 
-local js_things = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+local js_things =
+    { "javascript", "javascriptreact", "typescript", "typescriptreact" }
 
-for _, lang in ipairs(vim.list_extend({ "json", "yaml", "html", "css" }, js_things)) do
+for _, lang in
+    ipairs(vim.list_extend({ "json", "yaml", "html", "css" }, js_things))
+do
     require("conform").formatters_by_ft[lang] = { "prettierd" }
 end
 

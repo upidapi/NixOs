@@ -14,6 +14,6 @@ require("toggleterm").setup({
         enabled = true,
         name_formatter = function(term)
             return term.name
-        end
-    }
+        end,
+    },
 })

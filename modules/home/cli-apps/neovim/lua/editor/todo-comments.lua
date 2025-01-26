@@ -4,7 +4,7 @@
 -- TodoQuickFix
 -- commands, cn[ext], np[rev], cf[irst], cl[ast]
 
-require('todo-comments').setup({
+require("todo-comments").setup({
     highlight = {
         after = "fg",
         before = "",
@@ -13,7 +13,7 @@ require('todo-comments').setup({
         max_line_len = 1000,
         multiline = true,
         multiline_pattern = "^ ",
-        pattern = [[ (KEYWORDS):]] -- [[ <(KEYWORDS)(?:\/.[^\/]*)*:]]
+        pattern = [[ (KEYWORDS):]], -- [[ <(KEYWORDS)(?:\/.[^\/]*)*:]]
     },
     search = {
         -- this is a custom option
@@ -31,49 +31,49 @@ require('todo-comments').setup({
             "--no-heading",
             "--with-filename",
             "--line-number",
-            "--column"
+            "--column",
         },
         command = "rg",
-        pattern =  [[ (KEYWORDS):]]
+        pattern = [[ (KEYWORDS):]],
     },
     colors = {
         default = {
             "Identifier",
-            "#7C3AED"
+            "#7C3AED",
         },
         error = {
             "DiagnosticError",
             "ErrorMsg",
-            "#DC2626"
+            "#DC2626",
         },
         hint = {
             "DiagnosticHint",
-            "#10B981"
+            "#10B981",
         },
         test = {
             "Identifier",
-            "#FF00FF"
+            "#FF00FF",
         },
         todo = {
             -- "DiagnosticInfo",
-            "#2563EB"
+            "#2563EB",
         },
         warning = {
             "DiagnosticWarn",
             "WarningMg",
-            "#FBBF24"
-        }
+            "#FBBF24",
+        },
     },
     guiStyle = {
-        fg = "BOLD"
+        fg = "BOLD",
     },
     keywords = {
         EXPLORE = {
             alt = {
-                "EXP"
+                "EXP",
             },
             color = "todo",
-            icon = "󰍉"
+            icon = "󰍉",
         },
         FIX = {
             alt = {
@@ -81,54 +81,54 @@ require('todo-comments').setup({
                 "FIXME",
                 "BUG",
                 "FIXIT",
-                "ISSUE"
+                "ISSUE",
             },
             color = "error",
-            icon = " "
+            icon = " ",
         },
         HACK = {
             color = "warning",
-            icon = " "
+            icon = " ",
         },
         NOTE = {
             alt = {
-                "INFO"
+                "INFO",
             },
             color = "hint",
-            icon = "󰍩 "
+            icon = "󰍩 ",
         },
         PERF = {
             alt = {
                 "OPTIM",
                 "PERFORMANCE",
-                "OPTIMIZE"
+                "OPTIMIZE",
             },
-            icon = "󰅒 "
+            icon = "󰅒 ",
         },
         REF = {
             alt = {
                 "FROM",
             },
             color = "hint",
-            icon = " "
+            icon = " ",
         },
         TODO = {
             alt = {
-                "todo"
+                "todo",
             },
             color = "todo",
-            icon = " " -- "broken", should look like na-fa-check
+            icon = " ", -- "broken", should look like na-fa-check
         },
         WARN = {
             alt = {
                 "WARNING",
-                "XXX"
+                "XXX",
             },
             color = "warning",
-            icon = " "
-        }
+            icon = " ",
+        },
     },
-    signs = false
+    signs = false,
 })
 
 local default_cat = {
@@ -167,7 +167,7 @@ local function keywords_to_aliases(keywords)
         local names = {
             keyword,
             -- aliases
-            table.unpack(options.keywords[keyword].alt or {})
+            table.unpack(options.keywords[keyword].alt or {}),
         }
 
         if names then
@@ -193,19 +193,15 @@ local function aliases_to_keywords(aliases)
     return keywords
 end
 
-
 local function catagory_search(args)
     local search_words = keywords_to_aliases(
         aliases_to_keywords(
-            next(args.fargs) == nil
-            and default_cat
-            or vim.split(args.fargs[1], " ")
+            next(args.fargs) == nil and default_cat
+                or vim.split(args.fargs[1], " ")
         )
     )
 
-    local cmd =
-        "TodoTelescope keywords=" ..
-        table.concat(search_words, ",")
+    local cmd = "TodoTelescope keywords=" .. table.concat(search_words, ",")
     -- vim.fn.setreg("+", x)
     -- print(x)
 
@@ -216,19 +212,15 @@ local function catagory_search(args)
     -- )
 end
 
-vim.api.nvim_create_user_command(
-    'TodoTelescopeCat',
-    catagory_search,
-    {
-        nargs = "?",
-        complete = function(arglead)
-            local matches = {}
-            for alias, _ in pairs(config.keywords) do
-                if string.sub(alias, 1, #arglead) == arglead then
-                    table.insert(matches, alias)
-                end
+vim.api.nvim_create_user_command("TodoTelescopeCat", catagory_search, {
+    nargs = "?",
+    complete = function(arglead)
+        local matches = {}
+        for alias, _ in pairs(config.keywords) do
+            if string.sub(alias, 1, #arglead) == arglead then
+                table.insert(matches, alias)
             end
-            return matches
         end
-    }
-)
+        return matches
+    end,
+})

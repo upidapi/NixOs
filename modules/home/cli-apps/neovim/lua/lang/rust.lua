@@ -6,7 +6,7 @@ dap.configurations.rust = dap.configurations.cpp
 
 -- https://github.com/Saecki/crates.nvim
 -- A neovim plugin that helps managing crates.io dependencies.
-require('crates').setup({
+require("crates").setup({
     completion = {
         crates = {
             enabled = true,
@@ -18,19 +18,17 @@ require('crates').setup({
         completion = true,
         hover = true,
     },
-
 })
 
 require("conform").formatters_by_ft.rust = { "rustfmt" }
 require("lint").linters_by_ft.rust = { "clippy" }
 
-
 vim.g.rustaceanvim = {
     -- LSP
     tools = {
         hover_actions = {
-            replace_builtin_hover = false
-        }
+            replace_builtin_hover = false,
+        },
     },
     server = {
         on_attach = function(_, bufnr)

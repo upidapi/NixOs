@@ -364,3 +364,7 @@ libvirt
 pos
 zoxide
 ocr
+bitsets
+dfs
+bfs
+tc

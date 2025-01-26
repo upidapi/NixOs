@@ -19,6 +19,7 @@ local modules = {
     "lua.ui.cell-auto",
     "lua.ui.lualine",
     "lua.ui.misc",
+    "lua.ui.smart-column",
     "lua.ui.neo-tree",
     "lua.ui.noice",
     "lua.ui.telescope",
@@ -59,7 +60,6 @@ local modules = {
 
     -- has to be after lang/
     "lua.lsp.lspconfig", -- modifies the config
-
 
     "lua.misc.auto-save",
     "lua.misc.mouse",

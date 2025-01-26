@@ -44,10 +44,9 @@ require("image").setup({
         "*.jpg",
         "*.jpeg",
         "*.gif",
-        "*.webp"
+        "*.webp",
     }, -- render image files as images when opened
 })
-
 
 -- https://github.com/HakonHarnes/img-clip.nvim
 require("img-clip").setup({

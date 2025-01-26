@@ -1,3 +1,2 @@
 -- https://github.com/NMAC427/guess-indent.nvim
-require('guess-indent').setup({})
-
+require("guess-indent").setup({})

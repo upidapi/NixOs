@@ -2,17 +2,13 @@ local dap = require("dap")
 
 for name, sign in pairs(require("lua.icons").dap) do
     sign = type(sign) == "table" and sign or { sign }
-    vim.fn.sign_define(
-        "Dap" .. name,
-        {
-            text = sign[1],
-            texthl = sign[2] or "DiagnosticInfo",
-            linehl = sign[3],
-            numhl = sign[3]
-        }
-    )
+    vim.fn.sign_define("Dap" .. name, {
+        text = sign[1],
+        texthl = sign[2] or "DiagnosticInfo",
+        linehl = sign[3],
+        numhl = sign[3],
+    })
 end
-
 
 -- setup dap config by VsCode launch.json file
 local vscode = require("dap.ext.vscode")
@@ -39,7 +35,6 @@ end
 -- dap.listeners.before.event_exited["dapui_config"] = function()
 --     dapui.close()
 -- end
-
 
 -- NOTE: configs here https://github.com/mfussenegger/nvim-dap
 --

@@ -18,11 +18,11 @@ require("neo-tree").setup({
         "terminal",
         "Trouble",
         "qf",
-        "edgy"
+        "edgy",
     },
     open_files_in_last_window = true,
     retain_hidden_root_indent = false,
     window = {
-        width = 30
-    }
+        width = 30,
+    },
 })

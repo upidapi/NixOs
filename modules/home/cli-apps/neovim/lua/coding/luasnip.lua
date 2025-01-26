@@ -1,7 +1,6 @@
-local ls = require "luasnip"
+local ls = require("luasnip")
 
 require("luasnip/loaders/from_vscode").lazy_load()
-
 
 --[[
 ls.config.set_config {
@@ -14,7 +13,6 @@ require("luasnip.loaders.from_lua").load({
     paths = "$NIXOS_CONFIG_PATH/modules/home/cli-apps/nixvim/snippets"
 })
 ]]
-
 
 local s = ls.snippet
 -- local sn = ls.snippet_node
@@ -48,18 +46,19 @@ ls.add_snippets("all", {
     s(
         "fixme",
         f(function()
-            return os.date "FIXME: (%Y-%m-%d) "
+            return os.date("FIXME: (%Y-%m-%d) ")
         end)
     ),
 
     s("time", p(vim.fn.strftime, "%H:%M:%S")),
-    s("date", p(vim.fn.strftime, "%Y-%m-%d"))
+    s("date", p(vim.fn.strftime, "%Y-%m-%d")),
 })
 
 ls.add_snippets("nix", {
     s(
         "nix-cmod",
-        fmt([[
+        fmt(
+            [[
         {{
           config,
           lib,
@@ -76,26 +75,31 @@ ls.add_snippets("nix", {
             {}
           }};
         }}
-        ]], {
-            f(function()
-                local buf_raw_path = vim.api.nvim_buf_get_name(0)
-                local flake_dir = os.getenv("NIXOS_CONFIG_PATH")
-                if flake_dir == nil then
-                    return "$NIXOS_CONFIG_PATH not found"
-                end
+        ]],
+            {
+                f(function()
+                    local buf_raw_path = vim.api.nvim_buf_get_name(0)
+                    local flake_dir = os.getenv("NIXOS_CONFIG_PATH")
+                    if flake_dir == nil then
+                        return "$NIXOS_CONFIG_PATH not found"
+                    end
 
-                local re_check = "^" .. flake_dir .. "[.]nix$"
-                if buf_raw_path:find(re_check) ~= nil then
-                    return "not in $NIXOS_CONFIG_PATH=" .. flake_dir
-                end
+                    local re_check = "^" .. flake_dir .. "[.]nix$"
+                    if buf_raw_path:find(re_check) ~= nil then
+                        return "not in $NIXOS_CONFIG_PATH=" .. flake_dir
+                    end
 
-                local rel = buf_raw_path:sub((flake_dir .. "/"):len() + 1, -((".nix"):len() + 1))
+                    local rel = buf_raw_path:sub(
+                        (flake_dir .. "/"):len() + 1,
+                        -((".nix"):len() + 1)
+                    )
 
-                return rel:gsub("/", ".")
-            end, {}, { key = "mod_path" }),
-            rep(k("mod_path")),
-            i(1),
-            i(0),
-        })
-    )
+                    return rel:gsub("/", ".")
+                end, {}, { key = "mod_path" }),
+                rep(k("mod_path")),
+                i(1),
+                i(0),
+            }
+        )
+    ),
 })

@@ -17,17 +17,14 @@ require("conform").formatters["markdownlint-cli2"] = {
 --     end,
 -- },
 
-
 require("conform").formatters_by_ft.markdown = {
     "prettierd",
     "markdownlint-cli2",
     -- "markdown-toc",
 }
 
-
 require("lint").linters_by_ft.markdown = {
     -- "markdownlint-cli"
 }
 
-
-require("lspconfig").marksman.setup {}
+require("lspconfig").marksman.setup({})

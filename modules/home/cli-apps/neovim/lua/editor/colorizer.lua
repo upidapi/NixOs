@@ -3,9 +3,9 @@
 require("colorizer").setup({
     filetypes = { "*" },
     user_default_options = {
-        RGB = true, -- #RGB hex codes
-        RRGGBB = true, -- #RRGGBB hex codes
-        RRGGBBAA = true, -- #RRGGBBAA hex codes #FFFFFF
+        RGB = true, -- #RGB hex codes #AFF
+        RRGGBB = true, -- #RRGGBB hex codes #AAAAFF
+        RRGGBBAA = true, -- #RRGGBBAA hex codes #AAFFAAAA
         AARRGGBB = false, -- 0xAARRGGBB hex codes0x0011
         rgb_fn = true, -- CSS rgb(255, 170, 170) and rgba() functions
         hsl_fn = true, -- CSS hsl(0, 100%, 83%) and hsla() functions

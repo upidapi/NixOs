@@ -1,9 +1,9 @@
 -- https://github.com/ahmedkhalf/project.nvim
 -- auto cd into project root
-require('project_nvim').setup({
+require("project_nvim").setup({
     detection_methods = {
         "lsp",
-        "pattern"
+        "pattern",
     },
     exclude_dirs = {},
     lsp_ignored = {},
@@ -17,9 +17,9 @@ require('project_nvim').setup({
         "Makefile",
         "package.json",
         "flake.nix",
-        "cargo.toml"
+        "cargo.toml",
     },
     scope_chdir = "global",
     show_hidden = false,
-    silent_chdir = true
+    silent_chdir = true,
 })

@@ -1,14 +1,15 @@
 vim.o.linebreak = true
 
--- use the spell file in the repo 
--- if NIXOS_CONFIG_PATH is unset it falls back to the one 
+-- use the spell file in the repo
+-- if NIXOS_CONFIG_PATH is unset it falls back to the one
 -- generated ad build time
 local cfg = vim.env.NIXOS_CONFIG_PATH
 if cfg then
-    vim.o.spellfile = cfg .. "/modules/home/cli-apps/neovim/runtime/spell/en.utf-8.add"
+    vim.o.spellfile = cfg
+        .. "/modules/home/cli-apps/neovim/runtime/spell/en.utf-8.add"
 end
 
-vim.opt.spelloptions = { "camel", "noplainbuffer" };
+vim.opt.spelloptions = { "camel", "noplainbuffer" }
 
 vim.opt.spell = true
 vim.opt.spelllang = { "en", "sv" }
@@ -27,7 +28,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     end,
 })
 
-
-vim.cmd [[hi clear SpellCap]];
-vim.cmd [[hi clear SpellRare]];
-vim.cmd [[hi SpellBad cterm=undercurl gui=undercurl guisp=#6E9E6E]];
+vim.cmd([[hi clear SpellCap]])
+vim.cmd([[hi clear SpellRare]])
+vim.cmd([[hi SpellBad cterm=undercurl gui=undercurl guisp=#6E9E6E]])

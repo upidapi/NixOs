@@ -142,9 +142,9 @@ function smartcolumn.setup(user_config)
 
     local events
     if config.scope == "line" then
-        events = { "BufEnter", "WinScrolled", "CursorMoved", "CursorMovedI" }
+        events = { "BufEnter", "TextChanged", "InsertLeave", "WinScrolled", "CursorMoved", "CursorMovedI" }
     else
-        events = { "BufEnter", "WinScrolled" }
+        events = { "BufEnter", "TextChanged", "InsertLeave", "WinScrolled" }
     end
 
     vim.api.nvim_create_autocmd(events, {
@@ -154,14 +154,13 @@ function smartcolumn.setup(user_config)
         end,
     })
 end
-
 smartcolumn.setup({
     colorcolumn = { "80", "100" },
     custom_colorcolumn = {},
     scope = "window",
     disabled_filetypes = {
         "help",
-        -- "text",
+        "text",
         "markdown",
         "NvimTree",
         "alpha",

@@ -13,6 +13,7 @@ local options = {
 
     wrap = true,
     linebreak = true,
+    -- smoothscroll = true, -- doesn't seam to work
 
     -- for search
     smartcase = false,

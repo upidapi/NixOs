@@ -56,6 +56,7 @@ local modules = {
     "lua.lang.php",
     "lua.lang.python",
     "lua.lang.rust",
+    "lua.lang.typst",
     "lua.lang.web",
 
     -- has to be after lang/

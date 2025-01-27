@@ -129,6 +129,9 @@ in {
         markdownlint-cli2
         marksman
 
+        # typst
+        tinymist
+
         # rust
         clippy
         rustfmt
@@ -179,6 +182,7 @@ in {
               norg
               markdown
               markdown_inline
+              typst
 
               regex
 
@@ -283,6 +287,9 @@ in {
         lazydev-nvim
         neodev-nvim
         one-small-step-for-vimkind
+
+        # typst
+        typst-preview-nvim
 
         # markdown
 

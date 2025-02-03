@@ -95,13 +95,13 @@ in {
         # spotify downloaded stuff
         ".cache/spotify/Storage" # "encrypted"
         ".cache/spotify/Users" # keys in here # keys in here
-
-        # persist gh (cli) logins
-        ".config/gh/hosts.yml"
       ];
       files = [
         # save zsh command history
         ".zsh/history"
+
+        # persist gh (cli) logins
+        ".config/gh/hosts.yml"
 
         ".config/nushell/history.txt"
 

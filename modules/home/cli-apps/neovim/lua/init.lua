@@ -46,6 +46,7 @@ local modules = {
 
     "lua.lang.bash",
     "lua.lang.cpp",
+    "lua.lang.cs",
     "lua.lang.go",
     "lua.lang.java",
     "lua.lang.lua",

@@ -13,9 +13,11 @@ require("lspconfig").tailwindcss.setup({})
 -- all the same server but for different file types (web shenanigans)
 require("lspconfig").html.setup({})
 require("lspconfig").cssls.setup({})
-require("lspconfig").jsonls.setup({})
 
+require("lspconfig").jsonls.setup({})
 require("lspconfig").yamlls.setup({})
+
+require("lspconfig").svelte.setup({})
 
 -- NOTE: deno_fmt is actually dprint which is quite similar to prettier
 --  so might switch to that eventually

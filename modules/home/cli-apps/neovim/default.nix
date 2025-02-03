@@ -118,6 +118,9 @@ in {
         php # includes the linter
         php.packages.php-cs-fixer
 
+        # c#
+        csharp-ls
+
         # c/cpp
         clang-tools
         gdb
@@ -145,6 +148,7 @@ in {
         vscode-langservers-extracted
         eslint_d
         prettierd
+        svelte-language-server
 
         tailwindcss-language-server
 
@@ -164,6 +168,7 @@ in {
           cjson
         ];
 
+      # nix-shell -p vimPlugins.nvim-treesitter-parsers
       plugins = with pkgs.vimPlugins; [
         (nvim-treesitter.withPlugins (
           parsers:
@@ -174,6 +179,8 @@ in {
               lua
               python
               nix
+
+              c_sharp
 
               c
               cpp
@@ -188,6 +195,8 @@ in {
 
               javascript # also jsx
               typescript # also tsx
+              svelte
+
               html
               css
 

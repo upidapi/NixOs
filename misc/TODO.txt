@@ -67,11 +67,6 @@ security
 
         https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix
 
-        do it when this mergers
-            https://github.com/cynicsketch/nix-mineral/pull/19
-
-            (actually submit a pr to refactor it)
-
     encrypted filesystem
         LUKS
 
@@ -80,12 +75,6 @@ security
     yubikeys 
 
     secureboot
-
-
-optimise for battery
-    green: efficiency 
-    purple: balanced
-    blue: performance 
 
 
 himachi

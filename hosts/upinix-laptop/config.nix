@@ -39,8 +39,13 @@ in {
 
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
+  # optimise for battery
+  #     green: efficiency
+  #     purple: balanced
+  #     blue: performance
+
   hardware = {
-    tuxedo-drivers = enable;
+    # tuxedo-drivers = enable; # doesn't do anything better
     # tuxedo-rs = {
     #   enable = true;
     #   tailor-gui = enable;

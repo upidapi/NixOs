@@ -60,6 +60,17 @@
         ];
       };
 
+      fhs =
+        (pkgs.buildFHSEnv
+          {
+            name = "cmp-prog-fhs";
+            runScript = pkgs.writeShellScript "cmp-prog-init" ''
+              name="cmp-prog-fhs"
+              exec nu
+            '';
+          })
+        .env;
+
       sec =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/

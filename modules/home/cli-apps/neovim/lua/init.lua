@@ -17,6 +17,7 @@ local modules = {
 
     "lua.ui.buffer-line",
     "lua.ui.cell-auto",
+
     "lua.ui.lualine",
     "lua.ui.misc",
     "lua.ui.smart-column",

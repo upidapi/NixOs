@@ -99,7 +99,7 @@ cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 
 Some of the people that I've ~stolen from~ been inspired by. There's probably
 a lot more but I tend to forget to add them. Check the bottom of the
-[resources.md](/misc/resources.md) and my github stars for repos i typically to
+[trusted_repos.py](misc/scripts/trusted_repos.py) and my github stars for repos i typically 
 check for examples in.
 
 - [jakehamilton](https://github.com/jakehamilton/config) -
@@ -125,4 +125,4 @@ check for examples in.
 [workflow](https://github.com/workflow/dotfiles) -
 [notohh](https://github.com/notohh/snowflake) -
 [hlissner](https://github.com/hlissner/dotfiles) -
-[gvolpe](https://github.com/gvolpe/nix-config)
+[gvolpe](https://ithub.com/gvolpe/nix-config)

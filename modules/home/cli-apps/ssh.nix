@@ -18,7 +18,7 @@ in {
       # >>> ps | grep ssh-agent
       # 329 │ 3524 │ 3342 │ ssh-agent                                 │ Sleeping │  0.00 │    6.6 MiB │  10.3 MiB
 
-      # addKeysToAgent = "5m" ?
+      addKeysToAgent = "5m";
       # startAgent = true;
       # agentTimeout = "1m";
       # extraConfig = ''

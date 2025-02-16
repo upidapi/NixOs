@@ -86,8 +86,9 @@ in {
 
       signing = {
         # NOTE: dont forget to add it to github :)
-        key = pubKey;
+        # key = pubKey; #  use the defaultKeyCommand instead
         signByDefault = true;
+        key = null;
       };
 
       ignores = [

@@ -4,11 +4,13 @@
   lib,
   keys,
   my_lib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt enable;
   cfg = config.modules.home.cli-apps.git;
+  pubKey = keys.users."${config.home.username}";
 in {
   options.modules.home.cli-apps.git =
     mkEnableOpt "Whether or not to add git";
@@ -67,18 +69,16 @@ in {
         fetch.prune = true;
         apply.whitespace = "fix";
         gpg = {
+          # REF: https://github.com/Gerg-L/nixos/blob/df472878dba578823a2fe92a44ba9eacd88d93d0/nixosConfigurations/gerg-desktop/git.nix#L20
           format = "ssh";
-          /*
           ssh.defaultKeyCommand = let
-            p_key = config.local.keys.gerg_gerg-desktop;
-          in
-            pkgs.writeShellScript "git_key" ''
-              if ssh-add -L | grep -vq '${p_key}'; then
-                ssh-add -t 1m ~/.ssh/id_ed25519
+            script = pkgs.writeShellScriptBin "git_key" ''
+              if ssh-add -L | grep -vq '${pubKey}'; then
+                ssh-add -t 5m ~/.ssh/id_ed25519
               fi
-              echo 'key::${p_key}'
+              echo 'key::${pubKey}'
             '';
-          */
+          in "${script}";
         };
       };
 
@@ -86,7 +86,7 @@ in {
 
       signing = {
         # NOTE: dont forget to add it to github :)
-        key = keys.users."${config.home.username}";
+        key = pubKey;
         signByDefault = true;
       };
 

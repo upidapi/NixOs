@@ -14,7 +14,7 @@ in {
   options.modules.home.desktop.bar.ags =
     mkEnableOpt "enables ags, used to create a bar";
 
-  # FIXME: sometime? breaks on suspend, the hyprland ref is null
+  # FIXME: breaks on suspend, the hyprland ref is null (only sometimes)
   imports = [
     inputs.ags.homeManagerModules.default
   ];

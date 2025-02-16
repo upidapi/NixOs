@@ -88,7 +88,7 @@ in {
         # NOTE: dont forget to add it to github :)
         # key = pubKey; #  use the defaultKeyCommand instead
         signByDefault = true;
-        key = null;
+        key = null; # you have to set this :)
       };
 
       ignores = [

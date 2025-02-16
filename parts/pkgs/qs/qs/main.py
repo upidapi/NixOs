@@ -598,9 +598,8 @@ class Commit:
             else "Pre rebuild commit"
         )
         
-        # TODO: remove when i don't manually have to do this (something
-        #  is wrong about my git signing config)
-        run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
+        # should not be needed
+        # run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
 
         run_cmd(
             f"git commit --allow-empty -m {shlex.quote(message)}",

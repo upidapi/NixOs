@@ -72,7 +72,7 @@ in {
           # REF: https://github.com/Gerg-L/nixos/blob/df472878dba578823a2fe92a44ba9eacd88d93d0/nixosConfigurations/gerg-desktop/git.nix#L20
           format = "ssh";
           ssh.defaultKeyCommand = let
-            script = pkgs.writeShellScriptBin "git_key" ''
+            script = pkgs.writeShellScript "git_key" ''
               if ssh-add -L | grep -vq '${pubKey}'; then
                 ssh-add -t 5m ~/.ssh/id_ed25519
               fi

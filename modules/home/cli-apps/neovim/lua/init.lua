@@ -58,6 +58,7 @@ local modules = {
     "lua.lang.php",
     "lua.lang.python",
     "lua.lang.rust",
+    "lua.lang.sql",
     "lua.lang.typst",
     "lua.lang.web",
 

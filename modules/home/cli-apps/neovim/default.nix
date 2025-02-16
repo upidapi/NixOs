@@ -20,6 +20,11 @@ in {
   options.modules.home.cli-apps.neovim =
     mkEnableOpt "enables my neovim config";
 
+  # you can run it with
+  # >>> nix run /persist/nixos#mnw -- file.txt
+  # or as a env
+  # >>> nix develop /persist/nixos#mnw -c bash -c "nvim file.txt; exit"
+
   config = mkIf cfg.enable {
     home.sessionVariables = {EDITOR = "nvim";};
 
@@ -108,6 +113,10 @@ in {
         golangci-lint
         gopls
 
+        # sql
+        sqls
+        sqlfluff
+
         # java
         java-language-server
         google-java-format
@@ -168,7 +177,7 @@ in {
           cjson
         ];
 
-      # nix-shell -p vimPlugins.nvim-treesitter-parsers
+      # nix-shell -p vimPlugins.nvim-treesitter-parsers.
       plugins = with pkgs.vimPlugins; [
         (nvim-treesitter.withPlugins (
           parsers:
@@ -185,6 +194,8 @@ in {
               c
               cpp
               rust
+
+              sql
 
               norg
               markdown

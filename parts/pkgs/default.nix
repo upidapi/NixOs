@@ -1,5 +1,5 @@
 # auto importer
-{
+{self, ...}: {
   perSystem = {
     pkgs,
     inputs',
@@ -32,6 +32,8 @@
       autoImported
       // {
         vesktop = inputs'.nixpkgs-stable.legacyPackages.callPackage ./vesktop {};
+
+        mnw = self.nixosConfigurations.upinix-pc.config.home-manager.users.upidapi.programs.mnw.finalPackage;
       };
   };
 }

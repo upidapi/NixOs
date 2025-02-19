@@ -20,38 +20,38 @@ in {
 
   config = mkIf cfg.enable {
     modules.home = {
-      # other = enable;
-      #
-      # apps = {
-      #   # alacritty = enable;
-      #   kitty = enable;
-      #   # bitwarden = enable;
-      #   discord = enable;
-      #   firefox = enable;
-      #   r2modman = enable;
-      #   spotify = enable;
-      #   keepassxc = enable;
-      #   vscode = enable;
-      #   ghidra = enable;
-      # };
-      #
+      other = enable;
+
+      apps = {
+        # alacritty = enable;
+        kitty = enable;
+        # bitwarden = enable;
+        discord = enable;
+        firefox = enable;
+        r2modman = enable;
+        spotify = enable;
+        keepassxc = enable;
+        # vscode = enable; # broken
+        ghidra = enable;
+      };
+
       cli-apps = {
-        #   color-pick = enable;
-        #   bat = enable;
-        #   cn-bth = enableAnd {
-        #     deviceAddr = "AC:80:0A:2E:81:6A";
-        #   };
-        #   eza = enable;
-        #   btop = enable;
-        #   git = enable;
-        #   gh = enable;
-        #   gpg = enable;
-        #   nix-index = enable;
-        #   # nixvim = enable;
+        color-pick = enable;
+        bat = enable;
+        cn-bth = enableAnd {
+          deviceAddr = "AC:80:0A:2E:81:6A";
+        };
+        eza = enable;
+        btop = enable;
+        git = enable;
+        gh = enable;
+        gpg = enable;
+        nix-index = enable;
+        # nixvim = enable;
         neovim = enable;
-        #   ssh = enable;
-        #   wine = enable;
-        #   zoxide = enable;
+        ssh = enable;
+        wine = enable;
+        zoxide = enable;
       };
 
       terminal = {
@@ -65,31 +65,31 @@ in {
         starship = enable;
       };
 
-      # services = {
-      #   playerctl = enable;
-      # };
-      #
-      # misc = {
-      #   sops = enable;
-      #   persist = enable;
-      #   stylix = enable;
-      #   mime = enable;
-      # };
-      #
-      # desktop = {
-      #   wayland = enable;
-      #   gtk = enable;
-      #
-      #   hyprland = enable;
-      #   hyprlock = enable;
-      #   hypridle = enable;
-      #   hyprcursor = enable;
-      #
-      #   wallpaper.hyprpaper = enable;
-      #   bar.ags = enable;
-      #   dunst = enable;
-      #   rofi = enable;
-      # };
+      services = {
+        playerctl = enable;
+      };
+
+      misc = {
+        sops = enable;
+        persist = enable;
+        stylix = enable;
+        mime = enable;
+      };
+
+      desktop = {
+        wayland = enable;
+        gtk = enable;
+
+        hyprland = enable;
+        hyprlock = enable;
+        hypridle = enable;
+        hyprcursor = enable;
+
+        wallpaper.hyprpaper = enable;
+        bar.ags = enable;
+        dunst = enable;
+        rofi = enable;
+      };
     };
   };
 }

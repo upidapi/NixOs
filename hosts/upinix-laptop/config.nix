@@ -14,8 +14,10 @@ in {
   system.stateVersion = "23.11";
 
   boot = {
-    # FIXME: i think that the update from 6.12.4 to 6.12.5 broke suspend
-    #  but using the 6.11 kernel didn't seam to fix it
+    # This seams to not be the case:
+    #   i think that the update from 6.12.4 to 6.12.5 broke suspend
+    #     but using the 6.11 kernel didn't seam to fix it
+
     # kernelPackages = pkgs.linuxPackages_6_11;
     kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems.zfs = lib.mkForce false;
@@ -51,6 +53,9 @@ in {
     #   tailor-gui = enable;
     # };
   };
+
+  # FIXME: figure out how to prevent the accidental touches of the touchpad
+  #  while typing
 
   modules.nixos = {
     suites.all = enable;

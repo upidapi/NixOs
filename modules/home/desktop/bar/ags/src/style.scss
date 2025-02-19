@@ -3,6 +3,8 @@
 // HACK: i cant figure out how to prevent the relative imports 
 //  be based on the unresolved path of the symlink to app.ts
 //  so i cant use the relative path
+//  https://github.com/Aylur/ags/issues/681
+
 @use "/home/upidapi/.config/ags/colors.scss" as *;
 
 // Unsets everything so you can style everything from scratch

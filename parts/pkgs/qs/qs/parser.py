@@ -111,7 +111,7 @@ class _Parser:
 
         if data["count"] == len(cmd_args.flags[flag]):
             _Parser._error(
-                f"you can only use the \"{flag}\" flag {data['count']} time(s)", scope
+                f'you can only use the "{flag}" flag {data["count"]} time(s)', scope
             )
 
         _Parser._check_can_add_args(
@@ -329,9 +329,7 @@ def pp(data):
         if is_dataclass(obj) and not isinstance(obj, type):
             return dataclasses.asdict(obj)
 
-        raise TypeError(
-            f"Object of type {type(obj).__name__} is not" "JSON serializable"
-        )
+        raise TypeError(f"Object of type {type(obj).__name__} is notJSON serializable")
 
     print(json.dumps(data, indent=4, default=custom_serializer))
 

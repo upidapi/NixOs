@@ -106,7 +106,6 @@
 
               radare2
 
-              # EXPLORE: apktool and android rev in general
               ghidra
               # android / apk
               apktool

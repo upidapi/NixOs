@@ -14,12 +14,12 @@ in {
   options.modules.home.desktop.bar.ags =
     mkEnableOpt "enables ags, used to create a bar";
 
-  # FIXME: breaks on suspend, the hyprland ref is null (only sometimes)
+  # is this stil an issue?
+  # breaks on suspend, the hyprland ref is null (only sometimes)
+
   imports = [
     inputs.ags.homeManagerModules.default
   ];
-
-  # TODO: use systemd-inhibit to inhibit idle with a switch
 
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {

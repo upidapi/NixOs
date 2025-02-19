@@ -15,7 +15,6 @@ in {
   options.modules.home.cli-apps.git =
     mkEnableOpt "Whether or not to add git";
 
-  # TODO: go from SSH to GPG keys?
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;

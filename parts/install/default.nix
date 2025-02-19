@@ -20,8 +20,9 @@
     };
   };
 }
-# TODO: bootstraping secrets
-#  figure out how to establish install / continued trust
+# TODO: remote install
+#  bootstraping secrets
+#    figure out how to establish install / continued trust
 /*
 load the secrets/infra.yaml
 decrypt with admin key (+ passphrase?)
@@ -37,7 +38,6 @@ this file will be used to decrypt everything for the host
 
 user secrets will be used to create the home envs
 */
-# TODO: remote install
 /*
 nixos-anywhere
 

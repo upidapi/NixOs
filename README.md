@@ -98,9 +98,10 @@ cp -rl $(eza --sort changed result/iso/*.iso | tail -n1) /ventoy
 ## Inspiration
 
 Some of the people that I've ~stolen from~ been inspired by. There's probably
-a lot more but I tend to forget to add them. Check the bottom of the
-[trusted_repos.py](misc/scripts/trusted_repos.py) and my github stars for repos i typically 
-check for examples in.
+a lot more but I tend to forget to add them. Check out all "REF" and "FROM"
+tags throughout the code along with
+[trusted_repos.py](misc/scripts/trusted_repos.py) and my github stars for repos
+i typically check for examples in.
 
 - [jakehamilton](https://github.com/jakehamilton/config) -
   config structure, modules, suites, etc

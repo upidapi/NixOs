@@ -13,7 +13,8 @@ in {
     "enable caddy, a web server with auto certs";
 
   config = mkIf cfg.enable {
-    # EXP: https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/profiles/services/caddy/common.nix#L2
+    # good resources
+    #   https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/profiles/services/caddy/common.nix#L2
 
     # for opening to the internet
     networking.firewall = {

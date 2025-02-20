@@ -33,7 +33,7 @@ local modules = {
     "lua.editor.colorizer",
     "lua.editor.highlight-undo",
     "lua.editor.ibl",
-    "lua.editor.image",
+    -- BROKEN: "lua.editor.image",
     "lua.editor.todo-comments", -- has to be after telescope
     "lua.editor.ufo",
 

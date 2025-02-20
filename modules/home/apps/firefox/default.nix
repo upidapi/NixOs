@@ -347,6 +347,8 @@ in {
             # disable the "is now full-screen" thingy
             "full-screen-api.warning.timeout" = 0;
 
+            "extensions.webextensions.ExtensionStorageIDB.enabled" = false;
+
             # enable extensions by default
             # https://support.mozilla.org/en-US/questions/1219401
             "extensions.autoDisableScopes" = 0;

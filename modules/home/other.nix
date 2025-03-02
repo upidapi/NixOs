@@ -62,7 +62,7 @@ in {
         tldr
 
         # minimal image viewer
-        gwenview
+        kdePackages.gwenview
 
         # terminal audio player
         mpv

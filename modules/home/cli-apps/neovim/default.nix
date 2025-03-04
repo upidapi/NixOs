@@ -162,6 +162,7 @@ in {
         tailwindcss-language-server
 
         yaml-language-server
+        nodejs
 
         luajitPackages.luacheck
       ];
@@ -341,6 +342,8 @@ in {
         friendly-snippets
         luasnip
 
+        codesnap-nvim
+
         # the "colorizer" plugin is the vim version which is horribly slow
         nvim-colorizer-lua
 
@@ -381,6 +384,9 @@ in {
         typst-preview-nvim
 
         # markdown
+
+        # yaml
+        SchemaStore-nvim
 
         # python
         nvim-dap-python

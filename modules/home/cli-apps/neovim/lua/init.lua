@@ -30,6 +30,7 @@ local modules = {
     -- so it has to be after it
     "lua.coding.spell",
 
+    "lua.editor.codesnap",
     "lua.editor.colorizer",
     "lua.editor.highlight-undo",
     "lua.editor.ibl",

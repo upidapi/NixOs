@@ -109,6 +109,7 @@ local function update(buf)
         end
 
         vim.wo[win].colorcolumn = ""
+        
 
         if vim.tbl_contains(config.disabled_filetypes, buf) then
             require("lua.utils.logger").log("dis")

@@ -14,8 +14,30 @@ require("lspconfig").tailwindcss.setup({})
 require("lspconfig").html.setup({})
 require("lspconfig").cssls.setup({})
 
-require("lspconfig").jsonls.setup({})
-require("lspconfig").yamlls.setup({})
+require("lspconfig").jsonls.setup({
+    settings = {
+        json = {
+            schemas = require("schemastore").json.schemas(),
+            validate = { enable = true },
+        },
+    },
+})
+require("lspconfig").yamlls.setup({
+    settings = {
+        yaml = {
+            schemaStore = {
+                -- You must disable built-in schemaStore support if you want to use
+                -- this plugin and its advanced options like `ignore`.
+                enable = true,
+                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                url = "",
+            },
+            schemas = {
+                ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+            }, -- require("schemastore").yaml.schemas()
+        },
+    },
+})
 
 require("lspconfig").svelte.setup({})
 

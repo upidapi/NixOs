@@ -38,6 +38,7 @@ in {
       cli-apps = {
         color-pick = enable;
         bat = enable;
+        cn-phone = enable;
         cn-bth = enableAnd {
           deviceAddr = "AC:80:0A:2E:81:6A";
         };

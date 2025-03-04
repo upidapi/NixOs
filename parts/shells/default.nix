@@ -102,7 +102,7 @@
               # rev
               gdb
               gef # gef extensions
-              pwndbg # gef extensions
+              # Borked pwndbg # gef extensions
 
               radare2
 

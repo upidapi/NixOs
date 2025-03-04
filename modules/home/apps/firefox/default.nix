@@ -347,6 +347,8 @@ in {
             # disable the "is now full-screen" thingy
             "full-screen-api.warning.timeout" = 0;
 
+            # just a test, makes the extensions use json to store their data
+            # instead of a sql db
             "extensions.webextensions.ExtensionStorageIDB.enabled" = false;
 
             # enable extensions by default

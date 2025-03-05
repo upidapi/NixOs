@@ -15,12 +15,13 @@ in {
     time = {
       # Set your time zone.
       timeZone = "Europe/Stockholm";
-      hardwareClockInLocalTime = false; # this somehow breaks if Impermanence is enabled
+      # this somehow breaks if Impermanence is enabled
+      #  seams to not be the case anymore
+      hardwareClockInLocalTime = false;
     };
 
-    # NOTE: this might not work
-    #  had an issue before but after reinstalling the bootloader it seams to
-    #  have fixed itself
+    # NOTE: windows and linux set the hardware clock to different offsets
+    #  utc vs local, you can use ntpdate to fix it
 
     networking.timeServers = [
       "0.nixos.pool.ntp.org"

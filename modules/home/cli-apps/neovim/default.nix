@@ -237,6 +237,10 @@ in {
         project-nvim # dep: plenary-nvim
         telescope-nvim
 
+        # provide extra text targets
+        targets-vim
+        nvim-surround
+
         # image-nvim
         # TODO: switch bask to the "image-nvim" pkgs when my pr merges
         #  https://github.com/3rd/image.nvim/pull/266
@@ -304,6 +308,21 @@ in {
         #     }) {}
         # )
         # )
+
+        # (pkgs.vimUtils.buildVimPlugin {
+        #   pname = "perfanno-nvim";
+        #   version = "2023-06-21";
+        #   nvimSkipModule = [
+        #     # "minimal-setup"
+        #   ];
+        #   dependencies = [pkgs.git];
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "t-troebst";
+        #     repo = "perfanno.nvim";
+        #     rev = "8640d6655f17a79af8de3153af2ce90c03f65e86";
+        #     sha256 = "0fqnz4wpw7ab1j0y4zqafazjg6q0rc66n71awx4wbxilikca80ml";
+        #   };
+        # })
 
         (pkgs.lua.pkgs.buildLuarocksPackage {
           pname = "image.nvim";

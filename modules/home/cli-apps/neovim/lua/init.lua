@@ -14,6 +14,7 @@ local modules = {
     "lua.coding.comments",
     "lua.coding.guess-indent",
     "lua.coding.luasnip",
+    "lua.coding.surround",
 
     "lua.ui.buffer-line",
     "lua.ui.cell-auto",
@@ -44,6 +45,7 @@ local modules = {
     "lua.lsp.lsp-saga",
     "lua.lsp.misc",
     "lua.lsp.treesitter",
+    -- TODO: add "lua.lsp.perfanno",
     "lua.lsp.conform",
 
     "lua.lang.bash",

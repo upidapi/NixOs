@@ -17,6 +17,9 @@ ix
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
 
+start using bookmarks 
+    you can create folders and subfolders 
+
 Virtulisation
     MAS
         free windows keys

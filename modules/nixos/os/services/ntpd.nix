@@ -15,7 +15,7 @@ in {
     time = {
       # Set your time zone.
       timeZone = "Europe/Stockholm";
-      hardwareClockInLocalTime = true; # this somehow breaks if Impermanence is enabled
+      hardwareClockInLocalTime = false; # this somehow breaks if Impermanence is enabled
     };
 
     # NOTE: this might not work

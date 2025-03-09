@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.home.cli-apps.eza;
 in {
   options.modules.home.cli-apps.eza =

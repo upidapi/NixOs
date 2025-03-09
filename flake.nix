@@ -102,6 +102,10 @@
       flake = false;
     };
 
+    pwndbg = {
+      url = "github:pwndbg/pwndbg";
+    };
+
     # plugin-neorg-interim-ls = {
     #   url = "github:benlubas/neorg-interim-ls";
     #   flake = false;

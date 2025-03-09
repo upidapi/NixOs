@@ -2,10 +2,11 @@
 def e [path: path] {
     nu -c $"($env.EDITOR) ($path)"
 }
+
 # alias e = nu -c $env.EDITOR
 
 # $env.PATH = (
-#   $env.PATH | 
+#   $env.PATH |
 #   split row (char esep) |
 #   prepend /home/myuser/.apps |
 #   append /usr/bin/env
@@ -36,7 +37,7 @@ def cdmk [path: path] {
 # Takes a symlink to the store and unlinks it so that the
 # file (or dir) it pointed to is placed there insted
 def unstore [path: path] {
-  let real_path = realpath $path 
+  let real_path = realpath $path
 
   $path | path type | if $in != "symlink" {
     echo "only symlinks are supported"
@@ -46,7 +47,7 @@ def unstore [path: path] {
   rm $path
   cp -r $real_path $path
 
-  chown (whoami) $path 
+  chown (whoami) $path
   chmod +w $path
 }
 
@@ -68,6 +69,10 @@ let fish_completer = {|spans|
     | from tsv --flexible --no-infer
 }
 
+let my_zoxide_completer = {|spans|
+  do $fish_completer ($spans | update 0 "cd")
+}
+
 let carapace_completer = {|spans|
   # carapace doesn't give completions if you don't give it any additional
   # # args
@@ -75,14 +80,14 @@ let carapace_completer = {|spans|
   # if ($spans | is-empty) {
   #   $spans = [""]
   # }
-  
-  carapace $spans.0 nushell ...$spans | from json 
+
+  carapace $spans.0 nushell ...$spans | from json
     # remove ERR(ors)
     | if ($in | default [] | where value == $"($spans | last)ERR" | is-empty) { $in } else { null }
     # sort by color
     | sort-by {
         let fg = $in.style?.fg? | default ""
-        let attr = $in.style?.attr? | default ""        
+        let attr = $in.style?.attr? | default ""
 
         # the ~ there to make "empty" results appear at the end
         $"($fg)~($attr)"
@@ -101,6 +106,8 @@ let external_completer = {|spans|
         $spans
     }
 
+    echo $"1- (date now)\n" | save -a nu-data.txt
+
     match $spans.0 {
         # carapace completions are incorrect for nu
         # (i don't think that is the case)
@@ -110,6 +117,7 @@ let external_completer = {|spans|
         git => $fish_completer
         # carapace doesn't have completions for asdf
         asdf => $fish_completer
+        __zoxide_z | __zoxide_zi => $my_zoxide_completer
         # use zoxide completions for zoxide commands
         # __zoxide_z | __zoxide_zi => $zoxide_completer
         _ => $carapace_completer
@@ -121,26 +129,26 @@ $env.config = {
   show_banner: false,
   edit_mode: vi,
   use_kitty_protocol: true,
-    
+
   table: {
     # remove the left and right edges from tables
-    mode: compact 
+    mode: compact
   }
 
   ls: {
     # use the LS_COLORS environment variable to colorize output
-    use_ls_colors: true 
+    use_ls_colors: true
     # enable or disable clickable links. Your terminal has to support links.
-    clickable_links: true 
+    clickable_links: true
   }
 
   completions: {
     # case-sensitive completions
-    case_sensitive: false 
+    case_sensitive: false
 
     # set to false to prevent auto-selecting completions
-    quick: true       
-    
+    quick: true
+
     # set to false to prevent partial filling of the prompt
     partial: true
 
@@ -149,19 +157,19 @@ $env.config = {
     algorithm: "prefix"
 
     external: {
-      # set to false to prevent nushell looking into 
+      # set to false to prevent nushell looking into
       # $env.PATH to find more suggestions
-      enable: true 
-    
-      # set to lower can improve completion performance at 
+      enable: true
+
+      # set to lower can improve completion performance at
       # the cost of omitting some options
-      max_results: 100 
-      completer: $external_completer # check 'carapace_completer' 
+      max_results: 100
+      completer: $external_completer # check 'carapace_completer'
     }
   }
 
   cursor_shape: {
-    vi_insert: line 
+    vi_insert: line
     vi_normal: block
     # emacs: line
   }
@@ -185,38 +193,38 @@ $env.config = {
     {
       name: completion_menu
       # search is done on the text written after activating the menu
-      only_buffer_difference: false 
+      only_buffer_difference: false
       # marker: "| "
       marker: ""
       # indicator that appears with the menu is active
       type: {
         # type of menu
-        layout: columnar          
+        layout: columnar
         # number of columns where the options are displayed
-        columns: 4                
+        columns: 4
         # optional value. if missing all the screen width is used to calculate column width
-        col_width: 20             
+        col_width: 20
         # padding between columns
-        col_padding: 2            
+        col_padding: 2
       }
 
       style: {
         # the style
         text: {
-          fg: $colors.shape_garbage.fg 
+          fg: $colors.shape_garbage.fg
           attr: n
         }
 
         # the style for description
         description_text: {
-           fg: $colors.leading_trailing_space_bg      
+           fg: $colors.leading_trailing_space_bg
            attr: n
         }
 
         # the style for selected option
         selected_text: {
           fg: black # $colors.separator
-          bg: $colors.shape_garbage.fg        
+          bg: $colors.shape_garbage.fg
           attr: b
         }
 
@@ -240,7 +248,7 @@ $env.config = {
     #     page_size: 10
     #   }
     #   style: {
-    #     text: $colors.shape_garbage.fg 
+    #     text: $colors.shape_garbage.fg
     #     selected_text: {attr: r}
     #     description_text: $colors.leading_trailing_space_bg
     #
@@ -256,4 +264,4 @@ $env.config = {
     #   }
     # }
   ]
-} 
+}

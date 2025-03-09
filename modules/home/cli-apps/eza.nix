@@ -12,6 +12,13 @@ in {
     mkEnableOpt "Whether or not to add eza a modern replacement for ls";
 
   config = mkIf cfg.enable {
-    programs.eza = enable;
+    programs.eza = {
+      enable = true;
+      enableBashIntegration = false;
+      enableFishIntegration = false;
+      enableIonIntegration = false;
+      enableNushellIntegration = false;
+      enableZshIntegration = false;
+    };
   };
 }

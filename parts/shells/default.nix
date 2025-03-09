@@ -9,6 +9,7 @@
   perSystem = {
     pkgs,
     self',
+    inputs',
     ...
   }: {
     devShells = {
@@ -102,7 +103,8 @@
               # rev
               gdb
               gef # gef extensions
-              # Borked pwndbg # gef extensions
+              # Borked (removed due to weird updates) pwndbg # gef extensions
+              inputs'.pwndbg.packages.default
 
               radare2
 
@@ -137,6 +139,8 @@
               # for compatibility
               udev
               alsa-lib
+
+              ida-free
 
               # crypto
               # BROKEN: sage

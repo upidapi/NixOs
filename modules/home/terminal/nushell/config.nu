@@ -106,8 +106,6 @@ let external_completer = {|spans|
         $spans
     }
 
-    echo $"1- (date now)\n" | save -a nu-data.txt
-
     match $spans.0 {
         # carapace completions are incorrect for nu
         # (i don't think that is the case)

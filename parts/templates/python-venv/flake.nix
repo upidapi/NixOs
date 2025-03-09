@@ -74,18 +74,53 @@
           };
         };
 
-        devShells.default = pkgs.mkShellNoCC {
-          packages = with pkgs;
+        # REF: https://nixos.org/manual/nixpkgs/stable/#how-to-consume-python-modules-using-pip-in-a-virtual-environment-like-i-am-used-to-on-other-operating-systems
+        devShells.default = pkgs.mkShell {
+          name = "impurePythonEnv";
+          venvDir = "./.venv";
+          buildInputs = with pkgs.python3Packages;
             [
-              (mkPoetryEnv {
-                projectDir = self;
-                # seams to fix a lot of module issues,
-                # why is this not the this the default?
-                preferWheels = true;
-              })
-              poetry
+              # A Python interpreter including the 'venv' module is required to
+              # bootstrap the environment.
+              python
+
+              # This executes some shell code to initialize a venv in $venvDir
+              # before dropping into the shell
+              venvShellHook
+
+              # Those are dependencies that we would like to use from nixpkgs,
+              # which will add them to PYTHONPATH and thus make them accessible
+              # from within the venv.
+              # has to be installed here for some reason
+              # numpy
+              # requests
             ]
-            ++ deps;
+            ++ (with pkgs; [
+              # In this particular example, in order to compile any binary
+              # extensions they may require, the Python modules listed in the
+              # hypothetical requirements.txt need  the following packages to
+              # be installed locally:
+              # taglib
+              # openssl
+              # git
+              # libxml2
+              # libxslt
+              # libzip
+              # zlib
+            ]);
+
+          # Run this command, only after creating the virtual environment
+          postVenvCreation = ''
+            unset SOURCE_DATE_EPOCH
+            pip install -r requirements.txt
+          '';
+
+          # Now we can execute any commands within the virtual environment.
+          # This is optional and can be left out to run pip manually.
+          postShellHook = ''
+            # allow pip to install wheels
+            unset SOURCE_DATE_EPOCH
+          '';
         };
       };
     };

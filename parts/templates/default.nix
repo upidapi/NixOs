@@ -1,4 +1,5 @@
 {
+  # nix flake init -t /persist/nixos#python-venv
   flake.templates = {
     python-venv = {
       path = ./python-venv;

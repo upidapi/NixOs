@@ -55,6 +55,8 @@ dap.configurations.cpp = {
         end,
     }),
 }
+-- https://github.com/vadimcn/codelldb/blob/master/MANUAL.md#expressions
+-- You can prefix things with /nat to call functions etc
 
 dap.configurations.c = dap.configurations.cpp
 

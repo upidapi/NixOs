@@ -75,6 +75,8 @@
         };
 
         devShells.default = pkgs.mkShellNoCC {
+          # you have to reload the env to make the pkgs show up
+          name = "poetry-env";
           packages = with pkgs;
             [
               (mkPoetryEnv {

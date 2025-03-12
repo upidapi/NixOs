@@ -25,7 +25,7 @@ in {
       apps = {
         # alacritty = enable;
         kitty = enable;
-        # bitwarden = enable;
+        bitwarden = enable;
         discord = enable;
         firefox = enable;
         r2modman = enable;

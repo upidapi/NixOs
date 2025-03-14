@@ -41,6 +41,25 @@ in {
             };
           };
         };
+        extraConfig.pipewire = {
+          "10-sample-rate" = {
+            "context.properties" = {
+              "default.clock.rate" = 44100;
+              "default.clock.allowed-rates" = [
+                44100
+                48000
+                88200
+                96000
+                192000
+              ];
+
+              # Fix stuttering
+              "default.clock.quantum" = 512;
+              "default.clock.min-quantum" = 256;
+              "default.clock.max-quantum" = 2048;
+            };
+          };
+        };
         # If you want to use JACK applications, uncomment this
         # jack.enable = true;
 

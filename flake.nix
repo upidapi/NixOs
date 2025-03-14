@@ -32,13 +32,12 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    # only for tuxedo cc
-    nixpkgs-23-05.url = "github:NixOS/nixpkgs/release-23.05";
-    tuxedo-nixos = {
-      url = "github:sylvesterroos/tuxedo-nixos";
-
-      inputs.nixpkgs.follows = "nixpkgs-23-05";
-    };
+    # nixpkgs-23-05.url = "github:NixOS/nixpkgs/release-23.05";
+    # tuxedo-nixos = {
+    #   url = "github:sylvesterroos/tuxedo-nixos";
+    #
+    #   inputs.nixpkgs.follows = "nixpkgs-23-05";
+    # };
 
     nix-index-db = {
       url = "github:nix-community/nix-index-database";

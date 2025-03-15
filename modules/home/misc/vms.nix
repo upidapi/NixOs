@@ -48,6 +48,27 @@ in {
       swtpm.enable = true;
 
       connections."qemu:///session".domains = [
+        {
+          definition = nixvirt.lib.domain.writeXML (nixvirt.lib.domain.templates.windows
+            {
+              name = "Bellevue";
+              uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593aaa";
+              memory = {
+                count = 8;
+                unit = "GiB";
+              };
+              storage_vol = {
+                pool = "home";
+                volume = "home.qcow2";
+              };
+              install_vol = "${home-persist}/vms/isos/win11_24h2_englishinternational_x64.iso";
+              nvram_path = "/home/upidapi/Bellevue.nvram";
+              virtio_net = true;
+              virtio_drive = true;
+              install_virtio = true;
+            });
+        }
+
         (mkIf cfg.w11 {
           definition = nlib.domain.writeXML (nlib.domain.templates.windows
             rec {
@@ -61,7 +82,7 @@ in {
                 pool = "home";
                 volume = "${name}.qcow2";
               };
-              install_vol = "${home-persist}/vms/isos/Win11_24H2_EnglishInternational_x64.iso";
+              install_vol = "${home-persist}/vms/isos/win11_24h2_englishinternational_x64.iso";
               nvram_path = "${home-persist}/vms/nvram/${name}.nvram";
               virtio_net = true;
               virtio_drive = true;

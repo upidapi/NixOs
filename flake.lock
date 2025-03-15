@@ -979,15 +979,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1736006647,
-        "narHash": "sha256-cWNV5d0iUXKHM1X7Sro4PMElVKWTP6LFRoKwps50sjU=",
-        "owner": "upidapi",
+        "lastModified": 1741549407,
+        "narHash": "sha256-f9SXK+/rvlryDNlc++Eva/hYjbkf7OCalWwmwifRhtI=",
+        "owner": "AshleyYakeley",
         "repo": "NixVirt",
-        "rev": "5103240f91f74777a6e0c230569bedc36c2f043a",
+        "rev": "9950b932dce4ae6b9bda7c83d41705c1a14e10f0",
         "type": "github"
       },
       "original": {
-        "owner": "upidapi",
+        "owner": "AshleyYakeley",
         "repo": "NixVirt",
         "type": "github"
       }

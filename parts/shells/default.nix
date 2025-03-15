@@ -23,6 +23,14 @@
         allowUnfree = true;
       };
     };
+
+    cuda-pkgs = import inputs.nixpkgs {
+      inherit system;
+      config = {
+        allowUnfree = true;
+        cudaSupport = true;
+      };
+    };
   in {
     devShells = {
       default = pkgs.mkShell {
@@ -48,7 +56,7 @@
         ];
 
         shellHook = ''
-          exec $SHELL
+          exec nu
         '';
       };
 
@@ -77,53 +85,65 @@
         (pkgs.buildFHSEnv
           {
             name = "cmp-prog-fhs";
-            runScript = pkgs.writeShellScript "cmp-prog-init" ''
+            runScript = pkgs.writeShellScript "fhs-init" ''
               name="cmp-prog-fhs"
               exec nu
             '';
           })
         .env;
 
-      ai = let
-        cuda-pkgs = import inputs.nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            cudaSupport = true;
-          };
-        };
-        # REF: https://lavafroth.is-a.dev/post/cuda-on-nixos-without-sacrificing-ones-sanity/#the-flake
-      in
+      # i recommend to add the nix-community cache, otherwise this will take
+      # hours to build with cudaSupport
+      ai = cuda-pkgs.mkShellNoCC {
+        name = "ai";
+        packages = with pkgs; [
+          (python3.withPackages (ps:
+            with ps; [
+              # if you want to use pytorch-bin then you have to
+              # make sure that torch-vision is using that too
+              pytorch
+              # torchvision
+              # matplotlib
+              # numpy
+              # mlflow
+            ]))
+          # linuxPackages.nvidia_x11
+          # libGLU
+          # libGL
+          # xorg.libXi
+          # xorg.libXmu
+          # freeglut
+          # xorg.libXext
+          # xorg.libX11
+          # xorg.libXv
+          # xorg.libXrandr
+          # zlib
+          # ncurses5
+          # stdenv.cc
+          # binutils
+          # ffmpeg
+        ];
+
+        profile = ''
+          export LD_LIBRARY_PATH="${pkgs.linuxPackages.nvidia_x11}/lib"
+          export CUDA_PATH="${pkgs.cudatoolkit}"
+          export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
+          export EXTRA_CCFLAGS="-I/usr/include"
+        '';
+
+        shellHook = ''
+          exec nu
+        '';
+      };
+
+      ai-fhs =
         (cuda-pkgs.buildFHSEnv {
-          name = "nvidia-fuck-you";
-          targetPkgs = pkgs: (with pkgs; [
-            (python3.withPackages (ps:
+          name = "ai-fhs";
+          targetPkgs = _pkgs: (with _pkgs; [
+            (_pkgs.python3.withPackages (ps:
               with ps; [
-                torchvision
-                matplotlib
-                numpy
-                mlflow
-                pytorch-bin
+                pytorch
               ]))
-
-            linuxPackages.nvidia_x11
-            libGLU
-            libGL
-            xorg.libXi
-            xorg.libXmu
-            freeglut
-            xorg.libXext
-            xorg.libX11
-            xorg.libXv
-            xorg.libXrandr
-            zlib
-            ncurses5
-            stdenv.cc
-            binutils
-            ffmpeg
-
-            # Micromamba does the real legwork
-            micromamba
           ]);
 
           profile = ''
@@ -133,19 +153,12 @@
             export EXTRA_CCFLAGS="-I/usr/include"
           '';
 
-          # again, you can remove this if you like bash
-          runScript = pkgs.writeShellScript "cmp-prog-init" ''
-            name="cmp-prog-fhs"
+          runScript = pkgs.writeShellScript "fhs-init" ''
+            name="ai-fhs"
             exec nu
           '';
         })
         .env;
-
-      # micromamba env create \
-      #     -n my-environment \
-      #     anaconda::cudatoolkit \
-      #     anaconda::cudnn \
-      #     "anaconda::pytorch=*=*cuda*"
 
       sec =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
@@ -155,7 +168,7 @@
         (pkgs.buildFHSEnv
           {
             name = "cmp-prog-fhs";
-            runScript = pkgs.writeShellScript "cmp-prog-init" ''
+            runScript = pkgs.writeShellScript "fhs-init" ''
               name="cmp-prog-fhs"
               exec nu
             '';
@@ -179,6 +192,8 @@
               gdb
               gef # gef extensions
               # Borked (removed due to weird updates) pwndbg # gef extensions
+              # if you want to use pytorch-bin then you have to
+              # make sure that torch-vision is using that too
               inputs'.pwndbg.packages.default
 
               radare2

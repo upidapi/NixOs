@@ -16,6 +16,7 @@ in {
 
     nix.settings = {
       substituters = [
+        # tons of unfree pkgs and other stuff, eg cuda pkgs
         "https://nix-community.cachix.org"
         # "https://cuda-maintainers.cachix.org" # not needed
         "https://cache.nixos.org/"

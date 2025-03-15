@@ -36,6 +36,9 @@ in {
   options.modules.home.apps.firefox =
     mkEnableOpt "enables firefox";
 
+  # since hyprland opens all windows in fullscreen, firefox thinks it is and therefore sets it to fullscreen when reopening old windows.
+  # The windows
+
   # https://github.com/qutebrowser/qutebrowser
   #  a vim like browser with minimal gui and a focus on the keyboard
 

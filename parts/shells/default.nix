@@ -1,17 +1,29 @@
 {
   # config,
-  # inputs,
+  inputs,
   # lib,
   self,
   # , pkgs
   ...
-} @ args: {
+}
+/*
+@ args
+*/
+: {
   perSystem = {
-    pkgs,
+    # pkgs,
     self',
     inputs',
+    system,
     ...
-  }: {
+  }: let
+    pkgs = import inputs.nixpkgs {
+      inherit system;
+      config = {
+        allowUnfree = true;
+      };
+    };
+  in {
     devShells = {
       default = pkgs.mkShell {
         packages = [
@@ -71,6 +83,69 @@
             '';
           })
         .env;
+
+      ai = let
+        cuda-pkgs = import inputs.nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            cudaSupport = true;
+          };
+        };
+        # REF: https://lavafroth.is-a.dev/post/cuda-on-nixos-without-sacrificing-ones-sanity/#the-flake
+      in
+        (cuda-pkgs.buildFHSEnv {
+          name = "nvidia-fuck-you";
+          targetPkgs = pkgs: (with pkgs; [
+            (python3.withPackages (ps:
+              with ps; [
+                torchvision
+                matplotlib
+                numpy
+                mlflow
+                pytorch
+              ]))
+
+            linuxPackages.nvidia_x11
+            libGLU
+            libGL
+            xorg.libXi
+            xorg.libXmu
+            freeglut
+            xorg.libXext
+            xorg.libX11
+            xorg.libXv
+            xorg.libXrandr
+            zlib
+            ncurses5
+            stdenv.cc
+            binutils
+            ffmpeg
+
+            # Micromamba does the real legwork
+            micromamba
+          ]);
+
+          profile = ''
+            export LD_LIBRARY_PATH="${pkgs.linuxPackages.nvidia_x11}/lib"
+            export CUDA_PATH="${pkgs.cudatoolkit}"
+            export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
+            export EXTRA_CCFLAGS="-I/usr/include"
+          '';
+
+          # again, you can remove this if you like bash
+          runScript = pkgs.writeShellScript "cmp-prog-init" ''
+            name="cmp-prog-fhs"
+            exec nu
+          '';
+        })
+        .env;
+
+      # micromamba env create \
+      #     -n my-environment \
+      #     anaconda::cudatoolkit \
+      #     anaconda::cudnn \
+      #     "anaconda::pytorch=*=*cuda*"
 
       sec =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/

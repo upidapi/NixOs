@@ -54,6 +54,20 @@ in {
     # };
   };
 
+  # probably fixes it
+  # (2025-03-14) Randomly after a while my pc starts to lag (like 1fps)
+  #  and the tty is no better
+  #   https://chatgpt.com/c/67d44dfe-939c-800b-9564-fd1d3f020feb
+  #   https://community.frame.work/t/kworker-events-unbound-stuck-at-100-cpu-laptop-slows-to-1-fps/63464/6
+  #   https://bbs.archlinux.org/viewtopic.php?id=302615
+  #  started a few days ago, probably the update from 6.13.4 -> 6.13.6
+  #  might be a temp fix
+  #   cat /sys/kernel/debug/dri/1/amdgpu_gpu_recover
+
+  boot.kernelParams = [
+    "amdgpu.dcdebugmask=0x10"
+  ];
+
   # FIXME: figure out how to prevent the accidental touches of the touchpad
   #  while typing
 

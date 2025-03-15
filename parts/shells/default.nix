@@ -103,7 +103,7 @@
                 matplotlib
                 numpy
                 mlflow
-                pytorch
+                pytorch-bin
               ]))
 
             linuxPackages.nvidia_x11

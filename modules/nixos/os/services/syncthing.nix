@@ -50,18 +50,29 @@ in {
             group = "users";
             argument = ''
               /local
+              /vms
             '';
           };
         };
+        # https://chatgpt.com/c/67d5dbe9-6c6c-800b-ad51-08101c770976
         "/home/upidapi/persist/prog/.stignore" = {
           f = {
             user = "upidapi";
             group = "users";
             argument = ''
-              /cp
-              /projects/*/
-              /ref/*/
-              /ctf
+              # ignore contens of all first-level folder
+              /*/**
+
+              # keep the first-level folders
+              !/*/
+
+              # for projects and ref, keep their immediate subdirectories
+              !/projects/*/
+              !/ref/*/
+
+              # but not their subfolders contents
+              /projects/*/**
+              /ref/*/**
             '';
           };
         };

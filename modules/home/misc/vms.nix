@@ -62,7 +62,7 @@ in {
                 volume = "${name}.qcow2";
               };
               install_vol = "${home-persist}/vms/isos/Win11_24H2_EnglishInternational_x64.iso";
-              nvram_path = "${home-persist}/vms/storage/${name}.nvram";
+              nvram_path = "${home-persist}/vms/nvram/${name}.nvram";
               virtio_net = true;
               virtio_drive = true;
               install_virtio = true;

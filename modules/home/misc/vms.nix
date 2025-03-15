@@ -52,7 +52,7 @@ in {
           definition = nixvirt.lib.domain.writeXML (nixvirt.lib.domain.templates.windows
             {
               name = "Bellevue";
-              uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593aaa";
+              uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593bbb";
               memory = {
                 count = 8;
                 unit = "GiB";

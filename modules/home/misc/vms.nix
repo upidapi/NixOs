@@ -59,7 +59,7 @@ in {
               };
               storage_vol = {
                 pool = "home";
-                volume = "home.qcow2";
+                volume = "w11.qcow2";
               };
               install_vol = "${home-persist}/vms/isos/win11_24h2_englishinternational_x64.iso";
               nvram_path = "/home/upidapi/Bellevue.nvram";

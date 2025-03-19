@@ -2,8 +2,22 @@
 -- where everything tries to do everything, but at the same time you need a ton
 -- of tools to get thing working.
 -- Why does prettier format like 15 different languages?
-
-require("nvim-ts-autotag").setup({})
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+  -- -- Also override individual filetype configs, these take priority.
+  -- -- Empty by default, useful if one of the "opts" global settings
+  -- -- doesn't work well in a specific filetype
+  -- per_filetype = {
+  --   ["html"] = {
+  --     enable_close = false
+  --   }
+  -- }
+})
 
 -- native (lua) implementation of the communication with tsserver
 require("typescript-tools").setup({})

@@ -199,6 +199,8 @@ in {
 
               sql
 
+              terraform
+
               norg
               markdown
               markdown_inline
@@ -206,8 +208,9 @@ in {
 
               regex
 
-              javascript # also jsx
-              typescript # also tsx
+              javascript # includes jsx?
+              typescript
+              tsx
               svelte
 
               html

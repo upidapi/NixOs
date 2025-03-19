@@ -9,6 +9,27 @@ require("nvim-treesitter.configs").setup({
     sync_install = false,
     ensure_installed = {},
 
+    autotag = {
+        enable = true,
+        filetypes = {
+            "html",
+            "javascript",
+            "typescript",
+            "javascriptreact",
+            "typescriptreact",
+            "svelte",
+            "vue",
+            "tsx",
+            "jsx",
+            "rescript",
+            "css",
+            "lua",
+            "xml",
+            "php",
+            "markdown",
+        },
+    },
+
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,

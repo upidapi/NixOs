@@ -83,6 +83,8 @@ in {
         #   mode = "0400";
         # };
 
+        "ai-api-keys/ANTHROPIC_API_KEY" = {};
+
         # "ai-api-keys/ANTHROPIC_API_KEY" = {
         #   # owner = "root";
         #   # group = "wheel";

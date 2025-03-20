@@ -244,6 +244,9 @@ in {
         project-nvim # dep: plenary-nvim
         telescope-nvim
 
+        # ai
+        avante-nvim
+
         # provide extra text targets
         targets-vim
         nvim-surround

@@ -74,6 +74,8 @@ in {
         sshKeyPaths = [
           "/etc/ssh/users/${config.home.username}_ed25519"
         ];
+
+        generateKey = true;
       };
 
       secrets = {

@@ -69,7 +69,7 @@ in {
       defaultSopsFile = "${self}/secrets/users/${config.home.username}.yaml";
 
       age = {
-        keyFile = "${config.home.homeDirectory}/.sops-nix-key.txt";
+        keyFile = "${config.home.homeDirectory}/.secrets/sops-nix-key.txt";
 
         sshKeyPaths = [
           "/etc/ssh/users/${config.home.username}_ed25519"
@@ -86,7 +86,7 @@ in {
         # };
 
         "ai-api-keys/ANTHROPIC_API_KEY" = {
-          path = "test";
+          path = ".secrets/ANTHROPIC_API_KEY";
           mode = "0400";
         };
 

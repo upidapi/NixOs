@@ -25,8 +25,15 @@ in {
     networking.firewall = {
       allowedTCPPorts = [
         7071 # for azure func api
+        8081
+        19000
+        19001
+        19002
       ];
-      allowedUDPPorts = [7071];
+      allowedUDPPorts = [
+        7071
+        8081
+      ];
     };
 >>>>>>> f55a2e2 (debug: ports)
   };

@@ -82,6 +82,7 @@ in {
 
           firewall = {
             fail2ban = enable;
+            ports = enable;
           };
         };
 

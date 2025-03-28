@@ -43,10 +43,6 @@
             sudo --preserve-env sops $path
           '')
         ];
-
-        shellHook = ''
-          exec nu
-        '';
       };
 
       # a devshell that builds and opens an editor with the current mnw
@@ -76,7 +72,6 @@
             name = "cmp-prog-fhs";
             runScript = pkgs.writeShellScript "fhs-init" ''
               name="cmp-prog-fhs"
-              exec nu
             '';
           })
         .env;
@@ -119,10 +114,6 @@
           export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
           export EXTRA_CCFLAGS="-I/usr/include"
         '';
-
-        shellHook = ''
-          exec nu
-        '';
       };
 
       ai-fhs =
@@ -144,7 +135,6 @@
 
           runScript = pkgs.writeShellScript "fhs-init" ''
             name="ai-fhs"
-            exec nu
           '';
         })
         .env;
@@ -159,7 +149,6 @@
             name = "cmp-prog-fhs";
             runScript = pkgs.writeShellScript "fhs-init" ''
               name="cmp-prog-fhs"
-              exec nu
             '';
             targetPkgs = _pkgs: (with _pkgs; [
               # forensics

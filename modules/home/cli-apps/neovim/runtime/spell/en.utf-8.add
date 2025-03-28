@@ -376,5 +376,10 @@ subrepo
 ai
 baspar
 promts
+<<<<<<< HEAD
 pytorch
 xorg
+||||||| parent of a2a811f (open ports for azure func api)
+=======
+improv
+>>>>>>> a2a811f (open ports for azure func api)

@@ -1035,6 +1035,22 @@
         "type": "github"
       }
     },
+    "perfanno-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1735426960,
+        "narHash": "sha256-AfmmeLeUwYY9c3ISwt6/EHwCE4uhzKCvVoFwze7VJ4E=",
+        "owner": "t-troebst",
+        "repo": "perfanno.nvim",
+        "rev": "8640d6655f17a79af8de3153af2ce90c03f65e86",
+        "type": "github"
+      },
+      "original": {
+        "owner": "t-troebst",
+        "repo": "perfanno.nvim",
+        "type": "github"
+      }
+    },
     "plugin-img-clip": {
       "flake": false,
       "locked": {
@@ -1163,6 +1179,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvirt": "nixvirt",
         "noshell": "noshell",
+        "perfanno-nvim": "perfanno-nvim",
         "plugin-img-clip": "plugin-img-clip",
         "pwndbg": "pwndbg",
         "sops-nix": "sops-nix",

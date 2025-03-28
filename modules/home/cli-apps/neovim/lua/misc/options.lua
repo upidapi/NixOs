@@ -57,6 +57,15 @@ for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
+
+-- use gq[G] to format 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "text", "markdown" },
+  callback = function()
+    vim.opt_local.textwidth = 80
+  end,
+})
+
 --[==[
 -- for markdow preview
 vim.g.mkdp_auto_close = true

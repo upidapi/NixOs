@@ -25,6 +25,8 @@ in {
   # or as a env
   # >>> nix develop /persist/nixos#mnw -c bash -c "nvim file.txt; exit"
 
+  # TODO: change the fzf provider for telescope find files / grep
+
   config = mkIf cfg.enable {
     home.sessionVariables = {EDITOR = "nvim";};
 
@@ -94,6 +96,9 @@ in {
         nixpkgs-fmt
         statix
         deadnix
+
+        # ts / js
+        typescript
 
         # python
         ruff
@@ -251,7 +256,13 @@ in {
         targets-vim
         nvim-surround
 
-        # image-nvim
+        (pkgs.vimUtils.buildVimPlugin {
+          pname = "perfanno-nvim";
+          version = "git";
+          src = inputs.perfanno-nvim;
+        })
+
+        image-nvim
         # TODO: switch bask to the "image-nvim" pkgs when my pr merges
         #  https://github.com/3rd/image.nvim/pull/266
         # ((pkgs.neovimUtils.buildNeovimPlugin {
@@ -266,13 +277,13 @@ in {
         #     meta.homepage = "https://github.com/3rd/image.nvim/";
         #   })
         #   .overrideAttrs {
-        #     dependencies = [
+        #     nativeBuildInputs = [
         #       pkgs.lua
         #       pkgs.luajitPackages.magick
         #     ];
         #   })
         #
-        # (buildNeovimPlugin {
+        # (vimUtils.buildNeovimPlugin {
         #   pname = "image.nvim";
         #   version = "2024-11-10";
         #   src = pkgs.fetchFromGitHub {
@@ -333,32 +344,32 @@ in {
         #     sha256 = "0fqnz4wpw7ab1j0y4zqafazjg6q0rc66n71awx4wbxilikca80ml";
         #   };
         # })
-
-        (pkgs.lua.pkgs.buildLuarocksPackage {
-          pname = "image.nvim";
-          version = "2024-11-10";
-          knownRockspec =
-            (pkgs.fetchurl {
-              url = "mirror://luarocks/image.nvim-1.3.0-1.rockspec";
-              sha256 = "1ls3v5xcgmqmscqk5prpj0q9sy0946rfb2dfva5f1axb5x4jbvj9";
-            })
-            .outPath;
-
-          src = pkgs.fetchFromGitHub {
-            owner = "upidapi";
-            repo = "image.nvim";
-            rev = "6915dd057ed8a29d09db8495b8746a54073b028d";
-            sha256 = "sha256-SgTr0AhlPMmGDKAFpaL+W/nK6zLmh/s+wGD5XcaMFyo=";
-          };
-
-          # pkgs.fetchzip {
-          #   url = "https://github.com/3rd/image.nvim/archive/v1.3.0.zip";
-          #   sha256 = "0fbc3wvzsck8bbz8jz5piy68w1xmq5cnhaj1lw91d8hkyjryrznr";
-          # };
-
-          disabled = pkgs.lua.pkgs.luaOlder "5.1";
-          propagatedBuildInputs = [pkgs.luajitPackages.magick];
-        })
+        #
+        # (pkgs.lua.pkgs.buildLuarocksPackage {
+        #   pname = "image.nvim";
+        #   version = "2024-11-10";
+        #   knownRockspec =
+        #     (pkgs.fetchurl {
+        #       url = "mirror://luarocks/image.nvim-1.3.0-1.rockspec";
+        #       sha256 = "1ls3v5xcgmqmscqk5prpj0q9sy0946rfb2dfva5f1axb5x4jbvj9";
+        #     })
+        #     .outPath;
+        #
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "upidapi";
+        #     repo = "image.nvim";
+        #     rev = "6915dd057ed8a29d09db8495b8746a54073b028d";
+        #     sha256 = "sha256-SgTr0AhlPMmGDKAFpaL+W/nK6zLmh/s+wGD5XcaMFyo=";
+        #   };
+        #
+        #   # pkgs.fetchzip {
+        #   #   url = "https://github.com/3rd/image.nvim/archive/v1.3.0.zip";
+        #   #   sha256 = "0fbc3wvzsck8bbz8jz5piy68w1xmq5cnhaj1lw91d8hkyjryrznr";
+        #   # };
+        #
+        #   disabled = pkgs.lua.pkgs.luaOlder "5.1";
+        #   propagatedBuildInputs = [pkgs.luajitPackages.magick];
+        # })
 
         (pkgs.vimUtils.buildVimPlugin {
           name = "img-clip";

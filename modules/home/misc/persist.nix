@@ -95,6 +95,8 @@ in {
         # spotify downloaded stuff
         ".cache/spotify/Storage" # "encrypted"
         ".cache/spotify/Users" # keys in here # keys in here
+
+        ".nuget"
       ];
       files = [
         # save zsh command history

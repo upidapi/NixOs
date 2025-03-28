@@ -90,3 +90,11 @@ himachi
 
 keyboard 
     iso (english) layout
+
+
+Investigate --offline mode 
+    it says it "disables substituters and considers all pre downloaded files as
+    up to data"
+
+    Why does it normally check ig files are up to date?
+        that should not be an issue if they are in the store

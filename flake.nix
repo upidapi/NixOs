@@ -100,6 +100,10 @@
       url = "github:HakonHarnes/img-clip.nvim";
       flake = false;
     };
+    perfanno-nvim = {
+      url = "github:t-troebst/perfanno.nvim";
+      flake = false;
+    };
 
     pwndbg = {
       url = "github:pwndbg/pwndbg";

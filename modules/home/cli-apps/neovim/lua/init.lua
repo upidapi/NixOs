@@ -23,6 +23,7 @@ local modules = {
     "lua.ui.misc",
     "lua.ui.smart-column",
     "lua.ui.neo-tree",
+    -- I've come to the conclusion that i don't like it
     "lua.ui.noice",
     "lua.ui.telescope",
     "lua.ui.toggleterm",
@@ -31,12 +32,14 @@ local modules = {
     -- so it has to be after it
     "lua.coding.spell",
 
+    -- the source of the ga_set_growsize errors
     "lua.editor.avante",
     "lua.editor.codesnap",
     "lua.editor.colorizer",
+
     "lua.editor.highlight-undo",
     "lua.editor.ibl",
-    -- BROKEN: "lua.editor.image",
+    "lua.editor.image",
     "lua.editor.todo-comments", -- has to be after telescope
     "lua.editor.ufo",
 
@@ -46,7 +49,7 @@ local modules = {
     "lua.lsp.lsp-saga",
     "lua.lsp.misc",
     "lua.lsp.treesitter",
-    -- TODO: add "lua.lsp.perfanno",
+    "lua.lsp.perfanno",
     "lua.lsp.conform",
 
     "lua.lang.bash",

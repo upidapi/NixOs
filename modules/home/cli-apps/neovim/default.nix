@@ -108,6 +108,10 @@ in {
         shfmt
         shellcheck
 
+        # terraform
+        terraform-lsp
+        # terraform-ls # the future
+
         # go
         gofumpt
         golangci-lint

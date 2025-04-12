@@ -82,6 +82,18 @@ in {
         #   path = "test";
         #   mode = "0400";
         # };
+
+        # "ai-api-keys/ANTHROPIC_API_KEY" = {
+        #   # owner = "root";
+        #   # group = "wheel";
+        #   mode = "0400";
+        # };
+        #
+        # "ai-api-keys/OPENAI_API_KEY" = {
+        #   # owner = "root";
+        #   # group = "wheel";
+        #   mode = "0400";
+        # };
       };
     };
   };

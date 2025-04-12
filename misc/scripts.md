@@ -6,7 +6,9 @@ there's a few more at [/misc/resources](/misc/resources)
 
 ```bash
 # in direnv
-sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
+sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/infra.yaml
+# or
+sops-edit infra
 
 # not in direnv
 env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $NIXOS_CONFIG_PATH/secrets/
@@ -14,6 +16,8 @@ env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $NIXOS_
 # without sudo
 su --preserve-environment -c "env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt
 sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
+
+env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $"($env.NIXOS_CONFIG_PATH)/secrets/shared.yaml"
 ```
 
 ## build image

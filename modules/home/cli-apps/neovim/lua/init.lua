@@ -31,6 +31,7 @@ local modules = {
     -- so it has to be after it
     "lua.coding.spell",
 
+    "lua.editor.avante",
     "lua.editor.codesnap",
     "lua.editor.colorizer",
     "lua.editor.highlight-undo",
@@ -62,6 +63,7 @@ local modules = {
     "lua.lang.python",
     "lua.lang.rust",
     "lua.lang.sql",
+    "lua.lang.terraform",
     "lua.lang.typst",
     "lua.lang.web",
 

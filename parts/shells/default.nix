@@ -35,24 +35,13 @@
     devShells = {
       default = pkgs.mkShell {
         packages = [
-          (
-            pkgs.python3.withPackages (
-              py-pkgs:
-                with py-pkgs; [
-                  pyyaml
+          (pkgs.writeShellScriptBin "sops-edit" ''
+            SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt
+            path="$NIXOS_CONFIG_PATH/secrets/$1.yaml"
+            echo $path
 
-                  pandas
-                  requests
-
-                  dbus-python
-                  pygobject3
-
-                  pillow
-
-                  beautifulsoup4
-                ]
-            )
-          )
+            sudo --preserve-env sops $path
+          '')
         ];
 
         shellHook = ''

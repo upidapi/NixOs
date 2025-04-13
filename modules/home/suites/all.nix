@@ -84,7 +84,7 @@ in {
         hyprland = enable;
         hyprlock = enable;
         hypridle = enable;
-        hyprcursor = enable;
+        # hyprcursor = enable; # i used stylix instead
 
         wallpaper.hyprpaper = enable;
         bar.ags = enable;

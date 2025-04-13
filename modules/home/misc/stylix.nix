@@ -84,10 +84,28 @@ in {
     */
     # "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
 
-    cursor = {
-      size = 24;
-      package = pkgs.nordzy-cursor-theme;
-      name = "Nordzy-cursors";
+    # REF: https://github.com/Permafrozen/dot-nixe/blob/e4be619686f20b5d87e7ac9b5628b34257c2edee/configs/pkgs/stylix/default.nix#L5
+    cursor = let
+      mcmojave = builtins.fetchGit {
+        url = "https://github.com/vinceliuice/McMojave-cursors.git";
+        ref = "main";
+        rev = "7d0bfc1f91028191cdc220b87fd335a235ee4439";
+      };
+      mcmojave-cursor = pkgs.stdenv.mkDerivation {
+        pname = "mcmojave-cursor";
+        version = "1.0.0";
+        src = mcmojave;
+        installPhase = ''
+          mkdir -p $out/share/icons
+          cp -r dist $out/share/icons/McMojave
+        '';
+      };
+    in {
+      package = mcmojave-cursor;
+      name = "McMojave";
+      size = 20;
+      # package = pkgs.nordzy-cursor-theme;
+      # name = "Nordzy-cursors";
     };
 
     fonts = {

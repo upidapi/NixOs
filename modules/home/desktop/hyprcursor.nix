@@ -9,6 +9,7 @@
   inherit (lib) mkIf;
   inherit (builtins) fetchFromGitHub;
 
+  # not used
   cursors = {
     McMojave = pkgs.stdenv.mkDerivation {
       name = "McMojave";

@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (builtins) toString path;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt disable;
 
   inherit (lib) mkIf;
   cfg = config.modules.home.cli-apps.neovim;
@@ -37,9 +37,11 @@ in {
 
       desktopEntry = false;
 
-      withNodeJs = false;
-      withPython3 = true;
-      withRuby = false;
+      providers = {
+        python3 = disable;
+        nodeJs = disable;
+        ruby = disable;
+      };
 
       initLua = let
         additionalRuntimePaths = [

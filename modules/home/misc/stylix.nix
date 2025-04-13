@@ -84,7 +84,11 @@ in {
     */
     # "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
 
-    # cursor.size = 16;
+    cursor = {
+      size = 24;
+      package = pkgs.nordzy-cursor-theme;
+      name = "Nordzy-cursors";
+    };
 
     fonts = {
       sizes.terminal = 10;

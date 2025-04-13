@@ -11,10 +11,23 @@ in {
   options.modules.nixos.os.networking.firewall.ports = mkEnableOpt "open some ports";
 
   config = mkIf cfg.enable {
+<<<<<<< HEAD
     networking.firewall.allowedTCPPorts = [
       7071 # for azure func api
       7072 # if you want 2
       8081 # for app
     ];
+||||||| parent of f55a2e2 (debug: ports)
+    networking.firewall.allowedTCPPorts = [
+      7071 # for azure func api
+    ];
+=======
+    networking.firewall = {
+      allowedTCPPorts = [
+        7071 # for azure func api
+      ];
+      allowedUDPPorts = [7071];
+    };
+>>>>>>> f55a2e2 (debug: ports)
   };
 }

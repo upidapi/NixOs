@@ -160,7 +160,7 @@ in {
 
           search = {
             force = true;
-            default = "DuckDuckGo";
+            default = "ddg";
             engines = let
               mkGithubSearch = alias: params: {
                 urls = [
@@ -219,7 +219,7 @@ in {
               };
               "NixOS Wiki" = {
                 urls = [{template = "https://nixos.wiki/index.php?search={searchTerms}";}];
-                iconUpdateURL = "https://nixos.wiki/favicon.png";
+                icon = "https://nixos.wiki/favicon.png";
                 updateInterval = 24 * 60 * 60 * 1000;
                 definedAliases = ["@nw" "@nixwiki"];
               };
@@ -237,55 +237,56 @@ in {
                 "repo:nix-community/home-manager lang:nix";
 
               # "Wikipedia (en)".metaData.alias = "@wiki";
-              # "Google".metaData.hidden = true;
-              "Google".metaData.hidden = true;
-              "Amazon.com".metaData.hidden = true;
-              "Bing".metaData.hidden = true;
-              "eBay".metaData.hidden = true;
+              "google".metaData.hidden = true;
+              "amazondotcom-us".metaData.hidden = true;
+              "bing".metaData.hidden = true;
+              "ebay".metaData.hidden = true;
             };
           };
-          extensions = with firefox-pkgs; [
-            # bitwarden
+          extensions = {
+            packages = with firefox-pkgs; [
+              # bitwarden
 
-            # floccus  # syncs bookmarks
-            # languagetool
+              # floccus  # syncs bookmarks
+              # languagetool
 
-            # vim binds for the browser
-            vimium
+              # vim binds for the browser
+              vimium
 
-            react-devtools
+              react-devtools
 
-            # un clickbait youtube
-            dearrow
-            sponsorblock
-            return-youtube-dislikes
+              # un clickbait youtube
+              dearrow
+              sponsorblock
+              return-youtube-dislikes
 
-            # qol
-            refined-github
-            i-dont-care-about-cookies
-            darkreader
+              # qol
+              refined-github
+              i-dont-care-about-cookies
+              darkreader
 
-            # all you can do with this can be exported and placed in userContent.css
-            # so it's used to quickly iterate before placing it in there
-            # since you cant config extensions declaratively
-            stylus
+              # all you can do with this can be exported and placed in userContent.css
+              # so it's used to quickly iterate before placing it in there
+              # since you cant config extensions declaratively
+              stylus
 
-            # privacy
-            # https-everywhere  # not on system
-            user-agent-string-switcher
-            ublock-origin
-            clearurls
-            decentraleyes # local cdn
-            # privacy-redirect
+              # privacy
+              # https-everywhere  # not on system
+              user-agent-string-switcher
+              ublock-origin
+              clearurls
+              decentraleyes # local cdn
+              # privacy-redirect
 
-            # unnecessary with ubo
-            # duckduckgo-privacy-essentials
-            # disconnect
-            # ghostery
-            # privacy-badger
+              # unnecessary with ubo
+              # duckduckgo-privacy-essentials
+              # disconnect
+              # ghostery
+              # privacy-badger
 
-            buster-captcha-solver
-          ];
+              buster-captcha-solver
+            ];
+          };
 
           settings = {
             # FROM: https://github.com/TLATER/dotfiles/blob/main/home-config/config/graphical-applications/firefox.nix

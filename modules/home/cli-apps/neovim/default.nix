@@ -41,9 +41,6 @@ in {
       withPython3 = true;
       withRuby = false;
 
-      viAlias = false;
-      vimAlias = false;
-
       initLua = let
         additionalRuntimePaths = [
           (path {
@@ -134,7 +131,7 @@ in {
         # php
         phpactor
         php # includes the linter
-        php.packages.php-cs-fixer
+        # php84Packages.php-cs-fixer # broken
 
         # c#
         csharp-ls

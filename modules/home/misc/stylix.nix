@@ -84,7 +84,7 @@ in {
     */
     # "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
 
-    cursor.size = 16;
+    # cursor.size = 16;
 
     fonts = {
       sizes.terminal = 10;

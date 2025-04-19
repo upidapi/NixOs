@@ -107,6 +107,8 @@ in {
 
         ".config/nushell/history.txt"
 
+        ".config/Bitwarden/data.json"
+
         ".ssh/known_hosts"
         ".screenrc"
         # ".zsh_history"  # zsh command history

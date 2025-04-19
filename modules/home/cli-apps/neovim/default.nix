@@ -224,6 +224,10 @@ in {
               html
               css
 
+              vim-dadbod # DB client
+              vim-dadbod-completion # DB completion
+              vim-dadbod-ui # DB UI
+
               json
               yaml
               toml

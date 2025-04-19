@@ -77,6 +77,7 @@ local modules = {
     "lua.misc.mouse",
     "lua.misc.options",
     "lua.misc.project-nvim",
+    "lua.misc.shell"
 }
 
 -- Refresh module cache

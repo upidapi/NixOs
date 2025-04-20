@@ -54,7 +54,6 @@ in {
               ]
           )
         )
-
         # search nixpkgs with the terminal
         nix-search-cli
 

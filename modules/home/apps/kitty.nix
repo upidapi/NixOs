@@ -45,6 +45,9 @@ in {
           placement_strategy top-left
 
           # you can scroll with ctrl + shift + arrow upp/down/end/home
+
+          # dont show the paste promt
+          paste_actions filter
         '';
         colorConfig = with config.lib.stylix.colors.withHashtag; ''
           # window colors

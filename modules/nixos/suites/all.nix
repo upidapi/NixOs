@@ -27,7 +27,10 @@ in {
         video = enable;
       };
 
-      misc.steam = enable;
+      misc = {
+        steam = enable;
+        dotnet = enable;
+      };
 
       nix = {
         cfg-path = "/persist/nixos";

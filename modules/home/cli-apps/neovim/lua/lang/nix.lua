@@ -28,11 +28,21 @@ require("lspconfig").nixd.setup({
                     ]],
                 },
 
+                -- FIXME: currently you get the nixos options in hm
                 -- home_manager = {
                 --     expr = [[
-                --         with builtins; (head (attrValues (
-                --             (getflake (getenv "nixos_config_path")).homeconfigurations
-                --         ))).options
+                --         with builtins;
+                --           rec {
+                --             getFirst = x: head (attrValues x);
+                --
+                --             flake = getFlake (getEnv "NIXOS_CONFIG_PATH");
+                --
+                --             nixos = getFirst flake.nixosConfigurations;
+                --
+                --             hm = getFirst flake.homeConfigurations;
+                --           }
+                --           .hm
+                --           .options
                 --     ]],
                 -- },
 
@@ -47,3 +57,4 @@ require("lspconfig").nixd.setup({
 -- /nix/store/bziskf2rm9wks5fqpjaaywpldm9bpi6g-deadnix-1.2.1/bin/deadnix
 -- /nix/store/pkqp4is8aybllw37406hb3n0081jdhgq-statix-0.5.8/bin/statix
 require("lint").linters_by_ft.nix = { "deadnix", "statix" }
+require("conform").formatters_by_ft.nix = { "alejandra" }

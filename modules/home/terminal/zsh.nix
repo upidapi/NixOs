@@ -1,7 +1,8 @@
 {
   config,
   my_lib,
-  lib, pkgs,
+  lib,
+  pkgs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;

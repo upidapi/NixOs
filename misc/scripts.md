@@ -20,6 +20,23 @@ sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $"($env.NIXOS_CONFIG_PATH)/secrets/shared.yaml"
 ```
 
+## modify keyboard
+
+```bash
+# in cromium (since firefox doesn't support it)
+
+# try to connect at
+https://usevia.app/
+
+# go to 
+brave://device-log/
+# [23:34:15] Failed to open '/dev/hidraw4': FILE_ERROR_ACCESS_DENIED
+
+chmod 766 /dev/hidraw4
+
+# it should not work
+```
+
 ## build image
 
 ```bash

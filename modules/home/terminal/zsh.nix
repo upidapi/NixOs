@@ -1,8 +1,7 @@
 {
   config,
   my_lib,
-  lib,
-  pkgs,
+  lib, pkgs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
@@ -27,7 +26,7 @@ in {
           path = "$HOME/.zsh/history";
         };
 
-        initExtra = mkBefore ''
+        initContent = mkBefore ''
           set -o vi
 
           # Improved vim bindings.

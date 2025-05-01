@@ -14,12 +14,11 @@ in {
   config = mkIf cfg.enable {
     # Configure keymap
     # "xserver" is actually just the general display server
-    # so this actually configs wayland too.
-    # set in hyprland
-    # services.xserver.xkb = {
-    #   layout = "gb";
-    #   variant = "";
-    # };
+    # so this actually configs wayland too. :)
+    services.xserver.xkb = {
+      layout = "gb";
+      variant = "";
+    };
 
     # services.kanata = {
     #   enable = true;

@@ -25,7 +25,7 @@
 
     # layout
     input = {
-      kb_layout = "gb"; # swedish layout
+      # kb_layout = "gb";
 
       # faster and less delay for the repeating
       # of keypresses when held down

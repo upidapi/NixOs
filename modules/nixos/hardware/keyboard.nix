@@ -16,7 +16,7 @@ in {
     # "xserver" is actually just the general display server
     # so this actually configs wayland too.
     services.xserver.xkb = {
-      layout = "se";
+      layout = "gb";
       variant = "";
     };
 
@@ -96,6 +96,18 @@ in {
             control = "layer(altgr)";
           };
           */
+
+          altgr = {
+            "a" = "å";
+            "e" = "ä";
+            "o" = "ö";
+          };
+
+          "shift+altgr" = {
+            "a" = "Å";
+            "e" = "Ä";
+            "o" = "Ö";
+          };
         };
       };
     };

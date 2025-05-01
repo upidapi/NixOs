@@ -75,6 +75,7 @@ in {
         persist = enable;
         stylix = enable;
         mime = enable;
+        keyd = enable;
       };
 
       desktop = {

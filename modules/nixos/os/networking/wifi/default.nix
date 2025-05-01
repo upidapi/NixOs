@@ -93,7 +93,37 @@ in {
             [mkWPA2WiFi "$SSID_3" "$PSK_3"]
             [mkWPA2WiFi "$SSID_4" "$PSK_4"]
             [mkWPA2WiFi "$SSID_5" "$PSK_5"]
-          ];
+          ]
+          // {
+            # add if i get a eduroam login
+            # eduroam = {
+            #   connection = {
+            #     id = "eduroam";
+            #     uuid = "74c15b1e-64d6-4eb8-86fc-8b683157b497";
+            #     type = "802-11-wireless";
+            #   };
+            #   "802-11-wireless" = {
+            #     ssid = "eduroam";
+            #     security = "802-11-wireless-security";
+            #   };
+            #   "802-11-wireless-security" = {
+            #     key-mgmt = "wpa-eap";
+            #     proto = "rsn";
+            #     pairwise = "ccmp";
+            #     group = "ccmp;tkip";
+            #   };
+            #   "802-1x" = {
+            #     eap = "peap";
+            #     phase2-auth = "mschapv2";
+            #     ca-cert = "${./eduroam-chalmers.crt}";
+            #     altsubject-matches = "DNS:eduroam.chalmers.se";
+            #     identity = "$EDUROAM_IDENTITY";
+            #     password = "$EDUROAM_PASSWORD";
+            #   };
+            #   ipv4.method = "auto";
+            #   ipv6.method = "auto";
+            # };
+          };
       };
     };
   };

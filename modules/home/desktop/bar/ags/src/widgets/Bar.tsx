@@ -4,6 +4,7 @@ import Workspaces from "./Workspaces";
 import Right from "./RightSide/Right";
 
 export default function Bar(monitor: number) {
+  print(`monitor: ${monitor}`);
   return (
     <window
       // gdkmonitor={gdkmonitor}

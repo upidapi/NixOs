@@ -173,7 +173,7 @@ $env.config = {
   }
 
   history: {
-    max_size: 10000 # Session has to be reloaded for this to take effect
+    max_size: 100000 # Session has to be reloaded for this to take effect
     sync_on_enter: true # Enable to share history between multiple sessions, else you have to close the session to write history to file
     file_format: "plaintext" # "sqlite" or "plaintext"
   }

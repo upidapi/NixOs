@@ -19,7 +19,11 @@ export default function Workspaces({ monitor_id }: { monitor_id: number }) {
         bind(hyprland, "focusedWorkspace"),
       ],
       (monitors, workspaces) => {
-        // pp(monitors);
+        if (monitors.length == 0) {
+          // FIXME: .monitors becomes empty after using grimblast area
+          throw new Error("nope")
+        }
+        print(`monitor_id: ${monitor_id}`);
 
         const workspace_type = (() => {
           // if (id === focus.id) {

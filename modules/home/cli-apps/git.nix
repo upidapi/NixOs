@@ -21,6 +21,29 @@ in {
 
       aliases = {
         # add all git aliases here
+        a = "add";
+        aa = "add --all";
+
+        d = "diff";
+
+        pl = "pull";
+        pu = "push";
+
+        s = "status";
+
+        c = "commit";
+        cm = "commit -m";
+        ca = "commit --amend";
+
+        C = "clone";
+
+        rb = "rebase";
+        rba = "rebase --abort";
+        rbc = "rebase --continue";
+        rbi = "rebase --interactive";
+
+        r = "restore";
+        rs = "restore --staged";
       };
 
       delta = {
@@ -94,6 +117,50 @@ in {
       ];
 
       attributes = [
+        # Source files
+        "*.c     text eol=lf diff=cpp"
+        "*.cc    text eol=lf diff=cpp"
+        "*.cxx   text eol=lf diff=cpp"
+        "*.cpp   text eol=lf diff=cpp"
+        "*.cpi   text eol=lf diff=cpp"
+        "*.c++   text eol=lf diff=cpp"
+        "*.hpp   text eol=lf diff=cpp"
+        "*.h     text eol=lf diff=cpp"
+        "*.h++   text eol=lf diff=cpp"
+        "*.hh    text eol=lf diff=cpp"
+
+        ".py  text eol=lf diff=python"
+        ".py3 text eol=lf diff=python"
+
+        "*.lua text eol=lf"
+
+        "*.html text  eol=lf diff=html"
+        "*.css  text  eol=lf diff=css"
+
+        # Archives
+        "*.7z   binary"
+        "*.gz   binary"
+        "*.tar  binary"
+        "*.tgz  binary"
+        "*.zip  binary"
+
+        # Scripts
+        "*.bash text eol=lf"
+        "*.fish text eol=lf"
+        "*.sh   text eol=lf"
+        "*.zsh  text eol=lf"
+        "*.nu   text eol=lf"
+
+        # Executables
+        "*.o    binary"
+        "*.out  binary"
+
+        # Normal text files
+        "*.txt  text eol=lf"
+        "*.csv  text eol=lf"
+        "*.norg text eol=lf"
+        "*.md   text eol=lf diff=markdown"
+        "*.tex  text diff=tex"
       ];
 
       userName = "upidapi";

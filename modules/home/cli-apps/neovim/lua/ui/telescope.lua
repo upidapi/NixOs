@@ -10,6 +10,8 @@ telescope.setup({
             "build/",
             "target/",
             "result/",
+            "bin/",
+            "obj/",
         },
         initial_mode = "insert",
         layout_config = {

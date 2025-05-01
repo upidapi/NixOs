@@ -124,6 +124,7 @@ in {
         # sql
         sqls
         sqlfluff
+        sqlcmd
 
         # java
         java-language-server
@@ -224,10 +225,6 @@ in {
               html
               css
 
-              vim-dadbod # DB client
-              vim-dadbod-completion # DB completion
-              vim-dadbod-ui # DB UI
-
               json
               yaml
               toml
@@ -245,6 +242,22 @@ in {
         highlight-undo-nvim
 
         nvim-treesitter
+
+        # vim-dadbod # DB client
+        (pkgs.vimUtils.buildVimPlugin {
+          pname = "vim-dadbod";
+          version = "2025-04-29";
+          src = pkgs.fetchFromGitHub {
+            owner = "tpope";
+            repo = "vim-dadbod";
+            rev = "fa31d0ffeebaa59cf97a81e7f92194cced54a13f";
+            sha256 = "sha256-2KVsKLxXq0/DThx1n4LnVz9cMuiOOO87dayeD5UPnoI=";
+          };
+          meta.homepage = "https://github.com/tpope/vim-dadbod/";
+        })
+        # vim-dadbod-completion # DB completion
+        # vim-dadbod-ui # DB UI
+        nvim-dbee
 
         cellular-automaton-nvim
         toggleterm-nvim

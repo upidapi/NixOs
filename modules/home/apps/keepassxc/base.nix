@@ -12,6 +12,8 @@
 
   iniFormat = pkgs.formats.ini {};
 in {
+  disabledModules = ["programs/keepassxc.nix"];
+
   options = {
     services.keepassxc = {
       enable = lib.mkEnableOption "KeePassXC Service";

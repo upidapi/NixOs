@@ -36,28 +36,34 @@ in {
   options.modules.home.apps.firefox =
     mkEnableOpt "enables firefox";
 
-  # since hyprland opens all windows in fullscreen, firefox thinks it is and therefore sets it to fullscreen when reopening old windows.
-  # The windows
+  # https://addons.mozilla.org/en-US/firefox/addon/netflux/
+  # https://itsfoss.com/netflix-full-hd-firefox/
 
-  # https://github.com/qutebrowser/qutebrowser
-  #  a vim like browser with minimal gui and a focus on the keyboard
+  # https://itsfoss.com/firefox-add-ons/
 
-  # prevent firefox from opening in fullscreen when you restore with ctrl shift t
+  # since hyprland opens all windows in fullscreen, firefox thinks it is and
+  # therefore sets it to fullscreen when reopening old windows. The windows
 
-  # switch to zen browser?
-  #  not until they add horizontal tabs
-  #  could use https://github.com/mmmintdesign/Zen-Mod-Forbidden-Horizontal-Tabs
+  # https://github.com/qutebrowser/qutebrowser a vim like browser with minimal
+  # gui and a focus on the keyboard
+
+  # prevent firefox from opening in fullscreen when you restore with ctrl shift
+  # t
+
+  # switch to zen browser? not until they add horizontal tabs could use
+  # https://github.com/mmmintdesign/Zen-Mod-Forbidden-Horizontal-Tabs
   #
   #  can be run thrugh this flake
   #  https://github.com/0xc000022070/zen-browser-flake
   #
-  #  good config https://github.com/SergioRibera/dotfiles/blob/main/home/desktop/browser/zen/default.nix
+  #  good config
+  #  https://github.com/SergioRibera/dotfiles/blob/main/home/desktop/browser/zen/default.nix
 
   # possibly might disable the restore screen
   # browser.sessionstore.resume_from_crash
 
-  # setting "full-screen-api.ignore-widgets" to true
-  # allows for psudo-fullscreen where it doesn't actually full screen it
+  # setting "full-screen-api.ignore-widgets" to true allows for
+  # psudo-fullscreen where it doesn't actually full screen it
   # https://superuser.com/a/1742237
 
   # tampermonkey and stylus can be a good source for user scripts
@@ -183,6 +189,7 @@ in {
               };
             in {
               "noogle" = {
+                definedAliases = ["@ng" "@noogle"];
                 urls = [
                   {
                     template = "https://noogle.dev/q";
@@ -195,10 +202,40 @@ in {
                   }
                 ];
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                definedAliases = ["@ng" "@noogle"];
+              };
+
+              "Youtube" = {
+                definedAliases = ["@y"];
+                urls = [
+                  {
+                    template = "https://www.youtube.com/results";
+                    params = [
+                      {
+                        name = "search_query";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
+              };
+
+              "Google Images" = {
+                definedAliases = ["@gi"];
+                urls = [
+                  {
+                    template = "https://www.google.com/search";
+                    params = [
+                      {
+                        name = "q";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
               };
 
               "Nix Packages" = {
+                definedAliases = ["@np" "@nixpkgs"];
                 urls = [
                   {
                     template = "https://search.nixos.org/packages";
@@ -215,13 +252,12 @@ in {
                   }
                 ];
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                definedAliases = ["@np" "@nixpkgs"];
               };
               "NixOS Wiki" = {
+                definedAliases = ["@nw" "@nixwiki"];
                 urls = [{template = "https://nixos.wiki/index.php?search={searchTerms}";}];
                 icon = "https://nixos.wiki/favicon.png";
                 updateInterval = 24 * 60 * 60 * 1000;
-                definedAliases = ["@nw" "@nixwiki"];
               };
 
               "Github" = mkGithubSearch ["@g" "@gh" "@github"] "";
@@ -256,7 +292,7 @@ in {
               react-devtools
 
               # un clickbait youtube
-              dearrow
+              # dearrow
               sponsorblock
               return-youtube-dislikes
 

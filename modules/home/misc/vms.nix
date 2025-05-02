@@ -42,6 +42,12 @@ in {
     # NOTE: the config is located at .config/libvirt/qemu
     #  and the virt-manager is located at /var/lib/libvirt/
 
+    # NOTE: if this doesn't exist then libvirt chrashes and since its
+    #  a part of the home-manager activation script it too chrashes
+    home.activation.createVmDirs = lib.hm.dag.entryBefore ["NixVirt"] ''
+      mkdir -p ${home-persist}/vms/storage
+    '';
+
     virtualisation.libvirt = {
       enable = true;
 
@@ -68,6 +74,24 @@ in {
               install_virtio = true;
             });
         }
+
+        # {
+        #   definition = nixvirt.lib.domain.writeXML (nixvirt.lib.domain.templates.windows
+        #     {
+        #       name = "Bellevue";
+        #       uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593aaa";
+        #       memory = {
+        #         count = 16;
+        #         unit = "GiB";
+        #       };
+        #       storage_vol = null;
+        #       install_vol = "${home-persist}/win11_24h2_englishinternational_x64.iso";
+        #       nvram_path = null;
+        #       virtio_net = true;
+        #       virtio_drive = true;
+        #       install_virtio = true;
+        #     });
+        # }
 
         (mkIf cfg.w11 {
           definition = nlib.domain.writeXML (nlib.domain.templates.windows
@@ -99,8 +123,6 @@ in {
             uuid = "ac82824e-567a-43f2-8915-644f4809f540";
             type = "dir";
             target = {
-              # NOTE: if this doesn't exist then libvirt chrashes and since its
-              #  a part of the home-manager activation script it too chrashes
               path = "${home-persist}/vms/storage/";
             };
           };

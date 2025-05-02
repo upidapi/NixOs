@@ -13,7 +13,7 @@ in {
 
     misc.vms = {
       enable = true;
-      w11 = true;
+      # w11 = true;
     };
   };
 }

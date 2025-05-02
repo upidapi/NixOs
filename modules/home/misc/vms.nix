@@ -42,8 +42,11 @@ in {
     # NOTE: the config is located at .config/libvirt/qemu
     #  and the virt-manager is located at /var/lib/libvirt/
 
-    # NOTE: if this doesn't exist then libvirt chrashes and since its
-    #  a part of the home-manager activation script it too chrashes
+    # use "virsh define .config/libvirt/qemu/Bellevue.xml"
+    # to "create" the image
+
+    # if this doesn't exist then libvirt chrashes and since its
+    # a part of the home-manager activation script it too chrashes
     home.activation.createVmDirs = lib.hm.dag.entryBefore ["NixVirt"] ''
       mkdir -p ${home-persist}/vms/storage
     '';

@@ -20,6 +20,9 @@ in {
       variant = "";
     };
 
+    # same for terminal
+    i18n.consoleUseXkbConfig = true;
+
     # services.kanata = {
     #   enable = true;
     #   keyboards = {

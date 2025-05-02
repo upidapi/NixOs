@@ -12,7 +12,8 @@ in {
 
   config = mkIf cfg.enable {
     # Configure console keymap
-    console.keyMap = "sv-latin1";
+    # configen in keyboard.nix
+    # console.keyMap = "sv-latin1";
     # console.useXkbConfig = true;
   };
 }

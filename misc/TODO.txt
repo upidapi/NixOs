@@ -63,7 +63,6 @@ Home lab
 
         microbin - gui term bin
 
-
 security 
     nix-mineral 
         general linux hardening
@@ -79,7 +78,6 @@ security
 
     secureboot
 
-
 himachi
     for fake lan 
 
@@ -90,7 +88,6 @@ himachi
 
 keyboard 
     iso (english) layout
-
 
 Investigate --offline mode 
     it says it "disables substituters and considers all pre downloaded files as

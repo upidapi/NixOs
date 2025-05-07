@@ -7,18 +7,14 @@
 }: let
   inherit (lib) mkIf mkOption types;
   inherit (my_lib.opt) mkEnableOpt;
-  inherit (inputs) nixvirt;
+  cfg = config.modules.nixos.os.virtualisation.vms;
   nlib = nixvirt.lib;
+  inherit (inputs) nixvirt;
 
-  cfg = config.modules.home.misc.vms;
-  home-persist = "/persist/system/home/${config.home.username}/persist";
+  home-persist = "/home/upidapi";
 in {
-  imports = [
-    inputs.nixvirt.homeModules.default
-  ];
-
-  options.modules.home.misc.vms =
-    (mkEnableOpt "enable vms (trough libvirt)")
+  options.modules.nixos.os.virtualisation.vms =
+    mkEnableOpt "enable a bunch of vm declarations"
     // {
       w11 = mkOption {
         description = ''
@@ -31,28 +27,6 @@ in {
     };
 
   config = mkIf cfg.enable {
-    # tell virt-manager to use the system connection
-    dconf.settings."org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
-    };
-
-    # REF: https://github.com/Svenum/holynix/blob/295a24e8e2f97298f21e8b2d0112ed8cb919b657/systems/x86_64-linux/Yon/kvm.nix#L134
-
-    # NOTE: the config is located at .config/libvirt/qemu
-    #  and the virt-manager is located at /var/lib/libvirt/
-
-    # use
-    # virsh define .config/libvirt/qemu/Bellevue.xml
-    # to "create" the image
-    # virsh list --all
-
-    # if this doesn't exist then libvirt chrashes and since its
-    # a part of the home-manager activation script it too chrashes
-    home.activation.createVmDirs = lib.hm.dag.entryBefore ["NixVirt"] ''
-      mkdir -p ${home-persist}/vms/storage
-    '';
-
     virtualisation.libvirt = {
       enable = true;
 

@@ -42,5 +42,13 @@
     # disable animations for the images (that are actually
     # wayland windows) created by ueberzugpp
     windowrulev2 = "noanim, title:ueberzugpp";
+
+    animations = {
+      enabled = "yes";
+      animation = [
+        "workspaces, 0"
+        "fade, 0"
+      ];
+    };
   };
 }

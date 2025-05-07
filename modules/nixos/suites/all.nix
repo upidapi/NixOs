@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt enableAnd;
   inherit (lib) mkIf mkDefault;
   cfg = config.modules.nixos.suites.all;
   enable = {
@@ -98,6 +98,10 @@ in {
         };
 
         virtualisation = {
+          vms = enableAnd {
+            w11 = true;
+          };
+
           podman = enable;
           # vfio = enable;
           qemu = enable;

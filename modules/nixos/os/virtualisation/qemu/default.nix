@@ -13,7 +13,9 @@ in {
   options.modules.nixos.os.virtualisation.qemu =
     mkEnableOpt "enables the qemu for running vm(s)";
 
-  imports = [inputs.nixvirt.nixosModules.default];
+  imports = [
+    inputs.nixvirt.nixosModules.default
+  ];
 
   config = mkIf cfg.enable {
     # (writeScriptBin "iommu-groups" ''

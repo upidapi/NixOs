@@ -10,7 +10,6 @@ require("neo-tree").setup({
     enable_modified_markers = true,
     enable_opened_markers = true,
     enable_refresh_on_write = true,
-    git_status_async = false,
     hide_root_node = false,
     log_level = "info",
     log_to_file = false,

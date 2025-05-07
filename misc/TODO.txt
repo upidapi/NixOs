@@ -16,10 +16,6 @@ nix
     Index the nixos server for better searching
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
-
-start using bookmarks 
-    you can create folders and subfolders 
-
 Virtulisation
     MAS
         free windows keys
@@ -84,10 +80,6 @@ himachi
     could probably do this with homelab too
 
     or some other manual thing
-
-
-keyboard 
-    iso (english) layout
 
 Investigate --offline mode 
     it says it "disables substituters and considers all pre downloaded files as

@@ -36,6 +36,16 @@ in {
       # frontend for libvirt
       virt-manager
 
+      spice
+      spice-gtk
+      spice-protocol
+
+      win-virtio
+      win-spice
+
+      # apparently sometimes needed
+      adwaita-icon-theme
+
       # VGA PCI Pass-through without an attached physical monitor,
       # keyboard nor mouse.
       looking-glass-client

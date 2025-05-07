@@ -6,6 +6,5 @@
     ./waydroid.nix
     ./vfio.nix
     ./android.nix
-    ./vms.nix
   ];
 }

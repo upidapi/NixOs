@@ -11,9 +11,9 @@ in {
   modules.home = {
     suites.all = enable;
 
-    # misc.vms = {
-    #   enable = true;
-    #   w11 = true;
-    # };
+    misc.vms = {
+      enable = true;
+      w11 = enable;
+    };
   };
 }

@@ -98,10 +98,6 @@ in {
         };
 
         virtualisation = {
-          vms = enableAnd {
-            w11 = true;
-          };
-
           podman = enable;
           # vfio = enable;
           qemu = enable;

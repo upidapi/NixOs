@@ -4,18 +4,18 @@
   inputs,
   ...
 }: let
-  inherit (lib) mkIf mkOption types mkEnableOption trace;
+  inherit (lib) mkIf mkOption types mkEnableOption;
   inherit (inputs) nixvirt;
   nlib = nixvirt.lib;
 
-  cfg = config.modules.home.misc.vms;
+  cfg = config.modules.nixos.os.virtualisation.vms;
   home-persist = "/persist/system/home/${config.home.username}/persist";
 in {
   imports = [
-    inputs.nixvirt.homeModules.default
+    inputs.nixvirt.nixosModules.default
   ];
 
-  options.modules.home.misc.vms = {
+  options.modules.nixos.os.virtualisation.vms = {
     enable = mkEnableOption "vms (though libvirt using nixvirt)";
     w11 = {
       enable = mkEnableOption ''
@@ -31,12 +31,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # tell virt-manager to use the system connection
-    dconf.settings."org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
-    };
-
     # REF: https://github.com/Svenum/holynix/blob/295a24e8e2f97298f21e8b2d0112ed8cb919b657/systems/x86_64-linux/Yon/kvm.nix#L134
 
     # NOTE: the config is located at .config/libvirt/qemu
@@ -129,37 +123,36 @@ in {
           }
         ];
 
-        # cant figure out how to connect to the system network
-        # networks = [
-        #   {
-        #     active = true;
-        #     definition = nlib.network.writeXML {
-        #       name = "default";
-        #       uuid = "c4acfd00-4597-41c7-a48e-e2302234fa89";
-        #       forward = {
-        #         mode = "nat";
-        #         nat = {
-        #           port = {
-        #             start = 1024;
-        #             end = 65535;
-        #           };
-        #         };
-        #       };
-        #       bridge = {name = "virbr0";};
-        #       mac = {address = "52:54:00:02:77:4b";};
-        #       ip = {
-        #         address = "192.168.74.1";
-        #         netmask = "255.255.255.0";
-        #         dhcp = {
-        #           range = {
-        #             start = "192.168.74.2";
-        #             end = "192.168.74.254";
-        #           };
-        #         };
-        #       };
-        #     };
-        #   }
-        # ];
+        networks = [
+          {
+            active = true;
+            definition = nlib.network.writeXML {
+              name = "default";
+              uuid = "c4acfd00-4597-41c7-a48e-e2302234fa89";
+              forward = {
+                mode = "nat";
+                nat = {
+                  port = {
+                    start = 1024;
+                    end = 65535;
+                  };
+                };
+              };
+              bridge = {name = "virbr0";};
+              mac = {address = "52:54:00:02:77:4b";};
+              ip = {
+                address = "192.168.74.1";
+                netmask = "255.255.255.0";
+                dhcp = {
+                  range = {
+                    start = "192.168.74.2";
+                    end = "192.168.74.254";
+                  };
+                };
+              };
+            };
+          }
+        ];
       };
     };
   };

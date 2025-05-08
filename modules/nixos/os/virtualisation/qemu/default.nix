@@ -14,10 +14,6 @@ in {
   options.modules.nixos.os.virtualisation.qemu =
     mkEnableOpt "enables the qemu for running vm(s)";
 
-  imports = [
-    inputs.nixvirt.nixosModules.default
-  ];
-
   config = mkIf cfg.enable {
     # (writeScriptBin "iommu-groups" ''
     # #!/usr/bin/env bash
@@ -80,23 +76,10 @@ in {
 
         onBoot = "ignore";
         onShutdown = "shutdown";
-        hooks.qemu = {
-          events = ./virtualisation_events.sh;
-        };
+        # hooks.qemu = {
+        #   events = ./virtualisation_events.sh;
+        # };
       };
-
-      libvirt.connections."qemu:///system".networks = [
-        {
-          definition = nixvirt.lib.network.writeXML (
-            nixvirt.lib.network.templates.bridge
-            {
-              uuid = "70b08691-28dc-4b47-90a1-45bbeac9ab5a";
-              subnet_byte = 71;
-            }
-          );
-          active = true;
-        }
-      ];
 
       spiceUSBRedirection.enable = true;
     };

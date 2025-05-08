@@ -82,7 +82,7 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
     nixvirt = {
-      url = "github:AshleyYakeley/NixVirt";
+      url = "github:upidapi/NixVirt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

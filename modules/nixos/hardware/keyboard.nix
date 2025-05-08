@@ -21,7 +21,7 @@ in {
     };
 
     # same for terminal
-    i18n.consoleUseXkbConfig = true;
+    console.useXkbConfig = true;
 
     # services.kanata = {
     #   enable = true;

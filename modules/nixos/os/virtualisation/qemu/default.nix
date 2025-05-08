@@ -8,6 +8,7 @@
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
+  inherit (inputs) nixvirt;
   cfg = config.modules.nixos.os.virtualisation.qemu;
 in {
   options.modules.nixos.os.virtualisation.qemu =
@@ -52,38 +53,53 @@ in {
     ];
 
     # REF: https://github.com/Lillecarl/nixos/blob/ba287ceaf13ee9ceb940db6454838582959c5d3e/hosts/_shared/libvirt.nix#L25
-    virtualisation.libvirtd = {
-      enable = true;
+    virtualisation = {
+      libvirtd = {
+        enable = true;
 
-      qemu = {
-        # does this do anything?
-        package = pkgs.qemu_kvm;
+        qemu = {
+          # does this do anything?
+          package = pkgs.qemu_kvm;
 
-        # passthrugh stuff
-        ovmf = {
-          enable = true;
+          # passthrugh stuff
+          ovmf = {
+            enable = true;
 
-          # Include OVMF_CODE.secboot.fd
-          packages = [pkgs.OVMFFull.fd];
+            # Include OVMF_CODE.secboot.fd
+            packages = [pkgs.OVMFFull.fd];
+          };
+
+          # virtual tpm
+          swtpm = enable;
+
+          # maybe
+          # vhostUserPackages = [
+          #   pkgs.virtiofsd
+          # ];
         };
 
-        # virtual tpm
-        swtpm = enable;
-
-        # maybe
-        # vhostUserPackages = [
-        #   pkgs.virtiofsd
-        # ];
+        onBoot = "ignore";
+        onShutdown = "shutdown";
+        hooks.qemu = {
+          events = ./virtualisation_events.sh;
+        };
       };
 
-      onBoot = "ignore";
-      onShutdown = "shutdown";
-      hooks.qemu = {
-        events = ./virtualisation_events.sh;
-      };
+      libvirt.connections."qemu:///system".networks = [
+        {
+          definition = nixvirt.lib.network.writeXML (
+            nixvirt.lib.network.templates.bridge
+            {
+              uuid = "70b08691-28dc-4b47-90a1-45bbeac9ab5a";
+              subnet_byte = 71;
+            }
+          );
+          active = true;
+        }
+      ];
+
+      spiceUSBRedirection.enable = true;
     };
-
-    virtualisation.spiceUSBRedirection.enable = true;
 
     programs.virt-manager.enable = true;
 

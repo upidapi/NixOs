@@ -47,7 +47,9 @@ in {
     # If using the cli you can instead use "-c qemu:///session"
 
     # Start vm in cli
+    # virsh pool-define .config/libvirt/storage/home.xml
     # virsh pool-start w11
+    # virsh net-start default
     # virsh start w11
 
     # virsh destroy w11
@@ -56,7 +58,7 @@ in {
     # a part of the home-manager activation script it too chrashes
     home.activation.createVmDirs = lib.hm.dag.entryBefore ["NixVirt"] ''
       mkdir -p ${home-persist}/vms/storage
-      mkdir -p ${home-persist}/vms/iso
+      mkdir -p ${home-persist}/vms/isos
     '';
 
     virtualisation.libvirt = {
@@ -64,66 +66,99 @@ in {
 
       swtpm.enable = true;
 
-      connections."qemu:///session".domains = [
-        (mkIf cfg.w11.enable {
-          definition = nlib.domain.writeXML (
-            lib.recursiveUpdate (
-              nlib.domain.templates.windows rec {
-                name = "w11";
-                uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593aaa";
-                memory = {
-                  count = 16;
-                  unit = "GiB";
-                };
-                storage_vol = {
-                  pool = "home";
-                  volume = "${name}.qcow2";
-                };
-                install_vol = "${home-persist}/vms/isos/${cfg.w11.isoName}";
-                nvram_path = "${home-persist}/vms/nvram/${name}.fd";
-                virtio_net = true;
-                virtio_drive = true;
-                install_virtio = true;
+      connections."qemu:///session" = {
+        domains = [
+          (mkIf cfg.w11.enable {
+            definition = nlib.domain.writeXML (
+              lib.recursiveUpdate (
+                nlib.domain.templates.windows rec {
+                  name = "w11";
+                  uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593aaa";
+                  memory = {
+                    count = 16;
+                    unit = "GiB";
+                  };
+                  storage_vol = {
+                    pool = "home";
+                    volume = "${name}.qcow2";
+                  };
+                  install_vol = "${home-persist}/vms/isos/${cfg.w11.isoName}";
+                  nvram_path = "${home-persist}/vms/nvram/${name}.fd";
+                  virtio_net = true;
+                  virtio_drive = true;
+                  install_virtio = true;
+                }
+              )
+              {
+                # without this it fails with
+                # "conversion of the nvram template to another target format is
+                # not supported"
+                os.nvram.templateFormat = "raw";
               }
-            )
-            {
-              # without this it fails with
-              # "conversion of the nvram template to another target format is
-              # not supported"
-              os.nvram.templateFormat = "raw";
-            }
-          );
-        })
-      ];
+            );
+          })
+        ];
 
-      connections."qemu:///session".pools = [
-        {
-          active = true;
-          definition = nlib.pool.writeXML {
-            name = "home";
-            uuid = "ac82824e-567a-43f2-8915-644f4809f540";
-            type = "dir";
-            target = {
-              path = "${home-persist}/vms/storage/";
+        pools = [
+          {
+            active = true;
+            definition = nlib.pool.writeXML {
+              name = "home";
+              uuid = "ac82824e-567a-43f2-8915-644f4809f540";
+              type = "dir";
+              target = {
+                path = "${home-persist}/vms/storage/";
+              };
             };
-          };
-          volumes = [
-            (mkIf cfg.w11.enable {
-              present = true;
-              definition = nlib.volume.writeXML {
-                name = "w11.qcow2";
-                capacity = {
-                  count = 100;
-                  unit = "GiB";
+            volumes = [
+              (mkIf cfg.w11.enable {
+                present = true;
+                definition = nlib.volume.writeXML {
+                  name = "w11.qcow2";
+                  capacity = {
+                    count = 100;
+                    unit = "GiB";
+                  };
+                  target = {
+                    format.type = "qcow2";
+                  };
                 };
-                target = {
-                  format.type = "qcow2";
+              })
+            ];
+          }
+        ];
+
+        networks = [
+          {
+            active = true;
+            definition = nlib.network.writeXML {
+              name = "default";
+              uuid = "c4acfd00-4597-41c7-a48e-e2302234fa89";
+              forward = {
+                mode = "nat";
+                nat = {
+                  port = {
+                    start = 1024;
+                    end = 65535;
+                  };
                 };
               };
-            })
-          ];
-        }
-      ];
+              bridge = {name = "virbr0";};
+              mac = {address = "52:54:00:02:77:4b";};
+              ip = {
+                address = "192.168.74.1";
+                netmask = "255.255.255.0";
+                dhcp = {
+                  range = {
+                    start = "192.168.74.2";
+                    end = "192.168.74.254";
+                  };
+                };
+              };
+            };
+          }
+        ];
+      };
     };
   };
 }

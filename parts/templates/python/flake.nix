@@ -1,3 +1,4 @@
+# poetry run python main.py
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -21,7 +22,7 @@
 
       perSystem = {
         pkgs,
-        system,
+        # system,
         ...
       }: let
         inherit
@@ -37,29 +38,29 @@
       in {
         packages.default = mkPoetryApplication {
           projectDir = self;
-          postInstall = let
-            argcomplete =
-              pkgs.lib.getExe'
-              pkgs.python3.pkgs.argcomplete
-              "register-python-argcomplete";
-          in ''
-            wrapProgram "$out/bin/default" \
-              --prefix PATH : ${pkgs.lib.makeBinPath deps}
-
-            installShellCompletion --cmd ${
-              "the name of cmd"
-              /*
-              todo
-              */
-            } \
-              --bash <(${argcomplete} --shell bash dev-shell) \
-              --zsh <(${argcomplete} --shell zsh dev-shell) \
-              --fish <(${argcomplete} --shell fish dev-shell)
-          '';
-
-          nativeBuildInputs = with pkgs; [
-            installShellFiles
-          ];
+          # postInstall = let
+          #   argcomplete =
+          #     pkgs.lib.getExe'
+          #     pkgs.python3.pkgs.argcomplete
+          #     "register-python-argcomplete";
+          # in ''
+          #   wrapProgram "$out/bin/default" \
+          #     --prefix PATH : ${pkgs.lib.makeBinPath deps}
+          #
+          #   installShellCompletion --cmd ${
+          #     "the name of cmd"
+          #     /*
+          #     todo
+          #     */
+          #   } \
+          #     --bash <(${argcomplete} --shell bash dev-shell) \
+          #     --zsh <(${argcomplete} --shell zsh dev-shell) \
+          #     --fish <(${argcomplete} --shell fish dev-shell)
+          # '';
+          #
+          # nativeBuildInputs = with pkgs; [
+          #   installShellFiles
+          # ];
 
           # doCheck = true;
 

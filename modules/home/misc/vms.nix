@@ -33,8 +33,15 @@ in {
   config = mkIf cfg.enable {
     # tell virt-manager to use the system connection
     dconf.settings."org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
+      # TODO: add "qemu:///session"?
+      autoconnect = [
+        "qemu:///system"
+        "qemu:///session"
+      ];
+      uris = [
+        "qemu:///system"
+        "qemu:///session"
+      ];
     };
 
     # REF: https://github.com/Svenum/holynix/blob/295a24e8e2f97298f21e8b2d0112ed8cb919b657/systems/x86_64-linux/Yon/kvm.nix#L134

@@ -71,7 +71,7 @@ in {
                   name = "w11";
                   uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593aaa";
                   memory = {
-                    count = 16;
+                    count = 10;
                     unit = "GiB";
                   };
                   storage_vol = {

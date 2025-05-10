@@ -5,10 +5,5 @@ in {
   home.stateVersion = "23.11"; # Read comment
   modules.home = {
     suites.all = enable;
-
-    misc.vms = {
-      enable = true;
-      w11 = true;
-    };
   };
 }

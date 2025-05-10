@@ -146,6 +146,9 @@ in {
         vscode-extensions.vadimcn.vscode-lldb.adapter # codelldb - debugger
         python312Packages.six
 
+        # powershell
+        powershell-editor-services
+
         # markdown
         markdownlint-cli2
         marksman
@@ -209,6 +212,8 @@ in {
               sql
 
               terraform
+
+              powershell
 
               norg
               markdown

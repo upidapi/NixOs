@@ -5,6 +5,6 @@
     ./stylix.nix
     ./keyd.nix
     ./mime.nix
-    ./vms.nix
+    ./vms
   ];
 }

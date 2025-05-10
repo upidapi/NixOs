@@ -75,8 +75,8 @@ in {
         settings = {
           # Allows all users by default. Can be [ "user1" "user2" ]
           # AllowUsers = null;
-          PasswordAuthentication = false;
-          PermitRootLogin = "no";
+          PasswordAuthentication = true;
+          PermitRootLogin = "yes";
 
           # Automatically remove stale sockets
           StreamLocalBindUnlink = "yes";

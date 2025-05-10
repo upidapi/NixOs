@@ -115,6 +115,27 @@ in {
                 # "conversion of the nvram template to another target format is
                 # not supported"
                 os.nvram.templateFormat = "raw";
+
+                # memoryBacking = {
+                #   source.type = "memfd";
+                #   access.mode = "shared";
+                # };
+                #
+                # devices.filesystem = [
+                #   {
+                #     type = "mount";
+                #     accessmode = "passthrough";
+                #     driver = {
+                #       type = "virtiofs";
+                #     };
+                #     source = {
+                #       dir = "/home/${user}/music";
+                #     };
+                #     target = {
+                #       dir = "music";
+                #     };
+                #   }
+                # ];
               }
             );
           })

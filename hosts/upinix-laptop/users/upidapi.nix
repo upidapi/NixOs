@@ -4,7 +4,7 @@
   my_lib,
   ...
 }: let
-  inherit (my_lib.opt) enable;
+  inherit (my_lib.opt) enable enableAnd;
 in {
   # Dont change this unless you reinstall from scratch.
   home.stateVersion = "23.11"; # Read comment
@@ -13,7 +13,9 @@ in {
 
     misc.vms = {
       enable = true;
-      w11 = enable;
+      w11 = enableAnd {
+        isoName = "Win11_24H2_Eng_Debloated_x64.iso";
+      };
     };
   };
 }

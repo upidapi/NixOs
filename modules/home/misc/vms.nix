@@ -25,7 +25,7 @@ in {
       isoName = mkOption {
         description = "the name of the iso in ~/persist/vms/isos";
         type = types.str;
-        default = "win11_24h2_englishinternational_x64.iso";
+        default = "Win11_24h2_EnglishInternational_x64.iso";
       };
     };
   };

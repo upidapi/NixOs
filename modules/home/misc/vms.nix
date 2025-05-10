@@ -52,10 +52,11 @@ in {
     # Make it show up in virt[-manager]
     # virsh define .config/libvirt/qemu/w11.xml
     # If using the cli you can instead use "-c qemu:///session"
+    # virsh pool-define .config/libvirt/storage/home.xml
 
     # Start vm in cli
     # virsh pool-define .config/libvirt/storage/home.xml
-    # virsh pool-start w11
+    # virsh pool-start home
     # virsh net-start default
     # virsh start w11
 
@@ -68,6 +69,18 @@ in {
       mkdir -p ${home-persist}/vms/isos
       mkdir -p ${home-persist}/vms/nvram
     '';
+
+    # Windows 11 install instructions
+    # goto https://www.microsoft.com/en-us/software-download/windows11
+    # download the iso, change the name to match isoName, or vice versa
+    # start the vm
+    # you have to click to make the install start
+    # use "start ms-cxh:localonly" to bypass the account req
+
+    # irm "https://christitus.com/win" | iex
+
+    # Reset the state of the vms
+    # systemctl --user restart nixvirt
 
     virtualisation.libvirt = {
       enable = true;

@@ -66,6 +66,7 @@ in {
     os.services = {
       jellyfin = enable;
       ddclient = enable;
+      caddy = enable;
     };
 
     hardware = {

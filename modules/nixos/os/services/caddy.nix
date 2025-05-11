@@ -30,6 +30,10 @@ in {
           respond "Hello, world!"
         '';
 
+        "http://upidapi.com".extraConfig = ''
+          respond "Hello, world!"
+        '';
+
         /*
         "localhost.dev".extraConfig = ''
           respond "Hello, world!"

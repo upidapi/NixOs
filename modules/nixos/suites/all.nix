@@ -94,7 +94,7 @@ in {
           upower = enable;
           syncthing = enable;
           restic = enable;
-          caddy = enable;
+          # caddy = enable;
         };
 
         virtualisation = {

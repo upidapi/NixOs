@@ -54,6 +54,8 @@ in {
         enable = true;
 
         qemu = {
+          vhostUserPackages = [pkgs.virtiofsd];
+
           # does this do anything?
           package = pkgs.qemu_kvm;
 

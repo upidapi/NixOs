@@ -64,11 +64,13 @@ in {
 
       connections."qemu:///session" = {
         domains = [
-          (mkIf cfg.w11.enable {
+          (mkIf cfg.w11.enable (let
+            name = "w11";
+          in {
             definition = nlib.domain.writeXML (
               lib.recursiveUpdate (
-                nlib.domain.templates.windows rec {
-                  name = "w11";
+                nlib.domain.templates.windows {
+                  inherit name;
                   uuid = "def734bb-e2ca-44ee-80f5-0ea0f2593aaa";
                   memory = {
                     count = 10;
@@ -91,29 +93,34 @@ in {
                 # not supported"
                 os.nvram.templateFormat = "raw";
 
-                # memoryBacking = {
-                #   source.type = "memfd";
-                #   access.mode = "shared";
-                # };
-                #
-                # devices.filesystem = [
-                #   {
-                #     type = "mount";
-                #     accessmode = "passthrough";
-                #     driver = {
-                #       type = "virtiofs";
-                #     };
-                #     source = {
-                #       dir = "/home/${user}/music";
-                #     };
-                #     target = {
-                #       dir = "music";
-                #     };
-                #   }
-                # ];
+                memoryBacking = {
+                  source.type = "memfd";
+                  access.mode = "shared";
+                };
+
+                vcpu = {
+                  placement = "static";
+                  count = 8;
+                };
+
+                devices.filesystem = [
+                  {
+                    type = "mount";
+                    accessmode = "passthrough";
+                    driver = {
+                      type = "virtiofs";
+                    };
+                    source = {
+                      dir = "${home-persist}/vms/shared/${name}";
+                    };
+                    target = {
+                      dir = "host_share";
+                    };
+                  }
+                ];
               }
             );
-          })
+          }))
         ];
 
         pools = [

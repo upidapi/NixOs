@@ -24,7 +24,7 @@ in {
 
     services.caddy = {
       enable = true;
-      acmeCA = "https://acme-staging-v02.api.letsencrypt.org/directory";
+      # acmeCA = "https://acme-staging-v02.api.letsencrypt.org/directory";
       logFormat = "level DEBUG";
       virtualHosts = {
         "upidapi.com".extraConfig = ''

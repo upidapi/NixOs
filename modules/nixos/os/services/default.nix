@@ -6,5 +6,6 @@
     ./restic.nix
     ./caddy.nix
     ./jellyfin.nix
+    ./ddclient.nix
   ];
 }

@@ -63,7 +63,10 @@ in {
     ];
     */
 
-    os.services.jellyfin = enable;
+    os.services = {
+      jellyfin = enable;
+      ddclient = enable;
+    };
 
     hardware = {
       cpu.amd = enable;

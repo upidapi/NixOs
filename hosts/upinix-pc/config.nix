@@ -53,7 +53,6 @@ in {
 
   modules.nixos = {
     suites.all = enable;
-
     /*
     os.virtualisation.vfio.devices = [
        "10de:2182"

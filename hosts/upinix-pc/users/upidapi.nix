@@ -11,6 +11,6 @@ in {
   modules.home = {
     suites.all = enable;
 
-    desktop.hyprlock.enable = mkForce false;
+    desktop.hypridle.enable = mkForce false;
   };
 }

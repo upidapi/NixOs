@@ -69,3 +69,14 @@ resource "cloudflare_dns_record" "ssh_upidapi_dev_a_record" {
   proxied = false
   lifecycle { ignore_changes = [content] }
 }
+
+
+resource "cloudflare_dns_record" "wild_upidapi_dev_a_record" {
+  zone_id = local.zone_data["upidapi.dev"].id
+  name    = "*"
+  type    = "A"
+  content = "192.0.2.1"
+  ttl     = 1
+  proxied = true 
+  lifecycle { ignore_changes = [content] }
+}

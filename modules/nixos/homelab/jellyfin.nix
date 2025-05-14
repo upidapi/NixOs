@@ -11,21 +11,21 @@
 
   domainJellyfin = "jellyfin.upidapi.dev";
   portJellyfin = 8096;
-  domainRadarr = "radarr.upidapi.dev";
-  portRadarr = 7878;
-  domainSonarr = "sonarr.upidapi.dev";
-  portSonarr = 8989;
-  domainJackett = "jackett.upidapi.dev";
-  portJackett = 9117;
-  domainBazarr = "bazarr.upidapi.dev";
-  portBazarr = config.services.bazarr.listenPort; # 6767
-
-  bazarrDirectory = "/var/lib/bazarr";
-
-  diskstationAddress = "192.168.1.4";
-  mediaGroup = "diskstation-media";
-
-  transmissionGroup = config.services.transmission.group;
+  # domainRadarr = "radarr.upidapi.dev";
+  # portRadarr = 7878;
+  # domainSonarr = "sonarr.upidapi.dev";
+  # portSonarr = 8989;
+  # domainJackett = "jackett.upidapi.dev";
+  # portJackett = 9117;
+  # domainBazarr = "bazarr.upidapi.dev";
+  # portBazarr = config.services.bazarr.listenPort; # 6767
+  #
+  # bazarrDirectory = "/var/lib/bazarr";
+  #
+  # diskstationAddress = "192.168.1.4";
+  # mediaGroup = "diskstation-media";
+  #
+  # transmissionGroup = config.services.transmission.group;
 in {
   options.modules.nixos.homelab.jellyfin =
     mkEnableOpt
@@ -39,9 +39,35 @@ in {
       # sonarr = enable;
       # jackett = enable;
       # bazarr = enable;
+      caddy.virtualHosts."jellyfin.upidapi.dev".extraConfig = ''
+        encode zstd gzip
+
+        header {
+          # Enable HTTP Strict Transport Security (HSTS)
+          Strict-Transport-Security "max-age=31536000;"
+          # Enable cross-site filter (XSS) and tell browser to block detected attacks
+          X-XSS-Protection "1; mode=block"
+          # Disallow the site to be rendered within a frame (clickjacking protection)
+          X-Frame-Options "DENY"
+          # Avoid MIME type sniffing
+          X-Content-Type-Options "nosniff"
+          # Prevent search engines from indexing (optional)
+          X-Robots-Tag "none"
+          # Server name removing
+          -Server
+        }
+
+        @notblacklisted {
+          not {
+            path /metrics*
+          }
+        }
+
+        reverse_proxy @notblacklisted http://localhost:8096
+      '';
     };
 
-    users.groups.${mediaGroup} = {};
+    # users.groups.${mediaGroup} = {};
     users.users = {
       # ${config.services.radarr.user}.extraGroups = [mediaGroup transmissionGroup];
       # ${config.services.sonarr.user}.extraGroups = [mediaGroup transmissionGroup];

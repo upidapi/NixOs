@@ -34,7 +34,8 @@ in {
       protocol=cloudflare
       password=${config.sops.placeholder.ddclient-cf-token}
       zone=upidapi.dev
-      upidapi.dev, ssh.upidapi.dev
+      wildcard=yes
+      upidapi.dev, ssh.upidapi.dev, *.upidapi.dev
     '';
 
     services.ddclient = {

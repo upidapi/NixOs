@@ -66,6 +66,8 @@ in {
       jellyfin = enable;
       ddclient = enable;
       caddy = enable;
+      tofu = enable;
+      authelia = enable;
     };
 
     hardware = {

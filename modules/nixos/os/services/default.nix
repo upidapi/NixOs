@@ -4,8 +4,5 @@
     ./upower.nix
     ./syncthing.nix
     ./restic.nix
-    ./caddy.nix
-    ./jellyfin.nix
-    ./ddclient.nix
   ];
 }

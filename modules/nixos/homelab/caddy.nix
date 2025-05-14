@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt enable;
-  cfg = config.modules.nixos.os.services.caddy;
+  cfg = config.modules.nixos.homelab.caddy;
 in {
-  options.modules.nixos.os.services.caddy =
+  options.modules.nixos.homelab.caddy =
     mkEnableOpt
     "enable caddy, a web server with auto certs";
 
@@ -21,6 +21,9 @@ in {
       allowedTCPPorts = [80 443];
       allowedUDPPorts = [443];
     };
+
+    # authelia - probably not worth it
+    # nebula - maybe a bad idea
 
     services.caddy = {
       enable = true;

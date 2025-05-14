@@ -7,7 +7,7 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt enable;
-  cfg = config.modules.nixos.os.services.jellyfin;
+  cfg = config.modules.nixos.homelab.jellyfin;
 
   domainJellyfin = "jellyfin.upidapi.dev";
   portJellyfin = 8096;
@@ -27,7 +27,7 @@
 
   transmissionGroup = config.services.transmission.group;
 in {
-  options.modules.nixos.os.services.jellyfin =
+  options.modules.nixos.homelab.jellyfin =
     mkEnableOpt
     "enables jellyfin for local movie hosting";
 

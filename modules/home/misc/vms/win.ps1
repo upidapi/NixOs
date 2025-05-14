@@ -230,12 +230,12 @@ function run-winutil {
 
 
 # not needed use the auto resize vm instead
-# function set-display-res {
-#     Write-Host
-#     Write-Host "Setting display res"
-#     Install-Module -Name DisplaySettings
-#     Set-DisplayResolution -Width 1920 -Height 1200
-# }
+function set-display-res {
+    Write-Host
+    Write-Host "Setting display res"
+    Install-Module -Name DisplaySettings
+    Set-DisplayResolution -Width 1920 -Height 1200
+}
 
 # change default browser to firefox
 function set-default-browser {
@@ -300,7 +300,7 @@ function disable-startup-apps {
 }
 
 
-Set-ExecutionPolicy Unrestricted -Scope Process -Force
+Set-ExecutionPolicy Unrestricted -Force
 
 run-winutil
 
@@ -334,4 +334,10 @@ New-Service `
     -StartupType Automatic `
     -DependsOn "WinFsp.Launcher"
 
+Start-Service VirtioFsSvc
 
+# sc create VirtioFsSvc `
+#     binpath="C:\Program Files\Virtio-Win\VioFS\virtiofs.exe" `
+#     start=auto `
+#     depend="WinFsp.Launcher/VirtioFsDrv" `
+#     DisplayName="Virtio FS Service"

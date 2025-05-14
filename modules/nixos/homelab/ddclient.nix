@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
-  cfg = config.modules.nixos.os.services.ddclient;
+  cfg = config.modules.nixos.homelab.ddclient;
 in {
-  options.modules.nixos.os.services.ddclient = mkEnableOpt "ddclient";
+  options.modules.nixos.homelab.ddclient = mkEnableOpt "ddclient";
 
   config = mkIf cfg.enable {
     sops.secrets."ddclient-cf-token" = {};

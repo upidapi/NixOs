@@ -62,7 +62,7 @@ in {
     ];
     */
 
-    os.services = {
+    homelab = {
       jellyfin = enable;
       ddclient = enable;
       caddy = enable;

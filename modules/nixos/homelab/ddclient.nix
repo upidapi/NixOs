@@ -20,6 +20,7 @@ in {
       ssl = true;
       username = "token";
       protocol = "cloudflare";
+      zone = "dns.zone";
       domains = [
         "upidapi.com"
         "upidapi.dev"

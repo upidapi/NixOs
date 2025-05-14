@@ -1,5 +1,5 @@
 .env
 .direnv
 .terraform
-.tfstate
-.tfstate.backup
+# .tfstate
+# .tfstate.backup

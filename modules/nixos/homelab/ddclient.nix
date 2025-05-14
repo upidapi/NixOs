@@ -18,7 +18,7 @@ in {
       use = "web, web=https://api.ipify.org/";
       verbose = true;
       ssl = true;
-      # username = "token";
+      username = "token";
       protocol = "cloudflare";
       domains = [
         "upidapi.com"

@@ -29,8 +29,15 @@ in {
       enable = true;
       # acmeCA = "https://acme-staging-v02.api.letsencrypt.org/directory";
       # logFormat = "level DEBUG";
+      extraConfig = ''
+
+      '';
       virtualHosts = {
         "upidapi.com".extraConfig = ''
+          respond "Hello, world!"
+        '';
+
+        "upidapi.dev".extraConfig = ''
           respond "Hello, world!"
         '';
 

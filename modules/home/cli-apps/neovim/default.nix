@@ -114,7 +114,7 @@ in {
 
         # terraform
         terraform-lsp
-        # terraform-ls # the future
+        terraform-ls # the future
 
         # go
         gofumpt

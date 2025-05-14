@@ -15,6 +15,7 @@ in {
 
     services.ddclient = {
       enable = true;
+      use = "web, web=https://api.ipify.org/";
       verbose = true;
       ssl = true;
       username = "token";
@@ -22,8 +23,9 @@ in {
       domains = [
         "upidapi.com"
         "upidapi.dev"
+        "ssh.upidapi.dev"
       ];
-      passwordFile = config.sops.secrets."ddclient-cf-token".path;
+      passwordFile = "${config.sops.secrets."ddclient-cf-token".path}";
     };
   };
 }

@@ -7,6 +7,7 @@ terraform {
     cloudflare = {
       source  = "cloudflare/cloudflare"
       # NOTE: v5 doesn't work
+      #  not true anymore
     }
   }
 }

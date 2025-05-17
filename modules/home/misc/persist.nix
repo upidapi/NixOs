@@ -86,7 +86,7 @@ in {
         */
         # lutris
         # "Games/Lutris"
-        "config/lutris"
+        # "config/lutris"
         ".local/share/lutris"
 
         # save spotify login

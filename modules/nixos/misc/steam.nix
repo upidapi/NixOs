@@ -61,6 +61,9 @@ in {
       })
       winetricks
 
+      # can change install dir at ./.local/share/lutris/system.yml
+      # system:
+      #   game_path: /home/upidapi/Games/lutris
       (lutris.override {
         extraPkgs = pkgs: [
           # List package dependencies here

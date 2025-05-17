@@ -12,12 +12,15 @@ in {
     mkEnableOpt "enables sound for the system";
 
   config = mkIf cfg.enable {
+    services.xserver.exportConfiguration = true;
+
     # Configure keymap
     # "xserver" is actually just the general display server
     # so this actually configs wayland too. :)
     services.xserver.xkb = {
-      layout = "gb";
+      layout = "gb,se"; # TODO: maybe remove
       variant = "";
+      options = "compose:menu, grp:alt_space_toggle";
     };
 
     # same for terminal

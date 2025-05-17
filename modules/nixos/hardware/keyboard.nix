@@ -18,8 +18,8 @@ in {
     # "xserver" is actually just the general display server
     # so this actually configs wayland too. :)
     services.xserver.xkb = {
-      layout = "gb,gb"; # TODO: maybe remove
-      variant = "se";
+      layout = "se"; # TODO: maybe remove, switch to gb
+      variant = "";
       options = "compose:menu, grp:alt_space_toggle";
     };
 

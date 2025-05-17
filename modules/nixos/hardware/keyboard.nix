@@ -14,6 +14,8 @@ in {
   config = mkIf cfg.enable {
     services.xserver.exportConfiguration = true;
 
+    # nix eval --expr "\"${(import <nixpkgs> {}).xkeyboard_config}/etc/X11/xkb\"" --impure
+
     # Configure keymap
     # "xserver" is actually just the general display server
     # so this actually configs wayland too. :)

@@ -11,7 +11,8 @@
 in {
   options.modules.home.misc.keyd = mkEnableOpt "enable compat for keyd";
 
-  config = mkIf cfg.enable {
-    home.file.".XCompose".source = "${pkgs.keyd}/share/keyd/keyd.compose";
-  };
+  # TODO: readd
+  # config = mkIf cfg.enable {
+  #   home.file.".XCompose".source = "${pkgs.keyd}/share/keyd/keyd.compose";
+  # };
 }

@@ -25,7 +25,8 @@
 
     # layout
     input = {
-      kb_layout = "se";
+      kb_layout = "se,gb";
+      kb_options = "compose:menu, grp:alt_space_toggle";
 
       # faster and less delay for the repeating
       # of keypresses when held down

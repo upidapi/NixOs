@@ -73,6 +73,7 @@ in {
           console = enable;
           impermanence = enable;
           noshell = enable;
+          nix-ld = enable;
           sops = enable;
           # prelockd = enable;
         };

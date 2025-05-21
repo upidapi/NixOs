@@ -8,8 +8,8 @@
       path = ./python-venv;
       description = "Development environment for python";
     };
-    python = {
-      path = ./python;
+    python-uv = {
+      path = ./python-uv;
       description = "Development environment for python";
     };
   };

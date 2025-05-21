@@ -19,59 +19,18 @@
         "aarch64-darwin"
       ];
 
-      perSystem = {
-        pkgs,
-        system,
-        ...
-      }: let
+      perSystem = {pkgs, ...}: let
         inherit
           (inputs.poetry2nix.lib.mkPoetry2Nix {
             inherit pkgs;
           })
           mkPoetryApplication
-          mkPoetryEnv
           ;
-
-        deps = with pkgs; [
-        ];
       in {
         packages.default = mkPoetryApplication {
           projectDir = self;
-          postInstall = let
-            argcomplete =
-              pkgs.lib.getExe'
-              pkgs.python3.pkgs.argcomplete
-              "register-python-argcomplete";
-          in ''
-            wrapProgram "$out/bin/default" \
-              --prefix PATH : ${pkgs.lib.makeBinPath deps}
 
-            installShellCompletion --cmd ${
-              "the name of cmd"
-              /*
-              todo
-              */
-            } \
-              --bash <(${argcomplete} --shell bash dev-shell) \
-              --zsh <(${argcomplete} --shell zsh dev-shell) \
-              --fish <(${argcomplete} --shell fish dev-shell)
-          '';
-
-          nativeBuildInputs = with pkgs; [
-            installShellFiles
-          ];
-
-          # doCheck = true;
-
-          meta = {
-            # with lib; {
-            # description = "";
-            # homepage = "";
-            # changelog = "";
-            # license = licenses.;
-            # mainProgram = "";
-            # maintainers = with maintainers; [];
-          };
+          meta = {};
         };
 
         # REF: https://nixos.org/manual/nixpkgs/stable/#how-to-consume-python-modules-using-pip-in-a-virtual-environment-like-i-am-used-to-on-other-operating-systems
@@ -100,13 +59,6 @@
               # extensions they may require, the Python modules listed in the
               # hypothetical requirements.txt need  the following packages to
               # be installed locally:
-              # taglib
-              # openssl
-              # git
-              # libxml2
-              # libxslt
-              # libzip
-              # zlib
             ]);
 
           # Run this command, only after creating the virtual environment

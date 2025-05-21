@@ -2,6 +2,7 @@
   config,
   my_lib,
   lib,
+  pkgs,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
@@ -14,5 +15,11 @@ in {
   config = mkIf cfg.enable {
     # for bios updates
     services.fwupd = enable;
+
+    # maybe make some gnome things work
+    programs.dconf.enable = true;
+    environment.systemPackages = [
+      pkgs.adwaita-icon-theme
+    ];
   };
 }

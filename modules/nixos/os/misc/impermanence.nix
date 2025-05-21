@@ -102,6 +102,9 @@ in {
 
         "/var/lib/docker"
 
+        # distrobox
+        "/var/lib/containers"
+
         "/var/cache/tuigreet/" # save last user / session
 
         # (chown "jellyfin" "/var/lib/jellyfin")

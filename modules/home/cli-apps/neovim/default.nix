@@ -131,6 +131,9 @@ in {
         google-java-format
         checkstyle
 
+        # xml
+        lemminx
+
         # php
         phpactor
         php # includes the linter
@@ -233,6 +236,7 @@ in {
               json
               yaml
               toml
+              xml
             ]
         ))
 

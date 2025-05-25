@@ -36,6 +36,8 @@ in {
     # NOTE: the config is located at .config/libvirt/qemu
     #  and the virt-manager is located at /var/lib/libvirt/
 
+    # virsh net-autostart default
+
     # Make it show up in virt[-manager]
     # virsh define .config/libvirt/qemu/w11.xml
     # If using the cli you can instead use "-c qemu:///session"

@@ -97,6 +97,11 @@ in {
         ".cache/spotify/Users" # keys in here # keys in here
 
         ".nuget"
+
+        # technically only this file is needed
+        # however bitwarden overrides the symlink
+        # ".config/Bitwarden/data.json"
+        ".config/Bitwarden"
       ];
       files = [
         # save zsh command history
@@ -106,8 +111,6 @@ in {
         ".config/gh/hosts.yml"
 
         ".config/nushell/history.txt"
-
-        ".config/Bitwarden/data.json"
 
         ".ssh/known_hosts"
         ".screenrc"

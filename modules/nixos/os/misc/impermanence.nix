@@ -112,6 +112,8 @@ in {
         # also persist cache so we don't have to fetch metadata on every reboot
         "/var/cache/jellyfin"
 
+        "/var/lib/transfer.sh"
+
         "/var/lib/bazarr"
         config.services.radarr.dataDir
         config.services.sonarr.dataDir

@@ -69,6 +69,7 @@ local modules = {
     "lua.lang.terraform",
     "lua.lang.typst",
     "lua.lang.web",
+    "lua.lang.xml",
 
     -- has to be after lang/
     "lua.lsp.lspconfig", -- modifies the config

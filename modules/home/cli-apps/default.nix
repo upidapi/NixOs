@@ -15,5 +15,6 @@
     ./wine.nix
     ./color-pick
     ./zoxide.nix
+    ./pastebin
   ];
 }

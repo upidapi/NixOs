@@ -68,6 +68,7 @@ in {
       caddy = enable;
       tofu = enable;
       authelia = enable;
+      transfer-sh = enable;
     };
 
     hardware = {

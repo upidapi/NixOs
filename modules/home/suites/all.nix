@@ -37,6 +37,7 @@ in {
 
       cli-apps = {
         color-pick = enable;
+        pastebin = enable;
         bat = enable;
         bt-dualboot = enable;
         cn-phone = enable;

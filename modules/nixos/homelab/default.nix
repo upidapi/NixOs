@@ -1,9 +1,10 @@
 {
   imports = [
     ./tofu
-    ./authelia.nix
     ./caddy.nix
+    ./authelia.nix
     ./ddclient.nix
     ./jellyfin.nix
+    ./transfer-sh.nix
   ];
 }

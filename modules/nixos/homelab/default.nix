@@ -1,7 +1,7 @@
 {
   imports = [
     ./tofu
-    ./caddy.nix
+    ./caddy
     ./authelia.nix
     ./ddclient.nix
     ./jellyfin.nix

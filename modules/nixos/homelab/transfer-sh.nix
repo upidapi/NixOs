@@ -14,8 +14,10 @@ in {
   config = mkIf cfg.enable {
     services = {
       transfer-sh = {
+        enable = true;
         provider = "local";
         settings = {
+          # FIXME: make this owned by the transger-sh user
           BASEDIR = "/var/lib/transfer.sh";
           LISTENER = ":8484";
         };

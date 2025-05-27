@@ -59,6 +59,8 @@ Home lab
 
         microbin - gui term bin
 
+make it so that i can deply to my pc without havin to push and pull changes
+
 security 
     nix-mineral 
         general linux hardening

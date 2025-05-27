@@ -13,6 +13,8 @@ import string
 import time
 from typing import Literal
 
+# TODO: add a -i flag to use sudo instantly
+#  Otherwise use interactive/remote sudo
 
 try:
     from .parser import parse_sys_args, pp
@@ -49,27 +51,45 @@ class Logger:
         cls._full_log.write(data)
 
 
-DATA_HEADER = "JkRBj0Bs-u7KFh2c9-CeL6MkHr-tp7N0hAq"
+DATA_HEADER = "u7KFh2c9-data-tp7N0hAq"
+PRINT_DATA_HEADER = f"\necho -n {DATA_HEADER}\n"
+
+CONTENT_HEADER = "u7KFh2c9-content-tp7N0hAq"
+PRINT_CONTENT_HEADER = f"\necho -n {CONTENT_HEADER}\n"
+
+
+def color_cmd(cmd: string):
+    # note that this encapsulates the sudo,
+    # if sudo is called from script, then it wont persist til after
+    return (
+        # by default it uses the shell in the $SHELL var
+        # this is a unnecessary source of impurity
+        f"SHELL=bash "
+        f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
+    )
+
+
+def elevate_cmd(cmd: string):
+    return f"sudo -- sh -c {shlex.quote(cmd)}"
 
 
 def run_cmd(
     cmd,
     print_res: bool = False,
     color: bool = False,
+    elevate: bool = False,
     data_cmd: str = "",
 ):
-    tokens = [DATA_HEADER]
+    tokens = [DATA_HEADER, CONTENT_HEADER]
 
     if data_cmd:
-        cmd = f"{cmd}\necho -n {DATA_HEADER}\n{data_cmd}"
+        cmd = f"{cmd}{PRINT_DATA_HEADER}{data_cmd}"
 
     if color:
-        cmd = (
-            # by default it uses the shell in the $SHELL var
-            # this is a unnecessary source of impurity
-            f"SHELL=bash "
-            f"script --return --quiet -c {shlex.quote(cmd)} /dev/null"
-        )
+        cmd = color_cmd(cmd)
+
+    if elevate:
+        cmd = elevate_cmd(cmd)
 
     Logger.log(f"\n>>> {cmd}\n")
 
@@ -130,12 +150,14 @@ def run_cmd(
             )
 
         for part in data:
-            # you could add more "headers" / "signlas"
-            # for example one, when echoed could turn on the printing
-            # again
-            if part == DATA_HEADER:
-                p = False
-                continue
+            # could add more "headers" / "signlas"
+            # if part == DATA_HEADER:
+            #     p = False
+            #     continue
+            #
+            # if part == CONTENT_HEADER:
+            #     p = True
+            #     continue
 
             if p:
                 print(part, end="", flush=True)
@@ -261,7 +283,7 @@ class Part:
 
     def check_needs_reboot():
         # fmt: off
-        computer_needs_reboot = run_cmd(""" 
+        computer_needs_reboot = run_cmd("""
             booted="$(
                 readlink /run/booted-system/{initrd,kernel,kernel-modules}
             )"
@@ -269,10 +291,10 @@ class Part:
                 readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}
             )"
 
-            if [ "$booted" = "$built" ]; 
-                then echo "1"; 
+            if [ "$booted" = "$built" ];
+                then echo "1";
                 else echo "0";
-            fi 
+            fi
         """).strip() == "0"
         # fmt: on
 
@@ -412,32 +434,23 @@ class Part:
             f"Rebuilding NixOs (profile: {profile}, branch: {branch})"
         )
 
-        sudo_part = f"""
-            # not necisary here but i dont whant to unlick sudo twice
-            chown -R root:wheel "$NIXOS_CONFIG_PATH";
-            chmod -R 770 "$NIXOS_CONFIG_PATH";
-
-            nixos-rebuild switch \\
-              --flake .#{profile} \\
-              {" --show-trace" * bool(args["--trace"])}
-        """
-
-        full_cmd = f"""
-            ret=$(
-                nice -n 1 sudo -- sh -c {shlex.quote(sudo_part)}
-            );
-        """
+        full_cmd = f'''
+            ret=$(nixos-rebuild build \
+                --flake .#{profile} \
+                --use-remote-sudo \
+                {"--show-trace" * bool(args["--trace"])}
+            )
+            {PRINT_DATA_HEADER}
+            if [ "$ret" ];
+                then echo "0";
+                else echo "1";
+            fi
+        '''
 
         raw_ret_val = run_cmd(
             full_cmd,
             True,
             True,
-            data_cmd="""\
-            if [ "$ret" ]; 
-                then echo "0";
-                else echo "1";
-            fi
-            """,
         ).split(DATA_HEADER, 1)
 
         if len(raw_ret_val) == 1:
@@ -446,7 +459,22 @@ class Part:
         ret_val = raw_ret_val[1].strip()
 
         if ret_val != "0":
+            Print.devider("Unexpected ret val")
+            print(ret_val)
+            
             Part.exit_program("NixOs Rebuild Failed")
+
+        # Do this after the rebuild to avoid unnecessary sudo promts
+        # Don't do it unless we have sudo stored
+        run_cmd(f'''
+            sudo -nv &> /dev/null
+            if [[ $? -eq 0 ]]; then
+                {elevate_cmd("""
+                    chown -R root:wheel "$NIXOS_CONFIG_PATH";
+                    chmod -R u+rw,g+rw "$NIXOS_CONFIG_PATH";
+                """)}
+            fi
+        ''')
 
         # everything is good
 
@@ -597,7 +625,7 @@ class Commit:
             if no_rebuild
             else "Pre rebuild commit"
         )
-        
+
         # should not be needed
         # run_cmd("ssh-add ~/.ssh/id_*", print_res=False)
 
@@ -705,8 +733,7 @@ class Commit:
         # cmd = "reword"
         # data = "new commit msg"
 
-        temp = tempfile.TemporaryFile()
-        try:
+        with tempfile.TemporaryFile() as temp:
             # a program that will replace the second pick with squash
             temp.write(
                 Helpers.de_indent(
@@ -726,11 +753,11 @@ class Commit:
                         "{cmd}" + split[{command_index}][4:],
                         *split[{command_index + 1}:]
                     ])
-                    
+
 
                     # with open("t.txt", "w") as f:
                     #     f.write("")
-                else:  
+                else:
                     data = {repr(data)}
 
 
@@ -738,7 +765,7 @@ class Commit:
                     f.write(data)
 
                 # with open("t.txt", "a") as f:
-                #     f.write(data + "\n----------------------------\n") 
+                #     f.write(data + "\n----------------------------\n")
             """
                 ).encode()
             )
@@ -746,8 +773,6 @@ class Commit:
             run_cmd(
                 f'env GIT_EDITOR="python {temp}" git rebase -i {hash}'
             )
-        finally:
-            temp.close()
 
     # untested and unused
     @staticmethod
@@ -878,12 +903,12 @@ def main():
                 "alias": ["-m"],
                 "info": "commit msg for the rebuild",
                 "doc": """\
-                    The message that will be put ontop of the commit 
+                    The message that will be put ontop of the commit
                     should preferably start with some type of catagory.
-                    
-                    If you use the "debug:" tag then you can later colapse 
-                    multiple commits and or pull them out into their own 
-                    branch using "qs squash" for more info see "qs help 
+
+                    If you use the "debug:" tag then you can later colapse
+                    multiple commits and or pull them out into their own
+                    branch using "qs squash" for more info see "qs help
                     squash"
 
                     eg:

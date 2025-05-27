@@ -74,6 +74,10 @@ in {
   modules.nixos = {
     suites.all = enable;
 
+    homelab = {
+      transfer-sh = enable; # TODO: remove, this is for debug
+    };
+
     os.services.syncthing = disable;
 
     hardware = {

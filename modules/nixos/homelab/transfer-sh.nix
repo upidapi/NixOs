@@ -12,6 +12,11 @@ in {
   options.modules.nixos.homelab.transfer-sh = mkEnableOpt "";
 
   config = mkIf cfg.enable {
+    # systemd.tmpfiles.settings."transfer-sh" = {
+    #   "/var/lib/transfer.sh" = {
+    #     group = ""
+    #   };
+    # };
     services = {
       transfer-sh = {
         enable = true;

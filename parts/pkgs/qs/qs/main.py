@@ -435,7 +435,7 @@ class Part:
         )
 
         full_cmd = f'''
-            ret=$(nixos-rebuild build \
+            ret=$(nixos-rebuild switch \
                 --flake .#{profile} \
                 --use-remote-sudo \
                 {"--show-trace" * bool(args["--trace"])}

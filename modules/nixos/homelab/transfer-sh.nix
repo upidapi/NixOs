@@ -23,7 +23,7 @@ in {
         provider = "local";
         settings = {
           # FIXME: make this owned by the transger-sh user
-          RANDOM_TOKEN_LENGTH = 2;
+          RANDOM_TOKEN_LENGTH = 6;
           BASEDIR = "/var/lib/transfer-sh";
           LISTENER = ":8484";
         };

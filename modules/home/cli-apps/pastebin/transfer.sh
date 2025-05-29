@@ -16,6 +16,7 @@ show_help_message() {
   echo "Options:"
   echo "  -1                  Limit the download count to 1."
   echo "  -n | --never        Disable expiry (never expire)."
+  echo "  -n | --url          URL to connect to."
   echo "  -d | --days <days>  Set the maximum number of days until expiry."
   echo "                      Defaults to 30 days."
   echo "  -p | --pass <password> Encrypt using a password."
@@ -46,6 +47,11 @@ while [[ $# -gt 0 ]]; do
     -d | --days)
       shift
       expiery="Max-Days: $1"
+      shift
+      ;;
+    -u | --url)
+      shift
+      url=$1
       shift
       ;;
     -p | --pass)

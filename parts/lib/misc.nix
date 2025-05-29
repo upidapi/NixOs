@@ -1,4 +1,4 @@
-{lib}: let
+{lib, ...}: let
   inherit (lib) toHexString;
   inherit (builtins) genList concatStringsSep map stringLength;
 in rec {

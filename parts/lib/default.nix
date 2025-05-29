@@ -1,12 +1,18 @@
-{lib, ...}: rec {
-  opt = import ./opt.nix {inherit lib;};
-  misc = import ./misc.nix {inherit lib;};
+args: rec {
+  opt = import ./opt.nix args;
+  misc = import ./misc.nix args;
+  script = import ./scripts.nix args;
 
   inherit
     (misc)
     mapStylixColors
     lPadString
     rPadString
+    ;
+
+  inherit
+    (misc)
+    writeShellApplicationCompletions
     ;
 
   inherit

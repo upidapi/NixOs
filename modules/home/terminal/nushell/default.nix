@@ -33,6 +33,7 @@ in {
     # used for git completions
     home.packages = with pkgs; [
       fish
+      carapace-bridge
     ];
   };
 }

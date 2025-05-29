@@ -151,13 +151,13 @@ def run_cmd(
 
         for part in data:
             # could add more "headers" / "signlas"
-            # if part == DATA_HEADER:
-            #     p = False
-            #     continue
-            #
-            # if part == CONTENT_HEADER:
-            #     p = True
-            #     continue
+            if part == DATA_HEADER:
+                p = False
+                continue
+
+            if part == CONTENT_HEADER:
+                p = True
+                continue
 
             if p:
                 print(part, end="", flush=True)

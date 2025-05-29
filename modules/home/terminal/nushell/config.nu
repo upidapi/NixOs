@@ -57,6 +57,20 @@ def store-edit [path: path] {
   e $path
 }
 
+
+export extern "pastebin" [
+  --never(-n) # Disable expiry (never expire).
+  --url(-u) # URL to connect to."
+  --days(-d) # Set days before expiry, defaults to 30.
+  --pass(-p) # Decryption password.
+  --help
+]
+
+# some completions are only available through a bridge
+# eg. tailscale
+# https://carapace-sh.github.io/carapac-bin/setup.html#nushell
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense'
+
 # $env.STARSHIP_SHELL = "bash"
 
 let zoxide_completer = {|spans|

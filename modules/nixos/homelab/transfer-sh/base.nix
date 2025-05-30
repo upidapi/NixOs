@@ -108,6 +108,7 @@ in {
         serviceConfig =
           {
             DevicePolicy = "closed";
+            # breaks when dir is persisted via fuse mounts
             # DynamicUser = true;
             ExecStart = "${getExe cfg.package} --provider ${cfg.provider}";
             LockPersonality = true;
@@ -129,7 +130,7 @@ in {
             RestrictRealtime = true;
             SystemCallArchitectures = ["native"];
             SystemCallFilter = ["@system-service"];
-            # StateDirectory = baseNameOf cfg.stateDirectory;
+            StateDirectory = baseNameOf cfg.stateDirectory;
           }
           // optionalAttrs (cfg.secretFile != null) {
             EnvironmentFile = cfg.secretFile;

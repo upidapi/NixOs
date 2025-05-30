@@ -60,9 +60,9 @@ def store-edit [path: path] {
 
 export extern "pastebin" [
   --never(-n) # Disable expiry (never expire).
-  --url(-u) # URL to connect to."
-  --days(-d) # Set days before expiry, defaults to 30.
-  --pass(-p) # Decryption password.
+  --url(-u): string # URL to connect to."
+  --days(-d): int # Set days before expiry, defaults to 30.
+  --pass(-p): string # Decryption password.
   --help
 ]
 

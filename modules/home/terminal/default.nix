@@ -45,6 +45,7 @@ in {
       nix-unfree = "NIXPKGS_ALLOW_UNFREE=1";
       ds = "dev-shell";
       dsu = "env NIXPKGS_ALLOW_UNFREE=1 dev-shell";
+      pb = "pastebin";
 
       e = "$EDITOR";
       c = "clear";

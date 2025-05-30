@@ -16,12 +16,6 @@ in {
   ];
 
   config = mkIf cfg.enable {
-    # systemd.tmpfiles.settings."transfer-sh" = {
-    #   "/var/lib/transfer.sh" = {
-    #     group = ""
-    #   };
-    # };
-
     services = {
       transfer-sh = {
         enable = true;

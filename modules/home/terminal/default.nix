@@ -64,6 +64,9 @@ in {
         + ''}; _unstore'';
       */
 
+      jcl = "journalctl";
+      scl = "journalctl";
+
       ".." = "cd ..";
       "..." = "cd ../..";
       "...." = "cd ../../..";

@@ -129,7 +129,7 @@ in {
             RestrictRealtime = true;
             SystemCallArchitectures = ["native"];
             SystemCallFilter = ["@system-service"];
-            StateDirectory = baseNameOf cfg.stateDirectory;
+            # StateDirectory = baseNameOf cfg.stateDirectory;
           }
           // optionalAttrs (cfg.secretFile != null) {
             EnvironmentFile = cfg.secretFile;

@@ -79,7 +79,7 @@ in {
     };
 
     stateDirectory = mkOption {
-      type = types.string;
+      type = types.str;
       default = "/var/lib/transfer.sh";
       description = "Directory to store files and data in.";
     };

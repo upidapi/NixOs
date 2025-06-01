@@ -26,6 +26,8 @@ in {
     # done;
     # '')
 
+    services.spice-vdagentd.enable = true;
+
     environment.systemPackages = with pkgs; [
       # various os(s) vm images that can be started with one command
       quickemu

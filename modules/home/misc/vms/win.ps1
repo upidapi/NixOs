@@ -121,7 +121,8 @@ function run-winutil {
 
 
 function set-display-res {
-    Install-Module -Name DisplaySettings
+    Install-PackageProvider -Name NuGet -Force
+    Install-Module -Name DisplaySettings -Force
     Set-DisplayResolution -Width 1920 -Height 1200
 }
 
@@ -186,8 +187,8 @@ function setup-shared-drives {
     Invoke-WebRequest https://github.com/winfsp/winfsp/releases/download/v1.10/winfsp-1.10.22006.msi -OutFile winfsp-1.10.22006.msi
     winfsp-1.10.22006.msi /qn /norestart
 
-    pnputil /install /add-driver E:\viofs\w11\amd64\viofs.inf
-
+    # pnputil /install /add-driver E:\viofs\w11\amd64\viofs.inf
+    
     cp E:\viofs\w11\amd64\virtiofs.exe C:\Windows\virtiofs.exe
     New-Service `
         -Name "VirtioFsSvc" `
@@ -220,22 +221,25 @@ Write-Host
 Write-Host "Setting default browser"
 set-default-browser
 
-# install spice guest tools
-choco install spice-agent -y
 
 Write-Host
 Write-Host "Disabling startup apps"
 disable-startup-apps
 
-choco install winfsp -y
+Write-Host
+Write-Host "Installing drivers and guest tools"
+# install all drivers
+# pnputil /add-driver E:\*.inf /install /subdirs
+E:\VIRTIO_WIN_GUEST_TOOLS.EXE -silent
+
+# install spice guest tools
+choco install spice-agent -y
+ 
+choco install winfsp -y # Idk if this is needed
 choco install qemu-guest-agent -y
 
 Write-Host
-Write-Host "Installing drivers"
-# install all drivers
-pnputil /add-driver E:\*.inf /install /subdirs
-
+Write-Host "Setting up shared drives"
 setup-shared-drives
-
 
 # restart-computer

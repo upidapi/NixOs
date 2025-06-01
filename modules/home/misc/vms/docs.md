@@ -29,6 +29,8 @@ virsh pool-destroy home
 systemctl --user restart nixvirt
 ```
 
+Use `ctrl + alt + g` to escape the vm
+
 ## Windows 11 things
 
 ### Create a debloated iso
@@ -47,3 +49,4 @@ Make sure that w11.isoName matches the iso
 During first boot you have to click it to start the install
 
 
+Add the drivers at VIRTOI-WIN/AMD64/W11

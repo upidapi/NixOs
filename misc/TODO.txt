@@ -17,12 +17,6 @@ nix
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
 Virtulisation
-    MAS
-        free windows keys
-        https://github.com/massgravel/Microsoft-Activation-Scripts
-    
-    https://github.com/ChrisTitusTech/winutil
-
     Gpu passthrugh 
         https://discord.com/channels/568306982717751326/1257693396173328468/1257701485568065557
     
@@ -36,28 +30,9 @@ prevent the cursor from showing upp in screenshots
 
 replace all "upidapi" with primaryUser or adminUser
 
+Make a secrets.generator option to make it possible to generate secrets if 
+they dont exist
 
-Home lab
-    nas
-        local share?
-
-    backups
-        bord / restic
-
-    file sync
-        syncthing
-
-    vpn
-
-    SSO
-        authelia?
-
-    plex 
-
-    paste bin
-        fiche - terminal paste bin
-
-        microbin - gui term bin
 
 make it so that i can deply to my pc without havin to push and pull changes
 

@@ -3,4 +3,21 @@
 - https://git.0x0.st/mia/0x0
 - https://github.com/dutchcoders/transfer.sh
 
+## nas
+- local share?
 
+## backups
+- bord 
+- restic
+
+## file sync
+- syncthing
+
+## vpn 
+- WireGuard
+
+## SSO 
+- authelia?
+
+## media
+- jellyfin

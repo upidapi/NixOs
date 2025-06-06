@@ -112,7 +112,7 @@ in {
           directory = "/var/lib/jellyfin";
           user = "jellyfin";
           group = "jellyfin";
-          mode = "u=rwx,g=rx,o=";
+          mode = "0700";
         }
         # also persist cache so we don't have to fetch metadata on every reboot
         {

@@ -3,9 +3,8 @@
   lib,
   my_lib,
   ports,
-  # pkgs,
+  pkgs,
   inputs,
-  # pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -49,6 +48,11 @@ in {
       };
       jellyfin = {
         enable = true;
+
+        webPackage = pkgs.jellyfin-web;
+        ffmpegPackage = pkgs.jellyfin-ffmpeg;
+        package = pkgs.jellyfin;
+        # finalPackage = pkgs.jellyfin;
 
         settings = {
           system = {

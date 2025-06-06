@@ -76,6 +76,7 @@ in {
 
     homelab = {
       transfer-sh = enable; # TODO: remove, this is for debug
+      jellyfin = enable;
     };
 
     os.services.syncthing = disable;

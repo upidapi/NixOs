@@ -108,12 +108,12 @@ in {
         "/var/cache/tuigreet/" # save last user / session
 
         # (chown "jellyfin" "/var/lib/jellyfin")
-        {
-          directory = "/var/lib/jellyfin";
-          user = "jellyfin";
-          group = "jellyfin";
-          mode = "0700";
-        }
+        # {
+        #   directory = "/var/lib/jellyfin";
+        #   user = "jellyfin";
+        #   group = "jellyfin";
+        #   mode = "0700";
+        # }
         {
           directory = "/var/lib/test";
           user = "jellyfin";

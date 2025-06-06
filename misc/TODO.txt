@@ -25,6 +25,7 @@ Virtulisation
 add a no-internet group
     https://askubuntu.com/questions/45072/how-to-control-internet-access-for-each-program
 
+https://github.com/nixops4/
 
 prevent the cursor from showing upp in screenshots
 

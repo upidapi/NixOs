@@ -56,7 +56,7 @@ host_dir: {
   withSystem,
   lib,
   ...
-}: rec {
+} @ args: rec {
   # takes a list of attrs and uses func to derive
   # the value of each attr
   mapToAttrs = func: list:
@@ -163,8 +163,9 @@ host_dir: {
         extra_args = {
           inherit inputs inputs' self self';
 
-          my_lib = (import ./../lib) {inherit lib;};
-          keys = (import ./../keys.nix) {inherit lib;};
+          my_lib = (import ./../lib) args;
+          keys = (import ./../keys.nix) args;
+          ports = (import ./../ports.nix) args;
         };
       in
         inputs.nixpkgs.lib.nixosSystem {

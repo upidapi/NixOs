@@ -20,10 +20,9 @@ in {
   # FIXME: breaks wen grimblast is run
   #  to be specific the monitor list becomes empty when the following is run
   #  https://github.com/Aylur/astal/issues/350
-  # virtualDisplayName="grimblastVD"
   #
-  # hyprctl output create headless "$virtualDisplayName" >/dev/null
-  # hyprctl output remove "$virtualDisplayName" >/dev/null
+  # hyprctl output create headless "virtualDisplayName" >/dev/null
+  # hyprctl output remove "virtualDisplayName" >/dev/null
 
   imports = [
     inputs.ags.homeManagerModules.default

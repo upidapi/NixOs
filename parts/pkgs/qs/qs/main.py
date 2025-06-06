@@ -458,23 +458,27 @@ class Part:
 
         ret_val = raw_ret_val[1].strip()
 
-        if ret_val != "0":
+        if ret_val == "0":
+            return 
+
+        if ret_val != "1":
             Print.devider("Unexpected ret val")
             print(ret_val)
             
-            Part.exit_program("NixOs Rebuild Failed")
+        Part.exit_program("NixOs Rebuild Failed")
 
         # Do this after the rebuild to avoid unnecessary sudo promts
         # Don't do it unless we have sudo stored
-        run_cmd(f'''
-            sudo -nv &> /dev/null
-            if [[ $? -eq 0 ]]; then
-                {elevate_cmd("""
-                    chown -R root:wheel "$NIXOS_CONFIG_PATH";
-                    chmod -R u+rw,g+rw "$NIXOS_CONFIG_PATH";
-                """)}
-            fi
-        ''')
+        # Actually don't do this, if you want this use tmpfile rules
+        # run_cmd(f'''
+        #     sudo -nv &> /dev/null
+        #     if [[ $? -eq 0 ]]; then
+        #         {elevate_cmd("""
+        #             chown -R root:wheel "$NIXOS_CONFIG_PATH";
+        #             chmod -R u+rw,g+rw "$NIXOS_CONFIG_PATH";
+        #         """)}
+        #     fi
+        # ''')
 
         # everything is good
 

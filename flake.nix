@@ -39,6 +39,11 @@
     #   inputs.nixpkgs.follows = "nixpkgs-23-05";
     # };
 
+    nixos-jellyfin = {
+      url = "github:matt1432/nixos-jellyfin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-index-db = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";

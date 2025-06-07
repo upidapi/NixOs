@@ -67,7 +67,7 @@ in {
         webPackage = pkgs.jellyfin-web;
         ffmpegPackage = pkgs.jellyfin-ffmpeg;
         package = pkgs.jellyfin;
-        # finalPackage = pkgs.jellyfin;
+        # finalPackage = lib.mkForce pkgs.jellyfin;
 
         settings = {
           system = {

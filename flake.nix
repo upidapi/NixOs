@@ -40,7 +40,7 @@
     # };
 
     nixos-jellyfin = {
-      url = "github:matt1432/nixos-jellyfin";
+      url = "github:upidapi/nixos-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

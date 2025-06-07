@@ -112,14 +112,14 @@ in {
           directory = "/var/lib/jellyfin";
           user = "jellyfin";
           group = "jellyfin";
-          mode = "0700";
+          mode = "0750";
         }
         # also persist cache so we don't have to fetch metadata on every reboot
         {
           directory = "/var/cache/jellyfin";
           user = "jellyfin";
           group = "jellyfin";
-          mode = "u=rwx,g=rx,o=";
+          mode = "0750";
         }
 
         "/var/lib/transfer-sh"

@@ -121,8 +121,8 @@ in {
         #   group = "jellyfin";
         #   mode = "0770";
         # }
-        # "/var/cache/jellyfin"
-        # "/var/lib/jellyfin"
+        "/var/cache/jellyfin"
+        "/var/lib/jellyfin"
 
         "/var/lib/transfer-sh"
 

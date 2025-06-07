@@ -108,19 +108,21 @@ in {
         "/var/cache/tuigreet/" # save last user / session
 
         # (chown "jellyfin" "/var/lib/jellyfin")
-        {
-          directory = "/var/lib/jellyfin";
-          user = "jellyfin";
-          group = "jellyfin";
-          mode = "0770";
-        }
-        # also persist cache so we don't have to fetch metadata on every reboot
-        {
-          directory = "/var/cache/jellyfin";
-          user = "jellyfin";
-          group = "jellyfin";
-          mode = "0770";
-        }
+        # {
+        #   directory = "/var/lib/jellyfin";
+        #   user = "jellyfin";
+        #   group = "jellyfin";
+        #   mode = "0770";
+        # }
+        # # also persist cache so we don't have to fetch metadata on every reboot
+        # {
+        #   directory = "/var/cache/jellyfin";
+        #   user = "jellyfin";
+        #   group = "jellyfin";
+        #   mode = "0770";
+        # }
+        # "/var/cache/jellyfin"
+        # "/var/lib/jellyfin"
 
         "/var/lib/transfer-sh"
 

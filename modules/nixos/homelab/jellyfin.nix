@@ -44,12 +44,12 @@ in {
         "/var/lib/jellyfin/jellyfin-web".d = {
           group = "jellyfin";
           user = "jellyfin";
-          mode = "600";
+          mode = "700";
         };
         "/var/lib/jellyfin/config".d = {
           group = "jellyfin";
           user = "jellyfin";
-          mode = "600";
+          mode = "700";
         };
       };
     };

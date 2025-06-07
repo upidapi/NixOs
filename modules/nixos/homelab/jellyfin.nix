@@ -39,6 +39,21 @@ in {
   # TODO: use the https://github.com/matt1432/nixos-jellyfin
   # REF: https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/hosts/hera/jellyfin.nix#L75
   config = mkIf cfg.enable {
+    systemd.tmpfiles.settings = {
+      "jellyfin-dir-create" = {
+        "/var/lib/jellyfin/jellyfin-web".d = {
+          group = "jellyfin";
+          user = "jellyfin";
+          mode = "600";
+        };
+        "/var/lib/jellyfin/config".d = {
+          group = "jellyfin";
+          user = "jellyfin";
+          mode = "600";
+        };
+      };
+    };
+
     services = {
       # https://www.rapidseedbox.com/blog/jellyseerr-guide#01
       jellyseerr = {

@@ -6,4 +6,5 @@ _: {
   jackett = 9117;
   prowlarr = 9696;
   bazarr = 6767;
+  flaresolverr = 8191;
 }

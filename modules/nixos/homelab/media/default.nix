@@ -44,6 +44,11 @@ in {
     };
 
     services = {
+      flaresolverr = {
+        enable = true;
+        port = ports.flaresolverr;
+        # openFirewall = true;
+      };
       qbittorrent = {
         enable = true;
         package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;

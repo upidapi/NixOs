@@ -4,5 +4,6 @@ _: {
   radarr = 7878;
   sonarr = 8989;
   jackett = 9117;
+  prowlarr = 9696;
   bazarr = 6767;
 }

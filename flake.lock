@@ -869,15 +869,15 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1748543102,
-        "narHash": "sha256-YhfgNgYLBQ+ylBr/D0iaYfJ6kofTPyov5TAJiyHswSg=",
-        "owner": "matt1432",
+        "lastModified": 1749303431,
+        "narHash": "sha256-DKS78fy0x1v9eFcLBPnkskll+iyfTUzLaHOFNKwhPMg=",
+        "owner": "upidapi",
         "repo": "nixos-jellyfin",
-        "rev": "9103295093e02776f3632a490f4ce3d32ff49681",
+        "rev": "fbb3588117228f10cef0100b78e9001c47996f65",
         "type": "github"
       },
       "original": {
-        "owner": "matt1432",
+        "owner": "upidapi",
         "repo": "nixos-jellyfin",
         "type": "github"
       }
@@ -1166,6 +1166,22 @@
         "type": "github"
       }
     },
+    "qbit": {
+      "locked": {
+        "lastModified": 1747651287,
+        "narHash": "sha256-mt0EZbtWM5BmXlffj16x0SyvU155V5wb8VjijwsuUpc=",
+        "owner": "undefined-landmark",
+        "repo": "nixpkgs",
+        "rev": "f1fde6c0613043168f83892be55aedd74e6178ae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "undefined-landmark",
+        "ref": "default-serverConfig",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "ags": "ags",
@@ -1188,6 +1204,7 @@
         "perfanno-nvim": "perfanno-nvim",
         "plugin-img-clip": "plugin-img-clip",
         "pwndbg": "pwndbg",
+        "qbit": "qbit",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix"

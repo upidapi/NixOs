@@ -4,7 +4,7 @@
     ./caddy
     ./authelia.nix
     ./ddclient.nix
-    ./jellyfin.nix
+    ./media
     ./transfer-sh
   ];
 }

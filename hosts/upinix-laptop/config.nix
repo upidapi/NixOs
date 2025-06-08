@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) enable disable;
+  inherit (my_lib.opt) enable enableAnd disable;
 in {
   imports = [
     ./suspend-keyboard-fix.nix
@@ -76,7 +76,9 @@ in {
 
     homelab = {
       transfer-sh = enable; # TODO: remove, this is for debug
-      jellyfin = enable;
+      media = enableAnd {
+        jellyfin = enable;
+      };
     };
 
     os.services.syncthing = disable;

@@ -8,8 +8,8 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt enable;
-  cfg = config.modules.nixos.homelab.jellyfin;
+  inherit (my_lib.opt) mkEnableOpt;
+  cfg = config.modules.nixos.homelab.media.jellyfin;
   # domainJellyfin = "jellyfin.upidapi.dev";
   # portJellyfin = 8096;
   # domainRadarr = "radarr.upidapi.dev";
@@ -28,7 +28,7 @@
   #
   # transmissionGroup = config.services.transmission.group;
 in {
-  options.modules.nixos.homelab.jellyfin =
+  options.modules.nixos.homelab.media.jellyfin =
     mkEnableOpt
     "enables jellyfin for local movie hosting";
 
@@ -51,16 +51,27 @@ in {
           user = "jellyfin";
           mode = "700";
         };
+        "/srv/jellyfin".d = {
+          group = "jellyfin";
+          user = "jellyfin";
+          mode = "751";
+        };
       };
     };
 
+    systemd.services.jellyfin = {
+      serviceConfig.ExecStart = lib.mkOverride (lib.concatStringsSep " " [
+        "${cfg.finalPackage}/bin/jellyfin"
+        "--datadir '${cfg.dataDir}'"
+        "--configdir '${cfg.configDir}'"
+        "--cachedir '${cfg.cacheDir}'"
+        "--logdir '${cfg.logDir}'"
+        # "--ffmpeg '${cfg.ffmpegPackage}/bin/ffmpeg'"
+        # "--webdir '${cfg.dataDir}/jellyfin-web'"
+      ]);
+    };
+
     services = {
-      # https://www.rapidseedbox.com/blog/jellyseerr-guide#01
-      jellyseerr = {
-        enable = true;
-        port = ports.jellyseerr;
-        # openFirewall = true;
-      };
       jellyfin = {
         enable = true;
 
@@ -165,37 +176,6 @@ in {
           };
         };
       };
-      radarr = {
-        enable = true;
-        settings = {
-          # update.mechanism = "internal";
-          server = {
-            # urlbase = "localhost";
-            port = ports.radarr;
-            # bindaddress = "*";
-          };
-        };
-      };
-      sonarr = {
-        enable = true;
-        settings = {
-          # update.mechanism = "internal";
-          server = {
-            # urlbase = "localhost";
-            port = ports.sonarr;
-            # bindaddress = "*";
-          };
-        };
-      };
-      jackett = {
-        enable = true;
-        port = ports.jackett;
-      };
-      bazarr = {
-        enable = true;
-        listenPort = ports.bazarr;
-      };
-
       caddy.virtualHosts = {
         "jellyfin.upidapi.dev".extraConfig = ''
           encode zstd gzip
@@ -232,16 +212,5 @@ in {
       # ${config.services.sonarr.user}.extraGroups = [mediaGroup transmissionGroup];
       # ${config.services.bazarr.user}.extraGroups = [mediaGroup];
     };
-
-    /*
-    services.caddy.virtualHosts = {
-      ${domainJellyfin} = {
-        # enableACME = true;
-        extraConfig = ''
-          reverse_proxy localhost:${toString portJellyfin}
-        '';
-      };
-    };
-    */
   };
 }

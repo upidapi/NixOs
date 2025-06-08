@@ -86,6 +86,7 @@ in {
       };
       radarr = {
         enable = true;
+        group = "media";
         settings = {
           # update.mechanism = "internal";
           server = {
@@ -97,6 +98,7 @@ in {
       };
       sonarr = {
         enable = true;
+        group = "media";
         settings = {
           # update.mechanism = "internal";
           server = {

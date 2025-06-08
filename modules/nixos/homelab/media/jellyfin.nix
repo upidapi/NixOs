@@ -71,6 +71,7 @@ in {
     services = {
       jellyfin = {
         enable = true;
+        group = "media";
 
         webPackage = pkgs.jellyfin-web;
         ffmpegPackage = pkgs.jellyfin-ffmpeg;

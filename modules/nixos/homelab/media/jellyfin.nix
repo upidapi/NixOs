@@ -51,11 +51,6 @@ in {
           user = "jellyfin";
           mode = "700";
         };
-        "/srv/jellyfin".d = {
-          group = "jellyfin";
-          user = "jellyfin";
-          mode = "751";
-        };
       };
     };
 

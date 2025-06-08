@@ -24,23 +24,36 @@ in {
   # REF: https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/hosts/hera/jellyfin.nix#L75
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
-      "jellyfin-dir-create" = {
+      "media-dir-create" = {
         "/srv/jellyfin".d = {
-          group = "jellyfin";
+          group = "media";
           user = "jellyfin";
           mode = "751";
         };
         "/srv/radarr".d = {
-          group = "radarr";
+          group = "media";
           user = "radarr";
           mode = "751";
         };
+        "/srv/bazarr".d = {
+          group = "media";
+          user = "bazarr";
+          mode = "751";
+        };
         "/srv/sonarr".d = {
-          group = "sonarr";
+          group = "media";
           user = "sonarr";
           mode = "751";
         };
       };
+    };
+
+    users.groups.media = {};
+    users.users = {
+      ${config.services.radarr.user}.extraGroups = ["media"];
+      ${config.services.sonarr.user}.extraGroups = ["media"];
+      ${config.services.bazarr.user}.extraGroups = ["media"];
+      ${config.services.jellyfin.user}.extraGroups = ["media"];
     };
 
     services = {

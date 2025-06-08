@@ -113,6 +113,7 @@ in {
         port = ports.jackett;
       };
       bazarr = {
+        group = "media";
         enable = true;
         listenPort = ports.bazarr;
       };

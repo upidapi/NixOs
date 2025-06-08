@@ -68,6 +68,18 @@ in {
       ]);
     };
 
+    hardware = {
+      graphics = {
+        enable = true;
+        extraPackages = with pkgs; [
+          vaapiVdpau
+          libvdpau-va-gl
+          nvidia-vaapi-driver
+        ];
+        extraPackages32 = with pkgs; [vaapiVdpau];
+      };
+    };
+
     services = {
       jellyfin = {
         enable = true;

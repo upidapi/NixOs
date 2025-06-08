@@ -65,7 +65,7 @@ in {
       */
 
       jcl = "journalctl";
-      scl = "journalctl";
+      scl = "systemctl";
 
       ".." = "cd ..";
       "..." = "cd ../..";

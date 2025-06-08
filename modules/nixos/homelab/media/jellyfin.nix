@@ -59,13 +59,15 @@ in {
       };
     };
 
-    systemd.services.jellyfin = {
-      serviceConfig.ExecStart = lib.mkOverride (lib.concatStringsSep " " [
-        "${cfg.finalPackage}/bin/jellyfin"
-        "--datadir '${cfg.dataDir}'"
-        "--configdir '${cfg.configDir}'"
-        "--cachedir '${cfg.cacheDir}'"
-        "--logdir '${cfg.logDir}'"
+    systemd.services.jellyfin = let
+      jcfg = config.services.jellyfin;
+    in {
+      serviceConfig.ExecStart = lib.mkOverride 25 (lib.concatStringsSep " " [
+        "${jcfg.finalPackage}/bin/jellyfin"
+        "--datadir '${jcfg.dataDir}'"
+        "--configdir '${jcfg.configDir}'"
+        "--cachedir '${jcfg.cacheDir}'"
+        "--logdir '${jcfg.logDir}'"
         # "--ffmpeg '${cfg.ffmpegPackage}/bin/ffmpeg'"
         # "--webdir '${cfg.dataDir}/jellyfin-web'"
       ]);

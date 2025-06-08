@@ -42,12 +42,12 @@ in {
     systemd.tmpfiles.settings = {
       "jellyfin-dir-create" = {
         "/var/lib/jellyfin/jellyfin-web".d = {
-          group = "jellyfin";
+          group = "media";
           user = "jellyfin";
           mode = "700";
         };
         "/var/lib/jellyfin/config".d = {
-          group = "jellyfin";
+          group = "media";
           user = "jellyfin";
           mode = "700";
         };

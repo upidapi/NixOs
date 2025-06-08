@@ -75,10 +75,28 @@ in {
           vaapiVdpau
           libvdpau-va-gl
           nvidia-vaapi-driver
+          libva
         ];
         extraPackages32 = with pkgs; [vaapiVdpau];
       };
     };
+
+    environment.systemPackages = with pkgs; [
+      cifs-utils
+      libva-utils
+      nvidia-vaapi-driver
+    ];
+
+    environment.variables = {
+      # VAAPI and VDPAU config for accelerated video.
+      # See https://wiki.archlinux.org/index.php/Hardware_video_acceleration
+      "VDPAU_DRIVER" = "nvidia";
+      "LIBVA_DRIVER_NAME" = "nvidia";
+    };
+    users.users.jellyfin.extraGroups = [
+      "render"
+      "video"
+    ]; # Access to /dev/dri
 
     services = {
       jellyfin = {

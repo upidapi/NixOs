@@ -2,6 +2,7 @@
   config,
   lib,
   my_lib,
+  self,
   ...
 }: let
   inherit (lib) mkIf;
@@ -13,7 +14,7 @@ in {
   # REF: https://github.com/hugo-berendi/yomi/blob/29a848529e6b2dcb81f6830a1161cc29c38e3c6d/hosts/nixos/inari/services/ddclient.nix
   config = mkIf cfg.enable {
     sops.secrets."ddclient-cf-token" = {
-      # owner = "ddclient";
+      sopsFile = "${self}/secrets/server.yaml";
     };
 
     # it seams like it doesn't work if you don't explicitly provide the zone

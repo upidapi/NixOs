@@ -14,7 +14,8 @@ in {
   options.modules.nixos.homelab.media = mkEnableOpt "";
 
   imports = [
-    ./jellyfin.nix
+    # ./jellyfin.nix
+    ./jellyfin-dec.nix
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3

@@ -42,6 +42,14 @@ creation_rules:
           - *minimal-installer-x86_64
           - *full-installer-x86_64
 
+  - path_regex: secrets/server.yaml$
+    key_groups:
+      - age:
+          - *admin
+
+          - *upinix-pc
+          - *upinix-laptop
+
   # host secrets (eg host syncthing, however this shoud not actually be on a host level)
   - path_regex: secrets/hosts/upinix-pc.yaml$
     key_groups:

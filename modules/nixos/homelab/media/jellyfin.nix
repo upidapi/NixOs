@@ -7,7 +7,7 @@
   inputs,
   ...
 }: let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf mkOption types literalExpression submodule;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.jellyfin;
   # domainJellyfin = "jellyfin.upidapi.dev";
@@ -31,6 +31,27 @@ in {
   options.modules.nixos.homelab.media.jellyfin =
     mkEnableOpt
     "enables jellyfin for local movie hosting";
+
+  options.services.jellyfin.libraries = mkOption {
+    type = types.attrsOf (types.submodule
+      ({name, ...}: {
+        default = {};
+        example = literalExpression ''
+          {
+            "hydra.example.com" = {
+              serverAliases = [ "www.hydra.example.com" ];
+              extraConfig = '''
+                encode gzip
+                root * /srv/http
+              ''';
+            };
+          };
+        '';
+        description = ''
+          Declarative specification of virtual hosts served by Caddy.
+        '';
+      }));
+  };
 
   imports = [
     inputs.nixos-jellyfin.nixosModules.default

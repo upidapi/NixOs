@@ -39,6 +39,11 @@
     #   inputs.nixpkgs.follows = "nixpkgs-23-05";
     # };
 
+    declarative-jellyfin = {
+      url = "github:Sveske-Juice/declarative-jellyfin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-jellyfin = {
       url = "github:upidapi/nixos-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -295,11 +295,15 @@ in {
         cfg="${config.services.jellyseerr.configDir}/config.json"
 
         # Generate the library ids
-        new_ids_json=$(echo "$settings" | ${pkgs.jq}/bin/jq -r '.jellyfin.libraries[].name' | while IFS= read -r name; do
+        new_ids_json=$(echo "$settings" |\
+          ${pkgs.jq}/bin/jq -r '.jellyfin.libraries[].name' |\
+          while IFS= read -r name; do
            ${genfolderuuid} "$name"
-        done | ${pkgs.jq}/bin/jq -R -s 'split("\n") | .[:-1]')
+          done |\
+          ${pkgs.jq}/bin/jq -R -s 'split("\n") | .[:-1]')
 
-        echo "$json_data" |  \
+        echo "$json_data" |\
+          ${pkgs.jq}/bin/jq \
           --argjson new_ids "$new_ids_json" \
           '.jellyfin.libraries |= (reduce (to_entries[]) as $entry ([]; . + [ $entry.value | .id = $new_ids[$entry.key] ]))'
 

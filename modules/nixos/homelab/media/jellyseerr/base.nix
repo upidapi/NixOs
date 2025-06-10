@@ -292,7 +292,7 @@ in {
       pkgs.writeShellScript "jellyseerr-init"
       # bash
       ''
-        settings="${config.sops.templates."jellyseerr-config.json".path}"
+        settings="$CREDENTIALS_DIRECTORY/config"
         cfg="${config.services.jellyseerr.configDir}/settings.json"
 
         touch $cfg
@@ -319,10 +319,12 @@ in {
     mkIf cfg.enable {
       sops.templates."jellyseerr-config.json".content = settings;
 
-      systemd.services.jellyseerr.serviceConfig.ExecStartPre =
-        lib.mkForce "${jellyseerr-init}";
+      systemd.services.jellyseerr.serviceConfig = {
+        ExecStartPre = lib.mkForce "${jellyseerr-init}";
+        LoadCredential = ["config:${config.sops.templates."jellyseerr-config.json".path}"];
+      };
 
-      systemd.services.jellyseerr.serviceConfig.ExecStart =
-        lib.mkForce "cat ${config.services.jellyseerr.configDir}/settings.json";
+      # systemd.services.jellyseerr.serviceConfig.ExecStart =
+      #   lib.mkForce "cat ${config.services.jellyseerr.configDir}/settings.json";
     };
 }

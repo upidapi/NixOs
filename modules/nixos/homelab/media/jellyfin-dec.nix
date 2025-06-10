@@ -65,7 +65,7 @@ in {
     # users.users.jellyfin.extraGroups = [
     #   "render"
     #   "video"
-    # ]; # Access to /dev/dri
+    # ];
 
     sops.secrets =
       {
@@ -80,8 +80,11 @@ in {
       };
 
     systemd.services.jellyfin.serviceConfig.SupplementaryGroups = [
+      # Access to /dev/dri
       "render"
       "video"
+      # Access to /srv/sonarr and /srv/radarr
+      "media"
     ];
 
     services = {

@@ -62,10 +62,10 @@ in {
       "VDPAU_DRIVER" = "nvidia";
       "LIBVA_DRIVER_NAME" = "nvidia";
     };
-    users.users.jellyfin.extraGroups = [
-      "render"
-      "video"
-    ]; # Access to /dev/dri
+    # users.users.jellyfin.extraGroups = [
+    #   "render"
+    #   "video"
+    # ]; # Access to /dev/dri
 
     sops.secrets =
       {
@@ -78,6 +78,11 @@ in {
         "jellyfin/users/admin" = {};
         "jellyfin/jellyseerr-api-key" = {};
       };
+
+    systemd.services.jellyfin.serviceConfig.SupplementaryGroups = [
+      "render"
+      "video"
+    ];
 
     services = {
       declarative-jellyfin = {

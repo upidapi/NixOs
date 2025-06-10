@@ -293,7 +293,7 @@ in {
       # bash
       ''
         settings="${config.sops.templates."jellyseerr-config.json".path}"
-        cfg="${config.services.jellyseerr.configDir}/config.json"
+        cfg="${config.services.jellyseerr.configDir}/settings.json"
 
         touch $cfg
 

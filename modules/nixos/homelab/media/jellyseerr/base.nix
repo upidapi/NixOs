@@ -321,5 +321,8 @@ in {
 
       systemd.services.jellyseerr.serviceConfig.ExecStartPre =
         lib.mkForce "${jellyseerr-init}";
+
+      systemd.services.jellyseerr.serviceConfig.ExecStart =
+        lib.mkForce "cat ${config.services.jellyseerr.configDir}/settings.json";
     };
 }

@@ -16,7 +16,7 @@ in {
 
   imports = [
     # ./jellyfin.nix
-    ./jellyfin-dec.nix
+    # ./jellyfin-dec.nix
     ./jellyseerr
     ./base.nix
     # remove once these get merged

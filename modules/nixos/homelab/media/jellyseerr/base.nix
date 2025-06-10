@@ -294,6 +294,8 @@ in {
         settings="${config.sops.templates."jellyseerr-config.json".path}"
         cfg="${config.services.jellyseerr.configDir}/config.json"
 
+        touch $cfg
+
         # Generate the library ids
         new_ids_json=$(echo "$settings" |\
           ${pkgs.jq}/bin/jq -r '.jellyfin.libraries[].name' |\
@@ -309,7 +311,8 @@ in {
 
 
         cat "$cfg" "$settings" |\
-          ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)'
+          ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
+          > $cfg
       '';
   in {
     sops.templates."jellyseerr-config.json".content = settings;

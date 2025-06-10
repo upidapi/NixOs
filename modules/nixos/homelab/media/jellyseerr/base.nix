@@ -319,7 +319,7 @@ in {
     mkIf cfg.enable {
       sops.templates."jellyseerr-config.json".content = settings;
 
-      systemd.services.jellyseerr.serviceConfig.ExecPre =
+      systemd.services.jellyseerr.serviceConfig.ExecStartPre =
         lib.mkForce "${jellyseerr-init}";
     };
 }

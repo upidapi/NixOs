@@ -1,7 +1,13 @@
 {
   wayland.windowManager.hyprland.settings = {
-    debug.disable_logs = false;
-
+    debug = {
+      disable_logs = false;
+      error_position = 1; # bottom
+    };
+    ecosystem = {
+      no_update_news = true;
+      no_donation_nag = true;
+    };
     misc = {
       # when you create a new windows while you have a maximised window
       # then its unmaximised

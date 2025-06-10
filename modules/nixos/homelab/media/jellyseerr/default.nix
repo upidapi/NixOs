@@ -20,22 +20,22 @@ in {
     sops.secrets = {
       "radarr/api-key_jellyseerr" = {
         key = "radarr/api-key";
-        owner = config.services.jellyseerr.user;
+        # owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
       "sonarr/api-key_jellyseerr" = {
         key = "sonarr/api-key";
-        owner = config.services.jellyseerr.user;
+        # owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
       "jellyseerr/api-key_jellyseerr" = {
         key = "jellyseerr/api-key";
-        owner = config.services.jellyseerr.user;
+        # owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
       "jellyfin/jellyseerr-api-key_jellyseerr" = {
         key = "jellyfin/jellyseerr-api-key";
-        owner = config.services.jellyseerr.user;
+        # owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
     };

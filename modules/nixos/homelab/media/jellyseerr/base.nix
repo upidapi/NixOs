@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkOption types;
+  inherit (lib) mkOption types mkIf;
 in {
   # {
   #  "clientId": "c6f778e9-3e0e-4328-88dd-992ed6dfabaa",
@@ -259,6 +259,7 @@ in {
   };
 
   config = let
+    cfg = config.services.jellyseerr;
     genfolderuuid =
       pkgs.writeShellScript "genfolderuuid"
       # bash
@@ -285,7 +286,7 @@ in {
         echo "$(echo $guid | tr '[:upper:]' '[:lower:]')"
       '';
 
-    settings = builtins.toJSON config.services.jellyseerr.settings;
+    settings = builtins.toJSON cfg.settings;
 
     jellyseerr-init =
       pkgs.writeShellScript "jellyseerr-init"
@@ -297,7 +298,7 @@ in {
         touch $cfg
 
         # Generate the library ids
-        new_ids_json=$(echo "$settings" |\
+        new_ids_json=$(cat "$settings" |\
           ${pkgs.jq}/bin/jq -r '.jellyfin.libraries[].name' |\
           while IFS= read -r name; do
            ${genfolderuuid} "$name"
@@ -314,10 +315,11 @@ in {
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
           > $cfg
       '';
-  in {
-    sops.templates."jellyseerr-config.json".content = settings;
+  in
+    mkIf cfg.enable {
+      sops.templates."jellyseerr-config.json".content = settings;
 
-    systemd.services.jellyseerr.serviceConfig.ExecStart =
-      lib.mkForce "+${jellyseerr-init}";
-  };
+      systemd.services.jellyseerr.serviceConfig.ExecStart =
+        lib.mkForce "+${jellyseerr-init}";
+    };
 }

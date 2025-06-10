@@ -78,6 +78,7 @@ in {
       transfer-sh = enable; # TODO: remove, this is for debug
       media = enableAnd {
         jellyfin = enable;
+        jellyseerr = enable;
       };
     };
 

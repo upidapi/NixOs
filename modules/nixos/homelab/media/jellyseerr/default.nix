@@ -17,27 +17,28 @@ in {
   ];
 
   config = mkIf cfg.enable {
+    # not needed since the templater has root perms
     sops.secrets = {
-      "radarr/api-key_jellyseerr" = {
-        key = "radarr/api-key";
-        # owner = config.services.jellyseerr.user;
-        sopsFile = "${self}/secrets/server.yaml";
-      };
-      "sonarr/api-key_jellyseerr" = {
-        key = "sonarr/api-key";
-        # owner = config.services.jellyseerr.user;
-        sopsFile = "${self}/secrets/server.yaml";
-      };
-      "jellyseerr/api-key_jellyseerr" = {
+      #   "radarr/api-key_jellyseerr" = {
+      #     key = "radarr/api-key";
+      #     # owner = config.services.jellyseerr.user;
+      #     sopsFile = "${self}/secrets/server.yaml";
+      #   };
+      #   "sonarr/api-key_jellyseerr" = {
+      #     key = "sonarr/api-key";
+      #     # owner = config.services.jellyseerr.user;
+      #     sopsFile = "${self}/secrets/server.yaml";
+      #   };
+      "jellyseerr/api-key" = {
         key = "jellyseerr/api-key";
         # owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-      "jellyfin/jellyseerr-api-key_jellyseerr" = {
-        key = "jellyfin/jellyseerr-api-key";
-        # owner = config.services.jellyseerr.user;
-        sopsFile = "${self}/secrets/server.yaml";
-      };
+      #   "jellyfin/jellyseerr-api-key_jellyseerr" = {
+      #     key = "jellyfin/jellyseerr-api-key";
+      #     # owner = config.services.jellyseerr.user;
+      #     sopsFile = "${self}/secrets/server.yaml";
+      #   };
     };
 
     # https://www.rapidseedbox.com/blog/jellyseerr-guide#01
@@ -48,7 +49,7 @@ in {
       force = true;
       settings = {
         jellyfin = {
-          apiKey = config.sops.placeholder."jellyfin/jellyseerr-api-key_jellyseerr";
+          apiKey = config.sops.placeholder."jellyfin/jellyseerr-api-key";
           externalHostname = "";
           ip = "127.0.0.1"; # or url
           jellyfinForgotPasswordUrl = "";
@@ -74,7 +75,7 @@ in {
           useSsl = false;
         };
         main = {
-          apiKey = config.sops.placeholder."jellyseerr/api-key_jellyseerr";
+          apiKey = config.sops.placeholder."jellyseerr/api-key";
           applicationTitle = "Jellyseerr";
           applicationUrl = "";
           cacheImages = false;
@@ -108,7 +109,7 @@ in {
             activeDirectory = "/srv/radarr";
             activeProfileId = 1;
             activeProfileName = "Any";
-            apiKey = config.sops.placeholder."radarr/api-key_jellyseerr";
+            apiKey = config.sops.placeholder."radarr/api-key";
             hostname = "127.0.0.1";
             id = 0;
             is4k = false;
@@ -129,7 +130,7 @@ in {
             activeProfileId = 1;
             activeProfileName = "Any";
             animeTags = [];
-            apiKey = config.sops.placeholder."sonarr/api-key_jellyseerr";
+            apiKey = config.sops.placeholder."sonarr/api-key";
             enableSeasonFolders = false;
             hostname = "127.0.0.1";
             id = 0;

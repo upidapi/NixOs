@@ -130,6 +130,10 @@ in {
         config.services.radarr.dataDir
         config.services.sonarr.dataDir
         config.services.jackett.dataDir
+        "/srv/sonarr"
+        "/srv/radarr"
+        "/srv/bazarr" # TODO: idk if this is needed
+        # TODO: persist qbittorrent
 
         # "/etc/ssh" NOTE: this might break things
         {

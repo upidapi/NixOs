@@ -21,8 +21,6 @@ in {
   ];
   # https://git.spoodythe.one/spoody/declarative-jellyfin
 
-  # TODO: use the https://github.com/matt1432/nixos-jellyfin
-  # REF: https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/hosts/hera/jellyfin.nix#L75
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
       "jellyfin-dir-create" = {
@@ -69,14 +67,17 @@ in {
       "video"
     ]; # Access to /dev/dri
 
-    sops.secrets = lib.mapAttrs (_: x: (x
-      // {
-        owner = config.services.jellyfin.user;
-        sopsFile = "${self}/secrets/server.yaml";
-      })) {
-      "jellyfin/jellyseerr-api-key" = {};
-      "jellyfin/users/admin" = {};
-    };
+    sops.secrets =
+      {
+      }
+      // lib.mapAttrs (_: x: (x
+        // {
+          owner = config.services.jellyfin.user;
+          sopsFile = "${self}/secrets/server.yaml";
+        })) {
+        "jellyfin/users/admin" = {};
+        "jellyfin/jellyseerr-api-key" = {};
+      };
 
     services = {
       declarative-jellyfin = {

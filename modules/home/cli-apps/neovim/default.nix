@@ -218,7 +218,7 @@ in {
 
               powershell
 
-              norg
+              # norg # removed from nixpkgs?
               markdown
               markdown_inline
               typst

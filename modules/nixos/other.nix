@@ -16,6 +16,11 @@ in {
     # for bios updates
     services.fwupd = enable;
 
+    # TODO: remove, see https://github.com/NixOS/nixpkgs/issues/404663
+    nixpkgs.config.permittedInsecurePackages = [
+      "ventoy-1.1.05"
+    ];
+
     # maybe make some gnome things work
     programs.dconf.enable = true;
     environment.systemPackages = [

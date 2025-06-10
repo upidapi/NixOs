@@ -5,6 +5,7 @@
   ports,
   inputs,
   pkgs,
+  self,
   ...
 }: let
   inherit (lib) mkIf;
@@ -16,11 +17,17 @@ in {
   imports = [
     # ./jellyfin.nix
     ./jellyfin-dec.nix
+    ./jellyseerr
+    ./base.nix
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3
     "${inputs.qbit}/nixos/modules/services/torrent/qbittorrent.nix"
   ];
+
+  # TODO: maybe don't change group of things
+  #  instead of adding everything shared into media
+  #  eg add the sonarr group to the jellyfin user
 
   # REF: https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/hosts/hera/jellyfin.nix#L75
   config = mkIf cfg.enable {
@@ -49,6 +56,33 @@ in {
       };
     };
 
+    sops.secrets = {
+      "radarr/api-key" = {
+        owner = config.services.radarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "sonarr/api-key" = {
+        owner = config.services.sonarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "prowlarr/api-key" = {
+        owner = config.services.prowlarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+    };
+
+    sops.templates = {
+      "sonarr-env".content = ''
+        SONARR__AUTH__APIKEY=${config.sops.placeholder."sonarr/api-key"}
+      '';
+      "radarr-env".content = ''
+        RADARR__AUTH__APIKEY=${config.sops.placeholder."radarr/api-key"}
+      '';
+      "prowlarr-env".content = ''
+        RADARR__AUTH__APIKEY=${config.sops.placeholder."prowlarr/api-key"}
+      '';
+    };
+
     users.groups.media = {};
     users.users = {
       ${config.services.radarr.user}.extraGroups = ["media"];
@@ -68,14 +102,9 @@ in {
         package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
         serverConfig.LegalNotice.Accepted = true;
       };
-      # https://www.rapidseedbox.com/blog/jellyseerr-guide#01
-      jellyseerr = {
-        enable = true;
-        port = ports.jellyseerr;
-        # openFirewall = true;
-      };
       prowlarr = {
         enable = true;
+        environmentFiles = [config.sops.templates."prowlarr-env".path];
         settings = {
           # update.mechanism = "internal";
           server = {
@@ -88,6 +117,7 @@ in {
       radarr = {
         enable = true;
         group = "media";
+        environmentFiles = [config.sops.templates."radarr-env".path];
         settings = {
           # update.mechanism = "internal";
           server = {
@@ -100,6 +130,7 @@ in {
       sonarr = {
         enable = true;
         group = "media";
+        environmentFiles = [config.sops.templates."sonarr-env".path];
         settings = {
           # update.mechanism = "internal";
           server = {

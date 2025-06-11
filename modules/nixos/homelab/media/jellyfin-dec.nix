@@ -75,7 +75,8 @@ in {
           owner = config.services.jellyfin.user;
           sopsFile = "${self}/secrets/server.yaml";
         })) {
-        "jellyfin/users/admin" = {};
+        "jellyfin/users/admin/passwordHash" = {};
+        "jellyfin/users/admin/password" = {};
         "jellyfin/jellyseerr-api-key" = {};
       };
 
@@ -109,7 +110,7 @@ in {
             permissions = {
               isAdministrator = true;
             };
-            hashedPasswordFile = config.sops.secrets."jellyfin/users/admin".path;
+            hashedPasswordFile = config.sops.secrets."jellyfin/users/admin/passwordHash".path;
           };
           # "gags5" = {
           #   permissions.enableAllFolders = false;

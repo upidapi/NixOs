@@ -47,6 +47,15 @@ in {
       port = ports.jellyseerr;
       # openFirewall = true;
       force = true;
+
+      apiKeyFile = config.sops.secrets."jellyseerr/api-key".path;
+      jellyfin = {
+        apiKeyFile = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
+        passwordFile = config.sops.secrets."jellyfin/users/admin/password".path;
+        username = "admin";
+      };
+      adminEmail = "videw@icloud.com";
+
       settings = {
         jellyfin = {
           apiKey = config.sops.placeholder."jellyfin/jellyseerr-api-key";

@@ -233,6 +233,23 @@ in {
       '';
       type = types.bool;
     };
+    apiKeyFile = mkOption {
+      type = types.str;
+    };
+    jellyfin = {
+      apiKeyFile = mkOption {
+        type = types.str;
+      };
+      passwordFile = mkOption {
+        type = types.str;
+      };
+      username = mkOption {
+        type = types.str;
+      };
+    };
+    adminEmail = mkOption {
+      type = types.str;
+    };
     # settings = {
     #   jellyfin = {
     #     libraries = lib.attrsOf (types.submodule ({name, ...}: {
@@ -290,7 +307,6 @@ in {
 
     jellyseerr-init =
       pkgs.writeShellScript "jellyseerr-init"
-      # bash
       ''
         settings="$CREDENTIALS_DIRECTORY/config"
         cfg="${config.services.jellyseerr.configDir}/settings.json"
@@ -315,13 +331,69 @@ in {
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
           > $cfg
       '';
+
+    jellyseerr-setup =
+      pkgs.writeShellScript "jellyseerr-init"
+      ''
+        jellyserr_api_key="$CREDENTIALS_DIRECTORY/jellyserr_api_key"
+        jellyfin_api_key="$CREDENTIALS_DIRECTORY/jellyfin_api_key"
+        jellyfin_password="$CREDENTIALS_DIRECTORY/jellyfin_password"
+
+
+        # you cant create a user if there is none
+        ${pkgs.sqlite}/sqlite3 db/db.sqlite3 "
+        INSERT INTO user (
+            email,
+            avatar
+        ) values (
+            'TEMP_EMAIL',
+            'TEMP_AVATAR'
+        )
+        "
+
+        # use the api to create the admin user
+        curl -X POST \
+            -H "X-Api-Key: $jellyserr_api_key" \
+            -H "Content-Type: application/json" \
+            http://127.0.0.1:8097/api/v1/auth/jellyfin \
+            -d '{
+              "email": "${cfg.adminEmail}",
+              "username": "${cfg.jellyfin.username}",
+              "password": "$jellyfin_password"
+            }'
+
+
+        ${pkgs.sqlite}/sqlite3 db/db.sqlite3 "
+        DELETE FROM user
+        WHERE id = 1;
+        "
+
+        # make the created user the admin user
+        ${pkgs.sqlite}/sqlite3 db/db.sqlite3 "
+        UPDATE user
+        SET
+            id = 1,
+            permissions = 2,
+            jellyfinAuthToken = '$jellyfin_api_key',
+            password = NULL
+        WHERE
+            id = 2;
+        "
+      '';
   in
     mkIf cfg.enable {
       sops.templates."jellyseerr-config.json".content = settings;
 
       systemd.services.jellyseerr.serviceConfig = {
-        ExecStartPre = lib.mkForce "${jellyseerr-init}";
-        LoadCredential = ["config:${config.sops.templates."jellyseerr-config.json".path}"];
+        ExecStartPre = "${jellyseerr-init}";
+        ExecStartPost = "${jellyseerr-setup}";
+        LoadCredential = [
+          "config:${config.sops.templates."jellyseerr-config.json".path}"
+
+          "jellyserr_api_key:${cfg.apiKeyFile}"
+          "jellyfin_api_key:${cfg.jellyfin.apiKeyFile}"
+          "jellyfin_password:${cfg.jellyfin.passwordFile}"
+        ];
       };
 
       # systemd.services.jellyseerr.serviceConfig.ExecStart =

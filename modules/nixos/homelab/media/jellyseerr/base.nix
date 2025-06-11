@@ -339,6 +339,11 @@ in {
         jellyfin_api_key="$CREDENTIALS_DIRECTORY/jellyfin_api_key"
         jellyfin_password="$CREDENTIALS_DIRECTORY/jellyfin_password"
 
+        # only setup if there are no users
+        users="$(${pkgs.sqlite}/sqlite3 db/db.sqlite3 "SELECT * FROM user")"
+        if [-z "users"]; then
+          exit 0
+        fi
 
         # you cant create a user if there is none
         ${pkgs.sqlite}/sqlite3 db/db.sqlite3 "

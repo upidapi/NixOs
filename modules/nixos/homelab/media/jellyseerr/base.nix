@@ -346,7 +346,7 @@ in {
 
         # only setup if there are no users
         users="$(${pkgs.sqlite}/sqlite3 db/db.sqlite3 "SELECT * FROM user")"
-        if [-z "users"]; then
+        if [ -z "$users" ]; then
           exit 0
         fi
 
@@ -362,7 +362,7 @@ in {
         "
 
         # use the api to create the admin user
-        curl -X POST \
+        ${pkgs.curl}/curl -X POST \
             -H "X-Api-Key: $jellyserr_api_key" \
             -H "Content-Type: application/json" \
             http://127.0.0.1:8097/api/v1/auth/jellyfin \

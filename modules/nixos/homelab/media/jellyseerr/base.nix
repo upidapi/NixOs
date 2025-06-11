@@ -233,15 +233,19 @@ in {
       '';
       type = types.bool;
     };
+    dataDir = mkOption {
+      type = types.path;
+      default = "/var/lib/jellyseerr";
+    };
     apiKeyFile = mkOption {
       type = types.str;
     };
     jellyfin = {
       apiKeyFile = mkOption {
-        type = types.str;
+        type = types.path;
       };
       passwordFile = mkOption {
-        type = types.str;
+        type = types.path;
       };
       username = mkOption {
         type = types.str;
@@ -390,6 +394,7 @@ in {
       sops.templates."jellyseerr-config.json".content = settings;
 
       systemd.services.jellyseerr.serviceConfig = {
+        WorkingDirectory = cfg.dataDir;
         ExecStartPre = "${jellyseerr-init}";
         ExecStartPost = "${jellyseerr-setup}";
         LoadCredential = [

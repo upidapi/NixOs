@@ -315,6 +315,7 @@ in {
         settings="$CREDENTIALS_DIRECTORY/config"
         cfg="${config.services.jellyseerr.configDir}/settings.json"
 
+        mkdir -p $(dirname $cfg)
         touch $cfg
 
         # Generate the library ids

@@ -87,7 +87,6 @@ in {
       # Access to /srv/sonarr and /srv/radarr
       "media"
     ];
-
     services = {
       declarative-jellyfin = {
         enable = true;

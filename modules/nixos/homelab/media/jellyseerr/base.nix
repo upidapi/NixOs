@@ -5,6 +5,7 @@
   ...
 }: let
   inherit (lib) mkOption types mkIf;
+  inherit (builtins) toString;
 in {
   # {
   #  "clientId": "c6f778e9-3e0e-4328-88dd-992ed6dfabaa",
@@ -339,6 +340,8 @@ in {
 
     # https://gist.github.com/nielsvanvelzen/ea047d9028f676185832e51ffaf12a6f
 
+    jellyfinPort = config.services.declarative-jellyfin.network.internalHttpPort;
+
     jellyseerr-setup =
       pkgs.writeShellScript "jellyseerr-setup"
       ''
@@ -357,14 +360,17 @@ in {
 
         echo "a"
 
-        ret_val=1
-        while [ $ret_val -eq 1 ]; do
+        while true; do
           sqlite3 "$db_file" "
           SELECT 1 FROM sqlite_master
           WHERE type='table'
           AND name='users';
           " > /dev/null 2>&1
-          ret_val=$?
+
+          if [ $? -eq 0 ]; then
+            break
+          fi
+
           sleep 1
         done
 
@@ -391,24 +397,29 @@ in {
 
         echo "d"
 
+        # Wait for jellyfin to start
+        while true; do
+          curl -X GET \
+            "http://127.0.0.1:${toString jellyfinPort}/System/Ping" \
+          > /dev/null 2>&1
+
+          if [ $? -eq 0 ]; then
+            break
+          fi
+
+          sleep 1
+        done
+
         # use the api to create the admin user
-        # commented out logic tries this until the jellyfin service starts
-        # could use the jellyfin.com/System/Ping
-        # res='{"message":"INVALID_URL"}'
-        # while [ "$res" -eq '{"message":"INVALID_URL"}' ]; do
-        #   res=$(
         ${pkgs.curl}/bin/curl -X POST \
           -H "X-Api-Key: $jellyserr_api_key" \
           -H "Content-Type: application/json" \
-          http://127.0.0.1:8097/api/v1/auth/jellyfin \
+          "http://127.0.0.1:${toString cfg.port}/api/v1/auth/jellyfin" \
           -d "{
             \"email\": \"${cfg.adminEmail}\",
             \"username\": \"${cfg.jellyfin.username}\",
             \"password\": \"$jellyfin_password\"
           }"
-        # )
-        #   sleep 1
-        # done
 
         echo "e"
 

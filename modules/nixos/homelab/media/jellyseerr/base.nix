@@ -416,7 +416,7 @@ in {
       systemd.services.jellyseerr.serviceConfig = {
         WorkingDirectory = cfg.dataDir;
         ExecStartPre = "${jellyseerr-init}";
-        ExecStartPost = "/home/upidapi/test.sh";
+        ExecStartPost = "/srv/test.sh";
         LoadCredential = [
           "config:${config.sops.templates."jellyseerr-config.json".path}"
 

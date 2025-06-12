@@ -346,7 +346,7 @@ in {
 
         # only setup if there are no users
         users="$(${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "SELECT * FROM user")"
-        if [ -z "$users" ]; then
+        if [ -n "$users" ]; then
           exit 0
         fi
 
@@ -366,12 +366,11 @@ in {
             -H "X-Api-Key: $jellyserr_api_key" \
             -H "Content-Type: application/json" \
             http://127.0.0.1:8097/api/v1/auth/jellyfin \
-            -d '{
-              "email": "${cfg.adminEmail}",
-              "username": "${cfg.jellyfin.username}",
-              "password": "$jellyfin_password"
-            }'
-
+            -d "{
+              'email': '${cfg.adminEmail}',
+              'username': '${cfg.jellyfin.username}',
+              'password': '$jellyfin_password'
+            }"
 
         ${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "
         DELETE FROM user

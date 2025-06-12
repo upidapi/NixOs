@@ -346,6 +346,8 @@ in {
 
         db_file="config/db/db.sqlite3"
 
+        exit 0
+
         while ! [ -f "$db_file" ]; do
           # echo "Waiting for db: $db_file"
           sleep 1
@@ -414,7 +416,7 @@ in {
       systemd.services.jellyseerr.serviceConfig = {
         WorkingDirectory = cfg.dataDir;
         ExecStartPre = "${jellyseerr-init}";
-        # ExecStartPost = "${jellyseerr-setup}";
+        ExecStartPost = "${jellyseerr-setup}";
         LoadCredential = [
           "config:${config.sops.templates."jellyseerr-config.json".path}"
 

@@ -340,9 +340,9 @@ in {
     jellyseerr-setup =
       pkgs.writeShellScript "jellyseerr-setup"
       ''
-        jellyserr_api_key="$CREDENTIALS_DIRECTORY/jellyserr_api_key"
-        jellyfin_api_key="$CREDENTIALS_DIRECTORY/jellyfin_api_key"
-        jellyfin_password="$CREDENTIALS_DIRECTORY/jellyfin_password"
+        jellyserr_api_key="$(cat $CREDENTIALS_DIRECTORY/jellyserr_api_key)"
+        jellyfin_api_key="$(cat $CREDENTIALS_DIRECTORY/jellyfin_api_key)"
+        jellyfin_password="$(cat $CREDENTIALS_DIRECTORY/jellyfin_password)"
 
         db_file="config/db/db.sqlite3"
 
@@ -367,12 +367,6 @@ in {
             'TEMP_AVATAR'
         )
         "
-
-        echo "{
-              \"email\": \"${cfg.adminEmail}\",
-              \"username\": \"${cfg.jellyfin.username}\",
-              \"password\": \"$jellyfin_password\"
-            }"
 
         # use the api to create the admin user
         ${pkgs.curl}/bin/curl -X POST \

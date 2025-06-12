@@ -426,10 +426,13 @@ in {
               }"
           )
 
-          # You get this if jellyseerr cant connect
+          # You get this if jellyseerr cant connect to jellyfin
           if [ "$res" != '{"message":"Something went wrong."}' ]; then
+            echo "$res"
             break
           fi
+
+          sleep 1
         done
 
         echo "e"

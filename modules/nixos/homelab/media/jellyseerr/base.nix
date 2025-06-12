@@ -344,14 +344,16 @@ in {
         jellyfin_api_key="$CREDENTIALS_DIRECTORY/jellyfin_api_key"
         jellyfin_password="$CREDENTIALS_DIRECTORY/jellyfin_password"
 
+        db_file="config/db/db.sqlite3"
+
         # only setup if there are no users
-        users="$(${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "SELECT * FROM user")"
+        users="$(${pkgs.sqlite}/bin/sqlite3 $db_file "SELECT * FROM user")"
         if [ -n "$users" ]; then
           exit 0
         fi
 
         # you cant create a user if there is none
-        ${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "
+        ${pkgs.sqlite}/bin/sqlite3 $db_file "
         INSERT INTO user (
             email,
             avatar
@@ -372,13 +374,13 @@ in {
               'password': '$jellyfin_password'
             }"
 
-        ${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "
+        ${pkgs.sqlite}/bin/sqlite3 $db_file "
         DELETE FROM user
         WHERE id = 1;
         "
 
         # make the created user the admin user
-        ${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "
+        ${pkgs.sqlite}/bin/sqlite3 $db_file "
         UPDATE user
         SET
             id = 1,

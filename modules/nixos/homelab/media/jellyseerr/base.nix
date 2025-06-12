@@ -410,16 +410,27 @@ in {
           sleep 1
         done
 
-        # use the api to create the admin user
-        ${pkgs.curl}/bin/curl -X POST \
-          -H "X-Api-Key: $jellyserr_api_key" \
-          -H "Content-Type: application/json" \
-          "http://127.0.0.1:${toString cfg.port}/api/v1/auth/jellyfin" \
-          -d "{
-            \"email\": \"${cfg.adminEmail}\",
-            \"username\": \"${cfg.jellyfin.username}\",
-            \"password\": \"$jellyfin_password\"
-          }"
+        echo "d2"
+
+        while true; do
+          # use the api to create the admin user
+          res=$(
+            ${pkgs.curl}/bin/curl -X POST \
+              -H "X-Api-Key: $jellyserr_api_key" \
+              -H "Content-Type: application/json" \
+              "http://127.0.0.1:${toString cfg.port}/api/v1/auth/jellyfin" \
+              -d "{
+                \"email\": \"${cfg.adminEmail}\",
+                \"username\": \"${cfg.jellyfin.username}\",
+                \"password\": \"$jellyfin_password\"
+              }"
+          )
+
+          # You get this if jellyseerr cant connect
+          if [ "$res" != '{"message":"Something went wrong."}' ]; then
+            break
+          fi
+        done
 
         echo "e"
 

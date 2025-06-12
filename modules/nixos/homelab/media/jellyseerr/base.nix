@@ -337,6 +337,8 @@ in {
           > $cfg
       '';
 
+    # https://gist.github.com/nielsvanvelzen/ea047d9028f676185832e51ffaf12a6f
+
     jellyseerr-setup =
       pkgs.writeShellScript "jellyseerr-setup"
       ''
@@ -345,8 +347,6 @@ in {
         jellyfin_password="$(cat $CREDENTIALS_DIRECTORY/jellyfin_password)"
 
         db_file="config/db/db.sqlite3"
-
-        exit 0
 
         while ! [ -f "$db_file" ]; do
           # echo "Waiting for db: $db_file"
@@ -416,7 +416,8 @@ in {
       systemd.services.jellyseerr.serviceConfig = {
         WorkingDirectory = cfg.dataDir;
         ExecStartPre = "${jellyseerr-init}";
-        ExecStartPost = "/srv/test.sh";
+        ExecStartPost = "${jellyseerr-setup}";
+        # ExecStartPost = "/srv/test.sh";
         LoadCredential = [
           "config:${config.sops.templates."jellyseerr-config.json".path}"
 

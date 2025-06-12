@@ -392,15 +392,23 @@ in {
         echo "d"
 
         # use the api to create the admin user
+        # commented out logic tries this until the jellyfin service starts
+        # could use the jellyfin.com/System/Ping
+        # res='{"message":"INVALID_URL"}'
+        # while [ "$res" -eq '{"message":"INVALID_URL"}' ]; do
+        #   res=$(
         ${pkgs.curl}/bin/curl -X POST \
-            -H "X-Api-Key: $jellyserr_api_key" \
-            -H "Content-Type: application/json" \
-            http://127.0.0.1:8097/api/v1/auth/jellyfin \
-            -d "{
-              \"email\": \"${cfg.adminEmail}\",
-              \"username\": \"${cfg.jellyfin.username}\",
-              \"password\": \"$jellyfin_password\"
-            }"
+          -H "X-Api-Key: $jellyserr_api_key" \
+          -H "Content-Type: application/json" \
+          http://127.0.0.1:8097/api/v1/auth/jellyfin \
+          -d "{
+            \"email\": \"${cfg.adminEmail}\",
+            \"username\": \"${cfg.jellyfin.username}\",
+            \"password\": \"$jellyfin_password\"
+          }"
+        # )
+        #   sleep 1
+        # done
 
         echo "e"
 
@@ -429,18 +437,21 @@ in {
     mkIf cfg.enable {
       sops.templates."jellyseerr-config.json".content = settings;
 
-      systemd.services.jellyseerr.serviceConfig = {
-        WorkingDirectory = cfg.dataDir;
-        ExecStartPre = "${jellyseerr-init}";
-        ExecStartPost = "${jellyseerr-setup}";
-        # ExecStartPost = "/srv/test.sh";
-        LoadCredential = [
-          "config:${config.sops.templates."jellyseerr-config.json".path}"
+      systemd.services.jellyseerr = {
+        after = ["jellyfin.service"];
+        serviceConfig = {
+          WorkingDirectory = cfg.dataDir;
+          ExecStartPre = "${jellyseerr-init}";
+          ExecStartPost = "${jellyseerr-setup}";
+          # ExecStartPost = "/srv/test.sh";
+          LoadCredential = [
+            "config:${config.sops.templates."jellyseerr-config.json".path}"
 
-          "jellyserr_api_key:${cfg.apiKeyFile}"
-          "jellyfin_api_key:${cfg.jellyfin.apiKeyFile}"
-          "jellyfin_password:${cfg.jellyfin.passwordFile}"
-        ];
+            "jellyserr_api_key:${cfg.apiKeyFile}"
+            "jellyfin_api_key:${cfg.jellyfin.apiKeyFile}"
+            "jellyfin_password:${cfg.jellyfin.passwordFile}"
+          ];
+        };
       };
 
       # systemd.services.jellyseerr.serviceConfig.ExecStart =

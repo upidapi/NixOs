@@ -368,7 +368,11 @@ in {
         )
         "
 
-
+        echo "{
+              \"email\": \"${cfg.adminEmail}\",
+              \"username\": \"${cfg.jellyfin.username}\",
+              \"password\": \"$jellyfin_password\"
+            }"
 
         # use the api to create the admin user
         ${pkgs.curl}/bin/curl -X POST \

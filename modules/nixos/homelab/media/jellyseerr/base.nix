@@ -359,6 +359,7 @@ in {
           AND name='users';
           " > /dev/null 2>&1
           ret_val=$?
+          sleep 1
         done
 
         # only setup if there are no users
@@ -413,7 +414,7 @@ in {
       systemd.services.jellyseerr.serviceConfig = {
         WorkingDirectory = cfg.dataDir;
         ExecStartPre = "${jellyseerr-init}";
-        ExecStartPost = "${jellyseerr-setup}";
+        # ExecStartPost = "${jellyseerr-setup}";
         LoadCredential = [
           "config:${config.sops.templates."jellyseerr-config.json".path}"
 

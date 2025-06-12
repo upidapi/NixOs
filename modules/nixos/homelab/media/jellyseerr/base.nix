@@ -361,7 +361,7 @@ in {
         echo "a"
 
         while true; do
-          sqlite3 "$db_file" "
+          ${pkgs.sqlite}/bin/sqlite3 $db_file "
           SELECT 1 FROM sqlite_master
           WHERE type='table'
           AND name='users';
@@ -399,7 +399,7 @@ in {
 
         # Wait for jellyfin to start
         while true; do
-          curl -X GET \
+          ${pkgs.curl}/bin/curl -X GET \
             "http://127.0.0.1:${toString jellyfinPort}/System/Ping" \
           > /dev/null 2>&1
 

@@ -348,10 +348,14 @@ in {
 
         db_file="config/db/db.sqlite3"
 
+        echo "start"
+
         while ! [ -f "$db_file" ]; do
           # echo "Waiting for db: $db_file"
           sleep 1
         done
+
+        echo "a"
 
         ret_val=1
         while [ $ret_val -eq 1 ]; do
@@ -364,11 +368,15 @@ in {
           sleep 1
         done
 
+        echo "b"
+
         # only setup if there are no users
         users="$(${pkgs.sqlite}/bin/sqlite3 $db_file "SELECT * FROM user")"
         if [ -n "$users" ]; then
           exit 0
         fi
+
+        echo "c"
 
         # you cant create a user if there is none
         ${pkgs.sqlite}/bin/sqlite3 $db_file "
@@ -381,6 +389,8 @@ in {
         )
         "
 
+        echo "d"
+
         # use the api to create the admin user
         ${pkgs.curl}/bin/curl -X POST \
             -H "X-Api-Key: $jellyserr_api_key" \
@@ -392,10 +402,14 @@ in {
               \"password\": \"$jellyfin_password\"
             }"
 
+        echo "e"
+
         ${pkgs.sqlite}/bin/sqlite3 $db_file "
         DELETE FROM user
         WHERE id = 1;
         "
+
+        echo "f"
 
         # make the created user the admin user
         ${pkgs.sqlite}/bin/sqlite3 $db_file "
@@ -408,6 +422,8 @@ in {
         WHERE
             id = 2;
         "
+
+        echo "g"
       '';
   in
     mkIf cfg.enable {

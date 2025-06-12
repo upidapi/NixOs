@@ -338,20 +338,20 @@ in {
       '';
 
     jellyseerr-setup =
-      pkgs.writeShellScript "jellyseerr-init"
+      pkgs.writeShellScript "jellyseerr-setup"
       ''
         jellyserr_api_key="$CREDENTIALS_DIRECTORY/jellyserr_api_key"
         jellyfin_api_key="$CREDENTIALS_DIRECTORY/jellyfin_api_key"
         jellyfin_password="$CREDENTIALS_DIRECTORY/jellyfin_password"
 
         # only setup if there are no users
-        users="$(${pkgs.sqlite}/sqlite3 db/db.sqlite3 "SELECT * FROM user")"
+        users="$(${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "SELECT * FROM user")"
         if [ -z "$users" ]; then
           exit 0
         fi
 
         # you cant create a user if there is none
-        ${pkgs.sqlite}/sqlite3 db/db.sqlite3 "
+        ${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "
         INSERT INTO user (
             email,
             avatar
@@ -362,7 +362,7 @@ in {
         "
 
         # use the api to create the admin user
-        ${pkgs.curl}/curl -X POST \
+        ${pkgs.curl}/bin/curl -X POST \
             -H "X-Api-Key: $jellyserr_api_key" \
             -H "Content-Type: application/json" \
             http://127.0.0.1:8097/api/v1/auth/jellyfin \
@@ -373,13 +373,13 @@ in {
             }'
 
 
-        ${pkgs.sqlite}/sqlite3 db/db.sqlite3 "
+        ${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "
         DELETE FROM user
         WHERE id = 1;
         "
 
         # make the created user the admin user
-        ${pkgs.sqlite}/sqlite3 db/db.sqlite3 "
+        ${pkgs.sqlite}/bin/sqlite3 db/db.sqlite3 "
         UPDATE user
         SET
             id = 1,

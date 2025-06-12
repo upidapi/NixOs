@@ -351,6 +351,16 @@ in {
           sleep 1
         done
 
+        ret_val=1
+        while [ $ret_val -eq 1 ]; do
+          sqlite3 "$db_file" "
+          SELECT 1 FROM sqlite_master
+          WHERE type='table'
+          AND name='users';
+          " > /dev/null 2>&1
+          ret_val=$?
+        done
+
         # only setup if there are no users
         users="$(${pkgs.sqlite}/bin/sqlite3 $db_file "SELECT * FROM user")"
         if [ -n "$users" ]; then

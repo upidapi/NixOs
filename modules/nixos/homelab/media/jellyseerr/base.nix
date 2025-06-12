@@ -346,6 +346,11 @@ in {
 
         db_file="config/db/db.sqlite3"
 
+        while ! [ -f "$db_file" ]; do
+          # echo "Waiting for db: $db_file"
+          sleep 1
+        done
+
         # only setup if there are no users
         users="$(${pkgs.sqlite}/bin/sqlite3 $db_file "SELECT * FROM user")"
         if [ -n "$users" ]; then

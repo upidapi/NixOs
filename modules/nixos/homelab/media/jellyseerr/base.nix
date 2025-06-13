@@ -333,21 +333,21 @@ in {
                 example = "test@test.com";
               };
               password = mkOption {
-                type = types.str;
+                type = types.nullOr types.str;
                 example = "my secret password";
-                default = "";
+                default = null;
               };
               passwordFile = mkOption {
-                type = types.str;
-                default = "";
+                type = types.nullOr types.str;
+                default = null;
               };
               passwordHash = mkOption {
-                type = types.str;
-                default = "";
+                type = types.nullOr types.str;
+                default = null;
               };
               passwordHashFile = mkOption {
-                type = types.str;
-                default = "";
+                type = types.nullOr types.str;
+                default = null;
               };
               permissions = listToAttrs (
                 map (p: {
@@ -417,6 +417,11 @@ in {
 
     sq = "${pkgs.sqlite}/bin/sqlite3 $db_file";
 
+    nullEmpty = d:
+      if d == null
+      then ""
+      else d;
+
     jellyseerr-init =
       pkgs.writeShellScript "jellyseerr-init"
       ''
@@ -480,14 +485,14 @@ in {
           map (user: ''
             user_id="${builtins.hashString "md5" user.name}"
 
-            psw="${user.password}";
+            psw="${nullEmpty user.password}";
             psw_file="$CREDENTIALS_DIRECTORY/psw_file_$user_id"
 
             if [ -z $psw ] and [ -f $psw_file ]; then
               psw=$(cat "$psw_file")
             fi
 
-            psw_hash="${user.password}";
+            psw_hash="${nullEmpty user.password}";
             psw_hash_file="$CREDENTIALS_DIRECTORY/psw_hash_file$user_id"
 
             if [ -z $psw_hash ] and [ -f $psw_hash_file ]; then
@@ -661,7 +666,8 @@ in {
         after = ["jellyfin.service"];
         serviceConfig = {
           WorkingDirectory = cfg.dataDir;
-          ExecStartPre = "${jellyseerr-init}";
+          # ExecStartPre = "${jellyseerr-init}";
+          ExecStartPre = lib.mkForce "${jellyseerr-init}";
           # ExecStartPost = "${jellyseerr-setup}";
           # ExecStartPost = "/srv/test.sh";
           LoadCredential =
@@ -674,10 +680,16 @@ in {
             ]
             ++ lib.map
             (u: "psw_file_${builtins.hashString "md5" u.name}:${u.passwordFile}")
-            (lib.attrValues cfg.users)
+            (
+              lib.filter (u: u.passwordFile != null)
+              (lib.attrValues cfg.users)
+            )
             ++ lib.map
             (u: "psw_hash_file_${builtins.hashString "md5" u.name}:${u.passwordHashFile}")
-            (lib.attrValues cfg.users);
+            (
+              lib.filter (u: u.passwordHashFile != null)
+              (lib.attrValues cfg.users)
+            );
         };
       };
 

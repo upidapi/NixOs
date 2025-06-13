@@ -510,7 +510,9 @@ in {
             if [ -z "$psw_hash" ] && [ -n "$psw" ]; then
               psw_hash=$(
                 ${pkgs.apacheHttpd}/bin/htpasswd -bnBC 12 "" "$psw" \
-                | tr -d ':\n'
+                | tr -d ':\n' \
+                | sed 's/^.../$2b/' # change bcrypt prefix
+                # https://github.com/kelektiv/node.bcrypt.js/blob/86c2b6644b67d544dbc7870924b852615c71dbcb/README.md?plain=1#L54
               )
             fi
 

@@ -667,7 +667,7 @@ in {
         serviceConfig = {
           WorkingDirectory = cfg.dataDir;
           # ExecStartPre = "${jellyseerr-init}";
-          ExecStartPre = lib.mkForce "${jellyseerr-init}";
+          ExecStart = lib.mkForce "${jellyseerr-init}";
           # ExecStartPost = "${jellyseerr-setup}";
           # ExecStartPost = "/srv/test.sh";
           LoadCredential =

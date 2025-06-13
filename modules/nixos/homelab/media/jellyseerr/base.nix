@@ -426,8 +426,8 @@ in {
       pkgs.writeShellScript "jellyseerr-init"
       ''
         db_file="${cfg.configDir}/config/db/db.sqlite3"
-        settings="$CREDENTIALS_DIRECTORY/config"
-        cfg="${cfg.configDir}/settings.json"
+        settings=$(cat "$CREDENTIALS_DIRECTORY/config")
+        cfg=$(cat "${cfg.configDir}/settings.json")
 
         echo "Starting jellyseerr to generate db/files..."
         ${lib.getExe cfg.package} & disown
@@ -440,21 +440,20 @@ in {
 
         echo "Updating settings.json..."
         # Generate the library ids
-        new_ids_json=$(cat "$settings" |\
+        new_ids_json=$(echo "$settings" |\
           ${pkgs.jq}/bin/jq -r '.jellyfin.libraries[].name' |\
           while IFS= read -r name; do
            ${genfolderuuid} "$name"
           done |\
           ${pkgs.jq}/bin/jq -R -s 'split("\n") | .[:-1]')
 
-        settings=$(
-          cat "$settings" |\
-            ${pkgs.jq}/bin/jq \
-            --argjson new_ids "$new_ids_json" \
-            '.jellyfin.libraries |= (reduce (to_entries[]) as $entry ([]; . + [ $entry.value | .id = $new_ids[$entry.key] ]))'
+        updated_settings=$(echo "$settings" |\
+          ${pkgs.jq}/bin/jq \
+          --argjson new_ids "$new_ids_json" \
+          '.jellyfin.libraries |= (reduce (to_entries[]) as $entry ([]; . + [ $entry.value | .id = $new_ids[$entry.key] ]))'
         )
 
-        cat "$cfg" "$settings" |\
+        echo "$cfg" "$updated_settings" |\
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
           > $cfg
 

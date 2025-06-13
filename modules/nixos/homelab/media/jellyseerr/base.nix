@@ -457,7 +457,7 @@ in {
 
         echo "$cfg" "$updated_settings" |\
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
-          > $cfg
+          > "$cfg_file"
 
 
         echo "Starting jellyseerr to generate db..."

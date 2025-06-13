@@ -514,6 +514,9 @@ in {
               )
             fi
 
+            echo "psw: $psw"
+            echo "hash: $psw_hash"
+
             userExists=$(${sq} "
               SELECT 1 FROM user
               WHERE Username = '${user.name}'

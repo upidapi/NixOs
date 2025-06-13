@@ -543,6 +543,9 @@ in {
           '')
           (attrValues cfg.users)
         )}
+
+        echo "Bringing jellyseerr back to fg"
+        fg
       '';
     # https://gist.github.com/nielsvanvelzen/ea047d9028f676185832e51ffaf12a6f
     # jellyfinPort = config.services.declarative-jellyfin.network.internalHttpPort;

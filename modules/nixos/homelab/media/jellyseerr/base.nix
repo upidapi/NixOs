@@ -430,12 +430,10 @@ in {
         cfg="${cfg.configDir}/settings.json"
 
         echo "Starting jellyseerr to generate db/files..."
-        ${lib.getExe cfg.package} &
-        jel_pid=$!
-        disown $jel_pid
+        ${lib.getExe cfg.package} & disown
 
         echo "Waiting for setting.json..."
-        until [ -f "${cfg.configDir}/settings.json" ]
+        until [ -f "$cfg" ]
         do
           sleep 1
         done
@@ -449,7 +447,7 @@ in {
           done |\
           ${pkgs.jq}/bin/jq -R -s 'split("\n") | .[:-1]')
 
-        echo "$json_data" |\
+        cat "$settings" |\
           ${pkgs.jq}/bin/jq \
           --argjson new_ids "$new_ids_json" \
           '.jellyfin.libraries |= (reduce (to_entries[]) as $entry ([]; . + [ $entry.value | .id = $new_ids[$entry.key] ]))'

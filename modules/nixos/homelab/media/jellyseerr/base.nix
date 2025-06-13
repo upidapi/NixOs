@@ -461,7 +461,7 @@ in {
 
 
         echo "Starting jellyseerr to generate db..."
-        ${lib.getExe cfg.package} & disown
+        ${lib.getExe cfg.package} & # disown
 
         echo "Waiting for db to be created..."
         until [ -f "$db_file" ]
@@ -484,8 +484,11 @@ in {
           sleep 1
         done
 
+        echo "Creating users..."
         ${concatStringsSep "" (
           map (user: ''
+            echo "Creating \"${user.name}\""
+
             user_id="${builtins.hashString "md5" user.name}"
 
             psw="${nullEmpty user.password}";

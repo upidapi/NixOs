@@ -488,18 +488,18 @@ in {
             psw="${nullEmpty user.password}";
             psw_file="$CREDENTIALS_DIRECTORY/psw_file_$user_id"
 
-            if [ -z $psw ] and [ -f $psw_file ]; then
+            if [ -z "$psw" ] && [ -f "$psw_file" ]; then
               psw=$(cat "$psw_file")
             fi
 
             psw_hash="${nullEmpty user.password}";
             psw_hash_file="$CREDENTIALS_DIRECTORY/psw_hash_file$user_id"
 
-            if [ -z $psw_hash ] and [ -f $psw_hash_file ]; then
+            if [ -z "$psw_hash" ] && [ -f "$psw_hash_file" ]; then
               psw_hash=$(cat "$psw_hash_file")
             fi
 
-            if [ -z $psw_hash ] and [ -n $psw ]; then
+            if [ -z "$psw_hash" ] && [ -n "$psw" ]; then
               psw_hash=$(${pkgs.thttpd}/bin/htpasswd -bnBC 12 "" "$psw")
             fi
 
@@ -522,7 +522,7 @@ in {
               "
             fi
 
-            if [ -z "$userExists" ] or [ '${toString user.mutable}' == 'true' ]; then
+            if [ -z "$userExists" ] || [ '${toString user.mutable}' == 'true' ]; then
               ${sq} "
                 UPDATE user SET
                   email = '${user.email}',

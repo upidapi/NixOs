@@ -427,18 +427,20 @@ in {
       ''
         db_file="${cfg.configDir}/config/db/db.sqlite3"
         settings=$(cat "$CREDENTIALS_DIRECTORY/config")
-        cfg=$(cat "${cfg.configDir}/settings.json")
+        cfg_file="${cfg.configDir}/settings.json"
 
-        echo "Starting jellyseerr to generate db/files..."
-        ${lib.getExe cfg.package} & disown
-
-        echo "Waiting for setting.json..."
-        until [ -f "$cfg" ]
-        do
-          sleep 1
-        done
+        # echo "Waiting for setting.json..."
+        # until [ -f "$cfg" ]
+        # do
+        #   sleep 1
+        # done
 
         echo "Updating settings.json..."
+        cfg="{}"
+        if [ -f "$cfg_file" ]; then
+          cfg=$(cat "$cfg_file")
+        fi
+
         # Generate the library ids
         new_ids_json=$(echo "$settings" |\
           ${pkgs.jq}/bin/jq -r '.jellyfin.libraries[].name' |\
@@ -457,6 +459,9 @@ in {
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
           > $cfg
 
+
+        echo "Starting jellyseerr to generate db..."
+        ${lib.getExe cfg.package} & disown
 
         echo "Waiting for db to be created..."
         until [ -f "$db_file" ]

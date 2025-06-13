@@ -34,6 +34,12 @@ in {
         # owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
+
+      "jellyseerr/users/admin/password" = {
+        key = "jellyseerr/api-key";
+        # owner = config.services.jellyseerr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
       #   "jellyfin/jellyseerr-api-key_jellyseerr" = {
       #     key = "jellyfin/jellyseerr-api-key";
       #     # owner = config.services.jellyseerr.user;
@@ -53,6 +59,14 @@ in {
         apiKeyFile = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
         passwordFile = config.sops.secrets."jellyfin/users/admin/password".path;
         username = "admin";
+      };
+      users.admin = {
+        email = "videw@icloud.com";
+        passwordFile = config.sops.secrets."jellyseerr/users/admin/password".path;
+        permissions = {
+          admin = true;
+        };
+        mutable = false;
       };
       adminEmail = "videw@icloud.com";
 

@@ -4,8 +4,20 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkOption types mkIf;
-  inherit (builtins) toString;
+  inherit
+    (lib)
+    mkOption
+    types
+    mkIf
+    ;
+  inherit
+    (builtins)
+    listToAttrs
+    map
+    concatStringsSep
+    attrValues
+    toString
+    ;
 in {
   # {
   #  "clientId": "c6f778e9-3e0e-4328-88dd-992ed6dfabaa",
@@ -255,29 +267,122 @@ in {
     adminEmail = mkOption {
       type = types.str;
     };
-    # settings = {
-    #   jellyfin = {
-    #     libraries = lib.attrsOf (types.submodule ({name, ...}: {
-    #       name = mkOption {
-    #         type = types.str;
-    #         default = name;
-    #         example = "Movies";
-    #       };
-    #       type = mkEnum ["movie" "show"]; # Might be more idk
-    #       enable = mkOption {
-    #         type = types.bool;
-    #         default = true;
-    #       };
-    #       id = mkOption {
-    #         type = types.nullOr types.str;
-    #         default = null;
-    #         description = ''
-    #           The id of the folder, this will be automatically generated
-    #         '';
-    #       };
-    #     }));
-    #   };
-    # };
+    users = let
+      permList = [
+        "admin"
+        "manageSettings"
+        "manageUsers"
+        "manageRequests"
+        "request"
+        "vote"
+        "autoApprove"
+        "autoApproveMovie"
+        "autoApproveTv"
+        "request4k"
+        "request4kMovie"
+        "request4kTv"
+        "requestAdvanced"
+        "requestView"
+        "autoApprove4k"
+        "autoApprove4kMovie"
+        "autoApprove4kTv"
+        "requestMovie"
+        "requestTv"
+        "manageIssues"
+        "viewIssues"
+        "createIssues"
+        "autoRequest"
+        "autoRequestMovie"
+        "autoRequestTv"
+        "recentView"
+        "watchlistView"
+        "manageBlacklist"
+        "viewBlacklist"
+      ];
+    in
+      mkOption {
+        type = types.attrsOf (types.submodule (
+          {
+            name,
+            config,
+            ...
+          }: {
+            # TODO: assertions
+            options = {
+              mutable = mkOption {
+                type = types.bool;
+                example = false;
+                description = ''
+                  Functions like mutableUsers in NixOS users.users."user" If
+                  true, the first time the user is created, all configured
+                  options are overwritten. Any modifications from the GUI will
+                  take priority, and no nix configuration changes will have any
+                  effect. If false however, all options are overwritten as
+                  specified in the nix configuration, which means any change
+                  through the Jellyfin GUI will have no effect after a rebuild.
+                '';
+                default = true;
+              };
+              name = mkOption {
+                type = types.str;
+                default = name;
+                example = "admin";
+              };
+              email = mkOption {
+                type = types.str;
+                example = "test@test.com";
+              };
+              password = mkOption {
+                type = types.str;
+                example = "my secret password";
+                default = "";
+              };
+              passwordFile = mkOption {
+                type = types.str;
+                default = "";
+              };
+              passwordHash = mkOption {
+                type = types.str;
+                default = "";
+              };
+              passwordHashFile = mkOption {
+                type = types.str;
+                default = "";
+              };
+              permissions = listToAttrs (
+                map (p: {
+                  name = p;
+                  value = mkOption {
+                    default = false;
+                    type = types.bool;
+                  };
+                })
+                permList
+              );
+              permission = mkOption {
+                description = ''
+                  The final combined permission number, each permission is a
+                  bit in it. Derrived from the "permissions" options. Id
+                  recommend not setting this manually.
+                '';
+                default = let
+                  pow = a: b:
+                    if b == 0
+                    then a
+                    else (pow a (b - 1));
+                  sum = lib.foldr (a: b: a + b) 0;
+                in
+                  # convert the perm list to a number where each item is a bit
+                  sum (lib.imap1 (i: v:
+                    if config.permissions.${v}
+                    then (pow 2 i)
+                    else 0)
+                  permList);
+              };
+            };
+          }
+        ));
+      };
   };
 
   config = let
@@ -310,15 +415,27 @@ in {
 
     settings = builtins.toJSON cfg.settings;
 
+    sq = "${pkgs.sqlite}/bin/sqlite3 $db_file";
+
     jellyseerr-init =
       pkgs.writeShellScript "jellyseerr-init"
       ''
+        db_file="${cfg.configDir}/config/db/db.sqlite3"
         settings="$CREDENTIALS_DIRECTORY/config"
-        cfg="${config.services.jellyseerr.configDir}/settings.json"
+        cfg="${cfg.configDir}/settings.json"
 
-        mkdir -p $(dirname $cfg)
-        touch $cfg
+        echo "Starting jellyseerr to generate db/files..."
+        ${lib.getExe cfg.package} &
+        jel_pid=$!
+        disown $jel_pid
 
+        echo "Waiting for setting.json..."
+        until [ -f "${cfg.configDir}/settings.json" ]
+        do
+          sleep 1
+        done
+
+        echo "Updating settings.json..."
         # Generate the library ids
         new_ids_json=$(cat "$settings" |\
           ${pkgs.jq}/bin/jq -r '.jellyfin.libraries[].name' |\
@@ -336,30 +453,15 @@ in {
         cat "$cfg" "$settings" |\
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
           > $cfg
-      '';
 
-    # https://gist.github.com/nielsvanvelzen/ea047d9028f676185832e51ffaf12a6f
 
-    jellyfinPort = config.services.declarative-jellyfin.network.internalHttpPort;
-
-    jellyseerr-setup =
-      pkgs.writeShellScript "jellyseerr-setup"
-      ''
-        jellyserr_api_key="$(cat $CREDENTIALS_DIRECTORY/jellyserr_api_key)"
-        jellyfin_api_key="$(cat $CREDENTIALS_DIRECTORY/jellyfin_api_key)"
-        jellyfin_password="$(cat $CREDENTIALS_DIRECTORY/jellyfin_password)"
-
-        db_file="config/db/db.sqlite3"
-
-        echo "start"
-
-        while ! [ -f "$db_file" ]; do
-          # echo "Waiting for db: $db_file"
+        echo "Waiting for db to be created..."
+        until [ -f "$db_file" ]
+        do
           sleep 1
         done
 
-        echo "a"
-
+        echo "Waiting for the users table to be created..."
         while true; do
           ${pkgs.sqlite}/bin/sqlite3 $db_file "
           SELECT 1 FROM sqlite_master
@@ -374,90 +476,183 @@ in {
           sleep 1
         done
 
-        echo "b"
+        ${concatStringsSep "" (
+          map (user: ''
+            user_id="${builtins.hashString "md5" user.name}"
 
-        # only setup if there are no users
-        users="$(${pkgs.sqlite}/bin/sqlite3 $db_file "SELECT * FROM user")"
-        if [ -n "$users" ]; then
-          exit 0
-        fi
+            psw="${user.password}";
+            psw_file="$CREDENTIALS_DIRECTORY/psw_file_$user_id"
 
-        echo "c"
+            if [ -z $psw ] and [ -f $psw_file ]; then
+              psw=$(cat "$psw_file")
+            fi
 
-        # you cant create a user if there is none
-        ${pkgs.sqlite}/bin/sqlite3 $db_file "
-        INSERT INTO user (
-            email,
-            avatar
-        ) values (
-            'TEMP_EMAIL',
-            'TEMP_AVATAR'
-        )
-        "
+            psw_hash="${user.password}";
+            psw_hash_file="$CREDENTIALS_DIRECTORY/psw_hash_file$user_id"
 
-        echo "d"
+            if [ -z $psw_hash ] and [ -f $psw_hash_file ]; then
+              psw_hash=$(cat "$psw_hash_file")
+            fi
 
-        # Wait for jellyfin to start
-        while true; do
-          ${pkgs.curl}/bin/curl -X GET \
-            "http://127.0.0.1:${toString jellyfinPort}/System/Ping" \
-          > /dev/null 2>&1
+            if [ -z $psw_hash ] and [ -n $psw ]; then
+              psw_hash=$(${pkgs.thttpd}/bin/htpasswd -bnBC 12 "" "$psw")
+            fi
 
-          if [ $? -eq 0 ]; then
-            break
-          fi
+            userExists=$(${sq} "
+              SELECT 1 FROM Users
+              WHERE Username = '${user.name}'
+            ")
 
-          sleep 1
-        done
+            if [ -z "$userExists" ]; then
+              ${sq} "
+                INSERT INTO user (
+                  email,
+                  username,
+                  avatar
+                ) VALUES (
+                  'temp_email',
+                  '${user.name}',
+                  'temp_avatar'
+                )
+              "
+            fi
 
-        echo "d2"
-
-        while true; do
-          # use the api to create the admin user
-          res=$(
-            ${pkgs.curl}/bin/curl -X POST \
-              -H "X-Api-Key: $jellyserr_api_key" \
-              -H "Content-Type: application/json" \
-              "http://127.0.0.1:${toString cfg.port}/api/v1/auth/jellyfin" \
-              -d "{
-                \"email\": \"${cfg.adminEmail}\",
-                \"username\": \"${cfg.jellyfin.username}\",
-                \"password\": \"$jellyfin_password\"
-              }"
-          )
-
-          # You get this if jellyseerr cant connect to jellyfin
-          if [ "$res" != '{"message":"Something went wrong."}' ]; then
-            echo "$res"
-            break
-          fi
-
-          sleep 1
-        done
-
-        echo "e"
-
-        ${pkgs.sqlite}/bin/sqlite3 $db_file "
-        DELETE FROM user
-        WHERE id = 1;
-        "
-
-        echo "f"
-
-        # make the created user the admin user
-        ${pkgs.sqlite}/bin/sqlite3 $db_file "
-        UPDATE user
-        SET
-            id = 1,
-            permissions = 2,
-            jellyfinAuthToken = '$jellyfin_api_key',
-            password = NULL
-        WHERE
-            id = 2;
-        "
-
-        echo "g"
+            if [ -z "$userExists" ] or [ '${toString user.mutable}' == 'true' ]; then
+              ${sq} "
+                UPDATE user SET
+                  email = '${user.email}',
+                  permissions = ${toString user.permission},
+                  avatar = 'https://gravatar.com/avatar/187f0ef5fecdebc4103c11399a7a9486?default=mm&size=200',
+                  password = '$psw_hash',
+                  userType = 2
+                WHERE
+                  username = '${user.name}';
+              "
+            fi
+          '')
+          (attrValues cfg.users)
+        )}
       '';
+    # https://gist.github.com/nielsvanvelzen/ea047d9028f676185832e51ffaf12a6f
+    # jellyfinPort = config.services.declarative-jellyfin.network.internalHttpPort;
+    # jellyseerr-setup =
+    #   pkgs.writeShellScript "jellyseerr-setup"
+    #   ''
+    #     jellyserr_api_key="$(cat $CREDENTIALS_DIRECTORY/jellyserr_api_key)"
+    #     jellyfin_api_key="$(cat $CREDENTIALS_DIRECTORY/jellyfin_api_key)"
+    #     jellyfin_password="$(cat $CREDENTIALS_DIRECTORY/jellyfin_password)"
+    #
+    #     db_file="config/db/db.sqlite3"
+    #
+    #     sleep 5
+    #
+    #     echo "start"
+    #
+    #     while ! [ -f "$db_file" ]; do
+    #       # echo "Waiting for db: $db_file"
+    #       sleep 1
+    #     done
+    #
+    #     echo "a"
+    #
+    #     while true; do
+    #       ${pkgs.sqlite}/bin/sqlite3 $db_file "
+    #       SELECT 1 FROM sqlite_master
+    #       WHERE type='table'
+    #       AND name='users';
+    #       " > /dev/null 2>&1
+    #
+    #       if [ $? -eq 0 ]; then
+    #         break
+    #       fi
+    #
+    #       sleep 1
+    #     done
+    #
+    #     echo "b"
+    #
+    #     # only setup if there are no users
+    #     users="$(${pkgs.sqlite}/bin/sqlite3 $db_file "SELECT * FROM user")"
+    #     if [ -n "$users" ]; then
+    #       exit 0
+    #     fi
+    #
+    #     echo "c"
+    #
+    #     # you cant create a user if there is none
+    #     ${pkgs.sqlite}/bin/sqlite3 $db_file "
+    #     insert into user (
+    #         email,
+    #         avatar
+    #     ) values (
+    #         'temp_email',
+    #         'temp_avatar'
+    #     )
+    #     "
+    #
+    #     echo "d"
+    #
+    #     # Wait for jellyfin to start
+    #     while true; do
+    #       ${pkgs.curl}/bin/curl -X GET \
+    #         "http://127.0.0.1:${toString jellyfinPort}/System/Ping" \
+    #       > /dev/null 2>&1
+    #
+    #       if [ $? -eq 0 ]; then
+    #         break
+    #       fi
+    #
+    #       sleep 1
+    #     done
+    #
+    #     echo "d2"
+    #
+    #     while true; do
+    #       # use the api to create the admin user
+    #       res=$(
+    #         ${pkgs.curl}/bin/curl -X POST \
+    #           -H "X-Api-Key: $jellyserr_api_key" \
+    #           -H "Content-Type: application/json" \
+    #           "http://127.0.0.1:${toString cfg.port}/api/v1/auth/jellyfin" \
+    #           -d "{
+    #             \"email\": \"${cfg.adminEmail}\",
+    #             \"username\": \"${cfg.jellyfin.username}\",
+    #             \"password\": \"$jellyfin_password\"
+    #           }"
+    #       )
+    #
+    #       # You get this if jellyseerr cant connect to jellyfin
+    #       if [ "$res" != '{"message":"Something went wrong."}' ]; then
+    #         echo "$res"
+    #         break
+    #       fi
+    #
+    #       sleep 1
+    #     done
+    #
+    #     echo "e"
+    #
+    #     ${pkgs.sqlite}/bin/sqlite3 $db_file "
+    #     DELETE FROM user
+    #     WHERE id = 1;
+    #     "
+    #
+    #     echo "f"
+    #
+    #     # make the created user the admin user
+    #     ${pkgs.sqlite}/bin/sqlite3 $db_file "
+    #     UPDATE user
+    #     SET
+    #         id = 1,
+    #         permissions = 2,
+    #         jellyfinAuthToken = '$jellyfin_api_key',
+    #         password = NULL
+    #     WHERE
+    #         id = 2;
+    #     "
+    #
+    #     echo "g"
+    #   '';
   in
     mkIf cfg.enable {
       sops.templates."jellyseerr-config.json".content = settings;
@@ -467,15 +662,22 @@ in {
         serviceConfig = {
           WorkingDirectory = cfg.dataDir;
           ExecStartPre = "${jellyseerr-init}";
-          ExecStartPost = "${jellyseerr-setup}";
+          # ExecStartPost = "${jellyseerr-setup}";
           # ExecStartPost = "/srv/test.sh";
-          LoadCredential = [
-            "config:${config.sops.templates."jellyseerr-config.json".path}"
+          LoadCredential =
+            [
+              "config:${config.sops.templates."jellyseerr-config.json".path}"
 
-            "jellyserr_api_key:${cfg.apiKeyFile}"
-            "jellyfin_api_key:${cfg.jellyfin.apiKeyFile}"
-            "jellyfin_password:${cfg.jellyfin.passwordFile}"
-          ];
+              "jellyserr_api_key:${cfg.apiKeyFile}"
+              "jellyfin_api_key:${cfg.jellyfin.apiKeyFile}"
+              "jellyfin_password:${cfg.jellyfin.passwordFile}"
+            ]
+            ++ lib.map
+            (u: "psw_file_${builtins.hashString "md5" u.name}:${u.passwordFile}")
+            (lib.attrValues cfg.users)
+            ++ lib.map
+            (u: "psw_hash_file_${builtins.hashString "md5" u.name}:${u.passwordHashFile}")
+            (lib.attrValues cfg.users);
         };
       };
 

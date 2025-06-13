@@ -447,11 +447,12 @@ in {
           done |\
           ${pkgs.jq}/bin/jq -R -s 'split("\n") | .[:-1]')
 
-        cat "$settings" |\
-          ${pkgs.jq}/bin/jq \
-          --argjson new_ids "$new_ids_json" \
-          '.jellyfin.libraries |= (reduce (to_entries[]) as $entry ([]; . + [ $entry.value | .id = $new_ids[$entry.key] ]))'
-
+        settings=$(
+          cat "$settings" |\
+            ${pkgs.jq}/bin/jq \
+            --argjson new_ids "$new_ids_json" \
+            '.jellyfin.libraries |= (reduce (to_entries[]) as $entry ([]; . + [ $entry.value | .id = $new_ids[$entry.key] ]))'
+        )
 
         cat "$cfg" "$settings" |\
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \

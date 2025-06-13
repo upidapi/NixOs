@@ -53,12 +53,12 @@ in {
       # openFirewall = true;
       force = true;
 
-      apiKeyFile = config.sops.secrets."jellyseerr/api-key".path;
-      jellyfin = {
-        apiKeyFile = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
-        passwordFile = config.sops.secrets."jellyfin/users/admin/password".path;
-        username = "admin";
-      };
+      # apiKeyFile = config.sops.secrets."jellyseerr/api-key".path;
+      # jellyfin = {
+      #   apiKeyFile = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
+      #   passwordFile = config.sops.secrets."jellyfin/users/admin/password".path;
+      #   username = "admin";
+      # };
       users.admin = {
         email = "videw@icloud.com";
         passwordFile = config.sops.secrets."jellyseerr/users/admin/password".path;
@@ -67,9 +67,14 @@ in {
         };
         mutable = false;
       };
-      adminEmail = "videw@icloud.com";
-
-      settings = {
+      settings.main.defaultPermissions = {
+        request = true;
+        request4k = true;
+        autoApprove = true;
+        autoApprove4k = true;
+        autoRequest = true;
+      };
+      extraSettings = {
         jellyfin = {
           apiKey = config.sops.placeholder."jellyfin/jellyseerr-api-key";
           externalHostname = "";
@@ -101,7 +106,6 @@ in {
           applicationTitle = "Jellyseerr";
           applicationUrl = "";
           cacheImages = false;
-          defaultPermissions = 32;
           defaultQuotas = {
             movie = {};
             tv = {};

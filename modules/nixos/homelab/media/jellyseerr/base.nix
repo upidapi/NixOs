@@ -533,7 +533,7 @@ in {
               "
             fi
 
-            if [ -z "$userExists" ] || [ '${toString user.mutable}' == 'true' ]; then
+            if [ -z "$userExists" ] || [ '${toString user.mutable}' != '1' ]; then
               ${sq} "
                 UPDATE user SET
                   email = '${user.email}',
@@ -544,6 +544,8 @@ in {
                 WHERE
                   username = '${user.name}';
               "
+            else
+              echo "Skipping user since it exists and mutable is true"
             fi
           '')
           (attrValues cfg.users)

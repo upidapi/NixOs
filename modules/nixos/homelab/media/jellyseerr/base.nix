@@ -425,7 +425,7 @@ in {
     jellyseerr-init =
       pkgs.writeShellScript "jellyseerr-init"
       ''
-        db_file="${cfg.configDir}/config/db/db.sqlite3"
+        db_file="${cfg.configDir}/db/db.sqlite3"
         settings=$(cat "$CREDENTIALS_DIRECTORY/config")
         cfg_file="${cfg.configDir}/settings.json"
 

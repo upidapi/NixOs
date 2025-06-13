@@ -461,7 +461,8 @@ in {
 
 
         echo "Starting jellyseerr to generate db..."
-        ${lib.getExe cfg.package} & # disown
+        ${lib.getExe cfg.package} &
+        jellyfin_pid=$!
 
         echo "Waiting for db to be created..."
         until [ -f "$db_file" ]
@@ -544,8 +545,9 @@ in {
           (attrValues cfg.users)
         )}
 
-        echo "Bringing jellyseerr back to fg"
-        fg
+        # echo "Bringing jellyseerr back to fg"
+        # fg
+        wait $jellyfin_pid
       '';
     # https://gist.github.com/nielsvanvelzen/ea047d9028f676185832e51ffaf12a6f
     # jellyfinPort = config.services.declarative-jellyfin.network.internalHttpPort;

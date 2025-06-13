@@ -268,6 +268,7 @@ in {
       type = types.str;
     };
     users = let
+      # https://github.com/fallenbagel/jellyseerr/blob/c7284f473c43634b3a324f3b11a9a60990b3c0da/server/lib/permissions.ts#L1
       permList = [
         "admin"
         "manageSettings"
@@ -507,7 +508,10 @@ in {
             fi
 
             if [ -z "$psw_hash" ] && [ -n "$psw" ]; then
-              psw_hash=$(${pkgs.apacheHttpd}/bin/htpasswd -bnBC 12 "" "$psw")
+              psw_hash=$(
+                ${pkgs.apacheHttpd}/bin/htpasswd -bnBC 12 "" "$psw" \
+                | tr -d ':\n'
+              )
             fi
 
             userExists=$(${sq} "

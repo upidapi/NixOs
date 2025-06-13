@@ -474,7 +474,7 @@ in {
           ${pkgs.sqlite}/bin/sqlite3 $db_file "
           SELECT 1 FROM sqlite_master
           WHERE type='table'
-          AND name='users';
+          AND name='user';
           " > /dev/null 2>&1
 
           if [ $? -eq 0 ]; then
@@ -507,7 +507,7 @@ in {
             fi
 
             userExists=$(${sq} "
-              SELECT 1 FROM Users
+              SELECT 1 FROM user
               WHERE Username = '${user.name}'
             ")
 

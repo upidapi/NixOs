@@ -36,7 +36,6 @@ in {
       };
 
       "jellyseerr/users/admin/password" = {
-        key = "jellyseerr/api-key";
         # owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };

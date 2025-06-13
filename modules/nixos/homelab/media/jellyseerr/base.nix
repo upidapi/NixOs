@@ -503,7 +503,7 @@ in {
             fi
 
             if [ -z "$psw_hash" ] && [ -n "$psw" ]; then
-              psw_hash=$(${pkgs.thttpd}/bin/htpasswd -bnBC 12 "" "$psw")
+              psw_hash=$(${pkgs.apacheHttpd}/bin/htpasswd -bnBC 12 "" "$psw")
             fi
 
             userExists=$(${sq} "

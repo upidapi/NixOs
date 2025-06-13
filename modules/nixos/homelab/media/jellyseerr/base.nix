@@ -556,9 +556,11 @@ in {
           (attrValues cfg.users)
         )}
 
-        # echo "Bringing jellyseerr back to fg"
-        # fg
-        wait $jellyfin_pid
+
+        echo "Restating jellyseerr to make it pick up the cfg/db changes"
+        kill -15 $jellyfin_pid
+
+        ${lib.getExe cfg.package}
       '';
     # https://gist.github.com/nielsvanvelzen/ea047d9028f676185832e51ffaf12a6f
     # jellyfinPort = config.services.declarative-jellyfin.network.internalHttpPort;

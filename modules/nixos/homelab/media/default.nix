@@ -137,13 +137,13 @@ in {
                   PBKDF2 \
                 | openssl base64)
 
-                echo "@ByteArray($salt_b64==:$hash==)"
+                echo "@ByteArray($salt_b64:$hash)"
               }
 
               get_hashed_password "your secret password"
               */
-              Password_PBKDF2 = "@ByteArray(f7GqbV6L52bgyO+3oHz3fQ====:oI+W3h3yQ6yFIV1oZkEG7PsfM9TQ74oYvoozsTw1Y7Gi7FZa+oR3NoR2+ug8wJWv
-JE083xBhyhXEpMn0G2a5Iw====)";
+              Password_PBKDF2 = "@ByteArray(f7GqbV6L52bgyO+3oHz3fQ==:oI+W3h3yQ6yFIV1oZkEG7PsfM9TQ74oYvoozsTw1Y7Gi7FZa+oR3NoR2+ug8wJWv
+JE083xBhyhXEpMn0G2a5Iw==)";
             };
           };
         };

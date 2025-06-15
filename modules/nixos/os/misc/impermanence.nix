@@ -127,6 +127,7 @@ in {
         "/var/lib/transfer-sh"
 
         "/var/lib/bazarr"
+        "/var/lib/jellyseerr"
         config.services.radarr.dataDir
         config.services.sonarr.dataDir
         config.services.jackett.dataDir

@@ -117,33 +117,33 @@ in {
 
               # Use this to generate the password hash
               /*
-              ITERATIONS=100000
-              SALT_SIZE=16
-              KEY_LEN=64
+              iterations=100000
+              salt_size=12
+              key_len=64
 
               get_hashed_password() {
                 psw="$1"
 
-                salt=$(head -c "$SALT_SIZE" /dev/urandom)
+                salt=$(head -c "$salt_size" /dev/urandom | openssl base64)
                 salt_b64=$(echo -n "$salt" | openssl base64)
 
                 hash=$(openssl kdf \
                   -kdfopt "pass:$psw" \
-                  -kdfopt "digest:SHA512" \
-                  -kdfopt "salt:$salt_b64" \
-                  -kdfopt "iter:$ITERATIONS" \
-                  -keylen "$KEY_LEN" \
+                  -kdfopt "digest:sha512" \
+                  -kdfopt "salt:$salt" \
+                  -kdfopt "iter:$iterations" \
+                  -keylen "$key_len" \
                   -binary \
-                  PBKDF2 \
+                  pbkdf2 \
                 | openssl base64)
 
                 echo "@ByteArray($salt_b64:$hash)"
               }
 
-              get_hashed_password "your secret password"
+              get_hashed_password "atgu9e6pcurakkquda0ruvb4f00jrd53"
               */
-              Password_PBKDF2 = "@ByteArray(f7GqbV6L52bgyO+3oHz3fQ==:oI+W3h3yQ6yFIV1oZkEG7PsfM9TQ74oYvoozsTw1Y7Gi7FZa+oR3NoR2+ug8wJWv
-JE083xBhyhXEpMn0G2a5Iw==)";
+              Password_PBKDF2 = "@ByteArray(dFVBb1RvTWFkckNaYzZtOA==:Jg8J6IruiTQwJgMWm3mc4SwYnarvHSjcyepgEQFfTQM4lck0l7aodWwLOPofKrsa
+Vy6Op3T4RniybvU4sdeVIQ==)";
             };
           };
         };

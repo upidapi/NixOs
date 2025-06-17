@@ -1,11 +1,10 @@
 {
   config,
   lib,
-  my_lib,
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkOption types;
+  inherit (lib) mkOption types;
   # inherit (my_lib.opt) mkEnableOpt;
   # cfg = config.modules.nixos.homelab.media.dec;
 in {
@@ -17,106 +16,44 @@ in {
     username = mkOption {
       type = types.str;
     };
+    apiKeyFile = mkOption {
+      type = types.str;
+    };
+    extraSettings = {
+      mediaManagement = mkOption {
+        type = types.attrs;
+        description = ''
+          This is mapped directly into a api request so check out what the
+          web gui sends when you edit the settings.
+        '';
+        default = {};
+      };
+      naming = mkOption {
+        type = types.attrs;
+        description = ''
+          This is mapped directly into a api request so check out what the
+          web gui sends when you edit the settings.
+        '';
+        default = {};
+      };
+      rootFolders = mkOption {
+        type = types.listOf types.str;
+        description = ''
+
+        '';
+        default = [];
+      };
+      downloadClients = mkOption {
+        type = types.listOf types.attrs;
+        description = ''
+
+        '';
+        default = [];
+      };
+    };
   };
 
   config = let
-    postStart = ''
-      ${
-        makeCurlScript "sonarr-curl-script"
-        ''
-          silent
-          show-error
-          parallel
-        ''
-        ''
-          header = "X-Api-Key: ${sonarr.apiKey}"
-          header = "Content-Type: application/json"
-          retry = 3
-          retry-connrefused
-        ''
-        (
-          let
-            naming = ''
-              fail-with-body
-              url = "http://localhost:${sonarr.port}/api/v3/config/naming/1"
-              request = "PUT"
-              data = "@${
-                jsonFormat.generate "naming.json" {
-                  id = 1;
-                  renameEpisodes = true;
-                  replaceIllegalCharacters = true;
-                  colonReplacementFormat = 0;
-                  customColonReplacementFormat = "";
-                  multiEpisodeStyle = 0;
-                  standardEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-                  dailyEpisodeFormat = "{Series Title} - {Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-                  animeEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-                  seriesFolderFormat = "{Series Title}";
-                  seasonFolderFormat = "Season {season}";
-                  specialsFolderFormat = "Specials";
-                }
-              }"
-            '';
-          in
-            [
-              # PUT naming twice - first PUT doesn't work???
-              naming
-              naming
-              ''
-                fail-with-body
-                url = "http://localhost:${sonarr.port}/api/v3/config/mediamanagement/1"
-                request = "PUT"
-                data = "@${
-                  jsonFormat.generate "mediamanagement.json" {
-                    id = 1;
-                    importExtraFiles = true;
-                    extraFileExtensions = "srt";
-                    deleteEmptyFolders = true;
-
-                    # GUI defaults
-                    copyUsingHardlinks = true;
-                    recycleBinCleanupDays = 7;
-                    minimumFreeSpaceWhenImporting = 100;
-                    enableMediaInfo = true;
-                  }
-                }"
-              ''
-            ]
-            ++ (builtins.map (folder: ''
-                url = "http://localhost:${sonarr.port}/api/v3/rootfolder"
-                request = "POST"
-                data = "@${jsonFormat.generate "rootfolder.json" folder}"
-              '')
-              sonarr.rootFolders)
-            ++ (builtins.map (name: ''
-              url = "http://localhost:${sonarr.port}/api/v3/downloadclient"
-              request = "POST"
-              data = "@${
-                jsonFormat.generate "${name}.json" (
-                  {
-                    inherit name;
-                    enable = true;
-                    removeCompletedDownloads = true;
-                    removeFailedDownloads = true;
-                  }
-                  // makeArrConfig sonarr.downloadClients.${name}
-                )
-              }"
-            '') (builtins.attrNames sonarr.downloadClients))
-        )
-      }
-    '';
-
-    makeCurlScript = name: options: ctx: requests:
-      pkgs.writeTextFile {
-        inherit name;
-        executable = true;
-        text = ''
-          #!${pkgs.curl}/bin/curl -K
-          ${options}
-          ${builtins.concatStringsSep "\nnext\n" (builtins.map (request: "${ctx}\n${request}") requests)}
-        '';
-      };
     curl_base = api_key_path: base_url: type: url: data:
       pkgs.writeText "curl" ''
         curl \
@@ -129,16 +66,18 @@ in {
           -X ${type} \
           -H "X-Api-Key: $(cat "${api_key_path}"")" \
           -H "Content-Type: application/json" \
-          -d "@${pkgs.writeText (builtins.toJSON data)}" &
+          -d "@${pkgs.writeText "data.json" (builtins.toJSON data)}" &
 
       '';
 
-    sonar-init = let
+    sonarr-init = let
+      sonarrPort = config.services.sonarr.settings.server.port;
       curl =
         curl_base
         "$CREDENTIALS_DIRECTORY/api-key"
-        "http://localhost:${config.services.sonarr.port}/api/v3";
+        "http://localhost:${toString sonarrPort}/api/v3";
       cfg = config.services.sonarr;
+      s = cfg.extraSettings;
     in
       pkgs.writeShellScript "sonarr-init" ''
         db_file="${cfg.dataDir}/sonarr.db"
@@ -209,61 +148,65 @@ in {
         # work
         # i suspect that is due to it not having started yet
         ${curl "PUT" "/config/naming/1" {
-          id = 1;
-          renameEpisodes = true;
-          replaceIllegalCharacters = true;
-          colonReplacementFormat = 0;
-          customColonReplacementFormat = "";
-          multiEpisodeStyle = 0;
-          standardEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-          dailyEpisodeFormat = "{Series Title} - {Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-          animeEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-          seriesFolderFormat = "{Series Title}";
-          seasonFolderFormat = "Season {season}";
-          specialsFolderFormat = "Specials";
-        }}
+            id = 1;
+            renameEpisodes = true;
+            replaceIllegalCharacters = true;
+            colonReplacementFormat = 0;
+            customColonReplacementFormat = "";
+            multiEpisodeStyle = 0;
+            standardEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+            dailyEpisodeFormat = "{Series Title} - {Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+            animeEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+            seriesFolderFormat = "{Series Title}";
+            seasonFolderFormat = "Season {season}";
+            specialsFolderFormat = "Specials";
+          }
+          // s.naming}
 
         ${curl "PUT" "/config/mediamanagement/1" {
-          id = 1;
-          importExtraFiles = true;
-          extraFileExtensions = "srt";
-          deleteEmptyFolders = true;
+            id = 1;
+            importExtraFiles = true;
+            extraFileExtensions = "srt";
+            deleteEmptyFolders = true;
 
-          # GUI defaults
-          copyUsingHardlinks = true;
-          recycleBinCleanupDays = 7;
-          minimumFreeSpaceWhenImporting = 100;
-          enableMediaInfo = true;
-        }}
+            # GUI defaults
+            copyUsingHardlinks = true;
+            recycleBinCleanupDays = 7;
+            minimumFreeSpaceWhenImporting = 100;
+            enableMediaInfo = true;
+          }
+          // s.mediaManagement}
 
-        # TODO: root folders
+        ${lib.concatStrings (
+          lib.imap1 (i: d: (curl "PUT" "/rootfolder/${i}}" {
+            path = d;
+          }))
+          s.rootFolders
+        )}
 
-        # TODO: should be a map
-        ${(curl "PUT" "/downloadclient" {
-          importExtraFiles = true;
-          extraFileExtensions = "srt";
-          deleteEmptyFolders = true;
-
-          # GUI defaults
-          copyUsingHardlinks = true;
-          recycleBinCleanupDays = 7;
-          minimumFreeSpaceWhenImporting = 100;
-          enableMediaInfo = true;
-        })}
+        # Setup root folders
+        ${lib.concatStrings (
+          lib.imap1 (i: d: (curl "PUT" "/downloadclient/${i}}" {
+              id = i;
+              # TODO: defaults
+            }
+            // d))
+          s.downloadClients
+        )}
 
         wait
       '';
-  in
-    mkIf cfg.enable {
-      systemd.services.sonarr = {
-        serviceConfig = {
-          # WorkingDirectory = cfg.dataDir;
-          # ExecStartPre = "${jellyseerr-init}";
-          ExecStart = lib.mkForce "${sonarr-init}";
-          # ExecStartPost = "${jellyseerr-setup}";
-          # ExecStartPost = "/srv/test.sh";
-          LoadCredential = [];
-        };
+  in {
+    systemd.services.sonarr = {
+      serviceConfig = {
+        # WorkingDirectory = cfg.dataDir;
+        # ExecStartPre = "${jellyseerr-init}";
+        ExecStart = lib.mkForce "${sonarr-init}";
+        # ExecStartPost = "${jellyseerr-setup}";
+        # ExecStartPost = "/srv/test.sh";
+        LoadCredential = [
+        ];
       };
     };
+  };
 }

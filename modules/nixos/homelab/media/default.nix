@@ -19,6 +19,7 @@ in {
     ./jellyfin-dec.nix
     ./jellyseerr
     ./base.nix
+    ./dec2.nix
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3
@@ -30,170 +31,177 @@ in {
   #  eg add the sonarr group to the jellyfin user
 
   # REF: https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/hosts/hera/jellyfin.nix#L75
-  config =
-    mkIf cfg.enable {
-      systemd.tmpfiles.settings = {
-        "media-dir-create" = {
-          "/srv/jellyfin".d = {
-            group = "media";
-            user = "jellyfin";
-            mode = "751";
-          };
-          "/srv/radarr".d = {
-            group = "media";
-            user = "radarr";
-            mode = "751";
-          };
-          "/srv/bazarr".d = {
-            group = "media";
-            user = "bazarr";
-            mode = "751";
-          };
-          "/srv/sonarr".d = {
-            group = "media";
-            user = "sonarr";
-            mode = "751";
-          };
-          "/srv/qbit".d = {
-            group = "media";
-            user = "qbit";
-            mode = "751";
-          };
-        };
-      };
-
-      sops.secrets = {
-        "radarr/api-key" = {
-          owner = config.services.radarr.user;
-          sopsFile = "${self}/secrets/server.yaml";
-        };
-        "sonarr/api-key" = {
-          owner = config.services.sonarr.user;
-          sopsFile = "${self}/secrets/server.yaml";
-        };
-        "prowlarr/api-key" = {
-          owner = config.services.prowlarr.user;
-          sopsFile = "${self}/secrets/server.yaml";
-        };
-      };
-
-      sops.templates = {
-        "sonarr-env".content = ''
-          SONARR__AUTH__APIKEY=${config.sops.placeholder."sonarr/api-key"}
-        '';
-        "radarr-env".content = ''
-          RADARR__AUTH__APIKEY=${config.sops.placeholder."radarr/api-key"}
-        '';
-        "prowlarr-env".content = ''
-          RADARR__AUTH__APIKEY=${config.sops.placeholder."prowlarr/api-key"}
-        '';
-      };
-
-      users.groups.media = {};
-      users.users = {
-        ${config.services.radarr.user}.extraGroups = ["media"];
-        ${config.services.sonarr.user}.extraGroups = ["media"];
-        ${config.services.bazarr.user}.extraGroups = ["media"];
-        ${config.services.jellyfin.user}.extraGroups = ["media"];
-      };
-
-      services = {
-        flaresolverr = {
-          enable = true;
-          port = ports.flaresolverr;
-          # openFirewall = true;
-        };
-        qbittorrent = {
-          enable = true;
-          package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
-          serverConfig = {
-            LegalNotice.Accepted = true;
-            BitTorrent.Session = {
-              DefaultSavePath = "/srv/qbit";
-              TempPath = "/srv/qbit/tmp";
-            };
-            Preferences.WebUI = {
-              Username = "admin";
-
-              # Use this to generate the password hash
-              /*
-              iterations=100000
-              salt_size=12
-              key_len=64
-
-              get_hashed_password() {
-                psw="$1"
-
-                salt=$(head -c "$salt_size" /dev/urandom | openssl base64)
-                salt_b64=$(echo -n "$salt" | openssl base64)
-
-                hash=$(openssl kdf \
-                  -kdfopt "pass:$psw" \
-                  -kdfopt "digest:sha512" \
-                  -kdfopt "salt:$salt" \
-                  -kdfopt "iter:$iterations" \
-                  -keylen "$key_len" \
-                  -binary \
-                  pbkdf2 \
-                | openssl base64)
-
-                echo "@ByteArray($salt_b64:$hash)"
-              }
-
-              get_hashed_password "atgu9e6pcurakkquda0ruvb4f00jrd53"
-              */
-              Password_PBKDF2 = "@ByteArray(dFVBb1RvTWFkckNaYzZtOA==:Jg8J6IruiTQwJgMWm3mc4SwYnarvHSjcyepgEQFfTQM4lck0l7aodWwLOPofKrsa
-Vy6Op3T4RniybvU4sdeVIQ==)";
-            };
-          };
-        };
-        prowlarr = {
-          enable = true;
-          environmentFiles = [config.sops.templates."prowlarr-env".path];
-          settings = {
-            # update.mechanism = "internal";
-            server = {
-              urlbase = "localhost";
-              port = ports.prowlarr;
-              bindaddress = "*";
-            };
-          };
-        };
-        radarr = {
-          enable = true;
+  config = mkIf cfg.enable {
+    systemd.tmpfiles.settings = {
+      "media-dir-create" = {
+        "/srv/jellyfin".d = {
           group = "media";
-          environmentFiles = [config.sops.templates."radarr-env".path];
-          settings = {
-            # update.mechanism = "internal";
-            server = {
-              # urlbase = "localhost";
-              port = ports.radarr;
-              # bindaddress = "*";
-            };
-          };
+          user = "jellyfin";
+          mode = "751";
         };
-        sonarr = {
-          enable = true;
+        "/srv/radarr".d = {
           group = "media";
-          environmentFiles = [config.sops.templates."sonarr-env".path];
-          settings = {
-            # update.mechanism = "internal";
-            server = {
-              # urlbase = "localhost";
-              port = ports.sonarr;
-              # bindaddress = "*";
-            };
-          };
+          user = "radarr";
+          mode = "751";
         };
-        jackett = {
-          enable = true;
-          port = ports.jackett;
-        };
-        bazarr = {
+        "/srv/bazarr".d = {
           group = "media";
-          enable = true;
-          listenPort = ports.bazarr;
+          user = "bazarr";
+          mode = "751";
+        };
+        "/srv/sonarr".d = {
+          group = "media";
+          user = "sonarr";
+          mode = "751";
+        };
+        "/srv/qbit".d = {
+          group = "media";
+          user = "qbit";
+          mode = "751";
         };
       };
     };
+
+    sops.secrets = {
+      "radarr/api-key" = {
+        owner = config.services.radarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "sonarr/api-key" = {
+        owner = config.services.sonarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "sonarr/password" = {
+        owner = config.services.sonarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "prowlarr/api-key" = {
+        owner = config.services.prowlarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+    };
+
+    sops.templates = {
+      "sonarr-env".content = ''
+        SONARR__AUTH__APIKEY=${config.sops.placeholder."sonarr/api-key"}
+      '';
+      "radarr-env".content = ''
+        RADARR__AUTH__APIKEY=${config.sops.placeholder."radarr/api-key"}
+      '';
+      "prowlarr-env".content = ''
+        RADARR__AUTH__APIKEY=${config.sops.placeholder."prowlarr/api-key"}
+      '';
+    };
+
+    users.groups.media = {};
+    users.users = {
+      ${config.services.radarr.user}.extraGroups = ["media"];
+      ${config.services.sonarr.user}.extraGroups = ["media"];
+      ${config.services.bazarr.user}.extraGroups = ["media"];
+      ${config.services.jellyfin.user}.extraGroups = ["media"];
+    };
+
+    services = {
+      flaresolverr = {
+        enable = true;
+        port = ports.flaresolverr;
+        # openFirewall = true;
+      };
+      qbittorrent = {
+        enable = true;
+        package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
+        serverConfig = {
+          LegalNotice.Accepted = true;
+          BitTorrent.Session = {
+            DefaultSavePath = "/srv/qbit";
+            TempPath = "/srv/qbit/tmp";
+          };
+          Preferences.WebUI = {
+            Username = "admin";
+
+            # Use this to generate the password hash
+            /*
+            iterations=100000
+            salt_size=12
+            key_len=64
+
+            get_hashed_password() {
+              psw="$1"
+
+              salt=$(head -c "$salt_size" /dev/urandom | openssl base64)
+              salt_b64=$(echo -n "$salt" | openssl base64)
+
+              hash=$(openssl kdf \
+                -kdfopt "pass:$psw" \
+                -kdfopt "digest:sha512" \
+                -kdfopt "salt:$salt" \
+                -kdfopt "iter:$iterations" \
+                -keylen "$key_len" \
+                -binary \
+                pbkdf2 \
+              | openssl base64)
+
+              echo "@ByteArray($salt_b64:$hash)"
+            }
+
+            get_hashed_password "atgu9e6pcurakkquda0ruvb4f00jrd53"
+            */
+            Password_PBKDF2 = "@ByteArray(guDA7KtWdaXL1XJ84mbWHg==:kyFKErQ0YWXnFacxH5qdY62VA0431qbe+E/QsLGRN64MtBzk8Zcf6uO4q2NYbQZQ7RvJ+gHb3yTEsHQdgIIvmQ==)";
+          };
+        };
+      };
+      prowlarr = {
+        enable = true;
+        environmentFiles = [config.sops.templates."prowlarr-env".path];
+        settings = {
+          # update.mechanism = "internal";
+          server = {
+            urlbase = "localhost";
+            port = ports.prowlarr;
+            bindaddress = "*";
+          };
+        };
+      };
+      radarr = {
+        enable = true;
+        group = "media";
+        environmentFiles = [config.sops.templates."radarr-env".path];
+        settings = {
+          # update.mechanism = "internal";
+          server = {
+            # urlbase = "localhost";
+            port = ports.radarr;
+            # bindaddress = "*";
+          };
+        };
+      };
+      sonarr = {
+        enable = true;
+        group = "media";
+        environmentFiles = [config.sops.templates."sonarr-env".path];
+
+        username = "admin";
+        passwordFile = config.sops.secrets."sonarr/password";
+        apiKeyFile = config.sops.secrets."sonarr/api-key";
+
+        settings = {
+          # update.mechanism = "internal";
+          server = {
+            # urlbase = "localhost";
+            port = ports.sonarr;
+            # bindaddress = "*";
+          };
+        };
+      };
+      jackett = {
+        enable = true;
+        port = ports.jackett;
+      };
+      bazarr = {
+        group = "media";
+        enable = true;
+        listenPort = ports.bazarr;
+      };
+    };
+  };
 }

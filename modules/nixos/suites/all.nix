@@ -54,11 +54,9 @@ in {
           xdg = enable;
 
           login = {
-            # FIXME: for some reason, when Hyprland is run in the login shell,
-            #  it results in you not being able to you can open firefox nor
-            #  kitty with the binds, however the (eg) rofi, screenshot and
-            #  color-picker's keybinds do work
-            command = "sh -c Hyprland";
+            # NOTE: when running Hyprland directly the env vars fail to load.
+            #  So o I have to run it in a shell to access the env vars.
+            command = "zsh -c Hyprland";
             autoLogin = false;
             greetd = enable;
           };

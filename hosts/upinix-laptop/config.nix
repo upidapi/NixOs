@@ -25,7 +25,6 @@ in {
 
   users.users.upidapi = {
     isNormalUser = true;
-    description = "upidapi";
 
     extraGroups = [
       "networkmanager"
@@ -39,14 +38,11 @@ in {
     openssh.authorizedKeys.keys = [keys.users.upidapi];
   };
 
-  users.users.test = {
+  users.users.debug = {
     isNormalUser = true;
-    description = "upidapi";
 
-    extraGroups = [
-      "wheel"
-    ];
-    password = "";
+    extraGroups = [];
+    password = "1";
 
     openssh.authorizedKeys.keys = [keys.users.upidapi];
   };

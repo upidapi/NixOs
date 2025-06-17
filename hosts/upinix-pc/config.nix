@@ -17,7 +17,6 @@ in {
 
   users.users.upidapi = {
     isNormalUser = true;
-    description = "upidapi";
 
     extraGroups = [
       "wheel"
@@ -28,6 +27,15 @@ in {
     ];
 
     hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
+
+    openssh.authorizedKeys.keys = [keys.users.upidapi];
+  };
+
+  users.users.debug = {
+    isNormalUser = true;
+
+    extraGroups = [];
+    password = "1";
 
     openssh.authorizedKeys.keys = [keys.users.upidapi];
   };

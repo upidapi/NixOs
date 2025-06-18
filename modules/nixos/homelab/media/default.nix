@@ -121,32 +121,50 @@ in {
 
             # Use this to generate the password hash
             /*
-            iterations=100000
-            salt_size=12
-            key_len=64
+            #!/usr/bin/env nix-shell
+            #!nix-shell -i real-interpreter -p openssl -p xxd
 
-            get_hashed_password() {
-              psw="$1"
+            set -euo pipefail
 
-              salt=$(head -c "$salt_size" /dev/urandom | openssl base64)
-              salt_b64=$(echo -n "$salt" | openssl base64)
+            SALT_BYTES=16
+            KEY_LEN_BYTES=64
+            ITERATIONS=100000
+            DIGEST_ALGO="SHA512"
 
-              hash=$(openssl kdf \
-                -kdfopt "pass:$psw" \
-                -kdfopt "digest:sha512" \
-                -kdfopt "salt:$salt" \
-                -kdfopt "iter:$iterations" \
-                -keylen "$key_len" \
-                -binary \
-                pbkdf2 \
-              | openssl base64)
+            get_hashed_password () {
+              PASSWORD="$1"
 
-              echo "@ByteArray($salt_b64:$hash)"
+              SALT_HEX=$(
+                openssl rand "$SALT_BYTES" \
+                | xxd -p -c 256 \
+                | tr -d '\n'
+              )
+
+              SALT_B64=$(
+                echo -n "$SALT_HEX" \
+                | xxd -r -p \
+                | base64 \
+                | tr -d '\n='
+              )
+
+              DERIVED_KEY_B64=$(openssl kdf \
+                  -keylen "$KEY_LEN_BYTES" \
+                  -kdfopt digest:"$DIGEST_ALGO" \
+                  -kdfopt pass:"$PASSWORD" \
+                  -kdfopt hexsalt:"$SALT_HEX" \
+                  -kdfopt iter:"$ITERATIONS" \
+                  -binary \
+                  PBKDF2 \
+                  | base64 \
+                  | tr -d '\n=')
+
+
+              echo "${SALT_B64}==:${DERIVED_KEY_B64}=="
             }
 
-            get_hashed_password "atgu9e6pcurakkquda0ruvb4f00jrd53"
+            get_hashed_password "your secret password"
             */
-            Password_PBKDF2 = "@ByteArray(guDA7KtWdaXL1XJ84mbWHg==:kyFKErQ0YWXnFacxH5qdY62VA0431qbe+E/QsLGRN64MtBzk8Zcf6uO4q2NYbQZQ7RvJ+gHb3yTEsHQdgIIvmQ==)";
+            Password_PBKDF2 = "@ByteArray(TZ2O65dP76xf7p9U8tC4mg==:rEf5zTudNuXk7f8gjPjdZaigeFgRkxK1Gvn/YM4BOb3uHInTOTHJI1BS1pzdBHWrbwM0TG0ehFFRodb/DNp2Kw==)";
           };
         };
       };

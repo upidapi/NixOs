@@ -63,6 +63,11 @@ in {
     };
 
     sops.secrets = {
+      "qbit/password_sonarr" = {
+        key = "qbit/password";
+        owner = config.services.sonarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
       "radarr/api-key" = {
         owner = config.services.radarr.user;
         sopsFile = "${self}/secrets/server.yaml";
@@ -117,6 +122,7 @@ in {
             TempPath = "/srv/qbit/tmp";
           };
           Preferences.WebUI = {
+            Port = ports.qbit;
             Username = "admin";
 
             # Use this to generate the password hash
@@ -208,6 +214,20 @@ in {
             # urlbase = "localhost";
             port = ports.sonarr;
             # bindaddress = "*";
+          };
+        };
+        extraSettings = {
+          rootFolders = ["/src/sonarr"];
+          downloadClients = {
+            "qBittorrent" = {
+              implementation = "QBittorrent";
+              fields = {
+                port = ports.qbit;
+                username = "admin";
+                password = config.sops.secrets."qbit/password_sonarr";
+                sequentialOrder = true;
+              };
+            };
           };
         };
       };

@@ -19,44 +19,100 @@ in {
     apiKeyFile = mkOption {
       type = types.str;
     };
-    extraSettings = {
-      mediaManagement = mkOption {
-        type = types.attrs;
-        description = ''
-          This is mapped directly into a api request so check out what the
-          web gui sends when you edit the settings.
-        '';
-        default = {};
-      };
-      naming = mkOption {
-        type = types.attrs;
-        description = ''
-          This is mapped directly into a api request so check out what the
-          web gui sends when you edit the settings.
-        '';
-        default = {};
-      };
-      rootFolders = mkOption {
-        type = types.listOf types.str;
-        description = ''
 
-        '';
-        default = [];
-      };
-      downloadClients = mkOption {
-        type = types.listOf types.attrs;
-        description = ''
+    extraSettings = mkOption {
+      description = ''
+        Each suboption is an api route, and the contens is mapped directly to
+        the json body of the request. Refer to what the gui sends for what
+        thease should be.
 
-        '';
-        default = [];
+        The set value will be merged with the default value (not really but
+        with the same value as the default is)
+      '';
+      type = types.submodule {
+        options = {
+          mediaManagement = mkOption {
+            type = types.attrs;
+            description = ''
+
+            '';
+            default = {};
+          };
+          naming = mkOption {
+            type = types.attrs;
+            description = ''
+
+            '';
+            default = {};
+          };
+          rootFolders = mkOption {
+            type = types.listOf types.str;
+            description = ''
+              Mapped to the correct format
+            '';
+            default = [];
+            example = ["/srv/sonarr"];
+          };
+          downloadClients = mkOption {
+            type = types.attrs;
+            description = ''
+              The attr "name" propergates to the name feild.
+
+              The attr "fields" are mapped into the key value pairs that the
+              api expects.
+
+              The password feild should be a file, it will be replaces by the
+              files content during runtime.
+            '';
+            default = {};
+            example = {
+              "qBittorrent" = {
+                implementation = "QBittorrent";
+                fields = {
+                  port = 8080;
+                  username = "admin";
+                  password = "config.sops.secrets.\"qbit/passoword_sonarr\"";
+                };
+              };
+            };
+          };
+        };
       };
     };
   };
 
   config = let
-    curl_base = api_key_path: base_url: type: url: data:
-      pkgs.writeText "curl" ''
-        curl \
+    # So this might be a tad overkill but idk what to do otherwise
+    transform_func = ''
+      transform-json () {
+        settings=$(cat)
+
+        readarray -t files < <(
+          echo "$settings" | jq -r '
+            [ (.fields[].value.file) | .. | scalars ] | unique | .[]
+          '
+        )
+
+        jq_args=()
+        for file in "''${files[@]}"; do
+          if [[ ! -r "$file" ]]; then
+            echo "Failed find the file \"$file\""
+            exit 1
+          fi
+
+          jq_args+=(--arg "$file" "$(cat "$file")")
+        done
+
+        lookup_json=$(jq -n '$ARGS.named' "''${jq_args[@]}")
+
+        echo "$settings" | jq --argjson lookup "$lookup_json" '
+          .fields |= map(.value.file |= $lookup[.])
+        '
+      }
+    '';
+    curl_base = api_key_path: base_url: type: url: t: data: ''
+      cat "${pkgs.writeText "data.json" (builtins.toJSON data)}" \
+      ${t}| curl \
           --silent \
           --show-error \
           --parallel \
@@ -64,18 +120,18 @@ in {
           --retry-connrefused \
           --url ${base_url}${url} \
           -X ${type} \
-          -H "X-Api-Key: $(cat "${api_key_path}"")" \
+          -H "X-Api-Key: $(cat "${api_key_path}")" \
           -H "Content-Type: application/json" \
-          -d "@${pkgs.writeText "data.json" (builtins.toJSON data)}" &
-
-      '';
+          --data-binary @- &
+    '';
 
     sonarr-init = let
       sonarrPort = config.services.sonarr.settings.server.port;
-      curl =
+      curl' =
         curl_base
         "$CREDENTIALS_DIRECTORY/api-key"
         "http://localhost:${toString sonarrPort}/api/v3";
+      curl = type: url: curl' "" type url;
       cfg = config.services.sonarr;
       s = cfg.extraSettings;
     in
@@ -107,23 +163,35 @@ in {
         done
 
         ITERATIONS=10000
-        SALT_SIZE=16
-        KEY_LEN=32
+        SALT_BYTES=16
+        KEY_LEN_BYTES=32
+        DIGEST_ALGO="SHA512"
 
-        psw=$(cat "$CREDENTIALS_DIRECTORY/psw")
+        PASSWORD=$(cat "$CREDENTIALS_DIRECTORY/psw")
 
-        salt=$(head -c "$SALT_SIZE" /dev/urandom)
-        salt_b64=$(echo -n "$salt" | ${pkgs.openssl}/bin/openssl base64)
+        SALT_HEX=$(
+          openssl rand "$SALT_BYTES" \
+          | xxd -p -c 256 \
+          | tr -d '\n'
+        )
 
-        hash=$(${pkgs.openssl}/bin/openssl kdf \
-          -kdfopt "pass:$psw" \
-          -kdfopt "digest:SHA512" \
-          -kdfopt "salt:$salt_b64" \
-          -kdfopt "iter:$ITERATIONS" \
-          -keylen "$KEY_LEN" \
+        SALT_B64=$(
+          echo -n "$SALT_HEX" \
+          | xxd -r -p \
+          | base64 \
+          | tr -d '\n'
+        )
+
+        DERIVED_KEY_B64=$(openssl kdf \
+          -keylen "$KEY_LEN_BYTES" \
+          -kdfopt digest:"$DIGEST_ALGO" \
+          -kdfopt pass:"$PASSWORD" \
+          -kdfopt hexsalt:"$SALT_HEX" \
+          -kdfopt iter:"$ITERATIONS" \
           -binary \
           PBKDF2 \
-        | ${pkgs.openssl}/bin/openssl base64)
+        | base64 \
+        | tr -d '\n')
 
         user_id=$(${pkgs.util-linux}/bin/uuidgen -N asd -n @oid --sha1)
 
@@ -138,16 +206,18 @@ in {
           ) VALUES (
             '$user_id',
             '$user',
-            '$hash',
-            '$salt_b64',
+            '$DERIVED_KEY_B64',
+            '$SALT_B64',
             $ITERATIONS
           );
         "
 
+        ${transform_func} #
+
         # might have to put this twice, ref says that the first put doesn't
         # work
         # i suspect that is due to it not having started yet
-        ${curl "PUT" "/config/naming/1" {
+        ${curl "PUT" "/config/naming/1" ({
             id = 1;
             renameEpisodes = true;
             replaceIllegalCharacters = true;
@@ -161,9 +231,9 @@ in {
             seasonFolderFormat = "Season {season}";
             specialsFolderFormat = "Specials";
           }
-          // s.naming}
+          // s.naming)}
 
-        ${curl "PUT" "/config/mediamanagement/1" {
+        ${curl "PUT" "/config/mediamanagement/1" ({
             id = 1;
             importExtraFiles = true;
             extraFileExtensions = "srt";
@@ -175,25 +245,46 @@ in {
             minimumFreeSpaceWhenImporting = 100;
             enableMediaInfo = true;
           }
-          // s.mediaManagement}
+          // s.mediaManagement)}
 
+        # Setup root folders
         ${lib.concatStrings (
-          lib.imap1 (i: d: (curl "PUT" "/rootfolder/${i}}" {
+          lib.imap1 (i: d: (curl "PUT" "/rootfolder/${toString i}" {
             path = d;
           }))
           s.rootFolders
         )}
 
-        # Setup root folders
+        # Setup download clients
         ${lib.concatStrings (
-          lib.imap1 (i: d: (curl "PUT" "/downloadclient/${i}}" {
-              id = i;
-              # TODO: defaults
-            }
-            // d))
-          s.downloadClients
+          lib.imap1 (i: d: (
+            curl' "PUT" "/downloadclient/${toString i}" ''
+              | transform-json \
+                '.fields[] | select(.name == "password") | .value' \
+                '.fields |= map(
+                  if .name == "password"
+                    then .value = $lookup[.]
+                    else .
+                  end)
+                ' \
+            '' ({
+                enable = true;
+                categories = [];
+
+                configContract = "${d.implementation}Settings";
+                fields = lib.map (n: {
+                  name = n;
+                  value = d.fields.${n};
+                });
+              }
+              // (lib.removeAttrs d ["feilds"]))
+          ))
+          (lib.mapAttrsToList
+            (n: v: {name = n;} // v)
+            s.downloadClients)
         )}
 
+        echo "Sent all requests, wating for them to finish"
         wait
       '';
   in {
@@ -210,3 +301,44 @@ in {
     };
   };
 }
+/*
+{
+  "enable": true,
+  "protocol": "torrent",
+  "priority": 1,
+  "removeCompletedDownloads": true,
+  "removeFailedDownloads": true,
+  "name": "qBittorrent",
+  "fields": [
+    { "name": "host", "value": "localhost" },
+    { "name": "port", "value": 8080 },
+    { "name": "useSsl", "value": false },
+    { "name": "urlBase" },
+    { "name": "username", "value": "admin" },
+    { "name": "password", "value": "YwMxtLeVrIy4z4xXRdObe9XpXH9Qnm1C" },
+    { "name": "tvCategory", "value": "tv-sonarr" },
+    { "name": "tvImportedCategory" },
+    { "name": "recentTvPriority", "value": 0 },
+    { "name": "olderTvPriority", "value": 0 },
+    { "name": "initialState", "value": 0 },
+    { "name": "sequentialOrder", "value": true },
+    { "name": "firstAndLast", "value": false },
+    { "name": "contentLayout", "value": 0 }
+  ],
+  "implementationName": "qBittorrent",
+  "implementation": "QBittorrent",
+  "configContract": "QBittorrentSettings",
+  "infoLink": "https://wiki.servarr.com/sonarr/supported#qbittorrent",
+  "tags": []
+}
+
+downloadClients = {
+  "qBittorrent" = {
+    implementation = "QBittorrent";
+    fields = {
+      port = qBittorrent.Preferences."WebUI\\Port";
+    };
+  };
+};
+*/
+

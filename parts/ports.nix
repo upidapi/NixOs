@@ -7,5 +7,5 @@ _: {
   prowlarr = 9696;
   bazarr = 6767;
   flaresolverr = 8191;
-  qbittorrent = 8080;
+  qbit = 8080;
 }

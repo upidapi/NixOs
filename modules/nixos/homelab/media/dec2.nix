@@ -131,7 +131,7 @@ in {
         curl_base
         "$CREDENTIALS_DIRECTORY/api-key"
         "http://localhost:${toString sonarrPort}/api/v3";
-      curl = type: url: curl' type "" url;
+      curl = type: url: curl' type url "";
       cfg = config.services.sonarr;
       s = cfg.extraSettings;
     in

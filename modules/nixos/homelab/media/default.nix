@@ -205,8 +205,8 @@ in {
         environmentFiles = [config.sops.templates."sonarr-env".path];
 
         username = "admin";
-        passwordFile = config.sops.secrets."sonarr/password";
-        apiKeyFile = config.sops.secrets."sonarr/api-key";
+        passwordFile = config.sops.secrets."sonarr/password".path;
+        apiKeyFile = config.sops.secrets."sonarr/api-key".path;
 
         settings = {
           # update.mechanism = "internal";
@@ -224,7 +224,7 @@ in {
               fields = {
                 port = ports.qbit;
                 username = "admin";
-                password = config.sops.secrets."qbit/password_sonarr";
+                password = config.sops.secrets."qbit/password_sonarr".path;
                 sequentialOrder = true;
               };
             };

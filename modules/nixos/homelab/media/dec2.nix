@@ -129,7 +129,8 @@ in {
       sonarrPort = config.services.sonarr.settings.server.port;
       curl' =
         curl_base
-        "$CREDENTIALS_DIRECTORY/api-key"
+        # "$CREDENTIALS_DIRECTORY/api-key"
+        cfg.apiKeyFile
         "http://localhost:${toString sonarrPort}/api/v3";
       curl = type: url: curl' type url "";
       cfg = config.services.sonarr;
@@ -167,7 +168,8 @@ in {
         KEY_LEN_BYTES=32
         DIGEST_ALGO="SHA512"
 
-        PASSWORD=$(cat "$CREDENTIALS_DIRECTORY/psw")
+        # PASSWORD=$(cat "$CREDENTIALS_DIRECTORY/psw")
+        PASSWORD=$(cat "${cfg.passwordFile}")
 
         SALT_HEX=$(
           openssl rand "$SALT_BYTES" \
@@ -295,8 +297,10 @@ in {
         ExecStart = lib.mkForce "${sonarr-init}";
         # ExecStartPost = "${jellyseerr-setup}";
         # ExecStartPost = "/srv/test.sh";
-        LoadCredential = [
-        ];
+        # LoadCredential = [
+        #   "api-key:${config.services.sonarr.apiKeyFile}"
+        #   "psq:${config.services.sonarr.passwordFile}"
+        # ];
       };
     };
   };

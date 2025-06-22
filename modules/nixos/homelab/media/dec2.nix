@@ -293,12 +293,14 @@ in {
                     categories = [];
 
                     configContract = "${d.implementation}Settings";
-                    fields = lib.map (n: {
-                      name = n;
-                      value = d.fields.${n};
-                    });
+                    fields =
+                      lib.mapAttrsToList (n: v: {
+                        name = n;
+                        value = v;
+                      })
+                      d.fields;
                   }
-                  // (lib.removeAttrs d ["feilds"]))
+                  // (lib.removeAttrs d ["fields"]))
               ))
               (lib.mapAttrsToList
                 (n: v: {name = n;} // v)

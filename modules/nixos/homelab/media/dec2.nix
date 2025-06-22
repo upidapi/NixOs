@@ -83,33 +83,35 @@ in {
 
   config = let
     # So this might be a tad overkill but idk what to do otherwise
-    transform_func = ''
-      transform-json () {
-        settings=$(cat)
+    transform_func =
+      # bash
+      ''
+        transform-json () {
+          settings=$(cat)
 
-        readarray -t files < <(
-          echo "$settings" | jq -r '
-            [ (.fields[].value.file) | .. | scalars ] | unique | .[]
+          readarray -t files < <(
+            echo "$settings" | jq -r '
+              [ (.fields[].value.file) | .. | scalars ] | unique | .[]
+            '
+          )
+
+          jq_args=()
+          for file in "''${files[@]}"; do
+            if [[ ! -r "$file" ]]; then
+              echo "Failed find the file \"$file\""
+              exit 1
+            fi
+
+            jq_args+=(--arg "$file" "$(cat "$file")")
+          done
+
+          lookup_json=$(jq -n '$ARGS.named' "''${jq_args[@]}")
+
+          echo "$settings" | jq --argjson lookup "$lookup_json" '
+            .fields |= map(.value.file |= $lookup[.])
           '
-        )
-
-        jq_args=()
-        for file in "''${files[@]}"; do
-          if [[ ! -r "$file" ]]; then
-            echo "Failed find the file \"$file\""
-            exit 1
-          fi
-
-          jq_args+=(--arg "$file" "$(cat "$file")")
-        done
-
-        lookup_json=$(jq -n '$ARGS.named' "''${jq_args[@]}")
-
-        echo "$settings" | jq --argjson lookup "$lookup_json" '
-          .fields |= map(.value.file |= $lookup[.])
-        '
-      }
-    '';
+        }
+      '';
     curl_base = api_key_path: base_url: type: url: t: data: ''
       cat "${pkgs.writeText "data.json" (builtins.toJSON data)}" \
       ${t}| curl \
@@ -136,165 +138,183 @@ in {
       cfg = config.services.sonarr;
       s = cfg.extraSettings;
     in
-      pkgs.writeShellScript "sonarr-init" ''
-        db_file="${cfg.dataDir}/sonarr.db"
+      pkgs.writeShellApplication {
+        name = "sonarr-init";
+        extraShellCheckFlags = [
+          "-S"
+          "error"
+        ];
+        runtimeInputs = with pkgs; [
+          sqlite
+          openssl
+          unixtools.xxd
+          pkgs.curl
+          jq
+          util-linux # uuidgen
+        ];
+        text =
+          # bash
+          ''
+            db_file="${cfg.dataDir}/sonarr.db"
 
-        echo "Starting sonarr to generate db..."
-        ${lib.getExe cfg.package} &
+            echo "Starting sonarr to generate db..."
+            ${lib.getExe cfg.package} &
 
-        echo "Waiting for db to be created..."
-        until [ -f "$db_file" ]
-        do
-          sleep 1
-        done
+            echo "Waiting for db to be created..."
+            until [ -f "$db_file" ]
+            do
+              sleep 1
+            done
 
-        echo "Waiting for the users table to be created..."
-        while true; do
-          ${pkgs.sqlite}/bin/sqlite3 $db_file "
-            SELECT 1 FROM sqlite_master
-            WHERE type='table'
-            AND name='users';
-          " > /dev/null 2>&1
+            echo "Waiting for the users table to be created..."
+            while true; do
+              sqlite3 $db_file "
+                SELECT 1 FROM sqlite_master
+                WHERE type='table'
+                AND name='users';
+              " > /dev/null 2>&1
 
-          if [ $? -eq 0 ]; then
-            break
-          fi
+              if [ $? -eq 0 ]; then
+                break
+              fi
 
-          sleep 1
-        done
+              sleep 1
+            done
 
-        ITERATIONS=10000
-        SALT_BYTES=16
-        KEY_LEN_BYTES=32
-        DIGEST_ALGO="SHA512"
+            ITERATIONS=10000
+            SALT_BYTES=16
+            KEY_LEN_BYTES=32
+            DIGEST_ALGO="SHA512"
 
-        # PASSWORD=$(cat "$CREDENTIALS_DIRECTORY/psw")
-        PASSWORD=$(cat "${cfg.passwordFile}")
+            # PASSWORD=$(cat "$CREDENTIALS_DIRECTORY/psw")
+            PASSWORD=$(cat "${cfg.passwordFile}")
 
-        SALT_HEX=$(
-          openssl rand "$SALT_BYTES" \
-          | xxd -p -c 256 \
-          | tr -d '\n'
-        )
+            SALT_HEX=$(
+              openssl rand "$SALT_BYTES" \
+              | xxd -p -c 256 \
+              | tr -d '\n'
+            )
 
-        SALT_B64=$(
-          echo -n "$SALT_HEX" \
-          | xxd -r -p \
-          | base64 \
-          | tr -d '\n'
-        )
+            SALT_B64=$(
+              echo -n "$SALT_HEX" \
+              | xxd -r -p \
+              | base64 \
+              | tr -d '\n'
+            )
 
-        DERIVED_KEY_B64=$(openssl kdf \
-          -keylen "$KEY_LEN_BYTES" \
-          -kdfopt digest:"$DIGEST_ALGO" \
-          -kdfopt pass:"$PASSWORD" \
-          -kdfopt hexsalt:"$SALT_HEX" \
-          -kdfopt iter:"$ITERATIONS" \
-          -binary \
-          PBKDF2 \
-        | base64 \
-        | tr -d '\n')
+            DERIVED_KEY_B64=$(openssl kdf \
+              -keylen "$KEY_LEN_BYTES" \
+              -kdfopt digest:"$DIGEST_ALGO" \
+              -kdfopt pass:"$PASSWORD" \
+              -kdfopt hexsalt:"$SALT_HEX" \
+              -kdfopt iter:"$ITERATIONS" \
+              -binary \
+              PBKDF2 \
+            | base64 \
+            | tr -d '\n')
 
-        user_id=$(${pkgs.util-linux}/bin/uuidgen -N asd -n @oid --sha1)
+            user="${cfg.username}"
+            user_id=$(uuidgen -N "$user" -n @oid --sha1)
 
-        ${pkgs.sqlite}/bin/sqlite3 $db_file "
-          DELETE FROM users;
-          INSERT INTO users (
-            Identifier,
-            Username,
-            Password,
-            Salt,
-            Iterations
-          ) VALUES (
-            '$user_id',
-            '$user',
-            '$DERIVED_KEY_B64',
-            '$SALT_B64',
-            $ITERATIONS
-          );
-        "
+            sqlite3 $db_file "
+              DELETE FROM users;
+              INSERT INTO users (
+                Identifier,
+                Username,
+                Password,
+                Salt,
+                Iterations
+              ) VALUES (
+                '$user_id',
+                '$user',
+                '$DERIVED_KEY_B64',
+                '$SALT_B64',
+                $ITERATIONS
+              );
+            "
 
-        ${transform_func} #
+            ${transform_func} #
 
-        # might have to put this twice, ref says that the first put doesn't
-        # work
-        # i suspect that is due to it not having started yet
-        ${curl "PUT" "/config/naming/1" ({
-            id = 1;
-            renameEpisodes = true;
-            replaceIllegalCharacters = true;
-            colonReplacementFormat = 0;
-            customColonReplacementFormat = "";
-            multiEpisodeStyle = 0;
-            standardEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-            dailyEpisodeFormat = "{Series Title} - {Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-            animeEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-            seriesFolderFormat = "{Series Title}";
-            seasonFolderFormat = "Season {season}";
-            specialsFolderFormat = "Specials";
-          }
-          // s.naming)}
-
-        ${curl "PUT" "/config/mediamanagement/1" ({
-            id = 1;
-            importExtraFiles = true;
-            extraFileExtensions = "srt";
-            deleteEmptyFolders = true;
-
-            # GUI defaults
-            copyUsingHardlinks = true;
-            recycleBinCleanupDays = 7;
-            minimumFreeSpaceWhenImporting = 100;
-            enableMediaInfo = true;
-          }
-          // s.mediaManagement)}
-
-        # Setup root folders
-        ${lib.concatStrings (
-          lib.imap1 (i: d: (curl "PUT" "/rootfolder/${toString i}" {
-            path = d;
-          }))
-          s.rootFolders
-        )}
-
-        # Setup download clients
-        ${lib.concatStrings (
-          lib.imap1 (i: d: (
-            curl' "PUT" "/downloadclient/${toString i}" ''
-              | transform-json \
-                '.fields[] | select(.name == "password") | .value' \
-                '.fields |= map(
-                  if .name == "password"
-                    then .value = $lookup[.]
-                    else .
-                  end)
-                ' \
-            '' ({
-                enable = true;
-                categories = [];
-
-                configContract = "${d.implementation}Settings";
-                fields = lib.map (n: {
-                  name = n;
-                  value = d.fields.${n};
-                });
+            # might have to put this twice, ref says that the first put doesn't
+            # work
+            # i suspect that is due to it not having started yet
+            ${curl "PUT" "/config/naming/1" ({
+                id = 1;
+                renameEpisodes = true;
+                replaceIllegalCharacters = true;
+                colonReplacementFormat = 0;
+                customColonReplacementFormat = "";
+                multiEpisodeStyle = 0;
+                standardEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+                dailyEpisodeFormat = "{Series Title} - {Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+                animeEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+                seriesFolderFormat = "{Series Title}";
+                seasonFolderFormat = "Season {season}";
+                specialsFolderFormat = "Specials";
               }
-              // (lib.removeAttrs d ["feilds"]))
-          ))
-          (lib.mapAttrsToList
-            (n: v: {name = n;} // v)
-            s.downloadClients)
-        )}
+              // s.naming)}
 
-        echo "Sent all requests, wating for them to finish"
-        wait
-      '';
+            ${curl "PUT" "/config/mediamanagement/1" ({
+                id = 1;
+                importExtraFiles = true;
+                extraFileExtensions = "srt";
+                deleteEmptyFolders = true;
+
+                # GUI defaults
+                copyUsingHardlinks = true;
+                recycleBinCleanupDays = 7;
+                minimumFreeSpaceWhenImporting = 100;
+                enableMediaInfo = true;
+              }
+              // s.mediaManagement)}
+
+            # Setup root folders
+            ${lib.concatStrings (
+              lib.imap1 (i: d: (curl "PUT" "/rootfolder/${toString i}" {
+                path = d;
+              }))
+              s.rootFolders
+            )}
+
+            # Setup download clients
+            ${lib.concatStrings (
+              lib.imap1 (i: d: (
+                curl' "PUT" "/downloadclient/${toString i}" ''
+                  | transform-json \
+                    '.fields[] | select(.name == "password") | .value' \
+                    '.fields |= map(
+                      if .name == "password"
+                        then .value = $lookup[.]
+                        else .
+                      end)
+                    ' \
+                '' ({
+                    enable = true;
+                    categories = [];
+
+                    configContract = "${d.implementation}Settings";
+                    fields = lib.map (n: {
+                      name = n;
+                      value = d.fields.${n};
+                    });
+                  }
+                  // (lib.removeAttrs d ["feilds"]))
+              ))
+              (lib.mapAttrsToList
+                (n: v: {name = n;} // v)
+                s.downloadClients)
+            )}
+
+            echo "Sent all requests, wating for them to finish"
+            wait
+          '';
+      };
   in {
     systemd.services.sonarr = {
       serviceConfig = {
         # WorkingDirectory = cfg.dataDir;
         # ExecStartPre = "${jellyseerr-init}";
-        ExecStart = lib.mkForce "${sonarr-init}";
+        ExecStart = lib.mkForce "${lib.getExe sonarr-init}";
         # ExecStartPost = "${jellyseerr-setup}";
         # ExecStartPost = "/srv/test.sh";
         # LoadCredential = [

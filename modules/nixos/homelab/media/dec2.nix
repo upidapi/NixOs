@@ -229,6 +229,8 @@ in {
               );
             "
 
+            sleep 5 # wait for other tables to exist
+
             ${transform_func} #
 
             # might have to put this twice, ref says that the first put doesn't

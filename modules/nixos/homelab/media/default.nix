@@ -75,7 +75,7 @@ in {
       };
       "qbit/password_prowlarr" = {
         key = "qbit/password";
-        owner = config.services.radarr.user;
+        owner = config.services.prowlarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
       "radarr/password" = {

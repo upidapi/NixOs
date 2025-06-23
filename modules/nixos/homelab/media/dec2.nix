@@ -193,7 +193,7 @@ in {
             # work
             # i suspect that is due to it not having started yet
 
-            ${curl' "PUT" "/config/config/1" ''
+            ${curl' "PUT" "/config/host/1" ''
                 | json-file-resolve \
                   '$.password' \
                   '$.passwordConfirmation' \

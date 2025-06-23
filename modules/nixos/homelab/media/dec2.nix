@@ -133,6 +133,7 @@
           # i suspect that is due to it not having started yet
           # This seams to not be the case
 
+          echo "Sending api requests to configure applicaion"
           ${curl' "PUT" "/config/host/1" ''
               | json-file-resolve \
                 '$.password' \

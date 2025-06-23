@@ -105,7 +105,7 @@ in {
 
           lookup_json=$(jq -n '$ARGS.named' "''${jq_args[@]}")
 
-          echo "$settings" | jq --argjson lookup "$lookup_json" "$1"
+          echo "$settings" | jq --argjson lookup "$lookup_json" "$2"
         }
       '';
     curl_base = api_key_path: base_url: type: url: t: data: ''

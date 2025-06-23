@@ -130,6 +130,7 @@ in {
         "/var/lib/jellyseerr"
         config.services.radarr.dataDir
         config.services.sonarr.dataDir
+        config.services.prowlarr.dataDir
         config.services.jackett.dataDir
         "/srv/sonarr"
         "/srv/radarr"

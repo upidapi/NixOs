@@ -134,6 +134,7 @@
           # This seams to not be the case
 
           echo "Sending api requests to configure applicaion"
+
           ${curl' "PUT" "/config/host/1" ''
               | json-file-resolve \
                 '$.password' \
@@ -404,6 +405,7 @@ in {
       serviceName = "sonarr";
       dataDir = "${config.services.sonarr.dataDir}/.config/Sonarr";
       appUrl = "http://localhost:${toString config.services.sonarr.settings.server.port}/api/v3";
+
       enableNaming = true;
       namingDefault = {
         renameEpisodes = true;
@@ -425,7 +427,7 @@ in {
     (mkArrConfig {
       serviceName = "radarr";
       dataDir = config.services.radarr.dataDir;
-      appUrl = "http://localhost:${toString config.services.radarr.settings.server.port}/api/v1";
+      appUrl = "http://localhost:${toString config.services.radarr.settings.server.port}/api/v3";
 
       namingDefault = {
         renameMovies = true;

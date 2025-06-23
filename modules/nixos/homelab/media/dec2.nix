@@ -449,7 +449,7 @@ in {
     (mkArrConfig {
       serviceName = "prowlarr";
       dataDir = config.services.prowlarr.dataDir;
-      appUrl = "http://localhost:${toString config.services.prowlarr.settings.server.port}/api/v1";
+      appUrl = "http://localhost:${toString config.services.prowlarr.settings.server.port}/localhost/api/v1";
 
       enableIndexers = true;
       enableApplications = true;

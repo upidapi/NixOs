@@ -217,7 +217,7 @@
               delete-all "rootfolder"
 
               echo "Creating root folders"
-              ${lib.concatStrings (
+              ${lib.concatStringsSep "\n" (
                 lib.imap1 (_: d: (curl "POST" "/rootfolder" {
                   path = d;
                 }))
@@ -229,7 +229,7 @@
           delete-all "downloadclient"
 
           echo "Creating download clients"
-          ${lib.concatStrings (
+          ${lib.concatStringsSep "\n" (
             lib.imap1 (_: d: (
               curl' "POST" "/downloadclient" ''
                 | json-file-resolve \
@@ -251,7 +251,7 @@
               delete-all "indexer"
 
               echo "Creating indexers"
-              ${lib.concatStrings (
+              ${lib.concatStringsSep "\n" (
                 lib.imap1 (_: d: (
                   curl' "POST" "/indexer" ''
                     | json-file-resolve \
@@ -275,7 +275,7 @@
               delete-all "applications"
 
               echo "Creating applications"
-              ${lib.concatStrings (
+              ${lib.concatStringsSep "\n" (
                 lib.imap1 (_: d: (
                   curl' "POST" "/applicaions" ''
                     | json-file-resolve \

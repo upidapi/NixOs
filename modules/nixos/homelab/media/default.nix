@@ -68,16 +68,44 @@ in {
         owner = config.services.sonarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
+      "qbit/password_radarr" = {
+        key = "qbit/password";
+        owner = config.services.radarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "qbit/password_prowlarr" = {
+        key = "qbit/password";
+        owner = config.services.radarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "radarr/password" = {
+        owner = config.services.radarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
       "radarr/api-key" = {
         owner = config.services.radarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "radarr/api-key_prowlarr" = {
+        key = "radarr/api-key";
+        owner = config.services.prowlarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "sonarr/password" = {
+        owner = config.services.sonarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
       "sonarr/api-key" = {
         owner = config.services.sonarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-      "sonarr/password" = {
-        owner = config.services.sonarr.user;
+      "sonarr/api-key_prowlarr" = {
+        key = "radarr/api-key";
+        owner = config.services.prowlarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "prowlarr/password" = {
+        owner = config.services.prowlarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
       "prowlarr/api-key" = {
@@ -177,6 +205,7 @@ in {
       prowlarr = {
         enable = true;
         environmentFiles = [config.sops.templates."prowlarr-env".path];
+        apiKeyFile = config.sops.secrets."prowlarr/api-key".path;
         settings = {
           # update.mechanism = "internal";
           server = {
@@ -185,11 +214,97 @@ in {
             bindaddress = "*";
           };
         };
+        extraSettings = {
+          host = {
+            username = "admin";
+            password = config.sops.secrets."prowlarr/password".path;
+            apiKey = config.sops.secrets."prowlarr/api-key".path;
+          };
+          downloadClients = {
+            "qBittorrent" = {
+              implementation = "QBittorrent";
+              fields = {
+                port = ports.qbit;
+                username = "admin";
+                password = config.sops.secrets."qbit/password_prowlarr".path;
+                sequentialOrder = true;
+              };
+            };
+          };
+          indexers = {
+            "1337x" = {
+              implementation = "Cardigann";
+              fields = {
+                definitionFile = "1337x";
+                downloadlink = 1; # magnet
+                downloadlink2 = 0; # iTorrents.org
+                sort = 2; # created
+                type = 1; # desc
+              };
+            };
+            "AnimeTosho" = {
+              implementation = "Torznab";
+              fields = {
+                baseUrl = "https://feed.animetosho.org";
+              };
+            };
+            "LimeTorrents" = {
+              implementation = "Cardigann";
+              fields = {
+                definitionFile = "limetorrents";
+                downloadlink = 1; # magnet
+                downloadlink2 = 0; # iTorrents.org
+                sort = 0; # created
+              };
+            };
+            "Solid Torrents" = {
+              implementation = "Cardigann";
+              fields = {
+                definitionFile = "solidtorrents";
+                prefer_magnet_links = true;
+                sort = 0; # created
+                type = 1; # desc
+              };
+            };
+            "The Pirate Bay" = {
+              implementation = "Cardigann";
+              fields = {
+                definitionFile = "thepiratebay";
+              };
+            };
+            "TheRARBG" = {
+              implementation = "Cardigann";
+              fields = {
+                definitionFile = "therarbg";
+                sort = 0; # created desc
+              };
+            };
+            "YTS" = {
+              implementation = "Cardigann";
+              fields = {
+                definitionFile = "yts";
+              };
+            };
+          };
+          applications = {
+            "Sonarr" = {
+              syncLevel = "fullSync";
+              implementation = "Sonarr";
+              fields.apiKey = config.sops.secrets."sonarr/api-key_prowlarr".path;
+            };
+            "Radarr" = {
+              syncLevel = "fullSync";
+              implementation = "Radarr";
+              fields.apiKey = config.sops.secrets."radarr/api-key_prowlarr".path;
+            };
+          };
+        };
       };
       radarr = {
         enable = true;
         group = "media";
         environmentFiles = [config.sops.templates."radarr-env".path];
+        apiKeyFile = config.sops.secrets."radarr/api-key".path;
         settings = {
           # update.mechanism = "internal";
           server = {
@@ -198,16 +313,31 @@ in {
             # bindaddress = "*";
           };
         };
+        extraSettings = {
+          host = {
+            username = "admin";
+            password = config.sops.secrets."radarr/password".path;
+            apiKey = config.sops.secrets."radarr/api-key".path;
+          };
+          rootFolders = ["/srv/radarr"];
+          downloadClients = {
+            "qBittorrent" = {
+              implementation = "QBittorrent";
+              fields = {
+                port = ports.qbit;
+                username = "admin";
+                password = config.sops.secrets."qbit/password_radarr".path;
+                sequentialOrder = true;
+              };
+            };
+          };
+        };
       };
       sonarr = {
         enable = true;
         group = "media";
         environmentFiles = [config.sops.templates."sonarr-env".path];
-
-        # username = "admin";
-        # passwordFile = config.sops.secrets."sonarr/password".path;
         apiKeyFile = config.sops.secrets."sonarr/api-key".path;
-
         settings = {
           # update.mechanism = "internal";
           server = {
@@ -221,7 +351,6 @@ in {
             # TODO: make these required via assertions
             username = "admin";
             password = config.sops.secrets."sonarr/password".path;
-            apiKey = config.sops.secrets."sonarr/api-key".path;
           };
           rootFolders = ["/srv/sonarr"];
           downloadClients = {

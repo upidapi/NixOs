@@ -262,7 +262,7 @@ in {
 
             # Setup root folders
             ${lib.concatStrings (
-              lib.imap1 (i: d: (curl "PUT" "/rootfolder/${toString i}" {
+              lib.imap1 (i: d: (curl "POST" "/rootfolder/${toString i}" {
                 path = d;
               }))
               s.rootFolders

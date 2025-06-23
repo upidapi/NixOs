@@ -93,6 +93,7 @@ in {
       cat "${pkgs.writeText "data.json" (builtins.toJSON data)}" \
       ${t}| curl \
           --silent \
+          --dump-header - \
           --show-error \
           --parallel \
           --retry 3 \

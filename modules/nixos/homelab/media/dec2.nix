@@ -236,6 +236,7 @@
                   '$.fields[?(@.name=="password")].value' \
               '' ({
                   categories = [];
+                  priority = 25;
                 }
                 // (mkArrContract d))
             ))

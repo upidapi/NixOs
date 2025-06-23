@@ -97,7 +97,7 @@ in {
           --show-error \
           --retry 3 \
           --retry-connrefused \
-          --url ${base_url}${url} \
+          --url "${base_url}${url}" \
           -X ${type} \
           -H "X-Api-Key: $(cat "${api_key_path}")" \
           -H "Content-Type: application/json" \
@@ -265,8 +265,9 @@ in {
 
             delete-all () {
               ids=$(${curl "GET" "/$1" {}} | jq ".[].id")
+
               for id in $ids; do
-                delete-one $1
+                delete-one "$1" "$id"
               done
             }
 

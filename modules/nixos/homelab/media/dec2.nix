@@ -102,7 +102,7 @@
           db_file="${dataDir}/${serviceName}.db"
 
           echo "Starting ${serviceName} to generate db..."
-          ${lib.getExe cfg.package} &
+          ${lib.getExe cfg.package} -nobrowser -data="${cfg.dataDir}"&
 
           echo "Waiting for db to be created..."
           until [ -f "$db_file" ]
@@ -403,7 +403,6 @@ in {
       serviceName = "sonarr";
       dataDir = "${config.services.sonarr.dataDir}/.config/Sonarr";
       appUrl = "http://localhost:${toString config.services.sonarr.settings.server.port}/api/v3";
-
       enableNaming = true;
       namingDefault = {
         renameEpisodes = true;

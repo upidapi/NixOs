@@ -282,7 +282,7 @@
               echo "Creating applications"
               ${lib.concatStringsSep "\n" (
                 lib.imap1 (_: d: (
-                  curl' "POST" "/applicaions" ''
+                  curl' "POST" "/applications" ''
                     | json-file-resolve \
                       '$.fields[?(@.name=="apiKey")].value' \
                   '' ({

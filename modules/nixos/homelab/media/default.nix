@@ -257,15 +257,15 @@ in {
                 sort = 0; # created
               };
             };
-            "Solid Torrents" = {
-              implementation = "Cardigann";
-              fields = {
-                definitionFile = "solidtorrents";
-                prefer_magnet_links = true;
-                sort = 0; # created
-                type = 1; # desc
-              };
-            };
+            # "Solid Torrents" = {
+            #   implementation = "Cardigann";
+            #   fields = {
+            #     definitionFile = "solidtorrents";
+            #     prefer_magnet_links = true;
+            #     sort = 0; # created
+            #     type = 1; # desc
+            #   };
+            # };
             "The Pirate Bay" = {
               implementation = "Cardigann";
               fields = {

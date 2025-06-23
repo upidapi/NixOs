@@ -90,9 +90,7 @@ in {
           settings=$(cat)
 
           readarray -t files < <(
-            echo "$settings" | jq -r '
-              [ (.fields[].value.file) | .. | scalars ] | unique | .[]
-            '
+            echo "$settings" | jq -r "$1"
           )
 
           jq_args=()
@@ -107,9 +105,7 @@ in {
 
           lookup_json=$(jq -n '$ARGS.named' "''${jq_args[@]}")
 
-          echo "$settings" | jq --argjson lookup "$lookup_json" '
-            .fields |= map(.value.file |= $lookup[.])
-          '
+          echo "$settings" | jq --argjson lookup "$lookup_json" "$1"
         }
       '';
     curl_base = api_key_path: base_url: type: url: t: data: ''
@@ -284,7 +280,7 @@ in {
                     '.fields[] | select(.name == "password") | .value' \
                     '.fields |= map(
                       if .name == "password"
-                        then .value = $lookup[.]
+                        then .value = $lookup[.value]
                         else .
                       end)
                     ' \

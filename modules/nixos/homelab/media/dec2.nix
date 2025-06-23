@@ -63,6 +63,7 @@
 
   mkArrConfig = {
     serviceName,
+    instanceName ? null,
     dataDir,
     appUrl,
     enableNaming ? false,
@@ -163,7 +164,10 @@
                 proxyEnabled = false;
                 sslCertPath = "";
                 sslCertPassword = "";
-                instanceName = serviceName;
+                instanceName =
+                  if instanceName == null
+                  then serviceName
+                  else instanceName;
 
                 branch = "main";
                 logLevel = "debug";
@@ -405,6 +409,7 @@ in {
   imports = [
     (mkArrConfig {
       serviceName = "sonarr";
+      instanceName = "Sonarr";
       dataDir = "${config.services.sonarr.dataDir}/.config/Sonarr";
       appUrl = "http://localhost:${toString config.services.sonarr.settings.server.port}/api/v3";
 

@@ -271,7 +271,7 @@ in {
             # Setup download clients
             ${lib.concatStrings (
               lib.imap1 (i: d: (
-                curl' "PUT" "/downloadclient/${toString i}" ''
+                curl' "POST" "/downloadclient/${toString i}" ''
                   | json-file-resolve \
                     '$.fields[?(@.name=="password")].value' \
                 '' ({

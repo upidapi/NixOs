@@ -217,6 +217,12 @@ in {
           };
         };
         extraSettings = {
+          host = {
+            # TODO: make these required via assertions
+            username = "admin";
+            password = config.sops.secrets."sonarr/password";
+            apiKey = config.sops.secrets."sonarr/api-key";
+          };
           rootFolders = ["/src/sonarr"];
           downloadClients = {
             "qBittorrent" = {

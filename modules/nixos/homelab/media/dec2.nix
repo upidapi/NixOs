@@ -31,6 +31,13 @@ in {
       '';
       type = types.submodule {
         options = {
+          host = mkOption {
+            type = types.attrs;
+            description = ''
+              The initial setup request
+            '';
+            default = {};
+          };
           mediaManagement = mkOption {
             type = types.attrs;
             description = ''
@@ -82,32 +89,6 @@ in {
   };
 
   config = let
-    # So this might be a tad overkill but idk what to do otherwise
-    transform_func =
-      # bash
-      ''
-        transform-json () {
-          settings=$(cat)
-
-          readarray -t files < <(
-            echo "$settings" | jq -r "$1"
-          )
-
-          jq_args=()
-          for file in "''${files[@]}"; do
-            if [[ ! -r "$file" ]]; then
-              echo "Failed find the file \"$file\""
-              exit 1
-            fi
-
-            jq_args+=(--arg "$file" "$(cat "$file")")
-          done
-
-          lookup_json=$(jq -n '$ARGS.named' "''${jq_args[@]}")
-
-          echo "$settings" | jq --argjson lookup "$lookup_json" "$2"
-        }
-      '';
     curl_base = api_key_path: base_url: type: url: t: data: ''
       cat "${pkgs.writeText "data.json" (builtins.toJSON data)}" \
       ${t}| curl \
@@ -122,6 +103,32 @@ in {
           -H "Content-Type: application/json" \
           --data-binary @- &
     '';
+
+    json-file-resolve =
+      pkgs.writers.writePython3Bin "json-file-resolve" {
+        libraries = with pkgs.python3Packages; [
+          jsonpath-ng
+        ];
+      } ''
+        import json
+        import jsonpath_ng.ext as jsonpath
+        import sys
+
+
+        def func(_, data, field):
+            file_path = data[field]
+
+            with open(file_path) as f:
+                return f.read().strip()
+
+
+        json_data_raw = sys.stdin.read()
+        data = json.loads(json_data_raw)
+        for arg in sys.argv[1:]:
+            jsonpath.parse(arg).update(data, func)
+
+        print(json.dumps(data, indent=2))
+      '';
 
     sonarr-init = let
       sonarrPort = config.services.sonarr.settings.server.port;
@@ -147,6 +154,7 @@ in {
           pkgs.curl
           jq
           util-linux # uuidgen
+          json-file-resolve
         ];
         text =
           # bash
@@ -177,65 +185,50 @@ in {
               sleep 1
             done
 
-            ITERATIONS=10000
-            SALT_BYTES=16
-            KEY_LEN_BYTES=32
-            DIGEST_ALGO="SHA512"
-
-            # PASSWORD=$(cat "$CREDENTIALS_DIRECTORY/psw")
-            PASSWORD=$(cat "${cfg.passwordFile}")
-
-            SALT_HEX=$(
-              openssl rand "$SALT_BYTES" \
-              | xxd -p -c 256 \
-              | tr -d '\n'
-            )
-
-            SALT_B64=$(
-              echo -n "$SALT_HEX" \
-              | xxd -r -p \
-              | base64 \
-              | tr -d '\n'
-            )
-
-            DERIVED_KEY_B64=$(openssl kdf \
-              -keylen "$KEY_LEN_BYTES" \
-              -kdfopt digest:"$DIGEST_ALGO" \
-              -kdfopt pass:"$PASSWORD" \
-              -kdfopt hexsalt:"$SALT_HEX" \
-              -kdfopt iter:"$ITERATIONS" \
-              -binary \
-              PBKDF2 \
-            | base64 \
-            | tr -d '\n')
-
-            user="${cfg.username}"
-            user_id=$(uuidgen -N "$user" -n @oid --sha1)
-
-            sqlite3 $db_file "
-              DELETE FROM users;
-              INSERT INTO users (
-                Identifier,
-                Username,
-                Password,
-                Salt,
-                Iterations
-              ) VALUES (
-                '$user_id',
-                '$user',
-                '$DERIVED_KEY_B64',
-                '$SALT_B64',
-                $ITERATIONS
-              );
-            "
-
+            echo "Wating for other tables to be created"
             sleep 5 # wait for other tables to exist
-
-            ${transform_func} #
 
             # might have to put this twice, ref says that the first put doesn't
             # work
             # i suspect that is due to it not having started yet
+
+            ${curl' "PUT" "/config/config/1" ''
+                | json-file-resolve \
+                  '$.password' \
+                  '$.passwordConfirmation' \
+                  '$.apiKey' \
+              '' ({
+                  id = 1;
+                  # apiKey = "rce80fr3hvn5avwsb2xogcfluzoqh73o";
+
+                  analyticsEnabled = false;
+
+                  authenticationMethod = "forms";
+                  authenticationRequired = "enabled";
+
+                  # username = "admin";
+                  # password = "";
+                  passwordConfirmation = s.host.password;
+
+                  backupInterval = 7;
+                  backupRetention = 28;
+
+                  port = cfg.settings.server.port;
+                  urlBase = "";
+                  bindAddress = "*";
+                  proxyEnabled = false;
+                  sslCertPath = "";
+                  sslCertPassword = "";
+                  instanceName = "Sonarr";
+
+                  branch = "main";
+                  logLevel = "debug";
+                  consoleLogLevel = "";
+                  logSizeLimit = 1;
+                  updateScriptPath = "";
+                }
+                // s.host)}
+
             ${curl "PUT" "/config/naming/1" ({
                 id = 1;
                 renameEpisodes = true;
@@ -278,14 +271,8 @@ in {
             ${lib.concatStrings (
               lib.imap1 (i: d: (
                 curl' "PUT" "/downloadclient/${toString i}" ''
-                  | transform-json \
-                    '.fields[] | select(.name == "password") | .value' \
-                    '.fields |= map(
-                      if .name == "password"
-                        then .value = $lookup[.value]
-                        else .
-                      end)
-                    ' \
+                  | json-file-resolve \
+                    '$.fields[?(@.name=="password")].value' \
                 '' ({
                     enable = true;
                     categories = [];

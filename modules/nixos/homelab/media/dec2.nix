@@ -10,12 +10,12 @@
 in {
   # options.modules.nixos.homelab.media.dec = mkEnableOpt "";
   options.services.sonarr = {
-    passwordFile = mkOption {
-      type = types.str;
-    };
-    username = mkOption {
-      type = types.str;
-    };
+    # passwordFile = mkOption {
+    #   type = types.str;
+    # };
+    # username = mkOption {
+    #   type = types.str;
+    # };
     apiKeyFile = mkOption {
       type = types.str;
     };
@@ -275,6 +275,7 @@ in {
                   | json-file-resolve \
                     '$.fields[?(@.name=="password")].value' \
                 '' ({
+                    id = i;
                     enable = true;
                     categories = [];
 

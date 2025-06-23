@@ -204,8 +204,8 @@ in {
         group = "media";
         environmentFiles = [config.sops.templates."sonarr-env".path];
 
-        username = "admin";
-        passwordFile = config.sops.secrets."sonarr/password".path;
+        # username = "admin";
+        # passwordFile = config.sops.secrets."sonarr/password".path;
         apiKeyFile = config.sops.secrets."sonarr/api-key".path;
 
         settings = {
@@ -223,7 +223,7 @@ in {
             password = config.sops.secrets."sonarr/password".path;
             apiKey = config.sops.secrets."sonarr/api-key".path;
           };
-          rootFolders = ["/src/sonarr"];
+          rootFolders = ["/srv/sonarr"];
           downloadClients = {
             "qBittorrent" = {
               implementation = "QBittorrent";

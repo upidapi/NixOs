@@ -132,7 +132,11 @@ in {
 
         "/var/lib/bazarr"
         (toPrivateStateDirectory "/var/lib/jellyseerr")
-        (toPrivateStateDirectory config.services.prowlarr.dataDir)
+        {
+          directory = toPrivateStateDirectory config.services.prowlarr.dataDir;
+          mode = "700";
+        }
+
         config.services.radarr.dataDir
         config.services.sonarr.dataDir
         config.services.jackett.dataDir

@@ -159,7 +159,7 @@ in {
         text =
           # bash
           ''
-            db_file="${cfg.dataDir}/sonarr.db"
+            db_file="${cfg.dataDir}/.config/Sonarr/sonarr.db"
 
             echo "Starting sonarr to generate db..."
             ${lib.getExe cfg.package} &

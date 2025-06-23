@@ -89,21 +89,19 @@ in {
   };
 
   config = let
+    # --dump-header - \
     curl_base = api_key_path: base_url: type: url: t: data: ''
       cat "${pkgs.writeText "data.json" (builtins.toJSON data)}" \
       ${t}| curl \
           --silent \
-          --dump-header - \
           --show-error \
-          --parallel \
           --retry 3 \
           --retry-connrefused \
           --url ${base_url}${url} \
           -X ${type} \
           -H "X-Api-Key: $(cat "${api_key_path}")" \
           -H "Content-Type: application/json" \
-          --data-binary @- &
-    '';
+          --data-binary @-'';
 
     json-file-resolve =
       pkgs.writers.writePython3Bin "json-file-resolve" {
@@ -260,22 +258,39 @@ in {
               }
               // s.mediaManagement)}
 
-            # Setup root folders
+
+            delete-one () {
+              ${curl "DELETE" "/$1/$2" {}} #
+            }
+
+            delete-all () {
+              ids=$(${curl "GET" "/$1" {}} | jq ".[].id")
+              for id in $ids; do
+                delete-one $1
+              done
+            }
+
+            echo "Deleting old root folders"
+            delete-all "rootfolder"
+
+            echo "Creating root folders"
             ${lib.concatStrings (
-              lib.imap1 (i: d: (curl "POST" "/rootfolder/${toString i}" {
+              lib.imap1 (_: d: (curl "POST" "/rootfolder" {
                 path = d;
               }))
               s.rootFolders
             )}
 
-            # Setup download clients
+            echo "Deleting old download clients"
+            delete-all "downloadclient"
+
+            echo "Creating download clients"
             ${lib.concatStrings (
-              lib.imap1 (i: d: (
-                curl' "POST" "/downloadclient/${toString i}" ''
+              lib.imap1 (_: d: (
+                curl' "POST" "/downloadclient" ''
                   | json-file-resolve \
                     '$.fields[?(@.name=="password")].value' \
                 '' ({
-                    id = i;
                     enable = true;
                     categories = [];
 

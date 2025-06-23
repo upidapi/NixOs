@@ -122,7 +122,7 @@ in {
         RADARR__AUTH__APIKEY=${config.sops.placeholder."radarr/api-key"}
       '';
       "prowlarr-env".content = ''
-        RADARR__AUTH__APIKEY=${config.sops.placeholder."prowlarr/api-key"}
+        PROWLARR__AUTH__APIKEY=${config.sops.placeholder."prowlarr/api-key"}
       '';
     };
 

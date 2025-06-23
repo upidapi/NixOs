@@ -36,4 +36,7 @@ in rec {
         f color color_name)
       color_ids
     );
+
+  # FROM: https://github.com/diogotcorreia/dotfiles/blob/5e83bc9e7b0c4ac639174332e0cbac3ad1a0d11e/lib/paths.nix#L4
+  toPrivateStateDirectory = path: "/var/lib/private/${lib.removePrefix "/var/lib/" path}";
 }

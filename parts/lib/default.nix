@@ -8,10 +8,11 @@ args: rec {
     mapStylixColors
     lPadString
     rPadString
+    toPrivateStateDirectory
     ;
 
   inherit
-    (misc)
+    (script)
     writeShellApplicationCompletions
     ;
 

@@ -394,6 +394,7 @@
 
     config = {
       systemd.services.${serviceName} = {
+        after = ["qbittorrent.service"];
         serviceConfig = {
           ExecStart = lib.mkForce "${lib.getExe init-script}";
         };

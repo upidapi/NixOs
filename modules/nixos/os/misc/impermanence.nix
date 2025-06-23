@@ -5,7 +5,11 @@
   inputs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit
+    (my_lib)
+    mkEnableOpt
+    toPrivateStateDirectory
+    ;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.os.misc.impermanence;
 in {
@@ -127,10 +131,10 @@ in {
         "/var/lib/transfer-sh"
 
         "/var/lib/bazarr"
-        "/var/lib/jellyseerr"
+        (toPrivateStateDirectory "/var/lib/jellyseerr")
+        (toPrivateStateDirectory config.services.prowlarr.dataDir)
         config.services.radarr.dataDir
         config.services.sonarr.dataDir
-        config.services.prowlarr.dataDir
         config.services.jackett.dataDir
         "/srv/sonarr"
         "/srv/radarr"

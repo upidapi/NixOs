@@ -220,8 +220,8 @@ in {
           host = {
             # TODO: make these required via assertions
             username = "admin";
-            password = config.sops.secrets."sonarr/password";
-            apiKey = config.sops.secrets."sonarr/api-key";
+            password = config.sops.secrets."sonarr/password".path;
+            apiKey = config.sops.secrets."sonarr/api-key".path;
           };
           rootFolders = ["/src/sonarr"];
           downloadClients = {

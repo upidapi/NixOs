@@ -100,7 +100,7 @@ in {
         sopsFile = "${self}/secrets/server.yaml";
       };
       "sonarr/api-key_prowlarr" = {
-        key = "radarr/api-key";
+        key = "sonarr/api-key";
         owner = config.services.prowlarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };

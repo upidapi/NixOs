@@ -142,6 +142,7 @@ in {
       };
       qbittorrent = {
         enable = true;
+        group = "media";
         package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
         serverConfig = {
           LegalNotice.Accepted = true;

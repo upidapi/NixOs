@@ -87,7 +87,7 @@
     };
 
     hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1/main";
       # We use the cachix cache provided by hyprland instead
       # inputs.nixpkgs.follows = "nixpkgs";
     };

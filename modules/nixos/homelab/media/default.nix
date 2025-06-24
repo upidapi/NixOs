@@ -16,7 +16,7 @@ in {
   imports = [
     ./arr
     ./jellyseerr
-    ./base.nix
+    ./user-options.nix
     ./jellyfin.nix
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923

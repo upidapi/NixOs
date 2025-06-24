@@ -42,6 +42,7 @@ in {
       ${config.services.sonarr.user}.extraGroups = ["media"];
       ${config.services.bazarr.user}.extraGroups = ["media"];
       ${config.services.jellyfin.user}.extraGroups = ["media"];
+      ${config.services.jellyseerr.user}.extraGroups = ["media"];
     };
 
     sops.secrets = {

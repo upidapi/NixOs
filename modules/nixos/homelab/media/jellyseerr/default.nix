@@ -52,6 +52,7 @@ in {
       port = ports.jellyseerr;
       # openFirewall = true;
       force = true;
+      group = "media";
 
       # apiKeyFile = config.sops.secrets."jellyseerr/api-key".path;
       # jellyfin = {

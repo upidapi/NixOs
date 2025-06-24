@@ -26,5 +26,20 @@ in {
     environment.systemPackages = [
       pkgs.adwaita-icon-theme
     ];
+
+    # fixes
+    # (arr-init)[42900]: Directory "/var/lib/private" already exists, but has mode 0755 that is too permissive (0700 was requested), refusing.
+    # manual fix
+    # chmod 700 -R /var/lib/private/; chown root:root -R /var/lib/private; scl restart prowlarr; scl restart jellyseerr
+    # i think this comes from the persistence module creating subdirs with -p
+    systemd.tmpfiles.settings = {
+      "fix-var-lib-private-perms" = {
+        "/var/lib/private".d = {
+          group = "root";
+          user = "root";
+          mode = "700";
+        };
+      };
+    };
   };
 }

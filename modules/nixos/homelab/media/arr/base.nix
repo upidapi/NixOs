@@ -465,7 +465,7 @@ in {
     (mkArrConfig {
       serviceName = "sonarr";
       instanceName = "Sonarr";
-      dataDir = "${config.services.sonarr.dataDir}/.config/Sonarr";
+      dataDir = "${config.services.sonarr.dataDir}";
       appUrl = "http://localhost:${toString config.services.sonarr.settings.server.port}/api/v3";
 
       enableNaming = true;

@@ -22,6 +22,7 @@ in {
 
   config = mkIf cfg.enable {
     # TODO: upstream this
+    # might not be needed
     users.users = lib.mkIf (cfg.user == "prowlarr") {
       prowlarr = {
         group = cfg.group;

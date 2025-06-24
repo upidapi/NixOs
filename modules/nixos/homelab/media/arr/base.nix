@@ -129,58 +129,6 @@
           attrs)
       );
 
-    # mapArrReqs2 = cond: attrs: name: apiPath: f:
-    #   lib.optionalString cond
-    #   # bash
-    #   ''
-    #     echo "Deleting old ${name}"
-    #     delete-all "${apiPath}"
-    #
-    #     echo "Creating ${name}"
-    #     ${lib.concatStringsSep "\n\n" (
-    #       lib.imap1 f
-    #       (lib.mapAttrsToList
-    #         (n: v: {name = n;} // v)
-    #         attrs)
-    #     )}
-    #   '';
-    #
-    # x = "${lib.optionalString enableIndexerProxies
-    #   # bash
-    #   ''
-    #     echo "Deleting old indexer proxies"
-    #     delete-all "indexerProxy"
-    #
-    #     echo "Creating indexer proxies"
-    #     ${lib.concatStringsSep "\n" (
-    #       lib.imap1 (_: d: (
-    #         curl "POST" "/indexerProxy"
-    #         ({}
-    #           // (mkArrContract d)
-    #           // (mapTags d))
-    #       ))
-    #       (lib.mapAttrsToList
-    #         (n: v: {name = n;} // v)
-    #         s.indexers)
-    #     )}
-    #   ''}";
-    # y = x enableTags s.tags "tags" "tag" (_: d:
-    #   curl "POST" "/tag" ()
-    # );
-
-    # z =
-    #   mapArrReqs
-    #   enableIndexerProxies
-    #   s.indexerProxies
-    #   "indexer proxies"
-    #   "indexerProxy"
-    #   (
-    #     _: d:
-    #       curl "POST" "/indexerProxy" (
-    #         (mkArrContract d) // (mapTags d)
-    #       )
-    #   );
-
     init-script = pkgs.writeShellApplication {
       name = "${serviceName}-init";
       extraShellCheckFlags = [
@@ -330,22 +278,6 @@
                 }
                 // (mkArrContract d))
             ))} #
-
-          # {
-          #   "onHealthIssue": false,
-          #   "supportsOnHealthIssue": false,
-          #   "includeHealthWarnings": false,
-          #   "name": "FlareSolverr",
-          #   "fields": [
-          #     { "name": "host", "value": "http://localhost:8191/" },
-          #     { "name": "requestTimeout", "value": 60 }
-          #   ],
-          #   "implementationName": "FlareSolverr",
-          #   "implementation": "FlareSolverr",
-          #   "configContract": "FlareSolverrSettings",
-          #   "infoLink": "https://wiki.servarr.com/prowlarr/supported#flaresolverr",
-          #   "tags": [3]
-          # }
 
           ${mapArrReqs' "tags" "tag" true
             (map
@@ -539,9 +471,9 @@ in {
         colonReplacementFormat = 0;
         customColonReplacementFormat = "";
         multiEpisodeStyle = 0;
-        standardEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-        dailyEpisodeFormat = "{Series Title} - {Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-        animeEpisodeFormat = "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+        standardEpisodeFormat = "S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+        dailyEpisodeFormat = "{Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+        animeEpisodeFormat = "S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
         seriesFolderFormat = "{Series Title}";
         seasonFolderFormat = "Season {season}";
         specialsFolderFormat = "Specials";

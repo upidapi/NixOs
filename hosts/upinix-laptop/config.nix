@@ -99,6 +99,7 @@ in {
       media = enableAnd {
         jellyfin = enable;
         jellyseerr = enable;
+        arr = enable;
       };
     };
 

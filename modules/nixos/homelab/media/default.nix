@@ -28,6 +28,9 @@ in {
   #  instead of adding everything shared into media
   #  eg add the sonarr group to the jellyfin user
 
+  # NOTE: if the jellyfin data is removed after jellyseerr is setup you
+  #  get a bunch of errors (eg missing id)
+
   # REF: https://github.com/diogotcorreia/dotfiles/blob/db6db718a911c3a972c8b8784b2d0e65e981c770/hosts/hera/jellyfin.nix#L75
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {

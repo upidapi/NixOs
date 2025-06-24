@@ -375,6 +375,8 @@ in {
           (attrValues cfg.users)
         )}
 
+        # wait a bit so that db actually changes
+        sleep 5
 
         echo "Restating jellyseerr to make it pick up the cfg/db changes"
         kill -15 $jellyfin_pid

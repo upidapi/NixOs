@@ -375,12 +375,16 @@ in {
           (attrValues cfg.users)
         )}
 
-        # wait a bit so that db actually changes
-        sleep 5
-
         echo "Restating jellyseerr to make it pick up the cfg/db changes"
         kill -15 $jellyfin_pid
+        ${lib.getExe cfg.package} &
+        jellyfin_pid=$!
 
+        sleep 5
+
+        # FIXME: you have to restart it twice
+        echo "Restarting again, idk why this is needed, debug if i get motivation"
+        kill -15 $jellyfin_pid
         ${lib.getExe cfg.package}
       '';
     # https://gist.github.com/nielsvanvelzen/ea047d9028f676185832e51ffaf12a6f

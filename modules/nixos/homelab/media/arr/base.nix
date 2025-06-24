@@ -235,15 +235,34 @@
           ${lib.optionalString enableMediaManagement ''
             ${curl "PUT" "/config/mediamanagement/1" ({
                 id = 1;
-                importExtraFiles = true;
-                extraFileExtensions = "srt";
-                deleteEmptyFolders = true;
+                autoUnmonitorPreviouslyDownloadedEpisodes = false;
 
-                # GUI defaults
-                copyUsingHardlinks = true;
-                recycleBinCleanupDays = 7;
-                minimumFreeSpaceWhenImporting = 100;
+                setPermissionsLinux = false;
+                chmodFolder = "755";
+                chownGroup = "";
+
+                # createEmptySeriesFolders = false;
+                createEmptySeriesFolders = true;
+                deleteEmptyFolders = false;
+
                 enableMediaInfo = true;
+                episodeTitleRequired = "always";
+                extraFileExtensions = "srt";
+                fileDate = "none";
+
+                recycleBin = "";
+                recycleBinCleanupDays = 7;
+
+                rescanAfterRefresh = "always";
+
+                downloadPropersAndRepacks = "preferAndUpgrade";
+
+                copyUsingHardlinks = true;
+                minimumFreeSpaceWhenImporting = 100;
+                skipFreeSpaceCheckWhenImporting = false;
+                importExtraFiles = false;
+                useScriptImport = false;
+                scriptImportPath = "";
               }
               // s.mediaManagement)}
           ''}
@@ -328,21 +347,6 @@
           wait
         '';
     };
-    # {
-    #   "onHealthIssue": false,
-    #   "supportsOnHealthIssue": false,
-    #   "includeHealthWarnings": false,
-    #   "name": "FlareSolverr",
-    #   "fields": [
-    #     { "name": "host", "value": "http://localhost:8191/" },
-    #     { "name": "requestTimeout", "value": 60 }
-    #   ],
-    #   "implementationName": "FlareSolverr",
-    #   "implementation": "FlareSolverr",
-    #   "configContract": "FlareSolverrSettings",
-    #   "infoLink": "https://wiki.servarr.com/prowlarr/supported#flaresolverr",
-    #   "tags": [3]
-    # }
   in {
     options.services.${serviceName} = {
       apiKeyFile = mkOption {
@@ -468,12 +472,12 @@ in {
       namingDefault = {
         renameEpisodes = true;
         replaceIllegalCharacters = true;
-        colonReplacementFormat = 0;
+        colonReplacementFormat = 4;
         customColonReplacementFormat = "";
-        multiEpisodeStyle = 0;
-        standardEpisodeFormat = "S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+        multiEpisodeStyle = 5;
+        standardEpisodeFormat = "s{season:00}e{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
         dailyEpisodeFormat = "{Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
-        animeEpisodeFormat = "S{season:00}E{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+        animeEpisodeFormat = "s{season:00}e{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
         seriesFolderFormat = "{Series Title}";
         seasonFolderFormat = "Season {season}";
         specialsFolderFormat = "Specials";

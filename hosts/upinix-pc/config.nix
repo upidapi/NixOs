@@ -24,6 +24,7 @@ in {
       "libvirtd"
       "adbusers"
       "docker"
+      "media"
     ];
 
     hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";

@@ -143,7 +143,7 @@ in {
         "/srv/sonarr"
         "/srv/radarr"
         "/srv/bazarr" # TODO: idk if this is needed
-        # TODO: persist qbittorrent
+        "/srv/qbit" # TODO: idk if this is needed
 
         # "/etc/ssh" NOTE: this might break things
         {

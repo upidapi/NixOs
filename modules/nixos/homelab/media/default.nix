@@ -34,11 +34,11 @@ in {
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
-        "/srv/jellyfin".d = {
-          group = "media";
-          user = "jellyfin";
-          mode = "751";
-        };
+        # "/srv/jellyfin".d = {
+        #   group = "media";
+        #   user = "jellyfin";
+        #   mode = "751";
+        # };
         "/srv/radarr".d = {
           group = "media";
           user = "radarr";

@@ -56,7 +56,7 @@ in {
         };
         "/srv/qbit".d = {
           group = "media";
-          user = "qbit";
+          user = "qbittorrent";
           mode = "751";
         };
       };

@@ -231,6 +231,15 @@ in {
               };
             };
           };
+          indexerProxies = {
+            "FlareSolverr" = {
+              fields = {
+                host = "http://localhost:8191/";
+                requestTimeout = 60;
+              };
+              tags = ["FlareSolverr"];
+            };
+          };
           indexers = {
             "1337x" = {
               implementation = "Cardigann";
@@ -241,6 +250,7 @@ in {
                 sort = 2; # created
                 type = 1; # desc
               };
+              tags = ["FlareSolverr"];
             };
             "AnimeTosho" = {
               implementation = "Torznab";

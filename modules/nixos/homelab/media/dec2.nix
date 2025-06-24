@@ -71,6 +71,7 @@
     enableRootFolders ? false,
     enableMediaManagement ? false,
     enableIndexers ? false,
+    enableIndexerProxies ? false,
     enableApplications ? false,
   }: let
     cfg = config.services.${serviceName};
@@ -81,6 +82,105 @@
       cfg.apiKeyFile
       appUrl;
     curl = type: url: curl' type url "";
+
+    tryGetAttrs = g: attrs: (
+      lib.getAttrs (lib.intersectLists (lib.attrNames attrs) g) attrs
+    );
+    tags = lib.pipe s [
+      lib.traceValSeq
+      (tryGetAttrs ["indexers" "indexerProxies"])
+      lib.attrValues
+      (lib.map (a: lib.mapAttrsToList (_: v: v.tags or []) a))
+      lib.concatLists
+      lib.concatLists
+      lib.unique
+    ];
+    mapTags = let
+      tm = lib.pipe tags [
+        (lib.imap1 (i: v: {
+          name = v;
+          value = i;
+        }))
+        lib.listToAttrs
+      ];
+    in
+      d: {
+        tags =
+          lib.map
+          (t: tm.${t})
+          (d.tags or []);
+      };
+
+    mapArrReqs' = name: apiPath: cond: data:
+      lib.optionalString cond
+      # bash
+      ''
+        echo "Deleting old ${name}"
+        delete-all "${apiPath}"
+
+        echo "Creating ${name}"
+        ${lib.concatStringsSep "\n\n" data}
+      '';
+
+    mapArrReqs = name: apiPath: cond: attrs: f:
+      mapArrReqs' name apiPath cond (
+        lib.imap1 f
+        (lib.mapAttrsToList
+          (n: v: {name = n;} // v)
+          attrs)
+      );
+
+    # mapArrReqs2 = cond: attrs: name: apiPath: f:
+    #   lib.optionalString cond
+    #   # bash
+    #   ''
+    #     echo "Deleting old ${name}"
+    #     delete-all "${apiPath}"
+    #
+    #     echo "Creating ${name}"
+    #     ${lib.concatStringsSep "\n\n" (
+    #       lib.imap1 f
+    #       (lib.mapAttrsToList
+    #         (n: v: {name = n;} // v)
+    #         attrs)
+    #     )}
+    #   '';
+    #
+    # x = "${lib.optionalString enableIndexerProxies
+    #   # bash
+    #   ''
+    #     echo "Deleting old indexer proxies"
+    #     delete-all "indexerProxy"
+    #
+    #     echo "Creating indexer proxies"
+    #     ${lib.concatStringsSep "\n" (
+    #       lib.imap1 (_: d: (
+    #         curl "POST" "/indexerProxy"
+    #         ({}
+    #           // (mkArrContract d)
+    #           // (mapTags d))
+    #       ))
+    #       (lib.mapAttrsToList
+    #         (n: v: {name = n;} // v)
+    #         s.indexers)
+    #     )}
+    #   ''}";
+    # y = x enableTags s.tags "tags" "tag" (_: d:
+    #   curl "POST" "/tag" ()
+    # );
+
+    # z =
+    #   mapArrReqs
+    #   enableIndexerProxies
+    #   s.indexerProxies
+    #   "indexer proxies"
+    #   "indexerProxy"
+    #   (
+    #     _: d:
+    #       curl "POST" "/indexerProxy" (
+    #         (mkArrContract d) // (mapTags d)
+    #       )
+    #   );
 
     init-script = pkgs.writeShellApplication {
       name = "${serviceName}-init";
@@ -201,7 +301,6 @@
               // s.mediaManagement)}
           ''}
 
-
           delete-one () {
             ${curl "DELETE" "/$1/$2" {}} #
           }
@@ -214,27 +313,15 @@
             done
           }
 
-          ${lib.optionalString enableRootFolders
-            # bash
-            ''
-              echo "Deleting old root folders"
-              delete-all "rootfolder"
+          ${mapArrReqs' "root folders" "rootfolder"
+            enableRootFolders
+            (map
+              (d: curl "POST" "/rootfolder" {path = d;})
+              s.rootFolders)}
 
-              echo "Creating root folders"
-              ${lib.concatStringsSep "\n" (
-                lib.imap1 (_: d: (curl "POST" "/rootfolder" {
-                  path = d;
-                }))
-                s.rootFolders
-              )}
-            ''}
-
-          echo "Deleting old download clients"
-          delete-all "downloadclient"
-
-          echo "Creating download clients"
-          ${lib.concatStringsSep "\n" (
-            lib.imap1 (_: d: (
+          ${mapArrReqs "download clients" "downloadclient" true
+            s.downloadClients
+            (_: d: (
               curl' "POST" "/downloadclient" ''
                 | json-file-resolve \
                   '$.fields[?(@.name=="password")].value' \
@@ -243,63 +330,88 @@
                   priority = 25;
                 }
                 // (mkArrContract d))
-            ))
-            (lib.mapAttrsToList
-              (n: v: {name = n;} // v)
-              s.downloadClients)
-          )}
+            ))} #
 
-          ${lib.optionalString enableIndexers
-            # bash
-            ''
-              echo "Deleting old indexers"
-              delete-all "indexer"
+          # {
+          #   "onHealthIssue": false,
+          #   "supportsOnHealthIssue": false,
+          #   "includeHealthWarnings": false,
+          #   "name": "FlareSolverr",
+          #   "fields": [
+          #     { "name": "host", "value": "http://localhost:8191/" },
+          #     { "name": "requestTimeout", "value": 60 }
+          #   ],
+          #   "implementationName": "FlareSolverr",
+          #   "implementation": "FlareSolverr",
+          #   "configContract": "FlareSolverrSettings",
+          #   "infoLink": "https://wiki.servarr.com/prowlarr/supported#flaresolverr",
+          #   "tags": [3]
+          # }
 
-              echo "Creating indexers"
-              ${lib.concatStringsSep "\n" (
-                lib.imap1 (_: d: (
-                  curl' "POST" "/indexer" ''
-                    | json-file-resolve \
-                      '$.fields[?(@.name=="password")].value' \
-                  '' ({
-                      appProfileId = 1;
-                      priority = 25;
-                    }
-                    // (mkArrContract d))
-                ))
-                (lib.mapAttrsToList
-                  (n: v: {name = n;} // v)
-                  s.indexers)
-              )}
-            ''}
+          ${mapArrReqs' "tags" "tag" true
+            (map
+              (d: curl "POST" "/indexerProxy" {label = d;})
+              tags)}
 
-          ${lib.optionalString enableApplications
-            # bash
-            ''
-              echo "Deleting old applications"
-              delete-all "applications"
+          ${mapArrReqs "indexer proxies" "indexerProxy"
+            enableIndexerProxies
+            s.indexerProxies
+            (_: d: (
+              curl "POST" "/indexerProxy"
+              ((
+                  mkArrContract
+                  (d // {implementation = d.name;})
+                )
+                // (mapTags d))
+            ))}
 
-              echo "Creating applications"
-              ${lib.concatStringsSep "\n" (
-                lib.imap1 (_: d: (
-                  curl' "POST" "/applications" ''
-                    | json-file-resolve \
-                      '$.fields[?(@.name=="apiKey")].value' \
-                  '' ({
-                      appProfileId = 1;
-                    }
-                    // (mkArrContract d))
-                ))
-                (lib.mapAttrsToList
-                  (n: v: {name = n;} // v)
-                  s.applications)
-              )}
-            ''}
+          ${mapArrReqs "indexers" "indexer"
+            enableIndexers
+            s.indexers
+            (_: d: (
+              curl' "POST" "/indexer" ''
+                | json-file-resolve \
+                  '$.fields[?(@.name=="password")].value' \
+              '' ({
+                  appProfileId = 1;
+                  priority = 25;
+                }
+                // (mkArrContract d)
+                // (mapTags d))
+            ))}
+
+          ${mapArrReqs "applications" "applications"
+            enableApplications
+            s.applications
+            (_: d: (
+              curl' "POST" "/applications" ''
+                | json-file-resolve \
+                  '$.fields[?(@.name=="apiKey")].value' \
+              '' ({
+                  appProfileId = 1;
+                }
+                // (mkArrContract d))
+            ))}
 
           echo "${serviceName} init finished"
           wait
         '';
     };
+    # {
+    #   "onHealthIssue": false,
+    #   "supportsOnHealthIssue": false,
+    #   "includeHealthWarnings": false,
+    #   "name": "FlareSolverr",
+    #   "fields": [
+    #     { "name": "host", "value": "http://localhost:8191/" },
+    #     { "name": "requestTimeout", "value": 60 }
+    #   ],
+    #   "implementationName": "FlareSolverr",
+    #   "implementation": "FlareSolverr",
+    #   "configContract": "FlareSolverrSettings",
+    #   "infoLink": "https://wiki.servarr.com/prowlarr/supported#flaresolverr",
+    #   "tags": [3]
+    # }
   in {
     options.services.${serviceName} = {
       apiKeyFile = mkOption {
@@ -325,6 +437,7 @@
               ++ lib.optional enableNaming "naming"
               ++ lib.optional enableMediaManagement "mediaManagement"
               ++ lib.optional enableIndexers "indexers"
+              ++ lib.optional enableIndexers "indexerProxies"
               ++ lib.optional enableApplications "applications"
             ) {
               host = mkOption {
@@ -335,6 +448,13 @@
                 default = {};
               };
               applications = mkOption {
+                type = types.attrs;
+                description = ''
+
+                '';
+                default = {};
+              };
+              indexerProxies = mkOption {
                 type = types.attrs;
                 description = ''
 
@@ -452,6 +572,7 @@ in {
       appUrl = "http://localhost:${toString config.services.prowlarr.settings.server.port}/localhost/api/v1";
 
       enableIndexers = true;
+      enableIndexerProxies = true;
       enableApplications = true;
     })
   ];

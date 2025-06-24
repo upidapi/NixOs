@@ -258,6 +258,7 @@ in {
         echo "Updating settings.json..."
         cfg="{}"
         if [ -f "$cfg_file" ]; then
+          mkdir -p $(realpath "$cfg_file")
           cfg=$(cat "$cfg_file")
         fi
 
@@ -278,9 +279,6 @@ in {
         echo "$cfg" "$updated_settings" |\
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
           > "$cfg_file"
-
-        echo "$cfg" "$updated_settings" |\
-          ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
 
         echo "Starting jellyseerr to generate db..."
         ${lib.getExe cfg.package} &
@@ -378,14 +376,6 @@ in {
         )}
 
         echo "Restating jellyseerr to make it pick up the cfg/db changes"
-        kill -15 $jellyfin_pid
-        ${lib.getExe cfg.package} &
-        jellyfin_pid=$!
-
-        sleep 5
-
-        # FIXME: you have to restart it twice
-        echo "Restarting again, idk why this is needed, debug if i get motivation"
         kill -15 $jellyfin_pid
         ${lib.getExe cfg.package}
       '';

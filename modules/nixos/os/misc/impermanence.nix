@@ -130,16 +130,17 @@ in {
 
         "/var/lib/transfer-sh"
 
-        "/var/lib/bazarr"
         (toPrivateStateDirectory "/var/lib/jellyseerr")
-        {
-          directory = toPrivateStateDirectory config.services.prowlarr.dataDir;
-          mode = "700";
-        }
+        (toPrivateStateDirectory "/var/lib/prowlarr")
 
-        config.services.radarr.dataDir
-        config.services.sonarr.dataDir
-        config.services.jackett.dataDir
+        "/var/lib/qBittorrent"
+        "/var/lib/jellyfin"
+        "/var/lib/sonarr"
+        "/var/lib/radarr"
+        "/var/lib/bazarr"
+
+        "/var/lib/jackett"
+
         "/srv/sonarr"
         "/srv/radarr"
         "/srv/bazarr"

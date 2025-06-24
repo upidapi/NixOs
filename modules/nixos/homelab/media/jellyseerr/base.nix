@@ -259,6 +259,7 @@ in {
         cfg="{}"
         if [ -f "$cfg_file" ]; then
           mkdir -p $(realpath "$cfg_file")
+          touch "$cfg_file"
           cfg=$(cat "$cfg_file")
         fi
 

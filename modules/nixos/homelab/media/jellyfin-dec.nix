@@ -138,7 +138,7 @@ in {
           "Shows" = {
             enabled = true;
             contentType = "tvshows";
-            pathInfos = ["/data/sonarr"];
+            pathInfos = ["/srv/sonarr"];
             enableChapterImageExtraction = true;
             extractChapterImagesDuringLibraryScan = true;
             enableTrickplayImageExtraction = true;

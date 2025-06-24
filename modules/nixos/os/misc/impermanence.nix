@@ -142,8 +142,8 @@ in {
         config.services.jackett.dataDir
         "/srv/sonarr"
         "/srv/radarr"
-        "/srv/bazarr" # TODO: idk if this is needed
-        "/srv/qbit" # TODO: idk if this is needed
+        "/srv/bazarr"
+        "/srv/qbit"
 
         # "/etc/ssh" NOTE: this might break things
         {

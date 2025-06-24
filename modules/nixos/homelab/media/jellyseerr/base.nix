@@ -279,6 +279,8 @@ in {
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
           > "$cfg_file"
 
+        echo "$cfg" "$updated_settings" |\
+          ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
 
         echo "Starting jellyseerr to generate db..."
         ${lib.getExe cfg.package} &

@@ -158,7 +158,7 @@ in {
             activeProfileName = "Any";
             animeTags = [];
             apiKey = config.sops.placeholder."sonarr/api-key";
-            enableSeasonFolders = false;
+            enableSeasonFolders = true;
             hostname = "127.0.0.1";
             id = 0;
             is4k = false;

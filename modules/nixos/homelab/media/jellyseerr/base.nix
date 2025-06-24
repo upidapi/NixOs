@@ -258,9 +258,10 @@ in {
         echo "Updating settings.json..."
         cfg="{}"
         if [ -f "$cfg_file" ]; then
-          mkdir -p $(realpath "$cfg_file")
-          touch "$cfg_file"
           cfg=$(cat "$cfg_file")
+        else
+          mkdir -p "$(realpath "$cfg_file")"
+          touch "$cfg_file"
         fi
 
         # Generate the library ids

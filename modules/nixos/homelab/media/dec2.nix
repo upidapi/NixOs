@@ -87,7 +87,6 @@
       lib.getAttrs (lib.intersectLists (lib.attrNames attrs) g) attrs
     );
     tags = lib.pipe s [
-      lib.traceValSeq
       (tryGetAttrs ["indexers" "indexerProxies"])
       lib.attrValues
       (lib.map (a: lib.mapAttrsToList (_: v: v.tags or []) a))
@@ -350,7 +349,7 @@
 
           ${mapArrReqs' "tags" "tag" true
             (map
-              (d: curl "POST" "/indexerProxy" {label = d;})
+              (d: curl "POST" "/tag" {label = d;})
               tags)}
 
           ${mapArrReqs "indexer proxies" "indexerProxy"

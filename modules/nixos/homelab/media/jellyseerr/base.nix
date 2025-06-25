@@ -25,7 +25,7 @@
   # bash
   ''
     cat "${pkgs.writeText "data.json" (builtins.toJSON data)}" \
-    ${t}| curl \
+    ${t}| ${pkgs.curl}/bin/curl \
         --silent \
         --show-error \
         --retry 3 \

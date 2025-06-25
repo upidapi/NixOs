@@ -297,11 +297,23 @@ in {
         settings=$(cat "$CREDENTIALS_DIRECTORY/config")
         cfg_file="${cfg.configDir}/settings.json"
 
-        # echo "Waiting for setting.json..."
-        # until [ -f "$cfg" ]
-        # do
-        #   sleep 1
-        # done
+
+        echo "Creating base jellyfin admin user"
+        # https://github.com/fallenbagel/jellyseerr/blob/b83367cbf2e0470cc1ad4eed8ec6eafaafafdbad/server/routes/auth.ts#L226
+        ${curl "POST" "/auth/jellyfin" ''
+            | ${json-file-resolve}/bin/json-file-resolve \
+              '$.password' \
+          '' {
+            serverType = 2; # jellyfin
+
+            inherit (cfg.jellyfin) username email;
+            password = cfg.jellyfin.passwordFile;
+
+            inherit (cfg.extraSettings.jellyfin) port;
+            useSsl = cfg.extraSettings.jellyfin.useSsl or false;
+            urlBase = cfg.extraSettings.jellyfin.urlBase or "";
+            hostname = cfg.extraSettings.jellyfin.ip;
+          }}
 
         echo "Updating settings.json..."
         cfg="{}"
@@ -354,22 +366,6 @@ in {
 
           sleep 1
         done
-
-        # https://github.com/fallenbagel/jellyseerr/blob/b83367cbf2e0470cc1ad4eed8ec6eafaafafdbad/server/routes/auth.ts#L226
-        ${curl "POST" "/auth/jellyfin" ''
-            | ${json-file-resolve}/bin/json-file-resolve \
-              '$.password' \
-          '' {
-            serverType = 2; # jellyfin
-
-            inherit (cfg.jellyfin) username email;
-            password = cfg.jellyfin.passwordFile;
-
-            inherit (cfg.extraSettings.jellyfin) port;
-            useSsl = cfg.extraSettings.jellyfin.useSsl or false;
-            urlBase = cfg.extraSettings.jellyfin.urlBase or "";
-            hostname = cfg.extraSettings.jellyfin.ip;
-          }}
 
         echo "Creating users..."
         ${concatStringsSep "" (

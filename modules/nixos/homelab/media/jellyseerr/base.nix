@@ -297,6 +297,9 @@ in {
         settings=$(cat "$CREDENTIALS_DIRECTORY/config")
         cfg_file="${cfg.configDir}/settings.json"
 
+        echo "Starting jellyseerr to generate db..."
+        ${lib.getExe cfg.package} &
+        jellyfin_pid=$!
 
         echo "Creating base jellyfin admin user"
         # https://github.com/fallenbagel/jellyseerr/blob/b83367cbf2e0470cc1ad4eed8ec6eafaafafdbad/server/routes/auth.ts#L226
@@ -342,9 +345,6 @@ in {
           ${pkgs.jq}/bin/jq --slurp 'reduce .[] as $item ({}; . * $item)' \
           > "$cfg_file"
 
-        echo "Starting jellyseerr to generate db..."
-        ${lib.getExe cfg.package} &
-        jellyfin_pid=$!
 
         echo "Waiting for db to be created..."
         until [ -f "$db_file" ]

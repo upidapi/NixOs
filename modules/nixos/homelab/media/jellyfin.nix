@@ -84,7 +84,7 @@ in {
       # Access to /dev/dri
       "render"
       "video"
-      # Access to /srv/sonarr and /srv/radarr
+      # Access to /media
       "media"
     ];
     services = {
@@ -128,7 +128,7 @@ in {
           "Movies" = {
             enabled = true;
             contentType = "movies";
-            pathInfos = ["/srv/radarr"];
+            pathInfos = ["/media/movies"];
             enableChapterImageExtraction = true;
             extractChapterImagesDuringLibraryScan = true;
             enableTrickplayImageExtraction = true;
@@ -138,7 +138,7 @@ in {
           "Shows" = {
             enabled = true;
             contentType = "tvshows";
-            pathInfos = ["/srv/sonarr"];
+            pathInfos = ["/media/tv"];
             enableChapterImageExtraction = true;
             extractChapterImagesDuringLibraryScan = true;
             enableTrickplayImageExtraction = true;

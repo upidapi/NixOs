@@ -110,6 +110,9 @@
           (d.tags or []);
       };
 
+    # TODO: update based on name instead of recreating all
+    #  it get id based on name, then update that id
+    #  delete all ids not corresponding to a name
     mapArrReqs' = name: apiPath: cond: data:
       lib.optionalString cond
       # bash
@@ -423,7 +426,7 @@
                   Mapped to the correct format
                 '';
                 default = [];
-                example = ["/srv/${serviceName}"];
+                example = ["/media/${serviceName}"];
               };
               downloadClients = mkOption {
                 type = types.attrs;

@@ -133,7 +133,7 @@ in {
         public = {initialized = true;};
         radarr = [
           {
-            activeDirectory = "/srv/radarr";
+            activeDirectory = "/media/movies";
             activeProfileId = 1;
             activeProfileName = "Any";
             apiKey = config.sops.placeholder."radarr/api-key";
@@ -153,7 +153,7 @@ in {
         ];
         sonarr = [
           {
-            activeDirectory = "/srv/sonarr";
+            activeDirectory = "/media/tv";
             activeProfileId = 1;
             activeProfileName = "Any";
             animeTags = [];

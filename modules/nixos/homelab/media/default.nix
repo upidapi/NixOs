@@ -35,9 +35,17 @@ in {
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
-        "/srv/qbit".d = {
+        "/media".d = {
+          group = "media";
+          mode = "751";
+        };
+        "/media/torrents".d = {
           group = "media";
           user = "qbittorrent";
+          mode = "751";
+        };
+        "/media/usenet".d = {
+          group = "media";
           mode = "751";
         };
       };
@@ -58,8 +66,8 @@ in {
         serverConfig = {
           LegalNotice.Accepted = true;
           BitTorrent.Session = {
-            DefaultSavePath = "/srv/qbit";
-            TempPath = "/srv/qbit/tmp";
+            DefaultSavePath = "/media/torrents";
+            # TempPath = "/media/torrents/tmp";
           };
           Preferences.WebUI = {
             Port = ports.qbit;

@@ -141,10 +141,11 @@ in {
 
         "/var/lib/jackett"
 
-        "/srv/sonarr"
-        "/srv/radarr"
-        "/srv/bazarr"
-        "/srv/qbit"
+        # "/srv/sonarr"
+        # "/srv/radarr"
+        # "/srv/bazarr"
+        # "/srv/qbit"
+        "/media"
 
         # "/etc/ssh" NOTE: this might break things
         {

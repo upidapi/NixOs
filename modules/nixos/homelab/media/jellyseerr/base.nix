@@ -390,17 +390,10 @@ in {
         after = ["jellyfin.service"];
         serviceConfig = {
           WorkingDirectory = cfg.dataDir;
-          # ExecStartPre = "${jellyseerr-init}";
           ExecStart = lib.mkForce "${jellyseerr-init}";
-          # ExecStartPost = "${jellyseerr-setup}";
-          # ExecStartPost = "/srv/test.sh";
           LoadCredential =
             [
               "config:${config.sops.templates."jellyseerr-config.json".path}"
-
-              # "jellyserr_api_key:${cfg.apiKeyFile}"
-              # "jellyfin_api_key:${cfg.jellyfin.apiKeyFile}"
-              # "jellyfin_password:${cfg.jellyfin.passwordFile}"
             ]
             ++ lib.map
             (u: "psw_file_${builtins.hashString "md5" u.name}:${u.passwordFile}")

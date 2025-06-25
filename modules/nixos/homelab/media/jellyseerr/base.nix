@@ -18,6 +18,51 @@
     attrValues
     toString
     ;
+
+  cfg = config.services.jellyseerr;
+
+  curl_base = api_key_path: base_url: type: url: t: data:
+  # bash
+  ''
+    cat "${pkgs.writeText "data.json" (builtins.toJSON data)}" \
+    ${t}| curl \
+        --silent \
+        --show-error \
+        --retry 3 \
+        --retry-connrefused \
+        --url "${base_url}${url}" \
+        -X ${type} \
+        -H "Authorization: MediaBrowser Token="$(cat "${api_key_path}")"" \
+        -H "Content-Type: application/json" \
+        --data-binary @-'';
+
+  json-file-resolve =
+    pkgs.writers.writePython3Bin "json-file-resolve" {
+      libraries = with pkgs.python3Packages; [
+        jsonpath-ng
+      ];
+    } ''
+      import json
+      import jsonpath_ng.ext as jsonpath
+      import sys
+
+
+      def func(_, data, field):
+          file_path = data[field]
+
+          with open(file_path) as f:
+              return f.read().strip()
+
+
+      json_data_raw = sys.stdin.read()
+      data = json.loads(json_data_raw)
+      for arg in sys.argv[1:]:
+          jsonpath.parse(arg).update(data, func)
+
+      print(json.dumps(data, indent=2))
+    '';
+
+  curl = curl_base cfg.apiKeyFile "http://localhost:${toString cfg.port}/api/v1";
 in {
   options.services.jellyseerr = let
     permissionType = types.submodule (
@@ -109,6 +154,24 @@ in {
       '';
       type = permissionType;
     };
+    apiKeyFile = mkOption {
+      type = types.str;
+    };
+    jellyfin = {
+      username = mkOption {
+        type = types.str;
+        description = ''
+          An admin user
+        '';
+      };
+      email = mkOption {
+        type = types.str;
+      };
+      # TODO: assertions
+      passwordFile = mkOption {
+        type = types.str;
+      };
+    };
     force = mkOption {
       description = ''
         If false, then it will only create the config.json if it doesn't
@@ -122,28 +185,14 @@ in {
       type = types.path;
       default = "/var/lib/jellyseerr";
     };
-    # apiKeyFile = mkOption {
-    #   type = types.str;
-    # };
-    # jellyfin = {
-    #   apiKeyFile = mkOption {
-    #     type = types.path;
-    #   };
-    #   passwordFile = mkOption {
-    #     type = types.path;
-    #   };
-    #   username = mkOption {
-    #     type = types.str;
-    #   };
-    # };
     users = mkOption {
+      default = {};
       type = types.attrsOf (types.submodule (
         {
           name,
           # config,
           ...
         }: {
-          # TODO: assertions
           options = {
             mutable = mkOption {
               type = types.bool;
@@ -208,7 +257,6 @@ in {
         }
         // cfg.extraSettings);
 
-    cfg = config.services.jellyseerr;
     genfolderuuid =
       pkgs.writeShellScript "genfolderuuid"
       # bash
@@ -307,6 +355,22 @@ in {
           sleep 1
         done
 
+        # https://github.com/fallenbagel/jellyseerr/blob/b83367cbf2e0470cc1ad4eed8ec6eafaafafdbad/server/routes/auth.ts#L226
+        ${curl "POST" "/auth/jellyfin" ''
+            | ${json-file-resolve}/bin/json-file-resolve \
+              '$.password' \
+          '' {
+            serverType = 2; # jellyfin
+
+            inherit (cfg.jellyfin) username email;
+            password = cfg.jellyfin.passwordFile;
+
+            inherit (cfg.extraSettings.jellyfin) port;
+            useSsl = cfg.extraSettings.jellyfin.useSsl or false;
+            urlBase = cfg.extraSettings.jellyfin.urlBase or "";
+            hostname = cfg.extraSettings.jellyfin.ip;
+          }}
+
         echo "Creating users..."
         ${concatStringsSep "" (
           map (user: ''
@@ -390,7 +454,7 @@ in {
         after = ["jellyfin.service"];
         serviceConfig = {
           WorkingDirectory = cfg.dataDir;
-          # ExecStart = lib.mkForce "${jellyseerr-init}";
+          ExecStart = lib.mkForce "${jellyseerr-init}";
           # ExecStart = lib.mkForce "/var/lib/jellyseerr/test.sh";
           LoadCredential =
             [

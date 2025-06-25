@@ -31,19 +31,19 @@ in {
       #   };
       "jellyseerr/api-key" = {
         key = "jellyseerr/api-key";
-        # owner = config.services.jellyseerr.user;
+        owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
 
       "jellyseerr/users/admin/password" = {
-        # owner = config.services.jellyseerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-      #   "jellyfin/jellyseerr-api-key_jellyseerr" = {
-      #     key = "jellyfin/jellyseerr-api-key";
-      #     # owner = config.services.jellyseerr.user;
-      #     sopsFile = "${self}/secrets/server.yaml";
-      #   };
+
+      "jellyfin/users/admin/password_jellyseerr" = {
+        key = "jellyfin/users/admin/password";
+        owner = config.services.jellyseerr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
     };
 
     # https://www.rapidseedbox.com/blog/jellyseerr-guide#01
@@ -54,20 +54,20 @@ in {
       force = true;
       group = "media";
 
-      # apiKeyFile = config.sops.secrets."jellyseerr/api-key".path;
-      # jellyfin = {
-      #   apiKeyFile = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
-      #   passwordFile = config.sops.secrets."jellyfin/users/admin/password".path;
-      #   username = "admin";
-      # };
-      users.admin = {
+      apiKeyFile = config.sops.secrets."jellyseerr/api-key".path;
+      jellyfin = {
         email = "videw@icloud.com";
-        passwordFile = config.sops.secrets."jellyseerr/users/admin/password".path;
-        permissions = {
-          admin = true;
-        };
-        mutable = false;
+        username = "admin";
+        passwordFile = config.sops.secrets."jellyfin/users/admin/password_jellyseerr".path;
       };
+      # users.admin = {
+      #   email = "videw@icloud.com";
+      #   passwordFile = config.sops.secrets."jellyseerr/users/admin/password".path;
+      #   permissions = {
+      #     admin = true;
+      #   };
+      #   mutable = false;
+      # };
       settings.main.defaultPermissions = {
         request = true;
         request4k = true;

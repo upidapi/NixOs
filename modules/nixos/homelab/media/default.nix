@@ -59,6 +59,7 @@ in {
         port = ports.flaresolverr;
         # openFirewall = true;
       };
+      # module from https://github.com/undefined-landmark/nixpkgs/blob/default-serverConfig/nixos/modules/services/torrent/qbittorrent.nix
       qbittorrent = {
         enable = true;
         group = "media";

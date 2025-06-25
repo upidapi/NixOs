@@ -260,7 +260,7 @@ in {
         if [ -f "$cfg_file" ]; then
           cfg=$(cat "$cfg_file")
         else
-          mkdir -p "$(realpath "$cfg_file")"
+          mkdir -p "$(dirname "$cfg_file")"
           touch "$cfg_file"
         fi
 

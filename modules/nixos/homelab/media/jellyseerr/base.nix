@@ -391,7 +391,7 @@ in {
         serviceConfig = {
           WorkingDirectory = cfg.dataDir;
           # ExecStart = lib.mkForce "${jellyseerr-init}";
-          ExecStart = lib.mkForce "/home/upidapi/test.sh";
+          ExecStart = lib.mkForce "/var/lib/jellyseerr/test.sh";
           LoadCredential =
             [
               "config:${config.sops.templates."jellyseerr-config.json".path}"

@@ -138,7 +138,6 @@ in {
         "/var/lib/sonarr"
         "/var/lib/radarr"
         "/var/lib/bazarr"
-
         "/var/lib/jackett"
 
         # "/srv/sonarr"

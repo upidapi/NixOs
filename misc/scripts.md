@@ -28,7 +28,7 @@ env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $"($env
 # try to connect at
 https://usevia.app/
 
-# go to 
+# go to
 brave://device-log/
 # [23:34:15] Failed to open '/dev/hidraw4': FILE_ERROR_ACCESS_DENIED
 
@@ -71,6 +71,12 @@ PAGER=cat nmcli device wifi list --rescan yes; nmcli device wifi connect upi-pho
 ```bash
 systemctl --user status
 journalctl -xeu home-manager-upidapi.service
+```
+
+## interactive file size search
+
+```bash
+sudo , gdu
 ```
 
 ## format traces

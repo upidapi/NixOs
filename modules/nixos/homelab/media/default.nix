@@ -44,7 +44,16 @@ in {
           user = "qbittorrent";
           mode = "751";
         };
+        "/media/torrents".Z = {
+          group = "media";
+          user = "qbittorrent";
+          mode = "751";
+        };
         "/media/usenet".d = {
+          group = "media";
+          mode = "751";
+        };
+        "/media/usenet".Z = {
           group = "media";
           mode = "751";
         };

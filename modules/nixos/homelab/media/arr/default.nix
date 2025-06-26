@@ -24,12 +24,22 @@ in {
           user = "radarr";
           mode = "751";
         };
+        "/media/movies".Z = {
+          group = "media";
+          user = "radarr";
+          mode = "751";
+        };
         # "/media/subtitles".d = {
         #   group = "media";
         #   user = "bazarr";
         #   mode = "751";
         # };
         "/media/tv".d = {
+          group = "media";
+          user = "sonarr";
+          mode = "751";
+        };
+        "/media/tv".Z = {
           group = "media";
           user = "sonarr";
           mode = "751";

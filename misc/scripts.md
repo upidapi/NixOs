@@ -20,6 +20,11 @@ sops $NIXOS_CONFIG_PATH/secrets/infra.yaml"
 env SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt sudo --preserve-env sops $"($env.NIXOS_CONFIG_PATH)/secrets/shared.yaml"
 ```
 
+# Fix corrupted / missing store paths
+```bash
+sudo nix-store --verify --check-contents --repair
+```
+
 ## modify keyboard
 
 ```bash
@@ -76,7 +81,7 @@ journalctl -xeu home-manager-upidapi.service
 ## interactive file size search
 
 ```bash
-sudo , gdu
+cd /; sudo , gdu
 ```
 
 ## format traces

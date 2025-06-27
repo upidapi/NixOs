@@ -33,21 +33,17 @@ in {
   config = mkIf cfg.enable {
     # tell virt-manager to use the system connection
     dconf.settings."org/virt-manager/virt-manager/connections" = {
-      # TODO: add "qemu:///session"?
       autoconnect = [
-        "qemu:///system"
         "qemu:///session"
+        "qemu:///system"
       ];
       uris = [
-        "qemu:///system"
         "qemu:///session"
+        "qemu:///system"
       ];
     };
 
     # REF: https://github.com/Svenum/holynix/blob/295a24e8e2f97298f21e8b2d0112ed8cb919b657/systems/x86_64-linux/Yon/kvm.nix#L134
-
-    # NOTE: the config is located at .config/libvirt/qemu
-    #  and the virt-manager is located at /var/lib/libvirt/
 
     # if this doesn't exist then libvirt chrashes and since its
     # a part of the home-manager activation script it too chrashes

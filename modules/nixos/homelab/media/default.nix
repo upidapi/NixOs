@@ -13,6 +13,8 @@
 in {
   options.modules.nixos.homelab.media = mkEnableOpt "";
 
+  # TODO: limit download bitrate (i dont wana 90 GB 1080p)
+
   imports = [
     ./arr
     ./jellyseerr

@@ -1,4 +1,9 @@
 ## Virsh things
+the config is located at .config/libvirt/qemu
+
+virt-manager is located at /var/lib/libvirt/
+
+
 ### Make it show up in qemu://system
 ```bash
 virsh define .config/libvirt/qemu/w11.xml

@@ -37,6 +37,8 @@ they dont exist
 
 make it so that i can deply to my pc without havin to push and pull changes
 
+boost audio over 100%
+
 security 
     nix-mineral 
         general linux hardening

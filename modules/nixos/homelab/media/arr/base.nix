@@ -454,7 +454,7 @@
       };
     };
 
-    config = {
+    config = lib.mkIf cfg.enable {
       systemd.services.${serviceName} = {
         after = ["qbittorrent.service"];
         serviceConfig = {

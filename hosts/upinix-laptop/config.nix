@@ -47,17 +47,17 @@ in {
 
     openssh.authorizedKeys.keys = [keys.users.upidapi];
   };
-  users.users.tes = {
-    isNormalUser = true;
-    description = "upidapi";
-
-    extraGroups = [
-      "wheel"
-    ];
-    password = "1";
-
-    openssh.authorizedKeys.keys = [keys.users.upidapi];
-  };
+  # users.users.tes = {
+  #   isNormalUser = true;
+  #   description = "upidapi";
+  #
+  #   extraGroups = [
+  #     "wheel"
+  #   ];
+  #   password = "1";
+  #
+  #   openssh.authorizedKeys.keys = [keys.users.upidapi];
+  # };
 
   users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
 
@@ -96,11 +96,11 @@ in {
 
     homelab = {
       transfer-sh = enable; # TODO: remove, this is for debug
-      # media = enableAnd {
-      #   jellyfin = enable;
-      #   jellyseerr = enable;
-      #   arr = enable;
-      # };
+      media = enableAnd {
+        jellyfin = enable;
+        jellyseerr = enable;
+        arr = enable;
+      };
     };
 
     os.services.syncthing = disable;

@@ -22,6 +22,10 @@ Virtulisation
     
     scripts to auto setup vm
 
+SWAP space
+    nice for huge builds (cuda)
+    otherwise the computer no workie
+
 add a no-internet group
     https://askubuntu.com/questions/45072/how-to-control-internet-access-for-each-program
 

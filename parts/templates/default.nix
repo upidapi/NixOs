@@ -12,5 +12,6 @@
       path = ./python-uv;
       description = "Development environment for python";
     };
+    # https://lavafroth.is-a.dev/post/cuda-on-nixos-without-sacrificing-ones-sanity/
   };
 }

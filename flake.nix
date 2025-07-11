@@ -19,7 +19,10 @@
     };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/ee930f9755f58096ac6e8ca94a1887e0534e2d81";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/08f22084e6085d19bcfb4be30d1ca76ecb96fe54";
+    # works
+    # nixpkgs.url = "github:nixos/nixpkgs/ee930f9755f58096ac6e8ca94a1887e0534e2d81";
 
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 

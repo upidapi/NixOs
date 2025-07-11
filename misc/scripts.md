@@ -42,6 +42,16 @@ chmod 766 /dev/hidraw4
 # it should not work
 ```
 
+## make temp swap file
+```bash
+truncate -s 0 /swap
+chattr +C /swap
+fallocate -l 64G /swap
+chmod 0600 /swap
+mkswap /swap
+swapon /swap
+```
+
 ## build image
 
 ```bash

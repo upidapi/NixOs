@@ -98,6 +98,8 @@ in {
 
         ".nuget"
 
+        ".config/obsidian"
+
         # technically only this file is needed
         # however bitwarden overrides the symlink
         # ".config/Bitwarden/data.json"

@@ -5,7 +5,7 @@
   inputs,
   ...
 }: let
-  inherit (my_lib.opt) enable;
+  inherit (my_lib.opt) enable enableAnd;
 in {
   system.stateVersion = "23.11";
 
@@ -72,7 +72,11 @@ in {
     */
 
     homelab = {
-      jellyfin = enable;
+      media = enableAnd {
+        jellyfin = enable;
+        jellyseerr = enable;
+        arr = enable;
+      };
       ddclient = enable;
       caddy = enable;
       tofu = enable;

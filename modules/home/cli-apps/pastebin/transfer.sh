@@ -30,6 +30,8 @@ show_help_message() {
   echo "  $0 --pass 'secret phrase' sensitive_data.txt"
 }
 
+# TODO: add a get functionality
+
 downloads=
 expiery="Max-Days: 30"
 

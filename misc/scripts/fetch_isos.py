@@ -86,4 +86,4 @@ def download_iso(version, name):
 
 
 for name in ["minimal", "gnome", "plasma6"]:
-    download_iso("24.11", name)
+    download_iso("25.05", name)

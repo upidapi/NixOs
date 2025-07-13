@@ -12,19 +12,19 @@
   nixosImgConfigs = foldMapSystems mkSystem [
     {
       system = "x86_64-linux";
-      name = "full-installer";
+      name = "full-ce";
       # cant have disko on a usb :)
       disko = false;
     }
     {
       system = "x86_64-linux";
-      name = "minimal-installer";
+      name = "minimal-ce";
       home-manager = false;
       disko = false;
     }
     {
       system = "x86_64-linux";
-      name = "test-installer";
+      name = "test-ce";
       home-manager = false;
       disko = false;
     }

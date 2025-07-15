@@ -81,7 +81,7 @@ in {
           # Allows all users by default. Can be [ "user1" "user2" ]
           # AllowUsers = null;
           PasswordAuthentication = true;
-          PermitRootLogin = "yes";
+          PermitRootLogin = "no";
 
           # Automatically remove stale sockets
           StreamLocalBindUnlink = "yes";
@@ -94,12 +94,13 @@ in {
       };
     };
 
-    # Keep SSH_AUTH_SOCK when sudo'ing
     security.sudo.extraConfig = ''
       Defaults env_keep+=SSH_AUTH_SOCK
     '';
 
-    # add this
+    # Passwordless sudo when SSH'ing with keys
+    security.pam.sshAgentAuth.enable = true;
+
     /*
     # Passwordless sudo when SSH'ing with keys
     security.pam.services.sudo = {config, ...}: {

@@ -13,7 +13,7 @@
 in {
   options.modules.home.misc.stylix = mkEnableOpt "enables stylix";
 
-  imports = [inputs.stylix.homeManagerModules.stylix];
+  imports = [inputs.stylix.homeModules.stylix];
 
   config.stylix = mkIf cfg.enable {
     enable = true;

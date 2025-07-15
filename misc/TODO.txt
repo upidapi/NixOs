@@ -35,11 +35,12 @@ prevent the cursor from showing upp in screenshots
 
 replace all "upidapi" with primaryUser or adminUser
 
+
 Make a secrets.generator option to make it possible to generate secrets if 
 they dont exist
+    this is jsut clan.lol's "vars"
 
-
-make it so that i can deply to my pc without havin to push and pull changes
+send build and deploy logs and info to prometheus
 
 boost audio over 100%
 

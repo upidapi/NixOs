@@ -4,6 +4,7 @@
   inputs,
   lib,
   config,
+  keys,
   # self,
   ...
 }: let
@@ -35,6 +36,11 @@ in {
       serviceConfig.PassEnvironment = "DISPLAY";
       script = lib.getExe install-script;
       wantedBy = ["multi-user.target"]; # starts after login
+    };
+
+    users.users = {
+      root.openssh.authorizedKeys = [keys.upidapi];
+      nixos.openssh.authorizedKeys = [keys.upidapi];
     };
 
     # you cant have this and networking.networkmanager at the same time

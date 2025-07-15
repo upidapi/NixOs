@@ -30,26 +30,22 @@ in {
 
       hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
 
-      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+      openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
 
     debug = {
       isNormalUser = true;
       password = "";
-      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+      openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
 
     debug-1 = {
       isNormalUser = true;
       password = "1";
-      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+      openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
 
-    root = {
-      hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
-
-      openssh.authorizedKeys.keys = [keys.users.admin];
-    };
+    root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
   };
   # force the "correct" res, since one of my displays is smaller
   # otherwise it selects the smaller res

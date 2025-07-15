@@ -12,9 +12,6 @@ in {
   imports = [
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
-    # "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
-
-    # "${self}/modules/nixos/misc/iso.nix"
   ];
 
   config = let

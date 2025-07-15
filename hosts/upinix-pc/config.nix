@@ -15,34 +15,42 @@ in {
     inputs.nixos-hardware.nixosModules.gigabyte-b550
   ];
 
-  users.users.upidapi = {
-    isNormalUser = true;
+  users.users = {
+    upidapi = {
+      isNormalUser = true;
 
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "libvirtd"
-      "adbusers"
-      "docker"
-      "media"
-    ];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "libvirtd"
+        "adbusers"
+        "docker"
+        "media"
+      ];
 
-    hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
+      hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
 
-    openssh.authorizedKeys.keys = [keys.users.upidapi];
+      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+    };
+
+    debug = {
+      isNormalUser = true;
+      password = "";
+      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+    };
+
+    debug-1 = {
+      isNormalUser = true;
+      password = "1";
+      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+    };
+
+    root = {
+      hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
+
+      openssh.authorizedKeys.keys = [keys.users.admin];
+    };
   };
-
-  users.users.debug = {
-    isNormalUser = true;
-
-    extraGroups = [];
-    password = "1";
-
-    openssh.authorizedKeys.keys = [keys.users.upidapi];
-  };
-
-  users.users.root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
-
   # force the "correct" res, since one of my displays is smaller
   # otherwise it selects the smaller res
   systemd.services.console-fbset = {

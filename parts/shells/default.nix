@@ -60,11 +60,11 @@
         ];
       };
 
-      kattis = pkgs.mkShell {
-        packages = [
-          self'.packages.problem-tools
-        ];
-      };
+      # kattis = pkgs.mkShell {
+      #   packages = [
+      #     self'.packages.problem-tools
+      #   ];
+      # };
 
       fhs =
         (pkgs.buildFHSEnv

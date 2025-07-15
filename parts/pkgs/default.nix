@@ -8,7 +8,12 @@
   }: {
     packages = let
       # currently broken
-      ignore = ["tuxedo-drivers" "tuxedo-keyboard"]; # broken and unused
+      ignore = [
+        "problem-tools"
+        # broken and unused
+        "tuxedo-drivers"
+        "tuxedo-keyboard"
+      ];
 
       inherit (builtins) readDir;
 

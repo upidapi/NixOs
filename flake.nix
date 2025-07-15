@@ -35,6 +35,11 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # nixpkgs-23-05.url = "github:NixOS/nixpkgs/release-23.05";
     # tuxedo-nixos = {
     #   url = "github:sylvesterroos/tuxedo-nixos";
@@ -109,7 +114,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     mnw.url = "github:Gerg-L/mnw";
 
@@ -125,6 +133,7 @@
 
     pwndbg = {
       url = "github:pwndbg/pwndbg";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # plugin-neorg-interim-ls = {

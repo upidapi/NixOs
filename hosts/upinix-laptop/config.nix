@@ -30,44 +30,42 @@ in {
     }
   ];
 
-  users.users.upidapi = {
-    isNormalUser = true;
+  users.users = {
+    upidapi = {
+      isNormalUser = true;
 
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "libvirtd"
-      "adbusers"
-      "docker"
-      "media"
-    ];
-    hashedPassword = "$y$j9T$P.ANM.hAc1bqSR7fJWfkZ.$vUxY3KyPB65PR3uTBKwYCa7u6LvUquy47SeAPjgnjD9";
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "libvirtd"
+        "adbusers"
+        "docker"
+        "media"
+      ];
 
-    openssh.authorizedKeys.keys = [keys.users.upidapi];
+      hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
+
+      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+    };
+
+    debug = {
+      isNormalUser = true;
+      password = "";
+      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+    };
+
+    debug-1 = {
+      isNormalUser = true;
+      password = "1";
+      openssh.authorizedKeys.keys = [keys.users.upidapi keys.users.admin];
+    };
+
+    root = {
+      hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
+
+      openssh.authorizedKeys.keys = [keys.users.admin];
+    };
   };
-
-  users.users.debug = {
-    isNormalUser = true;
-
-    extraGroups = [];
-    password = "1";
-
-    openssh.authorizedKeys.keys = [keys.users.upidapi];
-  };
-  # users.users.tes = {
-  #   isNormalUser = true;
-  #   description = "upidapi";
-  #
-  #   extraGroups = [
-  #     "wheel"
-  #   ];
-  #   password = "1";
-  #
-  #   openssh.authorizedKeys.keys = [keys.users.upidapi];
-  # };
-
-  users.users.root.hashedPassword = "$y$j9T$9xMPUcZ6FDsmUAHnIlyk80$8bJB3zlzCf3VsqAfpxaJ9qBhLiDq3syabSj1n/xUH41";
-
   # optimise for battery
   #     green: efficiency
   #     purple: balanced

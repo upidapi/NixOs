@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./args.nix
+    ./deploy.nix
     ./install
     ./isos
     ./pkgs

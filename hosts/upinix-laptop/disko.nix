@@ -21,15 +21,13 @@
               mountpoint = "/boot";
             };
           };
-          /*
-             swap = {
-            size = "4G";
+          swap = {
+            size = "64G";
             content = {
               type = "swap";
               resumeDevice = true;
             };
           };
-          */
           root = {
             name = "root";
             size = "100%";

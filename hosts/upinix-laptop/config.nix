@@ -23,12 +23,12 @@ in {
     supportedFilesystems.zfs = lib.mkForce false;
   };
 
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 64 * 1024; # 64 GB
-    }
-  ];
+  # swapDevices = [
+  #   {
+  #     device = "/swapfile";
+  #     size = 64 * 1024; # 64 GB
+  #   }
+  # ];
 
   users.users = {
     upidapi = {

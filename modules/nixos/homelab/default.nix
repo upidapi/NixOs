@@ -1,10 +1,11 @@
 {
   imports = [
     ./tofu
-    ./caddy
+    ./caddy.nix
     ./authelia.nix
     ./ddclient.nix
     ./media
     ./transfer-sh
+    ./homepage.nix
   ];
 }

@@ -14,13 +14,27 @@
 - syncthing
 
 ## vpn 
-- wireGuard
+- wireGuard 
+- nebula
+- pihole
+
+##
+- Graphana
+- homepage
+- Excalidraw
+- Obsidian 
+- 
 
 ## SSO 
 - authelia?
 
 ## media
 - jellyfin
+- *arr
 
 ## nix cache
 - https://github.com/nix-community/harmonia
+
+# TODO
+health checks
+

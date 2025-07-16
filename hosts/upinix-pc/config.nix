@@ -86,6 +86,7 @@ in {
       tofu = enable;
       authelia = enable;
       transfer-sh = enable;
+      homepage = enable;
     };
 
     hardware = {

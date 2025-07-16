@@ -39,6 +39,11 @@ in {
           user = "root";
           mode = "700";
         };
+        "/persist/system/var/lib/private".d = {
+          group = "root";
+          user = "root";
+          mode = "700";
+        };
       };
     };
   };

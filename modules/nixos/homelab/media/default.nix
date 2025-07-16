@@ -13,6 +13,9 @@
 in {
   options.modules.nixos.homelab.media = mkEnableOpt "";
 
+  # NOTE: port forward with ssh
+  #  ssh -L 8192:localhost:8191 ssh.upidapi.dev -N
+
   # TODO: limit download bitrate (i dont wana 90 GB 1080p)
 
   imports = [
@@ -142,6 +145,54 @@ in {
         group = "media";
         enable = true;
         listenPort = ports.bazarr;
+      };
+      caddy.virtualHosts = {
+        "sonarr.upidapi.dev".extraConfig = ''
+          reverse_proxy localhost:${toString ports.sonarr}
+        '';
+        "radarr".extraConfig = ''
+          reverse_proxy localhost:${toString ports.radarr}
+        '';
+        "prowlarr".extraConfig = ''
+          reverse_proxy localhost:${toString ports.prowlarr}
+        '';
+
+        "qbit".extraConfig = ''
+          reverse_proxy localhost:${toString ports.qbit}
+        '';
+        "".extraConfig = ''
+          reverse_proxy localhost:${toString ports.qbit}
+        '';
+
+        "jellyseerr".extraConfig = ''
+          reverse_proxy localhost:${toString ports.jellyseerr}
+        '';
+        "jellyfin.upidapi.dev".extraConfig = ''
+          encode zstd gzip
+
+          header {
+            # Enable HTTP Strict Transport Security (HSTS)
+            Strict-Transport-Security "max-age=31536000;"
+            # Enable cross-site filter (XSS) and tell browser to block detected attacks
+            X-XSS-Protection "1; mode=block"
+            # Disallow the site to be rendered within a frame (clickjacking protection)
+            X-Frame-Options "DENY"
+            # Avoid MIME type sniffing
+            X-Content-Type-Options "nosniff"
+            # Prevent search engines from indexing (optional)
+            X-Robots-Tag "none"
+            # Server name removing
+            -Server
+          }
+
+          @notblacklisted {
+            not {
+              path /metrics*
+            }
+          }
+
+          reverse_proxy @notblacklisted http://localhost:${ports.jellyfin}
+        '';
       };
     };
   };

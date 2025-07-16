@@ -13,6 +13,10 @@ in {
 
   # REF: https://github.com/hugo-berendi/yomi/blob/29a848529e6b2dcb81f6830a1161cc29c38e3c6d/hosts/nixos/inari/services/ddclient.nix
   config = mkIf cfg.enable {
+    # FIXME: (2025-07-16) just like the arr apps, when it requests
+    #  /var/lib/private it might have the 755 perms which it rejects
+    #  i have a tmpfiles rule that should've fixed that but it doesn't
+    #  seam to resolve it. At leas not when restarting the service
     sops.secrets."ddclient-cf-token" = {
       sopsFile = "${self}/secrets/server.yaml";
     };

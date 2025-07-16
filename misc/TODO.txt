@@ -49,6 +49,8 @@ send build and deploy logs and info to prometheus
 boost audio over 100%
 
 security 
+    passwords for ssh keys
+
     nix-mineral 
         general linux hardening
 

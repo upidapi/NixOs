@@ -6,6 +6,6 @@ _: {
   jackett = 9117;
   prowlarr = 9696;
   bazarr = 6767;
-  flaresolverr = 8191;
   qbit = 8080;
+  flaresolverr = 8191;
 }

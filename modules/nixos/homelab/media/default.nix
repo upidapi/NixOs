@@ -148,21 +148,21 @@ in {
       };
       caddy.virtualHosts = {
         "sonarr.upidapi.dev".extraConfig = ''
-          reverse_proxy localhost:${toString ports.sonarr}
+          reverse_proxy :${toString ports.sonarr}
         '';
-        "radarr".extraConfig = ''
-          reverse_proxy localhost:${toString ports.radarr}
+        "radarr.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString ports.radarr}
         '';
-        "prowlarr".extraConfig = ''
-          reverse_proxy localhost:${toString ports.prowlarr}
-        '';
-
-        "qbit".extraConfig = ''
-          reverse_proxy localhost:${toString ports.qbit}
+        "prowlarr.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString ports.prowlarr}
         '';
 
-        "jellyseerr".extraConfig = ''
-          reverse_proxy localhost:${toString ports.jellyseerr}
+        "qbit.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString ports.qbit}
+        '';
+
+        "jellyseerr.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString ports.jellyseerr}
         '';
         "jellyfin.upidapi.dev".extraConfig = ''
           encode zstd gzip
@@ -175,7 +175,7 @@ in {
             }
           }
 
-          reverse_proxy @notblacklisted http://localhost:${toString ports.jellyfin}
+          reverse_proxy @notblacklisted :${toString ports.jellyfin}
         '';
       };
     };

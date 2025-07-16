@@ -32,7 +32,7 @@ in {
         "upidapi.dev".extraConfig = ''
           import harden_headers
 
-          reverse_proxy localhost:${toString ports.homepage}
+          reverse_proxy :${toString ports.homepage}
         '';
       };
 

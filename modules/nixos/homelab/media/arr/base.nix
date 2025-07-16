@@ -189,7 +189,7 @@
           ${curl' "PUT" "/config/host/1" ''
               | json-file-resolve \
                 '$.password' \
-                '$.passwordconfirmation' \
+                '$.passwordConfirmation' \
                 '$.apikey' \
             '' ({
                 id = 1;

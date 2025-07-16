@@ -30,7 +30,7 @@ in {
       };
       caddy.virtualHosts = {
         "paste.upidapi.dev".extraConfig = ''
-          reverse_proxy 127.0.0.1:8484
+          reverse_proxy :8484
         '';
       };
     };

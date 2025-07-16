@@ -16,7 +16,7 @@ in {
   imports = [inputs.stylix.homeModules.stylix];
 
   config.stylix = mkIf cfg.enable {
-    enable = true;
+    enable = false;
 
     targets = {
       # default to no profiles

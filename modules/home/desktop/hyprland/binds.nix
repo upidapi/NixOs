@@ -25,10 +25,6 @@ let
     "$mod ${mods}, K, ${cmd}, u"
     "$mod ${mods}, J, ${cmd}, d"
   ];
-  mkScreenshotBind = let
-    date = ''$(date "+%Y-%m-%-d_%H:%M:%S")'';
-  in
-    core: ''mkdir images; grimblast ${core} "images/${date}.png"'';
 in {
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
@@ -89,7 +85,12 @@ in {
         ",XF86AudioPause${center}play-pause"
       ];
 
-    bind = [
+    bind = let
+      mkScreenshotBind = let
+        date = ''$(date "+%Y-%m-%-d_%H:%M:%S")'';
+      in
+        core: ''mkdir images; grimblast ${core} "images/${date}.png"'';
+    in [
       # old screen shot
       # deps: grim, slurp
       # ", Print, exec, grim -g \"$(slurp -w 0)\" - | wl-copy"

@@ -23,6 +23,7 @@ in {
   #
   # hyprctl output create headless "virtualDisplayName" >/dev/null
   # hyprctl output remove "virtualDisplayName" >/dev/null
+  # Seams to no loger be an issue after https://github.com/NixOS/nixpkgs/pull/424001
 
   imports = [
     # inputs.ags.homeManagerModules.default

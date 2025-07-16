@@ -48,16 +48,22 @@ in {
         settings = {
           title = "upidapi.dev - Yoooo";
 
-          theme = "dark";
-          color = "slate";
+          # theme = "dark";
+          # color = "slate";
           background = {
             image = "https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80";
-            blur = "sm";
-            saturate = 100;
-            brightness = 50;
-            opacity = 100;
+            # blur = "sm";
+            # saturate = 100;
+            # brightness = 50;
+            # opacity = 100;
           };
           # cardBlur = "sm";
+
+          theme = "dark";
+          # color = "slate";
+          target = "_blank"; # open in new tab
+          statusStyle = "dot";
+          cardBlur = "xs";
 
           layout = {
             Media = {
@@ -164,7 +170,7 @@ in {
               {
                 "Paste Bin" = {
                   icon = "hastypaste.svg";
-                  href = "paste.upidapi.dev";
+                  href = "http://paste.upidapi.dev";
                   description = "A private paste bin";
                 };
               }

@@ -437,7 +437,7 @@ class Part:
         full_cmd = f'''
             ret=$(nixos-rebuild switch \
                 --flake .#{profile} \
-                --use-remote-sudo \
+                --sudo \
                 {"--show-trace" * bool(args["--trace"])}
             )
             {PRINT_DATA_HEADER}

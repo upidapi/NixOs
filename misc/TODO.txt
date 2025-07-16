@@ -16,6 +16,10 @@ nix
     Index the nixos server for better searching
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
+save the commit info in the gen
+    system.nixos.label / NIXOS_LABEL.
+    https://www.reddit.com/r/NixOS/comments/w1jqd3/ive_made_some_changes_to_etcconfigurationnix/
+
 Virtulisation
     Gpu passthrugh 
         https://discord.com/channels/568306982717751326/1257693396173328468/1257701485568065557

@@ -13,8 +13,10 @@ in {
           sshUser = "upidapi";
           user = "root";
 
-          sudo = "sudo -S -u";
-          interactiveSudo = true;
+          # sudo = "sudo -S -u";
+          # interactiveSudo = true;
+
+          sshOpts = ["-A"]; # pass the auth sock for authentication
 
           path = dLib.activate.nixos self.nixosConfigurations.upinix-pc;
         };

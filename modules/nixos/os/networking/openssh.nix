@@ -65,6 +65,8 @@ in {
           keys.machines
         )
       );
+
+      startAgent = true;
     };
 
     services = {
@@ -81,7 +83,7 @@ in {
           # Allows all users by default. Can be [ "user1" "user2" ]
           # AllowUsers = null;
           PasswordAuthentication = true;
-          PermitRootLogin = "no";
+          PermitRootLogin = "yes";
 
           # Automatically remove stale sockets
           StreamLocalBindUnlink = "yes";
@@ -94,12 +96,25 @@ in {
       };
     };
 
-    security.sudo.extraConfig = ''
-      Defaults env_keep+=SSH_AUTH_SOCK
-    '';
+    # security.sudo.extraConfig = ''
+    #   Defaults env_keep+=SSH_AUTH_SOCK
+    # '';
 
+    # common mistakes
+    #   https://github.com/NixOS/nixpkgs/issues/20088
+    #   have you added your keys:
+    #     ssh-add -L
+    #     ssh-add .ssh/id_ed25519
+    #   use ssh -
+    #   check that you have the SSH_AUTH_SOCK on remote
+    #     sudo printenv | grep SSH
+
+    # REF:https://github.com/jkachmar/termina/blob/e9c587bb201f34331f4ff089d291a96d8832f199/modules/nixos/security/ssh-agent.nix#L11
     # Passwordless sudo when SSH'ing with keys
-    security.pam.sshAgentAuth.enable = true;
+    security.pam = {
+      sshAgentAuth.enable = true;
+      services.sudo.sshAgentAuth = true;
+    };
 
     /*
     # Passwordless sudo when SSH'ing with keys

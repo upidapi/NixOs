@@ -32,6 +32,7 @@ in {
         spotify = enable;
         keepassxc = enable;
         # vscode = enable; # broken
+        obsidian = enable;
         ghidra = enable;
       };
 

@@ -1,14 +1,15 @@
 {
   imports = [
-    ./firefox
-    ./r2modman.nix
-    ./discord
-    ./bitwarden.nix
-    ./kitty.nix
     ./alacritty.nix
-    ./spotify.nix
-    ./keepassxc
-    ./vscode.nix
+    ./bitwarden.nix
+    ./discord
+    ./firefox
     ./ghidra
+    ./keepassxc
+    ./kitty.nix
+    ./obsidian.nix
+    ./r2modman.nix
+    ./spotify.nix
+    ./vscode.nix
   ];
 }

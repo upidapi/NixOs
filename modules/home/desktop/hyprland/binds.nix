@@ -89,7 +89,11 @@ in {
       mkScreenshotBind = let
         date = ''$(date "+%Y-%m-%-d_%H:%M:%S")'';
       in
-        core: ''mkdir images; grimblast ${core} "images/${date}.png"'';
+        # If we dont export that grimblast tries to create a new headless
+        # display to take the image on for some reason.
+        # That breaks ags and messes upp the display.
+        # Disabling it seams to have no effect on the image
+        core: ''mkdir images; GRIMBLAST_HIDE_CURSOR=1 grimblast ${core} "images/${date}.png"'';
     in [
       # old screen shot
       # deps: grim, slurp

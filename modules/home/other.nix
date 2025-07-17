@@ -70,7 +70,8 @@ in {
         vlc
 
         # view/edit images
-        gimp
+        # https://github.com/NixOS/nixpkgs/pull/425710
+        # BROKEN: gimp
 
         # flash card program
         anki

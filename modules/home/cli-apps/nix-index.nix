@@ -12,7 +12,7 @@ in {
   options.modules.home.cli-apps.nix-index =
     mkEnableOpt "enables nix-index / nix-locate that can be used to find files in the store";
 
-  imports = [inputs.nix-index-db.hmModules.nix-index];
+  imports = [inputs.nix-index-db.homeModules.nix-index];
 
   config = mkIf cfg.enable {
     programs = {

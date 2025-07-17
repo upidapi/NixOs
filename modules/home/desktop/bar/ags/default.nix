@@ -17,13 +17,10 @@ in {
   # is this stil an issue?
   # breaks on suspend, the hyprland ref is null (only sometimes)
 
-  # FIXME: breaks wen grimblast is run
-  #  to be specific the monitor list becomes empty when the following is run
-  #  https://github.com/Aylur/astal/issues/350
-  #
+  # Breaks when this is run
+  # Previously grimblast ran that but i removed that part
   # hyprctl output create headless "virtualDisplayName" >/dev/null
   # hyprctl output remove "virtualDisplayName" >/dev/null
-  # Seams to no loger be an issue after https://github.com/NixOS/nixpkgs/pull/424001
 
   imports = [
     # inputs.ags.homeManagerModules.default

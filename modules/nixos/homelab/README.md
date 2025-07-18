@@ -14,7 +14,7 @@
 - syncthing
 
 ## vpn 
-- wireGuard 
+- wireGuard / tailscale
 - nebula
 - pihole
 
@@ -23,7 +23,6 @@
 - homepage
 - Excalidraw
 - Obsidian 
-- 
 
 ## SSO 
 - authelia?

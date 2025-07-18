@@ -164,16 +164,12 @@ local function keywords_to_aliases(keywords)
     -- categories included
     local search_words = {}
     for _, keyword in ipairs(keywords) do
-        local names = {
-            keyword,
-            -- aliases
-            table.unpack(options.keywords[keyword].alt or {}),
-        }
+        local names = options.keywords[keyword].alt or {}
 
-        if names then
-            for i = 1, #names do
-                table.insert(search_words, names[i])
-            end
+        table.insert(search_words, keyword)
+
+        for i = 1, #names do
+            table.insert(search_words, names[i])
         end
     end
 
@@ -194,6 +190,11 @@ local function aliases_to_keywords(aliases)
 end
 
 local function catagory_search(args)
+    -- require("lua.utils.logger").log(options)
+    -- require("lua.utils.logger").log(args)
+    -- require("lua.utils.logger").log(
+    --     next(args.fargs) == nil and default_cat or vim.split(args.fargs[1], " ")
+    -- )
     local search_words = keywords_to_aliases(
         aliases_to_keywords(
             next(args.fargs) == nil and default_cat
@@ -201,15 +202,12 @@ local function catagory_search(args)
         )
     )
 
+    -- require("lua.utils.logger").log(search_words)
+
     local cmd = "TodoTelescope keywords=" .. table.concat(search_words, ",")
-    -- vim.fn.setreg("+", x)
-    -- print(x)
+    -- require("lua.utils.logger").log(cmd)
 
     vim.cmd(cmd)
-
-    -- vim.cmd(
-    --     "TodoTelescope"
-    -- )
 end
 
 vim.api.nvim_create_user_command("TodoTelescopeCat", catagory_search, {

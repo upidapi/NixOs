@@ -4,6 +4,7 @@
   my_lib,
   ports,
   self,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -25,6 +26,8 @@ in {
       HOMEPAGE_VAR_PROWLARR_KEY=${config.sops.placeholder."prowlarr/api-key"}
     '';
 
+    # needed for homepage dashboard ping
+    systemd.services.homepage-dashboard.path = [pkgs.unixtools.ping];
     services = {
       caddy.virtualHosts = {
         # "upidapi.dev".extraConfig = ''
@@ -46,24 +49,21 @@ in {
         openFirewall = false;
         allowedHosts = "upidapi.dev";
         settings = {
-          title = "upidapi.dev - Yoooo";
+          title = "upidapi.dev";
+          description = " ";
 
-          # theme = "dark";
-          # color = "slate";
-          background = {
-            image = "https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80";
-            # blur = "sm";
-            # saturate = 100;
-            # brightness = 50;
-            # opacity = 100;
-          };
-          # cardBlur = "sm";
+          background = "https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80";
 
           theme = "dark";
-          # color = "slate";
-          target = "_blank"; # open in new tab
-          statusStyle = "dot";
+          color = "slate";
           cardBlur = "xs";
+
+          disableUpdateCheck = true;
+          hideVersion = true;
+
+          target = "_blank"; # open in new tab
+
+          statusStyle = "dot";
 
           layout = {
             Media = {
@@ -83,9 +83,6 @@ in {
             };
           };
 
-          # headerStyle = "boxedWidgets";
-          # target = "_self";
-
           # quicklaunch = {
           #   searchDescription = true;
           #   hideInternetSearch = true;
@@ -94,22 +91,40 @@ in {
           # };
         };
         widgets = [
+          {
+            datetime = {
+              locale = "se";
+              format = {
+                timeStyle = "short";
+                dateStyle = "short";
+              };
+            };
+          }
+          {
+            resources = {
+              cpu = true;
+              memory = true;
+              disk = "/";
+            };
+          }
         ];
         services = [
           {
             Media = [
               {
-                Jellyfin = {
+                Jellyfin = rec {
                   icon = "jellyfin";
-                  href = "https://jellyfin.upidapi.dev";
                   description = "Media Server";
+                  href = "https://jellyfin.upidapi.dev";
+                  ping = href;
                 };
               }
               {
-                Jellyseerr = {
+                Jellyseerr = rec {
                   icon = "jellyseerr";
-                  href = "https://jellyseerr.upidapi.dev";
                   description = "Request Media Service";
+                  href = "https://jellyseerr.upidapi.dev";
+                  ping = href;
                 };
               }
             ];
@@ -117,9 +132,10 @@ in {
           {
             "Media Managment" = [
               {
-                Sonarr = {
+                Sonarr = rec {
                   icon = "sonarr.svg";
                   href = "http://sonarr.upidapi.dev";
+                  ping = href;
                   widget = {
                     type = "sonarr";
                     url = "http://localhost:${toString ports.sonarr}";
@@ -129,9 +145,10 @@ in {
                 };
               }
               {
-                Radarr = {
+                Radarr = rec {
                   icon = "radarr.svg";
                   href = "http://radarr.upidapi.dev";
+                  ping = href;
                   widget = {
                     type = "radarr";
                     url = "http://localhost:${toString ports.radarr}";
@@ -141,9 +158,10 @@ in {
                 };
               }
               {
-                Prowlarr = {
+                Prowlarr = rec {
                   icon = "prowlarr.svg";
                   href = "http://prowlarr.upidapi.dev";
+                  ping = href;
                   widget = {
                     type = "prowlarr";
                     url = "http://localhost:${toString ports.prowlarr}";
@@ -152,9 +170,10 @@ in {
                 };
               }
               {
-                qBittorrent = {
+                qBittorrent = rec {
                   icon = "qbittorrent.svg";
                   href = "http://qbit.upidapi.dev";
+                  ping = href;
                   widget = {
                     type = "qbittorrent";
                     url = "http://localhost:${toString ports.qbit}";
@@ -168,10 +187,11 @@ in {
           {
             Misc = [
               {
-                "Paste Bin" = {
+                "Paste Bin" = rec {
                   icon = "hastypaste.svg";
-                  href = "http://paste.upidapi.dev";
                   description = "A private paste bin";
+                  href = "http://paste.upidapi.dev";
+                  ping = href;
                 };
               }
             ];

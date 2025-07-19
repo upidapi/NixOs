@@ -19,7 +19,7 @@ in {
           Z = {
             user = "root";
             group = "wheel";
-            mode = "0664";
+            mode = "0775";
           };
         };
       };

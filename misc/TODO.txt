@@ -4,6 +4,8 @@ nix
         
         or maybe just nix-super?
 
+    https://snix.dev/blog/announcing-snix/
+
     switch to tvix when possible
 
     use nixos-render-docs to create docs for this repo 
@@ -28,8 +30,6 @@ Virtulisation
     
     scripts to auto setup vm
 
-    
-    
 SWAP space
     nice for huge builds (cuda)
     otherwise the computer no workie

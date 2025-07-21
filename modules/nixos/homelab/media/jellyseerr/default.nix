@@ -145,7 +145,7 @@ in {
             name = "radarr";
             port = ports.radarr;
             preventSearch = false;
-            syncEnabled = false;
+            syncEnabled = true;
             tagRequests = false;
             tags = [];
             useSsl = false;
@@ -166,7 +166,7 @@ in {
             name = "sonarr";
             port = ports.sonarr;
             preventSearch = false;
-            syncEnabled = false;
+            syncEnabled = true;
             tagRequests = false;
             tags = [];
             useSsl = false;

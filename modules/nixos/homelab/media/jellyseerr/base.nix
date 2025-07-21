@@ -301,6 +301,8 @@ in {
         ${lib.getExe cfg.package} &
         jellyfin_pid=$!
 
+        sleep 3
+
         echo "Creating base jellyfin admin user"
         # https://github.com/fallenbagel/jellyseerr/blob/b83367cbf2e0470cc1ad4eed8ec6eafaafafdbad/server/routes/auth.ts#L226
         ${curl "POST" "/auth/jellyfin" ''
@@ -374,7 +376,7 @@ in {
 
             user_id="${builtins.hashString "md5" user.name}"
 
-            psw="${nullEmpty user.password}";
+            psw="${nullEmpty user.password}"
             psw_file="$CREDENTIALS_DIRECTORY/psw_file_$user_id"
 
             if [ -z "$psw" ] && [ -f "$psw_file" ]; then

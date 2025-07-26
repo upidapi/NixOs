@@ -77,10 +77,20 @@ in {
       };
       extraSettings = {
         jellyfin = {
+          name = "upinix-laptop";
           apiKey = config.sops.placeholder."jellyfin/jellyseerr-api-key";
-          externalHostname = "";
+
           ip = "127.0.0.1"; # or url
+          port = ports.jellyfin;
+
+          useSsl = false;
+          urlBase = "";
+          externalHostname = "https://jellyfin.upidapi.dev";
           jellyfinForgotPasswordUrl = "";
+
+          # I don't think this is needed
+          # serverId = "cd69c8b59e5b482eacf8ea3ff8c7f5ff";
+
           libraries = [
             {
               enabled = true;
@@ -95,12 +105,6 @@ in {
               type = "show";
             }
           ];
-          name = "upinix-laptop";
-          port = ports.jellyfin;
-          # I don't think this is needed
-          # serverId = "cd69c8b59e5b482eacf8ea3ff8c7f5ff";
-          urlBase = "";
-          useSsl = false;
         };
         main = {
           apiKey = config.sops.placeholder."jellyseerr/api-key";

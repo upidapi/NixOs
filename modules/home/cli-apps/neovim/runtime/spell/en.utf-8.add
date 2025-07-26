@@ -385,3 +385,4 @@ powershell
 authelia
 templater
 jellyseerr
+shellcheck

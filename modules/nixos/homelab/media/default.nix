@@ -23,6 +23,7 @@ in {
     ./jellyseerr
     ./user-options.nix
     ./jellyfin.nix
+    ./qbit
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3
@@ -74,69 +75,6 @@ in {
         # openFirewall = true;
       };
       # module from https://github.com/undefined-landmark/nixpkgs/blob/default-serverConfig/nixos/modules/services/torrent/qbittorrent.nix
-      qbittorrent = {
-        enable = true;
-        group = "media";
-        package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
-        serverConfig = {
-          LegalNotice.Accepted = true;
-          BitTorrent.Session = {
-            DefaultSavePath = "/media/torrents";
-            # TempPath = "/media/torrents/tmp";
-          };
-          Preferences.WebUI = {
-            Port = ports.qbit;
-            Username = "admin";
-
-            # Use this to generate the password hash
-            /*
-            #!/usr/bin/env nix-shell
-            #!nix-shell -i real-interpreter -p openssl -p xxd
-
-            set -euo pipefail
-
-            SALT_BYTES=16
-            KEY_LEN_BYTES=64
-            ITERATIONS=100000
-            DIGEST_ALGO="SHA512"
-
-            get_hashed_password () {
-              PASSWORD="$1"
-
-              SALT_HEX=$(
-                openssl rand "$SALT_BYTES" \
-                | xxd -p -c 256 \
-                | tr -d '\n'
-              )
-
-              SALT_B64=$(
-                echo -n "$SALT_HEX" \
-                | xxd -r -p \
-                | base64 \
-                | tr -d '\n='
-              )
-
-              DERIVED_KEY_B64=$(openssl kdf \
-                  -keylen "$KEY_LEN_BYTES" \
-                  -kdfopt digest:"$DIGEST_ALGO" \
-                  -kdfopt pass:"$PASSWORD" \
-                  -kdfopt hexsalt:"$SALT_HEX" \
-                  -kdfopt iter:"$ITERATIONS" \
-                  -binary \
-                  PBKDF2 \
-                  | base64 \
-                  | tr -d '\n=')
-
-
-              echo "${SALT_B64}==:${DERIVED_KEY_B64}=="
-            }
-
-            get_hashed_password "your secret password"
-            */
-            Password_PBKDF2 = "@ByteArray(TZ2O65dP76xf7p9U8tC4mg==:rEf5zTudNuXk7f8gjPjdZaigeFgRkxK1Gvn/YM4BOb3uHInTOTHJI1BS1pzdBHWrbwM0TG0ehFFRodb/DNp2Kw==)";
-          };
-        };
-      };
       jackett = {
         enable = true;
         port = ports.jackett;

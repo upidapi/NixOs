@@ -80,6 +80,7 @@ in {
         jellyfin = enable;
         jellyseerr = enable;
         arr = enable;
+        qbit = enable;
       };
       ddclient = enable;
       caddy = enable;

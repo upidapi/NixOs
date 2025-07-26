@@ -42,6 +42,7 @@ in {
       # REF: https://github.com/Cody-W-Tucker/nix-config/blob/804d2e768ceb469e020a42cfb0318c3171bd1c93/modules/server/homepage-dashboard.nix#L16
       # REF: https://github.com/wi11-holdsworth/dots/blob/499755444a6a5c7f0883355430461c45d34cdee2/modules/nixos/features/homepage-dashboard.nix#L25
 
+      # TODO: maybe add syncting
       homepage-dashboard = {
         enable = true;
         environmentFile = config.sops.templates."homepage-env".path;

@@ -69,6 +69,7 @@
     enableNaming ? false,
     namingDefault ? {},
     enableRootFolders ? false,
+    enableQuality ? false,
     enableMediaManagement ? false,
     enableIndexers ? false,
     enableIndexerProxies ? false,
@@ -109,6 +110,61 @@
           (t: tm.${t})
           (d.tags or []);
       };
+
+    qualityDefaults = builtins.fromJSON (builtins.readFile ./quality-${serviceName}.json);
+
+    quality = lib.map (quality: let
+      q = quality.bitrate;
+
+      d =
+        lib.findFirst
+        (qu: qu.title == quality.name)
+        (lib.throw "the quality \"${q.name}\" does not exist")
+        qualityDefaults;
+      # # nf = a: b: if a == null || b == null then null else lib.min a b;
+      # nmin = a: b:
+      #   if a == null
+      #   then b
+      #   else if b == null
+      #   then a
+      #   else lib.min a b;
+      # nmax = a: b:
+      #   if a == null || b == null
+      #   then null
+      #   else lib.max a b;
+      #
+      # clamp = lMin: c: lMax: da:
+      #   da
+      #   // {
+      #     ${c} =
+      #       nmin
+      #       (nmax (lib.foldl nmax lMin) da.${c})
+      #       (lib.foldl nmin lMax);
+      #   };
+      #
+      # res =
+      #   lib.pipe {
+      #     min = q.min null;
+      #     preferred = q.preferred or null;
+      #     max = q.max or null;
+      #   } [
+      #     (clamp ["min"] "preferred" ["max"])
+      #     (clamp [] "min" ["preferred" "max"])
+      #     (clamp ["min" "preferred"] "max" [])
+      #   ];
+    in
+      d
+      // (
+        if q == null
+        then {}
+        else {
+          minSize = q.min;
+          preferredSize = q.preferred;
+          maxSize = q.max;
+          inherit (quality) title;
+        }
+      ))
+    (lib.attrValues s.quality);
 
     # TODO: update based on name instead of recreating all
     #  it get id based on name, then update that id
@@ -227,16 +283,23 @@
               }
               // s.host)}
 
-          ${lib.optionalString enableNaming ''
-            ${curl "PUT" "/config/naming/1" (
+          echo "Configuring quality"
+          ${lib.optionalString enableQuality (
+            curl "PUT" "/qualitydefinition/update" quality
+          )}
+
+          echo "Configuring naming"
+          ${lib.optionalString enableNaming (
+            curl "PUT" "/config/naming/1" (
               {id = 1;}
               // namingDefault
               // s.naming
-            )}
-          ''}
+            )
+          )}
 
-          ${lib.optionalString enableMediaManagement ''
-            ${curl "PUT" "/config/mediamanagement/1" ({
+          echo "Configuring media management"
+          ${lib.optionalString enableMediaManagement (
+            curl "PUT" "/config/mediamanagement/1" ({
                 id = 1;
                 autoUnmonitorPreviouslyDownloadedEpisodes = false;
 
@@ -267,8 +330,8 @@
                 useScriptImport = false;
                 scriptImportPath = "";
               }
-              // s.mediaManagement)}
-          ''}
+              // s.mediaManagement)
+          )}
 
           delete-one () {
             ${curl "DELETE" "/$1/$2" {}} #
@@ -374,6 +437,7 @@
               ++ lib.optional enableRootFolders "rootFolders"
               ++ lib.optional enableNaming "naming"
               ++ lib.optional enableMediaManagement "mediaManagement"
+              ++ lib.optional enableQuality "quality"
               ++ lib.optional enableIndexers "indexers"
               ++ lib.optional enableIndexers "indexerProxies"
               ++ lib.optional enableApplications "applications"
@@ -405,6 +469,39 @@
 
                 '';
                 default = {};
+              };
+              quality = mkOption {
+                type = types.attrsOf (types.submodule ({name, ...}: {
+                  options = {
+                    name = mkOption {
+                      type = types.enum (map (q: q.title) qualityDefaults);
+                      default = name;
+                    };
+                    title = mkOption {
+                      type = types.str;
+                      default = name;
+                    };
+                    bitrate = mkOption {
+                      description = ''
+                        Messured in MB/min (Megabytes Per Minute). Set to null
+                        for unlimited.
+                      '';
+                      type = types.nullOr (types.submodule {
+                        options = {
+                          min = mkOption {
+                            type = types.int;
+                          };
+                          preferred = mkOption {
+                            type = types.nullOr types.int;
+                          };
+                          max = mkOption {
+                            type = types.nullOr types.int;
+                          };
+                        };
+                      });
+                    };
+                  };
+                }));
               };
               mediaManagement = mkOption {
                 type = types.attrs;
@@ -455,9 +552,32 @@
     };
 
     config = lib.mkIf cfg.enable {
+      assertions =
+        lib.mapAttrsToList (
+          _: co: let
+            c = co.bitrate;
+          in {
+            assertion =
+              if c == null
+              then true
+              else let
+                nmax = a: b:
+                  if a == null || b == null
+                  then null
+                  else lib.max a b;
+                isInc = a: b: nmax a b == b;
+              in
+                (isInc c.min c.preferred)
+                && (isInc c.preferred c.max);
+            message = "bitrate for ${co.name}; min, prefered, max, must be in non decreasing order";
+          }
+        )
+        cfg.extraSettings.quality or {};
+
       systemd.services.${serviceName} = {
         after = ["qbittorrent.service"];
         serviceConfig = {
+          # User = serviceName;
           ExecStart = lib.mkForce "${lib.getExe init-script}";
         };
       };
@@ -487,6 +607,7 @@ in {
       };
       enableRootFolders = true;
       enableMediaManagement = true;
+      enableQuality = true;
     })
 
     (mkArrConfig {
@@ -502,6 +623,7 @@ in {
       };
       enableRootFolders = true;
       enableMediaManagement = true;
+      enableQuality = true;
     })
 
     (mkArrConfig {

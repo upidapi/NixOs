@@ -259,6 +259,34 @@ in {
               };
             };
           };
+
+          quality = {
+            WEBRip-1080p.bitrate = {
+              min = 0;
+              preferred = 50; # ~2.9 GB/h
+              max = 100;
+            };
+            WEBDL-1080p.bitrate = {
+              min = 0;
+              preferred = 50;
+              max = 100;
+            };
+            HDTV-1080p.bitrate = {
+              min = 0;
+              preferred = 50;
+              max = 100;
+            };
+            Bluray-1080p.bitrate = {
+              min = 0;
+              preferred = 50;
+              max = 100;
+            };
+            Remux-1080p.bitrate = {
+              min = 0;
+              preferred = 50;
+              max = 100;
+            };
+          };
         };
       };
       sonarr = {
@@ -290,6 +318,34 @@ in {
                 password = config.sops.secrets."qbit/password_sonarr".path;
                 sequentialOrder = true;
               };
+            };
+          };
+
+          quality = {
+            HDTV-1080p.bitrate = {
+              min = 4;
+              preferred = 50;
+              max = 100;
+            };
+            WEBRip-1080p.bitrate = {
+              min = 4;
+              preferred = 50;
+              max = 100;
+            };
+            WEBDL-1080p.bitrate = {
+              min = 4;
+              preferred = 50;
+              max = 100;
+            };
+            Bluray-1080p.bitrate = {
+              min = 4;
+              preferred = 50;
+              max = 100;
+            };
+            "Bluray-1080p Remux".bitrate = {
+              min = 4;
+              preferred = 50;
+              max = 150;
             };
           };
         };

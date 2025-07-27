@@ -137,43 +137,57 @@ in {
         public = {initialized = true;};
         radarr = [
           {
-            activeDirectory = "/media/movies";
-            activeProfileId = 1;
-            activeProfileName = "Any";
-            apiKey = config.sops.placeholder."radarr/api-key";
-            hostname = "127.0.0.1";
             id = 0;
+            name = "radarr";
+            apiKey = config.sops.placeholder."radarr/api-key";
+
+            hostname = "127.0.0.1";
+            port = ports.radarr;
+
+            externalUrl = "https://radarr.upidapi.dev";
+            useSsl = false;
+
             is4k = false;
             isDefault = true;
-            minimumAvailability = "released";
-            name = "radarr";
-            port = ports.radarr;
-            preventSearch = false;
+
             syncEnabled = true;
-            tagRequests = false;
+            preventSearch = false;
+            minimumAvailability = "released";
+
             tags = [];
-            useSsl = false;
+            tagRequests = false;
+
+            activeDirectory = "/media/movies";
+            activeProfileId = 4;
+            activeProfileName = "HD-1080p";
           }
         ];
         sonarr = [
           {
-            activeDirectory = "/media/tv";
-            activeProfileId = 1;
-            activeProfileName = "Any";
-            animeTags = [];
-            apiKey = config.sops.placeholder."sonarr/api-key";
-            enableSeasonFolders = true;
-            hostname = "127.0.0.1";
             id = 0;
+            name = "sonarr";
+            apiKey = config.sops.placeholder."sonarr/api-key";
+
+            hostname = "127.0.0.1";
+            port = ports.sonarr;
+
+            externalUrl = "https://sonarr.upidapi.dev";
+            useSsl = false;
+
             is4k = false;
             isDefault = true;
-            name = "sonarr";
-            port = ports.sonarr;
-            preventSearch = false;
+
             syncEnabled = true;
-            tagRequests = false;
+            preventSearch = false;
+            enableSeasonFolders = true;
+
             tags = [];
-            useSsl = false;
+            animeTags = [];
+            tagRequests = false;
+
+            activeDirectory = "/media/tv";
+            activeProfileId = 4;
+            activeProfileName = "HD-1080p";
           }
         ];
         tautulli = {};

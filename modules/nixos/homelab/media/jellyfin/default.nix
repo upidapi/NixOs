@@ -69,17 +69,25 @@ in {
 
     sops.secrets =
       {
-      }
-      // lib.mapAttrs (_: x: (x
-        // {
+        "jellyfin/jellyseerr-api-key" = {
           owner = config.services.jellyfin.user;
           sopsFile = "${self}/secrets/server.yaml";
-        })) {
-        "jellyfin/users/admin/passwordHash" = {};
-        "jellyfin/users/admin/password" = {};
-        "jellyfin/jellyseerr-api-key" = {};
-      };
-
+        };
+      }
+      // lib.pipe ["admin" "smiley" "mari" "pablo" "cave" "tv" "guest"] [
+        (lib.concatMap (u: [
+          "jellyfin/users/${u}/password"
+          "jellyfin/users/${u}/passwordHash"
+        ]))
+        (lib.map (s: {
+          name = s;
+          value = {
+            owner = config.services.jellyfin.user;
+            sopsFile = "${self}/secrets/server.yaml";
+          };
+        }))
+        lib.listToAttrs
+      ];
     systemd.services.jellyfin.serviceConfig.SupplementaryGroups = [
       # Access to /dev/dri
       "render"
@@ -103,14 +111,50 @@ in {
           internalHttpPort = ports.jellyfin;
           publicHttpPort = ports.jellyfin;
         };
-        users = {
+        users = let 
+          pswHash = user: config.sops.secrets."jellyfin/users/${user}/passwordHash".path;
+        in {
           admin = {
             mutable = false;
             permissions = {
               isAdministrator = true;
             };
-            hashedPasswordFile = config.sops.secrets."jellyfin/users/admin/passwordHash".path;
+            loginAttemptsBeforeLockout = -1;
+            hashedPasswordFile = pswHash "admin";
           };
+          smiley = {
+            mutable = false;
+            loginAttemptsBeforeLockout = -1;
+            hashedPasswordFile = pswHash "smiley";
+          };
+          mari = {
+            mutable = false;
+            loginAttemptsBeforeLockout = -1;
+            hashedPasswordFile = pswHash "mari";
+          };
+          pablo = {
+            mutable = false;
+            loginAttemptsBeforeLockout = -1;
+            hashedPasswordFile = pswHash "pablo";
+          };
+          cave = {
+            mutable = false;
+            loginAttemptsBeforeLockout = -1;
+            maxParentalAgeRating = 17;
+            hashedPasswordFile = pswHash "cave";
+          };
+          tv = {
+            mutable = false;
+            loginAttemptsBeforeLockout = -1;
+            maxParentalAgeRating = 13;
+            hashedPasswordFile = pswHash "tv";
+          };
+          guest = {
+            mutable = false;
+            loginAttemptsBeforeLockout = -1;
+            hashedPasswordFile = pswHash "guest";
+          };
+
           # "gags5" = {
           #   permissions.enableAllFolders = false;
           #   preferences.enabledLibraries = [ "Movies" "Shows" ];

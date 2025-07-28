@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (my_lib.opt) mkEnableOpt enable enableAnd;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.other;
 in {
@@ -26,6 +26,11 @@ in {
     environment.systemPackages = [
       pkgs.adwaita-icon-theme
     ];
+
+
+    services.mullvad-vpn = enableAnd {
+      package = pkgs.mullvad-vpn;
+    };
 
     # fixes
     # (arr-init)[42900]: Directory "/var/lib/private" already exists, but has mode 0755 that is too permissive (0700 was requested), refusing.

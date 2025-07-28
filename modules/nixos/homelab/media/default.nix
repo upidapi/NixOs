@@ -22,7 +22,7 @@ in {
     ./arr
     ./jellyseerr
     ./user-options.nix
-    ./jellyfin.nix
+    ./jellyfin
     ./qbit
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923

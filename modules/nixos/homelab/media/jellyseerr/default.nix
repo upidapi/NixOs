@@ -2,10 +2,11 @@
   config,
   lib,
   my_lib,
-  ports,
+  const,
   self,
   ...
 }: let
+  inherit (const) ports ips;
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.jellyseerr;
@@ -141,7 +142,7 @@ in {
             name = "radarr";
             apiKey = config.sops.placeholder."radarr/api-key";
 
-            hostname = "127.0.0.1";
+            hostname = ips.mullvad;
             port = ports.radarr;
 
             externalUrl = "https://radarr.upidapi.dev";
@@ -168,7 +169,7 @@ in {
             name = "sonarr";
             apiKey = config.sops.placeholder."sonarr/api-key";
 
-            hostname = "127.0.0.1";
+            hostname = ips.mullvad;
             port = ports.sonarr;
 
             externalUrl = "https://sonarr.upidapi.dev";

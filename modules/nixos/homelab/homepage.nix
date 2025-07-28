@@ -2,11 +2,12 @@
   config,
   lib,
   my_lib,
-  ports,
+  const,
   self,
   pkgs,
   ...
 }: let
+  inherit (const) ports ips;
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.nixos.homelab.homepage;
@@ -139,7 +140,7 @@ in {
                   ping = href;
                   widget = {
                     type = "sonarr";
-                    url = "http://localhost:${toString ports.sonarr}";
+                    url = "http://${ips.mullvad}:${toString ports.sonarr}";
                     key = "{{HOMEPAGE_VAR_SONARR_KEY}}";
                     # enableQueue = true;
                   };
@@ -152,7 +153,7 @@ in {
                   ping = href;
                   widget = {
                     type = "radarr";
-                    url = "http://localhost:${toString ports.radarr}";
+                    url = "http://${ips.mullvad}:${toString ports.radarr}";
                     key = "{{HOMEPAGE_VAR_RADARR_KEY}}";
                     # enableQueue = true;
                   };
@@ -177,7 +178,7 @@ in {
                   ping = href;
                   widget = {
                     type = "qbittorrent";
-                    url = "http://localhost:${toString ports.qbit}";
+                    url = "http://${ips.mullvad}:${toString ports.qbit}";
                     username = "admin";
                     password = "{{HOMEPAGE_VAR_QBIT_PSW}}";
                   };

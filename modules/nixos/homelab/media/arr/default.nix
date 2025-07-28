@@ -2,11 +2,11 @@
   config,
   lib,
   my_lib,
-  ports,
+  const,
   self,
-  pkgs,
   ...
 }: let
+  inherit (const) ports ips;
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt enableAnd;
   cfg = config.modules.nixos.homelab.media.arr;
@@ -159,6 +159,7 @@ in {
               implementation = "QBittorrent";
               fields = {
                 port = ports.qbit;
+                host = ips.mullvad;
                 username = "admin";
                 password = config.sops.secrets."qbit/password_prowlarr".path;
                 sequentialOrder = true;
@@ -252,7 +253,7 @@ in {
         settings = {
           # update.mechanism = "internal";
           server = {
-            # urlbase = "localhost";
+            # urlbase = ips.mullvad;
             port = ports.radarr;
             # bindaddress = "*";
           };
@@ -269,6 +270,7 @@ in {
               implementation = "QBittorrent";
               fields = {
                 port = ports.qbit;
+                host = ips.mullvad;
                 username = "admin";
                 password = config.sops.secrets."qbit/password_radarr".path;
                 sequentialOrder = true;
@@ -313,7 +315,7 @@ in {
         settings = {
           # update.mechanism = "internal";
           server = {
-            # urlbase = "localhost";
+            # urlbase = ips.mullvad;
             port = ports.sonarr;
             # bindaddress = "*";
           };
@@ -330,6 +332,7 @@ in {
               implementation = "QBittorrent";
               fields = {
                 port = ports.qbit;
+                host = ips.mullvad;
                 username = "admin";
                 password = config.sops.secrets."qbit/password_sonarr".path;
                 sequentialOrder = true;

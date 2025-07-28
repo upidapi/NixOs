@@ -4,9 +4,10 @@
   my_lib,
   inputs,
   pkgs,
-  ports,
+  const,
   ...
 }: let
+  inherit (const) ports;
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt enableAnd;
   cfg = config.modules.nixos.homelab.media.qbit;

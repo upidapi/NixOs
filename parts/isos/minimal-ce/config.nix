@@ -4,10 +4,10 @@
   inputs,
   lib,
   config,
-  keys,
-  # self,
+  const,
   ...
 }: let
+  inherit (const) keys;
   inherit (my_lib.opt) enable;
 in {
   imports = [

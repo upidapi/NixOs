@@ -5,10 +5,11 @@
   inputs,
   lib,
   self,
-  keys,
+  const,
   ...
 }: let
   inherit (my_lib.opt) enable;
+  inherit (const) keys;
 in {
   imports = [
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"

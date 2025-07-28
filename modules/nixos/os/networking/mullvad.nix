@@ -3,11 +3,12 @@
   lib,
   my_lib,
   pkgs,
-  ports,
+  const,
   self,
   inputs,
   ...
 }: let
+  inherit (const) ports ips;
   inherit (lib) mkIf types;
   inherit (my_lib.opt) mkEnableOpt enableAnd;
   cfg = config.modules.nixos.os.networking.mullvad;
@@ -42,7 +43,7 @@ in {
         enable = true;
         wireguardConfigFile = config.sops.secrets.mullvad-wg.path;
         # The address at which the confined services will be accessible.
-        namespaceAddress = "192.168.15.1";
+        namespaceAddress = ips.mullvad;
         accessibleFrom = [
           "192.168.0.0/16"
           "10.0.0.0/8"

@@ -164,8 +164,7 @@ host_dir: {
           inherit inputs inputs' self self';
 
           my_lib = (import ./../lib) args;
-          keys = (import ./../keys.nix) args;
-          ports = (import ./../ports.nix) args;
+          const = (import ./../const.nix) args;
         };
       in
         inputs.nixpkgs.lib.nixosSystem {

@@ -2,12 +2,13 @@
   config,
   lib,
   my_lib,
-  ports,
+  const,
   pkgs,
   inputs,
   self,
   ...
 }: let
+  inherit (const) ports;
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.jellyfin;

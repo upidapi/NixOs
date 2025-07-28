@@ -2,11 +2,12 @@
   osConfig,
   config,
   lib,
-  keys,
+  const,
   my_lib,
   pkgs,
   ...
 }: let
+  inherit (const) keys;
   inherit (lib) mkIf;
   inherit (my_lib.opt) mkEnableOpt enable;
   cfg = config.modules.home.cli-apps.git;

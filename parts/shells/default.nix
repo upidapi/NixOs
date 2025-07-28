@@ -37,7 +37,7 @@
         packages = [
           (pkgs.writeShellScriptBin "sops-edit" ''
             SOPS_AGE_KEY_FILE=/persist/sops-nix-key.txt
-            path="$NIXOS_CONFIG_PATH/secrets/$1.yaml"
+            path="$NIXOS_CONFIG_PATH/secrets/$1"
             echo $path
 
             sudo --preserve-env sops $path

@@ -4,5 +4,6 @@
     ./iphone-tethering.nix
     ./openssh.nix
     ./wifi
+    ./mullvad.nix
   ];
 }

@@ -25,13 +25,13 @@ creation_rules:
   #   key_groups:
   #    - age:
 
-  # contains everything that is needed to setup all systems
+  # secrets to bootstrap all systems and or maintinace
   - path_regex: secrets/infra.yaml$
     key_groups:
       - age:
           - *admin
 
-  # thins that all host should have accsess to
+  # things that all host should have access to
   - path_regex: secrets/shared.yaml$
     key_groups:
       - age:
@@ -50,7 +50,16 @@ creation_rules:
           - *upinix-pc
           - *upinix-laptop
 
-  # host secrets (eg host syncthing, however this shoud not actually be on a host level)
+  # wg file for mullvad vpn
+  - path_regex: secrets/mullvad-wg$
+    key_groups:
+      - age:
+          - *admin
+
+          - *upinix-pc
+          - *upinix-laptop
+
+  # host secrets (eg host syncthing, however this should Not actually be on a host level)
   - path_regex: secrets/hosts/upinix-pc.yaml$
     key_groups:
       - age:

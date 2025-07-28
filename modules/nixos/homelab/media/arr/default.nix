@@ -4,10 +4,11 @@
   my_lib,
   ports,
   self,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt enableAnd;
   cfg = config.modules.nixos.homelab.media.arr;
 in {
   options.modules.nixos.homelab.media.arr = mkEnableOpt "";
@@ -117,6 +118,21 @@ in {
       "prowlarr-env".content = ''
         PROWLARR__AUTH__APIKEY=${config.sops.placeholder."prowlarr/api-key"}
       '';
+    };
+
+    systemd.services = {
+      # check if connected
+      # sonarr.serviceConfig.ExecStartPre = pkgs.writeScript "test" ''
+      #   #!/bin/sh
+      #   ${pkgs.curl}/bin/curl https://am.i.mullvad.net/connected
+      # '';
+
+      sonarr.vpnConfinement = enableAnd {
+        vpnNamespace = "mullvad";
+      };
+      radarr.vpnConfinement = enableAnd {
+        vpnNamespace = "mullvad";
+      };
     };
 
     services = {

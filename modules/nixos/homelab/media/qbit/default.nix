@@ -8,12 +8,16 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (my_lib.opt) mkEnableOpt enableAnd;
   cfg = config.modules.nixos.homelab.media.qbit;
 in {
   options.modules.nixos.homelab.media.qbit = mkEnableOpt "";
 
   config = mkIf cfg.enable {
+    systemd.services.qbittorrent.vpnConfinement = enableAnd {
+      vpnNamespace = "mullvad";
+    };
+
     services.qbittorrent = {
       enable = true;
       group = "media";

@@ -1138,7 +1138,8 @@
         "qbit": "qbit",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "vpn-confinement": "vpn-confinement"
       }
     },
     "rust-analyzer-src": {
@@ -1479,6 +1480,21 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "vpn-confinement": {
+      "locked": {
+        "lastModified": 1749672087,
+        "narHash": "sha256-j8LG0s0QcvNkZZLcItl78lvTZemvsScir0dG3Ii4B1c=",
+        "owner": "Maroka-chan",
+        "repo": "VPN-Confinement",
+        "rev": "880b3bd2c864dce4f6afc79f6580ca699294c011",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Maroka-chan",
+        "repo": "VPN-Confinement",
         "type": "github"
       }
     },

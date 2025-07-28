@@ -90,6 +90,8 @@ in {
       homepage = enable;
     };
 
+    os.networking.mullvad.createNamespace = true;
+
     hardware = {
       cpu.amd = enable;
       gpu.nvidia = enable;

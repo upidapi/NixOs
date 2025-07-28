@@ -27,7 +27,6 @@ in {
       pkgs.adwaita-icon-theme
     ];
 
-
     services.mullvad-vpn = enableAnd {
       package = pkgs.mullvad-vpn;
     };

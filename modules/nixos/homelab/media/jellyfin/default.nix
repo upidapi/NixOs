@@ -111,7 +111,7 @@ in {
           internalHttpPort = ports.jellyfin;
           publicHttpPort = ports.jellyfin;
         };
-        users = let 
+        users = let
           pswHash = user: config.sops.secrets."jellyfin/users/${user}/passwordHash".path;
         in {
           admin = {

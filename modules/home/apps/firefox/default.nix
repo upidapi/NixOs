@@ -255,8 +255,8 @@ in {
               };
               "NixOS Wiki" = {
                 definedAliases = ["@nw" "@nixwiki"];
-                urls = [{template = "https://nixos.wiki/index.php?search={searchTerms}";}];
-                icon = "https://nixos.wiki/favicon.png";
+                urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
+                icon = "https://wiki.nixos.org/favicon.ico";
                 updateInterval = 24 * 60 * 60 * 1000;
               };
 

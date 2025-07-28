@@ -63,7 +63,7 @@ in {
     wantedBy = ["multi-user.target"];
     # environment = { TERM = "linux"; };
   };
-  
+
   modules.nixos = {
     suites.all = enable;
     /*

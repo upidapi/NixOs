@@ -127,12 +127,13 @@ in {
       #   ${pkgs.curl}/bin/curl https://am.i.mullvad.net/connected
       # '';
 
-      sonarr.vpnConfinement = enableAnd {
-        vpnNamespace = "mullvad";
-      };
-      radarr.vpnConfinement = enableAnd {
-        vpnNamespace = "mullvad";
-      };
+      # Sonarr / Radarr should not be behind vpn
+      # sonarr.vpnConfinement = enableAnd {
+      #   vpnNamespace = "mullvad";
+      # };
+      # radarr.vpnConfinement = enableAnd {
+      #   vpnNamespace = "mullvad";
+      # };
     };
 
     services = {

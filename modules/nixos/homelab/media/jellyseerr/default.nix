@@ -142,7 +142,7 @@ in {
             name = "radarr";
             apiKey = config.sops.placeholder."radarr/api-key";
 
-            hostname = ips.mullvad;
+            # hostname = ips.mullvad;
             port = ports.radarr;
 
             externalUrl = "https://radarr.upidapi.dev";
@@ -169,7 +169,7 @@ in {
             name = "sonarr";
             apiKey = config.sops.placeholder."sonarr/api-key";
 
-            hostname = ips.mullvad;
+            # hostname = ips.mullvad;
             port = ports.sonarr;
 
             externalUrl = "https://sonarr.upidapi.dev";

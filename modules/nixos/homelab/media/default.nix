@@ -86,10 +86,10 @@ in {
       };
       caddy.virtualHosts = {
         "sonarr.upidapi.dev".extraConfig = ''
-          reverse_proxy ${ips.mullvad}:${toString ports.sonarr}
+          reverse_proxy :${toString ports.sonarr}
         '';
         "radarr.upidapi.dev".extraConfig = ''
-          reverse_proxy ${ips.mullvad}:${toString ports.radarr}
+          reverse_proxy :${toString ports.radarr}
         '';
         "prowlarr.upidapi.dev".extraConfig = ''
           reverse_proxy :${toString ports.prowlarr}

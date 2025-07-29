@@ -140,7 +140,7 @@ in {
                   ping = href;
                   widget = {
                     type = "sonarr";
-                    url = "http://${ips.mullvad}:${toString ports.sonarr}";
+                    url = "http://localhost:${toString ports.sonarr}";
                     key = "{{HOMEPAGE_VAR_SONARR_KEY}}";
                     # enableQueue = true;
                   };
@@ -153,7 +153,7 @@ in {
                   ping = href;
                   widget = {
                     type = "radarr";
-                    url = "http://${ips.mullvad}:${toString ports.radarr}";
+                    url = "http://localhost:${toString ports.radarr}";
                     key = "{{HOMEPAGE_VAR_RADARR_KEY}}";
                     # enableQueue = true;
                   };

@@ -16,8 +16,6 @@ in {
   # NOTE: port forward with ssh
   #  ssh -L 8192:localhost:8191 ssh.upidapi.dev -N
 
-  # TODO: limit download bitrate (i dont wana 90 GB 1080p)
-
   imports = [
     ./arr
     ./jellyseerr
@@ -29,10 +27,6 @@ in {
     # https://github.com/fsnkty/nixpkgs/pull/3
     "${inputs.qbit}/nixos/modules/services/torrent/qbittorrent.nix"
   ];
-
-  # TODO: maybe don't change group of things
-  #  instead of adding everything shared into media
-  #  eg add the sonarr group to the jellyfin user
 
   # NOTE: if the jellyfin data is removed after jellyseerr is setup you
   #  get a bunch of errors (eg missing id)

@@ -22,8 +22,6 @@ in {
       allowedUDPPorts = [443];
     };
 
-    # TODO: add a page with liks to everything hosted on upidapi.dev at "upidapi.dev"
-
     # authelia - probably not worth it
     # nebula - maybe a bad idea
 

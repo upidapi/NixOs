@@ -16,7 +16,7 @@ in {
     home.packages = [
       (pkgs.writeShellScriptBin "cn-phone" ''
         PAGER=cat nmcli device wifi list --rescan yes
-        nmcli device wifi connect upi-phone
+        nmcli device wifi connect "Vides iphone"
       '')
     ];
   };

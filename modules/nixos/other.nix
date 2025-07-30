@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable enableAnd;
+  inherit (my_lib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.other;
 in {

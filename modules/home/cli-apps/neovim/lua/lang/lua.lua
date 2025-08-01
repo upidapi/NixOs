@@ -70,5 +70,5 @@ dap.adapters.nlua = function(callback, config)
     })
 end
 
--- TODO: setup a lua debugger
+-- could setup a lua debugger
 --  https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#local-lua-debugger-vscode

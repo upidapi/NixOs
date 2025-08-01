@@ -9,26 +9,60 @@ require("lspconfig").nixd.setup({
                 command = { "alejandra" },
             },
             options = {
-                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48
                 --
+
+                -- REF: https://kokada.dev/blog/make-nixd-module-completion-to-work-anywhere-with-flakes/
                 nixos = {
                     expr = [[
-                        with builtins;
-                          rec {
-                            getFirst = x: head (attrValues x);
-
-                            flake = getFlake (getEnv "NIXOS_CONFIG_PATH");
-
-                            nixos = getFirst flake.nixosConfigurations;
-
-                            hm = getFirst nixos.config.home-manager.users;
-                          }
-                          .nixos
-                          .options
+                        (
+                          let
+                            pkgs = import <nixpkgs> { };
+                          in
+                          (pkgs.lib.evalModules {
+                            modules = (import <nixpkgs/nixos/modules/module-list.nix>) ++ [
+                              ({ ... }: { nixpkgs.hostPlatform = builtins.currentSystem; })
+                            ];
+                          })
+                        ).options
                     ]],
                 },
 
-                -- FIXME: currently you get the nixos options in hm
+                -- FIXME: seams to only work with nixos modules
+                --   may be because im using hm as a nixos module
+                -- home_manager = {
+                --     expr = [[
+                --         (
+                --           let
+                --             pkgs = import "${inputs.nixpkgs}" { };
+                --             lib = import "${inputs.home-manager}/modules/lib/stdlib-extended.nix" pkgs.lib;
+                --           in
+                --           (lib.evalModules {
+                --             modules = (import "${inputs.home-manager}/modules/modules.nix") {
+                --               inherit lib pkgs;
+                --               check = false;
+                --             };
+                --           })
+                --         ).options
+                --     ]],
+                -- },
+
+                -- REF: https://github.com/EmergentMind/nix-config/blob/dev/home/ta/common/core/nixvim/plugins/lspconfig.nix#L48
+                -- nixos = {
+                --     expr = [[
+                --         with builtins;
+                --           rec {
+                --             getFirst = x: head (attrValues x);
+                --
+                --             flake = getFlake (getEnv "NIXOS_CONFIG_PATH");
+                --
+                --             nixos = getFirst flake.nixosConfigurations;
+                --
+                --             hm = getFirst nixos.config.home-manager.users;
+                --           }
+                --           .nixos
+                --           .options
+                --     ]],
+                -- },
                 -- home_manager = {
                 --     expr = [[
                 --         with builtins;

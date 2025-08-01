@@ -53,12 +53,10 @@ require("lint").linters.ruff.args = {
     "--no-fix",
     "--output-format",
     "json",
-    "--config",
-    "$NIXOS_CONFIG_PATH/modules/home/cli-apps/neovim/cfg-files/ruff.toml",
+    -- "--config",
+    -- "$NIXOS_CONFIG_PATH/modules/home/cli-apps/neovim/cfg-files/ruff.toml",
     "-",
 }
--- TODO: figure out how to only use the "default" config if ruff
---  doesn't find another config in the project
 
 require("lint").linters_by_ft.python = { "ruff" }
 

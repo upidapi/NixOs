@@ -90,8 +90,9 @@ in {
     "amdgpu.dcdebugmask=0x10"
   ];
 
-  # FIXME: figure out how to prevent the accidental touches of the touchpad
-  #  while typing
+  # figure out how to prevent the accidental touches of the touchpad while
+  # typing
+  # seams to not be an issue anymore, i guess it was a skill issue
 
   modules.nixos = {
     suites.all = enable;

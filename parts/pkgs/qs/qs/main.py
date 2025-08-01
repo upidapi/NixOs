@@ -13,8 +13,6 @@ import string
 import time
 from typing import Literal
 
-# TODO: add a -i flag to use sudo instantly
-#  Otherwise use interactive/remote sudo
 
 try:
     from .parser import parse_sys_args, pp
@@ -291,9 +289,12 @@ class Part:
                 readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules}
             )"
 
-            if [ "$booted" = "$built" ];
-                then echo "1";
-                else echo "0";
+            if [ "$booted" = "$built" ]; then 
+                echo "has changes" 1>&2;
+                exit 1
+            else 
+                echo "no changes";
+                exit 0
             fi
         """).strip() == "0"
         # fmt: on

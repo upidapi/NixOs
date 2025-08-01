@@ -11,28 +11,7 @@
   cfg = config.modules.home.apps.firefox;
 
   firefox-pkgs = inputs.firefox-addons.packages.${pkgs.system};
-
-  extension-settings = import ./extension-settings.nix pkgs lib;
-  config-extension-for = extension-settings {
-    commands = {
-      # set keybind to toggles stylus
-      styleDisableAll = {
-        precedenceList = [
-          {
-            id = firefox-pkgs.stylus;
-            value = {
-              shortcut = "Alt+Shift+W";
-            };
-          }
-        ];
-      };
-    };
-  };
 in {
-  imports = [
-    (config-extension-for ".mozilla/firefox/${config.home.username}")
-  ];
-
   options.modules.home.apps.firefox =
     mkEnableOpt "enables firefox";
 

@@ -43,7 +43,6 @@ in {
       # REF: https://github.com/Cody-W-Tucker/nix-config/blob/804d2e768ceb469e020a42cfb0318c3171bd1c93/modules/server/homepage-dashboard.nix#L16
       # REF: https://github.com/wi11-holdsworth/dots/blob/499755444a6a5c7f0883355430461c45d34cdee2/modules/nixos/features/homepage-dashboard.nix#L25
 
-      # TODO: maybe add syncting
       homepage-dashboard = {
         enable = true;
         environmentFile = config.sops.templates."homepage-env".path;
@@ -79,6 +78,11 @@ in {
               columns = 4;
             };
             "Misc" = {
+              header = true;
+              style = "row";
+              columns = 4;
+            };
+            "Local" = {
               header = true;
               style = "row";
               columns = 4;
@@ -194,6 +198,17 @@ in {
                   description = "A private paste bin";
                   href = "http://paste.upidapi.dev";
                   ping = href;
+                };
+              }
+            ];
+          }
+          {
+            Local = [
+              {
+                "Syncting" = {
+                  icon = "syncthing.svg";
+                  description = "Syncs files between machines";
+                  href = "127.0.0.1:${toString ports.syncthing}";
                 };
               }
             ];

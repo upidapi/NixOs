@@ -167,7 +167,6 @@ in {
       email = mkOption {
         type = types.str;
       };
-      # TODO: assertions
       passwordFile = mkOption {
         type = types.str;
       };

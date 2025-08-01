@@ -65,7 +65,7 @@ local modules = {
     "lua.lang.php",
     "lua.lang.python",
     "lua.lang.rust",
-    "lua.lang.sql",
+    -- "lua.lang.sql", -- disabled since it doesn't really work well
     "lua.lang.terraform",
     "lua.lang.typst",
     "lua.lang.web",

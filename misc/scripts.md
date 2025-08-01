@@ -88,6 +88,19 @@ PAGER=cat nmcli device wifi list --rescan yes; nmcli device wifi connect upi-pho
 cd /; sudo , gdu
 ```
 
+```bash 
+booted="$(readlink /run/booted-system/{initrd,kernel,kernel-modules})"
+built="$(readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})"
+
+if [ "$booted" = "$built" ]; then 
+    echo "has changes" 1>&2;
+    exit 1
+else 
+    echo "no changes" 1>&2;
+    exit 0
+fi
+```
+
 ## format traces
 ```txt
 # replace the folowing with something else

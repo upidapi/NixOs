@@ -13,7 +13,7 @@ in {
   options.modules.nixos.os.networking.openssh =
     mkEnableOpt "enable openssh to allow for remote ssh connections";
 
-  # TODO: setup aliases with domains
+  # could setup aliases with domains if i get more servers
   #  eg ${host-name}.upidapi.com
   config = mkIf cfg.enable {
     programs.ssh = {
@@ -24,7 +24,6 @@ in {
             hostNames = ["github.com"];
             publicKey = "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==";
           };
-
           github-ed25519 = {
             hostNames = ["github.com"];
             publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
@@ -43,22 +42,17 @@ in {
             hostNames = ["git.sr.ht"];
             publicKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZ+l/lvYmaeOAPeijHL8d4794Am0MOvmXPyvHTtrqvgmvCJB8pen/qkQX2S1fgl9VkMGSNxbp7NF7HmKgs5ajTGV9mB5A5zq+161lcp5+f1qmn3Dp1MWKp/AzejWXKW+dwPBd3kkudDBA1fa3uK6g1gK5nLw3qcuv/V4emX9zv3P2ZNlq9XRvBxGY2KzaCyCXVkL48RVTTJJnYbVdRuq8/jQkDRA8lHvGvKI+jqnljmZi2aIrK9OGT2gkCtfyTw2GvNDV6aZ0bEza7nDLU/I+xmByAOO79R1Uk4EYCvSc1WXDZqhiuO2sZRmVxa0pQSBDn1DB3rpvqPYW+UvKB3SOz";
           };
-
           sourcehut-ed25519 = {
             hostNames = ["git.sr.ht"];
             publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMZvRd4EtM7R+IHVMWmDkVU3VLQTSwQDSAvW0t2Tkj60";
           };
-
-          # TODO:
-          # upinix-pc = {
-          #   hostNames = ["git.sr.ht"];
-          # };
         }
         // (
           # Each hosts public key
           mapAttrs
           (hostname: key: {
             publicKey = key;
+            # hostNames = ["${hostname}.upidapi.dev"];
             extraHostNames =
               # Alias self as localhost
               lib.optional (hostname == config.networking.hostName) "localhost";

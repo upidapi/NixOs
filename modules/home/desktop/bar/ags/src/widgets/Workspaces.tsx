@@ -13,14 +13,10 @@ export default function Workspaces({ monitor_id }: { monitor_id: number }) {
       [
         bind(hyprland, "monitors"),
         bind(hyprland, "workspaces"),
-        // is here to force updates when changing workspace
-        // otherwise, for some reason the "current workspace"
-        // sometimes lacks behind
         bind(hyprland, "focusedWorkspace"),
       ],
       (monitors, workspaces) => {
         if (monitors.length == 0) {
-          // FIXME: .monitors becomes empty after using grimblast area
           throw new Error("nope")
         }
         print(`monitor_id: ${monitor_id}`);

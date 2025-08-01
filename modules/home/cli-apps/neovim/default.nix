@@ -25,10 +25,11 @@ in {
   # or as a env
   # >>> nix develop /persist/nixos#mnw -c bash -c "nvim file.txt; exit"
 
-  # TODO: change the fzf provider for telescope find files / grep
-
   config = mkIf cfg.enable {
-    home.sessionVariables = {EDITOR = "nvim";};
+    home = {
+      sessionVariables = {EDITOR = "nvim";};
+      file.".config/ruff/pyproject.toml" = {source = ./cfg-files/ruff.toml;};
+    };
 
     programs.mnw = {
       enable = true;

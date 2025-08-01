@@ -3,6 +3,7 @@
   my_lib,
   lib,
   pkgs,
+  self,
   ...
 }: let
   inherit (my_lib.opt) mkEnableOpt enable;
@@ -15,6 +16,10 @@ in {
   config = mkIf cfg.enable {
     # for bios updates
     services.fwupd = enable;
+
+    # save the commit info in the gen
+    # REF: https://www.reddit.com/r/NixOS/comments/w1jqd3/ive_made_some_changes_to_etcconfigurationnix/
+    system.configurationRevision = lib.mkIf (self ? rev) self.rev;
 
     # TODO: remove, see https://github.com/NixOS/nixpkgs/issues/404663
     nixpkgs.config.permittedInsecurePackages = [

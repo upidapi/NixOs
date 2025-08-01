@@ -213,7 +213,7 @@
               ida-free
 
               # crypto
-              # BROKEN: sage
+              # BROKEN sage
 
               (python3.withPackages (
                 python-pkgs:

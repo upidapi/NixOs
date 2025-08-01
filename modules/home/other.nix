@@ -74,7 +74,7 @@ in {
 
         # view/edit images
         # https://github.com/NixOS/nixpkgs/pull/425710
-        # BROKEN: gimp
+        # BROKEN gimp
 
         # flash card program
         anki

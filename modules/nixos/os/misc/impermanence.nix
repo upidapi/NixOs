@@ -140,6 +140,8 @@ in {
         "/var/lib/bazarr"
         "/var/lib/jackett"
 
+        "/var/lib/caddy"
+
         # "/srv/sonarr"
         # "/srv/radarr"
         # "/srv/bazarr"

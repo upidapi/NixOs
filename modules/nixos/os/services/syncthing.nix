@@ -45,34 +45,21 @@ in {
           };
         };
         "/home/upidapi/persist/.stignore" = {
-          f = {
+          w = {
             user = "upidapi";
             group = "users";
             argument = ''
               /local
               /vms
-            '';
-          };
-        };
-        # https://chatgpt.com/c/67d5dbe9-6c6c-800b-ad51-08101c770976
-        "/home/upidapi/persist/prog/.stignore" = {
-          f = {
-            user = "upidapi";
-            group = "users";
-            argument = ''
-              # ignore contens of all first-level folder
-              /*/**
 
-              # keep the first-level folders
-              !/*/
+              // keep contens of /prog/projects, but not contens of subdirs
+              /prog/projects/*/*
+              !/prog/projects/*
 
-              # for projects and ref, keep their immediate subdirectories
-              !/projects/*/
-              !/ref/*/
+              /prog/ref/*/*
+              !/prog/ref/*
 
-              # but not their subfolders contents
-              /projects/*/**
-              /ref/*/**
+              /prog/*/*
             '';
           };
         };

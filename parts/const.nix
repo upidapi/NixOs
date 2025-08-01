@@ -43,6 +43,8 @@ in {
     flaresolverr = 8191;
 
     homepage = 8082;
+
+    syncthing = 8384;
   };
 
   ips = {

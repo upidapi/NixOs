@@ -385,3 +385,4 @@ authelia
 templater
 jellyseerr
 shellcheck
+bindfs

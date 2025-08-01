@@ -28,15 +28,12 @@ in {
     home.persistence."/persist/system/home/${config.home.username}" = {
       directories = [
         # force organisation by only persisting ~/persist
-        # "Downloads"
-        # "Music"
-        # "Pictures"
-        # "Documents"
-        # "Videos"
+        {
+          directory = "persist";
+          method = "symlink";
+          # method = "bindfs";
+        }
 
-        "persist"
-
-        # "VirtualBox VMs"
         ".gnupg"
 
         ".nixops"
@@ -55,9 +52,6 @@ in {
         # save nushell command history
         # ".config/nushell/history.txt"
 
-        # thers probably some better way
-        # i should probably make this more specific
-        # to only save tabs, bookmarks and enabled extensions
         ".mozilla/firefox"
 
         # used to save "initial run" config

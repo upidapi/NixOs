@@ -66,55 +66,38 @@ in {
       };
     };
 
-    # maybe fix the suspend issue?
-    # doesnt seem like it
-    # systemd.services."syncthing" = {
-    #   before = ["suspend.target" "sleep.target" "hibernate.target"];
-    #   after = ["resumed.target"];
-    #   wantedBy = ["suspend.target" "sleep.target" "hibernate.target"];
-    #   serviceConfig = {
-    #     ExecStop = "systemctl stop syncthing.service";
+    # Syncthing prevents suspend during sync
+    #   also affects restic
+
+    # Fixed by not using bindfs to mount the /home/upidapi/persist
+    #   I suspect that the reason for the bug is that the bind mount is
+    #   removed before the systemd service is stopped. Maybe this can be
+    #   avoided but i prefer just not using bindfs since it has significant
+    #   performance costs
+
+    # Reproducible way to cause the bug
+    #   click rescan all (in the web gui)
+    #   >>> systemctl suspend
+
+    # Maybe related to
+    #   https://forum.syncthing.net/t/syncthing-prevents-linux-suspend/12885/6
+
+    # Things that didn't fix it:
+    #
+    #   systemd.services."syncthing" = {
+    #     before = ["suspend.target" "sleep.target" "hibernate.target"];
+    #     after = ["resumed.target"];
+    #     wantedBy = ["suspend.target" "sleep.target" "hibernate.target"];
+    #     serviceConfig = {
+    #       ExecStop = "systemctl stop syncthing.service";
+    #     };
     #   };
-    # };
-
-    # FIXME: Syncthing seems to sometimes syncthing prevents linux suspend
-    #  on laptop lid close
-    #  https://forum.syncthing.net/t/syncthing-prevents-linux-suspend/12885/6
-    #  lid close / systemctl suspend
-
-    # NOTE: currently I've disabled syncthing to avoid this
-
-    # Adding this to the file config should fix it (nope)
-    # "x-systemd.device-timeout=200ms
-
-    # reproducible way to cause the bug
-    #  click rescan all (in the web gui)
-    #  >>> systemctl suspend
-
-    # I think this fixes it (nope)
-    # fileSystems = {
-    #   "/".options = ["x-systemd.device-timeout=200ms"];
-    #   "/persist".options = ["x-systemd.device-timeout=200ms"];
-    # };
-
-    # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/syncthing.nix#L60
-    # REF: https://github.com/tecosaur/golgi/blob/e48d5e47989c0e5e4c36676c2300d2c651948f54/modules/caddy.nix#L9
-    /*
-        services.caddy.virtualHosts."syncthing.localhost" = {
-          #         import ${config.sops.templates.cf-tls.path}
-
-          extraConfig = let
-            addr = toString config.services.syncthing.guiAddress;
-          in ''
-            reverse_proxy ${addr}
-            # tls internal
-            # reverse_proxy ${addr} {
-            #   header_up Host {upstream_hostport}
-            # }
-          '';
-        };
-    e
-    */
+    #
+    #   # Nor adding to all system fuse mounts
+    #   fileSystems = {
+    #     "/".options = ["x-systemd.device-timeout=200ms"];
+    #     "/persist".options = ["x-systemd.device-timeout=200ms"];
+    #   };
 
     services.syncthing = let
       # hostName = config.modules.nixos.meta.host-name;

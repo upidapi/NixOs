@@ -57,6 +57,9 @@ in {
         # search nixpkgs with the terminal
         nix-search-cli
 
+        # faster cpz and rmz
+        fuc
+
         # short tldr for manpages with examples
         tldr
 

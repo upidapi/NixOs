@@ -323,7 +323,6 @@ in {
         };
         extraSettings = {
           host = {
-            # TODO: make these required via assertions
             username = "admin";
             password = config.sops.secrets."sonarr/password".path;
           };

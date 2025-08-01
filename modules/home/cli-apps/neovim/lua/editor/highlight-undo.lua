@@ -1,6 +1,7 @@
--- FIXME: breaks macro paste
--- eg the macro (yiw$p) doesn't do anything when highlight-undo is enabled
--- this macro is also broken ("ayiw$"ap)
+-- NOTE: breaks macro paste
+--  eg the macro (yiw$p) doesn't do anything when highlight-undo is enabled
+--  this macro is also broken ("ayiw$"ap)
+--
 
 ---- highlight undo -------
 -- https://github.com/tzachar/highlight-undo.nvim

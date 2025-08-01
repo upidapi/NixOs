@@ -166,9 +166,10 @@
       ))
     (lib.attrValues s.quality);
 
-    # TODO: update based on name instead of recreating all
-    #  it get id based on name, then update that id
-    #  delete all ids not corresponding to a name
+    # Could in theory update based on name instead of recreating all it get id
+    # based on name, then update that id delete all ids not corresponding to a
+    # name.
+    # But i think that's error prone and non practical
     mapArrReqs' = name: apiPath: cond: data:
       lib.optionalString cond
       # bash

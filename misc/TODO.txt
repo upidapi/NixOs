@@ -1,17 +1,7 @@
 nix 
-    Lix? 
-        eg raf uses it
-        
-        or maybe just nix-super?
-
     https://snix.dev/blog/announcing-snix/
 
-    switch to tvix when possible
-
-    use nixos-render-docs to create docs for this repo 
-
-    automated deployments? 
-        hydra?
+    switch to snix?
 
     possibly change my_lib to lib.c (or smt similar)
 
@@ -30,19 +20,10 @@ Virtulisation
     
     scripts to auto setup vm
 
-SWAP space
-    nice for huge builds (cuda)
-    otherwise the computer no workie
-
 add a no-internet group
     https://askubuntu.com/questions/45072/how-to-control-internet-access-for-each-program
 
 https://github.com/nixops4/
-
-prevent the cursor from showing upp in screenshots
-
-replace all "upidapi" with primaryUser or adminUser
-
 
 Make a secrets.generator option to make it possible to generate secrets if 
 they dont exist
@@ -75,10 +56,3 @@ himachi
     could probably do this with homelab too
 
     or some other manual thing
-
-Investigate --offline mode 
-    it says it "disables substituters and considers all pre downloaded files as
-    up to data"
-
-    Why does it normally check ig files are up to date?
-        that should not be an issue if they are in the store

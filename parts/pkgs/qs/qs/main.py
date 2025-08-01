@@ -13,7 +13,6 @@ import string
 import time
 from typing import Literal
 
-
 try:
     from .parser import parse_sys_args, pp
 except ImportError:
@@ -48,15 +47,17 @@ class Logger:
         cls._log_file.write(clean_string)
         cls._full_log.write(data)
 
+def mk_header(label):
+    return f"u7KFh2c9-{label}-tp7N0hAq"
 
-DATA_HEADER = "u7KFh2c9-data-tp7N0hAq"
+DATA_HEADER = mk_header("data")
 PRINT_DATA_HEADER = f"\necho -n {DATA_HEADER}\n"
 
-CONTENT_HEADER = "u7KFh2c9-content-tp7N0hAq"
+CONTENT_HEADER = mk_header("content")
 PRINT_CONTENT_HEADER = f"\necho -n {CONTENT_HEADER}\n"
 
 
-def color_cmd(cmd: string):
+def color_cmd(cmd: str):
     # note that this encapsulates the sudo,
     # if sudo is called from script, then it wont persist til after
     return (
@@ -67,7 +68,7 @@ def color_cmd(cmd: string):
     )
 
 
-def elevate_cmd(cmd: string):
+def elevate_cmd(cmd: str):
     return f"sudo -- sh -c {shlex.quote(cmd)}"
 
 
@@ -249,12 +250,14 @@ class Helpers:
 
 
 class Part:
+    @staticmethod
     def get_nixos_path():
         flake_profile = os.environ.get("NIXOS_CONFIG_PATH")
         if flake_profile is None:
             raise TypeError("nixos config path not found")
         return flake_profile
 
+    @staticmethod
     def _get_last_profile():
         flake_profile = os.environ.get("FLAKE_PROFILE")
         if flake_profile is None:

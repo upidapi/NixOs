@@ -105,6 +105,12 @@ in {
           };
           */
 
+          # FIXME: Compose doesn't work in older electron apps
+          #  requires ~/.XCompose = ${pkgs.keyd}/share/keyd/keyd.compose
+          #  however that is broken see
+          #    https://github.com/electron/electron/issues/29345
+          #  currently disabled
+
           altgr = {
             "a" = "å";
             "e" = "ä";

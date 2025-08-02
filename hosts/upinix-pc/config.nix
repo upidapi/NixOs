@@ -48,6 +48,10 @@ in {
 
     root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
   };
+
+  # head -c4 /dev/urandom | od -A none -t x4
+  networking.hostId = "4d23fd9d"; # req for zfs
+
   # force the "correct" res, since one of my displays is smaller
   # otherwise it selects the smaller res
   systemd.services.console-fbset = {

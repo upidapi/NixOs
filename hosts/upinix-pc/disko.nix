@@ -24,15 +24,6 @@
                 mountpoint = "/boot";
               };
             };
-            /*
-            swap = {
-              size = "4G";
-              content = {
-                type = "swap";
-                resumeDevice = true;
-              };
-            };
-            */
             root = {
               name = "root";
               size = "100%";
@@ -44,38 +35,38 @@
           };
         };
       };
-      # raid-disk-1 = {
-      #   type = "disk";
-      #   device = "/dev/disk/by-id/ata-ST18000NM003D-3DL103_ZVTAZSKF";
-      #   content = {
-      #     type = "gpt";
-      #     partitions = {
-      #       zfs = {
-      #         size = "100%";
-      #         content = {
-      #           type = "zfs";
-      #           pool = "raidpool";
-      #         };
-      #       };
-      #     };
-      #   };
-      # };
-      # raid-disk-2 = {
-      #   type = "disk";
-      #   device = "/dev/disk/by-id/ata-ST18000NM003D-3DL103_ZVT9SZNJ";
-      #   content = {
-      #     type = "gpt";
-      #     partitions = {
-      #       zfs = {
-      #         size = "100%";
-      #         content = {
-      #           type = "zfs";
-      #           pool = "raidpool";
-      #         };
-      #       };
-      #     };
-      #   };
-      # };
+      raid-disk-1 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-ST18000NM003D-3DL103_ZVTAZSKF";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "raidpool";
+              };
+            };
+          };
+        };
+      };
+      raid-disk-2 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-ST18000NM003D-3DL103_ZVT9SZNJ";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "raidpool";
+              };
+            };
+          };
+        };
+      };
     };
     lvm_vg = {
       root_vg = {
@@ -107,25 +98,25 @@
         };
       };
     };
-    # zpool = {
-    #   raidpool = {
-    #     type = "zpool";
-    #     mode = "raidz";
-    #     rootFsOptions = {
-    #       compression = "zstd";
-    #       "com.sun:auto-snapshot" = "false";
-    #     };
-    #     mountpoint = null;
-    #     postCreateHook = "zfs snapshot raidpool@blank";
-    #
-    #     datasets = {
-    #       raidset = {
-    #         type = "zfs_fs";
-    #         options.mountpoint = "legacy";
-    #         mountpoint = "/raid";
-    #       };
-    #     };
-    #   };
-    # };
+    zpool = {
+      raidpool = {
+        type = "zpool";
+        mode = "raidz";
+        rootFsOptions = {
+          compression = "zstd";
+          "com.sun:auto-snapshot" = "false";
+        };
+        mountpoint = null;
+        postCreateHook = "zfs snapshot raidpool@blank";
+
+        datasets = {
+          raidset = {
+            type = "zfs_fs";
+            options.mountpoint = "legacy";
+            mountpoint = "/raid";
+          };
+        };
+      };
+    };
   };
 }

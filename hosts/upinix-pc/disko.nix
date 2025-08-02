@@ -109,7 +109,7 @@
           compression = "zstd";
           "com.sun:auto-snapshot" = "false";
         };
-        mountpoint = null;
+        mountpoint = null; # Doesn't work? i still have a /raidpool
         postCreateHook = "zfs snapshot raidpool@blank";
 
         datasets = {

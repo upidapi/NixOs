@@ -51,6 +51,8 @@ in {
 
   # head -c4 /dev/urandom | od -A none -t x4
   networking.hostId = "4d23fd9d"; # req for zfs
+  boot.supportedFilesystems = ["zfs"];
+  boot.zfs.forceImportRoot = false;
 
   # force the "correct" res, since one of my displays is smaller
   # otherwise it selects the smaller res

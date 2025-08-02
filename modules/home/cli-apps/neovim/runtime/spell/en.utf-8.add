@@ -388,3 +388,4 @@ shellcheck
 bindfs
 hardcoding
 req
+upgradability

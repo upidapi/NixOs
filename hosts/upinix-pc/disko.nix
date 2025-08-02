@@ -101,7 +101,10 @@
     zpool = {
       raidpool = {
         type = "zpool";
-        mode = "raidz";
+        # if i get another disk
+        # https://marc.khouri.ca/posts/2020/zfs-mirror-to-raidz.html
+        # mode = "raidz";
+        mode = "mirror";
         rootFsOptions = {
           compression = "zstd";
           "com.sun:auto-snapshot" = "false";

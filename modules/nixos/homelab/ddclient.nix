@@ -41,7 +41,7 @@ in {
       password=${config.sops.placeholder.ddclient-cf-token}
       zone=upidapi.dev
       wildcard=yes
-      upidapi.dev, ssh.upidapi.dev, *.upidapi.dev
+      upidapi.dev, ssh.upidapi.dev, vpn.upidapi.dev, *.upidapi.dev
     '';
 
     services.ddclient = {

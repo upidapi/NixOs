@@ -141,6 +141,7 @@ in {
         "/var/lib/jackett"
 
         "/var/lib/caddy"
+        "/var/lib/wg-easy"
 
         # "/srv/sonarr"
         # "/srv/radarr"

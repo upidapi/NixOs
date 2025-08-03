@@ -29,6 +29,13 @@ in {
     ];
   };
 
+  wg = {
+    upinix-pc = "LVylhaaXYXzsm4nLkFocHASj49p+o/AsVL7hGx95jRE=";
+    upinix-laptop = "WtAd0Hs7vRRuJ7mQdpiy4E7Wj4FMUbGuGAhX1jLGM3A=";
+    upi-phone = "iHBW6dH7PYSFbV2QJTx7PoaaDB9YnzRgVjIeTqOU6Ww=";
+    guest = "zWnBubemXYdP+H2MKZgqgKl7n3Izn8UI/LMRrS1bXx8=";
+  };
+
   ports = {
     jellyseerr = 8097;
     jellyfin = 8096;
@@ -41,10 +48,11 @@ in {
 
     qbit = 8080;
     flaresolverr = 8191;
-
     homepage = 8082;
 
     syncthing = 8384;
+    wireguard = 51820;
+    wg-easy = 51821;
   };
 
   ips = {

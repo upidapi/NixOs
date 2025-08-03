@@ -94,10 +94,14 @@ in {
       tofu = enable;
       authelia = enable;
       transfer-sh = enable;
+      wg-easy = enable;
       homepage = enable;
     };
 
-    os.networking.mullvad.createNamespace = true;
+    os.networking = {
+      # wireguard.server = enable;
+      mullvad.createNamespace = true;
+    };
 
     hardware = {
       cpu.amd = enable;

@@ -200,6 +200,14 @@ in {
                   ping = href;
                 };
               }
+              {
+                "Wg Easy" = rec {
+                  icon = "wireguard.svg";
+                  description = "A wireguard admin panel";
+                  href = "http://wg-easy.upidapi.dev";
+                  ping = href;
+                };
+              }
             ];
           }
           {

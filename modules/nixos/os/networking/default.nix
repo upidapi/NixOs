@@ -5,5 +5,6 @@
     ./openssh.nix
     ./wifi
     ./mullvad.nix
+    ./wireguard.nix
   ];
 }

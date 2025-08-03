@@ -10,6 +10,8 @@ https://github.com/misterio77/nix-config
 
 https://github.com/hlissner/dotfiles
 https://github.com/gvolpe/nix-config
+
+https://github.com/paepckehh/nixos
 """
 
 parsed = [x.strip() for x in repos.split("\n") if x.strip() != ""]

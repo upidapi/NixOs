@@ -97,14 +97,15 @@ in {
   modules.nixos = {
     suites.all = enable;
 
-    # homelab = {
+    homelab = {
+      tofu = enable;
     #   transfer-sh = enable;
     #   media = enableAnd {
     #     jellyfin = enable;
     #     jellyseerr = enable;
     #     arr = enable;
     #   };
-    # };
+    };
 
     # os.services.syncthing = disable;
     os.services.syncthing = enable;

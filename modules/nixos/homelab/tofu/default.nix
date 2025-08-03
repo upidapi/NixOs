@@ -14,13 +14,13 @@ in {
   options.modules.nixos.homelab.tofu = mkEnableOpt "";
 
   config = mkIf cfg.enable {
-    sops.secrets."tofu-cloudflare-token" = {
+    sops.secrets."tofu-cf-token" = {
       sopsFile = "${self}/secrets/infra.yaml";
     };
 
     environment.systemPackages = with pkgs; [
       (writeShellScriptBin "tof" ''
-        key_path=${config.sops.secrets."ddclient-cf-token".path}
+        key_path=${config.sops.secrets."tofu-cf-token".path}
         CLOUDFLARE_API_TOKEN=$(cat $key_path) tofu "$@"
       '')
       opentofu

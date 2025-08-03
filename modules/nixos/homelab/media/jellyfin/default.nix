@@ -120,39 +120,39 @@ in {
             permissions = {
               isAdministrator = true;
             };
-            loginAttemptsBeforeLockout = -1;
+            loginAttemptsBeforeLockout = null;
             hashedPasswordFile = pswHash "admin";
           };
           smiley = {
             mutable = false;
-            loginAttemptsBeforeLockout = -1;
+            loginAttemptsBeforeLockout = null;
             hashedPasswordFile = pswHash "smiley";
           };
           mari = {
             mutable = false;
-            loginAttemptsBeforeLockout = -1;
+            loginAttemptsBeforeLockout = null;
             hashedPasswordFile = pswHash "mari";
           };
           pablo = {
             mutable = false;
-            loginAttemptsBeforeLockout = -1;
+            loginAttemptsBeforeLockout = null;
             hashedPasswordFile = pswHash "pablo";
           };
           cave = {
             mutable = false;
-            loginAttemptsBeforeLockout = -1;
+            loginAttemptsBeforeLockout = null;
             maxParentalAgeRating = 17;
             hashedPasswordFile = pswHash "cave";
           };
           tv = {
             mutable = false;
-            loginAttemptsBeforeLockout = -1;
+            loginAttemptsBeforeLockout = null;
             maxParentalAgeRating = 13;
             hashedPasswordFile = pswHash "tv";
           };
           guest = {
             mutable = false;
-            loginAttemptsBeforeLockout = -1;
+            loginAttemptsBeforeLockout = null;
             hashedPasswordFile = pswHash "guest";
           };
 

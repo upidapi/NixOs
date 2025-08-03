@@ -53,7 +53,7 @@
     };
 
     declarative-jellyfin = {
-      url = "github:Sveske-Juice/declarative-jellyfin";
+      url = "github:upidapi/declarative-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -72,8 +72,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # impermanence.url = "github:nix-community/impermanence";
-    impermanence.url = "/persist/impermanence";
+    impermanence.url = "github:nix-community/impermanence";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";

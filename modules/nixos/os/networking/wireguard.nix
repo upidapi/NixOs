@@ -26,6 +26,8 @@
     lib.listToAttrs
   ];
 in {
+  # NOTE: not finished, might work might not, currently using wg-easy
+
   options.modules.nixos.os.networking.wireguard = {
     server = mkEnableOpt "";
     client = mkEnableOpt "";

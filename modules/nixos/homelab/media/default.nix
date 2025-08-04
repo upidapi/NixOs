@@ -17,7 +17,7 @@ in {
   #  ssh -L 8192:localhost:8191 ssh.upidapi.dev -N
 
   imports = [
-    ./arr
+    ./arr.nix
     ./jellyseerr
     ./user-options.nix
     ./jellyfin

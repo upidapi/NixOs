@@ -166,6 +166,23 @@
         "type": "github"
       }
     },
+    "declarative-arr": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1754309429,
+        "narHash": "sha256-/GG/Vr1HmzGMd6ShUVWjxrBV9o4+h0oGjZ38SLksO4w=",
+        "path": "/persist/system/home/upidapi/persist/declarative-arr",
+        "type": "path"
+      },
+      "original": {
+        "path": "/persist/system/home/upidapi/persist/declarative-arr",
+        "type": "path"
+      }
+    },
     "declarative-jellyfin": {
       "inputs": {
         "nixpkgs": [
@@ -1115,6 +1132,7 @@
       "inputs": {
         "ags": "ags",
         "alejandra": "alejandra",
+        "declarative-arr": "declarative-arr",
         "declarative-jellyfin": "declarative-jellyfin",
         "deploy-rs": "deploy-rs",
         "disko": "disko",

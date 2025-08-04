@@ -4,17 +4,18 @@
   my_lib,
   const,
   self,
+  inputs,
   ...
 }: let
   inherit (const) ports ips;
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt enableAnd;
+  inherit (my_lib.opt) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.arr;
 in {
   options.modules.nixos.homelab.media.arr = mkEnableOpt "";
 
   imports = [
-    ./base.nix
+    inputs.declarative-arr.nixosModules.default
   ];
 
   config = mkIf cfg.enable {
@@ -108,18 +109,6 @@ in {
       };
     };
 
-    sops.templates = {
-      "sonarr-env".content = ''
-        SONARR__AUTH__APIKEY=${config.sops.placeholder."sonarr/api-key"}
-      '';
-      "radarr-env".content = ''
-        RADARR__AUTH__APIKEY=${config.sops.placeholder."radarr/api-key"}
-      '';
-      "prowlarr-env".content = ''
-        PROWLARR__AUTH__APIKEY=${config.sops.placeholder."prowlarr/api-key"}
-      '';
-    };
-
     systemd.services = {
       # check if connected
       # sonarr.serviceConfig.ExecStartPre = pkgs.writeScript "test" ''
@@ -139,17 +128,16 @@ in {
     services = {
       prowlarr = {
         enable = true;
-        environmentFiles = [config.sops.templates."prowlarr-env".path];
         apiKeyFile = config.sops.secrets."prowlarr/api-key".path;
         settings = {
           # update.mechanism = "internal";
           server = {
-            urlbase = "localhost";
+            # urlbase = "localhost";
             port = ports.prowlarr;
-            bindaddress = "*";
+            # bindaddress = "*";
           };
         };
-        extraSettings = {
+        guiSettings = {
           host = {
             username = "admin";
             password = config.sops.secrets."prowlarr/password".path;
@@ -249,7 +237,6 @@ in {
       radarr = {
         enable = true;
         group = "media";
-        environmentFiles = [config.sops.templates."radarr-env".path];
         apiKeyFile = config.sops.secrets."radarr/api-key".path;
         settings = {
           # update.mechanism = "internal";
@@ -259,7 +246,7 @@ in {
             # bindaddress = "*";
           };
         };
-        extraSettings = {
+        guiSettings = {
           host = {
             username = "admin";
             password = config.sops.secrets."radarr/password".path;
@@ -308,10 +295,10 @@ in {
           };
         };
       };
+
       sonarr = {
         enable = true;
         group = "media";
-        environmentFiles = [config.sops.templates."sonarr-env".path];
         apiKeyFile = config.sops.secrets."sonarr/api-key".path;
         settings = {
           # update.mechanism = "internal";
@@ -321,7 +308,7 @@ in {
             # bindaddress = "*";
           };
         };
-        extraSettings = {
+        guiSettings = {
           host = {
             username = "admin";
             password = config.sops.secrets."sonarr/password".path;

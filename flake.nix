@@ -52,8 +52,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # TODO: revert back to upsteam
     declarative-jellyfin = {
       url = "github:upidapi/declarative-jellyfin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    declarative-arr = {
+      # url = "github:upidapi/declarative-arr";
+      url = "/persist/system/home/upidapi/persist/declarative-arr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

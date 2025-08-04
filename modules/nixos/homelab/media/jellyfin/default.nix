@@ -93,7 +93,7 @@ in {
       # Access to /dev/dri
       "render"
       "video"
-      # Access to /media
+      # Access to /raid/media
       "media"
     ];
     services = {
@@ -173,7 +173,7 @@ in {
           "Movies" = {
             enabled = true;
             contentType = "movies";
-            pathInfos = ["/media/movies"];
+            pathInfos = ["/raid/media/movies"];
             enableChapterImageExtraction = true;
             extractChapterImagesDuringLibraryScan = true;
             enableTrickplayImageExtraction = true;
@@ -183,7 +183,7 @@ in {
           "Shows" = {
             enabled = true;
             contentType = "tvshows";
-            pathInfos = ["/media/tv"];
+            pathInfos = ["/raid/media/tv"];
             enableChapterImageExtraction = true;
             extractChapterImagesDuringLibraryScan = true;
             enableTrickplayImageExtraction = true;

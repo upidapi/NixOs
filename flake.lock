@@ -173,11 +173,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754304238,
-        "narHash": "sha256-AsMDbymndkMCj4y4FQyKb5IFinNRgpYiwF1YrNzeJ/4=",
+        "lastModified": 1754310166,
+        "narHash": "sha256-/osoW5WQdu6qjR9p0qpJyLvoXId5Q5Q7Zy7QcNFWNvM=",
         "owner": "upidapi",
         "repo": "declarative-arr",
-        "rev": "555c28a097971de9b295c46b05e2e22aa9f3b7b4",
+        "rev": "982741b7451e02f7cbcd083e6c886af63b312814",
         "type": "github"
       },
       "original": {
@@ -195,15 +195,15 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1754261179,
-        "narHash": "sha256-NMLuG8gx/A6hmllsjy+BF1mNAZ/KPZk+tJBhQY6H4bc=",
-        "owner": "upidapi",
+        "lastModified": 1754301064,
+        "narHash": "sha256-R5za/7qmBMI22pW5z9YTCYEUKRIdcXMcd+vf2qWVwVY=",
+        "owner": "Sveske-Juice",
         "repo": "declarative-jellyfin",
-        "rev": "7087f54b3dd7572bae6af1b265f230a993b8cff2",
+        "rev": "454a53c6323aee8f9bc41d3f1139cf908de128c7",
         "type": "github"
       },
       "original": {
-        "owner": "upidapi",
+        "owner": "Sveske-Juice",
         "repo": "declarative-jellyfin",
         "type": "github"
       }

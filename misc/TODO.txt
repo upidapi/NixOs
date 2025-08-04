@@ -10,7 +10,6 @@ Virtulisation
     Gpu passthrugh 
         https://discord.com/channels/568306982717751326/1257693396173328468/1257701485568065557
     
-https://github.com/nixops4/
 
 Make a secrets.generator option to make it possible to generate secrets if 
 they dont exist

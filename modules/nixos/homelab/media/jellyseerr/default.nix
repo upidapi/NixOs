@@ -158,7 +158,7 @@ in {
             tags = [];
             tagRequests = false;
 
-            activeDirectory = "/media/movies";
+            activeDirectory = "/raid/media/movies";
             activeProfileId = 4;
             activeProfileName = "HD-1080p";
           }
@@ -186,7 +186,7 @@ in {
             animeTags = [];
             tagRequests = false;
 
-            activeDirectory = "/media/tv";
+            activeDirectory = "/raid/media/tv";
             activeProfileId = 4;
             activeProfileName = "HD-1080p";
           }

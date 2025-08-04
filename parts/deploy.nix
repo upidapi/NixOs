@@ -5,6 +5,7 @@
 }: let
   dLib = inputs.deploy-rs.lib.x86_64-linux;
 in {
+  # https://github.com/nixops4/
   flake.deploy = {
     nodes = {
       upinix-pc = {

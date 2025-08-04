@@ -19,6 +19,9 @@ in {
       vpnNamespace = "mullvad";
     };
 
+    # TODO: maybe switch to proton vpn since mullvad doesnt support port
+    #  forwarding, needed for good reseeding
+
     services.qbittorrent = {
       enable = true;
       group = "media";
@@ -26,8 +29,28 @@ in {
       serverConfig = {
         LegalNotice.Accepted = true;
         BitTorrent.Session = {
-          DefaultSavePath = "/media/torrents";
-          # TempPath = "/media/torrents/tmp";
+          DefaultSavePath = "/raid/media/torrents";
+          # TempPath = "/raid/media/torrents/tmp";
+        };
+        Session = {
+          Port = 43361; # should be port forewarded
+
+          # disable limits
+          MaxConnections = -1;
+          MaxConnectionsPerTorrent = -1;
+          MaxUploads = -1;
+          MaxUploadsPerTorrent = -1;
+
+          MaxActiveDownloads = 10;
+          MaxActiveTorrents = 50;
+          MaxActiveUploads = 10;
+
+          BTProtocol = "TCP";
+
+          IgnoreLimitsOnLAN = true;
+          IgnoreSlowTorrentsForQueueing = true;
+          SlowTorrentsDownloadRate = 500;
+          SlowTorrentsUploadRate = 500;
         };
         Preferences.WebUI = {
           Port = ports.qbit;

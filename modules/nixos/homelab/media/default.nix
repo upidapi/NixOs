@@ -35,25 +35,25 @@ in {
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
-        "/media".d = {
+        "/raid/media".d = {
           group = "media";
           mode = "751";
         };
-        "/media/torrents".d = {
-          group = "media";
-          user = "qbittorrent";
-          mode = "751";
-        };
-        "/media/torrents".Z = {
+        "/raid/media/torrents".d = {
           group = "media";
           user = "qbittorrent";
           mode = "751";
         };
-        "/media/usenet".d = {
+        "/raid/media/torrents".Z = {
+          group = "media";
+          user = "qbittorrent";
+          mode = "751";
+        };
+        "/raid/media/usenet".d = {
           group = "media";
           mode = "751";
         };
-        "/media/usenet".Z = {
+        "/raid/media/usenet".Z = {
           group = "media";
           mode = "751";
         };

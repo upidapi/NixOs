@@ -52,9 +52,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # TODO: revert back to upsteam
     declarative-jellyfin = {
-      url = "github:upidapi/declarative-jellyfin";
+      # url = "github:upidapi/declarative-jellyfin";
+      url = "github:Sveske-Juice/declarative-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

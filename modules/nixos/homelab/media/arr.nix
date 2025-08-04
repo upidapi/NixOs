@@ -21,27 +21,27 @@ in {
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
-        "/media/movies".d = {
+        "/raid/media/movies".d = {
           group = "media";
           user = "radarr";
           mode = "751";
         };
-        "/media/movies".Z = {
+        "/raid/media/movies".Z = {
           group = "media";
           user = "radarr";
           mode = "751";
         };
-        # "/media/subtitles".d = {
+        # "/raid/media/subtitles".d = {
         #   group = "media";
         #   user = "bazarr";
         #   mode = "751";
         # };
-        "/media/tv".d = {
+        "/raid/media/tv".d = {
           group = "media";
           user = "sonarr";
           mode = "751";
         };
-        "/media/tv".Z = {
+        "/raid/media/tv".Z = {
           group = "media";
           user = "sonarr";
           mode = "751";
@@ -252,7 +252,7 @@ in {
             password = config.sops.secrets."radarr/password".path;
             apiKey = config.sops.secrets."radarr/api-key".path;
           };
-          rootFolders = ["/media/movies"];
+          rootFolders = ["/raid/media/movies"];
           downloadClients = {
             "qBittorrent" = {
               implementation = "QBittorrent";
@@ -313,7 +313,7 @@ in {
             username = "admin";
             password = config.sops.secrets."sonarr/password".path;
           };
-          rootFolders = ["/media/tv"];
+          rootFolders = ["/raid/media/tv"];
           downloadClients = {
             "qBittorrent" = {
               implementation = "QBittorrent";

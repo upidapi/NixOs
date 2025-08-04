@@ -80,6 +80,8 @@ in {
           wifi = enable;
           iphone-tethering = enable;
 
+          misc = enable;
+
           openssh = enable;
           mullvad = enable;
 

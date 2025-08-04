@@ -3,8 +3,6 @@ nix
 
     switch to snix?
 
-    possibly change mlib to lib.c (or smt similar)
-
     Index the nixos server for better searching
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-
 
@@ -12,20 +10,11 @@ Virtulisation
     Gpu passthrugh 
         https://discord.com/channels/568306982717751326/1257693396173328468/1257701485568065557
     
-    scripts to auto setup vm
-
-add a no-internet group
-    https://askubuntu.com/questions/45072/how-to-control-internet-access-for-each-program
-
 https://github.com/nixops4/
 
 Make a secrets.generator option to make it possible to generate secrets if 
 they dont exist
     this is jsut clan.lol's "vars"
-
-send build and deploy logs and info to prometheus
-
-boost audio over 100%
 
 security 
     passwords for ssh keys

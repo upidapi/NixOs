@@ -55,8 +55,12 @@ in {
     bindle = [
       # change volume
       ",XF86AudioMute, exec, pamixer -t"
-      ",XF86AudioRaiseVolume, exec, pamixer -i 5"
-      ",XF86AudioLowerVolume, exec, pamixer -d 5"
+      ",XF86AudioRaiseVolume, exec, pamixer -i 5 --allow-boost --set-limit 200"
+      ",XF86AudioLowerVolume, exec, pamixer -d 5 --allow-boost --set-limit 200"
+
+      "SHIFT, XF86AudioRaiseVolume, exec, pamixer -i 1 --allow-boost --set-limit 200"
+      "SHIFT, XF86AudioLowerVolume, exec, pamixer -d 1 --allow-boost --set-limit 200"
+
       # brigtness
       ",XF86MonBrightnessUp, exec, brightnessctl --exponent=1.9 set 5%+"
       ",XF86MonBrightnessDown, exec, brightnessctl --exponent=1.9 set 5%-"

@@ -28,6 +28,8 @@
 in {
   # NOTE: not finished, might work might not, currently using wg-easy
 
+  # maybe
+  # https://www.privateproxyguide.com/tuning-wireguard-for-ultra-low-latency-connections/
   options.modules.nixos.os.networking.wireguard = {
     server = mkEnableOpt "";
     client = mkEnableOpt "";

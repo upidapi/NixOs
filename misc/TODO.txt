@@ -43,10 +43,3 @@ security
     yubikeys 
 
     secureboot
-
-himachi
-    for fake lan 
-
-    could probably do this with homelab too
-
-    or some other manual thing

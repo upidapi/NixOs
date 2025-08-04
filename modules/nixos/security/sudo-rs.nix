@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt disable;
+  inherit (mlib) mkEnableOpt disable;
   cfg = config.modules.nixos.security.sudo-rs;
 in {
   options.modules.nixos.security.sudo-rs =

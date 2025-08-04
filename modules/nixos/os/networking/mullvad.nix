@@ -10,7 +10,7 @@
 }: let
   inherit (const) ports ips;
   inherit (lib) mkIf types;
-  inherit (mlib.opt) mkEnableOpt enableAnd;
+  inherit (mlib) mkEnableOpt enableAnd;
   cfg = config.modules.nixos.os.networking.mullvad;
 in {
   options.modules.nixos.os.networking.mullvad =

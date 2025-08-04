@@ -9,7 +9,7 @@
 }: let
   inherit (const) ports ips;
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.arr;
 in {
   options.modules.nixos.homelab.media.arr = mkEnableOpt "";

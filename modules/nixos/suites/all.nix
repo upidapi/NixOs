@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt enableAnd;
+  inherit (mlib) mkEnableOpt enableAnd;
   inherit (lib) mkIf mkDefault;
   cfg = config.modules.nixos.suites.all;
   enable = {

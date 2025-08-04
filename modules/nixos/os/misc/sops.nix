@@ -7,7 +7,7 @@
   self,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
   # inherit (lib.attrsets) genAttrs;
   cfg = config.modules.nixos.os.misc.sops;

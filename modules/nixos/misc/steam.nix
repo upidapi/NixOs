@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   cfg = config.modules.nixos.misc.steam;
 in {
   options.modules.nixos.misc.steam = mkEnableOpt "Whether or not to enable Steam.";

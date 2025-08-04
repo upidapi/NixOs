@@ -9,7 +9,7 @@
 }: let
   inherit (const) ports ips;
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.homepage;
 in {
   options.modules.nixos.homelab.homepage = mkEnableOpt "";

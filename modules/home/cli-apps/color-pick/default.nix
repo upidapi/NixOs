@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.cli-apps.color-pick;
 in {
   options.modules.home.cli-apps.color-pick =

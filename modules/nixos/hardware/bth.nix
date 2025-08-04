@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.hardware.bth;
 in {
   options.modules.nixos.hardware.bth =

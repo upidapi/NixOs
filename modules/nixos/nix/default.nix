@@ -5,7 +5,7 @@
   self,
   ...
 }: let
-  inherit (mlib.opt) mkOpt;
+  inherit (mlib) mkOpt;
   inherit (lib) types;
   cfg = config.modules.nixos.nix;
 in {

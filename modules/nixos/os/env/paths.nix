@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.os.env.paths;
 in {
   options.modules.nixos.os.env.paths = mkEnableOpt "enable completions for eg sys pkgs";

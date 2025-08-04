@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.os.networking.iphone-tethering;
 in {

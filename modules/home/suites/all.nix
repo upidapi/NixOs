@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt enableAnd;
+  inherit (mlib) mkEnableOpt enableAnd;
   inherit (lib) mkIf mkDefault;
   cfg = config.modules.home.suites.all;
   enable = {

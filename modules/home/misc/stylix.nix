@@ -8,7 +8,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.misc.stylix;
 in {
   options.modules.home.misc.stylix = mkEnableOpt "enables stylix";

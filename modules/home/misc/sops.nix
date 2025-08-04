@@ -8,7 +8,7 @@
   self,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.home.misc.sops;
 in {

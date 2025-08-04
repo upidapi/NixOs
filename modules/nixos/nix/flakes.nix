@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt mkOpt;
+  inherit (mlib) mkEnableOpt mkOpt;
   inherit (lib) mkIf types;
   cfg = config.modules.nixos.nix.flakes;
 in {

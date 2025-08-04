@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.os.env.graphical.xserver;
 in {

@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.spotify;
 
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};

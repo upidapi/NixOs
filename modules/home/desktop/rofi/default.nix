@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   inherit
     (builtins)
     isBool

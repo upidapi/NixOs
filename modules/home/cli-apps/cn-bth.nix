@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf types mkOption;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.cli-apps.cn-bth;
 in {
   options.modules.home.cli-apps.cn-bth =

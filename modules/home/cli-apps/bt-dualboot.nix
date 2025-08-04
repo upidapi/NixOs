@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.cli-apps.bt-dualboot;
 
   bt-dualboot = pkgs.python3Packages.buildPythonApplication rec {

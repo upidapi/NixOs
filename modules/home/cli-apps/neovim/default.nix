@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (builtins) toString path;
-  inherit (mlib.opt) mkEnableOpt disable;
+  inherit (mlib) mkEnableOpt disable;
 
   inherit (lib) mkIf;
   cfg = config.modules.home.cli-apps.neovim;

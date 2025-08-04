@@ -9,7 +9,7 @@
 }: let
   inherit (const) keys;
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   cfg = config.modules.home.cli-apps.git;
   pubKey = keys.users."${config.home.username}";
 in {

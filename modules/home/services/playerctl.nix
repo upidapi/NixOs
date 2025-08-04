@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   cfg = config.modules.home.services.playerctl;
 in {
   options.modules.home.services.playerctl =

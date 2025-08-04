@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   inherit (lib) mkIf mkBefore;
   cfg = config.modules.home.terminal.zsh;
 in {

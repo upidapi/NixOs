@@ -4,7 +4,7 @@
   mlib,
   ...
 }: let
-  inherit (mlib.opt) enable enableAnd;
+  inherit (mlib) enable enableAnd;
 in {
   # Dont change this unless you reinstall from scratch.
   home.stateVersion = "23.11"; # Read comment

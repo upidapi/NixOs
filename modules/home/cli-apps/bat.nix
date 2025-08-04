@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   cfg = config.modules.home.cli-apps.bat;
 in {
   options.modules.home.cli-apps.bat =

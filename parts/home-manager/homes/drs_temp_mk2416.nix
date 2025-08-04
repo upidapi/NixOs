@@ -4,7 +4,7 @@
   mlib,
   ...
 }: let
-  inherit (mlib.opt) enable;
+  inherit (mlib) enable;
 in {
   home = {
     stateVersion = "23.11";

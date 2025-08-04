@@ -5,7 +5,7 @@
   mlib,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
 
   inherit (lib.modules) mkIf;
   inherit (lib.strings) concatStringsSep;

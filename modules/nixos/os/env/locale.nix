@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.os.env.locale;
 in {
   options.modules.nixos.os.env.locale = mkEnableOpt "enables locale settings";

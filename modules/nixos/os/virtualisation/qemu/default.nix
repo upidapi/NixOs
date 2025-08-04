@@ -6,7 +6,7 @@
   inputs,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   inherit (lib) mkIf;
   inherit (inputs) nixvirt;
   cfg = config.modules.nixos.os.virtualisation.qemu;

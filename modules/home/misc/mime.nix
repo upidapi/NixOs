@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.misc.mime;
 in {
   options.modules.home.misc.mime = mkEnableOpt "default app stuff";

@@ -5,7 +5,7 @@
   mlib,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
   inherit (builtins) fetchFromGitHub;
 

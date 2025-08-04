@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (const) keys;
-  inherit (mlib.opt) enable enableAnd;
+  inherit (mlib) enable enableAnd;
 in {
   system.stateVersion = "23.11";
 

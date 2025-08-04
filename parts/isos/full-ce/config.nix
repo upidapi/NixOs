@@ -8,7 +8,7 @@
   const,
   ...
 }: let
-  inherit (mlib.opt) enable;
+  inherit (mlib) enable;
   inherit (const) keys;
 in {
   imports = [

@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.misc.keyd;
 in {
   options.modules.home.misc.keyd = mkEnableOpt "enable compat for keyd";

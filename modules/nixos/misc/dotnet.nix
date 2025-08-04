@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.misc.dotnet;
 in {
   options.modules.nixos.misc.dotnet = mkEnableOpt "enable some dotnet things";

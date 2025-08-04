@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkIf mkOption types;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.discord;
 in {
   options.modules.home.apps.discord =
@@ -182,7 +182,7 @@ in {
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.discord;
 in {
   options.modules.home.apps.discord =
@@ -219,7 +219,7 @@ in {
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.discord;
 in {
   options.modules.home.apps.discord =
@@ -252,7 +252,7 @@ in {
 }: let
   cfg = config.modules.home.apps.discord;
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
 in {
   options.modules.home.apps.discord = mkEnableOpt "";
 

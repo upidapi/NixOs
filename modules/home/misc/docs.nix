@@ -11,7 +11,7 @@ https://github.com/NixOS/nixpkgs/blob/255f5952988a566b0b549d0753e907d6b7d626f3/p
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.misc.docs;
 
   modules = lib.evalModules {

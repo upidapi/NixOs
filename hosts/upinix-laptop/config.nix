@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (const) keys;
-  inherit (mlib.opt) enable disable;
+  inherit (mlib) enable disable;
 in {
   imports = [
     ./suspend-keyboard-fix.nix

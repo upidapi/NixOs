@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkIf stringToCharacters;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.firefox;
 
   firefox-pkgs = inputs.firefox-addons.packages.${pkgs.system};

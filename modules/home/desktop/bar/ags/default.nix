@@ -6,7 +6,7 @@
   inputs,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   inherit (mlib.misc) mapStylixColors;
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.bar.ags;

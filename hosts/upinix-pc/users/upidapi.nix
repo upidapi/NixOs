@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  inherit (mlib.opt) enable;
+  inherit (mlib) enable;
   inherit (lib) mkForce;
 in {
   # Don't change this unless you reinstall from scratch.

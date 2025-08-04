@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.ddclient;
 in {
   options.modules.nixos.homelab.ddclient = mkEnableOpt "ddclient";

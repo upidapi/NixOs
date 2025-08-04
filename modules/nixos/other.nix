@@ -6,7 +6,7 @@
   self,
   ...
 }: let
-  inherit (mlib.opt) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt enable;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.other;
 in {

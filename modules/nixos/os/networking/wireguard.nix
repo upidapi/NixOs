@@ -1,14 +1,14 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   const,
   ...
 }: let
   inherit (const) wg ports;
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.os.networking.wireguard;
 
   hostName = config.modules.nixos.meta.host-name;

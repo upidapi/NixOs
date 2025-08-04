@@ -1,13 +1,13 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   self',
   pkgs,
   ...
 }: let
   inherit (lib) mkIf mkOption types;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.discord;
 in {
   options.modules.home.apps.discord =
@@ -177,12 +177,12 @@ in {
 {
   config,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.discord;
 in {
   options.modules.home.apps.discord =
@@ -214,12 +214,12 @@ in {
    {
   config,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.discord;
 in {
   options.modules.home.apps.discord =
@@ -247,12 +247,12 @@ in {
   config,
   lib,
   pkgs,
-  my_lib,
+  mlib,
   ...
 }: let
   cfg = config.modules.home.apps.discord;
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
 in {
   options.modules.home.apps.discord = mkEnableOpt "";
 

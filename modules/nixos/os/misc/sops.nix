@@ -1,13 +1,13 @@
 {
   config,
-  my_lib,
+  mlib,
   lib,
   inputs,
   pkgs,
   self,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   # inherit (lib.attrsets) genAttrs;
   cfg = config.modules.nixos.os.misc.sops;

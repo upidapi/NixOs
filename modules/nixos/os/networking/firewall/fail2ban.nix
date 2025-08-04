@@ -1,11 +1,11 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.os.networking.firewall.fail2ban;
 in {
   options.modules.nixos.os.networking.firewall.fail2ban =

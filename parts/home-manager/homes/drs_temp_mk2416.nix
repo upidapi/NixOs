@@ -1,10 +1,10 @@
 {
   pkgs,
   config,
-  my_lib,
+  mlib,
   ...
 }: let
-  inherit (my_lib.opt) enable;
+  inherit (mlib.opt) enable;
 in {
   home = {
     stateVersion = "23.11";

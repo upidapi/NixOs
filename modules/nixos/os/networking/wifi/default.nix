@@ -1,12 +1,12 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   self,
   ...
 }: let
   inherit (lib) mkIf drop;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (builtins) listToAttrs elemAt foldl';
   cfg = config.modules.nixos.os.networking.wifi;
 in {

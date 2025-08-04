@@ -1,12 +1,12 @@
 {
   config,
-  my_lib,
+  mlib,
   lib,
   inputs,
   ...
 }: let
   inherit
-    (my_lib)
+    (mlib)
     mkEnableOpt
     toPrivateStateDirectory
     ;

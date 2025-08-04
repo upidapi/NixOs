@@ -1,11 +1,11 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.homelab.authelia;
 in {
   options.modules.nixos.homelab.authelia = mkEnableOpt "authelia";

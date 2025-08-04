@@ -1,11 +1,11 @@
 {
   pkgs,
   config,
-  my_lib,
+  mlib,
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.os.programs.eza;
 in {

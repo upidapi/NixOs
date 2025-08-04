@@ -1,11 +1,11 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.kitty;
 in {
   options.modules.home.apps.kitty = mkEnableOpt "enable kitty, the terminal";

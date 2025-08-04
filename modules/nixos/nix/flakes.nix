@@ -1,11 +1,11 @@
 {
   config,
-  my_lib,
+  mlib,
   lib,
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt mkOpt;
+  inherit (mlib.opt) mkEnableOpt mkOpt;
   inherit (lib) mkIf types;
   cfg = config.modules.nixos.nix.flakes;
 in {

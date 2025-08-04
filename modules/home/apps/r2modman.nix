@@ -2,11 +2,11 @@
   config,
   pkgs,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.r2modman;
 in {
   options.modules.home.apps.r2modman = mkEnableOpt "Whether or not to enable r2modman.";

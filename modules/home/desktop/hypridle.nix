@@ -1,12 +1,12 @@
 # REF: https://github.com/notohh/snowflake/blob/master/home/wayland/programs/hyprlock.nix
 {
   config,
-  my_lib,
+  mlib,
   lib,
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.hypridle;
 in {

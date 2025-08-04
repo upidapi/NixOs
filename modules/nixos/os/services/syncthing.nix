@@ -1,12 +1,12 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   const,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.os.services.syncthing;
 in {
   options.modules.nixos.os.services.syncthing = mkEnableOpt "enables syncing";

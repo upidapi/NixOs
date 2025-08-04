@@ -2,12 +2,12 @@
   config,
   inputs,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   ...
 }: let
   inherit (builtins) toString path;
-  inherit (my_lib.opt) mkEnableOpt disable;
+  inherit (mlib.opt) mkEnableOpt disable;
 
   inherit (lib) mkIf;
   cfg = config.modules.home.cli-apps.neovim;

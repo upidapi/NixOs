@@ -1,13 +1,13 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   self,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.homelab.tofu;
 in {
   # terraform code for homelab

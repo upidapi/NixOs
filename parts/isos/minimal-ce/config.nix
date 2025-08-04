@@ -1,6 +1,6 @@
 {
   pkgs,
-  my_lib,
+  mlib,
   inputs,
   lib,
   config,
@@ -8,7 +8,7 @@
   ...
 }: let
   inherit (const) keys;
-  inherit (my_lib.opt) enable;
+  inherit (mlib.opt) enable;
 in {
   imports = [
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"

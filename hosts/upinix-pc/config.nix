@@ -1,12 +1,12 @@
 {
   pkgs,
-  my_lib,
+  mlib,
   const,
   inputs,
   ...
 }: let
   inherit (const) keys;
-  inherit (my_lib.opt) enable enableAnd;
+  inherit (mlib.opt) enable enableAnd;
 in {
   system.stateVersion = "23.11";
 

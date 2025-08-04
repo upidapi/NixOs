@@ -3,13 +3,13 @@
   config,
   lib,
   const,
-  my_lib,
+  mlib,
   pkgs,
   ...
 }: let
   inherit (const) keys;
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (mlib.opt) mkEnableOpt enable;
   cfg = config.modules.home.cli-apps.git;
   pubKey = keys.users."${config.home.username}";
 in {

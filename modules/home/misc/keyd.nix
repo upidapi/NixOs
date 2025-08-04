@@ -1,12 +1,12 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.misc.keyd;
 in {
   options.modules.home.misc.keyd = mkEnableOpt "enable compat for keyd";

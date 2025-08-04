@@ -2,10 +2,10 @@
   config,
   pkgs,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
 
   inherit (lib.modules) mkIf;
   inherit (lib.strings) concatStringsSep;

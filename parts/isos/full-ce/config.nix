@@ -1,14 +1,14 @@
 # the "full-installer" should probably be a recovery thing
 # or an iso for servers
 {
-  my_lib,
+  mlib,
   inputs,
   lib,
   self,
   const,
   ...
 }: let
-  inherit (my_lib.opt) enable;
+  inherit (mlib.opt) enable;
   inherit (const) keys;
 in {
   imports = [

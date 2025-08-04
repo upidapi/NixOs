@@ -9,11 +9,11 @@ nix run github:thiagokokada/nix-alien -- yourprogram
 {
   config,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.os.misc.nix-ld;
 in {
   options.modules.nixos.os.misc.nix-ld = mkEnableOpt "";

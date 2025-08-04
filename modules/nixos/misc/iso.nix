@@ -2,11 +2,11 @@
   lib,
   config,
   self,
-  my_lib,
+  mlib,
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (lib) mkImageMediaOverride mkIf mkOption types;
   cfg = config.modules.nixos.misc.iso;
 in {

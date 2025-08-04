@@ -25,7 +25,7 @@ in
         _module.args = {
           # pins = pinnedSources;
           # keys = publicKeys;
-          # my_lib = (import ./lib) {lib = lib;};
+          # mlib = (import ./lib) {lib = lib;};
 
           # Unify all instances of nixpkgs into a single `pkgs` set
           # Wthat includes our own overlays within `perSystem`. This

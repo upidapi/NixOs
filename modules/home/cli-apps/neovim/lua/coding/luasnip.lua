@@ -62,11 +62,11 @@ ls.add_snippets("nix", {
         {{
           config,
           lib,
-          my_lib,
+          mlib,
           ...
         }}: let
           inherit (lib) mkIf;
-          inherit (my_lib.opt) mkEnableOpt;
+          inherit (mlib) mkEnableOpt;
           cfg = config.{};
         in {{
           options.{} = mkEnableOpt "{}";

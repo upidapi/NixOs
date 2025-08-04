@@ -1,10 +1,10 @@
 {
   # pkgs,
   # inputs,
-  my_lib,
+  mlib,
   ...
 }: let
-  inherit (my_lib.opt) enable enableAnd;
+  inherit (mlib.opt) enable enableAnd;
 in {
   # Dont change this unless you reinstall from scratch.
   home.stateVersion = "23.11"; # Read comment

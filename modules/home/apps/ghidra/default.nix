@@ -2,11 +2,11 @@
   config,
   pkgs,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.ghidra;
 in {
   options.modules.home.apps.ghidra =

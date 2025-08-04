@@ -1,11 +1,11 @@
 {
   lib,
-  my_lib,
+  mlib,
   config,
   ...
 }: let
   inherit (lib) types;
-  inherit (my_lib.opt) mkOpt;
+  inherit (mlib.opt) mkOpt;
   cfg = config.modules.nixos.meta;
 in {
   options.modules.nixos.meta = {

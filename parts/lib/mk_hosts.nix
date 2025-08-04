@@ -163,7 +163,7 @@ host_dir: {
         extra_args = {
           inherit inputs inputs' self self';
 
-          my_lib = (import ./../lib) args;
+          mlib = (import ./../lib) args;
           const = (import ./../const.nix) args;
         };
       in

@@ -1,11 +1,11 @@
 {
   config,
-  my_lib,
+  mlib,
   lib,
   inputs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.os.env.graphical.hyprland;
 in {

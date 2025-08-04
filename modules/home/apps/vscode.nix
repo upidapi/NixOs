@@ -1,13 +1,13 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   inputs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.vscode;
   extensions = inputs.nix-vscode-extensions.extensions.${pkgs.system};
 in {

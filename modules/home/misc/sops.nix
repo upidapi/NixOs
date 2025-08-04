@@ -1,14 +1,14 @@
 {
   config,
   # osConfig,
-  my_lib,
+  mlib,
   lib,
   inputs,
   # pkgs,
   self,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.home.misc.sops;
 in {

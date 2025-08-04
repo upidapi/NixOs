@@ -2,10 +2,10 @@
   config,
   lib,
   pkgs,
-  my_lib,
+  mlib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   inherit (builtins) fetchFromGitHub;
 

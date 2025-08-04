@@ -1,11 +1,11 @@
 {
-  my_lib,
+  mlib,
   config,
   inputs,
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   inherit (lib) mkIf;
   cfg = config.modules.nixos.nix.misc;
 in {

@@ -1,12 +1,12 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.os.services.ntpd;
 in {
   options.modules.nixos.os.services.ntpd = mkEnableOpt "enables time stuff (eg time syncing)";

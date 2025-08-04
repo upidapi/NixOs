@@ -1,11 +1,11 @@
 {
   lib,
-  my_lib,
+  mlib,
   config,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.security.cfg-perms;
 in {
   options.modules.nixos.security.cfg-perms =

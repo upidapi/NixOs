@@ -1,11 +1,11 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (mlib.opt) mkEnableOpt enable;
   cfg = config.modules.home.cli-apps.zoxide;
 in {
   options.modules.home.cli-apps.zoxide =

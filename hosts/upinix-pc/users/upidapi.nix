@@ -1,9 +1,9 @@
 {
-  my_lib,
+  mlib,
   lib,
   ...
 }: let
-  inherit (my_lib.opt) enable;
+  inherit (mlib.opt) enable;
   inherit (lib) mkForce;
 in {
   # Don't change this unless you reinstall from scratch.

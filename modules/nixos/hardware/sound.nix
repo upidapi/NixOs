@@ -1,12 +1,12 @@
 {
   lib,
-  my_lib,
+  mlib,
   config,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (mlib.opt) mkEnableOpt enable;
   cfg = config.modules.nixos.hardware.sound;
 in {
   options.modules.nixos.hardware.sound = mkEnableOpt "enables sound for the system";

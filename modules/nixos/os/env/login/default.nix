@@ -1,11 +1,11 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) types;
-  inherit (my_lib.opt) mkOpt;
+  inherit (mlib.opt) mkOpt;
   cfg = config.modules.nixos.os.env.login;
 in {
   imports = [

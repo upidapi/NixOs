@@ -1,11 +1,11 @@
 {
   pkgs,
   config,
-  my_lib,
+  mlib,
   lib,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt mkOpt;
+  inherit (mlib.opt) mkEnableOpt mkOpt;
   inherit (lib) mkIf types;
   cfg = config.modules.nixos.os.env.fonts;
 in {

@@ -1,13 +1,13 @@
 {
   config,
-  my_lib,
+  mlib,
   lib,
   pkgs,
   inputs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt;
-  inherit (my_lib.misc) mapStylixColors;
+  inherit (mlib.opt) mkEnableOpt;
+  inherit (mlib.misc) mapStylixColors;
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.bar.ags;
 in {

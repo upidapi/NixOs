@@ -3,11 +3,11 @@
   inputs,
   pkgs,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf stringToCharacters;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.apps.firefox;
 
   firefox-pkgs = inputs.firefox-addons.packages.${pkgs.system};

@@ -1,13 +1,13 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf;
   inherit
-    (my_lib)
+    (mlib)
     mkEnableOpt
     ;
   cfg = config.modules.home.cli-apps.pastebin;

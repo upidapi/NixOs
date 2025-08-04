@@ -2,11 +2,11 @@
   config,
   lib,
   pkgs,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (mlib.opt) mkEnableOpt enable;
   cfg = config.modules.home.services.playerctl;
 in {
   options.modules.home.services.playerctl =

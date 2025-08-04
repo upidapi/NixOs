@@ -1,14 +1,14 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   const,
   pkgs,
   self,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.homelab.wg-easy;
   inherit (const) ports;
 in {

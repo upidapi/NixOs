@@ -2,11 +2,11 @@
   config,
   pkgs,
   lib,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.cli-apps.wine;
 in {
   options.modules.home.cli-apps.wine =

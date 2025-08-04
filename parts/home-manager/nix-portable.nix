@@ -46,7 +46,7 @@ alias man="zsh $(which man)"
             extra_args = {
               inherit inputs inputs' self self';
 
-              my_lib = (import ./parts/lib) {inherit lib;};
+              mlib = (import ./parts/lib) {inherit lib;};
               keys = (import ./parts/keys.nix) {inherit lib;};
               osConfig = {
                 modules.nixos = {

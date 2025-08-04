@@ -1,13 +1,13 @@
 {
   lib,
-  my_lib,
+  mlib,
   config,
   const,
   ...
 }: let
   inherit (const) keys;
   inherit (lib) mkIf mapAttrs mkForce;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.nixos.os.networking.openssh;
 in {
   options.modules.nixos.os.networking.openssh =

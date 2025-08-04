@@ -2,11 +2,11 @@
   config,
   lib,
   pkgs,
-  my_lib,
+  mlib,
   ...
 }: let
   inherit (lib) mkIf types mkOption;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.cli-apps.cn-bth;
 in {
   options.modules.home.cli-apps.cn-bth =

@@ -1,12 +1,12 @@
 {
   config,
-  my_lib,
+  mlib,
   lib,
   pkgs,
   inputs,
   ...
 }: let
-  inherit (my_lib.opt) mkEnableOpt enable;
+  inherit (mlib.opt) mkEnableOpt enable;
   inherit (lib) mkIf;
   inherit (inputs) nixvirt;
   cfg = config.modules.nixos.os.virtualisation.qemu;

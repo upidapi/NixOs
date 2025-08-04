@@ -1,14 +1,14 @@
 {
   config,
   lib,
-  my_lib,
+  mlib,
   inputs,
   pkgs,
   self,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (my_lib.opt) mkEnableOpt;
+  inherit (mlib.opt) mkEnableOpt;
   cfg = config.modules.home.misc.stylix;
 in {
   options.modules.home.misc.stylix = mkEnableOpt "enables stylix";

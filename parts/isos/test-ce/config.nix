@@ -2,13 +2,13 @@
 # almost everything to remove possible assumptions
 # made for testing install scripts
 {
-  my_lib,
+  mlib,
   inputs,
   self,
   pkgs,
   ...
 }: let
-  inherit (my_lib.opt) enable;
+  inherit (mlib.opt) enable;
 in {
   imports = [
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"

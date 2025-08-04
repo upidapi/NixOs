@@ -3,7 +3,7 @@ nix
 
     switch to snix?
 
-    possibly change my_lib to lib.c (or smt similar)
+    possibly change mlib to lib.c (or smt similar)
 
     Index the nixos server for better searching
         https://github.com/Tyrrrz/DiscordChatExporter?tab=readme-

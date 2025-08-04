@@ -59,8 +59,8 @@
     };
 
     declarative-arr = {
-      # url = "github:upidapi/declarative-arr";
-      url = "/persist/system/home/upidapi/persist/declarative-arr";
+      url = "github:upidapi/declarative-arr";
+      # url = "/persist/system/home/upidapi/persist/declarative-arr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

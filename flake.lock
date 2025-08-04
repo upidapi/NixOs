@@ -173,14 +173,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1754309429,
-        "narHash": "sha256-/GG/Vr1HmzGMd6ShUVWjxrBV9o4+h0oGjZ38SLksO4w=",
-        "path": "/persist/system/home/upidapi/persist/declarative-arr",
-        "type": "path"
+        "lastModified": 1754304238,
+        "narHash": "sha256-AsMDbymndkMCj4y4FQyKb5IFinNRgpYiwF1YrNzeJ/4=",
+        "owner": "upidapi",
+        "repo": "declarative-arr",
+        "rev": "555c28a097971de9b295c46b05e2e22aa9f3b7b4",
+        "type": "github"
       },
       "original": {
-        "path": "/persist/system/home/upidapi/persist/declarative-arr",
-        "type": "path"
+        "owner": "upidapi",
+        "repo": "declarative-arr",
+        "type": "github"
       }
     },
     "declarative-jellyfin": {

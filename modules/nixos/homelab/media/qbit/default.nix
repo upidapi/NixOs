@@ -31,8 +31,7 @@ in {
         BitTorrent.Session = {
           DefaultSavePath = "/raid/media/torrents";
           # TempPath = "/raid/media/torrents/tmp";
-        };
-        Session = {
+
           Port = 43361; # should be port forewarded
 
           # disable limits
@@ -52,6 +51,7 @@ in {
           SlowTorrentsDownloadRate = 500;
           SlowTorrentsUploadRate = 500;
         };
+
         Preferences.WebUI = {
           Port = ports.qbit;
           Username = "admin";

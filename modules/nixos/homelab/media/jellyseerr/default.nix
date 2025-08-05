@@ -142,6 +142,7 @@ in {
             name = "radarr";
             apiKey = config.sops.placeholder."radarr/api-key";
 
+            hostname = "127.0.0.1";
             # hostname = ips.mullvad;
             port = ports.radarr;
 
@@ -169,6 +170,7 @@ in {
             name = "sonarr";
             apiKey = config.sops.placeholder."sonarr/api-key";
 
+            hostname = "127.0.0.1";
             # hostname = ips.mullvad;
             port = ports.sonarr;
 

@@ -83,7 +83,6 @@ in {
           misc = enable;
 
           openssh = enable;
-          mullvad = enable;
 
           firewall = {
             fail2ban = enable;

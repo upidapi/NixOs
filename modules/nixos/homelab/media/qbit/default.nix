@@ -2,8 +2,6 @@
   config,
   lib,
   mlib,
-  inputs,
-  pkgs,
   const,
   ...
 }: let
@@ -19,20 +17,20 @@ in {
       vpnNamespace = "mullvad";
     };
 
-    # TODO: maybe switch to proton vpn since mullvad doesnt support port
-    #  forwarding, needed for good reseeding
+    # TODO: maybe switch to proton vpn since mullvad doesn't support port
+    #  forwarding, needed for good seeding
 
     services.qbittorrent = {
       enable = true;
       group = "media";
-      package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
+      # package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
       serverConfig = {
         LegalNotice.Accepted = true;
         BitTorrent.Session = {
           DefaultSavePath = "/raid/media/torrents";
           # TempPath = "/raid/media/torrents/tmp";
 
-          Port = 43361; # should be port forewarded
+          Port = 43361; # should be port forwarded
 
           # disable limits
           MaxConnections = -1;

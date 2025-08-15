@@ -100,7 +100,10 @@ in {
 
     os.networking = {
       # wireguard.server = enable;
-      mullvad.createNamespace = true;
+      mullvad = {
+        enable = true;
+        createNamespace = true;
+      };
     };
 
     hardware = {

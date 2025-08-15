@@ -42,6 +42,8 @@ Use `ctrl + alt + g` to escape the vm
 You can download the official iso 
 [here](https://www.microsoft.com/en-us/software-download/windows11)
 
+selecting eng international reduces initial bloat
+
 Use `start ms-cxh:localonly` to bypass the account requirement
 
 ### Run win-utils

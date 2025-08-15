@@ -21,7 +21,7 @@ in {
 
         inherit (config.modules.home.terminal) shellAliases;
 
-        dotDir = ".zsh";
+        dotDir = "${config.home.homeDirectory}/.zsh";
         history = {
           size = 10000;
           path = "$HOME/.zsh/history";

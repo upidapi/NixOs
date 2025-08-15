@@ -6,96 +6,96 @@ function refresh-path {
 
 function run-winutil {
     $winutilCfg = '{
-    "WPFInstall":  [
-                       "WPFInstallvesktop",
-                       "WPFInstallstarship",
-                       "WPFInstallthunderbird",
-                       "WPFInstallnuget",
-                       "WPFInstallvscode",
-                       "WPFInstallnushell",
-                       "WPFInstallpowershell",
-                       "WPFInstallripgrep",
-                       "WPFInstallalacritty",
-                       "WPFInstallteams",
-                       "WPFInstallneovim",
-                       "WPFInstallputty",
-                       "WPFInstallterminal",
-                       "WPFInstallepicgames",
-                       "WPFInstallbitwarden",
-                       "WPFInstallventoy",
-                       "WPFInstallpowertoys",
-                       "WPFInstallZenBrowser",
-                       "WPFInstallsteam",
-                       "WPFInstallfirefox",
-                       "WPFInstallgit",
-                       "WPFInstallgithubcli",
-                       "WPFInstallvlc",
-                       "WPFInstallmatrix",
-                       "WPFInstallvscodium",
-                       "WPFInstallfzf",
-                       "WPFInstallitch",
-                       "WPFInstallspotify",
-                       "WPFInstallpython3",
-                       "WPFInstalledge",
-                       "WPFInstallbat",
-                       "WPFInstallslack",
-                       "WPFInstalldockerdesktop"
-                   ],
-    "WPFTweaks":  [
-                      "WPFTweaksRestorePoint",
-                      "WPFTweaksDiskCleanup",
-                      "WPFTweaksDisableNotifications",
-                      "WPFTweaksRemoveEdge",
-                      "WPFTweaksPowershell7",
-                      "WPFTweaksEndTaskOnTaskbar",
-                      "WPFTweaksDeleteTempFiles",
-                      "WPFTweaksUTC",
-                      "WPFTweaksPowershell7Tele",
-                      "WPFTweaksAH",
-                      "WPFTweaksServices",
-                      "WPFTweaksConsumerFeatures",
-                      "WPFTweaksRemoveCopilot",
-                      "WPFTweaksEdgeDebloat",
-                      "WPFTweaksWifi",
-                      "WPFTweaksTele",
-                      "WPFTweaksHiber",
-                      "WPFTweaksHome",
-                      "WPFTweaksRemoveOnedrive",
-                      "WPFTweaksRightClickMenu",
-                      "WPFTweaksRazerBlock",
-                      "WPFTweaksRecallOff",
-                      "WPFTweaksLoc",
-                      "WPFTweaksDVR",
-                      "WPFTweaksStorage",
-                      "WPFTweaksDisableExplorerAutoDiscovery"
-                  ],
-    "WPFToggle":  [
-                      "WPFToggleTaskView_0",
-                      "WPFToggleHiddenFiles_1",
-                      "WPFToggleBingSearch_0",
-                      "WPFToggleSnapSuggestion_1",
-                      "WPFToggleHideSettingsHome_1",
-                      "WPFToggleSnapWindow_1",
-                      "WPFToggleStartMenuRecommendations_0",
-                      "WPFToggleMouseAcceleration_1",
-                      "WPFToggleTaskbarWidgets_0",
-                      "WPFToggleTaskbarSearch_0",
-                      "WPFToggleTaskbarAlignment_0",
-                      "WPFToggleNumLock_0",
-                      "WPFToggleStickyKeys_0",
-                      "WPFToggleDetailedBSoD_1",
-                      "WPFToggleShowExt_1",
-                      "WPFToggleDarkMode_1",
-                      "WPFToggleVerboseLogon_1",
-                      "WPFToggleSnapFlyout_1"
-                  ],
-    "WPFFeature":  [
-                       "WPFFeatureEnableLegacyRecovery",
-                       "WPFFeatureDisableSearchSuggestions",
-                       "WPFFeaturesSandbox",
-                       "WPFFeaturewsl",
-                       "WPFFeatureshyperv"
-                   ]
+      "WPFInstall": [
+        "WPFInstallvesktop",
+        "WPFInstallstarship",
+        "WPFInstallthunderbird",
+        "WPFInstallnuget",
+        "WPFInstallvscode",
+        "WPFInstallnushell",
+        "WPFInstallpowershell",
+        "WPFInstallripgrep",
+        "WPFInstallalacritty",
+        "WPFInstallteams",
+        "WPFInstallneovim",
+        "WPFInstallputty",
+        "WPFInstallterminal",
+        "WPFInstallepicgames",
+        "WPFInstallbitwarden",
+        "WPFInstallventoy",
+        "WPFInstallpowertoys",
+        "WPFInstallZenBrowser",
+        "WPFInstallsteam",
+        "WPFInstallfirefox",
+        "WPFInstallgit",
+        "WPFInstallgithubcli",
+        "WPFInstallvlc",
+        "WPFInstallmatrix",
+        "WPFInstallvscodium",
+        "WPFInstallfzf",
+        "WPFInstallitch",
+        "WPFInstallspotify",
+        "WPFInstallpython3",
+        "WPFInstalledge",
+        "WPFInstallbat",
+        "WPFInstallslack",
+        "WPFInstalldockerdesktop"
+      ],
+      "WPFTweaks": [
+        "WPFTweaksRestorePoint",
+        "WPFTweaksDiskCleanup",
+        "WPFTweaksDisableNotifications",
+        "WPFTweaksRemoveEdge",
+        "WPFTweaksPowershell7",
+        "WPFTweaksEndTaskOnTaskbar",
+        "WPFTweaksDeleteTempFiles",
+        "WPFTweaksUTC",
+        "WPFTweaksPowershell7Tele",
+        "WPFTweaksAH",
+        "WPFTweaksServices",
+        "WPFTweaksConsumerFeatures",
+        "WPFTweaksRemoveCopilot",
+        "WPFTweaksEdgeDebloat",
+        "WPFTweaksWifi",
+        "WPFTweaksTele",
+        "WPFTweaksHiber",
+        "WPFTweaksHome",
+        "WPFTweaksRemoveOnedrive",
+        "WPFTweaksRightClickMenu",
+        "WPFTweaksRazerBlock",
+        "WPFTweaksRecallOff",
+        "WPFTweaksLoc",
+        "WPFTweaksDVR",
+        "WPFTweaksStorage",
+        "WPFTweaksDisableExplorerAutoDiscovery"
+      ],
+      "WPFToggle": [
+        "WPFToggleTaskView_0",
+        "WPFToggleHiddenFiles_1",
+        "WPFToggleBingSearch_0",
+        "WPFToggleSnapSuggestion_1",
+        "WPFToggleHideSettingsHome_1",
+        "WPFToggleSnapWindow_1",
+        "WPFToggleStartMenuRecommendations_0",
+        "WPFToggleMouseAcceleration_1",
+        "WPFToggleTaskbarWidgets_0",
+        "WPFToggleTaskbarSearch_0",
+        "WPFToggleTaskbarAlignment_0",
+        "WPFToggleNumLock_0",
+        "WPFToggleStickyKeys_0",
+        "WPFToggleDetailedBSoD_1",
+        "WPFToggleShowExt_1",
+        "WPFToggleDarkMode_1",
+        "WPFToggleVerboseLogon_1",
+        "WPFToggleSnapFlyout_1"
+      ],
+      "WPFFeature": [
+        "WPFFeatureEnableLegacyRecovery",
+        "WPFFeatureDisableSearchSuggestions",
+        "WPFFeaturesSandbox",
+        "WPFFeaturewsl",
+        "WPFFeatureshyperv"
+      ]
     }'
 
     $tempFile = New-TemporaryFile
@@ -103,7 +103,7 @@ function run-winutil {
 
     # manual install
     # irm https://christitus.com/win | iex
-    
+
     # let x = curl https://api.github.com/repos/upidapi/winutil-cli/releases | from json
     # curl -L $"https://github.com/upidapi/winutil-cli/releases/download/($x.0.tag_name)/winutil.ps1" | save script.ps1
 
@@ -115,7 +115,7 @@ function run-winutil {
     & ([scriptblock]::Create($(irm $downloadUrl))) -Config $tempFile -Run
 
     # irm christitus.com/win -Config $tempFile -Run -Debug | iex
-    # iex "& { $(irm christitus.com/win) } 
+    # iex "& { $(irm christitus.com/win) }
     # iex "& { $(irm christitus.com/windev) } -Config $tempFile -Run"
 }
 
@@ -153,8 +153,8 @@ function disable-startup-apps {
 
     $paths = $32bit,$32bitRunOnce,$64bit,$64bitRunOnce,$currentLOU,$currentLOURunOnce
 
-    $regStartList = Get-Item -path $paths | 
-        Where-Object {$_.ValueCount -ne 0} | 
+    $regStartList = Get-Item -path $paths |
+        Where-Object {$_.ValueCount -ne 0} |
         Select-Object  property,name
 
     foreach ($regData in $regStartList) {
@@ -188,7 +188,7 @@ function setup-shared-drives {
     winfsp-1.10.22006.msi /qn /norestart
 
     # pnputil /install /add-driver E:\viofs\w11\amd64\viofs.inf
-    
+
     cp E:\viofs\w11\amd64\virtiofs.exe C:\Windows\virtiofs.exe
     New-Service `
         -Name "VirtioFsSvc" `
@@ -215,7 +215,7 @@ run-winutil
 
 Write-Host
 Write-Host "Activating windows and ms office"
-& ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook 
+& ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook
 
 Write-Host
 Write-Host "Setting default browser"
@@ -227,14 +227,17 @@ Write-Host "Disabling startup apps"
 disable-startup-apps
 
 Write-Host
-Write-Host "Installing drivers and guest tools"
-# install all drivers
-# pnputil /add-driver E:\*.inf /install /subdirs
+Write-Host "Installing drivers"
+# you may have to restart after this
+pnputil /add-driver E:\*.inf /install /subdirs 
+
+Write-Host
+Write-Host "Installing guest tools"
 E:\VIRTIO_WIN_GUEST_TOOLS.EXE -silent
 
 # install spice guest tools
 choco install spice-agent -y
- 
+
 choco install winfsp -y # Idk if this is needed
 choco install qemu-guest-agent -y
 

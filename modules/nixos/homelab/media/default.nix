@@ -25,7 +25,6 @@ in {
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3
-    "${inputs.qbit}/nixos/modules/services/torrent/qbittorrent.nix"
   ];
 
   # NOTE: if the jellyfin data is removed after jellyseerr is setup you

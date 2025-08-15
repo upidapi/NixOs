@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  inherit (mlib) enable;
+  inherit (mlib) enable enableAnd;
   inherit (lib) mkForce;
 in {
   # Don't change this unless you reinstall from scratch.
@@ -12,5 +12,12 @@ in {
     suites.all = enable;
 
     desktop.hypridle.enable = mkForce false;
+
+    misc.vms = {
+      enable = true;
+      w11 = enableAnd {
+        isoName = "Win11_24H2_Eng_Debloated_x64.iso";
+      };
+    };
   };
 }

@@ -44,6 +44,12 @@ in {
       upidapi.dev, ssh.upidapi.dev, vpn.upidapi.dev, *.upidapi.dev
     '';
 
+    users.groups.ddclient = {};
+    users.users.ddclient = {
+      isSystemUser = true;
+      group = "ddclient";
+    };
+
     services.ddclient = {
       enable = true;
       configFile = config.sops.templates."ddclient.conf".path;

@@ -123,6 +123,9 @@ in {
       # radarr.vpnConfinement = enableAnd {
       #   vpnNamespace = "mullvad";
       # };
+
+      sonarr.after = ["qbittorrent.service"];
+      radarr.after = ["qbittorrent.service"];
     };
 
     services = {

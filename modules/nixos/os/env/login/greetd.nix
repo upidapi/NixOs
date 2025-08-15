@@ -59,7 +59,7 @@ in {
   config = mkIf cfg.enable {
     services.greetd = {
       enable = true;
-      vt = 2;
+      # vt = 2; # option deprecated
       # restart = !sys.autoLogin;
 
       # <https://man.sr.ht/~kennylevinsen/greetd/>

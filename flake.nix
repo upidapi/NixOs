@@ -49,7 +49,6 @@
 
     vpn-confinement = {
       url = "github:Maroka-chan/VPN-Confinement";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     declarative-jellyfin = {
@@ -69,10 +68,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    qbit = {
-      url = "github:undefined-landmark/nixpkgs/default-serverConfig";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # got merged into nixpkgs
+    # qbit = {
+    #   url = "github:undefined-landmark/nixpkgs/default-serverConfig";
+    #   # inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     nix-index-db = {
       url = "github:nix-community/nix-index-database";

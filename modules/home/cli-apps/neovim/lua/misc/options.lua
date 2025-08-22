@@ -51,12 +51,18 @@ local options = {
     number = true,
     numberwidth = 1,
     relativenumber = true,
+
+    -- no fucking newlines on eof
 }
 
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
+-- TODO: figure out how to prevent eof vim
+-- doesnt work
+-- vim.cmd("set nofixeol")
+-- vim.cmd("set nofixendofline")
 
 -- use gq[G] to format 
 vim.api.nvim_create_autocmd("FileType", {

@@ -102,6 +102,7 @@ in {
 
         # python
         ruff
+        mypy
         pyright
 
         # nu

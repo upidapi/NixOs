@@ -32,30 +32,15 @@ require("lspconfig").pyright.setup({
         },
         python = {
             analysis = {
-                -- Ignore all files for analysis to exclusively use Ruff for linting
+                -- Ignore all files for analysis to exclusively use Ruff for 
+                -- linting
                 ignore = { "*" },
             },
         },
     },
 })
---
--- local function get_file_name()
---     return vim.api.nvim_buf_get_name(0)
--- end
--- require("lint").linters.ruff.args = {
---     "check",
---     "--force-exclude",
---     "--quiet",
---     "--stdin-filename",
---     get_file_name,
---     "--no-fix",
---     "--output-format",
---     "json",
---     -- "--config",
---     -- "$NIXOS_CONFIG_PATH/modules/home/cli-apps/neovim/cfg-files/ruff.toml",
---     "-",
--- }
 
 require("lint").linters_by_ft.python = { "dmypy" }
+require("conform").formatters_by_ft = { "ruff" }
 
 require("dap-python").setup(require("passthrough").dap.python)

@@ -1,4 +1,4 @@
-# FROM: https://pyproject-nix.github.io/uv2nix/overriding/index.html
+# uv add -r requirements.txt
 {
   description = "Hello world flake using uv2nix";
 
@@ -56,8 +56,8 @@
     # Extend generated overlay with build fixups
     #
     # Uv2nix can only work with what it has, and uv.lock is missing essential
-    # metadata to perform some builds.
-    # This is an additional overlay implementing build fixups.
+    # metadata to perform some builds. This is an additional overlay
+    # implementing build fixups.
     # See:
     # - https://pyproject-nix.github.io/uv2nix/FAQ.html
     pyprojectOverrides = _final: _prev: {
@@ -108,9 +108,9 @@
     # - Pure development using uv2nix to manage virtual environments
     devShells.x86_64-linux = {
       # It is of course perfectly OK to keep using an impure virtualenv
-      # workflow and only use uv2nix to build packages.
-      # This devShell simply adds Python and undoes the dependency leakage done
-      # by Nixpkgs Python infrastructure.
+      # workflow and only use uv2nix to build packages. This devShell simply
+      # adds Python and undoes the dependency leakage done by Nixpkgs Python
+      # infrastructure.
       impure = pkgs.mkShell {
         packages = [
           python
@@ -124,10 +124,9 @@
             UV_PYTHON = python.interpreter;
           }
           // lib.optionalAttrs pkgs.stdenv.isLinux {
-            # Python libraries often load native shared objects using dlopen(3).
-
-            # Setting LD_LIBRARY_PATH makes the dynamic library loader aware
-            # of libraries without using RPATH for lookup.
+            # Python libraries often load native shared objects using
+            # dlopen(3). Setting LD_LIBRARY_PATH makes the dynamic library
+            # loader aware of libraries without using RPATH for lookup.
             LD_LIBRARY_PATH =
               lib.makeLibraryPath
               pkgs.pythonManylinuxPackages.manylinux1;
@@ -140,10 +139,9 @@
       # This devShell uses uv2nix to construct a virtual environment purely
       # from Nix, using the same dependency specification as the application.
       # The notable difference is that we also apply another overlay here
-      # enabling editable mode (
-      # https://setuptools.pypa.io/en/latest/userguide/development_mode.html
-      # ).
-      #
+      # enabling editable mode
+      # (https://setuptools.pypa.io/en/latest/userguide/development_mode.html).
+
       # This means that any changes done to your local files do not require a
       # rebuild.
       #
@@ -215,8 +213,8 @@
             # Don't create venv using uv
             UV_NO_SYNC = "1";
 
-            # Force uv to use nixpkgs Python interpreter
-            UV_PYTHON = python.interpreter;
+            # Force uv to use Python interpreter from venv
+            UV_PYTHON = "${virtualenv}/bin/python";
 
             # Prevent uv from downloading managed Python's
             UV_PYTHON_DOWNLOADS = "never";

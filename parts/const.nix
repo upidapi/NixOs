@@ -53,6 +53,8 @@ in {
     syncthing = 8384;
     wireguard = 51820;
     wg-easy = 51821;
+
+    impostor = 7500;
   };
 
   ips = {

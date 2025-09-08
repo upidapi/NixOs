@@ -39,6 +39,20 @@ in {
                 main."monitor.libcamera" = "disabled";
               };
             };
+            "10-bluez" = {
+              "monitor.bluez.properties" = {
+                # Disable low quality codecs, such as HSP/HFP.
+                "bluez5.autoswitch-profile" = false;
+                "bluez5.enable-hfp" = false;
+                "bluez5.enable-hsp" = false;
+
+                "bluez5.enable-sbc-xq" = false; # Disable SBC-XQ, as it is not supported by most devices.
+                "bluez5.enable-msbc" = false;
+                "bluez5.enable-hw-volume" = true;
+                # bluez5.codecs are all enabled by default
+                "bluez5.a2dp.ldac.quality" = "hq";
+              };
+            };
           };
         };
         extraConfig.pipewire = {

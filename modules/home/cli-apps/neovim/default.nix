@@ -243,8 +243,10 @@ in {
         ))
 
         comment-nvim
-        nvim-autopairs
+        nvim-ts-context-commentstring
         todo-comments-nvim
+
+        nvim-autopairs
         tokyonight-nvim
         neo-tree-nvim
         # smartcolumn-nvim # inlined

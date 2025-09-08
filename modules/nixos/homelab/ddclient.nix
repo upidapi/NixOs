@@ -35,7 +35,7 @@ in {
       protocol=cloudflare
       password=${config.sops.placeholder.ddclient-cf-token}
       zone=upidapi.com
-      upidapi.com
+      upidapi.com, *.upidpai.com
 
       protocol=cloudflare
       password=${config.sops.placeholder.ddclient-cf-token}

@@ -64,6 +64,8 @@ end
 -- vim.cmd("set nofixeol")
 -- vim.cmd("set nofixendofline")
 
+vim.cmd("set nosmartindent")
+
 -- use gq[G] to format 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "text", "markdown" },

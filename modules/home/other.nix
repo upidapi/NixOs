@@ -59,6 +59,9 @@ in {
 
         # faster cpz and rmz
         fuc
+      
+        # find but better
+        fd
 
         # short tldr for manpages with examples
         tldr
@@ -77,7 +80,7 @@ in {
         # BROKEN gimp
 
         # flash card program
-        anki
+        # anki
 
         # json parsing cmd
         jq

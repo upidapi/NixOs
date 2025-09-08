@@ -2,6 +2,7 @@
   config,
   lib,
   mlib,
+  const,
   ...
 }: let
   inherit (lib) mkIf;
@@ -57,6 +58,11 @@ in {
       virtualHosts = {
         "upidapi.com".extraConfig = ''
           respond "Hello, world!"
+        '';
+
+        # TODO: move to .com
+        "games.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString const.ports.impostor}
         '';
 
         # "upidapi.dev".extraConfig = ''

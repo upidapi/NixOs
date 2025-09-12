@@ -94,6 +94,8 @@ in {
 
         ".config/obsidian"
 
+        ".config/unity3d"
+
         # technically only this file is needed
         # however bitwarden overrides the symlink
         # ".config/Bitwarden/data.json"

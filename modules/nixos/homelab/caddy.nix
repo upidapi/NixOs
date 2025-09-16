@@ -60,11 +60,6 @@ in {
           respond "Hello, world!"
         '';
 
-        # TODO: move to .com
-        "games.upidapi.dev".extraConfig = ''
-          reverse_proxy :${toString const.ports.impostor}
-        '';
-
         # "upidapi.dev".extraConfig = ''
         #   respond "Hello, world!"
         # '';

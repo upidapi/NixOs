@@ -20,45 +20,42 @@ require("dap").adapters["codelldb"] = {
     },
 }
 
-local base_cfg = {
-    name = "Launch file",
-    type = "codelldb",
-    request = "launch",
-    program = function()
-        return vim.fn.input(
-            "Path to executable: ", --
-            vim.fn.getcwd() .. "/",
-            "file"
-        )
-    end,
-    cwd = "${workspaceFolder}",
-    stopOnEntry = false,
-}
-
--- NOTE: has to be compiled with -ggdb
---  g++ -ggdb main.cpp -o main.out
-dap.configurations.cpp = {
-    base_cfg,
-    vim.tbl_deep_extend("force", base_cfg, {
-        name = "Launch file, redirect stdio",
-        stdio = function()
-            return {
-                -- vim.fn.input(
-                --     "Path to input file: ", --
-                --     vim.fn.getcwd() .. "/",
-                --     "file"
-                -- ),
-                "inp.txt",
-                nil,
-                nil,
-            }
-        end,
-    }),
-}
--- https://github.com/vadimcn/codelldb/blob/master/MANUAL.md#expressions
--- You can prefix things with /nat to call functions etc
-
-dap.configurations.c = dap.configurations.cpp
+-- FIXME: breaks nvim open
+-- local base_cfg = {
+--     name = "Launch file",
+--     type = "codelldb",
+--     request = "launch",
+--     program = require("dap.utils").pick_file({
+--         filter = ".*.out",
+--     }),
+--     cwd = "${workspaceFolder}",
+--     stopOnEntry = false,
+-- }
+--
+-- -- NOTE: has to be compiled with -ggdb
+-- --  g++ -ggdb main.cpp -o main.out
+-- dap.configurations.cpp = {
+--     base_cfg,
+--     vim.tbl_deep_extend("force", base_cfg, {
+--         name = "Launch file, redirect stdio",
+--         stdio = function()
+--             return {
+--                 -- vim.fn.input(
+--                 --     "Path to input file: ", --
+--                 --     vim.fn.getcwd() .. "/",
+--                 --     "file"
+--                 -- ),
+--                 "inp.txt",
+--                 nil,
+--                 nil,
+--             }
+--         end,
+--     }),
+-- }
+-- -- https://github.com/vadimcn/codelldb/blob/master/MANUAL.md#expressions
+-- -- You can prefix things with /nat to call functions etc
+--
+-- dap.configurations.c = dap.configurations.cpp
 
 -- for _, lang in ipairs({ "c", "cpp" }) do
 --     dap.configurations[lang] = {

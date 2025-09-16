@@ -96,6 +96,8 @@ in {
       transfer-sh = enable;
       wg-easy = enable;
       homepage = enable;
+
+      impostor = enable;
     };
 
     os.networking = {

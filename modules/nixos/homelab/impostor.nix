@@ -20,15 +20,21 @@ in {
     systemd.services."imposor-game" = {
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
+      path = [pkgs.nodejs pkgs.bash];
+      environment.PORT = toString const.ports.impostor;
       serviceConfig = {
-        DevicePolicy = "closed";
+        # DevicePolicy = "closed";
         # breaks when dir is persisted via fuse mounts
         # DynamicUser = true;
-        ExecStart = pkgs.writeShellScript ''
-          cd /persist/system/home/upidapi/persist/prog/projects/impostor/;
-          npm run build;
-          PORT=7500 npm start
-        '';
+        User = "upidapi";
+        Group = "users";
+
+        # FIXME: huge botch
+
+        WorkingDirectory = "/persist/system/home/upidapi/persist/prog/projects/impostor/";
+        ExecStartPre = "${pkgs.nodejs}/bin/npm run build";
+        ExecStart = "${pkgs.nodejs}/bin/npm start";
+
         # LockPersonality = true;
         # MemoryDenyWriteExecute = true;
         # PrivateDevices = true;

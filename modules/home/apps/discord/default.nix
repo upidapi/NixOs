@@ -35,6 +35,16 @@ in {
 
     stylix.targets.vesktop.enable = false;
 
+    systemd.user.services."start-vesktop" = {
+      Unit.After = "graphical.target";
+      Service = {
+        Type = "simple";
+        ExecStart = pkgs.writeShellScript "start-vesktop" "vesktop --start-minimized";
+        Restart = "no";
+      };
+      Install.WantedBy = ["default.target"];
+    };
+
     xdg.configFile = {
       "vesktop/settings/settings.json".text = builtins.toJSON (
         (builtins.fromJSON (builtins.readFile ./vencord-config.json))

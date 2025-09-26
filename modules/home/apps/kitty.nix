@@ -101,9 +101,5 @@ in {
       in
         kittyConfig + colorConfig;
     };
-
-    home.sessionVariables = {
-      TERMINAL = "kitty";
-    };
   };
 }

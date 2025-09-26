@@ -28,6 +28,15 @@ in {
       ripgrep = enable;
     };
 
+    home.sessionVariables = {
+      PAGER = "less";
+      MANPAGER = "less";
+
+      TERMINAL = "kitty"; # alacritty
+      BROWSER = "zen"; # firefox
+      EDITOR = "nvim";
+    };
+
     home.packages =
       [
         # used to formatt nix code

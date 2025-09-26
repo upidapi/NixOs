@@ -13,28 +13,9 @@ in {
     mkEnableOpt
     "enables the less pager";
 
-  /*
-     config.home = mkIf cfg.enable {
-    packages = [
-      pkgs.less
-    ];
-
-    sessionVariables = {
-      PAGER = "less";
-      MANPAGER = "less";
-      EDITOR = "nvim";
-    };
-  };
-  */
-
   config.environment = mkIf cfg.enable {
     systemPackages = [
       pkgs.less
     ];
-
-    sessionVariables = {
-      PAGER = "less";
-      MANPAGER = "less";
-    };
   };
 }

@@ -15,6 +15,8 @@ in {
   options.modules.home.apps.firefox =
     mkEnableOpt "enables firefox";
 
+  imports = [inputs.zen-browser.homeModules.beta];
+
   # https://addons.mozilla.org/en-US/firefox/addon/netflux/
   # https://itsfoss.com/netflix-full-hd-firefox/
 
@@ -50,9 +52,37 @@ in {
   # https://www.reddit.com/r/firefox/comments/17hlkhp/what_are_your_must_have_changes_in_aboutconfig/
 
   config = mkIf cfg.enable {
-    home.sessionVariables = {
-      BROWSER = "firefox";
+    # Zen todos
+    # Better keybinds
+    # https://github.com/zen-browser/desktop/pull/9441
+
+    # Figure out (wait for them to implement) how to export/import settings
+
+    programs.zen-browser = {
+      enable = true;
+      policies = config.programs.firefox.policies;
+      profiles =
+        lib.mapAttrs (_: v: {
+          inherit (v) id name extensions settings;
+          search = {
+            inherit (v.search) force default engines;
+          };
+        })
+        config.programs.firefox.profiles;
     };
+
+    home.file.".local/share/applications/zen-base.desktop".text = ''
+      [Desktop Entry]
+      Categories=Network;WebBrowser
+      Exec=zen --name "zen base" -P "base" %U
+      GenericName=Web Browser
+      Icon=zen
+      Name=Zen Base
+      StartupNotify=true
+      StartupWMClass=zen
+      Terminal=false
+      Type=Application
+    '';
 
     home.file.".local/share/applications/firefox-base.desktop".text = ''
       [Desktop Entry]
@@ -69,46 +99,39 @@ in {
 
     programs.firefox = rec {
       enable = true;
-      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-        extraPolicies = {
-          CaptivePortal = false;
-          DisableFirefoxStudies = true;
-          DisablePocket = true;
-          DisableTelemetry = true;
-          DisableFirefoxAccounts = false;
-          # Disable the Refresh Firefox button on about:support and
-          # support.mozilla.org
-          DisableProfileRefresh = true;
-          # Remove the “Set As Desktop Background…” menuitem when right
-          # clicking on an image, because Nix is the only thing that can manage
-          # the backgroud
-          DisableSetDesktopBackground = true;
-          NoDefaultBookmarks = true;
-          OfferToSaveLogins = false;
-          OfferToSaveLoginsDefault = false;
-          PasswordManagerEnabled = false;
-          FirefoxHome = {
-            Search = true;
-            Pocket = false;
-            Snippets = false;
-            TopSites = false;
-            Highlights = false;
-          };
-          UserMessaging = {
-            ExtensionRecommendations = false;
-            SkipOnboarding = true;
-          };
-          /*
-          ExtentionSettings = {
-            # Vimium
-            # tokyo-night-theme
-            "{4520dc08-80f4-4b2e-982a-c17af42e5e4d}" = {
-              "installation_mode" = "force_installed";
-              "install_url" = "https://addons.mozilla.org/firefox/downloads/file/3952418/tokyo_night_milav-1.0.xpi";
-              "default_area" = "menupanel";
-            };
-          };
-          */
+      policies = {
+        CaptivePortal = false;
+        DisableFirefoxStudies = true;
+        DisablePocket = true;
+        DisableTelemetry = true;
+        DisableFirefoxAccounts = false;
+        # Disable the Refresh Firefox button on about:support and
+        # support.mozilla.org
+        DisableProfileRefresh = true;
+        # Remove the “Set As Desktop Background…” menuitem when right
+        # clicking on an image, because Nix is the only thing that can manage
+        # the backgroud
+        DisableSetDesktopBackground = true;
+        NoDefaultBookmarks = true;
+        OfferToSaveLogins = false;
+        OfferToSaveLoginsDefault = false;
+        PasswordManagerEnabled = false;
+        FirefoxHome = {
+          Search = true;
+          Pocket = false;
+          Snippets = false;
+          TopSites = false;
+          Highlights = false;
+        };
+        UserMessaging = {
+          ExtensionRecommendations = false;
+          SkipOnboarding = true;
+        };
+        Preferences = {
+          # zen locks this :) (its ads)
+          # https://github.com/zen-browser/desktop/blob/df1e759c8d36bba2052a9514e03702d9432efdbc/prefs/urlbar.yaml#L59
+          # also breaks the empty url bar
+          # "browser.urlbar.suggest.topsites" = false;
         };
       };
       profiles = {
@@ -301,6 +324,9 @@ in {
 
               buster-captcha-solver
             ];
+            # settings = with firefox-pkgs; {
+            #   "${ublock-origin.addonId}".settings = {};
+            # };
           };
 
           settings = {
@@ -357,12 +383,29 @@ in {
             "dom.security.https_only_mode_ever_enabled" = true;
             "extensions.getAddons.showPane" = false;
             "extensions.htmlaboutaddons.recommendations.enabled" = false;
-            # "extensions.pocket.enabled" = false;
             "identity.fxaccounts.enabled" = false;
             "privacy.trackingprotection.enabled" = true;
             "privacy.trackingprotection.socialtracking.enabled" = true;
 
             # ---------- the following is my custom ---------
+            "browser.search.suggest.enabled" = true;
+            "browser.urlbar.suggest.searches" = true;
+            "browser.urlbar.suggest.recentsearches" = true;
+
+            # disable sponsored websites in search (zen)
+            # https://github.com/zen-browser/desktop/discussions/8380#discussioncomment-13228893
+            # breaks the empty hover search
+            "browser.newtabpage.activity-stream.feeds.system.topsites" = false;
+            "browser.newtabpage.activity-stream.feeds.system.topstories" = false;
+
+            "zen.view.compact.enable-at-startup" = true;
+
+            # Make it so that "open location" (ctrl + L) always opens the
+            # current url instead of persisting if edit
+            # https://github.com/zen-browser/desktop/issues/7667
+            # partially fixed by
+            "zen.urlbar.wait-to-clear" = 0;
+
             # disable the "is now full-screen" thingy
             "full-screen-api.warning.timeout" = 0;
 
@@ -373,6 +416,8 @@ in {
             # enable extensions by default
             # https://support.mozilla.org/en-US/questions/1219401
             "extensions.autoDisableScopes" = 0;
+
+            "middlemouse.paste" = false;
 
             "browser.aboutConfig.showWarning" = false;
 

@@ -31,7 +31,9 @@ in {
     ];
 
     virtualisation = {
-      lxd = enable;
+      # https://linuxcontainers.org/incus/docs/main/howto/server_migrate_lxd/
+      # lxd = enable; # removed due to maintinace issues
+
       waydroid = enable;
     };
   };

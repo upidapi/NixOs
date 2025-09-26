@@ -27,7 +27,6 @@ in {
 
   config = mkIf cfg.enable {
     home = {
-      sessionVariables = {EDITOR = "nvim";};
       file.".config/ruff/pyproject.toml" = {source = ./cfg-files/ruff.toml;};
     };
 

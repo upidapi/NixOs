@@ -22,9 +22,5 @@ in {
         # font.size = 10;
       };
     };
-
-    home.sessionVariables = {
-      TERMINAL = "alacritty";
-    };
   };
 }

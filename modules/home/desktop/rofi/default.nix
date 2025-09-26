@@ -94,7 +94,7 @@ in {
 
     programs.rofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
+      package = pkgs.rofi;
       configPath = "${config.xdg.configHome}/rofi/dummy.rasi";
     };
 

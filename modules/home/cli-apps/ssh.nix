@@ -12,7 +12,8 @@ in {
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
-      addKeysToAgent = "5m";
+      enableDefaultConfig = false;
+      matchBlocks."*".addKeysToAgent = "5m";
       # startAgent = true;
       # agentTimeout = "1m";
       # extraConfig = ''

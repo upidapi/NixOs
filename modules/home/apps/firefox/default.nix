@@ -71,6 +71,9 @@ in {
         config.programs.firefox.profiles;
     };
 
+    stylix.targets.zen-browser.enable = false;
+    stylix.targets.zen-browser.profileNames = [];
+
     home.file.".local/share/applications/zen-base.desktop".text = ''
       [Desktop Entry]
       Categories=Network;WebBrowser

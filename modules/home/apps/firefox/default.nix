@@ -29,7 +29,6 @@ in {
   # gui and a focus on the keyboard
 
   # prevent firefox from opening in fullscreen when you restore with ctrl shift
-  # t
 
   # switch to zen browser? not until they add horizontal tabs could use
   # https://github.com/mmmintdesign/Zen-Mod-Forbidden-Horizontal-Tabs
@@ -56,7 +55,9 @@ in {
     # Better keybinds
     # https://github.com/zen-browser/desktop/pull/9441
 
-    # Figure out (wait for them to implement) how to export/import settings
+    # Figure out (wait for them to implement) how to export/import keybinds
+
+    # rebind ctrl+k to new tab
 
     programs.zen-browser = {
       enable = true;
@@ -103,29 +104,20 @@ in {
     programs.firefox = rec {
       enable = true;
       policies = {
-        CaptivePortal = false;
+        # CaptivePortal = false;
         DisableFirefoxStudies = true;
         DisablePocket = true;
         DisableTelemetry = true;
         DisableFirefoxAccounts = false;
-        # Disable the Refresh Firefox button on about:support and
-        # support.mozilla.org
-        DisableProfileRefresh = true;
-        # Remove the “Set As Desktop Background…” menuitem when right
-        # clicking on an image, because Nix is the only thing that can manage
-        # the backgroud
+        # # Disable the Refresh Firefox button on about:support and
+        # # support.mozilla.org
+        # DisableProfileRefresh = true;
+        # # Remove the “Set As Desktop Background…” menuitem when right
+        # # clicking on an image, because Nix is the only thing that can manage
+        # # the backgroud
         DisableSetDesktopBackground = true;
-        NoDefaultBookmarks = true;
-        OfferToSaveLogins = false;
-        OfferToSaveLoginsDefault = false;
         PasswordManagerEnabled = false;
-        FirefoxHome = {
-          Search = true;
-          Pocket = false;
-          Snippets = false;
-          TopSites = false;
-          Highlights = false;
-        };
+
         UserMessaging = {
           ExtensionRecommendations = false;
           SkipOnboarding = true;
@@ -333,6 +325,82 @@ in {
           };
 
           settings = {
+            "browser.search.suggest.enabled" = true;
+            "browser.urlbar.suggest.searches" = true;
+            "browser.urlbar.suggest.recentsearches" = true;
+
+            # disable sponsored websites in search (zen)
+            # https://github.com/zen-browser/desktop/discussions/8380#discussioncomment-13228893
+            # breaks the empty hover search
+            "browser.newtabpage.activity-stream.feeds.system.topsites" = false;
+            "browser.newtabpage.activity-stream.feeds.system.topstories" = false;
+
+            # Dont show side/top bar on hover
+            "view.compact.show-sidebar-and-toolbar-on-hover" = false;
+
+            "zen.view.compact.enable-at-startup" = true;
+
+            # Make it so that "open location" (ctrl + L) always opens the
+            # current url instead of persisting if edit
+            # https://github.com/zen-browser/desktop/issues/7667
+            # partially fixed by
+            "zen.urlbar.wait-to-clear" = 0;
+
+            # don't ask to save passwords
+            "signon.rememberSignons" = false;
+            # don't alert about breached passwords
+            "signon.management.page.breach-alerts.enabled" = false;
+            # don't autofill credit card
+            "extensions.formautofill.creditCards.enabled" = false;
+
+            # disable the "is now full-screen" thingy
+            "full-screen-api.warning.timeout" = 0;
+
+            # just a test, makes the extensions use json to store their data
+            # instead of a sql db
+            "extensions.webextensions.ExtensionStorageIDB.enabled" = false;
+
+            # enable extensions by default
+            # https://support.mozilla.org/en-US/questions/1219401
+            "extensions.autoDisableScopes" = 0;
+
+            "middlemouse.paste" = false;
+
+            "browser.aboutConfig.showWarning" = false;
+
+            # disable the allow paste pop upp
+            "devtools.selfxss.count" = 5;
+
+            # anything smaller doesn't do anything
+            "browser.tabs.tabMinWidth" = 22;
+
+            # 0 auto, 1 light, 2 dark
+            "blayout.css.prefers-color-scheme.content-override" = 2;
+
+            # enable the userChrome
+            "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
+            "services.sync.engine.addons" = false;
+            "services.sync.engine.bookmarks" = true;
+            "services.sync.engine.creditcards" = false;
+            "services.sync.engine.history" = false;
+            "services.sync.engine.passwords" = false;
+            "services.sync.engine.prefs" = false;
+            "services.sync.engine.prefs.modified" = false;
+            "services.sync.engine.tabs" = false;
+            "services.sync.engine.workspaces" = true;
+
+            "identity.fxaccounts.enabled" = true;
+
+            "browser.newtabpage.activity-stream.feeds.topsites" = true;
+            "browser.newtabpage.pinned" = [
+              {url = "https://www.youtube.com/";}
+              {url = "https://github.com/";}
+              {url = "https://noogle.dev/";}
+              {url = "https://www.netflix.com/browse";}
+              {url = "https://www.samskolan.se/login/";}
+            ];
+
             # FROM: https://github.com/TLATER/dotfiles/blob/main/home-config/config/graphical-applications/firefox.nix
             "general.smoothScroll" = true;
 
@@ -386,64 +454,8 @@ in {
             "dom.security.https_only_mode_ever_enabled" = true;
             "extensions.getAddons.showPane" = false;
             "extensions.htmlaboutaddons.recommendations.enabled" = false;
-            "identity.fxaccounts.enabled" = false;
             "privacy.trackingprotection.enabled" = true;
             "privacy.trackingprotection.socialtracking.enabled" = true;
-
-            # ---------- the following is my custom ---------
-            "browser.search.suggest.enabled" = true;
-            "browser.urlbar.suggest.searches" = true;
-            "browser.urlbar.suggest.recentsearches" = true;
-
-            # disable sponsored websites in search (zen)
-            # https://github.com/zen-browser/desktop/discussions/8380#discussioncomment-13228893
-            # breaks the empty hover search
-            "browser.newtabpage.activity-stream.feeds.system.topsites" = false;
-            "browser.newtabpage.activity-stream.feeds.system.topstories" = false;
-
-            "zen.view.compact.enable-at-startup" = true;
-
-            # Make it so that "open location" (ctrl + L) always opens the
-            # current url instead of persisting if edit
-            # https://github.com/zen-browser/desktop/issues/7667
-            # partially fixed by
-            "zen.urlbar.wait-to-clear" = 0;
-
-            # disable the "is now full-screen" thingy
-            "full-screen-api.warning.timeout" = 0;
-
-            # just a test, makes the extensions use json to store their data
-            # instead of a sql db
-            "extensions.webextensions.ExtensionStorageIDB.enabled" = false;
-
-            # enable extensions by default
-            # https://support.mozilla.org/en-US/questions/1219401
-            "extensions.autoDisableScopes" = 0;
-
-            "middlemouse.paste" = false;
-
-            "browser.aboutConfig.showWarning" = false;
-
-            # disable the allow paste pop upp
-            "devtools.selfxss.count" = 5;
-
-            # anything smaller doesn't do anything
-            "browser.tabs.tabMinWidth" = 22;
-
-            # 0 auto, 1 light, 2 dark
-            "blayout.css.prefers-color-scheme.content-override" = 2;
-
-            # enable the userChrome
-            "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-
-            "browser.newtabpage.activity-stream.feeds.topsites" = true;
-            "browser.newtabpage.pinned" = [
-              {url = "https://www.youtube.com/";}
-              {url = "https://github.com/";}
-              {url = "https://noogle.dev/";}
-              {url = "https://www.netflix.com/browse";}
-              {url = "https://www.samskolan.se/login/";}
-            ];
           };
 
           # firefox hardening

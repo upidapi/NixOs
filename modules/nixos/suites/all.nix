@@ -25,6 +25,7 @@ in {
         keyboard = enable;
         sound = enable;
         video = enable;
+        print = enable;
       };
 
       misc = {

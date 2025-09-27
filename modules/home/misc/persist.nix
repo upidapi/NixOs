@@ -51,6 +51,7 @@ in {
 
         # save nushell command history
         # ".config/nushell/history.txt"
+        ".zen"
 
         ".mozilla/firefox"
 

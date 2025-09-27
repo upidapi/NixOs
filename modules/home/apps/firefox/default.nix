@@ -340,6 +340,8 @@ in {
 
             "zen.view.compact.enable-at-startup" = true;
 
+            "zen.welcome-screen.seen" = true;
+
             # Make it so that "open location" (ctrl + L) always opens the
             # current url instead of persisting if edit
             # https://github.com/zen-browser/desktop/issues/7667

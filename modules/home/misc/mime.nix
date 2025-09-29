@@ -16,7 +16,7 @@ in {
 
   config = let
     editor = ["nvim.desktop"];
-    browser = ["firefox.desktop"];
+    browser = ["zen-beta.desktop"];
     mailer = ["thunderbird.desktop"];
     fileManager = ["org.kde.dolphin.desktop"];
     terminal = ["kitty.desktop"];
@@ -60,7 +60,7 @@ in {
       https://discourse.gnome.org/t/open-in-terminal-choose-which-terminal-application-to-open/15512/4
 
       Basically what terminal is uses is hard coded, however
-      the one with the highest prio is xdg-terminal-exec and
+      the one with the ighest prio is xdg-terminal-exec and
       that one runs the first working one in xdg-terminals.list
       */
       home.packages = with pkgs; [

@@ -71,6 +71,10 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "text", "markdown" },
   callback = function()
     vim.opt_local.textwidth = 80
+
+    vim.opt_local.tabstop = 4
+    vim.opt_.shiftwidth = 4
+    vim.opt_.softtabstop = 4
   end,
 })
 

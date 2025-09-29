@@ -337,6 +337,7 @@ in {
 
             # Dont show side/top bar on hover
             "view.compact.show-sidebar-and-toolbar-on-hover" = false;
+            "zen.view.compact.show-sidebar-and-toolbar-on-hover" = false;
 
             "zen.view.compact.enable-at-startup" = true;
 

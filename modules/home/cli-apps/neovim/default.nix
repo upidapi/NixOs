@@ -155,7 +155,8 @@ in {
 
         # markdown
         markdownlint-cli2
-        marksman
+        # marksman
+        markdown-oxide
 
         # typst
         tinymist

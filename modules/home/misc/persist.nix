@@ -97,6 +97,10 @@ in {
 
         ".config/unity3d"
 
+        # for some reason syncthing stores its state here
+        # (its a system service)
+        ".config/syncthing"
+
         # technically only this file is needed
         # however bitwarden overrides the symlink
         # ".config/Bitwarden/data.json"

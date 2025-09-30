@@ -73,8 +73,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.textwidth = 80
 
     vim.opt_local.tabstop = 4
-    vim.opt_.shiftwidth = 4
-    vim.opt_.softtabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
   end,
 })
 

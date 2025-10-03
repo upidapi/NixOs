@@ -33,6 +33,25 @@
     };
   in {
     devShells = {
+      buildarr = pkgs.mkShell {
+        packages = with self'.packages; [
+          buildarr
+          buildarr-jellyseerr
+          buildarr-prowlarr
+          buildarr-radarr
+          buildarr-sonarr
+          # (pkgs.python3.withPackages (ps:
+          #   with ps; [
+          #     # if you want to use pytorch-bin then you have to
+          #     # make sure that torch-vision is using that too
+          #     pytorch
+          #     # torchvision
+          #     # matplotlib
+          #     # numpy
+          #     # mlflow
+          #   ]))
+        ];
+      };
       default = pkgs.mkShell {
         packages = [
           (pkgs.writeShellScriptBin "sops-edit" ''

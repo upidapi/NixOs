@@ -17,13 +17,8 @@
 
       inherit (builtins) readDir;
 
-      autoImported =
-        lib.mapAttrs
-        (
-          k: _:
-            pkgs.callPackage ./${k} {}
-        )
-        (
+      autoImported = let
+        pkgFiles =
           lib.filterAttrs
           (
             k: v:
@@ -31,8 +26,13 @@
               == "directory"
               && ! builtins.elem k ignore
           )
-          (readDir ./.)
-        );
+          (readDir ./.);
+      in
+        pkgs.lib.makeScope pkgs.newScope (self: (
+          lib.mapAttrs
+          (k: _: self.callPackage ./${k} {})
+          pkgFiles
+        ));
     in
       autoImported
       // {

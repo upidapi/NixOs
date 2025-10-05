@@ -12,10 +12,10 @@ python3.pkgs.buildPythonApplication rec {
   format = "pyproject";
 
   src = fetchFromGitHub {
-    owner = "buildarr";
+    owner = "Jahn";
     repo = "buildarr-jellyseerr";
-    rev = "v${version}";
-    hash = "sha256-GGN40WfSqEUv+gLHzBoAkoEXmxbxh0B0GVgC/JFvtDU=";
+    rev = "main";
+    # hash = "sha256-GGN40WfSqEUv+gLHzBoAkoEXmxbxh0B0GVgC/JFvtDU=";
   };
 
   nativeBuildInputs = with python3.pkgs; [

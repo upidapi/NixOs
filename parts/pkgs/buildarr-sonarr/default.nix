@@ -6,18 +6,21 @@
 }:
 python3.pkgs.buildPythonApplication rec {
   pname = "buildarr-sonarr";
-  version = "0.6.4";
+  version = "0.7.0b1";
   pyproject = true;
 
   src = fetchFromGitHub {
-    owner = "buildarr";
+    owner = "Jahn16";
     repo = "buildarr-sonarr";
-    rev = "v${version}";
-    hash = "sha256-H0M3EK+b4Q0Odh12pWOYZOn5ASr0MU8s/fSTgYK17TI=";
+    rev = "main";
+    hash = "sha256-w7izZKEMRif9nE31fNAyljjqDwKztP98doTq6b65GSU=";
   };
 
   nativeBuildInputs = with python3.pkgs; [
     poetry-core
+    setuptools
+    wheel
+    setuptools_scm
   ];
 
   propagatedBuildInputs = with python3.pkgs; [

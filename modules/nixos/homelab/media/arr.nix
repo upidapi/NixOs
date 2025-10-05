@@ -4,33 +4,31 @@
   mlib,
   const,
   self,
+  inputs,
   pkgs,
   ...
 }: let
   inherit (const) ports ips;
-  inherit (lib) mkIf;
+  inherit (lib) mkIf mkOption;
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.arr;
 
-  mkArrModules = {serviceName}: {
-    options.services.${serviceName} = {
-      apiKeyFile = lib.mkOption {
-        type = lib.types.str;
-      };
+  mkArrSerivice = name: let
+    apiKeyEnvVar = "${lib.toUpper name}__AUTH__APIKEY";
+    cfg = config.services.${name};
+  in {
+    options.services.${name}.apiKeyFile = mkOption {
+      type = lib.types.str;
     };
-    config.systemd.services.${serviceName} = let
-      apiKeyEnvVar = "${lib.toUpper serviceName}__AUTH__APIKEY";
-    in {
-      after = ["qbittorrent.service"];
-      serviceConfig = {
-        ExecStart = lib.mkForce pkgs.writeScript "test" ''
+    config.systemd.services.${name}.serviceConfig.ExecStart =
+      lib.mkForce
+      (pkgs.writeShellScript
+        "init-${name}" ''
           ${apiKeyEnvVar}=$(cat ${cfg.apiKeyFile}) \
             ${lib.getExe cfg.package} \
             -nobrowser \
-            -data="${cfg.dataDir}"&
-        '';
-      };
-    };
+            -data="${cfg.dataDir}"
+        '');
   };
 in {
   options.modules.nixos.homelab.media.arr = mkEnableOpt "";
@@ -40,6 +38,10 @@ in {
 
   imports = [
     # inputs.declarative-arr.nixosModules.default
+    inputs.declarr.nixosModules.default
+    (mkArrSerivice "sonarr")
+    (mkArrSerivice "radarr")
+    (mkArrSerivice "prowlarr")
   ];
 
   config = mkIf cfg.enable {
@@ -133,15 +135,8 @@ in {
       };
     };
 
-    systemd.services = {
-      systemd.services.buildarr = {
-        after = ["sonarr.service" "radarr.service" "prowlarr.service"];
-        # TODO: wanted by
-        serviceConfig.ExecStart = pkgs.writeScript "buildarr" ''
-          echo test
-        '';
-      };
-
+    systemd.services = let
+    in {
       # check if connected
       # sonarr.serviceConfig.ExecStartPre = pkgs.writeScript "test" ''
       #   #!/bin/sh
@@ -156,132 +151,37 @@ in {
       #   vpnNamespace = "mullvad";
       # };
 
-      # sonarr.after = ["qbittorrent.service"];
+      sonarr.after = ["qbittorrent.service"];
       radarr.after = ["qbittorrent.service"];
-      prowlarr.after = ["qbittorrent.service"];
+      prowlarr.after = ["qbittorrent.service" "sonarr.service" "prowlarr.service"];
 
-      sonarr = let
-        serviceName = "sonarr";
-        apiKeyEnvVar = "${lib.toUpper serviceName}__AUTH__APIKEY";
-      in {
-        after = ["qbittorrent.service"];
-        serviceConfig = {
-          ExecStart = lib.mkForce pkgs.writeScript "test" ''
-            ${apiKeyEnvVar}=$(cat ${cfg.apiKeyFile}) \
-              ${lib.getExe cfg.package} \
-              -nobrowser \
-              -data="${cfg.dataDir}"&
-          '';
-        };
-      };
+      # sonarr = let
+      #   serviceName = "sonarr";
+      #   apiKeyEnvVar = "${lib.toUpper serviceName}__AUTH__APIKEY";
+      # in {
+      #   after = ["qbittorrent.service"];
+      #   serviceConfig = {
+      #     ExecStart = lib.mkForce pkgs.writeScript "test" ''
+      #       ${apiKeyEnvVar}=$(cat ${cfg.apiKeyFile}) \
+      #         ${lib.getExe cfg.package} \
+      #         -nobrowser \
+      #         -data="${cfg.dataDir}"&
+      #     '';
+      #   };
+      # };
     };
 
     services = {
-      prowlarr = {
+      sonarr = {
         enable = true;
-        apiKeyFile = config.sops.secrets."prowlarr/api-key".path;
+        group = "media";
+        apiKeyFile = config.sops.secrets."sonarr/api-key".path;
         settings = {
           # update.mechanism = "internal";
           server = {
-            # urlbase = "localhost";
-            port = ports.prowlarr;
+            # urlbase = ips.mullvad;
+            port = ports.sonarr;
             # bindaddress = "*";
-          };
-        };
-        guiSettings = {
-          host = {
-            username = "admin";
-            password = config.sops.secrets."prowlarr/password".path;
-            apiKey = config.sops.secrets."prowlarr/api-key".path;
-          };
-          downloadClients = {
-            "qBittorrent" = {
-              implementation = "QBittorrent";
-              fields = {
-                port = ports.qbit;
-                host = ips.mullvad;
-                username = "admin";
-                password = config.sops.secrets."qbit/password_prowlarr".path;
-                sequentialOrder = true;
-              };
-            };
-          };
-          indexerProxies = {
-            "FlareSolverr" = {
-              fields = {
-                host = "http://localhost:8191/";
-                requestTimeout = 60;
-              };
-              tags = ["FlareSolverr"];
-            };
-          };
-          indexers = {
-            "1337x" = {
-              implementation = "Cardigann";
-              fields = {
-                definitionFile = "1337x";
-                downloadlink = 1; # magnet
-                downloadlink2 = 0; # iTorrents.org
-                sort = 2; # created
-                type = 1; # desc
-              };
-              tags = ["FlareSolverr"];
-            };
-            "AnimeTosho" = {
-              implementation = "Torznab";
-              fields = {
-                baseUrl = "https://feed.animetosho.org";
-              };
-            };
-            "LimeTorrents" = {
-              implementation = "Cardigann";
-              fields = {
-                definitionFile = "limetorrents";
-                downloadlink = 1; # magnet
-                downloadlink2 = 0; # iTorrents.org
-                sort = 0; # created
-              };
-            };
-            # "Solid Torrents" = {
-            #   implementation = "Cardigann";
-            #   fields = {
-            #     definitionFile = "solidtorrents";
-            #     prefer_magnet_links = true;
-            #     sort = 0; # created
-            #     type = 1; # desc
-            #   };
-            # };
-            "The Pirate Bay" = {
-              implementation = "Cardigann";
-              fields = {
-                definitionFile = "thepiratebay";
-              };
-            };
-            "TheRARBG" = {
-              implementation = "Cardigann";
-              fields = {
-                definitionFile = "therarbg";
-                sort = 0; # created desc
-              };
-            };
-            "YTS" = {
-              implementation = "Cardigann";
-              fields = {
-                definitionFile = "yts";
-              };
-            };
-          };
-          applications = {
-            "Sonarr" = {
-              syncLevel = "fullSync";
-              implementation = "Sonarr";
-              fields.apiKey = config.sops.secrets."sonarr/api-key_prowlarr".path;
-            };
-            "Radarr" = {
-              syncLevel = "fullSync";
-              implementation = "Radarr";
-              fields.apiKey = config.sops.secrets."radarr/api-key_prowlarr".path;
-            };
           };
         };
       };
@@ -297,112 +197,345 @@ in {
             # bindaddress = "*";
           };
         };
-        guiSettings = {
-          host = {
-            username = "admin";
-            password = config.sops.secrets."radarr/password".path;
-            apiKey = config.sops.secrets."radarr/api-key".path;
-          };
-          rootFolders = ["/raid/media/movies"];
-          downloadClients = {
-            "qBittorrent" = {
-              implementation = "QBittorrent";
-              fields = {
-                port = ports.qbit;
-                host = ips.mullvad;
-                username = "admin";
-                password = config.sops.secrets."qbit/password_radarr".path;
-                sequentialOrder = true;
-              };
-            };
-          };
-
-          quality = {
-            WEBRip-1080p.bitrate = {
-              min = 0;
-              preferred = 50; # ~2.9 GB/h
-              max = 100;
-            };
-            WEBDL-1080p.bitrate = {
-              min = 0;
-              preferred = 50;
-              max = 100;
-            };
-            HDTV-1080p.bitrate = {
-              min = 0;
-              preferred = 50;
-              max = 100;
-            };
-            Bluray-1080p.bitrate = {
-              min = 0;
-              preferred = 50;
-              max = 100;
-            };
-            Remux-1080p.bitrate = {
-              min = 0;
-              preferred = 50;
-              max = 100;
-            };
-          };
-        };
       };
-
-      sonarr = {
+      prowlarr = {
         enable = true;
-        group = "media";
-        apiKeyFile = config.sops.secrets."sonarr/api-key".path;
+        apiKeyFile = config.sops.secrets."prowlarr/api-key".path;
         settings = {
           # update.mechanism = "internal";
           server = {
-            # urlbase = ips.mullvad;
-            port = ports.sonarr;
+            # urlbase = "localhost";
+            port = ports.prowlarr;
             # bindaddress = "*";
           };
         };
-        guiSettings = {
-          host = {
-            username = "admin";
-            password = config.sops.secrets."sonarr/password".path;
+      };
+      declarr = {
+        enable = true;
+
+        config = rec {
+          declarr = {
+            globalResolvePaths = [
+              "$[*].config.host.password"
+              "$[*].config.host.passwordConfirmation"
+              "$[*].config.host.apikey"
+
+              "$[*].indexer[*].fields.password"
+
+              "$[*].applications[*].fields.apiKey"
+            ];
           };
-          rootFolders = ["/raid/media/tv"];
-          downloadClients = {
-            "qBittorrent" = {
-              implementation = "QBittorrent";
-              fields = {
-                port = ports.qbit;
-                host = ips.mullvad;
+
+          sonarr = {
+            declarr = {
+              type = "sonarr";
+              url = "http://localhost:${toString ports.sonarr}";
+            };
+            rootFolders = ["/raid/media/tv"];
+            downloadClient = {
+              "qBittorrent" = {
+                implementation = "QBittorrent";
+                fields = {
+                  port = ports.qbit;
+                  host = ips.mullvad;
+                  username = "admin";
+                  password = config.sops.secrets."qbit/password_sonarr".path;
+                  sequentialOrder = true;
+                };
+              };
+            };
+            qualityDefinition = {
+              HDTV-1080p = {
+                minSize = 4;
+                preferredSize = 50;
+                maxSize = 100;
+              };
+              WEBRip-1080p = {
+                minSize = 4;
+                preferredSize = 50;
+                maxSize = 100;
+              };
+              WEBDL-1080p = {
+                minSize = 4;
+                preferredSize = 50;
+                maxSize = 100;
+              };
+              Bluray-1080p = {
+                minSize = 4;
+                preferredSize = 50;
+                maxSize = 100;
+              };
+              "Bluray-1080p Remux" = {
+                minSize = 4;
+                preferredSize = 50;
+                maxSize = 150;
+              };
+            };
+            config = {
+              ui = {
+                firstDayOfWeek = 1; # 0 = Sunday, 1 = Monday
+                timeFormat = "HH:mm"; # HH:mm = 17:30, h(:mm)a = 5:30PM
+                theme = "dark";
+              };
+              host = rec {
+                # id = 1;
+                apiKey = config.sops.secrets."sonarr/api-key".path;
+
+                analyticsEnabled = false;
+
+                authenticationMethod = "forms";
+                authenticationRequired = "enabled";
+
+                # username = "admin";
+                # password = "";
+
                 username = "admin";
-                password = config.sops.secrets."qbit/password_sonarr".path;
-                sequentialOrder = true;
+                password = config.sops.secrets."sonarr/password".path;
+                passwordConfirmation = password;
+
+                backupInterval = 7;
+                backupRetention = 28;
+
+                port = ports.sonarr;
+                urlBase = "";
+                bindAddress = "*";
+                proxyEnabled = false;
+                sslCertPath = "";
+                sslCertPassword = "";
+                instanceName = "";
+                # if instanceName == null
+                # then serviceName
+                # else instanceName;
+
+                branch = "main";
+                logLevel = "debug";
+                consoleLogLevel = "";
+                logSizeLimit = 1;
+                updateScriptPath = "";
+              };
+              naming = {
+                renameEpisodes = true;
+                replaceIllegalCharacters = true;
+                colonReplacementFormat = 4;
+                customColonReplacementFormat = "";
+                multiEpisodeStyle = 5;
+                standardEpisodeFormat = "s{season:00}e{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+                dailyEpisodeFormat = "{Air-Date} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+                animeEpisodeFormat = "s{season:00}e{episode:00} - {Episode Title} {Quality Title} {MediaInfo VideoCodec}";
+                seriesFolderFormat = "{Series Title}";
+                seasonFolderFormat = "Season {season}";
+                specialsFolderFormat = "Specials";
+              };
+              mediamanagement = {
+                autoUnmonitorPreviouslyDownloadedEpisodes = false;
+
+                setPermissionsLinux = false;
+                chmodFolder = "755";
+                chownGroup = "";
+
+                # createEmptySeriesFolders = false;
+                createEmptySeriesFolders = true;
+                deleteEmptyFolders = false;
+
+                enableMediaInfo = true;
+                episodeTitleRequired = "always";
+                extraFileExtensions = "srt";
+                fileDate = "none";
+
+                recycleBin = "";
+                recycleBinCleanupDays = 7;
+
+                rescanAfterRefresh = "always";
+
+                downloadPropersAndRepacks = "preferAndUpgrade";
+
+                copyUsingHardlinks = true;
+                minimumFreeSpaceWhenImporting = 100;
+                skipFreeSpaceCheckWhenImporting = false;
+                importExtraFiles = false;
+                useScriptImport = false;
+                scriptImportPath = "";
               };
             };
           };
 
-          quality = {
-            HDTV-1080p.bitrate = {
-              min = 4;
-              preferred = 50;
-              max = 100;
+          radarr = {
+            declarr = {
+              type = "radarr";
+              url = "http://localhost:${toString ports.radarr}";
             };
-            WEBRip-1080p.bitrate = {
-              min = 4;
-              preferred = 50;
-              max = 100;
+
+            config = {
+              inherit (sonarr.config) mediamanagement ui;
+              host =
+                sonarr.config.host
+                // rec {
+                  username = "admin";
+                  password = config.sops.secrets."radarr/password".path;
+                  passwordConfirmation = password;
+                  apiKey = config.sops.secrets."radarr/api-key".path;
+                  port = ports.radarr;
+                };
+              naming = {
+                renameMovies = true;
+                replaceIllegalCharacters = true;
+                standardMovieFormat = "{Movie Title} ({Release Year}) {Quality Title} {MediaInfo VideoCodec}";
+                movieFolderFormat = "{Movie Title} ({Release Year})";
+              };
             };
-            WEBDL-1080p.bitrate = {
-              min = 4;
-              preferred = 50;
-              max = 100;
+
+            rootFolders = ["/raid/media/movies"];
+            downloadClient = {
+              "qBittorrent" = {
+                implementation = "QBittorrent";
+                fields = {
+                  port = ports.qbit;
+                  host = ips.mullvad;
+                  username = "admin";
+                  password = config.sops.secrets."qbit/password_radarr".path;
+                  sequentialOrder = true;
+                };
+              };
             };
-            Bluray-1080p.bitrate = {
-              min = 4;
-              preferred = 50;
-              max = 100;
+
+            qualityDefinition = {
+              WEBRip-1080p = {
+                minSize = 0;
+                preferredSize = 50; # ~2.9 GB/h
+                maxSize = 100;
+              };
+              WEBDL-1080p = {
+                minSize = 0;
+                preferredSize = 50;
+                maxSize = 100;
+              };
+              HDTV-1080p = {
+                minSize = 0;
+                preferredSize = 50;
+                maxSize = 100;
+              };
+              Bluray-1080p = {
+                minSize = 0;
+                preferredSize = 50;
+                maxSize = 100;
+              };
+              Remux-1080p = {
+                minSize = 0;
+                preferredSize = 50;
+                maxSize = 100;
+              };
             };
-            "Bluray-1080p Remux".bitrate = {
-              min = 4;
-              preferred = 50;
-              max = 150;
+          };
+
+          prowlarr = {
+            declarr = {
+              type = "prowlarr";
+              url = "http://localhost:${toString ports.prowlarr}";
+            };
+
+            config = {
+              inherit (sonarr.config) ui;
+              host =
+                sonarr.config.host
+                // rec {
+                  username = "admin";
+                  password = config.sops.secrets."prowlarr/password".path;
+                  passwordConfirmation = password;
+                  apiKey = config.sops.secrets."prowlarr/api-key".path;
+                  port = ports.prowlarr;
+                };
+            };
+
+            applications = {
+              "Sonarr" = {
+                syncLevel = "fullSync";
+                implementation = "Sonarr";
+                fields.apiKey = config.sops.secrets."sonarr/api-key_prowlarr".path;
+              };
+              "Radarr" = {
+                syncLevel = "fullSync";
+                implementation = "Radarr";
+                fields.apiKey = config.sops.secrets."radarr/api-key_prowlarr".path;
+              };
+            };
+
+            downloadClient = {
+              "qBittorrent" = {
+                implementation = "QBittorrent";
+                fields = {
+                  port = ports.qbit;
+                  host = ips.mullvad;
+                  username = "admin";
+                  password = config.sops.secrets."qbit/password_prowlarr".path;
+                  sequentialOrder = true;
+                };
+              };
+            };
+            indexerProxy = {
+              "FlareSolverr" = {
+                fields = {
+                  host = "http://localhost:8191/";
+                  requestTimeout = 60;
+                };
+                tags = ["FlareSolverr"];
+              };
+            };
+
+            indexers = {
+              "1337x" = {
+                implementation = "Cardigann";
+                fields = {
+                  definitionFile = "1337x";
+                  downloadlink = 1; # magnet
+                  downloadlink2 = 0; # iTorrents.org
+                  sort = 2; # created
+                  type = 1; # desc
+                };
+                tags = ["FlareSolverr"];
+              };
+              "AnimeTosho" = {
+                implementation = "Torznab";
+                fields = {
+                  baseUrl = "https://feed.animetosho.org";
+                };
+              };
+              "LimeTorrents" = {
+                implementation = "Cardigann";
+                fields = {
+                  definitionFile = "limetorrents";
+                  downloadlink = 1; # magnet
+                  downloadlink2 = 0; # iTorrents.org
+                  sort = 0; # created
+                };
+              };
+              # "Solid Torrents" = {
+              #   implementation = "Cardigann";
+              #   fields = {
+              #     definitionFile = "solidtorrents";
+              #     prefer_magnet_links = true;
+              #     sort = 0; # created
+              #     type = 1; # desc
+              #   };
+              # };
+              "The Pirate Bay" = {
+                implementation = "Cardigann";
+                fields = {
+                  definitionFile = "thepiratebay";
+                };
+              };
+              "TheRARBG" = {
+                implementation = "Cardigann";
+                fields = {
+                  definitionFile = "therarbg";
+                  sort = 0; # created desc
+                };
+              };
+              "YTS" = {
+                implementation = "Cardigann";
+                fields = {
+                  definitionFile = "yts";
+                };
+              };
             };
           };
         };

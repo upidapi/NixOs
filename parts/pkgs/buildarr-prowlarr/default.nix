@@ -9,7 +9,7 @@
 }: let
   prowlarr-py = python3.pkgs.buildPythonPackage rec {
     pname = "prowlarr-py";
-    version = "0.4.1";
+    version = "1.1.1";
     format = "pyproject";
 
     src = fetchFromGitHub {
@@ -61,10 +61,10 @@ in
     format = "pyproject";
 
     src = fetchFromGitHub {
-      owner = "buildarr";
+      owner = "Jahn16";
       repo = "buildarr-prowlarr";
-      rev = "v${version}";
-      hash = "sha256-Az5SRjgkNDthdDTsqniKAwz/J6EisDkXAqR5/0UQets=";
+      rev = "main";
+      # hash = "sha256-Az5SRjgkNDthdDTsqniKAwz/J6EisDkXAqR5/0UQets=";
     };
 
     nativeBuildInputs = with python3.pkgs; [

@@ -6,7 +6,7 @@
 }: let
   radarr-py = python3.pkgs.buildPythonPackage rec {
     pname = "radarr-py";
-    version = "0.4.0";
+    version = "1.2.1";
     format = "setuptools";
 
     src = fetchFromGitHub {
@@ -29,14 +29,18 @@ in
     format = "pyproject";
 
     src = fetchFromGitHub {
-      owner = "buildarr";
+      owner = "Jahn16";
       repo = "buildarr-radarr";
-      rev = "v${version}";
-      hash = "sha256-4Asj04pH/6+SlY1tUahyE6dQ4/zUGf0caphfbqFuvRc=";
+      rev = "main";
+      # hash = "sha256-4Asj04pH/6+SlY1tUahyE6dQ4/zUGf0caphfbqFuvRc=";
+      hash = "sha256-9SSeguKj4+f0l2DZ+imhWZuR+xrYdyt+F3M+mHeJW9I=";
     };
 
     nativeBuildInputs = with python3.pkgs; [
       poetry-core
+      setuptools
+      wheel
+      setuptools_scm
     ];
 
     buildInputs = [

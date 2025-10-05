@@ -63,6 +63,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    declarr = {
+      url = "/persist/system/home/upidapi/persist/declarr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-jellyfin = {
       url = "github:upidapi/nixos-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";

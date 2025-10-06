@@ -84,59 +84,59 @@ in {
     };
 
     sops.secrets = {
-      "qbit/password_sonarr" = {
+      "qbit/password_declarr" = {
         key = "qbit/password";
-        owner = config.services.sonarr.user;
+        owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-      "qbit/password_radarr" = {
-        key = "qbit/password";
-        owner = config.services.radarr.user;
-        sopsFile = "${self}/secrets/server.yaml";
-      };
-      "qbit/password_prowlarr" = {
-        key = "qbit/password";
-        owner = config.services.prowlarr.user;
-        sopsFile = "${self}/secrets/server.yaml";
-      };
-      "radarr/password" = {
-        owner = config.services.radarr.user;
-        sopsFile = "${self}/secrets/server.yaml";
-      };
+
       "radarr/api-key" = {
         owner = config.services.radarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-      "radarr/api-key_prowlarr" = {
+      "radarr/api-key_declarr" = {
         key = "radarr/api-key";
-        owner = config.services.prowlarr.user;
+        owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-      "sonarr/password" = {
-        owner = config.services.sonarr.user;
+      "radarr/password_declarr" = {
+        key = "radarr/password";
+        owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
+
       "sonarr/api-key" = {
         owner = config.services.sonarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-      "sonarr/api-key_prowlarr" = {
+      "sonarr/api-key_declarr" = {
         key = "sonarr/api-key";
-        owner = config.services.prowlarr.user;
+        owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-      "prowlarr/password" = {
-        owner = config.services.prowlarr.user;
+      "sonarr/password_declarr" = {
+        key = "sonarr/password";
+        owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
+
       "prowlarr/api-key" = {
         owner = config.services.prowlarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
+      "prowlarr/api-key_declarr" = {
+        key = "prowlarr/api-key";
+        owner = config.services.declarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "prowlarr/password_declarr" = {
+        key = "prowlarr/password";
+        owner = config.services.declarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
     };
 
-    systemd.services = let
-    in {
+    systemd.services = {
       # check if connected
       # sonarr.serviceConfig.ExecStartPre = pkgs.writeScript "test" ''
       #   #!/bin/sh
@@ -151,24 +151,23 @@ in {
       #   vpnNamespace = "mullvad";
       # };
 
+      declarr.serviceConfig.ExecStartPre = let
+        pswFile = config.sops.secrets."qbit/password_declarr".path;
+        url = "http://${ips.mullvad}:${toString ports.qbit}";
+      in
+        pkgs.writeShellScript
+        "declarr_wait-for-deps" ''
+          echo "Wating for qbittorrent to start"
+          ${pkgs.curl}/bin/curl "${url}/api/v2/auth/login" \
+            --retry-connrefused \
+            --retry 5 --retry-delay 5 \
+            --data-urlencode "username=admin" \
+            --data-urlencode "password=$(cat ${pswFile})"
+        '';
+
       sonarr.after = ["qbittorrent.service"];
       radarr.after = ["qbittorrent.service"];
       prowlarr.after = ["qbittorrent.service" "sonarr.service" "prowlarr.service"];
-
-      # sonarr = let
-      #   serviceName = "sonarr";
-      #   apiKeyEnvVar = "${lib.toUpper serviceName}__AUTH__APIKEY";
-      # in {
-      #   after = ["qbittorrent.service"];
-      #   serviceConfig = {
-      #     ExecStart = lib.mkForce pkgs.writeScript "test" ''
-      #       ${apiKeyEnvVar}=$(cat ${cfg.apiKeyFile}) \
-      #         ${lib.getExe cfg.package} \
-      #         -nobrowser \
-      #         -data="${cfg.dataDir}"&
-      #     '';
-      #   };
-      # };
     };
 
     services = {
@@ -216,13 +215,12 @@ in {
         config = rec {
           declarr = {
             globalResolvePaths = [
-              "$[*].config.host.password"
-              "$[*].config.host.passwordConfirmation"
-              "$[*].config.host.apikey"
-
-              "$[*].indexer[*].fields.password"
-
-              "$[*].applications[*].fields.apiKey"
+              "$.*.config.host.password"
+              "$.*.config.host.passwordConfirmation"
+              "$.*.config.host.apiKey"
+              "$.*.applications.*.fields.apiKey"
+              "$.*.indexer.*.fields.password"
+              "$.*.downloadClient.*.fields.password"
             ];
           };
 
@@ -231,7 +229,7 @@ in {
               type = "sonarr";
               url = "http://localhost:${toString ports.sonarr}";
             };
-            rootFolders = ["/raid/media/tv"];
+            rootFolder = ["/raid/media/tv"];
             downloadClient = {
               "qBittorrent" = {
                 implementation = "QBittorrent";
@@ -239,7 +237,7 @@ in {
                   port = ports.qbit;
                   host = ips.mullvad;
                   username = "admin";
-                  password = config.sops.secrets."qbit/password_sonarr".path;
+                  password = config.sops.secrets."qbit/password_declarr".path;
                   sequentialOrder = true;
                 };
               };
@@ -279,7 +277,7 @@ in {
               };
               host = rec {
                 # id = 1;
-                apiKey = config.sops.secrets."sonarr/api-key".path;
+                apiKey = config.sops.secrets."sonarr/api-key_declarr".path;
 
                 analyticsEnabled = false;
 
@@ -290,7 +288,7 @@ in {
                 # password = "";
 
                 username = "admin";
-                password = config.sops.secrets."sonarr/password".path;
+                password = config.sops.secrets."sonarr/password_declarr".path;
                 passwordConfirmation = password;
 
                 backupInterval = 7;
@@ -302,7 +300,7 @@ in {
                 proxyEnabled = false;
                 sslCertPath = "";
                 sslCertPassword = "";
-                instanceName = "";
+                instanceName = "Sonarr";
                 # if instanceName == null
                 # then serviceName
                 # else instanceName;
@@ -370,10 +368,11 @@ in {
               host =
                 sonarr.config.host
                 // rec {
+                  instanceName = "Radarr";
                   username = "admin";
-                  password = config.sops.secrets."radarr/password".path;
+                  password = config.sops.secrets."radarr/password_declarr".path;
                   passwordConfirmation = password;
-                  apiKey = config.sops.secrets."radarr/api-key".path;
+                  apiKey = config.sops.secrets."radarr/api-key_declarr".path;
                   port = ports.radarr;
                 };
               naming = {
@@ -384,7 +383,7 @@ in {
               };
             };
 
-            rootFolders = ["/raid/media/movies"];
+            rootFolder = ["/raid/media/movies"];
             downloadClient = {
               "qBittorrent" = {
                 implementation = "QBittorrent";
@@ -392,7 +391,7 @@ in {
                   port = ports.qbit;
                   host = ips.mullvad;
                   username = "admin";
-                  password = config.sops.secrets."qbit/password_radarr".path;
+                  password = config.sops.secrets."qbit/password_declarr".path;
                   sequentialOrder = true;
                 };
               };
@@ -438,10 +437,11 @@ in {
               host =
                 sonarr.config.host
                 // rec {
+                  instanceName = "Prowlarr";
                   username = "admin";
-                  password = config.sops.secrets."prowlarr/password".path;
+                  password = config.sops.secrets."prowlarr/password_declarr".path;
                   passwordConfirmation = password;
-                  apiKey = config.sops.secrets."prowlarr/api-key".path;
+                  apiKey = config.sops.secrets."prowlarr/api-key_declarr".path;
                   port = ports.prowlarr;
                 };
             };
@@ -450,12 +450,12 @@ in {
               "Sonarr" = {
                 syncLevel = "fullSync";
                 implementation = "Sonarr";
-                fields.apiKey = config.sops.secrets."sonarr/api-key_prowlarr".path;
+                fields.apiKey = config.sops.secrets."sonarr/api-key_declarr".path;
               };
               "Radarr" = {
                 syncLevel = "fullSync";
                 implementation = "Radarr";
-                fields.apiKey = config.sops.secrets."radarr/api-key_prowlarr".path;
+                fields.apiKey = config.sops.secrets."radarr/api-key_declarr".path;
               };
             };
 
@@ -466,7 +466,7 @@ in {
                   port = ports.qbit;
                   host = ips.mullvad;
                   username = "admin";
-                  password = config.sops.secrets."qbit/password_prowlarr".path;
+                  password = config.sops.secrets."qbit/password_declarr".path;
                   sequentialOrder = true;
                 };
               };
@@ -481,7 +481,7 @@ in {
               };
             };
 
-            indexers = {
+            indexer = {
               "1337x" = {
                 implementation = "Cardigann";
                 fields = {
@@ -523,13 +523,14 @@ in {
                   definitionFile = "thepiratebay";
                 };
               };
-              "TheRARBG" = {
-                implementation = "Cardigann";
-                fields = {
-                  definitionFile = "therarbg";
-                  sort = 0; # created desc
-                };
-              };
+              # seams to be removed
+              # "TheRARBG" = {
+              #   implementation = "Cardigann";
+              #   fields = {
+              #     definitionFile = "therarbg";
+              #     sort = 0; # created desc
+              #   };
+              # };
               "YTS" = {
                 implementation = "Cardigann";
                 fields = {

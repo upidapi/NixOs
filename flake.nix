@@ -57,14 +57,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    declarative-arr = {
-      url = "github:upidapi/declarative-arr";
-      # url = "/persist/system/home/upidapi/persist/declarative-arr";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # declarative-arr = {
+    #   url = "github:upidapi/declarative-arr";
+    #   # url = "/persist/system/home/upidapi/persist/declarative-arr";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     declarr = {
-      url = "/persist/system/home/upidapi/persist/declarr";
+      # url = "/persist/system/home/upidapi/persist/declarr";
+      url = "github:upidapi/declarr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -86,10 +86,11 @@ in {
 
     # REF: https://github.com/Permafrozen/dot-nixe/blob/e4be619686f20b5d87e7ac9b5628b34257c2edee/configs/pkgs/stylix/default.nix#L5
     cursor = let
-      mcmojave = builtins.fetchGit {
-        url = "https://github.com/vinceliuice/McMojave-cursors.git";
-        ref = "main";
+      mcmojave = pkgs.fetchFromGitHub {
+        owner = "vinceliuice";
+        repo = "McMojave-cursors";
         rev = "7d0bfc1f91028191cdc220b87fd335a235ee4439";
+        hash = "sha256-4YqSucpxA7jsuJ9aADjJfKRPgPR89oq2l0T1N28+GV0=";
       };
       mcmojave-cursor = pkgs.stdenv.mkDerivation {
         pname = "mcmojave-cursor";

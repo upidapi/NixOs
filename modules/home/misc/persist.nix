@@ -25,12 +25,12 @@ in {
   #  So if you have /persist/system/home/$user/a and persist the file "a"
   #  then ~/a will still be linked to the dir in /persist/$user/a
   config = mkIf cfg.enable {
-    home.persistence."/persist/system/home/${config.home.username}" = {
+    home.persistence."/persist/system" = {
       directories = [
         # force organisation by only persisting ~/persist
         {
           directory = "persist";
-          method = "symlink";
+          # method = "symlink";
           # method = "bindfs";
         }
 
@@ -119,7 +119,7 @@ in {
         ".screenrc"
         # ".zsh_history"  # zsh command history
       ];
-      allowOther = true;
+      # allowOther = true;
     };
   };
 }

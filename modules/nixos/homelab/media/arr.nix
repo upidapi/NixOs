@@ -20,7 +20,7 @@
     options.services.${name}.apiKeyFile = mkOption {
       type = lib.types.str;
     };
-    config.systemd.services.${name}.serviceConfig.ExecStart =
+    config.systemd.services.${name}.serviceConfig.ExecStart = mkIf cfg.enable (
       lib.mkForce
       (pkgs.writeShellScript
         "init-${name}" ''
@@ -28,7 +28,8 @@
             ${lib.getExe cfg.package} \
             -nobrowser \
             -data="${cfg.dataDir}"
-        '');
+        '')
+    );
   };
 in {
   options.modules.nixos.homelab.media.arr = mkEnableOpt "";

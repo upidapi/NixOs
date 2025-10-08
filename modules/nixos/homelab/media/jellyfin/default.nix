@@ -203,10 +203,10 @@ in {
         };
         encoding = {
           enableHardwareEncoding = true;
-          hardwareAccelerationType = "vaapi";
+          hardwareAccelerationType = "nvenc";
           enableDecodingColorDepth10Hevc = true;
           allowHevcEncoding = true;
-          allowAv1Encoding = true;
+          # allowAv1Encoding = true;
           hardwareDecodingCodecs = [
             "h264"
             "hevc"

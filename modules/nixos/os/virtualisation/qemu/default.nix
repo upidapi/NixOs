@@ -61,13 +61,14 @@ in {
           # does this do anything?
           package = pkgs.qemu_kvm;
 
+          # should all be included by default now
           # passthrugh stuff
-          ovmf = {
-            enable = true;
-
-            # Include OVMF_CODE.secboot.fd
-            packages = [pkgs.OVMFFull.fd];
-          };
+          # ovmf = {
+          #   enable = true;
+          #
+          #   # Include OVMF_CODE.secboot.fd
+          #   packages = [pkgs.OVMFFull.fd];
+          # };
 
           # virtual tpm
           swtpm = enable;

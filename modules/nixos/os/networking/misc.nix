@@ -21,5 +21,7 @@ in {
       '';
     };
     users.groups.no-internet = {};
+
+    networking.nameservers = ["1.1.1.1"];
   };
 }

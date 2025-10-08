@@ -28,9 +28,9 @@
       urllib3
       python-dateutil
       # pydantic
-    (pydantic_1.overridePythonAttrs (old: {
-      propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ old.optional-dependencies.email;
-    }))
+      (pydantic_1.overridePythonAttrs (old: {
+        propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ old.optional-dependencies.email;
+      }))
       # (pydantic_1.overridePythonAttrs (old: {
       #   version = "1.10.12";
       #

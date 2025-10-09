@@ -32,8 +32,8 @@ in {
   #   }
   # ];
 
-  sops.secrets."users/upidapi" = {};
-  sops.secrets."users/root" = {};
+  sops.secrets."users/root".neededForUsers = true;
+  sops.secrets."users/upidapi".neededForUsers = true;
 
   users.users = {
     upidapi = {

@@ -18,8 +18,8 @@ in {
     inputs.nixos-hardware.nixosModules.gigabyte-b550
   ];
 
-  sops.secrets."users/upidapi" = {};
-  sops.secrets."users/root" = {};
+  sops.secrets."users/root".neededForUsers = true;
+  sops.secrets."users/upidapi".neededForUsers = true;
 
   users.users = {
     upidapi = {
@@ -52,7 +52,7 @@ in {
       openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
 
-    root.hashedPassword = config.sops.secrets."users/root".path;
+    root.hashedPasswordFile = config.sops.secrets."users/root".path;
   };
 
   # head -c4 /dev/urandom | od -A none -t x4

@@ -1,8 +1,10 @@
 {
+  self,
   pkgs,
   mlib,
   const,
   inputs,
+  config,
   ...
 }: let
   inherit (const) keys;
@@ -15,6 +17,9 @@ in {
     # fixes suspend issues
     inputs.nixos-hardware.nixosModules.gigabyte-b550
   ];
+
+  sops.secrets."users/upidapi" = {};
+  sops.secrets."users/root" = {};
 
   users.users = {
     upidapi = {
@@ -29,7 +34,8 @@ in {
         "media"
       ];
 
-      hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
+      # mkpasswd "<password>" | wl-copy
+      hashedPasswordFile = config.sops.secrets."users/upidapi".path;
 
       openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
@@ -46,7 +52,7 @@ in {
       openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
 
-    root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
+    root.hashedPassword = config.sops.secrets."users/root".path;
   };
 
   # head -c4 /dev/urandom | od -A none -t x4

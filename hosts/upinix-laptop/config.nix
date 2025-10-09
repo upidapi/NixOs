@@ -3,6 +3,7 @@
   const,
   lib,
   pkgs,
+  config,
   ...
 }: let
   inherit (const) keys;
@@ -31,6 +32,9 @@ in {
   #   }
   # ];
 
+  sops.secrets."users/upidapi" = {};
+  sops.secrets."users/root" = {};
+
   users.users = {
     upidapi = {
       isNormalUser = true;
@@ -44,7 +48,7 @@ in {
         "media"
       ];
 
-      hashedPassword = "$y$j9T$EYMQdTmw82Nd2wnoDxrB10$OGquV37TGBUPTjhQAQ71xCMtmo3y0mnQiznUbME4UT3";
+      hashedPasswordFile = config.sops.secrets."users/upidapi".path;
 
       openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
@@ -61,7 +65,7 @@ in {
       openssh.authorizedKeys.keys = [keys.users.upidapi];
     };
 
-    root.hashedPassword = "$y$j9T$kV/aEFz0la0QtThvK5Ghp1$oxghtnjsA0mSXrM62uY99l7ijDIN5tIFynkKhNcEOP0";
+    root.hashedPasswordFile = config.sops.secrets."users/root".path;
   };
   # optimise for battery
   #     green: efficiency

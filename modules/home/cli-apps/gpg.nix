@@ -11,7 +11,7 @@ in {
   options.modules.home.cli-apps.gpg = mkEnableOpt "enables pgp";
   config = mkIf cfg.enable {
     services.gpg-agent = {
-      # enable = true; # BROKEN: idk why
+      enable = true; # BROKEN: idk why
       # enableScDaemon = true; # ?
       # enableSshSupport = true; ?
       # enableExtraSocket = true;

@@ -64,7 +64,10 @@ in {
       policies = config.programs.firefox.policies;
       profiles =
         lib.mapAttrs (_: v: {
-          inherit (v) id name extensions settings;
+          inherit (v) id name settings;
+          extensions = {
+            inherit (v.extensions) packages;
+          };
           search = {
             inherit (v.search) force default engines;
           };

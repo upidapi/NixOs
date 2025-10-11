@@ -45,6 +45,8 @@ You can download the official iso
 selecting eng international reduces initial bloat
 
 Use `start ms-cxh:localonly` to bypass the account requirement
+- this no longer works
+- this does https://www.youtube.com/watch?v=aEWb1otLVPo
 
 ### Run win-utils
 ```bash

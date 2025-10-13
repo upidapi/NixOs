@@ -119,7 +119,7 @@ in {
         ".screenrc"
         # ".zsh_history"  # zsh command history
       ];
-      allowOther = true;
+      # allowOther = true;
     };
   };
 }

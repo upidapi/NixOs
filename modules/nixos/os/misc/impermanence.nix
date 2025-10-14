@@ -57,21 +57,22 @@ in {
     # /home/upidapi/.ssh => /persist/system/home/upidapi/.ssh
 
     # disko can't / won't automatically create the storage locations
-    # so we have to create them ourselves (they might have chagned this)
+    # so we have to create them ourselves (they might have changed this)
+
     systemd.tmpfiles.rules =
       [
         # /persist/system created, owned by root
-        "d /persist/system/ 0777 root root -"
+        "d /persist/system/ 0755 root root -"
 
         # /persist/system/home created, owned by root
-        "d /persist/system/home/ 0777 root root -"
+        "d /persist/system/home/ 0755 root root -"
 
         # make sure that each user owns it's own persistent
         # home directory
       ]
       ++ (
         builtins.map (
-          user-name: "d /persist/system/home/${user-name} 0770 ${user-name} users -"
+          user-name: "d /persist/system/home/${user-name} 0700 ${user-name} users -"
         )
         (
           builtins.attrNames

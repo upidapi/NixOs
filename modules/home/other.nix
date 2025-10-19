@@ -28,97 +28,105 @@ in {
       ripgrep = enable;
     };
 
-    home.sessionVariables = {
-      PAGER = "less";
-      MANPAGER = "less";
+    home = {
+      sessionVariables = {
+        PAGER = "less";
+        MANPAGER = "less";
 
-      TERMINAL = "kitty"; # alacritty
-      BROWSER = "zen"; # firefox
-      EDITOR = "nvim";
-    };
+        TERMINAL = "kitty"; # alacritty
+        BROWSER = "zen"; # firefox
+        EDITOR = "nvim";
+      };
 
-    home.packages =
-      [
-        # used to formatt nix code
-        inputs.alejandra.defaultPackage.${pkgs.system}
-        self'.packages.dev-shell
-        self'.packages.qs
-      ]
-      ++ (with pkgs; [
-        (
-          python3.withPackages (
-            python-pkgs:
-              with python-pkgs; [
-                pyyaml
+      file.".config/nixpkgs/config.nix".text = ''
+        {
+          allowUnfree = true;
+        }
+      '';
 
-                pandas
-                requests
+      packages =
+        [
+          # used to formatt nix code
+          inputs.alejandra.defaultPackage.${pkgs.system}
+          self'.packages.dev-shell
+          self'.packages.qs
+        ]
+        ++ (with pkgs; [
+          (
+            python3.withPackages (
+              python-pkgs:
+                with python-pkgs; [
+                  pyyaml
 
-                dbus-python
-                pygobject3
+                  pandas
+                  requests
 
-                pillow
-                # bleak  # bth le
-                # pybluez
-              ]
+                  dbus-python
+                  pygobject3
+
+                  pillow
+                  # bleak  # bth le
+                  # pybluez
+                ]
+            )
           )
-        )
-        # search nixpkgs with the terminal
-        nix-search-cli
+          # search nixpkgs with the terminal
+          nix-search-cli
 
-        # faster cpz and rmz
-        fuc
+          # faster cpz and rmz
+          fuc
 
-        # find but better
-        fd
+          # find but better
+          fd
 
-        # short tldr for manpages with examples
-        tldr
+          # short tldr for manpages with examples
+          tldr
 
-        # minimal image viewer
-        kdePackages.gwenview
+          # minimal image viewer
+          kdePackages.gwenview
 
-        # terminal audio player
-        mpv
+          # terminal audio player
+          mpv
 
-        # video (/image/audio) viewer
-        vlc
+          # video (/image/audio) viewer
+          vlc
 
-        # view/edit images
-        # https://github.com/NixOS/nixpkgs/pull/425710
-        # BROKEN gimp
+          # view/edit images
+          # https://github.com/NixOS/nixpkgs/pull/425710
+          # BROKEN gimp
 
-        # flash card program
-        # anki
+          # flash card program
+          # anki
 
-        # json parsing cmd
-        jq
+          # json parsing cmd
+          jq
 
-        wget
+          wget
 
-        unzip
+          unzip
 
-        # show file struct
-        tree
+          # show file struct
+          tree
 
-        # check network speed
-        speedtest-cli
+          # check network speed
+          speedtest-cli
 
-        # you can't have both?
-        # clang
-        gcc
+          # you can't have both?
+          # clang
+          gcc
 
-        cargo
-        rustc
+          cargo
+          rustc
 
-        # for formatting a multiple iso usb
-        ventoy
+          # for formatting a multiple iso usb
+          ventoy
 
-        # find out what process is using a file
-        lsof
+          # find out what process is using a file
+          lsof
 
-        # stats about code, logical lines, comments, etc
-        scc
-      ]);
+          # stats about code, logical lines, comments, etc
+          scc
+        ]);
+    };
   };
 }

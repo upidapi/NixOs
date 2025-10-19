@@ -11,7 +11,18 @@
   cfg = config.modules.home.desktop.hypridle;
 in {
   options.modules.home.desktop.hypridle =
-    mkEnableOpt "enables hypridle, an idle listener for hyprland";
+    (mkEnableOpt "enables hypridle, an idle listener for hyprland")
+    // {
+      lock = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+      };
+
+      suspend = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+      };
+    };
 
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
@@ -43,21 +54,24 @@ in {
           ignore_dbus_inhibit = false;
         };
 
-        listener = [
-          {
-            timeout = 60 * 5;
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
-          }
-          {
-            timeout = 60 * 5.5;
-            on-timeout = "pidof hyprlock || hyprlock --immediate --immediate-render --no-fade-in";
-          }
-          {
-            timeout = 60 * 30;
-            on-timeout = "systemctl suspend";
-          }
-        ];
+        listener =
+          [
+            {
+              timeout = 60 * 5;
+              on-timeout = "hyprctl dispatch dpms off";
+              on-resume = "hyprctl dispatch dpms on";
+            }
+          ]
+          ++ (lib.optional cfg.lock
+            {
+              timeout = 60 * 5.5;
+              on-timeout = "pidof hyprlock || hyprlock --immediate --immediate-render --no-fade-in";
+            })
+          ++ (lib.optional cfg.suspend
+            {
+              timeout = 60 * 30;
+              on-timeout = "systemctl suspend";
+            });
       };
     };
   };

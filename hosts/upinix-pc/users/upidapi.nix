@@ -4,14 +4,15 @@
   ...
 }: let
   inherit (mlib) enable enableAnd;
-  inherit (lib) mkForce;
+  # inherit (lib) mkForce;
 in {
   # Don't change this unless you reinstall from scratch.
   home.stateVersion = "23.11"; # Read comment
   modules.home = {
     suites.all = enable;
 
-    desktop.hypridle.enable = mkForce false;
+    # desktop.hypridle.lock = false;
+    desktop.hypridle.suspend = false;
 
     misc.vms = {
       enable = true;

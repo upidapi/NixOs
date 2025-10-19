@@ -213,7 +213,7 @@ in {
             "mpeg2video"
             "vc1"
             "vp9"
-            "av1"
+            # "av1" # not supported by my gpu
           ];
         };
         apikeys = {

@@ -111,8 +111,8 @@ in {
       #   };
     };
 
-    # os.services.syncthing = disable;
-    os.services.syncthing = enable;
+    os.services.syncthing = disable;
+    # os.services.syncthing = enable;
 
     hardware = {
       cpu.amd = enable;

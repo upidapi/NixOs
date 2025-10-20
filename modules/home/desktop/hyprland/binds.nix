@@ -121,7 +121,7 @@ in {
 
         # "$mod, Q, exec, kitty"
         "$mod, S, exec, $TERMINAL"
-        "$mod, Enter, exec, $TERMINAL"
+        "$mod, Return, exec, $TERMINAL"
         "$mod, D, exec, rofi -show drun"
         "$mod, F, exec, $BROWSER"
         "$mod, Escape, exec, hyprlock --immediate --immediate-render"

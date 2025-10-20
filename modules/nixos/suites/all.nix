@@ -55,8 +55,7 @@ in {
           xdg = enable;
 
           login = {
-            # NOTE: when running Hyprland directly the env vars fail to load.
-            #  So o I have to run it in a shell to access the env vars.
+            # NOTE: greetd doesn't call it with env vars, so i have to do this
             command = "zsh -c Hyprland";
             autoLogin = false;
             greetd = enable;
@@ -103,7 +102,7 @@ in {
           podman = enable;
           # vfio = enable;
           qemu = enable;
-          waydroid = enable;
+          # waydroid = enable;
           distrobox = enable;
         };
       };

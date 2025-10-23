@@ -34,7 +34,7 @@
 in {
   options.modules.nixos.homelab.media.arr = mkEnableOpt "";
 
-  # TODO: look at, for a full buildarr referance
+  # REF: buildarr referance
   #  https://github.com/elliott-farrall/dotfiles/blob/c4699d8c61fbbb23d6cb8b244be054c0f39848a5/systems/x86_64-linux/broad/services/media/buildarr/config.yaml
 
   imports = [

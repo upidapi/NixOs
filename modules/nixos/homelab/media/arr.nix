@@ -135,6 +135,12 @@ in {
         owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
+
+      "prowlarr/indexers/torrentLeech/password_declarr" = {
+        key = "prowlarr/indexers/torrentLeech/password";
+        owner = config.services.declarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
     };
 
     systemd.services = {
@@ -481,10 +487,60 @@ in {
                 tags = ["FlareSolverr"];
               };
             };
-
+            appProfile = {
+              Standard = {
+                enableAutomaticSearch = true;
+                enableInteractiveSearch = true;
+                enableRss = true;
+                minimumSeeders = 1;
+              };
+              Automatic = {
+                enableAutomaticSearch = true;
+                enableInteractiveSearch = false;
+                enableRss = true;
+                minimumSeeders = 1;
+              };
+              "Interactive Search" = {
+                enableAutomaticSearch = false;
+                enableInteractiveSearch = true;
+                enableRss = false;
+                minimumSeeders = 1;
+              };
+            };
             indexer = {
+              "TorrentLeech freeleech" = {
+                implementation = "Cardigann";
+                priority = 20; # default 25
+                fields = {
+                  definitionFile = "torrentleech";
+
+                  freeleech = true;
+
+                  username = "upidapi";
+                  password = config.sops.secrets."prowlarr/indexers/torrentLeech/password_declarr".path;
+                };
+                tags = ["FlareSolverr"];
+                appProfileId = "Automatic";
+              };
+
+              "TorrentLeech" = {
+                implementation = "Cardigann";
+                priority = 25; # default 25
+                fields = {
+                  definitionFile = "torrentleech";
+
+                  freeleech = false;
+
+                  username = "upidapi";
+                  password = config.sops.secrets."prowlarr/indexers/torrentLeech/password_declarr".path;
+                };
+                tags = ["FlareSolverr"];
+                appProfileId = "Interactive Search";
+              };
+
               "1337x" = {
                 implementation = "Cardigann";
+                priority = 25; # default 25
                 fields = {
                   definitionFile = "1337x";
                   downloadlink = 1; # magnet
@@ -493,47 +549,27 @@ in {
                   type = 1; # desc
                 };
                 tags = ["FlareSolverr"];
-              };
-              "AnimeTosho" = {
-                implementation = "Torznab";
-                fields = {
-                  baseUrl = "https://feed.animetosho.org";
-                };
+                appProfileId = "Standard";
               };
               "LimeTorrents" = {
                 implementation = "Cardigann";
+                priority = 30; # default 25
                 fields = {
                   definitionFile = "limetorrents";
                   downloadlink = 1; # magnet
                   downloadlink2 = 0; # iTorrents.org
-                  sort = 0; # created
                 };
               };
-              # "Solid Torrents" = {
-              #   implementation = "Cardigann";
-              #   fields = {
-              #     definitionFile = "solidtorrents";
-              #     prefer_magnet_links = true;
-              #     sort = 0; # created
-              #     type = 1; # desc
-              #   };
-              # };
               "The Pirate Bay" = {
                 implementation = "Cardigann";
+                priority = 30; # default 25
                 fields = {
                   definitionFile = "thepiratebay";
                 };
               };
-              # seams to be removed
-              # "TheRARBG" = {
-              #   implementation = "Cardigann";
-              #   fields = {
-              #     definitionFile = "therarbg";
-              #     sort = 0; # created desc
-              #   };
-              # };
               "YTS" = {
                 implementation = "Cardigann";
+                priority = 30; # default 25
                 fields = {
                   definitionFile = "yts";
                 };

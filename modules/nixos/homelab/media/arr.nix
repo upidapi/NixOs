@@ -249,31 +249,78 @@ in {
                 };
               };
             };
+            # FROM: https://trash-guides.info/Sonarr/Sonarr-Quality-Settings-File-Size/#standard
+            # 1000 is inf
             qualityDefinition = {
+              HDTV-720p = {
+                minSize = 10;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
               HDTV-1080p = {
-                minSize = 4;
-                preferredSize = 50;
-                maxSize = 100;
+                minSize = 15;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
+              WEBRip-720p = {
+                minSize = 10;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
+              WEBDL-720p = {
+                minSize = 10;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
+              Bluray-720p = {
+                minSize = 17.1;
+                preferredSize = 995;
+                maxSize = 1000;
               };
               WEBRip-1080p = {
-                minSize = 4;
-                preferredSize = 50;
-                maxSize = 100;
+                minSize = 15;
+                preferredSize = 995;
+                maxSize = 1000;
               };
               WEBDL-1080p = {
-                minSize = 4;
-                preferredSize = 50;
-                maxSize = 100;
+                minSize = 15;
+                preferredSize = 995;
+                maxSize = 1000;
               };
               Bluray-1080p = {
-                minSize = 4;
-                preferredSize = 50;
-                maxSize = 100;
+                minSize = 50.4;
+                preferredSize = 995;
+                maxSize = 1000;
               };
               "Bluray-1080p Remux" = {
-                minSize = 4;
-                preferredSize = 50;
-                maxSize = 150;
+                minSize = 69.1;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
+              HDTV-2160p = {
+                minSize = 25;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
+              WEBRip-2160p = {
+                minSize = 25;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
+              WEBDL-2160p = {
+                minSize = 25;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
+              Bluray-2160p = {
+                minSize = 94.6;
+                preferredSize = 995;
+                maxSize = 1000;
+              };
+              "Bluray-2160p Remux" = {
+                minSize = 187.4;
+                preferredSize = 995;
+                maxSize = 1000;
               };
             };
             config = {
@@ -404,31 +451,78 @@ in {
               };
             };
 
+            # FROM: https://trash-guides.info/Radarr/Radarr-Quality-Settings-File-Size/
+            # 2000 is inf
             qualityDefinition = {
-              WEBRip-1080p = {
-                minSize = 0;
-                preferredSize = 50; # ~2.9 GB/h
-                maxSize = 100;
+              HDTV-720p = {
+                minSize = 17.1;
+                preferredSize = 1999;
+                maxSize = 2000;
               };
-              WEBDL-1080p = {
-                minSize = 0;
-                preferredSize = 50;
-                maxSize = 100;
+              WEBDL-720p = {
+                minSize = 12.5;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              WEBRip-720p = {
+                minSize = 12.5;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              Bluray-720p = {
+                minSize = 25.7;
+                preferredSize = 1999;
+                maxSize = 2000;
               };
               HDTV-1080p = {
-                minSize = 0;
-                preferredSize = 50;
-                maxSize = 100;
+                minSize = 33.8;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              WEBDL-1080p = {
+                minSize = 12.5;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              WEBRip-1080p = {
+                minSize = 12.5;
+                preferredSize = 1999;
+                maxSize = 2000;
               };
               Bluray-1080p = {
-                minSize = 0;
-                preferredSize = 50;
-                maxSize = 100;
+                minSize = 50.8;
+                preferredSize = 1999;
+                maxSize = 2000;
               };
               Remux-1080p = {
-                minSize = 0;
-                preferredSize = 50;
-                maxSize = 100;
+                minSize = 102;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              HDTV-2160p = {
+                minSize = 85;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              WEBDL-2160p = {
+                minSize = 34.5;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              WEBRip-2160p = {
+                minSize = 34.5;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              Bluray-2160p = {
+                minSize = 102;
+                preferredSize = 1999;
+                maxSize = 2000;
+              };
+              Remux-2160p = {
+                minSize = 187.4;
+                preferredSize = 1999;
+                maxSize = 2000;
               };
             };
           };

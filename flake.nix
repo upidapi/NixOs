@@ -64,7 +64,7 @@
     # };
 
     declarr = {
-      # url = "/persist/system/home/upidapi/persist/declarr";
+      # url = "/persist/system/home/upidapi/persist/prog/projects/declarr";
       url = "github:upidapi/declarr";
       inputs.nixpkgs.follows = "nixpkgs";
     };

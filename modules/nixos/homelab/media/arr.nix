@@ -221,6 +221,8 @@ in {
 
         config = rec {
           declarr = {
+            stateDir = "/var/lib/declarr";
+
             globalResolvePaths = [
               "$.*.config.host.password"
               "$.*.config.host.passwordConfirmation"
@@ -229,6 +231,9 @@ in {
               "$.*.indexer.*.fields.password"
               "$.*.downloadClient.*.fields.password"
             ];
+
+            formatDbRepo = "https://github.com/Dictionarry-Hub/Database";
+            formatDbBranch = "stable";
           };
 
           sonarr = {
@@ -248,6 +253,13 @@ in {
                   sequentialOrder = true;
                 };
               };
+            };
+            customFormat = {};
+            qualityProfile = {
+              "1080p Balanced" = {};
+              "1080p Quality" = {};
+              "2160p Balanced" = {};
+              "2160p Quality" = {};
             };
             # FROM: https://trash-guides.info/Sonarr/Sonarr-Quality-Settings-File-Size/#standard
             # 1000 is inf
@@ -449,6 +461,14 @@ in {
                   sequentialOrder = true;
                 };
               };
+            };
+
+            customFormat = {};
+            qualityProfile = {
+              "1080p Balanced" = {};
+              "1080p Quality" = {};
+              "2160p Balanced" = {};
+              "2160p Quality" = {};
             };
 
             # FROM: https://trash-guides.info/Radarr/Radarr-Quality-Settings-File-Size/

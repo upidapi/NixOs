@@ -43,7 +43,7 @@ in {
         bt-dualboot = enable;
         cn-phone = enable;
         cn-bth = enableAnd {
-          deviceAddr = "AC:80:0A:2E:81:6A";
+          deviceAddr = "AC:80:0A:39:DD:C4 ";
         };
         eza = enable;
         btop = enable;

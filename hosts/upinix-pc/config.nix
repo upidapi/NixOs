@@ -103,7 +103,10 @@ in {
       wg-easy = enable;
       homepage = enable;
 
-      impostor = enable;
+      games = {
+        impostor = enable;
+        necesse = enable;
+      };
     };
 
     os.networking = {

@@ -60,6 +60,10 @@ in {
           respond "Hello, world!"
         '';
 
+        # "nes.upidapi.dev".extraConfig = ''
+        #   reverse_proxy 127.0.0.2:4343
+        # '';
+
         # "upidapi.dev".extraConfig = ''
         #   respond "Hello, world!"
         # '';

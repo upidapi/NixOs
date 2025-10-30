@@ -8,6 +8,6 @@
     ./transfer-sh
     ./homepage.nix
     ./wg-easy.nix
-    ./impostor.nix
+    ./games
   ];
 }

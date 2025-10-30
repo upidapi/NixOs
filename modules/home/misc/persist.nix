@@ -49,6 +49,8 @@ in {
         # save sops keys
         ".config/sops"
 
+        ".config/Necesse"
+
         # save nushell command history
         # ".config/nushell/history.txt"
         ".zen"

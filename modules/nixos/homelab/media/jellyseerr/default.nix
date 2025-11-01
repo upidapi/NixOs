@@ -20,16 +20,16 @@ in {
   config = mkIf cfg.enable {
     # not needed since the templater has root perms
     sops.secrets = {
-      #   "radarr/api-key_jellyseerr" = {
-      #     key = "radarr/api-key";
-      #     # owner = config.services.jellyseerr.user;
-      #     sopsFile = "${self}/secrets/server.yaml";
-      #   };
-      #   "sonarr/api-key_jellyseerr" = {
-      #     key = "sonarr/api-key";
-      #     # owner = config.services.jellyseerr.user;
-      #     sopsFile = "${self}/secrets/server.yaml";
-      #   };
+      "radarr/api-key_jellyseerr" = {
+        key = "radarr/api-key";
+        owner = config.services.jellyseerr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "sonarr/api-key_jellyseerr" = {
+        key = "sonarr/api-key";
+        owner = config.services.jellyseerr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
       "jellyseerr/api-key" = {
         key = "jellyseerr/api-key";
         owner = config.services.jellyseerr.user;
@@ -51,35 +51,31 @@ in {
     services.jellyseerr = {
       enable = true;
       port = ports.jellyseerr;
-      # openFirewall = true;
-      force = true;
+      openFirewall = false;
+
+      configDir = "/var/lib/jellyseerr";
       group = "media";
 
-      apiKeyFile = config.sops.secrets."jellyseerr/api-key".path;
-      jellyfin = {
-        email = "videw@icloud.com";
-        username = "admin";
-        passwordFile = config.sops.secrets."jellyfin/users/admin/password_jellyseerr".path;
-      };
-      # users.admin = {
-      #   email = "videw@icloud.com";
-      #   passwordFile = config.sops.secrets."jellyseerr/users/admin/password".path;
-      #   permissions = {
-      #     admin = true;
-      #   };
-      #   mutable = false;
-      # };
-      settings.main.defaultPermissions = {
-        request = true;
-        request4k = true;
-        autoApprove = true;
-        autoApprove4k = true;
-        autoRequest = true;
-      };
-      extraSettings = {
+      config = {
+        declarr = {
+          resolvePaths = [
+            "$.main.apiKey"
+            "$.jellyfin.password"
+            "$.radarr[*].apiKey"
+            "$.sonarr[*].apiKey"
+          ];
+          url = let
+            jcfg = config.services.jellyseerr;
+          in "http://localhost:${toString jcfg.port}";
+        };
+
         jellyfin = {
           name = "upinix-laptop";
-          apiKey = config.sops.placeholder."jellyfin/jellyseerr-api-key";
+          apiKey = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
+
+          email = "videw@icloud.com";
+          username = "admin";
+          password = config.sops.secrets."jellyfin/users/admin/password_jellyseerr".path;
 
           ip = "127.0.0.1"; # or url
           port = ports.jellyfin;
@@ -108,7 +104,15 @@ in {
           ];
         };
         main = {
-          apiKey = config.sops.placeholder."jellyseerr/api-key";
+          apiKey = config.sops.secrets."jellyseerr/api-key".path;
+          defaultPermissions = {
+            request = true;
+            request4k = true;
+            autoApprove = true;
+            autoApprove4k = true;
+            autoRequest = true;
+          };
+
           applicationTitle = "Jellyseerr";
           applicationUrl = "";
           cacheImages = false;
@@ -140,7 +144,7 @@ in {
           {
             id = 0;
             name = "radarr";
-            apiKey = config.sops.placeholder."radarr/api-key";
+            apiKey = config.sops.secrets."radarr/api-key_jellyseerr".path;
 
             hostname = "127.0.0.1";
             # hostname = ips.mullvad;
@@ -168,7 +172,7 @@ in {
           {
             id = 0;
             name = "sonarr";
-            apiKey = config.sops.placeholder."sonarr/api-key";
+            apiKey = config.sops.secrets."sonarr/api-key_jellyseerr".path;
 
             hostname = "127.0.0.1";
             # hostname = ips.mullvad;

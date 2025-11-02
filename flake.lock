@@ -166,6 +166,22 @@
         "type": "github"
       }
     },
+    "declarative-flatpak": {
+      "locked": {
+        "lastModified": 1759051580,
+        "narHash": "sha256-MjIJINFFc+aokxDJIXawSP2kGNain4AJXTLo719ci5Q=",
+        "owner": "in-a-dil-emma",
+        "repo": "declarative-flatpak",
+        "rev": "2b34c5d4281d0de59f7c25080bc26f76f6b1c63d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "in-a-dil-emma",
+        "ref": "latest",
+        "repo": "declarative-flatpak",
+        "type": "github"
+      }
+    },
     "declarative-jellyfin": {
       "inputs": {
         "nixpkgs": [
@@ -196,11 +212,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1762038794,
-        "narHash": "sha256-oTnpOslJb71gogiODivcBce7PSiQbtc/UogOFqIsS+s=",
+        "lastModified": 1762079543,
+        "narHash": "sha256-ZHQvnRHU9PjTaarjllpcck2ipirSepKEPQ3d+H0gwA0=",
         "owner": "upidapi",
         "repo": "declarr",
-        "rev": "db11a3a20170a2d5f06c07038de25cf9d729d297",
+        "rev": "dd574ad36eecea643fbcaf4cc80aed6a43122420",
         "type": "github"
       },
       "original": {
@@ -1150,6 +1166,7 @@
       "inputs": {
         "ags": "ags",
         "alejandra": "alejandra",
+        "declarative-flatpak": "declarative-flatpak",
         "declarative-jellyfin": "declarative-jellyfin",
         "declarr": "declarr",
         "deploy-rs": "deploy-rs",

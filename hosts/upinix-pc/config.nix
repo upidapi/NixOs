@@ -88,6 +88,8 @@ in {
     ];
     */
 
+    misc.flatpak = enable;
+
     homelab = {
       media = enableAnd {
         jellyfin = enable;

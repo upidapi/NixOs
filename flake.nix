@@ -40,6 +40,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    declarative-flatpak = {
+      url = "github:in-a-dil-emma/declarative-flatpak/latest";
+    };
+
     # nixpkgs-23-05.url = "github:NixOS/nixpkgs/release-23.05";
     # tuxedo-nixos = {
     #   url = "github:sylvesterroos/tuxedo-nixos";

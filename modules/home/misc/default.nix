@@ -1,5 +1,6 @@
 {
   imports = [
+    ./flatpak.nix
     ./persist.nix
     ./sops.nix
     ./stylix.nix

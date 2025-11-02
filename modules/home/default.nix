@@ -3,6 +3,7 @@
     ./apps
     ./cli-apps
     ./desktop
+    ./games
     ./services
     ./suites
     ./misc

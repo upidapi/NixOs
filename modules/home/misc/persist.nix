@@ -30,8 +30,6 @@ in {
         # force organisation by only persisting ~/persist
         {
           directory = "persist";
-          # method = "symlink";
-          # method = "bindfs";
         }
 
         ".gnupg"
@@ -40,28 +38,10 @@ in {
         ".local/share/keyrings" # stores passwords (keys)
         ".local/share/direnv"
 
-        # save discord login
-        ".config/discordcanary/Local Storage"
-
-        # save vesktop login
-        ".config/vesktop/sessionData/Local Storage"
-
-        # save sops keys
+        # sops keys, (it seams like this isn't needed)
         ".config/sops"
 
-        ".config/Necesse"
-
-        # save nushell command history
-        # ".config/nushell/history.txt"
-        ".zen"
-
-        ".mozilla/firefox"
-
-        # used to save "initial run" config
-        ".config/BraveSoftware/Brave-Browser/"
-        ".config/google-chrome/"
-
-        ".local/share/Steam"
+        ".nuget"
 
         ".local/share/zoxide" # zoxide history
 
@@ -70,21 +50,27 @@ in {
         # but it too anoying to target that
         # ".config/ghidra"
 
-        # anki stuff
         ".local/share/Anki2"
+
+        ".config/obsidian"
+
+        # syncthing state
+        ".config/syncthing"
 
         # podman images
         ".local/share/containers/storage"
-        /*
-        {
-          directory = ".local/share/Steam";
-          method = "symlink";
-        }
-        */
-        # lutris
-        # "Games/Lutris"
-        # "config/lutris"
-        ".local/share/lutris"
+
+        ##############
+        # technically only this file is needed
+        # .config/Bitwarden/data.json
+        # however bitwarden overrides the symlink
+        ".config/Bitwarden"
+
+        # discord login
+        ".config/discordcanary/Local Storage"
+
+        # vesktop login
+        ".config/vesktop/sessionData/Local Storage"
 
         # save spotify login
         ".config/spotify"
@@ -93,20 +79,26 @@ in {
         ".cache/spotify/Storage" # "encrypted"
         ".cache/spotify/Users" # keys in here # keys in here
 
-        ".nuget"
+        ###### games
+        ".local/share/Steam"
 
-        ".config/obsidian"
+        ".local/share/lutris"
 
         ".config/unity3d"
 
-        # for some reason syncthing stores its state here
-        # (its a system service)
-        ".config/syncthing"
+        # the factory must grow
+        ".factorio"
 
-        # technically only this file is needed
-        # however bitwarden overrides the symlink
-        # ".config/Bitwarden/data.json"
-        ".config/Bitwarden"
+        ".config/Necesse"
+
+        ###### browsers
+        ".zen" # why cant they just put it in .config?!
+
+        ".mozilla/firefox"
+
+        # used to save "initial run" config
+        ".config/BraveSoftware/Brave-Browser/"
+        ".config/google-chrome/"
       ];
       files = [
         # save zsh command history

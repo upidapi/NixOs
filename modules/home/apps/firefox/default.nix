@@ -15,7 +15,9 @@ in {
   options.modules.home.apps.firefox =
     mkEnableOpt "enables firefox";
 
-  imports = [inputs.zen-browser.homeModules.beta];
+  imports = [
+    inputs.zen-browser.homeModules.beta
+  ];
 
   # https://addons.mozilla.org/en-US/firefox/addon/netflux/
   # https://itsfoss.com/netflix-full-hd-firefox/

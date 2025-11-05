@@ -10,7 +10,7 @@
 in {
   options.modules.home.games.roblox = mkEnableOpt "";
 
-  # need to use 
+  # need to use
   # flatpak run org.vinegarhq.Sober
   config = mkIf cfg.enable {
     services.flatpak.packages = [

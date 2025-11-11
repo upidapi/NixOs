@@ -36,9 +36,10 @@ in {
       nix = {
         cfg-path = "/persist/nixos";
 
-        cachix = enable;
-        flakes = enable;
+        nh = enable;
         gc = enable;
+        cachix = enable;
+        githubToken = enable;
         misc = enable;
       };
 

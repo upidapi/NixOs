@@ -26,7 +26,7 @@ in {
       enable = true;
 
       settings = {
-        aliases = {
+        alias = {
           # add all git aliases here
           a = "add";
           aa = "add --all";

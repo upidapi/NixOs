@@ -17,46 +17,54 @@ in {
     mkEnableOpt "Whether or not to add git";
 
   config = mkIf cfg.enable {
+    programs.delta = {
+      enable = true;
+      enableGitIntegration = true;
+    };
+
     programs.git = {
       enable = true;
 
-      aliases = {
-        # add all git aliases here
-        a = "add";
-        aa = "add --all";
+      settings = {
+        aliases = {
+          # add all git aliases here
+          a = "add";
+          aa = "add --all";
 
-        d = "diff";
+          d = "diff";
 
-        pl = "pull";
-        pu = "push";
+          pl = "pull";
+          pu = "push";
 
-        s = "status";
+          s = "status";
 
-        c = "commit";
-        cm = "commit -m";
-        ca = "commit --amend";
+          c = "commit";
+          cm = "commit -m";
+          ca = "commit --amend";
 
-        C = "clone";
+          C = "clone";
 
-        rb = "rebase";
-        rba = "rebase --abort";
-        rbc = "rebase --continue";
-        rbi = "rebase --interactive";
+          rb = "rebase";
+          rba = "rebase --abort";
+          rbc = "rebase --continue";
+          rbi = "rebase --interactive";
 
-        r = "restore";
-        rs = "restore --staged";
-      };
-
-      delta = {
-        enable = true;
-        options = {
-          navigate = true;
-          dark = true;
-          line-numbers = true;
+          r = "restore";
+          rs = "restore --staged";
         };
-      };
 
-      extraConfig = {
+        user.name = "upidapi";
+        user.email = "videw@icloud.com";
+
+        delta = {
+          enable = true;
+          options = {
+            navigate = true;
+            dark = true;
+            line-numbers = true;
+          };
+        };
+
         core = {
           editor = "nvim";
           eol = "lf";
@@ -163,9 +171,6 @@ in {
         "*.md   text eol=lf diff=markdown"
         "*.tex  text diff=tex"
       ];
-
-      userName = "upidapi";
-      userEmail = "videw@icloud.com";
     };
   };
 }

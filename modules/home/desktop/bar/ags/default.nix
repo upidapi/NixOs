@@ -53,6 +53,13 @@ in {
     };
   in
     mkIf cfg.enable {
+      # doesnt work for some reason
+      # nixpkgs.overlays = [
+      #   (_: super: {
+      #     wrapGAppsHook = super.wrapGAppsHook3;
+      #   })
+      # ];
+
       wayland.windowManager.hyprland.settings = {
         exec-once = ["ags run"];
       };

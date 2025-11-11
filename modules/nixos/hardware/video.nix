@@ -22,7 +22,7 @@ in {
 
     # benchmarking tools
     environment.systemPackages = with pkgs; [
-      glxinfo
+      mesa-demos
       glmark2
     ];
   };

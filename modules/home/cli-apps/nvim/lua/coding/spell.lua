@@ -6,7 +6,7 @@ vim.o.linebreak = true
 local cfg = vim.env.NIXOS_CONFIG_PATH
 if cfg then
     vim.o.spellfile = cfg
-        .. "/modules/home/cli-apps/neovim/runtime/spell/en.utf-8.add"
+        .. "/modules/home/cli-apps/nvim/runtime/spell/en.utf-8.add"
 end
 
 vim.opt.spelloptions = { "camel", "noplainbuffer" }

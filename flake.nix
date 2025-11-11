@@ -26,6 +26,8 @@
 
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
+    nixpkgs-necesse.url = "github:nixos/nixpkgs/6484f0bbd03376d57804bfef5db9cf8da2f1c45c";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     home-manager = {
@@ -182,7 +184,7 @@
 
     ags = {
       url = "github:aylur/ags/v2.2.1";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
 }

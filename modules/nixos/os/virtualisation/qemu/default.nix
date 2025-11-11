@@ -39,7 +39,7 @@ in {
       spice-gtk
       spice-protocol
 
-      win-virtio
+      virtio-win
       win-spice
 
       # apparently sometimes needed

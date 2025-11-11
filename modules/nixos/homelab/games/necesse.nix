@@ -3,25 +3,25 @@
   lib,
   mlib,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.games.necesse;
-
-  necesse-server =
-    (import (fetchTarball {
-        # Pick a specific nixpkgs commit from GitHub
-        url = "https://github.com/NixOS/nixpkgs/archive/ae824da8858.tar.gz";
-        sha256 = "sha256:0nm4b3ycdidgrn6vzzzxfs1gqwsiglvzls42xhylhpbgh5r4vp75";
-        # You can get this URL from a commit page on GitHub
-      }) {
-        inherit (pkgs) system;
-        config = {
-          allowUnfree = true;
-        };
-      })
-    .necesse-server;
+  # necesse-server =
+  #   (import (fetchTarball {
+  #       # Pick a specific nixpkgs commit from GitHub
+  #       url = "https://github.com/NixOS/nixpkgs/archive/ae824da8858.tar.gz";
+  #       sha256 = "sha256:0nm4b3ycdidgrn6vzzzxfs1gqwsiglvzls42xhylhpbgh5r4vp75";
+  #       # You can get this URL from a commit page on GitHub
+  #     }) {
+  #       inherit (pkgs) system;
+  #       config = {
+  #         allowUnfree = true;
+  #       };
+  #     })
+  #   .necesse-server;
 in {
   options.modules.nixos.homelab.games.necesse = mkEnableOpt "";
 
@@ -38,7 +38,13 @@ in {
         ExecStart = lib.getExe (pkgs.writeShellApplication {
           name = "run-necesse-server";
           runtimeInputs = [
-            necesse-server
+            (import inputs.nixpkgs-necesse {
+              inherit (pkgs.stdenv) system;
+              config.allowUnfree = true;
+              config.google-chrome.enableWideVine = true;
+            })
+            .necesse-server
+
             pkgs.curl
           ];
           text = ''

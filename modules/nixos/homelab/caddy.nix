@@ -28,6 +28,7 @@ in {
 
     services.caddy = {
       enable = true;
+      email = "videw@icloud.com";
       # acmeCA = "https://acme-staging-v02.api.letsencrypt.org/directory";
       # logFormat = "level DEBUG";
       extraConfig = ''
@@ -59,6 +60,21 @@ in {
         "upidapi.com".extraConfig = ''
           respond "Hello, world!"
         '';
+        # "*.upidapi.dev".extraConfig = ''
+        #   import harden_headers
+        #
+        #   # needed to make cloudflare see that the website doesnt exist
+        #   tls videw@icloud.com
+        #
+        #   respond "Server not found" 404
+        # '';
+        # "*.upidapi.com".extraConfig = ''
+        #   import harden_headers
+        #
+        #   tls videw@icloud.com
+        #
+        #   respond "Server not found" 404
+        # '';
 
         # "nes.upidapi.dev".extraConfig = ''
         #   reverse_proxy 127.0.0.2:4343

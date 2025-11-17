@@ -80,31 +80,56 @@ in {
     stylix.targets.zen-browser.enable = false;
     stylix.targets.zen-browser.profileNames = [];
 
-    home.file.".local/share/applications/zen-base.desktop".text = ''
-      [Desktop Entry]
-      Categories=Network;WebBrowser
-      Exec=zen --name "zen base" -P "base" %U
-      GenericName=Web Browser
-      Icon=zen
-      Name=Zen Base
-      StartupNotify=true
-      StartupWMClass=zen
-      Terminal=false
-      Type=Application
-    '';
-
-    home.file.".local/share/applications/firefox-base.desktop".text = ''
-      [Desktop Entry]
-      Categories=Network;WebBrowser
-      Exec=firefox --name "firefox base" -P "base" %U
-      GenericName=Web Browser
-      Icon=firefox
-      Name=Firefox Base
-      StartupNotify=true
-      StartupWMClass=firefox
-      Terminal=false
-      Type=Application
-    '';
+    home.file = {
+      ".local/share/applications/zen.desktop".text = ''
+        [Desktop Entry]
+        Categories=Network;WebBrowser
+        Exec=zen --name "zen" -P "upidapi" %U
+        GenericName=Web Browser
+        Icon=zen
+        Name=Zen Base
+        StartupNotify=true
+        StartupWMClass=zen
+        Terminal=false
+        Type=Application
+      '';
+      ".local/share/applications/zen-base.desktop".text = ''
+        [Desktop Entry]
+        Categories=Network;WebBrowser
+        Exec=zen --name "zen base" -P "base" %U
+        GenericName=Web Browser
+        Icon=zen
+        Name=Zen Base
+        StartupNotify=true
+        StartupWMClass=zen
+        Terminal=false
+        Type=Application
+      '';
+      ".local/share/applications/firefox.desktop".text = ''
+        [Desktop Entry]
+        Categories=Network;WebBrowser
+        Exec=firefox --name "firefox" -P "upidapi" %U
+        GenericName=Web Browser
+        Icon=firefox
+        Name=Firefox Base
+        StartupNotify=true
+        StartupWMClass=firefox
+        Terminal=false
+        Type=Application
+      '';
+      ".local/share/applications/firefox-base.desktop".text = ''
+        [Desktop Entry]
+        Categories=Network;WebBrowser
+        Exec=firefox --name "firefox base" -P "base" %U
+        GenericName=Web Browser
+        Icon=firefox
+        Name=Firefox Base
+        StartupNotify=true
+        StartupWMClass=firefox
+        Terminal=false
+        Type=Application
+      '';
+    };
 
     programs.firefox = rec {
       enable = true;

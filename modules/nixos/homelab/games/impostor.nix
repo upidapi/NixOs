@@ -17,10 +17,10 @@ in {
       reverse_proxy :${toString const.ports.impostor}
     '';
 
-    systemd.services."imposor-game" = {
+    systemd.services."impostor-game" = {
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
-      path = [pkgs.nodejs pkgs.bash];
+      path = [pkgs.nodejs pkgs.bash pkgs.tsx];
       environment.PORT = toString const.ports.impostor;
       serviceConfig = {
         User = "upidapi";

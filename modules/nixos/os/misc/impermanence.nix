@@ -141,6 +141,8 @@ in {
         "/var/lib/bazarr"
         "/var/lib/jackett"
 
+        "/var/lib/minecraft/"
+
         "/var/lib/caddy"
         "/var/lib/wg-easy"
 

@@ -35,13 +35,13 @@ in {
       protocol=cloudflare
       password=${config.sops.placeholder.ddclient-cf-token}
       zone=upidapi.com
-      upidapi.com, *.upidpai.com
+      upidapi.com, *.upidapi.com
 
       protocol=cloudflare
       password=${config.sops.placeholder.ddclient-cf-token}
       zone=upidapi.dev
       wildcard=yes
-      upidapi.dev, ssh.upidapi.dev, vpn.upidapi.dev, *.upidapi.dev
+      upidapi.dev, ssh.upidapi.dev, vpn.upidapi.dev, mc.upidapi.dev, *.upidapi.dev
     '';
 
     users.groups.ddclient = {};

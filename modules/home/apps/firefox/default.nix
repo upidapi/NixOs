@@ -87,7 +87,7 @@ in {
         Exec=zen --name "zen" -P "upidapi" %U
         GenericName=Web Browser
         Icon=zen
-        Name=Zen Base
+        Name=Zen
         StartupNotify=true
         StartupWMClass=zen
         Terminal=false
@@ -123,7 +123,7 @@ in {
         Exec=firefox --name "firefox base" -P "base" %U
         GenericName=Web Browser
         Icon=firefox
-        Name=Firefox Base
+        Name=Firefox
         StartupNotify=true
         StartupWMClass=firefox
         Terminal=false

@@ -80,6 +80,7 @@ in {
         ".cache/spotify/Users" # keys in here # keys in here
 
         ###### games
+        ".local/share/PrismLauncher"
         ".local/share/Steam"
 
         ".local/share/lutris"

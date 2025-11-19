@@ -2,6 +2,7 @@
   config,
   lib,
   mlib,
+  const,
   ...
 }: let
   inherit (lib) mkIf;
@@ -34,6 +35,8 @@ in {
         6807
         6808
         6809
+
+        const.ports.mc-server
       ];
       allowedUDPPorts = [
         7071

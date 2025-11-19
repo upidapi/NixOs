@@ -25,7 +25,7 @@ in {
         keyboard = enable;
         sound = enable;
         video = enable;
-        print = enable;
+        # print = enable; # BROKEN: borked
       };
 
       misc = {

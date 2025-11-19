@@ -141,13 +141,13 @@ in {
           cave = {
             mutable = false;
             loginAttemptsBeforeLockout = null;
-            maxParentalAgeRating = 17;
+            maxParentalRatingSubScore = 17;
             hashedPasswordFile = pswHash "cave";
           };
           tv = {
             mutable = false;
             loginAttemptsBeforeLockout = null;
-            maxParentalAgeRating = 13;
+            maxParentalRatingSubScore = 13;
             hashedPasswordFile = pswHash "tv";
           };
           guest = {

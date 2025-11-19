@@ -108,6 +108,7 @@ in {
       games = {
         impostor = enable;
         necesse = enable;
+        minecraft = enable;
       };
     };
 

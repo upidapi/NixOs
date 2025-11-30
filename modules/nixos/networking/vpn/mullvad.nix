@@ -12,7 +12,6 @@ in {
   options.modules.nixos.networking.vpn.mullvad =
     mkEnableOpt "";
 
-
   config = lib.mkMerge [
     (mkIf cfg.enable {
       services.mullvad-vpn = enableAnd {

@@ -87,6 +87,8 @@ in {
       };
     };
 
+    # TODO: patch vesktop instead
+    #  ive seen people do this on github
     # vesktop schecks if state.json has the "firstLaunch" to
     # determine if it should show the "Welcome to vesktop" page
     home.activation = {

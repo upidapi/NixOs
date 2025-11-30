@@ -58,6 +58,13 @@ creation_rules:
 
           - *upinix-pc
           - *upinix-laptop
+  - path_regex: secrets/proton-wg$
+    key_groups:
+      - age:
+          - *admin
+
+          - *upinix-pc
+          - *upinix-laptop
 
   # host secrets (eg host syncthing, however this should Not actually be on a host level)
   - path_regex: secrets/hosts/upinix-pc.yaml$

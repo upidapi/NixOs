@@ -11,9 +11,9 @@
   inherit (const) ports ips;
   inherit (lib) mkIf types;
   inherit (mlib) mkEnableOpt enableAnd;
-  cfg = config.modules.nixos.os.networking.mullvad;
+  cfg = config.modules.nixos.os.networking.vpn.mullvad;
 in {
-  options.modules.nixos.os.networking.mullvad =
+  options.modules.nixos.os.networking.vpn.mullvad =
     mkEnableOpt ""
     // {
       createNamespace = lib.mkOption {

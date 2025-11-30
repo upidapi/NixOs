@@ -9,8 +9,6 @@
   inherit (lib) mkIf;
   cfg = config.modules.nixos.os.misc.noshell;
 in {
-  # might want to remove/disable the import when
-  # this modules is disabled
   imports = [
     inputs.noshell.nixosModules.default
   ];

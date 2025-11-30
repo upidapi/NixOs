@@ -92,6 +92,10 @@ in {
         misc = enable;
         openssh = enable;
 
+        vpn = {
+          proton = enable;
+        };
+
         firewall = {
           fail2ban = enable;
           ports = enable;

@@ -1,22 +1,22 @@
 # REF: https://github.com/yuanw/nix-home/blob/ea651eaa421aeeeb63aeb12f2ffb23e124e8bd2b/packages/proton-vpn-cli/default.nix
 # TODO: use the package in nixpkgs once it lands there
 {
-  buildPythonApplication,
+  python3,
   fetchFromGitHub,
-  setuptools,
+  # setuptools,
   lib,
   # Python dependencies
-  proton-core,
-  proton-vpn-api-core,
-  proton-keyring-linux,
-  proton-vpn-network-manager,
-  proton-vpn-local-agent,
-  click,
-  dbus-fast,
-  packaging,
+  # proton-core,
+  # proton-vpn-api-core,
+  # proton-keyring-linux,
+  # proton-vpn-network-manager,
+  # proton-vpn-local-agent,
+  # click,
+  # dbus-fast,
+  # packaging,
   # For tests (optional)
 }:
-buildPythonApplication {
+python3.pkgs.buildPythonApplication {
   pname = "proton-vpn-cli";
   version = "0.1.2";
 
@@ -29,9 +29,9 @@ buildPythonApplication {
     hash = "sha256-przQVRGEqJRT+QQIyFwZqPduPeSI9ERoovJxdHx2aos=";
   };
 
-  build-system = [setuptools];
+  build-system = with python3.pkgs; [setuptools];
 
-  propagatedBuildInputs = [
+  propagatedBuildInputs = with python3.pkgs; [
     proton-core
     proton-vpn-api-core
     proton-keyring-linux

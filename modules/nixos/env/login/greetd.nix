@@ -23,7 +23,7 @@
     "${sessionData}/share/wayland-sessions"
   ];
 
-  loginCfg = config.modules.nixos.os.env.login;
+  loginCfg = config.modules.nixos.env.login;
 
   initialSession = let
     inherit (config.modules.nixos.os) primaryUser;

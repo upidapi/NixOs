@@ -114,10 +114,12 @@ in {
 
     networking = {
       # wireguard.server = enable;
-      vpn.mullvad = {
-        enable = true;
-        createNamespace = true;
-      };
+      # vpn.mullvad = {
+      #   enable = true;
+      #   createNamespace = true;
+      # };
+
+      vpn.namespaces.proton = true;
     };
 
     hardware = {

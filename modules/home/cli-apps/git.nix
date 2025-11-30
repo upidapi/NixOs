@@ -91,8 +91,8 @@ in {
         safe.directory = [
           # this is here coz /persist/nixos/ isn't owned by us
           # and that makes git angry
-          "${osConfig.modules.nixos.nix.cfg-path}"
-          "${osConfig.modules.nixos.nix.cfg-path}/.git"
+          "${osConfig.modules.nixos.misc.nix.cfg-path}"
+          "${osConfig.modules.nixos.misc.nix.cfg-path}/.git"
         ];
 
         merge.conflictstyle = "diff3";

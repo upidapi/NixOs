@@ -15,7 +15,7 @@ in {
     systemd.tmpfiles.settings = {
       # the name is arbitrary
       "set-cfg-perm" = {
-        "${config.modules.nixos.nix.cfg-path}" = {
+        "${config.modules.nixos.misc.nix.cfg-path}" = {
           Z = {
             user = "root";
             group = "wheel";

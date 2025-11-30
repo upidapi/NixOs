@@ -1,16 +1,6 @@
 {lib, ...}: let
   inherit (lib) nullOr str mkOption;
 in {
-  imports = [
-    ./boot
-    ./env
-    ./misc
-    ./networking
-    ./programs
-    ./services
-    ./virtualisation
-  ];
-
   options.modules.nixos.os = {
     primaryUser = mkOption {
       type = nullOr str;

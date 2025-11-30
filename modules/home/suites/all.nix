@@ -52,7 +52,7 @@ in {
         gpg = enable;
         nix-index = enable;
         # nixvim = enable;
-        neovim = enable;
+        nvim = enable;
         ssh = enable;
         wine = enable;
         zoxide = enable;

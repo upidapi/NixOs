@@ -1,13 +1,15 @@
 {
   imports = [
+    ./env
     ./hardware
     ./homelab
+    ./meta.nix
     ./misc
-    ./nix
-    ./os
+    ./networking
+    ./os.nix
+    ./other.nix
     ./security
     ./suites
-    ./meta.nix
-    ./other.nix
+    ./virtualisation
   ];
 }

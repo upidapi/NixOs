@@ -1,6 +1,8 @@
 {
   imports = [
     ./graphical
+    ./console.nix
+    ./noshell.nix
     ./login
     ./fonts.nix
     ./locale.nix

@@ -8,13 +8,13 @@
   inherit (inputs) nixvirt;
   nlib = nixvirt.lib;
 
-  cfg = config.modules.nixos.os.virtualisation.vms;
+  cfg = config.modules.nixos.virtualisation.vms;
 in {
   imports = [
     inputs.nixvirt.nixosModules.default
   ];
 
-  options.modules.nixos.os.virtualisation.vms = {
+  options.modules.nixos.virtualisation.vms = {
     enable = mkEnableOption "vms (though libvirt using nixvirt)";
   };
 

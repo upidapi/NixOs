@@ -182,7 +182,7 @@ in {
                   ping = href;
                   widget = {
                     type = "qbittorrent";
-                    url = "http://${ips.mullvad}:${toString ports.qbit}";
+                    url = "http://${ips.proton}:${toString ports.qbit}";
                     username = "admin";
                     password = "{{HOMEPAGE_VAR_QBIT_PSW}}";
                   };

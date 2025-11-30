@@ -9,7 +9,7 @@
   inherit (const) wg ports;
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.networking.vpn.wireguard;
+  cfg = config.modules.nixos.networking.vpn.wireguard;
 
   hostName = config.modules.nixos.meta.host-name;
   users = [
@@ -30,7 +30,7 @@ in {
 
   # maybe
   # https://www.privateproxyguide.com/tuning-wireguard-for-ultra-low-latency-connections/
-  options.modules.nixos.os.networking.vpn.wireguard = {
+  options.modules.nixos.networking.vpn.wireguard = {
     server = mkEnableOpt "";
     client = mkEnableOpt "";
   };

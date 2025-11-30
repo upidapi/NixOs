@@ -10,7 +10,7 @@
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
   # inherit (lib.attrsets) genAttrs;
-  cfg = config.modules.nixos.os.misc.sops;
+  cfg = config.modules.nixos.misc.sops;
   # ssh_path = "/persist/system/etc/ssh";
   ssh_path = "/etc/ssh";
   secrets_path = "${self}/secrets";
@@ -21,7 +21,7 @@ in {
     inputs.sops-nix.nixosModules.sops
   ];
 
-  options.modules.nixos.os.misc.sops =
+  options.modules.nixos.misc.sops =
     mkEnableOpt "enables sops";
 
   # we can use "scalpel" to insert keys into arbitrary positions

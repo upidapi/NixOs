@@ -8,9 +8,9 @@
   inherit (const) keys;
   inherit (lib) mkIf mapAttrs mkForce;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.networking.openssh;
+  cfg = config.modules.nixos.networking.openssh;
 in {
-  options.modules.nixos.os.networking.openssh =
+  options.modules.nixos.networking.openssh =
     mkEnableOpt "enable openssh to allow for remote ssh connections";
 
   # could setup aliases with domains if i get more servers

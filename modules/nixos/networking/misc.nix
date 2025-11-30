@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.networking.misc;
+  cfg = config.modules.nixos.networking.misc;
 in {
-  options.modules.nixos.os.networking.misc = mkEnableOpt "";
+  options.modules.nixos.networking.misc = mkEnableOpt "";
 
   config = mkIf cfg.enable {
     # REF: https://askubuntu.com/questions/45072/how-to-control-internet-access-for-each-program

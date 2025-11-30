@@ -8,9 +8,9 @@
   inherit (lib) mkIf drop;
   inherit (mlib) mkEnableOpt;
   inherit (builtins) listToAttrs elemAt foldl';
-  cfg = config.modules.nixos.os.networking.wifi;
+  cfg = config.modules.nixos.networking.wifi;
 in {
-  options.modules.nixos.os.networking.wifi =
+  options.modules.nixos.networking.wifi =
     mkEnableOpt
     "enables wifi for the system";
 

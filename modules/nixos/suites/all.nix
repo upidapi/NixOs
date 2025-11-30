@@ -29,83 +29,81 @@ in {
       };
 
       misc = {
-        steam = enable;
-        dotnet = enable;
-      };
-
-      nix = {
-        cfg-path = "/persist/nixos";
-
-        nh = enable;
-        gc = enable;
-        cachix = enable;
-        githubToken = enable;
-        misc = enable;
-      };
-
-      os = {
-        primaryUser = "upidapi";
-        adminUser = "upidapi";
-
         boot = enable;
 
-        env = {
-          fonts = enable;
-          locale = enable;
-          paths = enable;
-          xdg = enable;
+        impermanence = enable;
+        nix-ld = enable;
+        sops = enable;
 
-          login = {
-            # NOTE: greetd doesn't call it with env vars, so i have to do this
-            command = "zsh -c Hyprland";
-            autoLogin = false;
-            greetd = enable;
-          };
-
-          graphical = {
-            hyprland = enable;
-            # xserver = enable;
-          };
-        };
-
-        misc = {
-          console = enable;
-          impermanence = enable;
-          noshell = enable;
-          nix-ld = enable;
-          sops = enable;
-          # prelockd = enable;
-        };
-
-        networking = {
-          wifi = enable;
-          iphone-tethering = enable;
-
-          misc = enable;
-
-          openssh = enable;
-
-          firewall = {
-            fail2ban = enable;
-            ports = enable;
-          };
+        programs = {
+          dotnet = enable;
+          steam = enable;
         };
 
         services = {
           ntpd = enable;
-          upower = enable;
           syncthing = enable;
           restic = enable;
           # caddy = enable;
         };
 
-        virtualisation = {
-          podman = enable;
-          # vfio = enable;
-          qemu = enable;
-          # waydroid = enable;
-          distrobox = enable;
+        nix = {
+          cfg-path = "/persist/nixos";
+
+          nh = enable;
+          gc = enable;
+          cachix = enable;
+          githubToken = enable;
+          misc = enable;
         };
+      };
+
+      env = {
+        fonts = enable;
+        locale = enable;
+        paths = enable;
+        xdg = enable;
+
+        console = enable;
+        noshell = enable;
+
+        login = {
+          # NOTE: greetd doesn't call it with env vars, so i have to do this
+          command = "zsh -c Hyprland";
+          autoLogin = false;
+          greetd = enable;
+        };
+
+        graphical = {
+          hyprland = enable;
+          # xserver = enable;
+        };
+      };
+
+      os = {
+        primaryUser = "upidapi";
+        adminUser = "upidapi";
+      };
+
+      networking = {
+        wifi = enable;
+        iphone-tethering = enable;
+
+        misc = enable;
+        openssh = enable;
+
+        firewall = {
+          fail2ban = enable;
+          ports = enable;
+        };
+      };
+
+      virtualisation = {
+        podman = enable;
+        # vfio = enable;
+        qemu = enable;
+        # waydroid = enable;
+        distrobox = enable;
       };
 
       security = {

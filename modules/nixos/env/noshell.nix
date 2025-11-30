@@ -7,13 +7,13 @@
 }: let
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.misc.noshell;
+  cfg = config.modules.nixos.env.noshell;
 in {
   imports = [
     inputs.noshell.nixosModules.default
   ];
 
-  options.modules.nixos.os.misc.noshell =
+  options.modules.nixos.env.noshell =
     mkEnableOpt "enables noshell, used to set shell with home manager";
 
   config = mkIf cfg.enable {

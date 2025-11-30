@@ -7,9 +7,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.networking.firewall.ports;
+  cfg = config.modules.nixos.networking.firewall.ports;
 in {
-  options.modules.nixos.os.networking.firewall.ports = mkEnableOpt "open some ports";
+  options.modules.nixos.networking.firewall.ports = mkEnableOpt "open some ports";
 
   config = mkIf cfg.enable {
     networking.firewall = {

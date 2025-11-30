@@ -6,13 +6,13 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types;
-  cfg = config.modules.nixos.os.misc.prelockd;
+  cfg = config.modules.nixos.misc.prelockd;
 
   confFile = pkgs.writeText "prelockd.conf" ''
     ${cfg.extraConfig}
   '';
 in {
-  options.modules.nixos.os.misc.prelockd = {
+  options.modules.nixos.misc.prelockd = {
     enable = mkEnableOption "enable prelockd, to lock executables and shared libraries in memory to improve system responsiveness under low-memory conditions";
 
     extraConfig = mkOption {

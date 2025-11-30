@@ -6,9 +6,9 @@
 }: let
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.boot;
+  cfg = config.modules.nixos.misc.boot;
 in {
-  options.modules.nixos.os.boot =
+  options.modules.nixos.misc.boot =
     mkEnableOpt "whether or not to enable booting";
 
   config.boot.loader = mkIf cfg.enable {

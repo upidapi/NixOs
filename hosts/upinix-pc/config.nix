@@ -112,9 +112,9 @@ in {
       };
     };
 
-    os.networking = {
+    networking = {
       # wireguard.server = enable;
-      mullvad = {
+      vpn.mullvad = {
         enable = true;
         createNamespace = true;
       };

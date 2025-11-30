@@ -89,7 +89,7 @@ in {
         '';
 
         "qbit.upidapi.dev".extraConfig = ''
-          reverse_proxy ${ips.mullvad}:${toString ports.qbit}
+          reverse_proxy ${ips.proton}:${toString ports.qbit}
         '';
 
         "jellyseerr.upidapi.dev".extraConfig = ''

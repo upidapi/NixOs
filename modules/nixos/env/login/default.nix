@@ -6,14 +6,14 @@
 }: let
   inherit (lib) types;
   inherit (mlib) mkOpt;
-  cfg = config.modules.nixos.os.env.login;
+  cfg = config.modules.nixos.env.login;
 in {
   imports = [
     ./greetd.nix
     ./sddm.nix
   ];
 
-  options.modules.nixos.os.env.login = {
+  options.modules.nixos.env.login = {
     autoLogin = mkOpt types.bool false "enable auto login";
     command =
       mkOpt types.str null

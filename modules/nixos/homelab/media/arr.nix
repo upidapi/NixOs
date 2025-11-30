@@ -160,7 +160,7 @@ in {
 
       declarr.serviceConfig.ExecStartPre = let
         pswFile = config.sops.secrets."qbit/password_declarr".path;
-        url = "http://${ips.mullvad}:${toString ports.qbit}";
+        url = "http://${ips.proton}:${toString ports.qbit}";
       in
         pkgs.writeShellScript
         "declarr_wait-for-deps" ''
@@ -247,7 +247,7 @@ in {
                 implementation = "QBittorrent";
                 fields = {
                   port = ports.qbit;
-                  host = ips.mullvad;
+                  host = ips.proton;
                   username = "admin";
                   password = config.sops.secrets."qbit/password_declarr".path;
                   sequentialOrder = true;
@@ -455,7 +455,7 @@ in {
                 implementation = "QBittorrent";
                 fields = {
                   port = ports.qbit;
-                  host = ips.mullvad;
+                  host = ips.proton;
                   username = "admin";
                   password = config.sops.secrets."qbit/password_declarr".path;
                   sequentialOrder = true;
@@ -585,7 +585,7 @@ in {
                 implementation = "QBittorrent";
                 fields = {
                   port = ports.qbit;
-                  host = ips.mullvad;
+                  host = ips.proton;
                   username = "admin";
                   password = config.sops.secrets."qbit/password_declarr".path;
                   sequentialOrder = true;

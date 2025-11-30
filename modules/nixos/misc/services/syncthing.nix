@@ -7,9 +7,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.services.syncthing;
+  cfg = config.modules.nixos.misc.services.syncthing;
 in {
-  options.modules.nixos.os.services.syncthing = mkEnableOpt "enables syncing";
+  options.modules.nixos.misc.services.syncthing = mkEnableOpt "enables syncing";
 
   # Syncthing prevents suspend during sync
   #   also affects restic

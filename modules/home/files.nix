@@ -24,11 +24,11 @@
     escapeShellArg
     ;
 
-  cfg = config.modules.home.standAloneFile;
+  cfg = config.modules.home.files;
 
   homeDirectory = config.home.homeDirectory;
 in {
-  options.modules.home.standAloneFile = mkOption {
+  options.modules.home.files = mkOption {
     description = "standalone files to be created";
     default = {};
 

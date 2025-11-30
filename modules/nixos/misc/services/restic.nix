@@ -7,9 +7,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.services.restic;
+  cfg = config.modules.nixos.misc.services.restic;
 in {
-  options.modules.nixos.os.services.restic =
+  options.modules.nixos.misc.services.restic =
     mkEnableOpt "Add restic for backups";
 
   config = mkIf cfg.enable {

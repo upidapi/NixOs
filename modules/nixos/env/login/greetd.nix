@@ -51,9 +51,9 @@
     );
   };
 
-  cfg = config.modules.nixos.os.env.login.greetd;
+  cfg = config.modules.nixos.env.login.greetd;
 in {
-  options.modules.nixos.os.env.login.greetd =
+  options.modules.nixos.env.login.greetd =
     mkEnableOpt "enables the greetd login manager";
 
   config = mkIf cfg.enable {

@@ -6,9 +6,9 @@
 }: let
   inherit (mlib) mkEnableOpt enable;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.env.graphical.xserver;
+  cfg = config.modules.nixos.env.graphical.xserver;
 in {
-  options.modules.nixos.os.env.graphical.xserver =
+  options.modules.nixos.env.graphical.xserver =
     mkEnableOpt "enables the xserver";
 
   config = mkIf cfg.enable {

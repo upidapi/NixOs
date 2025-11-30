@@ -118,6 +118,8 @@ in {
       cpu.amd = enable;
       gpu.nvidia = enable;
 
+      upower = enable;
+
       monitors.monitors = {
         "desc:BOE 0x0C8E" = {
           width = 2560;

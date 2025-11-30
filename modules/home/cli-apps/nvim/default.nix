@@ -10,14 +10,14 @@
   inherit (mlib) mkEnableOpt disable;
 
   inherit (lib) mkIf;
-  cfg = config.modules.home.cli-apps.neovim;
+  cfg = config.modules.home.cli-apps.nvim;
   inherit (import ./lib.nix lib) listToLuaTable;
 in {
   imports = [
     inputs.mnw.homeManagerModules.mnw
   ];
 
-  options.modules.home.cli-apps.neovim =
+  options.modules.home.cli-apps.nvim =
     mkEnableOpt "enables my neovim config";
 
   # you can run it with

@@ -14,9 +14,9 @@ nix run github:thiagokokada/nix-alien -- yourprogram
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.misc.nix-ld;
+  cfg = config.modules.nixos.misc.nix-ld;
 in {
-  options.modules.nixos.os.misc.nix-ld = mkEnableOpt "";
+  options.modules.nixos.misc.nix-ld = mkEnableOpt "";
 
   config = mkIf cfg.enable {
     programs.nix-ld.enable = true;

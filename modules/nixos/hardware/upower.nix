@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.services.upower;
+  cfg = config.modules.nixos.hardware.upower;
 in {
-  options.modules.nixos.os.services.upower = mkEnableOpt "battery info";
+  options.modules.nixos.hardware.upower = mkEnableOpt "battery info";
 
   config = mkIf cfg.enable {
     services.upower.enable = true;

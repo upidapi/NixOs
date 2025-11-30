@@ -8,9 +8,9 @@
 }: let
   inherit (mlib) mkEnableOpt enable;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.virtualisation.android;
+  cfg = config.modules.nixos.virtualisation.android;
 in {
-  options.modules.nixos.os.virtualisation.android =
+  options.modules.nixos.virtualisation.android =
     mkEnableOpt "other android stuff";
 
   config = mkIf cfg.enable {

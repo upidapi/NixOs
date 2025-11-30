@@ -8,9 +8,9 @@
 }: let
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.virtualisation.podman;
+  cfg = config.modules.nixos.virtualisation.podman;
 in {
-  options.modules.nixos.os.virtualisation.podman =
+  options.modules.nixos.virtualisation.podman =
     mkEnableOpt
     "enables the podman for running containers";
 

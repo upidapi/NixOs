@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.networking.firewall.fail2ban;
+  cfg = config.modules.nixos.networking.firewall.fail2ban;
 in {
-  options.modules.nixos.os.networking.firewall.fail2ban =
+  options.modules.nixos.networking.firewall.fail2ban =
     mkEnableOpt "enables fail2ban to protect agains openssh attacks";
 
   config = mkIf cfg.enable {

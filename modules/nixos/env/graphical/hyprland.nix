@@ -7,9 +7,9 @@
 }: let
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.env.graphical.hyprland;
+  cfg = config.modules.nixos.env.graphical.hyprland;
 in {
-  options.modules.nixos.os.env.graphical.hyprland =
+  options.modules.nixos.env.graphical.hyprland =
     mkEnableOpt "enable system support for hyprland";
 
   imports = [

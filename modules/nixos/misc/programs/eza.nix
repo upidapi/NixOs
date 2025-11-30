@@ -7,9 +7,9 @@
 }: let
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.programs.eza;
+  cfg = config.modules.nixos.misc.programs.eza;
 in {
-  options.modules.nixos.os.programs.eza =
+  options.modules.nixos.misc.programs.eza =
     mkEnableOpt
     "enables eza";
 

@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.os.misc.console;
+  cfg = config.modules.nixos.env.console;
 in {
-  options.modules.nixos.os.misc.console = mkEnableOpt "enables various console things";
+  options.modules.nixos.env.console = mkEnableOpt "enables various console things";
 
   config = mkIf cfg.enable {
     # Configure console keymap

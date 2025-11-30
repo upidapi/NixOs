@@ -6,9 +6,9 @@
 }: let
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf;
-  cfg = config.modules.nixos.os.env.login.sddm;
+  cfg = config.modules.nixos.env.login.sddm;
 in {
-  options.modules.nixos.os.env.login.sddm =
+  options.modules.nixos.env.login.sddm =
     mkEnableOpt "enables the sddm login manager";
 
   config = mkIf cfg.enable {

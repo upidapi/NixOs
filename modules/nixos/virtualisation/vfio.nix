@@ -5,10 +5,10 @@
   ...
 }:
 with lib; let
-  cfg = config.modules.nixos.os.virtualisation.vfio;
+  cfg = config.modules.nixos.virtualisation.vfio;
   hardwareCfg = config.nixos.modules.hardware;
 in {
-  options.modules.nixos.os.virtualisation.vfio = {
+  options.modules.nixos.virtualisation.vfio = {
     enable = mkEnableOption "VFIO Configuration";
 
     devices = mkOption {

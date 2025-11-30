@@ -9,10 +9,10 @@
 }: let
   inherit (mlib) mkOpt;
   inherit (lib) types;
-  cfg = config.modules.nixos.nix;
+  cfg = config.modules.nixos.misc.nix;
 in {
   # used by other modules
-  options.modules.nixos.nix = {
+  options.modules.nixos.misc.nix = {
     cfg-path =
       mkOpt types.str null
       "that absolute path of the nixos config";

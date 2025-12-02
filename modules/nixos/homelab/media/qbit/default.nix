@@ -14,7 +14,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.qbittorrent.vpnConfinement = enableAnd {
-      vpnNamespace = "mullvad";
+      vpnNamespace = "proton";
     };
 
     # TODO: maybe switch to proton vpn since mullvad doesn't support port

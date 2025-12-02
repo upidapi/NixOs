@@ -32,6 +32,7 @@ in {
         "adbusers"
         "docker"
         "media"
+        "minecraft"
       ];
 
       # mkpasswd "<password>" | wl-copy
@@ -119,7 +120,9 @@ in {
       #   createNamespace = true;
       # };
 
-      vpn.namespaces.proton = true;
+      vpn.namespaces = enableAnd {
+        proton = true;
+      };
     };
 
     hardware = {

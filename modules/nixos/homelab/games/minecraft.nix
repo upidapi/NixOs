@@ -16,11 +16,18 @@ in {
     # environment.systemPackages = [
     #   self'.packages.mcman
     # ];
+    users.users.minecraft = {
+      isSystemUser = true;
+      group = "minecraft";
+      # home = cfg.dataDir;
+    };
+    users.groups.minecraft = {};
+
     systemd.tmpfiles.settings.mcServer = {
       "/var/lib/minecraft"."d" = {
-        mode = "700";
-        user = "root";
-        group = "root";
+        mode = "770";
+        user = "minecraft";
+        group = "minecraft";
       };
     };
     systemd.services."mc-server" = {
@@ -32,8 +39,8 @@ in {
         # Group = "users";
 
         # TODO: fix, this shouldnt be hermitcraft modpack
-        WorkingDirectory = "/var/lib/minecraft/hermitcraft";
-        ExecStart = pkgs.writeShellScript "run-impostor-prod" ''
+        WorkingDirectory = "/var/lib/minecraft/SAM-1b-so";
+        ExecStart = pkgs.writeShellScript "run-mc-server" ''
           java -jar fabric-server-launch.jar nogui
         '';
       };

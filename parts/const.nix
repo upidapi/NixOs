@@ -50,6 +50,8 @@ in {
     flaresolverr = 8191;
     homepage = 8082;
 
+    transfer-sh = 8484;
+
     syncthing = 8384;
     wireguard = 51820;
     wg-easy = 51821;
@@ -61,8 +63,8 @@ in {
   };
 
   ips = {
-    mullvad = "192.168.15.1";
-    proton = "192.168.15.2";
+    mullvad = "192.168.16.1";
+    proton = "192.168.15.1";
 
     upinix-pc = "192.168.68.137";
     upinix-laptop = "192.168.68.132";

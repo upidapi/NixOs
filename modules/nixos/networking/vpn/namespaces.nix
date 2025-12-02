@@ -37,18 +37,19 @@ in {
 
     # REF: https://github.com/simonalveteg/nixos-config/blob/906c5c5f0e61dde288a2ec6af06227b4d3ae512a/modules/server/default.nix#L6
     vpnNamespaces = rec {
-      proton =
-        mullvad
-        // {
-          enable = cfg.proton;
-          wireguardConfigFile = config.sops.secrets.proton-wg.path;
-          namespaceAddress = ips.proton;
-        };
-      mullvad = {
-        enable = cfg.mullvad;
-        wireguardConfigFile = config.sops.secrets.mullvad-wg.path;
-        # The address at which the confined services will be accessible.
-        namespaceAddress = ips.mullvad;
+      # mullvad =
+      #   proton
+      #   // {
+      #     enable = cfg.mullvad;
+      #     wireguardConfigFile = config.sops.secrets.mullvad-wg.path;
+      #     # The address at which the confined services will be accessible.
+      #     namespaceAddress = ips.mullvad;
+      #   };
+      proton = {
+        enable = cfg.proton;
+        wireguardConfigFile = config.sops.secrets.proton-wg.path;
+        namespaceAddress = ips.proton;
+
         accessibleFrom = [
           "192.168.0.0/16"
           "10.0.0.0/8"

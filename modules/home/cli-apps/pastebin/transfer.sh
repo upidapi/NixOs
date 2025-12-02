@@ -21,6 +21,7 @@ show_help_message() {
   echo "                      Defaults to 30 days."
   echo "  -p | --pass <password> Encrypt using a password."
   echo "                      Shows decryption instructions."
+  echo "  -v | --verbose"
   echo "  --help              Display this help message and exit."
   echo
   echo "Examples:"
@@ -33,6 +34,7 @@ show_help_message() {
 # TODO: add a get functionality
 
 downloads=
+verbose=0
 expiery="Max-Days: 30"
 
 while [[ $# -gt 0 ]]; do
@@ -45,6 +47,10 @@ while [[ $# -gt 0 ]]; do
   -n | --never)
     shift
     expiery=
+    ;;
+  -v | --verbose)
+    shift
+    verbose=1
     ;;
   -d | --days)
     shift
@@ -135,14 +141,16 @@ data=$(
 )
 
 if [[ -z $data ]]; then
-  echo "Server didnt send anything back" >&2 
-  echo "Are you using the correcty url / is the server running?" >&2 
+  echo "Server didnt send anything back" >&2
+  echo "Are you using the correcty url / is the server running?" >&2
   exit 1
 fi
 
 url=$(echo "$data" | tail -n1)
 
-# echo "$data"
+if [ $verbose ]; then
+  echo "$data"
+fi
 
 del_url=$(echo "$data" | grep x-url-delete | awk '{print $2}')
 

@@ -3,9 +3,11 @@
   config,
   lib,
   mlib,
+  const,
   ...
 }: let
   inherit (lib) mkIf;
+  inherit (const) ports;
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.transfer-sh;
 in {
@@ -24,12 +26,12 @@ in {
         settings = {
           RANDOM_TOKEN_LENGTH = 6;
           # BASEDIR = "/var/lib/transfer-sh";
-          LISTENER = ":8484";
+          LISTENER = ":${toString ports.transfer-sh}";
         };
       };
       caddy.virtualHosts = {
         "paste.upidapi.dev".extraConfig = ''
-          reverse_proxy :8484
+          reverse_proxy :${toString ports.transfer-sh}
         '';
       };
     };

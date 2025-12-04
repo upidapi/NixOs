@@ -85,26 +85,11 @@ in {
         tray = true;
         trayBadge = true;
       };
-    };
 
-    # TODO: patch vesktop instead
-    #  ive seen people do this on github
-    # vesktop schecks if state.json has the "firstLaunch" to
-    # determine if it should show the "Welcome to vesktop" page
-    home.activation = {
-      # We have to do it like this since vesktop needs be able to
-      # write to it (a symlink to the store would have been unwritabe)
-      # If vesktop can't write to it then it chrashes
-      createVesktiopStateJson = let
-        state_path = "~/.config/vesktop/state.json";
-        data = builtins.toJSON {
-          # (the other setting dont matter)
-          firstLaunch = false; # the value of this is ignored lol
-        };
-      in
-        lib.hm.dag.entryAfter ["linkGeneration"] ''
-          echo '${data}' > ${state_path}
-        '';
+      "vesktop/state.json".text = builtins.toJSON {
+        # (the other setting dont matter)
+        firstLaunch = false; # the value of this is ignored lol
+      };
     };
   };
 }

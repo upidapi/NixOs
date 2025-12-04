@@ -35,10 +35,9 @@ in {
       wantedBy = ["multi-user.target"];
       path = [pkgs.jre pkgs.jre8];
       serviceConfig = {
-        # User = "upidapi";
-        # Group = "users";
+        User = "minecraft";
+        Group = "minecraft";
 
-        # TODO: fix, this shouldnt be hermitcraft modpack
         WorkingDirectory = "/var/lib/minecraft/SAM-1b-so";
         ExecStart = pkgs.writeShellScript "run-mc-server" ''
           java -jar fabric-server-launch.jar nogui

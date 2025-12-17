@@ -70,6 +70,15 @@ in {
                 ]
             )
           )
+          # tui for recursive directive sizes
+          gdu
+
+          # control audio nodes
+          helvum
+
+          # control audio
+          pavucontrol
+
           # minecraft launcher
           prismlauncher
 

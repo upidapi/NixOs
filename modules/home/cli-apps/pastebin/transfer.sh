@@ -130,6 +130,11 @@ else
 fi
 
 echo "Uploading file..." >&2
+
+if [ "$verbose" -eq 1 ]; then
+  echo "$url/$file_name"
+fi
+
 data=$(
   curl \
     --dump-header - \
@@ -148,7 +153,7 @@ fi
 
 url=$(echo "$data" | tail -n1)
 
-if [ $verbose ]; then
+if [ "$verbose" -eq 1 ]; then
   echo "$data"
 fi
 

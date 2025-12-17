@@ -25,8 +25,9 @@ python3.pkgs.buildPythonApplication {
   src = fetchFromGitHub {
     owner = "ProtonVPN";
     repo = "proton-vpn-cli";
-    rev = "refs/heads/stable"; # No tags available, using stable branch
-    hash = "sha256-przQVRGEqJRT+QQIyFwZqPduPeSI9ERoovJxdHx2aos=";
+    # rev = "refs/heads/stable"; # No tags available, using stable branch
+    rev = "7f258f8a79618571d3a6cf38e2e2273abe982b94";
+    hash = "sha256-Hn7xLb7VWa2dlsrQnjnRgv+8UntOwDak9+rV1HF7k80=";
   };
 
   build-system = with python3.pkgs; [setuptools];

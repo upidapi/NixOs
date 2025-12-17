@@ -13,10 +13,6 @@
 in {
   options.modules.nixos.homelab.media.jellyseerr = mkEnableOpt "";
 
-  imports = [
-    ./base.nix
-  ];
-
   config = mkIf cfg.enable {
     # not needed since the templater has root perms
     sops.secrets = {

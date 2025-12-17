@@ -3,7 +3,6 @@
   lib,
   mlib,
   const,
-  inputs,
   ...
 }: let
   inherit (const) ports ips;
@@ -18,7 +17,7 @@ in {
 
   imports = [
     ./arr.nix
-    ./jellyseerr
+    ./jellyseerr.nix
     ./user-options.nix
     ./jellyfin
     ./qbit

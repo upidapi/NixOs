@@ -60,6 +60,7 @@ in {
     game-site-beta = 7501;
 
     mc-server = 25565;
+    mc-server-b = 25566;
   };
 
   ips = {

@@ -37,6 +37,7 @@ in {
         6809
 
         const.ports.mc-server
+        const.ports.mc-server-b
       ];
       allowedUDPPorts = [
         7071

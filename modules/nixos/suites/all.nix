@@ -113,7 +113,7 @@ in {
       security = {
         # too annoying cant use --preserve-env
         # sudo-rs = enable;
-        keyring = enable;
+        # keyring = enable;
         cfg-perms = enable;
         sudo = enable;
       };

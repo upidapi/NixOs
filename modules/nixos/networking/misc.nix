@@ -22,6 +22,8 @@ in {
     };
     users.groups.no-internet = {};
 
-    networking.nameservers = ["1.1.1.1"];
+    # REF: https://discourse.nixos.org/t/how-to-change-order-of-dns-nameservers/50263/3
+    # networking.nameservers = ["1.1.1.1"]; # low priority
+    networking.networkmanager.insertNameservers = ["1.1.1.1"]; # highest prio
   };
 }

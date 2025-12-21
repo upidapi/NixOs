@@ -45,6 +45,11 @@ in {
       #     # The address at which the confined services will be accessible.
       #     namespaceAddress = ips.mullvad;
       #   };
+
+      # run something in namespace
+      # ip netns exec proton <cmd>
+
+      # if broken try to regenerate wg cfg, (fixed it last time)
       proton = {
         enable = cfg.proton;
         wireguardConfigFile = config.sops.secrets.proton-wg.path;

@@ -112,7 +112,7 @@ in {
     };
 
     # os.services.syncthing = disable;
-    os.services.syncthing = enable;
+    misc.services.syncthing = enable;
 
     hardware = {
       cpu.amd = enable;

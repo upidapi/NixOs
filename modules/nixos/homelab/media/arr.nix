@@ -9,28 +9,11 @@
   ...
 }: let
   inherit (const) ports ips;
-  inherit (lib) mkIf mkOption;
+  inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.arr;
 
-  mkArrSerivice = name: let
-    apiKeyEnvVar = "${lib.toUpper name}__AUTH__APIKEY";
-    cfg = config.services.${name};
-  in {
-    options.services.${name}.apiKeyFile = mkOption {
-      type = lib.types.str;
-    };
-    config.systemd.services.${name}.serviceConfig.ExecStart = mkIf cfg.enable (
-      lib.mkForce
-      (pkgs.writeShellScript
-        "init-${name}" ''
-          ${apiKeyEnvVar}=$(cat ${cfg.apiKeyFile}) \
-            ${lib.getExe cfg.package} \
-            -nobrowser \
-            -data="${cfg.dataDir}"
-        '')
-    );
-  };
+
 in {
   options.modules.nixos.homelab.media.arr = mkEnableOpt "";
 
@@ -40,9 +23,6 @@ in {
   imports = [
     # inputs.declarative-arr.nixosModules.default
     inputs.declarr.nixosModules.default
-    (mkArrSerivice "sonarr")
-    (mkArrSerivice "radarr")
-    (mkArrSerivice "prowlarr")
   ];
 
   config = mkIf cfg.enable {
@@ -102,6 +82,21 @@ in {
       };
       "radarr/password_declarr" = {
         key = "radarr/password";
+        owner = config.services.declarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+
+      "lidarr/api-key" = {
+        owner = config.services.lidarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "lidarr/api-key_declarr" = {
+        key = "lidarr/api-key";
+        owner = config.services.declarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "lidarr/password_declarr" = {
+        key = "lidarr/password";
         owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
@@ -182,39 +177,24 @@ in {
         enable = true;
         group = "media";
         apiKeyFile = config.sops.secrets."sonarr/api-key".path;
-        settings = {
-          # update.mechanism = "internal";
-          server = {
-            # urlbase = ips.mullvad;
-            port = ports.sonarr;
-            # bindaddress = "*";
-          };
-        };
+        settings.server.port = ports.sonarr;
       };
       radarr = {
         enable = true;
         group = "media";
         apiKeyFile = config.sops.secrets."radarr/api-key".path;
-        settings = {
-          # update.mechanism = "internal";
-          server = {
-            # urlbase = ips.mullvad;
-            port = ports.radarr;
-            # bindaddress = "*";
-          };
-        };
+        settings.server.port = ports.radarr;
+      };
+      lidarr = {
+        enable = true;
+        group = "media";
+        apiKeyFile = config.sops.secrets."lidarr/api-key".path;
+        settings.server.port = ports.lidarr;
       };
       prowlarr = {
         enable = true;
         apiKeyFile = config.sops.secrets."prowlarr/api-key".path;
-        settings = {
-          # update.mechanism = "internal";
-          server = {
-            # urlbase = "localhost";
-            port = ports.prowlarr;
-            # bindaddress = "*";
-          };
-        };
+        settings.server.port = ports.prowlarr;
       };
       declarr = {
         enable = true;

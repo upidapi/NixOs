@@ -51,6 +51,8 @@ in {
 
           r = "restore";
           rs = "restore --staged";
+
+          tree = "log --graph --oneline --decorate --all";
         };
 
         user.name = "upidapi";

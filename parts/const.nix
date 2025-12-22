@@ -37,27 +37,29 @@ in {
   };
 
   ports = {
-    jellyseerr = 8097;
-    jellyfin = 8096;
+    radarr = 8500;
+    sonarr = 8501;
+    lidarr = 8502;
+    bazarr = 8503;
 
-    radarr = 7878;
-    sonarr = 8989;
-    jackett = 9117;
-    prowlarr = 9696;
-    bazarr = 6767;
+    jackett = 8504;
+    prowlarr = 8505;
+    flaresolverr = 8506;
 
-    qbit = 8080;
-    flaresolverr = 8191;
-    homepage = 8082;
+    jellyseerr = 8507;
+    jellyfin = 8508;
 
-    transfer-sh = 8484;
+    qbit = 8509;
+
+    homepage = 8600;
+    transfer-sh = 8601;
+
+    game-site = 8602;
+    game-site-beta = 8603;
 
     syncthing = 8384;
     wireguard = 51820;
     wg-easy = 51821;
-
-    game-site = 7500;
-    game-site-beta = 7501;
 
     mc-server = 25565;
     mc-server-b = 25566;

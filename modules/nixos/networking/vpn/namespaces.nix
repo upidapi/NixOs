@@ -56,10 +56,10 @@ in {
         namespaceAddress = ips.proton;
 
         accessibleFrom = [
-          "192.168.0.0/16"
+          # "192.168.0.0/16"
           # "10.0.0.0/8" # colides with proton vpn dns (10.2.0.1)
-          "100.100.0.0/16"
-          "127.0.0.1/32"
+          # "100.100.0.0/16"
+          # "127.0.0.1/32"
         ];
         portMappings = let
           passthru = p: {

@@ -71,15 +71,19 @@ in {
     };
 
     systemd.services."qbit-sync-port" = {
+      vpnConfinement = enableAnd {
+        vpnNamespace = "proton";
+      };
+
       after = ["qbittorrent.service"];
       wantedBy = ["multi-user.target"];
-      path = [pkgs.libnatpmp];
+      path = [pkgs.libnatpmp pkgs.curl];
       serviceConfig = {
         User = "qbittorrent";
         Group = "media";
 
         ExecStart = let
-          pswFile = config.sops.secrets."qbit/password_declarr".path;
+          pswFile = config.sops.secrets."qbit/password".path;
           url = "http://${ips.proton}:${toString ports.qbit}";
         in
           pkgs.writeShellScript "qbit-sync-port" ''

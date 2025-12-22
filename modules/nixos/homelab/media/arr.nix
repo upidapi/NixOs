@@ -652,19 +652,19 @@ in {
                 appProfileId = "Interactive Search";
               };
 
-              "1337x" = {
-                implementation = "Cardigann";
-                priority = 25; # default 25
-                fields = {
-                  definitionFile = "1337x";
-                  downloadlink = 1; # magnet
-                  downloadlink2 = 0; # iTorrents.org
-                  sort = 2; # created
-                  type = 1; # desc
-                };
-                tags = ["FlareSolverr"];
-                appProfileId = "Standard";
-              };
+              # "1337x" = {
+              #   implementation = "Cardigann";
+              #   priority = 25; # default 25
+              #   fields = {
+              #     definitionFile = "1337x";
+              #     downloadlink = 1; # magnet
+              #     downloadlink2 = 0; # iTorrents.org
+              #     sort = 2; # created
+              #     type = 1; # desc
+              #   };
+              #   tags = ["FlareSolverr"];
+              #   appProfileId = "Standard";
+              # };
               "LimeTorrents" = {
                 implementation = "Cardigann";
                 priority = 30; # default 25
@@ -673,6 +673,7 @@ in {
                   downloadlink = 1; # magnet
                   downloadlink2 = 0; # iTorrents.org
                 };
+                appProfileId = "Interactive Search";
               };
               "The Pirate Bay" = {
                 implementation = "Cardigann";
@@ -680,6 +681,7 @@ in {
                 fields = {
                   definitionFile = "thepiratebay";
                 };
+                appProfileId = "Interactive Search";
               };
               "YTS" = {
                 implementation = "Cardigann";
@@ -687,6 +689,7 @@ in {
                 fields = {
                   definitionFile = "yts";
                 };
+                appProfileId = "Interactive Search";
               };
             };
           };

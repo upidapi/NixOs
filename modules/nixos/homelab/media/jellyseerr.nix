@@ -160,8 +160,8 @@ in {
             tagRequests = false;
 
             activeDirectory = "/raid/media/movies";
-            activeProfileId = 4;
-            activeProfileName = "HD-1080p";
+            # activeProfileId = 4;
+            activeProfileName = "1080p Balanced";
           }
         ];
         sonarr = [
@@ -189,8 +189,8 @@ in {
             tagRequests = false;
 
             activeDirectory = "/raid/media/tv";
-            activeProfileId = 4;
-            activeProfileName = "HD-1080p";
+            # activeProfileId = 4;
+            activeProfileName = "1080p Balanced";
           }
         ];
         tautulli = {};

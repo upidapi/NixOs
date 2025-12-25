@@ -29,8 +29,6 @@ in {
           DefaultSavePath = "/raid/media/torrents";
           # TempPath = "/raid/media/torrents/tmp";
 
-          # Port = 43361; # should be port forwarded
-
           # disable limits
           MaxConnections = -1;
           MaxConnectionsPerTorrent = -1;
@@ -113,6 +111,8 @@ in {
                 kill -s TERM "$TOP_PID"
             }
 
+            last_vpn_port=
+
             sync_port() {
                 qbittorrent_auth_cookie=$(
                     curl -si "$QBITTORRENT_LOGIN_API_ENDPOINT" \
@@ -128,6 +128,8 @@ in {
                 fi
 
                 vpn_port=$(
+                    # proton vpn doesn't listen to lifetime (always 60)
+                    # nor public port
                     natpmpc -a 1 0 tcp 60 -g 10.2.0.1 |
                         grep 'Mapped public port' |
                         sed -E 's/.*Mapped public port ([0-9]+) protocol TCP to local port [0-9]+ lifetime [0-9]+/\1/'
@@ -136,6 +138,18 @@ in {
                 if [[ -z "$vpn_port" ]]; then
                     red "Failed to get vpn port"
                     return
+                fi
+
+                if [[ "$vpn_port" != "$last_vpn_port" ]]; then
+                  echo "External vpn port updated $active_port => $vpn_port"
+                  
+                  # map public port to same internal port
+                  natpmpc -a 1 "$vpn_port" tcp 60 -g 10.2.0.1 > /dev/null
+
+                  iptables -I INPUT 1 -p tcp --dport "$vpn_port" -j ACCEPT
+                  iptables -D INPUT 1 -p tcp --dport "$last_vpn_port" -j ACCEPT
+
+                  last_vpn_port="$vpn_port"
                 fi
 
                 active_port=$(
@@ -164,7 +178,7 @@ in {
                     )
 
                     if [[ "$res" == "200" ]]; then
-                        echo "Updated port $active_port => $vpn_port"
+                        echo "Updated qbit port $active_port => $vpn_port"
                     else
                         red "Failed to sync ports"
                     fi

@@ -113,6 +113,14 @@ in {
 
             last_vpn_port=
 
+            cleanup() {
+                if [[ -n "$last_vpn_port" ]]; then 
+                  iptables -D INPUT 1 -p tcp --dport "$last_vpn_port" -j ACCEPT
+                fi
+            }
+
+            trap cleanup
+
             sync_port() {
                 qbittorrent_auth_cookie=$(
                     curl -si "$QBITTORRENT_LOGIN_API_ENDPOINT" \

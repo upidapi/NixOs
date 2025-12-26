@@ -8,10 +8,10 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.homelab.tofu;
+  cfg = config.modules.nixos.homelab.infra.tofu;
 in {
   # terraform code for homelab
-  options.modules.nixos.homelab.tofu = mkEnableOpt "";
+  options.modules.nixos.homelab.infra.tofu = mkEnableOpt "";
 
   config = mkIf cfg.enable {
     sops.secrets."tofu-cf-token" = {

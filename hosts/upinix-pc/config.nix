@@ -99,14 +99,21 @@ in {
         qbit = enable;
         cross-seed = enable;
       };
-      ddclient = enable;
-      caddy = enable;
-      tofu = enable;
-      authelia = enable;
-      transfer-sh = enable;
-      wg-easy = enable;
-      homepage = enable;
-      thelounge = enable;
+
+      infra = {
+        tofu = enable;
+
+        ddclient = enable;
+        caddy = enable;
+        authelia = enable;
+      };
+
+      services = {
+        transfer-sh = enable;
+        wg-easy = enable;
+        homepage = enable;
+        thelounge = enable;
+      };
 
       games = {
         impostor = enable;

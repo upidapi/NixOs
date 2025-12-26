@@ -9,9 +9,9 @@
   inherit (lib) mkIf;
   inherit (const) ports;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.homelab.transfer-sh;
+  cfg = config.modules.nixos.homelab.services.transfer-sh;
 in {
-  options.modules.nixos.homelab.transfer-sh = mkEnableOpt "";
+  options.modules.nixos.homelab.services.transfer-sh = mkEnableOpt "";
 
   imports = [
     ./base.nix

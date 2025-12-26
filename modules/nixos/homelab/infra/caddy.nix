@@ -7,9 +7,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt enable;
-  cfg = config.modules.nixos.homelab.caddy;
+  cfg = config.modules.nixos.homelab.infra.caddy;
 in {
-  options.modules.nixos.homelab.caddy =
+  options.modules.nixos.homelab.infra.caddy =
     mkEnableOpt
     "enable caddy, a web server with auto certs";
 

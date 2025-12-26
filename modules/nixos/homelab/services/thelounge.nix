@@ -8,9 +8,9 @@
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
   inherit (const) ports;
-  cfg = config.modules.nixos.homelab.thelounge;
+  cfg = config.modules.nixos.homelab.services.thelounge;
 in {
-  options.modules.nixos.homelab.thelounge = mkEnableOpt "";
+  options.modules.nixos.homelab.services.thelounge = mkEnableOpt "";
 
   # FROM: https://github.com/The1Penguin/nix_dots/blob/ab8352b2ad11488b41e08cc034fc4ea204b069a8/server/services/lounge.nix#L4
   config = mkIf cfg.enable {

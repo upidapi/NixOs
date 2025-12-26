@@ -9,10 +9,10 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.homelab.wg-easy;
+  cfg = config.modules.nixos.homelab.services.wg-easy;
   inherit (const) ports;
 in {
-  options.modules.nixos.homelab.wg-easy = mkEnableOpt "";
+  options.modules.nixos.homelab.services.wg-easy = mkEnableOpt "";
 
   config = mkIf cfg.enable {
     services.caddy.virtualHosts = {

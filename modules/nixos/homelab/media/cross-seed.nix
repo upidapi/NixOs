@@ -20,7 +20,7 @@ in {
   config = mkIf cfg.enable {
     services.cross-seed = {
       enable = true;
-  
+
       # user = "cross-seed";
       # group = "media";
 

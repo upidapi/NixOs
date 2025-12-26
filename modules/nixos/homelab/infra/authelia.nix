@@ -6,9 +6,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.homelab.authelia;
+  cfg = config.modules.nixos.homelab.infra.authelia;
 in {
-  options.modules.nixos.homelab.authelia = mkEnableOpt "authelia";
+  options.modules.nixos.homelab.infra.authelia = mkEnableOpt "authelia";
 
   # https://www.authelia.com/integration/proxies/caddy/#subdomain
   # REF: https://github.com/Stupremee/nix/blob/de5ce056514b91ecbb8fc8f5e71728402e14c747/modules/nixos/caddy/default.nix#L32

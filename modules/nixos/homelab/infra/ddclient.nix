@@ -7,9 +7,9 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.homelab.ddclient;
+  cfg = config.modules.nixos.homelab.infra.ddclient;
 in {
-  options.modules.nixos.homelab.ddclient = mkEnableOpt "ddclient";
+  options.modules.nixos.homelab.infra.ddclient = mkEnableOpt "ddclient";
 
   # REF: https://github.com/hugo-berendi/yomi/blob/29a848529e6b2dcb81f6830a1161cc29c38e3c6d/hosts/nixos/inari/services/ddclient.nix
   config = mkIf cfg.enable {

@@ -4,6 +4,8 @@ from glob import glob
 
 # finds and fixed all realtive module options
 
+# python misc/scripts/fix_paths.py
+
 PATH = "./modules"
 modules = [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], "*.nix"))]
 

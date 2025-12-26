@@ -6,7 +6,7 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.homelab.excalidraw;
+  cfg = config.modules.nixos.homelab.services.excalidraw;
 in {
   options.modules.nixos.homelab.services.excalidraw = mkEnableOpt "";
 

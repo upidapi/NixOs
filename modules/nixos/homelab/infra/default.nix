@@ -1,7 +1,8 @@
 {
-    imports = [
-        ./authelia.nix
-        ./caddy.nix
-        ./ddclient.nix
-    ];
+  imports = [
+    ./tofu
+    ./authelia.nix
+    ./caddy.nix
+    ./ddclient.nix
+  ];
 }

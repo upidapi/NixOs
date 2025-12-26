@@ -12,8 +12,6 @@
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.arr;
-
-
 in {
   options.modules.nixos.homelab.media.arr = mkEnableOpt "";
 
@@ -51,6 +49,17 @@ in {
         "/raid/media/tv".Z = {
           group = "media";
           user = "sonarr";
+          mode = "751";
+        };
+
+        "/raid/media/music".d = {
+          group = "media";
+          user = "lidarr";
+          mode = "751";
+        };
+        "/raid/media/music".Z = {
+          group = "media";
+          user = "lidarr";
           mode = "751";
         };
       };
@@ -169,7 +178,7 @@ in {
 
       sonarr.after = ["qbittorrent.service"];
       radarr.after = ["qbittorrent.service"];
-      prowlarr.after = ["qbittorrent.service" "sonarr.service" "prowlarr.service"];
+      prowlarr.after = ["qbittorrent.service" "lidarr.service" "sonarr.service" "radarr.service"];
     };
 
     services = {
@@ -315,6 +324,15 @@ in {
                 maxSize = 1000;
               };
             };
+            notification = {
+              discord = {
+                implementation = "Discord";
+                fields = {
+                  # webHookUrl = config.sops.secrets."sonarr/discord-webhook_declarr".path;
+                  webHookUrl = "https://discord.com/api/webhooks/1453131389921919228/QdTSKjeeo6TlVlwxgRziL8ZkOd6OcIRtaeqCjGjn_dZ3VOMeXYjYZglNrt_6mwNNyk6V";
+                };
+              };
+            };
             config = {
               ui = {
                 firstDayOfWeek = 1; # 0 = Sunday, 1 = Monday
@@ -403,6 +421,54 @@ in {
             };
           };
 
+          lidarr = {
+            declarr = {
+              type = "lidarr";
+              url = "http://localhost:${toString ports.lidarr}";
+            };
+
+            config = {
+              inherit (sonarr.config) mediamanagement ui;
+              host =
+                sonarr.config.host
+                // rec {
+                  instanceName = "Lidarr";
+                  username = "admin";
+                  password = config.sops.secrets."lidarr/password_declarr".path;
+                  passwordConfirmation = password;
+                  apiKey = config.sops.secrets."lidarr/api-key_declarr".path;
+                  port = ports.lidarr;
+                };
+
+              naming = {
+                renameTracks = false;
+                replaceIllegalCharacters = true;
+                colonReplacementFormat = 4;
+                standardTrackFormat = "{Album Title} ({Release Year})/{Artist Name} - {Album Title} - {track:00} - {Track Title}";
+                multiDiscTrackFormat = "{Album Title} ({Release Year})/{Medium Format} {medium:00}/{Artist Name} - {Album Title} - {track:00} - {Track Title}";
+                artistFolderFormat = "{Artist Name}";
+                includeArtistName = false;
+                includeAlbumTitle = false;
+                includeQuality = false;
+                replaceSpaces = false;
+              };
+            };
+
+            rootFolder.main = {
+              path = "/raid/media/music";
+              defaultQualityProfileId = "Standard";
+              defaultMetadataProfileId = "Standard";
+              defaultMonitorOption = "all";
+              defaultNewItemMonitorOption = "all";
+              defaultTags = [];
+            };
+
+            inherit (sonarr) downloadClient;
+
+            # unlimited
+            # qualityDefinition.maxSize = null
+          };
+
           radarr = {
             declarr = {
               type = "radarr";
@@ -430,18 +496,8 @@ in {
             };
 
             rootFolder = ["/raid/media/movies"];
-            downloadClient = {
-              "qBittorrent" = {
-                implementation = "QBittorrent";
-                fields = {
-                  port = ports.qbit;
-                  host = ips.proton;
-                  username = "admin";
-                  password = config.sops.secrets."qbit/password_declarr".path;
-                  sequentialOrder = true;
-                };
-              };
-            };
+
+            inherit (sonarr) downloadClient;
 
             customFormat = {};
             qualityProfile = {
@@ -558,22 +614,18 @@ in {
                 implementation = "Radarr";
                 fields.apiKey = config.sops.secrets."radarr/api-key_declarr".path;
               };
-            };
-
-            downloadClient = {
-              "qBittorrent" = {
-                implementation = "QBittorrent";
-                fields = {
-                  port = ports.qbit;
-                  host = ips.proton;
-                  username = "admin";
-                  password = config.sops.secrets."qbit/password_declarr".path;
-                  sequentialOrder = true;
-                };
+              "Lidarr" = {
+                syncLevel = "fullSync";
+                implementation = "Lidarr";
+                fields.apiKey = config.sops.secrets."lidarr/api-key_declarr".path;
               };
             };
+
+            inherit (sonarr) downloadClient;
+
             indexerProxy = {
               "FlareSolverr" = {
+                implementation = "FlareSolverr";
                 fields = {
                   host = "http://localhost:8191/";
                   requestTimeout = 60;

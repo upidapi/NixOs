@@ -50,6 +50,8 @@ in {
     jellyfin = 8508;
 
     qbit = 8509;
+    cross-seed = 8510;
+    autobrr = 8511;
 
     homepage = 8600;
     transfer-sh = 8601;

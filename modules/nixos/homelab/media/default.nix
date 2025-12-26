@@ -21,6 +21,7 @@ in {
     ./user-options.nix
     ./jellyfin
     ./qbit
+    ./cross-seed.nix
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3
@@ -87,6 +88,9 @@ in {
           reverse_proxy :${toString ports.prowlarr}
         '';
 
+        "cross-seed.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString ports.cross-seed}
+        '';
         "qbit.upidapi.dev".extraConfig = ''
           reverse_proxy ${ips.proton}:${toString ports.qbit}
         '';

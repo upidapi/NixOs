@@ -97,6 +97,7 @@ in {
         jellyseerr = enable;
         arr = enable;
         qbit = enable;
+        cross-seed = enable;
       };
       ddclient = enable;
       caddy = enable;

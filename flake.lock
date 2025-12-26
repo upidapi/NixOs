@@ -214,14 +214,17 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1766521792,
-        "narHash": "sha256-K12PpWF07PIL9QQSuuJ2Fy/O0QZiykxxvAgmnsTA0EM=",
-        "path": "/home/upidapi/persist/prog/projects/declarr",
-        "type": "path"
+        "lastModified": 1766532649,
+        "narHash": "sha256-LLEhi5WbqJw+Z9nP5ELiZ/YADTn/AU/GvWFe+qhODGY=",
+        "owner": "upidapi",
+        "repo": "declarr",
+        "rev": "d3b5bf22b3fa16ed06224d2fcc8a78e91e7e5239",
+        "type": "github"
       },
       "original": {
-        "path": "/home/upidapi/persist/prog/projects/declarr",
-        "type": "path"
+        "owner": "upidapi",
+        "repo": "declarr",
+        "type": "github"
       }
     },
     "deploy-rs": {

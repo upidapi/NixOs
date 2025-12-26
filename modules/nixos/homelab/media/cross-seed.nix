@@ -16,9 +16,14 @@ in {
   # REF: https://github.com/TheColorman/nixcfg/blob/4e624e15098a69d11ec86ad5da025bcc9d55c585/services/cross-seed.nix#L9
   # REF: https://github.com/carpenike/nix-config/blob/e4dd8817a048deb8216c52073f6764f72d0e6f2c/hosts/forge/services/cross-seed.nix#L30
 
+  # TODO: make this work
   config = mkIf cfg.enable {
     services.cross-seed = {
       enable = true;
+  
+      # user = "cross-seed";
+      # group = "media";
+
       settingsFile = config.sops.templates."cross-seed.settings.json".path;
       settings = {
         host = "127.0.0.1";

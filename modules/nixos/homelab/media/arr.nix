@@ -23,6 +23,14 @@ in {
     inputs.declarr.nixosModules.default
   ];
 
+  options = {
+    services.autobrr.dataDir = lib.mkOption {
+      type = lib.types.path;
+      default = "/var/lib/autobrr";
+      description = "Path to Autobrr data directory";
+    };
+  };
+
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
@@ -145,6 +153,11 @@ in {
         owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
+
+      "autobrr/session-secret" = {
+        owner = config.services.autobrr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
     };
 
     systemd.services = {
@@ -179,9 +192,34 @@ in {
       sonarr.after = ["qbittorrent.service"];
       radarr.after = ["qbittorrent.service"];
       prowlarr.after = ["qbittorrent.service" "lidarr.service" "sonarr.service" "radarr.service"];
+
+      # autobrr.serviceConfig = {
+      #   DynamicUser = false;
+      #   User = "autobrr";
+      #   Group = "media";
+      # };
     };
 
+    # TODO: IDEA: have a group on services with dynamic user, make that group own
+    #  the secrets, so that they can be accessed
+
     services = {
+      autobrr = {
+        enable = true;
+
+        user = "autobrr";
+        group = "media";
+
+        secretFile = config.sops.secrets."autobrr/session-secret".path;
+        settings = {
+          host = "127.0.0.1";
+          port = ports.autobrr;
+
+          checkForUpdates = true;
+          logLevel = "DEBUG";
+        };
+      };
+
       sonarr = {
         enable = true;
         group = "media";

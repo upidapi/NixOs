@@ -55,9 +55,10 @@ in {
 
     homepage = 8600;
     transfer-sh = 8601;
+    the-lounge = 8602;
 
-    game-site = 8602;
-    game-site-beta = 8603;
+    game-site = 8610;
+    game-site-beta = 8611;
 
     syncthing = 8384;
     wireguard = 51820;

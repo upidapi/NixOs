@@ -106,6 +106,7 @@ in {
       transfer-sh = enable;
       wg-easy = enable;
       homepage = enable;
+      thelounge = enable;
 
       games = {
         impostor = enable;

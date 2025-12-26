@@ -8,7 +8,7 @@
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.excalidraw;
 in {
-  options.modules.nixos.homelab.excalidraw = mkEnableOpt "";
+  options.modules.nixos.homelab.services.excalidraw = mkEnableOpt "";
 
   # https://www.reddit.com/r/selfhosted/comments/1anbstg/excalidraw_self_host/
   # https://gist.github.com/tenekev/0e96895ff1789d7ce82aeec287487640

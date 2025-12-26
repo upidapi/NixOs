@@ -10,9 +10,9 @@
   inherit (const) ports ips;
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.homelab.homepage;
+  cfg = config.modules.nixos.homelab.services.homepage;
 in {
-  options.modules.nixos.homelab.homepage = mkEnableOpt "";
+  options.modules.nixos.homelab.services.homepage = mkEnableOpt "";
 
   config = mkIf cfg.enable {
     sops.secrets."qbit/password_homepage" = {

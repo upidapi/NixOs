@@ -16,7 +16,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.services.qbittorrent = {
-      serverConfig.LimitNOFILE = 65535;
+      serviceConfig.LimitNOFILE = 65535;
       vpnConfinement = enableAnd {
         vpnNamespace = "proton";
       };

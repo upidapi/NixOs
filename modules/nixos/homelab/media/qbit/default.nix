@@ -15,14 +15,18 @@ in {
   options.modules.nixos.homelab.media.qbit = mkEnableOpt "";
 
   config = mkIf cfg.enable {
-    systemd.services.qbittorrent.vpnConfinement = enableAnd {
-      vpnNamespace = "proton";
+    systemd.services.qbittorrent = {
+      serverConfig.LimitNOFILE = 65535;
+      vpnConfinement = enableAnd {
+        vpnNamespace = "proton";
+      };
     };
 
     services.qbittorrent = {
       enable = true;
       group = "media";
       # package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
+      webuiPort = ports.qbit;
       serverConfig = {
         LegalNotice.Accepted = true;
         BitTorrent.Session = {
@@ -75,9 +79,9 @@ in {
 
       after = ["qbittorrent.service"];
       wantedBy = ["multi-user.target"];
-      path = [pkgs.libnatpmp pkgs.curl];
+      path = [pkgs.libnatpmp pkgs.curl pkgs.iptables];
       serviceConfig = {
-        User = "qbittorrent";
+        User = "root";
         Group = "media";
 
         ExecStart = let
@@ -114,12 +118,12 @@ in {
             last_vpn_port=
 
             cleanup() {
-                if [[ -n "$last_vpn_port" ]]; then 
+                if [[ -n "$last_vpn_port" ]]; then
                   iptables -D INPUT 1 -p tcp --dport "$last_vpn_port" -j ACCEPT
                 fi
             }
 
-            trap cleanup
+            trap "cleanup" EXIT
 
             sync_port() {
                 qbittorrent_auth_cookie=$(
@@ -150,12 +154,14 @@ in {
 
                 if [[ "$vpn_port" != "$last_vpn_port" ]]; then
                   echo "External vpn port updated $active_port => $vpn_port"
-                  
+
                   # map public port to same internal port
                   natpmpc -a 1 "$vpn_port" tcp 60 -g 10.2.0.1 > /dev/null
 
                   iptables -I INPUT 1 -p tcp --dport "$vpn_port" -j ACCEPT
-                  iptables -D INPUT 1 -p tcp --dport "$last_vpn_port" -j ACCEPT
+                  if [[ -n "$last_vpn_port" ]]; then
+                    iptables -D INPUT 1 -p tcp --dport "$last_vpn_port" -j ACCEPT
+                  fi
 
                   last_vpn_port="$vpn_port"
                 fi

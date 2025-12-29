@@ -32,6 +32,12 @@ in {
   #   }
   # ];
 
+  # performance/battery optimisation
+  # https://github.com/SeniorMatt/Matthew-s-NixOS
+
+  # the performance issues (low clock speeds) seem to disappear when charging
+  # (possibly to full)
+
   sops.secrets."users/root".neededForUsers = true;
   sops.secrets."users/upidapi".neededForUsers = true;
 

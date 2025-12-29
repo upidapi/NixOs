@@ -1,8 +1,9 @@
 {
   imports = [
+    ./transfer-sh
     ./excalidraw.nix
     ./homepage.nix
-    ./thelounge.nix
+    ./thelounge
     ./wg-easy.nix
   ];
 }

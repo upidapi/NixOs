@@ -200,11 +200,17 @@ in {
       # };
     };
 
-    # TODO: IDEA: have a group on services with dynamic user, make that group own
-    #  the secrets, so that they can be accessed
+    # TODO: IDEA: have a group on services with dynamic user, make that group
+    #  own the secrets, so that they can be accessed
 
     services = {
+      # https://autobrr.com/configuration/indexers
+      # https://github.com/autobrr/autobrr/issues/2144
+      #  torrentLeach torrents often mislabeled as freeleech
+      #  use a filter for >12GB or is boxset
       autobrr = {
+        # maybe use this instead
+        # https://github.com/rasmus-kirk/nixarr/blob/204da9209ad4e921c3562a6bca5ac8ad5b6ed9bc/nixarr/autobrr/default.nix
         enable = true;
 
         user = "autobrr";

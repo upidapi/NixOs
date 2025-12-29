@@ -88,6 +88,8 @@ in {
           reverse_proxy :${toString ports.prowlarr}
         '';
 
+        # "autobrr.upidapi.dev"
+
         # "cross-seed.upidapi.dev".extraConfig = ''
         #   reverse_proxy :${toString ports.cross-seed}
         # '';

@@ -43,6 +43,6 @@ in {
   imports = [
     (mkUserSettins "prowlarr")
     (mkUserSettins "jellyseerr")
-    (mkUserSettins "autobrr")
+    # (mkUserSettins "autobrr")
   ];
 }

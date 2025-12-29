@@ -130,16 +130,21 @@ in {
         # "/var/lib/jellyfin"
 
         "/var/lib/transfer-sh"
+        "/var/lib/thelounge"
 
-        (toPrivateStateDirectory "/var/lib/jellyseerr")
-        (toPrivateStateDirectory "/var/lib/prowlarr")
-
-        "/var/lib/qBittorrent"
-        "/var/lib/jellyfin"
         "/var/lib/sonarr"
         "/var/lib/radarr"
-        "/var/lib/bazarr"
+        "/var/lib/lidarr"
+
         "/var/lib/jackett"
+        (toPrivateStateDirectory "/var/lib/prowlarr")
+
+        "/var/lib/autobrr"
+        "/var/lib/bazarr"
+        "/var/lib/qBittorrent"
+
+        "/var/lib/jellyfin"
+        (toPrivateStateDirectory "/var/lib/jellyseerr")
 
         "/var/lib/minecraft/"
 

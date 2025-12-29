@@ -23,14 +23,6 @@ in {
     inputs.declarr.nixosModules.default
   ];
 
-  options = {
-    services.autobrr.dataDir = lib.mkOption {
-      type = lib.types.path;
-      default = "/var/lib/autobrr";
-      description = "Path to Autobrr data directory";
-    };
-  };
-
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
@@ -192,40 +184,12 @@ in {
       sonarr.after = ["qbittorrent.service"];
       radarr.after = ["qbittorrent.service"];
       prowlarr.after = ["qbittorrent.service" "lidarr.service" "sonarr.service" "radarr.service"];
-
-      # autobrr.serviceConfig = {
-      #   DynamicUser = false;
-      #   User = "autobrr";
-      #   Group = "media";
-      # };
     };
 
     # TODO: IDEA: have a group on services with dynamic user, make that group
     #  own the secrets, so that they can be accessed
 
     services = {
-      # https://autobrr.com/configuration/indexers
-      # https://github.com/autobrr/autobrr/issues/2144
-      #  torrentLeach torrents often mislabeled as freeleech
-      #  use a filter for >12GB or is boxset
-      autobrr = {
-        # maybe use this instead
-        # https://github.com/rasmus-kirk/nixarr/blob/204da9209ad4e921c3562a6bca5ac8ad5b6ed9bc/nixarr/autobrr/default.nix
-        enable = true;
-
-        user = "autobrr";
-        group = "media";
-
-        secretFile = config.sops.secrets."autobrr/session-secret".path;
-        settings = {
-          host = "127.0.0.1";
-          port = ports.autobrr;
-
-          checkForUpdates = true;
-          logLevel = "DEBUG";
-        };
-      };
-
       sonarr = {
         enable = true;
         group = "media";

@@ -17,11 +17,12 @@ in {
 
   imports = [
     ./arr.nix
+    ./autobrr
+    ./cross-seed.nix
     ./jellyseerr.nix
-    ./user-options.nix
     ./jellyfin
     ./qbit
-    ./cross-seed.nix
+    ./user-options.nix
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3
@@ -88,7 +89,9 @@ in {
           reverse_proxy :${toString ports.prowlarr}
         '';
 
-        # "autobrr.upidapi.dev"
+        "autobrr.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString ports.autobrr}
+        '';
 
         # "cross-seed.upidapi.dev".extraConfig = ''
         #   reverse_proxy :${toString ports.cross-seed}

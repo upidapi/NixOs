@@ -96,6 +96,7 @@ in {
         jellyfin = enable;
         jellyseerr = enable;
         arr = enable;
+        autobrr = enable;
         qbit = enable;
         cross-seed = enable;
       };

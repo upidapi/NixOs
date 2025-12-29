@@ -46,11 +46,20 @@ in {
             ${pkgs.coreutils}/bin/tr -d ':\n'
           )"
 
+          local cfgFile="${dataDir}/users/$name.json"
+
+          if [[ -s "$cfgFile" ]]; then
+            local curCfg="$(cat "$cfgFile")"
+          else
+            local curCfg="{}"
+          fi
+
           ${pkgs.jq}/bin/jq -n \
+            --argjson curCfg "$curCfg" \
             --argjson cfg "$cfg" \
             --arg password "$pswHash" \
-            '$cfg + {password: $password}' \
-            > "${dataDir}/users/$name.json"
+            '$curCfg + $cfg + {password: $password}' \
+            > "$cfgFile"
         }
 
         ${lib.concatStringsSep "\n" (

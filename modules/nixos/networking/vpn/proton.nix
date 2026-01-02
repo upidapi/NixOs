@@ -3,7 +3,6 @@
   lib,
   mlib,
   pkgs,
-  self',
   ...
 }: let
   inherit (lib) mkIf;
@@ -16,8 +15,7 @@ in {
     environment.systemPackages = with pkgs; [
       protonvpn-gui
 
-      # TODO: use the package in nixpkgs once it lands there
-      self'.packages.proton-vpn-cli
+      proton-vpn-cli
     ];
   };
 }

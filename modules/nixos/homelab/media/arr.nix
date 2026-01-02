@@ -658,6 +658,7 @@ in {
             };
             indexer = {
               "TorrentLeech freeleech" = {
+                indexerName = "TorrentLeech";
                 implementation = "Cardigann";
                 priority = 20; # default 25
                 fields = {
@@ -673,6 +674,7 @@ in {
               };
 
               "TorrentLeech" = {
+                indexerName = "TorrentLeech";
                 implementation = "Cardigann";
                 priority = 25; # default 25
                 fields = {
@@ -688,6 +690,7 @@ in {
               };
 
               # "1337x" = {
+              #   indexerName = "1337x";
               #   implementation = "Cardigann";
               #   priority = 25; # default 25
               #   fields = {
@@ -701,6 +704,7 @@ in {
               #   appProfileId = "Standard";
               # };
               "LimeTorrents" = {
+                indexerName = "LimeTorrents";
                 implementation = "Cardigann";
                 priority = 30; # default 25
                 fields = {
@@ -711,6 +715,7 @@ in {
                 appProfileId = "Interactive Search";
               };
               "The Pirate Bay" = {
+                indexerName = "The Pirate Bay";
                 implementation = "Cardigann";
                 priority = 30; # default 25
                 fields = {
@@ -719,6 +724,7 @@ in {
                 appProfileId = "Interactive Search";
               };
               "YTS" = {
+                indexerName = "YTS";
                 implementation = "Cardigann";
                 priority = 30; # default 25
                 fields = {

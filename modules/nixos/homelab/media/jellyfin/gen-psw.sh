@@ -3,14 +3,32 @@
 # Usage 
 # bash gen-psw.sh username password
 
-pswHash=$(nix run gitlab:SpoodyTheOne/declarative-jellyfin#genhash -- \
-  -k "$2" \
-  -i 210000 \
-  -l 128 \
-  -u)
+createUser() {
+  local psw
 
-cat << EOF
+  psw=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 12)
+  pswHash=$(nix run gitlab:SpoodyTheOne/declarative-jellyfin#genhash -- \
+    -k "$psw" \
+    -i 210000 \
+    -l 128 \
+    -u)
+
+  cat << EOF
         $1:
-            password: $2
+            password: $psw
             passwordHash: $pswHash
 EOF
+}
+
+
+for j in {1..8}; do
+  createUser "guest-$j"
+done
+
+for i in 0 10 13 17; do
+  for j in {1..4}; do
+    createUser "guest-$i-$j"
+  done
+done
+
+

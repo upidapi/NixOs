@@ -112,59 +112,66 @@ in {
           internalHttpPort = ports.jellyfin;
           publicHttpPort = ports.jellyfin;
         };
-        users = let
-          pswHash = user: config.sops.secrets."jellyfin/users/${user}/passwordHash".path;
-        in
-          lib.mapAttrs (k: v:
-            v
-            // {
-              mutable = false;
-              loginAttemptsBeforeLockout = null;
-              hashedPasswordFile = pswHash k;
-            }) {
-            admin = {
-              permissions = {
-                isAdministrator = true;
-              };
-            };
-            smiley = {};
-            mari = {};
-            pablo = {};
-            cave.maxParentalRatingSubScore = 17;
-            tv.maxParentalRatingSubScore = 13;
+        users = lib.mapAttrs (user: v:
+          v
+          // {
+            mutable = false;
+            loginAttemptsBeforeLockout = null;
+            hashedPasswordFile = config.sops.secrets."jellyfin/users/${user}/passwordHash".path;
+          }) {
+          admin.permissions.isAdministrator = true;
+          smiley = {};
+          mari = {};
+          pablo = {};
+          cave.maxParentalRatingSubScore = 17;
+          tv.maxParentalRatingSubScore = 13;
 
-            guest-1 = {};
-            guest-2 = {};
-            guest-3 = {};
-            guest-4 = {};
-            guest-5 = {};
-            guest-6 = {};
-            guest-7 = {};
-            guest-8 = {};
+          # from: GET jellyfin/Localization/ParentalRatings
+          # https://www.motionpictures.org/film-ratings/
 
-            guest-13-1.maxParentalRatingSubScore = 13;
-            guest-13-2.maxParentalRatingSubScore = 13;
-            guest-13-3.maxParentalRatingSubScore = 13;
-            guest-13-4.maxParentalRatingSubScore = 13;
+          # NC-17 (adults only / anything)
+          guest-1 = {};
+          guest-2 = {};
+          guest-3 = {};
+          guest-4 = {};
+          guest-5 = {};
+          guest-6 = {};
+          guest-7 = {};
+          guest-8 = {};
+          # R
+          guest-17-1.maxParentalRatingSubScore = 17;
+          guest-17-2.maxParentalRatingSubScore = 17;
+          guest-17-3.maxParentalRatingSubScore = 17;
+          guest-17-4.maxParentalRatingSubScore = 17;
+          # PG-13
+          guest-13-1.maxParentalRatingSubScore = 13;
+          guest-13-2.maxParentalRatingSubScore = 13;
+          guest-13-3.maxParentalRatingSubScore = 13;
+          guest-13-4.maxParentalRatingSubScore = 13;
+          # PG
+          guest-10-1.maxParentalRatingSubScore = 10;
+          guest-10-2.maxParentalRatingSubScore = 10;
+          guest-10-3.maxParentalRatingSubScore = 10;
+          guest-10-4.maxParentalRatingSubScore = 10;
+          # G
+          guest-0-1.maxParentalRatingSubScore = 0;
+          guest-0-2.maxParentalRatingSubScore = 0;
+          guest-0-3.maxParentalRatingSubScore = 0;
+          guest-0-4.maxParentalRatingSubScore = 0;
 
-            guest-17-1.maxParentalRatingSubScore = 17;
-            guest-17-2.maxParentalRatingSubScore = 17;
-            guest-17-3.maxParentalRatingSubScore = 17;
-            guest-17-4.maxParentalRatingSubScore = 17;
-
-            # "gags5" = {
-            #   permissions.enableAllFolders = false;
-            #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-            # };
-            # "guacamole" = {
-            #   permissions.enableAllFolders = false;
-            #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-            # };
-            # "alex" = {
-            #   permissions.enableAllFolders = false;
-            #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-            # };
-          };
+          # "gags5" = {
+          #   permissions.enableAllFolders = false;
+          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
+          # };
+          # "guacamole" = {
+          #   permissions.enableAllFolders = false;
+          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
+          # };
+          # "alex" = {
+          #   permissions.enableAllFolders = false;
+          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
+          # };
+        };
         libraries = {
           "Movies" = {
             enabled = true;

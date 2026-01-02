@@ -145,11 +145,6 @@ in {
         owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
-
-      "autobrr/session-secret" = {
-        owner = config.services.autobrr.user;
-        sopsFile = "${self}/secrets/server.yaml";
-      };
     };
 
     systemd.services = {

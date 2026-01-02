@@ -75,7 +75,8 @@ in {
           sopsFile = "${self}/secrets/server.yaml";
         };
       }
-      // lib.pipe ["admin" "smiley" "mari" "pablo" "cave" "tv" "guest"] [
+      // (lib.pipe config.services.declarative-jellyfin.users [
+        lib.attrNames
         (lib.concatMap (u: [
           "jellyfin/users/${u}/password"
           "jellyfin/users/${u}/passwordHash"
@@ -88,7 +89,8 @@ in {
           };
         }))
         lib.listToAttrs
-      ];
+      ]);
+
     systemd.services.jellyfin.serviceConfig.SupplementaryGroups = [
       # Access to /dev/dri
       "render"

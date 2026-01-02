@@ -10,6 +10,7 @@ with lib; let
   # Define config format and template
   configFormat = pkgs.formats.toml {};
   configTemplate = configFormat.generate "autobrr.toml" cfg.settings;
+  # templaterCmd = '''';
 in {
   disabledModules = ["services/misc/autobrr.nix"];
 
@@ -133,8 +134,10 @@ in {
         # disable state directory
         StateDirectory = lib.mkForce null;
         ExecStartPre = lib.mkForce (pkgs.writeShellScript "autobrr-config-prep" ''
+          dataDir="${cfg.dataDir}"
+
           # Generate session secret if it doesn't exist
-          SESSION_SECRET_FILE="${cfg.dataDir}/session-secret"
+          SESSION_SECRET_FILE="$dataDir/session-secret"
           if [ ! -f "$SESSION_SECRET_FILE" ]; then
             openssl rand -base64 32 > "$SESSION_SECRET_FILE"
             chmod 600 "$SESSION_SECRET_FILE"
@@ -142,12 +145,12 @@ in {
 
           # Create config with session secret
           SESSION_SECRET=$(cat "$SESSION_SECRET_FILE")
-          cp '${configTemplate}' "${cfg.dataDir}/config.toml"
-          chmod 600 "${cfg.dataDir}/config.toml"
+          cp '${configTemplate}' "$dataDir/config.toml"
+          chmod 600 "$dataDir/config.toml"
           ${pkgs.dasel}/bin/dasel put \
-            -f "${cfg.dataDir}/config.toml" \
+            -f "$dataDir/config.toml" \
             -v "$SESSION_SECRET" \
-            -o "${cfg.dataDir}/config.toml" "sessionSecret"
+            -o "$dataDir/config.toml" "sessionSecret"
         '');
         ExecStart = lib.mkForce "${lib.getExe cfg.package} --config ${cfg.dataDir}";
         Restart = "on-failure";

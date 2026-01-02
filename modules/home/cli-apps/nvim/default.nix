@@ -124,7 +124,7 @@ in {
 
         # sql
         sqls
-        sqlfluff
+        # sqlfluff # BROKEN: sqlfluff
         sqlcmd
 
         # java

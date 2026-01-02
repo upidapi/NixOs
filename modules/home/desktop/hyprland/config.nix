@@ -11,7 +11,7 @@
     misc = {
       # when you create a new windows while you have a maximised window
       # then its unmaximised
-      new_window_takes_over_fullscreen = 2;
+      on_focus_under_fullscreen = 2;
 
       middle_click_paste = false;
 
@@ -48,13 +48,19 @@
 
     # disable animations for the images (that are actually
     # wayland windows) created by ueberzugpp
-    windowrulev2 = "noanim, title:ueberzugpp";
+    windowrule = {
+      name = "windowrule-1";
+      no_anim = "on";
+      "match:title" = "ueberzugpp";
+    };
 
     animations = {
       enabled = "yes";
       animation = [
+        # f animations
         "workspaces, 0"
         "fade, 0"
+        "windows, 0"
       ];
     };
   };

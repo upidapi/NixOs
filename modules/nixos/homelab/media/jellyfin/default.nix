@@ -114,61 +114,57 @@ in {
         };
         users = let
           pswHash = user: config.sops.secrets."jellyfin/users/${user}/passwordHash".path;
-        in {
-          admin = {
-            mutable = false;
-            permissions = {
-              isAdministrator = true;
+        in
+          lib.mapAttrs (k: v:
+            v
+            // {
+              mutable = false;
+              loginAttemptsBeforeLockout = null;
+              hashedPasswordFile = pswHash k;
+            }) {
+            admin = {
+              permissions = {
+                isAdministrator = true;
+              };
             };
-            loginAttemptsBeforeLockout = null;
-            hashedPasswordFile = pswHash "admin";
-          };
-          smiley = {
-            mutable = false;
-            loginAttemptsBeforeLockout = null;
-            hashedPasswordFile = pswHash "smiley";
-          };
-          mari = {
-            mutable = false;
-            loginAttemptsBeforeLockout = null;
-            hashedPasswordFile = pswHash "mari";
-          };
-          pablo = {
-            mutable = false;
-            loginAttemptsBeforeLockout = null;
-            hashedPasswordFile = pswHash "pablo";
-          };
-          cave = {
-            mutable = false;
-            loginAttemptsBeforeLockout = null;
-            maxParentalRatingSubScore = 17;
-            hashedPasswordFile = pswHash "cave";
-          };
-          tv = {
-            mutable = false;
-            loginAttemptsBeforeLockout = null;
-            maxParentalRatingSubScore = 13;
-            hashedPasswordFile = pswHash "tv";
-          };
-          guest = {
-            mutable = false;
-            loginAttemptsBeforeLockout = null;
-            hashedPasswordFile = pswHash "guest";
-          };
+            smiley = {};
+            mari = {};
+            pablo = {};
+            cave.maxParentalRatingSubScore = 17;
+            tv.maxParentalRatingSubScore = 13;
 
-          # "gags5" = {
-          #   permissions.enableAllFolders = false;
-          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-          # };
-          # "guacamole" = {
-          #   permissions.enableAllFolders = false;
-          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-          # };
-          # "alex" = {
-          #   permissions.enableAllFolders = false;
-          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-          # };
-        };
+            guest-1 = {};
+            guest-2 = {};
+            guest-3 = {};
+            guest-4 = {};
+            guest-5 = {};
+            guest-6 = {};
+            guest-7 = {};
+            guest-8 = {};
+
+            guest-13-1.maxParentalRatingSubScore = 13;
+            guest-13-2.maxParentalRatingSubScore = 13;
+            guest-13-3.maxParentalRatingSubScore = 13;
+            guest-13-4.maxParentalRatingSubScore = 13;
+
+            guest-17-1.maxParentalRatingSubScore = 17;
+            guest-17-2.maxParentalRatingSubScore = 17;
+            guest-17-3.maxParentalRatingSubScore = 17;
+            guest-17-4.maxParentalRatingSubScore = 17;
+
+            # "gags5" = {
+            #   permissions.enableAllFolders = false;
+            #   preferences.enabledLibraries = [ "Movies" "Shows" ];
+            # };
+            # "guacamole" = {
+            #   permissions.enableAllFolders = false;
+            #   preferences.enabledLibraries = [ "Movies" "Shows" ];
+            # };
+            # "alex" = {
+            #   permissions.enableAllFolders = false;
+            #   preferences.enabledLibraries = [ "Movies" "Shows" ];
+            # };
+          };
         libraries = {
           "Movies" = {
             enabled = true;

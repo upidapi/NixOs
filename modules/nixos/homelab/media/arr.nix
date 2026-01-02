@@ -610,17 +610,29 @@ in {
               "Sonarr" = {
                 syncLevel = "fullSync";
                 implementation = "Sonarr";
-                fields.apiKey = config.sops.secrets."sonarr/api-key_declarr".path;
+                fields = {
+                  prowlarrUrl = "http://localhost:${toString ports.prowlarr}";
+                  baseUrl = "http://localhost:${toString ports.sonarr}";
+                  apiKey = config.sops.secrets."sonarr/api-key_declarr".path;
+                };
               };
               "Radarr" = {
                 syncLevel = "fullSync";
                 implementation = "Radarr";
-                fields.apiKey = config.sops.secrets."radarr/api-key_declarr".path;
+                fields = {
+                  prowlarrUrl = "http://localhost:${toString ports.prowlarr}";
+                  baseUrl = "http://localhost:${toString ports.radarr}";
+                  apiKey = config.sops.secrets."radarr/api-key_declarr".path;
+                };
               };
               "Lidarr" = {
                 syncLevel = "fullSync";
                 implementation = "Lidarr";
-                fields.apiKey = config.sops.secrets."lidarr/api-key_declarr".path;
+                fields = {
+                  prowlarrUrl = "http://localhost:${toString ports.prowlarr}";
+                  baseUrl = "http://localhost:${toString ports.lidarr}";
+                  apiKey = config.sops.secrets."lidarr/api-key_declarr".path;
+                };
               };
             };
 
@@ -630,7 +642,7 @@ in {
               "FlareSolverr" = {
                 implementation = "FlareSolverr";
                 fields = {
-                  host = "http://localhost:8191/";
+                  host = "http://localhost:${toString ports.flaresolverr}/";
                   requestTimeout = 60;
                 };
                 tags = ["FlareSolverr"];

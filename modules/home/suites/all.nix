@@ -34,6 +34,8 @@ in {
         # vscode = enable; # broken
         obsidian = enable;
         ghidra = enable;
+
+        # freeCad = enable;
       };
 
       cli-apps = {

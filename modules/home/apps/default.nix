@@ -11,5 +11,6 @@
     ./r2modman.nix
     ./spotify.nix
     ./vscode.nix
+    ./freeCad
   ];
 }

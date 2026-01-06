@@ -18,6 +18,7 @@ in {
         enable32Bit = with pkgs.stdenv;
           hostPlatform.isLinux && hostPlatform.isx86;
       };
+      opengl.enable = true;
     };
 
     # benchmarking tools

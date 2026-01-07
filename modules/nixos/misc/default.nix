@@ -1,5 +1,6 @@
 {
   imports = [
+    ./appimage.nix
     ./boot
     ./programs
     ./services

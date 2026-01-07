@@ -32,8 +32,9 @@ in {
         boot = enable;
 
         impermanence = enable;
-        nix-ld = enable;
         sops = enable;
+        nix-ld = enable;
+        appimage = enable;
 
         programs = {
           dotnet = enable;

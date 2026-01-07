@@ -38,6 +38,14 @@ in {
 
         const.ports.mc-server
         const.ports.mc-server-b
+
+        # REF: https://forum.bambulab.com/t/orca-slicer-or-die/135872/270
+        # REF: https://www.reddit.com/r/BambuLab/comments/1i4vp5i/lan_mode_with_live_view_remote_monitoringcontrol/
+        # bambu
+        8883 # MQTT encrypted
+        # 1883 # MQTT unencrypted
+        322 # camera
+        123 # ntp
       ];
       allowedUDPPorts = [
         7071
@@ -60,6 +68,9 @@ in {
         6807
         6808
         6809
+
+        # bambu
+        2021 # discovery
       ];
     };
   };

@@ -79,6 +79,10 @@ in {
         ".cache/spotify/Storage" # "encrypted"
         ".cache/spotify/Users" # keys in here # keys in here
 
+        ".config/FreeCAD"
+
+        ".config/OrcaSlicer"
+
         ###### games
         ".local/share/PrismLauncher"
         ".local/share/Steam"

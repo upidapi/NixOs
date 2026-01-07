@@ -35,7 +35,8 @@ in {
         obsidian = enable;
         ghidra = enable;
 
-        # freeCad = enable;
+        free-cad = enable;
+        orca-slicer = enable;
       };
 
       cli-apps = {

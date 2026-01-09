@@ -80,6 +80,7 @@ in {
         ".cache/spotify/Users" # keys in here # keys in here
 
         ".config/FreeCAD"
+        ".local/share/FreeCAD/" # mods
 
         ".config/OrcaSlicer"
 

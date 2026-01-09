@@ -62,6 +62,8 @@ in {
   # create recovery file on each save
   # you can change settings to make one every 1 min (instead of 15 min)
   # https://github.com/FreeCAD/FreeCAD/issues/24583
+
+  # change the theme to proDark (you need a plugin)
   config = mkIf cfg.enable {
     home.packages = [freecad];
   };

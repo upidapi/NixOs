@@ -33,6 +33,10 @@ in {
           DefaultSavePath = "/raid/media/torrents";
           # TempPath = "/raid/media/torrents/tmp";
 
+          # https://www.reddit.com/search/?q=Circumventing%20proton%20vpn%20ddos&cId=8f3a490d-e9e2-4649-84cf-92ee353b4968&iId=39143626-1f98-46d4-a015-03074afd4bc7
+          # "DHT will trigger ProtonVPN Anti-ddos, disable it."
+          DHTEnabled = false;
+
           # disable limits
           MaxConnections = -1;
           MaxConnectionsPerTorrent = -1;

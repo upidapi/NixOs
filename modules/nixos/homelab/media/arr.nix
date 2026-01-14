@@ -723,6 +723,9 @@ in {
                   definitionFile = "limetorrents";
                   downloadlink = 1; # magnet
                   downloadlink2 = 0; # iTorrents.org
+
+                  # added after i got 200 ratio on a torrent
+                  "torrentBaseSettings.seedRatio" = 10;
                 };
                 appProfileId = "Interactive Search";
               };
@@ -732,6 +735,8 @@ in {
                 priority = 30; # default 25
                 fields = {
                   definitionFile = "thepiratebay";
+
+                  "torrentBaseSettings.seedRatio" = 10;
                 };
                 appProfileId = "Interactive Search";
               };
@@ -741,6 +746,8 @@ in {
                 priority = 30; # default 25
                 fields = {
                   definitionFile = "yts";
+
+                  "torrentBaseSettings.seedRatio" = 10;
                 };
                 appProfileId = "Interactive Search";
               };

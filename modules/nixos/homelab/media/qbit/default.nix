@@ -59,7 +59,7 @@ in {
           Port = ports.qbit;
           Username = "admin";
 
-          BanDuration = 300;
+          BanDuration = 60;
           MaxAuthenticationFailCount = 10;
           SessionTimeout = 60 * 60 * 24 * 30; # logout after a month
 

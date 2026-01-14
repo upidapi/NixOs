@@ -23,7 +23,7 @@ in {
 
     # TODO: remove, see https://github.com/NixOS/nixpkgs/issues/404663
     nixpkgs.config.permittedInsecurePackages = [
-      "ventoy-1.1.07"
+      "ventoy-1.1.10"
     ];
 
     # maybe make some gnome things work

@@ -9,9 +9,10 @@
   inherit (lib) mkIf;
   cfg = config.modules.home.misc.persist;
 in {
-  imports = [
-    inputs.impermanence.nixosModules.home-manager.impermanence
-  ];
+  # no longer needed
+  # imports = [
+  #   inputs.impermanence.nixosModules.home-manager.impermanence
+  # ];
 
   options.modules.home.misc.persist =
     mkEnableOpt "enables persistence for the home dir";

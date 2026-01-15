@@ -108,7 +108,7 @@ in {
     suites.all = enable;
 
     homelab = {
-      tofu = enable;
+      # tofu = enable;
       #   transfer-sh = enable;
       #   media = enableAnd {
       #     jellyfin = enable;

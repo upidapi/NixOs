@@ -1,5 +1,6 @@
 -------------- lsp ----------------
-require("lspconfig").nixd.setup({
+---
+vim.lsp.config("nixd", {
     settings = {
         nixd = {
             nixpkgs = {
@@ -87,6 +88,7 @@ require("lspconfig").nixd.setup({
         },
     },
 })
+vim.lsp.enable("nixd")
 
 -- /nix/store/bziskf2rm9wks5fqpjaaywpldm9bpi6g-deadnix-1.2.1/bin/deadnix
 -- /nix/store/pkqp4is8aybllw37406hb3n0081jdhgq-statix-0.5.8/bin/statix

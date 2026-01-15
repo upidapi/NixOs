@@ -1,4 +1,4 @@
-require("lspconfig").rust_analyzer.setup({})
+vim.lsp.enable("rust_analyzer")
 
 local dap = require("dap")
 -- maybe dont do this since it might be set by rustaceanvim

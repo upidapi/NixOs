@@ -1,4 +1,5 @@
-local nvim_tree_select = require("nvim-treesitter.incremental_selection")
+-- BROKEN: 
+--  local nvim_tree_select = require("nvim-treesitter.incremental_selection")
 local dap = require("dap")
 
 local mappings = {
@@ -50,9 +51,9 @@ local mappings = {
 
     -- seams to do the same as node_incremental
     -- { "n", "gnn",         nvim_tree_select.init_selection },
-    { "x", "gsJ", nvim_tree_select.scope_incremental },
-    { "n", "gsj", nvim_tree_select.node_decremental },
-    { "n", "gsk", nvim_tree_select.node_incremental },
+    -- { "x", "gsJ", nvim_tree_select.scope_incremental },
+    -- { "n", "gsj", nvim_tree_select.node_decremental },
+    -- { "n", "gsk", nvim_tree_select.node_incremental },
 
     { "n", "<leader>fC", "<cmd> Telescope git_commits<CR>" },
     { "n", "<leader>fb", "<cmd> Telescope buffers<CR>" },

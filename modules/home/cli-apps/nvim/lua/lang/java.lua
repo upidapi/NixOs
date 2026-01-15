@@ -1,4 +1,4 @@
-require("lspconfig").java_language_server.setup({})
+vim.lsp.enable("java_language_server")
 
 require("lint").linters_by_ft.java = { "checkstyle" }
 

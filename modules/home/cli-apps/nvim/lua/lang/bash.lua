@@ -1,5 +1,5 @@
 -- https://github.com/bash-lsp/bash-language-server
-require("lspconfig").bashls.setup({})
+vim.lsp.enable("bashls")
 
 local function set_group(base, group, table)
     for _, v in ipairs(group) do

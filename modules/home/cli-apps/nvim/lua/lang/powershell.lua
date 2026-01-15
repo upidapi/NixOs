@@ -1,1 +1,1 @@
-require("lspconfig").powershell_es.setup({})
+vim.lsp.enable("powershell_es")

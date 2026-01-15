@@ -27,6 +27,4 @@ require("lint").linters_by_ft.markdown = {
     -- "markdownlint-cli"
 }
 
--- require("lspconfig").marksman.setup({})
-
 vim.lsp.enable('markdown_oxide')

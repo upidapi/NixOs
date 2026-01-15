@@ -1,9 +1,10 @@
 -------------- lsp ----------------
-require("lspconfig").ruff.setup({
+vim.lsp.config("ruff", {
     init_options = {
         settings = {},
     },
 })
+vim.lsp.enable("ruff")
 
 -- defer hover to pyright
 -- vim.api.nvim_create_autocmd("LspAttach", {
@@ -24,7 +25,7 @@ require("lspconfig").ruff.setup({
 --     desc = "LSP: Disable hover capability from Ruff",
 -- })
 --
-require("lspconfig").pyright.setup({
+vim.lsp.config("pyright", {
     settings = {
         pyright = {
             -- Using Ruff's import organizer
@@ -39,6 +40,7 @@ require("lspconfig").pyright.setup({
         },
     },
 })
+vim.lsp.enable("pyright")
 
 require("lint").linters_by_ft.python = { "dmypy" }
 require("conform").formatters_by_ft = { "ruff" }

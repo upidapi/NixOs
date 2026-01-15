@@ -48,7 +48,7 @@ require("conform").formatters.stylua = {
 }
 require("conform").formatters_by_ft.lua = { "stylua" }
 
-require("lspconfig").lua_ls.setup({})
+vim.lsp.enable("lua_ls")
 
 require("lazydev").setup({})
 

@@ -1,4 +1,4 @@
 -- more features, less stable
-require("lspconfig").terraform_lsp.setup({})
+vim.lsp.enable("terraform_lsp")
 -- less features, more stable
--- require("lspconfig").terraformls.setup({})
+-- vim.lsp.enable("terraformls")

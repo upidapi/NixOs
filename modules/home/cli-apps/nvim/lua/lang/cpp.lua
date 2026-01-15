@@ -5,11 +5,12 @@
 -- use same offsetEncoding as null-ls
 -- NOTE: not doing this might break things
 -- clangd_cap.offsetEncoding = { "utf-16" }
-require("lspconfig").clangd.setup({
+vim.lsp.config("clangd", {
     cmd = { "clangd" }, -- , "--query-driver=/etc/profiles/per-user/upidapi/bin/g++" },
     -- capabilities = clangd_cap,
     -- cmd = { "/nix/store/kw7y8ysgzasbwxb8qw1a486s35nfdnlv-clang-tools-18.1.8/bin/clangd" }
 })
+vim.lsp.enable("clangd")
 
 local dap = require("dap")
 require("dap").adapters["codelldb"] = {

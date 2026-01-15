@@ -16,13 +16,13 @@ require('nvim-ts-autotag').setup({
 -- native (lua) implementation of the communication with tsserver
 require("typescript-tools").setup({})
 
-require("lspconfig").tailwindcss.setup({})
+vim.lsp.enable("tailwindcss")
 
 -- all the same server but for different file types (web shenanigans)
-require("lspconfig").html.setup({})
-require("lspconfig").cssls.setup({})
+vim.lsp.enable("html")
+vim.lsp.enable("cssls")
 
-require("lspconfig").jsonls.setup({
+vim.lsp.config("jsonls", {
     settings = {
         json = {
             schemas = require("schemastore").json.schemas(),
@@ -30,7 +30,8 @@ require("lspconfig").jsonls.setup({
         },
     },
 })
-require("lspconfig").yamlls.setup({
+vim.lsp.enable("jsonls")
+vim.lsp.config("yamlls", {
     settings = {
         yaml = {
             schemaStore = {
@@ -46,8 +47,9 @@ require("lspconfig").yamlls.setup({
         },
     },
 })
+vim.lsp.enable("yamlls")
 
-require("lspconfig").svelte.setup({})
+vim.lsp.enable("svelte")
 
 -- NOTE: deno_fmt is actually dprint which is quite similar to prettier
 --  so might switch to that eventually

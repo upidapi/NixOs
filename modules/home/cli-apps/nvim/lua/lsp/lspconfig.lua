@@ -108,36 +108,36 @@ local lspconfig = require("lspconfig")
 -- so here we simply add it for all the configured
 --
 -- for some reason you cant pass functions as args
-local function clean(thing)
-    if type(thing) == "table" then
-        for v, k in pairs(thing) do
-            if type(k) == "function" then
-                thing[v] = nil
-            else
-                thing[v] = clean(k)
-            end
-        end
-
-        return thing
-    end
-
-    return thing
-end
-
-for server, config in pairs(require("lspconfig.configs")) do
-    -- passing config.capabilities to blink.cmp merges with the capabilities in your
-    -- `opts[server].capabilities, if you've defined it
-    local cfg = clean(config.manager.config)
-    cfg.capabilities = require("blink.cmp").get_lsp_capabilities(cfg)
-
-    cfg.capabilities = vim.tbl_deep_extend("force", cfg.capabilities, {
-        {
-            textDocument = {
-                dynamicRegistration = false,
-                lineFoldingOnly = true,
-            },
-        },
-    })
-
-    lspconfig[server].setup(cfg)
-end
+-- local function clean(thing)
+--     if type(thing) == "table" then
+--         for v, k in pairs(thing) do
+--             if type(k) == "function" then
+--                 thing[v] = nil
+--             else
+--                 thing[v] = clean(k)
+--             end
+--         end
+--
+--         return thing
+--     end
+--
+--     return thing
+-- end
+--
+-- for server, config in pairs(require("lspconfig.configs")) do
+--     -- passing config.capabilities to blink.cmp merges with the capabilities in your
+--     -- `opts[server].capabilities, if you've defined it
+--     local cfg = clean(config.manager.config)
+--     cfg.capabilities = require("blink.cmp").get_lsp_capabilities(cfg)
+--
+--     cfg.capabilities = vim.tbl_deep_extend("force", cfg.capabilities, {
+--         {
+--             textDocument = {
+--                 dynamicRegistration = false,
+--                 lineFoldingOnly = true,
+--             },
+--         },
+--     })
+--
+--     lspconfig[server].setup(cfg)
+-- end

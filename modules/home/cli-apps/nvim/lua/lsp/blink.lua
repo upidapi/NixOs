@@ -29,6 +29,9 @@ require("blink.cmp").setup({
         -- ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
     },
 
+    -- fuzzy = { implementation = "prefer_rust" }, -- fuck the warning
+    fuzzy = { implementation = "lua" },
+
     appearance = {
         -- Sets the fallback highlight groups to nvim-cmp's highlight groups
         -- Useful for when your theme doesn't support blink.cmp

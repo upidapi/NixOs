@@ -59,7 +59,7 @@ local modules = {
     "lua.lang.java",
     "lua.lang.lua",
     "lua.lang.markdown",
-    "lua.lang.neorg",
+    -- "lua.lang.neorg", -- BROKEN:
     "lua.lang.nix",
     "lua.lang.nu",
     "lua.lang.php",

@@ -1,5 +1,5 @@
 --- nushell ----
-require("lspconfig").nushell.setup({})
+vim.lsp.enable("nushell")
 
 -- https://github.com/nushell/nufmt/issues/11
 -- Nufmt is WIP and currently in a broken state (pre alpha)

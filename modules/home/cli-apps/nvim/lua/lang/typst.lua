@@ -1,11 +1,12 @@
 -- has everything from formatting to previews
-require("lspconfig").tinymist.setup({
+vim.lsp.config("tinymist", {
     settings = {
         formatterMode = "typstyle",
         exportPdf = "onType",
         semanticTokens = "disable",
     },
 })
+vim.lsp.enable("tinymist")
 
 require("typst-preview").setup({})
 

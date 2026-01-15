@@ -1,7 +1,7 @@
 ----------------------
 -- About treesitter --
 ----------------------
-require("nvim-treesitter.configs").setup({
+require("nvim-treesitter").setup({
     -- Disable imperative treesitter options that would attempt to fetch
     -- grammars into the read-only Nix store. To add additional grammars here
     -- you must use the `config.vim.treesitter.grammars` option.
@@ -9,35 +9,15 @@ require("nvim-treesitter.configs").setup({
     sync_install = false,
     ensure_installed = {},
 
-    -- autotag = {
-    --     enable = true,
-    --     filetypes = {
-    --         "html",
-    --         "javascript",
-    --         "typescript",
-    --         "javascriptreact",
-    --         "typescriptreact",
-    --         "svelte",
-    --         "vue",
-    --         "tsx",
-    --         "jsx",
-    --         "rescript",
-    --         "css",
-    --         "lua",
-    --         "xml",
-    --         "php",
-    --         "markdown",
-    --     },
-    -- },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
 
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
+  indent = {
+    enable = true,
+  },
 
-    indent = {
-        enable = true,
-    },
 
     incremental_selection = {
         enable = true,
@@ -49,3 +29,9 @@ require("nvim-treesitter.configs").setup({
         },
     },
 })
+
+-- TODO:
+-- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+-- vim.wo[0][0].foldmethod = 'expr'
+--
+-- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"

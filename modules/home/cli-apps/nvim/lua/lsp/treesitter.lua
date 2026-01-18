@@ -9,15 +9,14 @@ require("nvim-treesitter").setup({
     sync_install = false,
     ensure_installed = {},
 
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
 
-  indent = {
-    enable = true,
-  },
-
+    indent = {
+        enable = true,
+    },
 
     incremental_selection = {
         enable = true,
@@ -28,6 +27,12 @@ require("nvim-treesitter").setup({
             node_decremental = "gsm",
         },
     },
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+    callback = function()
+        vim.treesitter.start()
+    end,
 })
 
 -- TODO:

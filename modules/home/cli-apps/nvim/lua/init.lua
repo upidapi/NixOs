@@ -49,7 +49,7 @@ local modules = {
     "lua.lsp.lsp-saga",
     "lua.lsp.misc",
     "lua.lsp.treesitter",
-    "lua.lsp.perfanno",
+    -- "lua.lsp.perfanno", -- BROKEN: 
     "lua.lsp.conform",
 
     "lua.lang.bash",

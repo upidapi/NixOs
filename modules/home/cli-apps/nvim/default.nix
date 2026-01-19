@@ -295,11 +295,11 @@ in {
           targets-vim
           nvim-surround
 
-          (pkgs.vimUtils.buildVimPlugin {
-            pname = "perfanno-nvim";
-            version = "git";
-            src = inputs.perfanno-nvim;
-          })
+          # (pkgs.vimUtils.buildVimPlugin {
+          #   pname = "perfanno-nvim";
+          #   version = "git";
+          #   src = inputs.perfanno-nvim;
+          # })
 
           image-nvim
 

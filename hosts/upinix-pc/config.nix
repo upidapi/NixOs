@@ -139,6 +139,8 @@ in {
       cpu.amd = enable;
       gpu.nvidia = enable;
 
+      print = enable;
+
       monitors.monitors = {
         # disable
         # https://github.com/hyprwm/Hyprland/issues/5958

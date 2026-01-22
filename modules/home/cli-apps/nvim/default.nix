@@ -208,7 +208,20 @@ in {
         # };
 
         start = with pkgs.vimPlugins; [
-          (nvim-treesitter.withPlugins (
+          # (nvim-treesitter.withPlugins (
+          # ((pkgs.vimUtils.buildVimPlugin {
+          #     pname = "nvim-treesitter";
+          #     version = "2025-05-24";
+          #     src = pkgs.fetchFromGitHub {
+          #       owner = "nvim-treesitter";
+          #       repo = "nvim-treesitter";
+          #       rev = "42fc28ba918343ebfd5565147a42a26580579482";
+          #       sha256 = "1ck1qslxwi18qxrga68blvk1dg9j4jn65xiw8snq5pk06waksnq9";
+          #     };
+          #     meta.homepage = "https://github.com/nvim-treesitter/nvim-treesitter/";
+          #     meta.hydraPlatforms = [];
+          #   }).withPlugins (
+          (nvim-treesitter-legacy.withPlugins (
             parsers:
               with parsers; [
                 bash

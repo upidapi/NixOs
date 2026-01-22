@@ -44,8 +44,8 @@ in {
           MaxUploadsPerTorrent = -1;
 
           MaxActiveDownloads = 10;
-          MaxActiveTorrents = 50;
           MaxActiveUploads = 10;
+          MaxActiveTorrents = 1000;
 
           BTProtocol = "TCP";
 

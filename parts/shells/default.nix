@@ -229,7 +229,7 @@
               udev
               alsa-lib
 
-              ida-free
+              # ida-free
 
               # crypto
               # BROKEN sage

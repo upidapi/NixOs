@@ -75,6 +75,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    jellarr = {
+      url = "github:venkyr77/jellarr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-jellyfin = {
       url = "github:upidapi/nixos-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -18,10 +18,12 @@ in {
   config.stylix = mkIf cfg.enable {
     enable = true;
 
-    targets = {
-      # default to no profiles
-      firefox.profileNames = ["${config.home.username}" "test"];
-    };
+    autoEnable = false;
+
+    # targets = {
+    #   # default to no profiles
+    #   firefox.profileNames = ["${config.home.username}" "test"];
+    # };
 
     image = "${self}/modules/home/desktop/wallpaper/wallpapers/simple-tokyo-night.png";
     polarity = "dark";

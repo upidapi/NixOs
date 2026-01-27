@@ -208,7 +208,6 @@ in {
         # };
 
         start = with pkgs.vimPlugins; [
-          # (nvim-treesitter.withPlugins (
           # ((pkgs.vimUtils.buildVimPlugin {
           #     pname = "nvim-treesitter";
           #     version = "2025-05-24";
@@ -221,7 +220,8 @@ in {
           #     meta.homepage = "https://github.com/nvim-treesitter/nvim-treesitter/";
           #     meta.hydraPlatforms = [];
           #   }).withPlugins (
-          (nvim-treesitter-legacy.withPlugins (
+          (nvim-treesitter.withPlugins (
+          # (nvim-treesitter-legacy.withPlugins (
             parsers:
               with parsers; [
                 bash
@@ -277,7 +277,7 @@ in {
           indent-blankline-nvim
           highlight-undo-nvim
 
-          nvim-treesitter
+          # nvim-treesitter
 
           # vim-dadbod # DB client
           (pkgs.vimUtils.buildVimPlugin {

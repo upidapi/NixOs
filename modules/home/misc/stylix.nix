@@ -23,6 +23,9 @@ in {
         qt = enable;
         gnome = enable;
         hyprland = enable;
+
+        btop = enable;
+        nushell = enable;
       };
       # targets = {
       #   # default to no profiles

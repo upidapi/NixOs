@@ -111,7 +111,7 @@ in {
         Exec=firefox --name "firefox" -P "upidapi" %U
         GenericName=Web Browser
         Icon=firefox
-        Name=Firefox Base
+        Name=Firefox
         StartupNotify=true
         StartupWMClass=firefox
         Terminal=false
@@ -123,7 +123,7 @@ in {
         Exec=firefox --name "firefox base" -P "base" %U
         GenericName=Web Browser
         Icon=firefox
-        Name=Firefox
+        Name=Firefox Base
         StartupNotify=true
         StartupWMClass=firefox
         Terminal=false
@@ -372,6 +372,8 @@ in {
             "zen.view.compact.enable-at-startup" = true;
 
             "zen.welcome-screen.seen" = true;
+
+            "zen.window-sync.enabled" = false; # fuck of
 
             # Make it so that "open location" (ctrl + L) always opens the
             # current url instead of persisting if edit

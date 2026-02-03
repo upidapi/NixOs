@@ -70,7 +70,7 @@ in {
 
         login = {
           # NOTE: greetd doesn't call it with env vars, so i have to do this
-          command = "zsh -c Hyprland";
+          command = "zsh -c start-hyprland";
           autoLogin = false;
           greetd = enable;
         };

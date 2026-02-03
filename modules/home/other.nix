@@ -34,8 +34,8 @@ in {
         MANPAGER = "less";
 
         TERMINAL = "kitty"; # alacritty
-        # BROWSER = "zen"; # firefox
-        BROWSER = "firefox";
+        BROWSER = "zen"; # firefox
+        # BROWSER = "firefox";
         EDITOR = "nvim";
       };
 

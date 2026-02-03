@@ -111,7 +111,7 @@ in {
 
       services = {
         transfer-sh = enable;
-        wg-easy = enable;
+        # wg-easy = enable;
         homepage = enable;
         thelounge = enable;
       };

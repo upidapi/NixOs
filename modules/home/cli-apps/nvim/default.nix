@@ -221,7 +221,7 @@ in {
           #     meta.hydraPlatforms = [];
           #   }).withPlugins (
           (nvim-treesitter.withPlugins (
-          # (nvim-treesitter-legacy.withPlugins (
+            # (nvim-treesitter-legacy.withPlugins (
             parsers:
               with parsers; [
                 bash

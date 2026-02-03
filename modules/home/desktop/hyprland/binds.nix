@@ -1,4 +1,4 @@
-let
+{pkgs, ...}: let
   mod = a: b: a - builtins.floor (a / b) * b;
 
   genNumKeysBins = f:
@@ -26,6 +26,10 @@ let
     "$mod ${mods}, J, ${cmd}, d"
   ];
 in {
+  home.packages = with pkgs; [
+    tesseract
+  ];
+
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
@@ -90,14 +94,13 @@ in {
       ];
 
     bind = let
-      mkScreenshotBind = let
-        date = ''$(date "+%Y-%m-%-d_%H:%M:%S")'';
-      in
-        # If we dont export that grimblast tries to create a new headless
-        # display to take the image on for some reason.
-        # That breaks ags and messes upp the display.
-        # Disabling it seams to have no effect on the image
-        core: ''mkdir images; GRIMBLAST_HIDE_CURSOR=1 grimblast ${core} "images/${date}.png"'';
+      date = ''$(date "+%Y-%m-%-d_%H:%M:%S")'';
+
+      # If we dont export that grimblast tries to create a new headless
+      # display to take the image on for some reason.
+      # That breaks ags and messes upp the display.
+      # Disabling it seams to have no effect on the image
+      mkScreenshotBind = core: ''mkdir images; GRIMBLAST_HIDE_CURSOR=1 grimblast ${core} "images/${date}.png"'';
     in [
       # old screen shot
       # deps: grim, slurp
@@ -111,6 +114,8 @@ in {
       ''SHIFT, Print, exec, ${mkScreenshotBind "copysave output"}''
       # all screens
       ''CTRL, Print, exec, ${mkScreenshotBind "copysave screen"}''
+
+      ''$mod, O, exec, ${mkScreenshotBind "--freeze save area"} | tesseract - - | wl-copy''
     ];
 
     # kbd binds

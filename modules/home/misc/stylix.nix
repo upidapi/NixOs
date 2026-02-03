@@ -15,15 +15,71 @@ in {
 
   imports = [inputs.stylix.homeModules.stylix];
 
-  config.stylix = mkIf cfg.enable {
+  config = mkIf cfg.enable {
+    qt = let
+      icons =
+        if (config.stylix.polarity == "dark")
+        then config.stylix.icons.dark
+        else config.stylix.icons.light;
+
+      recommendedStyles = {
+        gnome =
+          if config.stylix.polarity == "dark"
+          then "adwaita-dark"
+          else "adwaita";
+        kde = "breeze";
+        qtct = "kvantum";
+      };
+      recommendedStyle = recommendedStyles."${config.qt.platformTheme.name}" or null;
+
+      qtctSettings = {
+        Appearance = {
+          custom_palette = true;
+          standard_dialogs = config.stylix.targets.qt.standardDialogs;
+          style = lib.mkIf (config.qt.style ? name) config.qt.style.name;
+          icon_theme = lib.mkIf (icons != null) icons;
+        };
+
+        Fonts = let
+          inherit (config.stylix) fonts;
+        in {
+          fixed = ''"${fonts.monospace.name},${toString fonts.sizes.applications}"'';
+          general = ''"${fonts.sansSerif.name},${toString fonts.sizes.applications}"'';
+        };
+      };
+    in {
+      enable = true;
+      style.name = recommendedStyle;
+      platformTheme.name = config.stylix.targets.qt.platform;
+
+      qt5ctSettings = lib.mkIf (config.qt.platformTheme.name == "qtct") qtctSettings;
+      qt6ctSettings = lib.mkIf (config.qt.platformTheme.name == "qtct") qtctSettings;
+    };
+
+    gtk = let
+      scfg = config.stylix;
+    in {
+      enable = true;
+      font = {
+        inherit (scfg.fonts.sansSerif) package name;
+        size = scfg.fonts.sizes.applications;
+      };
+      theme = {
+        package = pkgs.adw-gtk3;
+        name = "adw-gtk3";
+      };
+    };
+
+    stylix = {
       enable = true;
 
       autoEnable = false;
       targets = {
-        qt = enable;
+        # qt = enable;
+        # gtk = enable;
         gnome = enable;
-        hyprland = enable;
 
+        hyprland = enable;
         btop = enable;
         nushell = enable;
       };
@@ -142,4 +198,5 @@ in {
         };
       };
     };
+  };
 }

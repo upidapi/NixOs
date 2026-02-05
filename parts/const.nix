@@ -64,6 +64,8 @@ in {
     wireguard = 51820;
     wg-easy = 51821;
 
+    pg = 5432;
+
     mc-server = 25565;
     mc-server-b = 25566;
   };

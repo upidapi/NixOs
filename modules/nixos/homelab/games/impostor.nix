@@ -8,6 +8,7 @@
 }: let
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
+  inherit (const) ports;
   cfg = config.modules.nixos.homelab.games.impostor;
 in {
   options.modules.nixos.homelab.games.impostor = mkEnableOpt "";
@@ -30,6 +31,22 @@ in {
       };
     };
 
+    services.postgresql = {
+      enable = true;
+      port = ports.pg;
+      ensureDatabases = ["games-site"];
+      authentication = pkgs.lib.mkOverride 10 ''
+        #type database  DBuser  auth-method
+        local all       all     trust
+
+        # Allow IPv4 localhost with password
+        host    all     all     127.0.0.1/32    trust
+
+        # Allow IPv6 localhost with password
+        host    all     all     ::1/128         trust
+      '';
+    };
+
     systemd.services = {
       # "game-site-db" = {
       #   after = ["network.target"];
@@ -43,7 +60,7 @@ in {
       #     User = "upidapi";
       #     Group = "users";
       #
-      #     # WorkingDirectory = "/home/upidapi/persist/prog/projects/impostor/";
+      #     WorkingDirectory = "/var/lib/game-site-db";
       #     ExecStart =
       #       pkgs.writeShellScript "run-impostor-prod" ''
       #       '';
@@ -84,7 +101,7 @@ in {
           PORT = toString const.ports.game-site;
           RELEASE = "beta";
 
-          DATABASE_URL = "file:/home/upidapi/persist/prog/projects/impostor/db.sqlite";
+          # DATABASE_URL = "file:/home/upidapi/persist/prog/projects/impostor/db.sqlite";
         };
         serviceConfig = {
           User = "upidapi";

@@ -154,7 +154,7 @@ in {
 
             syncEnabled = true;
             preventSearch = false;
-            minimumAvailability = "released";
+            minimumAvailability = "inCinemas";
 
             tags = [];
             tagRequests = false;
@@ -189,7 +189,7 @@ in {
             tagRequests = false;
 
             activeDirectory = "/raid/media/tv";
-            # activeProfileId = 4;
+            # activeProfileId = 4
             activeProfileName = "1080p Balanced";
           }
         ];

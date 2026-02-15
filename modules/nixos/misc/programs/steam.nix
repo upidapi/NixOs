@@ -55,11 +55,12 @@ in {
     environment.systemPackages = with pkgs; [
       pkgs.protontricks
 
-      (wineWowPackages.full.override {
-        wineRelease = "staging";
-        mingwSupport = true;
-      })
-      winetricks
+      # currently causes wine recompile, not fun
+      # (wineWowPackages.full.override {
+      #   wineRelease = "staging";
+      #   mingwSupport = true;
+      # })
+      # winetricks
 
       # can change install dir at ./.local/share/lutris/system.yml
       # system:
@@ -67,8 +68,10 @@ in {
       (lutris.override {
         extraPkgs = pkgs: [
           # List package dependencies here
-          wineWowPackages.stable
-          winetricks
+          # This recompiles wine, which is really slow (30m+)
+          # if not relly needed ill keep them commented out
+          # wineWowPackages.stable
+          # winetricks
         ];
       })
     ];

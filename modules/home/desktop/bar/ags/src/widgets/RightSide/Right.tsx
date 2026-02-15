@@ -4,6 +4,7 @@ import Time from "./Time";
 import StatusIcons from "./StatusIcons/StatusIcons";
 import BatteryLvl from "./BatteryLvl";
 import BrightnessLvl from "./BrightnessLvl";
+import Lang from "./Lang";
 
 export default function Right() {
   return (
@@ -12,6 +13,7 @@ export default function Right() {
       <BatteryLvl />
       <BrightnessLvl />
       <Volume />
+      <Lang />
       <Time />
     </box>
   );

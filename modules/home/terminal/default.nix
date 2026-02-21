@@ -44,6 +44,7 @@ in {
       unpage = "PAGER=cat";
       nix-unfree = "NIXPKGS_ALLOW_UNFREE=1";
       ds = "dev-shell";
+      ns = "nix-shell";
       dsu = "env NIXPKGS_ALLOW_UNFREE=1 dev-shell";
       pb = "pastebin";
 

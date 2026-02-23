@@ -69,7 +69,7 @@ in {
           macos_titlebar_color ${base00}
 
           # text colors
-          color0 ${base00}
+          color0 ${base04}
           color1 ${base08}
           color2 ${base0B}
           color3 ${base0A}
@@ -79,7 +79,7 @@ in {
           color7 ${base05}
 
           # bright text colors
-          color8 ${base00}
+          color8 ${base04}
           color9 ${base08}
           color10 ${base0B}
           color11 ${base0A}

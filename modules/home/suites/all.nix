@@ -11,9 +11,9 @@
   enable = {
     enable = mkDefault true;
   };
-  # disable = {
-  #   enable = mkDefault false;
-  # };
+  disable = {
+    enable = mkDefault false;
+  };
 in {
   options.modules.home.suites.all =
     mkEnableOpt "enables everything except the hardware specific stuff";

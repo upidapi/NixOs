@@ -82,6 +82,8 @@ in {
         hyprland = enable;
         btop = enable;
         nushell = enable;
+        # kitty = enable;
+        # bitwarden = enable;
       };
       # targets = {
       #   # default to no profiles

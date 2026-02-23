@@ -24,7 +24,7 @@ in {
         description = "Group under which Unpackerr runs.";
       };
 
-      home = lib.mkOption {
+      dataDir = lib.mkOption {
         type = lib.types.path;
         default = "/var/lib/unpackerr";
         description = ''
@@ -65,6 +65,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    systemd.tmpfiles.rules = [
+      "d '${cfg.dataDir}' 0750 ${cfg.user} ${cfg.group} - -"
+    ];
+
     systemd.services.unpackerr = {
       description = "unpackerr";
       wantedBy = ["multi-user.target"];
@@ -74,15 +78,18 @@ in {
           then "${cfg.configPath}"
           else
             format.generate "unpackerr.conf" ({
-                log_file = "${cfg.home}/unpackerr.log";
+                log_file = "${cfg.dataDir}/unpackerr.log";
                 log_file_mode = "0640";
               }
               // cfg.settings);
       in {
         Type = "simple";
+
         User = cfg.user;
         Group = cfg.group;
-        EnvironmentFiles =
+        WorkingDirectory = cfg.dataDir;
+
+        EnvironmentFile =
           lib.optional
           (cfg.environmentFile != null)
           cfg.environmentFile;
@@ -95,7 +102,7 @@ in {
       unpackerr = {
         group = cfg.group;
         uid = 389;
-        home = cfg.home;
+        # home = cfg.home;
         isSystemUser = true;
       };
     };

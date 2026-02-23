@@ -3,12 +3,12 @@
 -- of tools to get thing working.
 -- Why does prettier format like 15 different languages?
 require('nvim-ts-autotag').setup({
-  opts = {
-    -- Defaults
-    enable_close = true, -- Auto close tags
-    enable_rename = true, -- Auto rename pairs of tags
-    enable_close_on_slash = false -- Auto close on trailing </
-  },
+    opts = {
+        -- Defaults
+        enable_close = true,      -- Auto close tags
+        enable_rename = true,     -- Auto rename pairs of tags
+        enable_close_on_slash = false -- Auto close on trailing </
+    },
 })
 -- require('nvim-ts-autotag').setup()
 
@@ -58,14 +58,14 @@ vim.lsp.enable("svelte")
 --  reasons
 
 local js_things =
-    { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+{ "javascript", "javascriptreact", "typescript", "typescriptreact" }
 
 for _, lang in
-    ipairs(vim.list_extend({ "json", "yaml", "html", "css" }, js_things))
+ipairs(vim.list_extend({ "json", "yaml", "html", "css" }, js_things))
 do
-    require("conform").formatters_by_ft[lang] = { "prettierd" }
+    require("conform").formatters_by_ft[lang] = { "biome-check" }
 end
 
 for _, lang in ipairs(js_things) do
-    require("lint").linters_by_ft[lang] = { "eslint_d" }
+    require("lint").linters_by_ft[lang] = { "biomejs" }
 end

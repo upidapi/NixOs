@@ -172,8 +172,9 @@ in {
 
         # css / html / json / eslint
         vscode-langservers-extracted
-        eslint_d
-        prettierd
+        # eslint_d
+        # prettierd
+        biome
         svelte-language-server
 
         tailwindcss-language-server

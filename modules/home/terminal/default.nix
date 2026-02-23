@@ -47,6 +47,8 @@ in {
       dsu = "env NIXPKGS_ALLOW_UNFREE=1 dev-shell";
       pb = "pastebin";
 
+      py = "python";
+
       e = "$EDITOR";
       c = "clear";
       # l = "ls -lah";

@@ -97,6 +97,7 @@ in {
         jellyseerr = enable;
         arr = enable;
         autobrr = enable;
+        unpackerr = enable;
         qbit = enable;
         cross-seed = enable;
       };

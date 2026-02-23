@@ -15,12 +15,14 @@ in {
   # NOTE: port forward with ssh
   #  ssh -L 8192:localhost:8191 ssh.upidapi.dev -N
 
+  # TODO: could add groups to users instead of putting it all in media
   imports = [
     ./arr.nix
     ./autobrr
     ./cross-seed.nix
     ./jellyseerr.nix
     ./jellyfin
+    ./unpackerr
     ./qbit
     ./user-options.nix
     # remove once these get merged

@@ -24,7 +24,7 @@ in {
 
     services.qbittorrent = {
       enable = true;
-      group = "media";
+      # group = "media";
       # package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
       webuiPort = ports.qbit;
       serverConfig = {

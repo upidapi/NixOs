@@ -22,9 +22,10 @@ in {
       UN_RADARR_0_API_KEY=${config.sops.placeholder."radarr/api-key"}
     '';
 
+    users.users.unpackerr.extraGroups = ["qbittorrent"];
     services.unpackerr = {
       enable = true;
-      group = "media";
+      # group = "media";
 
       environmentFile = config.sops.templates."unpackerr-env".path;
 

@@ -15,13 +15,6 @@ in {
   options.modules.nixos.homelab.media.qbit = mkEnableOpt "";
 
   config = mkIf cfg.enable {
-    systemd.services.qbittorrent = {
-      serviceConfig.LimitNOFILE = 65535;
-      vpnConfinement = enableAnd {
-        vpnNamespace = "proton";
-      };
-    };
-
     services.qbittorrent = {
       enable = true;
       # group = "media";
@@ -76,141 +69,154 @@ in {
       };
     };
 
-    systemd.services."qbit-sync-port" = {
-      vpnConfinement = enableAnd {
-        vpnNamespace = "proton";
+    systemd.services = {
+      qbittorrent = {
+        vpnConfinement = enableAnd {
+          vpnNamespace = "proton";
+        };
+
+        serviceConfig = {
+          UMask = 0007;
+          LimitNOFILE = 65535;
+        };
       };
 
-      after = ["qbittorrent.service"];
-      wantedBy = ["multi-user.target"];
-      path = [pkgs.libnatpmp pkgs.curl pkgs.iptables];
-      serviceConfig = {
-        User = "root";
-        Group = "media";
+      "qbit-sync-port" = {
+        vpnConfinement = enableAnd {
+          vpnNamespace = "proton";
+        };
 
-        ExecStart = let
-          pswFile = config.sops.secrets."qbit/password".path;
-          url = "http://${ips.proton}:${toString ports.qbit}";
-        in
-          pkgs.writeShellScript "qbit-sync-port" ''
-            #!/usr/bin/env bash
-            # shellcheck shell=bash
+        after = ["qbittorrent.service"];
+        wantedBy = ["multi-user.target"];
+        path = [pkgs.libnatpmp pkgs.curl pkgs.iptables];
+        serviceConfig = {
+          User = "root";
+          Group = "media";
 
-            # REF: https://gist.github.com/KaBankz/c5a08845e3c64fbae8053dc7d28f8191
-            # REF: https://bjarne.verschorre.be/blog/port-forwarding-proton-vpn/
+          ExecStart = let
+            pswFile = config.sops.secrets."qbit/password".path;
+            url = "http://${ips.proton}:${toString ports.qbit}";
+          in
+            pkgs.writeShellScript "qbit-sync-port" ''
+              #!/usr/bin/env bash
+              # shellcheck shell=bash
 
-            QBITTORRENT_USERNAME="admin"
-            QBITTORRENT_PASSWORD="$(cat ${pswFile})"
-            QBITTORRENT_BASE_URL="${url}"
+              # REF: https://gist.github.com/KaBankz/c5a08845e3c64fbae8053dc7d28f8191
+              # REF: https://bjarne.verschorre.be/blog/port-forwarding-proton-vpn/
 
-            QBITTORRENT_LOGIN_API_ENDPOINT="$QBITTORRENT_BASE_URL/api/v2/auth/login"
-            QBITTORRENT_GET_PREFS_API_ENDPOINT="$QBITTORRENT_BASE_URL/api/v2/app/preferences"
-            QBITTORRENT_SET_PREFS_API_ENDPOINT="$QBITTORRENT_BASE_URL/api/v2/app/setPreferences"
+              QBITTORRENT_USERNAME="admin"
+              QBITTORRENT_PASSWORD="$(cat ${pswFile})"
+              QBITTORRENT_BASE_URL="${url}"
 
-            RED="\e[31m"
-            RESET="\e[0m"
+              QBITTORRENT_LOGIN_API_ENDPOINT="$QBITTORRENT_BASE_URL/api/v2/auth/login"
+              QBITTORRENT_GET_PREFS_API_ENDPOINT="$QBITTORRENT_BASE_URL/api/v2/app/preferences"
+              QBITTORRENT_SET_PREFS_API_ENDPOINT="$QBITTORRENT_BASE_URL/api/v2/app/setPreferences"
 
-            red() {
-                echo -e "''${RED}$1''${RESET}"
-            }
+              RED="\e[31m"
+              RESET="\e[0m"
 
-            throw() {
-                red "$1"
-                kill -s TERM "$TOP_PID"
-            }
+              red() {
+                  echo -e "''${RED}$1''${RESET}"
+              }
 
-            last_vpn_port=
+              throw() {
+                  red "$1"
+                  kill -s TERM "$TOP_PID"
+              }
 
-            cleanup() {
-                if [[ -n "$last_vpn_port" ]]; then
-                  iptables -D INPUT 1 -p tcp --dport "$last_vpn_port" -j ACCEPT
-                fi
-            }
+              last_vpn_port=
 
-            trap "cleanup" EXIT
-
-            sync_port() {
-                qbittorrent_auth_cookie=$(
-                    curl -si "$QBITTORRENT_LOGIN_API_ENDPOINT" \
-                        --header "Referer: $QBITTORRENT_BASE_URL" \
-                        --data "username=$QBITTORRENT_USERNAME&password=$QBITTORRENT_PASSWORD" |
-                        grep -oP '(?<=set-cookie: )\S*(?=;)'
-                )
-
-                if [[ -z "$qbittorrent_auth_cookie" ]]; then
-                    # may occur while qbittorrent is starting up
-                    red "Failed to get qbit auth cookie"
-                    return
-                fi
-
-                vpn_port=$(
-                    # proton vpn doesn't listen to lifetime (always 60)
-                    # nor public port
-                    natpmpc -a 1 0 tcp 60 -g 10.2.0.1 |
-                        grep 'Mapped public port' |
-                        sed -E 's/.*Mapped public port ([0-9]+) protocol TCP to local port [0-9]+ lifetime [0-9]+/\1/'
-                )
-
-                if [[ -z "$vpn_port" ]]; then
-                    red "Failed to get vpn port"
-                    return
-                fi
-
-                if [[ "$vpn_port" != "$last_vpn_port" ]]; then
-                  echo "External vpn port updated $active_port => $vpn_port"
-
-                  # map public port to same internal port
-                  natpmpc -a 1 "$vpn_port" tcp 60 -g 10.2.0.1 > /dev/null
-
-                  iptables -I INPUT 1 -p tcp --dport "$vpn_port" -j ACCEPT
+              cleanup() {
                   if [[ -n "$last_vpn_port" ]]; then
                     iptables -D INPUT 1 -p tcp --dport "$last_vpn_port" -j ACCEPT
                   fi
+              }
 
-                  last_vpn_port="$vpn_port"
-                fi
+              trap "cleanup" EXIT
 
-                active_port=$(
-                    curl -s "$QBITTORRENT_GET_PREFS_API_ENDPOINT" \
-                        -b "$qbittorrent_auth_cookie" |
-                        grep -oP '(?<="listen_port":)\d+(?=,)'
-                )
+              sync_port() {
+                  qbittorrent_auth_cookie=$(
+                      curl -si "$QBITTORRENT_LOGIN_API_ENDPOINT" \
+                          --header "Referer: $QBITTORRENT_BASE_URL" \
+                          --data "username=$QBITTORRENT_USERNAME&password=$QBITTORRENT_PASSWORD" |
+                          grep -oP '(?<=set-cookie: )\S*(?=;)'
+                  )
 
-                if [[ -z "$active_port" ]]; then
-                    red "Failed to get current port"
-                    return
-                fi
+                  if [[ -z "$qbittorrent_auth_cookie" ]]; then
+                      # may occur while qbittorrent is starting up
+                      red "Failed to get qbit auth cookie"
+                      return
+                  fi
 
-                # echo "$qbittorrent_auth_cookie"
-                # echo "$vpn_port"
-                # echo "$active_port"
+                  vpn_port=$(
+                      # proton vpn doesn't listen to lifetime (always 60)
+                      # nor public port
+                      natpmpc -a 1 0 tcp 60 -g 10.2.0.1 |
+                          grep 'Mapped public port' |
+                          sed -E 's/.*Mapped public port ([0-9]+) protocol TCP to local port [0-9]+ lifetime [0-9]+/\1/'
+                  )
 
-                if [[ "$vpn_port" != "$active_port" ]]; then
-                    res=$(
-                        curl -si "$QBITTORRENT_SET_PREFS_API_ENDPOINT" \
-                            -b "$qbittorrent_auth_cookie" \
-                            -XPOST \
-                            -d "json={\"listen_port\":$vpn_port}" \
-                            -o /dev/null \
-                            -w "%{http_code}"
-                    )
+                  if [[ -z "$vpn_port" ]]; then
+                      red "Failed to get vpn port"
+                      return
+                  fi
 
-                    if [[ "$res" == "200" ]]; then
-                        echo "Updated qbit port $active_port => $vpn_port"
-                    else
-                        red "Failed to sync ports"
+                  if [[ "$vpn_port" != "$last_vpn_port" ]]; then
+                    echo "External vpn port updated $active_port => $vpn_port"
+
+                    # map public port to same internal port
+                    natpmpc -a 1 "$vpn_port" tcp 60 -g 10.2.0.1 > /dev/null
+
+                    iptables -I INPUT 1 -p tcp --dport "$vpn_port" -j ACCEPT
+                    if [[ -n "$last_vpn_port" ]]; then
+                      iptables -D INPUT 1 -p tcp --dport "$last_vpn_port" -j ACCEPT
                     fi
-                fi
 
-            }
+                    last_vpn_port="$vpn_port"
+                  fi
 
-            sync_port
+                  active_port=$(
+                      curl -s "$QBITTORRENT_GET_PREFS_API_ENDPOINT" \
+                          -b "$qbittorrent_auth_cookie" |
+                          grep -oP '(?<="listen_port":)\d+(?=,)'
+                  )
 
-            while true; do
-                sleep 30
-                sync_port
-            done
-          '';
+                  if [[ -z "$active_port" ]]; then
+                      red "Failed to get current port"
+                      return
+                  fi
+
+                  # echo "$qbittorrent_auth_cookie"
+                  # echo "$vpn_port"
+                  # echo "$active_port"
+
+                  if [[ "$vpn_port" != "$active_port" ]]; then
+                      res=$(
+                          curl -si "$QBITTORRENT_SET_PREFS_API_ENDPOINT" \
+                              -b "$qbittorrent_auth_cookie" \
+                              -XPOST \
+                              -d "json={\"listen_port\":$vpn_port}" \
+                              -o /dev/null \
+                              -w "%{http_code}"
+                      )
+
+                      if [[ "$res" == "200" ]]; then
+                          echo "Updated qbit port $active_port => $vpn_port"
+                      else
+                          red "Failed to sync ports"
+                      fi
+                  fi
+
+              }
+
+              sync_port
+
+              while true; do
+                  sleep 30
+                  sync_port
+              done
+            '';
+        };
       };
     };
   };

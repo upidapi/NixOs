@@ -27,12 +27,12 @@ in {
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
         "/raid/media/movies".d = {
-          group = "media";
+          group = "radarr";
           user = "radarr";
           mode = "751";
         };
         "/raid/media/movies".Z = {
-          group = "media";
+          group = "radarr";
           user = "radarr";
           mode = "751";
         };
@@ -42,23 +42,23 @@ in {
         #   mode = "751";
         # };
         "/raid/media/tv".d = {
-          group = "media";
+          group = "sonarr";
           user = "sonarr";
           mode = "751";
         };
         "/raid/media/tv".Z = {
-          group = "media";
+          group = "sonarr";
           user = "sonarr";
           mode = "751";
         };
 
         "/raid/media/music".d = {
-          group = "media";
+          group = "lidarr";
           user = "lidarr";
           mode = "751";
         };
         "/raid/media/music".Z = {
-          group = "media";
+          group = "lidarr";
           user = "lidarr";
           mode = "751";
         };
@@ -66,11 +66,13 @@ in {
     };
 
     users.users = {
-      ${config.services.radarr.user}.extraGroups = ["media"];
-      ${config.services.sonarr.user}.extraGroups = ["media"];
-      ${config.services.bazarr.user}.extraGroups = ["media"];
-      ${config.services.jellyfin.user}.extraGroups = ["media"];
-      ${config.services.jellyseerr.user}.extraGroups = ["media"];
+      ${config.services.radarr.user}.extraGroups = ["qbittorrent"];
+      ${config.services.sonarr.user}.extraGroups = ["qbittorrent"];
+      ${config.services.lidarr.user}.extraGroups = ["qbittorrent"];
+      ${config.services.bazarr.user}.extraGroups = ["qbittorrent"];
+
+      ${config.services.jellyfin.user}.extraGroups = ["sonarr" "radarr" "lidarr"];
+      ${config.services.jellyseerr.user}.extraGroups = [];
     };
 
     sops.secrets = {
@@ -176,8 +178,19 @@ in {
             --data-urlencode "password=$(cat ${pswFile})"
         '';
 
-      sonarr.after = ["qbittorrent.service"];
-      radarr.after = ["qbittorrent.service"];
+      sonarr = {
+        after = ["qbittorrent.service"];
+        serviceConfig.ReadOnlyPaths = ["/raid/media/torrents"];
+      };
+      radarr = {
+        after = ["qbittorrent.service"];
+        serviceConfig.ReadOnlyPaths = ["/raid/media/torrents"];
+      };
+      lidarr = {
+        after = ["qbittorrent.service"];
+        serviceConfig.ReadOnlyPaths = ["/raid/media/torrents"];
+      };
+
       prowlarr.after = ["qbittorrent.service" "lidarr.service" "sonarr.service" "radarr.service"];
     };
 
@@ -187,19 +200,19 @@ in {
     services = {
       sonarr = {
         enable = true;
-        group = "media";
+        # group = "media";
         apiKeyFile = config.sops.secrets."sonarr/api-key".path;
         settings.server.port = ports.sonarr;
       };
       radarr = {
         enable = true;
-        group = "media";
+        # group = "media";
         apiKeyFile = config.sops.secrets."radarr/api-key".path;
         settings.server.port = ports.radarr;
       };
       lidarr = {
         enable = true;
-        group = "media";
+        # group = "media";
         apiKeyFile = config.sops.secrets."lidarr/api-key".path;
         settings.server.port = ports.lidarr;
       };

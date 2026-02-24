@@ -31,7 +31,7 @@ in {
       enable = true;
 
       user = "autobrr";
-      group = "media";
+      # group = "media";
 
       # secretFile = config.sops.secrets."autobrr/session-secret".path;
       settings = {

@@ -112,6 +112,8 @@ in {
 
         "/var/cache/tuigreet/" # save last user / session
 
+        "/var/lib/postgresql"
+
         # (chown "jellyfin" "/var/lib/jellyfin")
         # {
         #   directory = "/var/lib/jellyfin";

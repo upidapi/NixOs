@@ -20,84 +20,107 @@ in {
       config = {
         version = 1;
 
-        base_url = "https://jelly.nelim.org";
+        base_url = "https://jellyfin.upidapi.dev";
 
         branding = {
           loginDisclaimer = "";
           splashscreenEnabled = false;
-
-          # customCss = let
-          #   importFile = file: "@import url('https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/${file}.css');";
-          # in
-          #   # css
-          #   ''
-          #     /* Base theme */
-          #     ${importFile "base"}
-          #     ${importFile "accentlist"}
-          #     ${importFile "fixes"}
-          #
-          #     ${importFile "type/dark_withaccent"}
-          #
-          #     ${importFile "rounding"}
-          #     ${importFile "progress/floating"}
-          #     ${importFile "titlepage/title_banner-logo"}
-          #     ${importFile "header/header_transparent"}
-          #     ${importFile "login/login_frame"}
-          #     ${importFile "fields/fields_border"}
-          #     ${importFile "cornerindicator/indicator_floating"}
-          #
-          #     /* Style backdrop */
-          #     .backdropImage {
-          #         filter: blur(18px) saturate(120%) contrast(120%) brightness(40%);
-          #     }
-          #
-          #     /* Fix Jellyfin's st**pid skip-intro placement */
-          #     .skip-button {
-          #         position: fixed;
-          #         bottom: 18%;
-          #         right: 16%;
-          #     }
-          #
-          #     /* Custom Settings */
-          #     :root {--accent: 145,75,245;}
-          #     :root {--rounding: 12px;}
-          #
-          #     /* https://github.com/CTalvio/Ultrachromic/issues/79 */
-          #     .skinHeader {
-          #         color: rgba(var(--accent), 0.8);;
-          #     }
-          #     .countIndicator,
-          #     .fullSyncIndicator,
-          #     .mediaSourceIndicator,
-          #     .playedIndicator {
-          #         background-color: rgba(var(--accent), 0.8);
-          #     }
-          #
-          #     /* Editor's Choice */
-          #     .splide__track.splide__track--loop.splide__track--ltr.splide__track--draggable {
-          #         border-radius: var(--rounding);
-          #     }
-          #   '';
         };
 
+        users = lib.values (lib.mapAttrs (user: v:
+          v
+          // {
+            name = user;
+            policy = {
+              isAdministrator = false;
+              loginAttemptsBeforeLockout = -1;
+            };
+
+            passwordFile = config.sops.secrets."jellyfin/users/${user}/password".path;
+          }) {
+          admin.permissions.isAdministrator = true;
+          smiley = {};
+          mari = {};
+          pablo = {};
+          cave.maxParentalRatingSubScore = 17;
+          tv.maxParentalRatingSubScore = 13;
+
+          # from: GET jellyfin/Localization/ParentalRatings
+          # https://www.motionpictures.org/film-ratings/
+
+          # NC-17 (adults only / anything)
+          guest-1 = {};
+          guest-2 = {};
+          guest-3 = {};
+          guest-4 = {};
+          guest-5 = {};
+          guest-6 = {};
+          guest-7 = {};
+          guest-8 = {};
+          # R
+          guest-17-1.maxParentalRatingSubScore = 17;
+          guest-17-2.maxParentalRatingSubScore = 17;
+          guest-17-3.maxParentalRatingSubScore = 17;
+          guest-17-4.maxParentalRatingSubScore = 17;
+          # PG-13
+          guest-13-1.maxParentalRatingSubScore = 13;
+          guest-13-2.maxParentalRatingSubScore = 13;
+          guest-13-3.maxParentalRatingSubScore = 13;
+          guest-13-4.maxParentalRatingSubScore = 13;
+          # PG
+          guest-10-1.maxParentalRatingSubScore = 10;
+          guest-10-2.maxParentalRatingSubScore = 10;
+          guest-10-3.maxParentalRatingSubScore = 10;
+          guest-10-4.maxParentalRatingSubScore = 10;
+          # G
+          guest-0-1.maxParentalRatingSubScore = 0;
+          guest-0-2.maxParentalRatingSubScore = 0;
+          guest-0-3.maxParentalRatingSubScore = 0;
+          guest-0-4.maxParentalRatingSubScore = 0;
+        });
+
+        # https://github.com/venkyr77/jellarr/issues/48
+        # concurrent runs causes duplicates
+
+        library.virtualFolders = [
+          {
+            name = "Movies";
+            collectionType = "movies";
+            libraryOptions = {
+              pathInfos = [
+                {path = "/raid/media/movies";}
+              ];
+            };
+          }
+          {
+            name = "Shows";
+            collectionType = "tvshows";
+            libraryOptions = {
+              pathInfos = [
+                {path = "/raid/media/tv";}
+              ];
+            };
+          }
+        ];
+
         encoding = {
-          allowAv1Encoding = false;
-          allowHevcEncoding = false;
-          enableDecodingColorDepth10Hevc = true;
           enableDecodingColorDepth10HevcRext = false;
           enableDecodingColorDepth10Vp9 = true;
           enableDecodingColorDepth12HevcRext = false;
 
           enableHardwareEncoding = true;
           hardwareAccelerationType = "nvenc";
+          enableDecodingColorDepth10Hevc = true;
+          allowHevcEncoding = true;
+          allowAv1Encoding = false;
+
           hardwareDecodingCodecs = [
             "h264"
             "hevc"
             "mpeg2video"
             "vc1"
-            "vp8"
             "vp9"
-            "av1"
+            # "av1" # not supported by my gpu
           ];
         };
 
@@ -113,65 +136,47 @@ in {
           enableExternalContentInSuggestions = false;
 
           enableSlowResponseWarning = false;
+
+          network = {
+            internalHttpPort = ports.jellyfin;
+            publicHttpPort = ports.jellyfin;
+          };
           */
+
+          pluginRepositories = [
+            {
+              enable = true;
+              name = "Jellyfin Stable";
+              url = "https://repo.jellyfin.org/files/plugin/manifest.json";
+            }
+          ];
 
           enableMetrics = false;
 
           trickplayOptions = {
-            enableHwAcceleration = false;
-            enableHwEncoding = false;
+            enableHwAcceleration = true;
+            enableHwEncoding = true;
           };
-
-          pluginRepositories = [
-            {
-              enabled = true;
-              name = "Jellyfin Stable";
-              url = "https://repo.jellyfin.org/releases/plugin/manifest-stable.json";
-            }
-            {
-              enabled = true;
-              name = "Intro Skipper";
-              url = "https://manifest.intro-skipper.org/manifest.json";
-            }
-            {
-              enabled = true;
-              name = "Merge Versions Plugin";
-              url = "https://raw.githubusercontent.com/danieladov/JellyfinPluginManifest/master/manifest.json";
-            }
-            {
-              enabled = true;
-              name = "Meilisearch";
-              url = "https://raw.githubusercontent.com/arnesacnussem/jellyfin-plugin-meilisearch/refs/heads/master/manifest.json";
-            }
-            {
-              enabled = true;
-              name = "Air Times";
-              url = "https://raw.githubusercontent.com/apteryxxyz/jellyfin-plugin-airtimes/main/manifest.json";
-            }
-            {
-              enabled = true;
-              name = "InPlayerEpisodePreview";
-              url = "https://raw.githubusercontent.com/Namo2/InPlayerEpisodePreview/master/manifest.json";
-            }
-            {
-              enabled = true;
-              name = "Streamyfin";
-              url = "https://raw.githubusercontent.com/streamyfin/jellyfin-plugin-streamyfin/main/manifest.json";
-            }
-            {
-              enabled = true;
-              name = "Editor's Choice";
-              url = "https://github.com/lachlandcp/jellyfin-editors-choice-plugin/raw/main/manifest.json";
-            }
-            {
-              enabled = true;
-              name = "JS Injector";
-              url = "https://raw.githubusercontent.com/n00bcodr/jellyfin-plugins/main/10.11/manifest.json ";
-            }
-          ];
         };
 
         plugins = [
+          {
+            name = "Studio Images";
+            configuration.RepositoryUrl = "https://raw.githubusercontent.com/jellyfin/emby-artwork/master/studios";
+          }
+          {
+            name = "MusicBrainz";
+            configuration = {
+              Server = "https://musicbrainz.org";
+              RateLimit = 1;
+              ReplaceArtistName = false;
+            };
+          }
+          {
+            name = "AudioDB";
+            configuration.ReplaceAlbumName = "false";
+          }
+
           {
             name = "Air Times";
             configuration = {};
@@ -223,51 +228,72 @@ in {
             };
           }
 
-          {
-            name = "JavaScript Injector";
-            configuration = let
-              mkInjectRemoteScript = url:
-              # javascript
-              ''
-                const script = document.createElement('script');
-                script.src = `${url}`;
-                script.async = true;
-                document.head.appendChild(script);
-              '';
-            in {
-              CustomJavaScripts = [
-                {
-                  Name = "Kefin Tweaks";
-                  Enabled = true;
-                  RequiresAuthentication = false;
-                  Script = mkInjectRemoteScript "https://cdn.jsdelivr.net/gh/ranaldsgift/KefinTweaks@latest/kefinTweaks-plugin.js";
-                }
-                {
-                  Name = "jf-avatars";
-                  Enabled = true;
-                  RequiresAuthentication = false;
-                  Script = mkInjectRemoteScript "https://github.com/kalibrado/jf-avatars/releases/latest/download/main.js";
-                }
-              ];
-            };
-          }
+          # {
+          #   name = "JavaScript Injector";
+          #   configuration = let
+          #     mkInjectRemoteScript = url:
+          #     # javascript
+          #     ''
+          #       const script = document.createElement('script');
+          #       script.src = `${url}`;
+          #       script.async = true;
+          #       document.head.appendChild(script);
+          #     '';
+          #   in {
+          #     CustomJavaScripts = [
+          #       {
+          #         Name = "Kefin Tweaks";
+          #         Enabled = true;
+          #         RequiresAuthentication = false;
+          #         Script = mkInjectRemoteScript "https://cdn.jsdelivr.net/gh/ranaldsgift/KefinTweaks@latest/kefinTweaks-plugin.js";
+          #       }
+          #       {
+          #         Name = "jf-avatars";
+          #         Enabled = true;
+          #         RequiresAuthentication = false;
+          #         Script = mkInjectRemoteScript "https://github.com/kalibrado/jf-avatars/releases/latest/download/main.js";
+          #       }
+          #     ];
+          #   };
+          # }
 
-          {
-            name = "Meilisearch";
-            configuration = {
-              Url = "http://127.0.0.1:7700";
-              ApiKey = "1234";
-              IndexName = "";
-
-              AttributesToSearchOn = ["name" "artists" "albumArtists" "originalTitle" "productionYear" "seriesName" "genres" "tags" "studios" "overview" "path"];
-              Debug = false;
-              FallbackToJellyfin = true;
-            };
-          }
+          # TODO: Meilisearch
+          # {
+          #   name = "Meilisearch";
+          #   configuration = {
+          #     Url = "http://127.0.0.1:7700";
+          #     ApiKey = "1234";
+          #     IndexName = "";
+          #
+          #     AttributesToSearchOn = ["name" "artists" "albumArtists" "originalTitle" "productionYear" "seriesName" "genres" "tags" "studios" "overview" "path"];
+          #     Debug = false;
+          #     FallbackToJellyfin = true;
+          #   };
+          # }
 
           {
             name = "Merge Versions";
             configuration = {};
+          }
+
+          {
+            name = "Streamyfin";
+            configuration = {
+              Config.settings = {
+                jellyseerrServerUrl = {
+                  locked = true;
+                  value = "https://jellyseerr.upidapi.dev";
+                };
+                rememberAudioSelections = {
+                  locked = false;
+                  value = true;
+                };
+                rememberSubtitleSelections = {
+                  locked = false;
+                  value = true;
+                };
+              };
+            };
           }
 
           {
@@ -276,107 +302,30 @@ in {
               CastAndCrew = false;
             };
           }
-
-          {
-            name = "Streamyfin";
-            configuration = {
-              Config = {
-                settings = {
-                  jellyseerrServerUrl = {
-                    locked = true;
-                    value = "https://seerr.nelim.org";
-                  };
-                  rememberAudioSelections = {
-                    locked = false;
-                    value = true;
-                  };
-                  rememberSubtitleSelections = {
-                    locked = false;
-                    value = true;
-                  };
-                };
-              };
-            };
-          }
-
           {
             name = "TheTVDB";
             configuration = {};
           }
-
           {
             name = "TMDb";
-            configuration = {};
+            configuration = {
+              TmdbApiKey = "";
+              IncludeAdult = false;
+              ExcludeTagsSeries = false;
+              ExcludeTagsMovies = false;
+              ImportSeasonName = false;
+              MaxCastMembers = 15;
+              MaxCrewMembers = 15;
+              HideMissingCastMembers = false;
+              HideMissingCrewMembers = false;
+              PosterSize = "original";
+              BackdropSize = "original";
+              LogoSize = "original";
+              ProfileSize = "original";
+              StillSize = "original";
+            };
           }
         ];
-
-        # FIXME: https://github.com/venkyr77/jellarr/issues/48
-        /*
-        library = {
-          virtualFolders = [
-            {
-              name = "Collections";
-              collectionType = "boxsets";
-              libraryOptions = {
-                pathInfos = [
-                  {path = "/var/lib/jellyfin/data/collections";}
-                ];
-              };
-            }
-
-            {
-              name = "Documentaries";
-              collectionType = "mixed";
-              libraryOptions = {
-                pathInfos = [
-                  {path = "/data/history";}
-                  {path = "/data/movies/documentaries";}
-                ];
-              };
-            }
-            {
-              name = "doc shows";
-              collectionType = "tvshows";
-              libraryOptions = {
-                pathInfos = [
-                  {path = "/data/history";}
-                ];
-              };
-            }
-
-            {
-              name = "Shows";
-              collectionType = "tvshows";
-              libraryOptions = {
-                pathInfos = [
-                  {path = "/data/tv";}
-                ];
-              };
-            }
-
-            {
-              name = "Movies";
-              collectionType = "movies";
-              libraryOptions = {
-                pathInfos = [
-                  {path = "/data/movies/all";}
-                ];
-              };
-            }
-
-            {
-              name = "Anime";
-              collectionType = "mixed";
-              libraryOptions = {
-                pathInfos = [
-                  {path = "/data/anime";}
-                  {path = "/data/movies/anime";}
-                ];
-              };
-            }
-          ];
-        };
-        */
       };
     };
   };

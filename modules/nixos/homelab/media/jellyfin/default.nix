@@ -113,74 +113,6 @@ in {
           UICulture = "en";
           # REF: https://github.com/kra3/nix-configs/blob/7936d4527fe5814b2fd7f6afe4329a515b2d2fc6/modules/services/media/players/server/jellyfin.nix#L64
           # REF: https://github.com/matt1432/nixos-configs/blob/005b55fa0e0ae8601c11b557253a041e79fb1729/configurations/nos/modules/jellyfin/jellarr.nix#L166
-          # pluginRepositories = [
-          #   {
-          #     enable = true;
-          #     name = "Jellyfin Stable";
-          #     url = "https://repo.jellyfin.org/files/plugin/manifest.json";
-          #   }
-          #   # {
-          #   #     enable = true;
-          #   #     name = "SSO";
-          #   #     url = "https://raw.githubusercontent.com/9p4/jellyfin-plugin-sso/manifest-release/manifest.json";
-          #   # }
-          #   {
-          #     enable = true;
-          #     name = "Intro Skipper";
-          #     url = "https://intro-skipper.org/manifest.json";
-          #   }
-          #   # Allows plugins to add pages to the main UI
-          #   {
-          #     enable = true;
-          #     name = "Paradox Plugins";
-          #     url = "https://www.iamparadox.dev/jellyfin/plugins/manifest.json";
-          #   }
-          #   # {
-          #   #     enable = true;
-          #   #     name = "Jellyfin Tweaks + Enhanced";
-          #   #     url = "https://raw.githubusercontent.com/n00bcodr/jellyfin-plugins/main/10.11/manifest.json";
-          #   # }
-          #   {
-          #     enable = true;
-          #     name = "Streamyfin";
-          #     url = "https://raw.githubusercontent.com/streamyfin/jellyfin-plugin-streamyfin/main/manifest.json";
-          #   }
-          #
-          #   # scans all your movies and groups every repeated movie in one version
-          #   # {
-          #   #   enabled = true;
-          #   #   name = "Merge Versions Plugin";
-          #   #   url = "https://raw.githubusercontent.com/danieladov/JellyfinPluginManifest/master/manifest.json";
-          #   # }
-          #
-          #   # better search, powerd by Meilisearch
-          #   {
-          #     enabled = true;
-          #     name = "Meilisearch";
-          #     url = "https://raw.githubusercontent.com/arnesacnussem/jellyfin-plugin-meilisearch/refs/heads/master/manifest.json";
-          #   }
-          #
-          #   # localise Jellyfin series air times
-          #   {
-          #     enabled = true;
-          #     name = "Air Times";
-          #     url = "https://raw.githubusercontent.com/apteryxxyz/jellyfin-plugin-airtimes/main/manifest.json";
-          #   }
-          #
-          #   # select episode in the player
-          #   {
-          #     enabled = true;
-          #     name = "InPlayerEpisodePreview";
-          #     url = "https://raw.githubusercontent.com/Namo2/InPlayerEpisodePreview/master/manifest.json";
-          #   }
-          #
-          #   #
-          #   {
-          #     enabled = true;
-          #     name = "Editor's Choice";
-          #     url = "https://github.com/lachlandcp/jellyfin-editors-choice-plugin/raw/main/manifest.json";
-          #   }
-          # ];
         };
         network = {
           internalHttpPort = ports.jellyfin;
@@ -232,19 +164,6 @@ in {
           guest-0-2.maxParentalRatingSubScore = 0;
           guest-0-3.maxParentalRatingSubScore = 0;
           guest-0-4.maxParentalRatingSubScore = 0;
-
-          # "gags5" = {
-          #   permissions.enableAllFolders = false;
-          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-          # };
-          # "guacamole" = {
-          #   permissions.enableAllFolders = false;
-          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-          # };
-          # "alex" = {
-          #   permissions.enableAllFolders = false;
-          #   preferences.enabledLibraries = [ "Movies" "Shows" ];
-          # };
         };
         libraries = {
           "Movies" = {
@@ -267,16 +186,6 @@ in {
             extractTrickplayImagesDuringLibraryScan = true;
             saveTrickplayWithMedia = true;
           };
-          # "Photos" = {
-          #   enabled = true;
-          #   contentType = "homevideos";
-          #   pathInfos = ["/data/Photos"];
-          #   enableChapterImageExtraction = true;
-          #   extractChapterImagesDuringLibraryScan = true;
-          #   enableTrickplayImageExtraction = true;
-          #   extractTrickplayImagesDuringLibraryScan = true;
-          #   saveTrickplayWithMedia = true;
-          # };
         };
         encoding = {
           enableHardwareEncoding = true;

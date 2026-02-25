@@ -44,23 +44,23 @@ in {
         "/raid/media/tv".d = {
           group = "sonarr";
           user = "sonarr";
-          mode = "751";
+          mode = "771";
         };
         "/raid/media/tv".Z = {
           group = "sonarr";
           user = "sonarr";
-          mode = "751";
+          mode = "771";
         };
 
         "/raid/media/music".d = {
           group = "lidarr";
           user = "lidarr";
-          mode = "751";
+          mode = "771";
         };
         "/raid/media/music".Z = {
           group = "lidarr";
           user = "lidarr";
-          mode = "751";
+          mode = "771";
         };
       };
     };

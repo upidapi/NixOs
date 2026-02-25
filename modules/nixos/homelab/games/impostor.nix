@@ -31,6 +31,7 @@ in {
       };
     };
 
+    # TODO: automated backups
     services.postgresql = {
       enable = true;
       port = ports.pg;

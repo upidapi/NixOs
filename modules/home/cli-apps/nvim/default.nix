@@ -158,7 +158,7 @@ in {
         # marksman
         markdown-oxide
 
-        # typst
+        typst
         tinymist
 
         # rust

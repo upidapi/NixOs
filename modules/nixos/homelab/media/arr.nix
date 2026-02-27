@@ -29,12 +29,12 @@ in {
         "/raid/media/movies".d = {
           group = "radarr";
           user = "radarr";
-          mode = "751";
+          mode = "771";
         };
         "/raid/media/movies".Z = {
           group = "radarr";
           user = "radarr";
-          mode = "751";
+          mode = "771";
         };
         # "/raid/media/subtitles".d = {
         #   group = "media";
@@ -63,16 +63,6 @@ in {
           mode = "771";
         };
       };
-    };
-
-    users.users = {
-      ${config.services.radarr.user}.extraGroups = ["qbittorrent"];
-      ${config.services.sonarr.user}.extraGroups = ["qbittorrent"];
-      ${config.services.lidarr.user}.extraGroups = ["qbittorrent"];
-      ${config.services.bazarr.user}.extraGroups = ["qbittorrent"];
-
-      ${config.services.jellyfin.user}.extraGroups = ["sonarr" "radarr" "lidarr"];
-      ${config.services.jellyseerr.user}.extraGroups = [];
     };
 
     sops.secrets = {
@@ -180,18 +170,32 @@ in {
 
       sonarr = {
         after = ["qbittorrent.service"];
-        serviceConfig.ReadOnlyPaths = ["/raid/media/torrents"];
+        serviceConfig = {
+          UMask = 006;
+          SupplementaryGroups = ["qbittorrent"];
+          ReadOnlyPaths = ["/raid/media/torrents"];
+        };
       };
       radarr = {
         after = ["qbittorrent.service"];
-        serviceConfig.ReadOnlyPaths = ["/raid/media/torrents"];
+        serviceConfig = {
+          UMask = 006;
+          SupplementaryGroups = ["qbittorrent"];
+          ReadOnlyPaths = ["/raid/media/torrents"];
+        };
       };
       lidarr = {
         after = ["qbittorrent.service"];
-        serviceConfig.ReadOnlyPaths = ["/raid/media/torrents"];
+        serviceConfig = {
+          UMask = 006;
+          SupplementaryGroups = ["qbittorrent"];
+          ReadOnlyPaths = ["/raid/media/torrents"];
+        };
       };
 
       prowlarr.after = ["qbittorrent.service" "lidarr.service" "sonarr.service" "radarr.service"];
+
+      jellyfin.serviceConfig.SupplementaryGroups = ["sonarr" "radarr" "lidarr"];
     };
 
     # TODO: IDEA: have a group on services with dynamic user, make that group

@@ -21,6 +21,10 @@ in {
   sops.secrets."users/root".neededForUsers = true;
   sops.secrets."users/upidapi".neededForUsers = true;
 
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = ["upidapi"];
+  services.resolved.enable = true;
+
   users.users = {
     upidapi = {
       isNormalUser = true;

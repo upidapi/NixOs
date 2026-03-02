@@ -4,6 +4,7 @@
   copyDesktopItems,
   nodejs,
   tree,
+  makeWrapper,
   dbus,
   fetchurl,
   fontconfig,
@@ -31,7 +32,7 @@
     name = "keygen.js";
     # message = "ida92/kg_patch/keygen.js";
     url = "https://auth.lol/ida/";
-    sha256 = "ufD2lbyPQMV7eL5JtTRC0+TNsvSSOLPFIWFpQ4J3Nt0=";
+    sha256 = "1y4491g1l9jklhmai94x1rr4b2x1k6zd3xpi1zzjc1f3vn31brs1";
   };
 in
   stdenv.mkDerivation rec {
@@ -42,7 +43,7 @@ in
     src = requireFile {
       name = "ida-pro_${lib.replaceStrings ["."] [""] version}_x64linux.run";
       url = "https://auth.lol/ida/";
-      sha256 = "wy7d/+eDUoa78FCZ/SBaA3kTm6rxHlagzsO9x7CTulc=";
+      sha256 = "1qass0401igrfn14sfrvjfyz668npx586x59yaa4zf3jx650zpda";
     };
 
     icon = fetchurl {
@@ -111,7 +112,14 @@ in
       xcb-util-cursor
       zlib
     ];
-    buildInputs = runtimeDependencies;
+
+    buildInputs =
+      runtimeDependencies
+      ++ [
+        nodejs
+        autoPatchelfHook
+        makeWrapper
+      ];
 
     dontWrapQtApps = true;
 

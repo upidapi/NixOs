@@ -1,12 +1,23 @@
 # auto importer
-{self, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: {
   perSystem = {
-    pkgs,
+    system,
     inputs',
     lib,
     ...
   }: {
     packages = let
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+      };
+
       # currently broken
       ignore = [
         "problem-tools"

@@ -366,7 +366,7 @@ in {
             "browser.newtabpage.activity-stream.feeds.system.topstories" = false;
 
             # Dont show side/top bar on hover
-            "view.compact.show-sidebar-and-toolbar-on-hover" = false;
+            "view.compact.show-sidebar-and-toolbar-on-hover" = true;
             # "zen.view.compact.show-sidebar-and-toolbar-on-hover" = false;
             "zen.view.compact.show-sidebar-and-toolbar-on-hover" = true; # no longer an issue
 

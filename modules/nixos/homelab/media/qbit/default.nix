@@ -14,6 +14,8 @@
 in {
   options.modules.nixos.homelab.media.qbit = mkEnableOpt "";
 
+  # NOTE: chown -R qbittorrent:qbittorrent /raid/media/torrents + restart
+  #  fixed "device or resource busy" for all trackers
   config = mkIf cfg.enable {
     services.qbittorrent = {
       enable = true;
@@ -29,6 +31,10 @@ in {
           # https://www.reddit.com/search/?q=Circumventing%20proton%20vpn%20ddos&cId=8f3a490d-e9e2-4649-84cf-92ee353b4968&iId=39143626-1f98-46d4-a015-03074afd4bc7
           # "DHT will trigger ProtonVPN Anti-ddos, disable it."
           DHTEnabled = false;
+
+          # prefer to seed to fastest peers
+          # https://www.reddit.com/r/qBittorrent/s/EZGMJKCSGR
+          ChokingAlgorithm="RateBased";
 
           # disable limits
           MaxConnections = -1;

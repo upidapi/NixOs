@@ -16,6 +16,7 @@ in {
 
   # NOTE: chown -R qbittorrent:qbittorrent /raid/media/torrents + restart
   #  fixed "device or resource busy" for all trackers
+  #  perms seam to not be an issue
   config = mkIf cfg.enable {
     services.qbittorrent = {
       enable = true;
@@ -82,7 +83,7 @@ in {
         };
 
         serviceConfig = {
-          UMask = 0007;
+          UMask = 006;
           LimitNOFILE = 65535;
         };
       };

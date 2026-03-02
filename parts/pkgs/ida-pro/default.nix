@@ -1,9 +1,7 @@
 {
   autoPatchelfHook,
   cairo,
-  copyDesktopItems,
   nodejs,
-  tree,
   makeWrapper,
   dbus,
   fetchurl,
@@ -25,6 +23,9 @@
   xorg,
   xcb-util-cursor,
   zlib,
+  #
+  fetchFromGitHub,
+  python3,
   ...
 }: let
   # nix-hash --type sha256 --base64 keygen.js
@@ -34,6 +35,27 @@
     url = "https://auth.lol/ida/";
     sha256 = "1y4491g1l9jklhmai94x1rr4b2x1k6zd3xpi1zzjc1f3vn31brs1";
   };
+
+  ebpf-processor = fetchFromGitHub {
+    owner = "zandi";
+    repo = "eBPF_processor";
+    rev = "6cc4782";
+    hash = "sha256-C0cC+HPBr/LYCIE4cgy0fkdKCB8P/lkgRxtR4NiDlJ8=";
+  };
+
+  # https://github.com/dracula/ida
+  dracula-theme = fetchFromGitHub {
+    owner = "dracula";
+    repo = "ida";
+    rev = "bfe394d";
+    hash = "sha256-Usru4URPGUXcF9Asi6Ok/NA9s7IX8S2LhmpigFe/r58=";
+  };
+
+  pythonForIDA = python3.withPackages (ps:
+    with ps; [
+      rpyc
+      pyelftools
+    ]);
 in
   stdenv.mkDerivation rec {
     pname = "ida-pro";
@@ -111,6 +133,7 @@ in
       xorg.xcbutil
       xcb-util-cursor
       zlib
+      pythonForIDA
     ];
 
     buildInputs =
@@ -139,6 +162,15 @@ in
       $(cat $NIX_CC/nix-support/dynamic-linker) $src \
         --mode unattended --prefix $IDADIR
 
+      # Link the exported libraries to the output.
+      for lib in $IDADIR/libida*; do
+        ln -s $lib $out/lib/$(basename $lib)
+      done
+
+      # # Copy the libraries to the lib directory to patch ida
+      # cp $IDADIR/libida.so $out/lib
+      # cp $IDADIR/libida32.so $out/lib
+
       # Copy the Node.js keygen to the installation directory
       cp ${crack-js} $IDADIR/keygen.js
 
@@ -154,31 +186,50 @@ in
         echo "Warning: License generation may have failed"
       fi
 
-      # Copy the libraries to the lib directory to patch ida
-      cp $IDADIR/libida.so $out/lib
-      cp $IDADIR/libida32.so $out/lib
-
       # Some libraries come with the installer.
       addAutoPatchelfSearchPath $IDADIR
 
       # Simple wrappers that prioritize IDA's own libraries
       for bb in ida ida64 assistant; do
         if [ -f $IDADIR/$bb ]; then
-          makeWrapper $IDADIR/$bb $out/bin/$bb \
-            --prefix LD_LIBRARY_PATH : $IDADIR \
-            --set QT_PLUGIN_PATH $IDADIR/plugins/platforms \
-            --chdir $IDADIR
+          wrapProgram $IDADIR/$bb \
+            --prefix IDADIR : $IDADIR \
+            --prefix QT_PLUGIN_PATH : $IDADIR/plugins/platforms \
+            --prefix PYTHONPATH : $out/opt/idalib/python \
+            --prefix PATH : ${pythonForIDA}/bin:$IDADIR \
+            --prefix LD_LIBRARY_PATH : $out/lib
+          ln -s $IDADIR/$bb $out/bin/$bb
+
+          # makeWrapper $IDADIR/$bb $out/bin/$bb \
+          #   --prefix IDADIR : $IDADIR \
+          #   --prefix LD_LIBRARY_PATH : $IDADIR \
+          #   --prefix PYTHONPATH : $out/opt/idalib/python \
+          #   --prefix PATH : ${pythonForIDA}/bin:$IDADIR \
+          #   --set QT_PLUGIN_PATH $IDADIR/plugins/platforms \
+          #   --chdir $IDADIR
         fi
       done
 
+      # Manually patch libraries that dlopen stuff.
       # runtimeDependencies don't get added to non-executables, and openssl is needed
       # for cloud decompilation (lumina)
       if [ -f $IDADIR/libida.so ]; then
         patchelf --add-needed libcrypto.so $IDADIR/libida.so
+        patchelf --add-needed libpython3.13.so $IDADIR/libida.so
+        patchelf --add-needed libsecret-1.so.0 $IDADIR/libida.so
       fi
       if [ -f $IDADIR/libida64.so ]; then
         patchelf --add-needed libcrypto.so $IDADIR/libida64.so
+        patchelf --add-needed libpython3.13.so $IDADIR/libida64.so
+        patchelf --add-needed libsecret-1.so.0 $IDADIR/libida64.so
       fi
+
+      # add plugins
+      # cp ${ebpf-processor}/ebpf.py $out/opt/procs/
+
+      # add themes
+      mkdir -p $out/opt/themes/dracula-v2
+      cp ${dracula-theme}/theme.css $out/opt/themes/dracula-v2
 
       runHook postInstall
     '';

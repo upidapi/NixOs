@@ -33,7 +33,7 @@ in {
         keepassxc = enable;
         # vscode = enable; # broken
         obsidian = enable;
-        # ghidra = enable; # broken
+        ghidra = enable; # broken
 
         free-cad = enable;
         orca-slicer = enable;

@@ -10,7 +10,8 @@
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.ghidra;
 
-  ghidra = inputs'.nixpkgs-stable.legacyPackages.ghidra;
+  # ghidra = inputs'.nixpkgs-stable.legacyPackages.ghidra;
+  ghidra = pkgs.ghidra;
 in {
   options.modules.home.apps.ghidra =
     mkEnableOpt "Whether or not to enable ghidra";
@@ -18,7 +19,7 @@ in {
   config = let
     # v = "11.1.2";
     # ghidra_dir = ".config/ghidra/ghidra_${v}_NIX";
-    ghidra_dir = ".config/ghidra/${ghidra.distroPrefix}";
+    ghidra_dir = ".config/${ghidra.distroPrefix}";
   in
     mkIf cfg.enable {
       home.packages = [

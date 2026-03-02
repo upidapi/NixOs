@@ -50,6 +50,7 @@ in {
         # its actually in a sub folder based on its version
         # but it too anoying to target that
         # ".config/ghidra"
+        # ".ghidra"
 
         ".local/share/Anki2"
 

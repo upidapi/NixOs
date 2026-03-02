@@ -34,7 +34,7 @@ in {
 
           # prefer to seed to fastest peers
           # https://www.reddit.com/r/qBittorrent/s/EZGMJKCSGR
-          ChokingAlgorithm="RateBased";
+          ChokingAlgorithm = "RateBased";
 
           # disable limits
           MaxConnections = -1;

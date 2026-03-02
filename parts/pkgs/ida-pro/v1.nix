@@ -37,7 +37,7 @@ stdenv.mkDerivation (finalAttrs: {
   version = "9.2";
 
   src = requireFile {
-    name = "ida-free-pc_${lib.replaceStrings [ "." ] [ "" ] finalAttrs.version}_x64linux.run";
+    name = "ida-free-pc_${lib.replaceStrings ["."] [""] finalAttrs.version}_x64linux.run";
     url = "https://my.hex-rays.com/dashboard/download-center/installers/release/${finalAttrs.version}/ida-free";
     hash = "sha256-CQm9phkqLXhht4UQxooKmhmiGuW3lV8RIJuDrm52aNw=";
   };
@@ -136,8 +136,8 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://hex-rays.com/products/ida/news/";
     license = lib.licenses.unfree;
     mainProgram = "ida";
-    maintainers = with lib.maintainers; [ msanft ];
-    platforms = [ "x86_64-linux" ]; # Right now, the installation script only supports Linux.
-    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
+    maintainers = with lib.maintainers; [msanft];
+    platforms = ["x86_64-linux"]; # Right now, the installation script only supports Linux.
+    sourceProvenance = with lib.sourceTypes; [binaryNativeCode];
   };
 })

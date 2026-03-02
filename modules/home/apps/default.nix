@@ -6,6 +6,7 @@
     ./firefox
     ./free-cad.nix
     ./ghidra
+    ./ida
     ./keepassxc
     ./kitty.nix
     ./obsidian.nix

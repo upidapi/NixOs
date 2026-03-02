@@ -127,7 +127,7 @@ host_dir: {
           extraSpecialArgs = extra_args;
           backupFileExtension = "hm-old";
           useGlobalPkgs = true;
-          useUserPackages = true;
+          useUserPackages = false;
           users =
             mapToAttrs
             (mkUser profile)

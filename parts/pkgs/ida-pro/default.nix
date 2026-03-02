@@ -1,139 +1,186 @@
 {
-  pkgs,
+  autoPatchelfHook,
+  cairo,
+  copyDesktopItems,
+  nodejs,
+  tree,
+  dbus,
+  fetchurl,
+  fontconfig,
+  freetype,
+  glib,
+  gtk3,
   lib,
-  runfile,
+  libdrm,
+  libGL,
+  libkrb5,
+  libsecret,
+  libunwind,
+  libxkbcommon,
+  makeDesktopItem,
+  requireFile,
+  openssl,
+  stdenv,
+  xorg,
+  xcb-util-cursor,
+  zlib,
   ...
-}:
-let
-  pythonForIDA = pkgs.python3.withPackages (ps: with ps; [ rpyc ]);
+}: let
+  # nix-hash --type sha256 --base64 keygen.js
+  crack-js = requireFile {
+    name = "keygen.js";
+    # message = "ida92/kg_patch/keygen.js";
+    url = "https://auth.lol/ida/";
+    sha256 = "ufD2lbyPQMV7eL5JtTRC0+TNsvSSOLPFIWFpQ4J3Nt0=";
+  };
 in
-pkgs.stdenv.mkDerivation rec {
-  pname = "ida-pro";
-  version = "9.2.0.250908";
+  stdenv.mkDerivation rec {
+    pname = "ida-pro";
+    # version = "9.0.240807";
+    version = "9.2";
 
-  src = runfile;
+    src = requireFile {
+      name = "ida-pro_${lib.replaceStrings ["."] [""] version}_x64linux.run";
+      url = "https://auth.lol/ida/";
+      sha256 = "wy7d/+eDUoa78FCZ/SBaA3kTm6rxHlagzsO9x7CTulc=";
+    };
 
-  desktopItem = pkgs.makeDesktopItem {
-    name = "ida-pro";
-    exec = "ida";
-    icon = ../share/appico.png;
-    comment = meta.description;
-    desktopName = "IDA Pro";
-    genericName = "Interactive Disassembler";
-    categories = [ "Development" ];
-    startupWMClass = "IDA";
-  };
-  desktopItems = [ desktopItem ];
+    icon = fetchurl {
+      url = "https://web.archive.org/web/20221105181231if_/https://hex-rays.com/products/ida/news/8_1/images/icon_free.png";
+      sha256 = "sha256-widkv2VGh+eOauUK/6Sz/e2auCNFAsc8n9z0fdrSnW0=";
+    };
 
-  nativeBuildInputs = with pkgs; [
-    makeWrapper
-    copyDesktopItems
-    autoPatchelfHook
-    qt6.wrapQtAppsHook
-  ];
+    desktopItem = makeDesktopItem {
+      name = "ida-pro";
+      exec = "ida64";
+      icon = icon;
+      comment = meta.description;
+      desktopName = "IDA Pro";
+      genericName = "Interactive Disassembler";
+      categories = ["Development"];
+      startupWMClass = "IDA";
+    };
 
-  # We just get a runfile in $src, so no need to unpack it.
-  dontUnpack = true;
+    desktopItems = [desktopItem];
 
-  # Add everything to the RPATH, in case IDA decides to dlopen things.
-  runtimeDependencies = with pkgs; [
-    cairo
-    dbus
-    fontconfig
-    freetype
-    glib
-    gtk3
-    libdrm
-    libGL
-    libkrb5
-    qt6.qtbase
-    qt6.qtwayland
-    libunwind
-    libxkbcommon
-    libsecret
-    openssl.out
-    stdenv.cc.cc
-    xorg.libICE
-    xorg.libSM
-    xorg.libX11
-    xorg.libXau
-    xorg.libxcb
-    xorg.libXext
-    xorg.libXi
-    xorg.libXrender
-    xorg.xcbutilimage
-    xorg.xcbutilkeysyms
-    xorg.xcbutilrenderutil
-    xorg.xcbutilwm
-    zlib
-    curl.out
-    pythonForIDA
-  ];
-  buildInputs = runtimeDependencies;
+    # Configure autoPatchelfHook to ignore Qt6 libraries that IDA ships with because SOMEHOW it gives fuckass errors
+    autoPatchelfIgnoreMissingDeps = [
+      "libQt6WaylandCompositor.so.6"
+      "libQt6EglFSDeviceIntegration.so.6"
+      "libQt6WlShellIntegration.so.6"
+      "libQt6Network.so.6"
+      "libQt6Svg.so.6"
+      "libQt6Core.so.6"
+      "libQt6Gui.so.6"
+      "libQt6Widgets.so.6"
+    ];
 
-  dontWrapQtApps = true;
+    # We just get a runfile in $src, so no need to unpack it.
+    dontUnpack = true;
 
-  installPhase = ''
-    runHook preInstall
+    # Add only essential system libraries that IDA doesn't ship with
+    # IDA Pro 9.2 ships with its own Qt6 libraries, so fuck Qt6
+    runtimeDependencies = [
+      cairo
+      dbus
+      fontconfig
+      freetype
+      glib
+      gtk3
+      libdrm
+      libGL
+      libkrb5
+      libsecret
+      libunwind
+      libxkbcommon
+      openssl
+      stdenv.cc.cc
+      xorg.libICE
+      xorg.libSM
+      xorg.libX11
+      xorg.libXau
+      xorg.libxcb
+      xorg.libXext
+      xorg.libXi
+      xorg.libXrender
+      xorg.xcbutilimage
+      xorg.xcbutilkeysyms
+      xorg.xcbutilrenderutil
+      xorg.xcbutilwm
+      xorg.xcbutil
+      xcb-util-cursor
+      zlib
+    ];
+    buildInputs = runtimeDependencies;
 
-    function print_debug_info() {
-      if [ -f installbuilder_installer.log ]; then
-        cat installbuilder_installer.log
+    dontWrapQtApps = true;
+
+    installPhase = ''
+      runHook preInstall
+
+      mkdir -p $out/bin $out/lib $out/opt $out/share/applications
+
+      # IDA depends on quite some things extracted by the runfile, so first extract everything
+      # into $out/opt, then remove the unnecessary files and directories.
+      IDADIR=$out/opt
+
+      export XDG_DATA_HOME=$out/share
+
+      # Invoke the installer with the dynamic loader directly, avoiding the need
+      # to copy it to fix permissions and patch the executable.
+      $(cat $NIX_CC/nix-support/dynamic-linker) $src \
+        --mode unattended --prefix $IDADIR
+
+      # Copy the Node.js keygen to the installation directory
+      cp ${crack-js} $IDADIR/keygen.js
+
+      # Run the Node.js keygen to generate license and patch libraries
+      cd $IDADIR/
+      node keygen.js
+      cd -
+
+      # Copy the generated license to the proper location
+      if [ -f $IDADIR/idapro.hexlic ]; then
+        echo "License generated successfully"
       else
-        echo "No debug information available."
+        echo "Warning: License generation may have failed"
       fi
-    }
 
-    trap print_debug_info EXIT
+      # Copy the libraries to the lib directory to patch ida
+      cp $IDADIR/libida.so $out/lib
+      cp $IDADIR/libida32.so $out/lib
 
-    mkdir -p $out/bin $out/lib $out/opt/.local/share/applications
+      # Some libraries come with the installer.
+      addAutoPatchelfSearchPath $IDADIR
 
-    # IDA depends on quite some things extracted by the runfile, so first extract everything
-    # into $out/opt, then remove the unnecessary files and directories.
-    IDADIR="$out/opt"
-    # IDA doesn't always honor `--prefix`, so we need to hack and set $HOME here.
-    HOME="$out/opt"
+      # Simple wrappers that prioritize IDA's own libraries
+      for bb in ida ida64 assistant; do
+        if [ -f $IDADIR/$bb ]; then
+          makeWrapper $IDADIR/$bb $out/bin/$bb \
+            --prefix LD_LIBRARY_PATH : $IDADIR \
+            --set QT_PLUGIN_PATH $IDADIR/plugins/platforms \
+            --chdir $IDADIR
+        fi
+      done
 
-    # Invoke the installer with the dynamic loader directly, avoiding the need
-    # to copy it to fix permissions and patch the executable.
-    $(cat $NIX_CC/nix-support/dynamic-linker) $src \
-      --mode unattended --debuglevel 4 --prefix $IDADIR
+      # runtimeDependencies don't get added to non-executables, and openssl is needed
+      # for cloud decompilation (lumina)
+      if [ -f $IDADIR/libida.so ]; then
+        patchelf --add-needed libcrypto.so $IDADIR/libida.so
+      fi
+      if [ -f $IDADIR/libida64.so ]; then
+        patchelf --add-needed libcrypto.so $IDADIR/libida64.so
+      fi
 
-    # Link the exported libraries to the output.
-    for lib in $IDADIR/libida*; do
-      ln -s $lib $out/lib/$(basename $lib)
-    done
+      runHook postInstall
+    '';
 
-    # Manually patch libraries that dlopen stuff.
-    patchelf --add-needed libpython3.13.so $out/lib/libida.so
-    patchelf --add-needed libcrypto.so $out/lib/libida.so
-    patchelf --add-needed libsecret-1.so.0 $out/lib/libida.so
-
-    # Some libraries come with the installer.
-    addAutoPatchelfSearchPath $IDADIR
-
-    # Link the binaries to the output.
-    # Also, hack the PATH so that pythonForIDA is used over the system python.
-    for bb in ida; do
-      wrapProgram $IDADIR/$bb \
-        --prefix IDADIR : $IDADIR \
-        --prefix QT_PLUGIN_PATH : $IDADIR/plugins/platforms \
-        --prefix PYTHONPATH : $out/opt/idalib/python \
-        --prefix PATH : ${pythonForIDA}/bin:$IDADIR \
-        --prefix LD_LIBRARY_PATH : $out/lib
-      ln -s $IDADIR/$bb $out/bin/$bb
-    done
-
-    runHook postInstall
-  '';
-
-  meta = with lib; {
-    description = "The world's smartest and most feature-full disassembler";
-    homepage = "https://hex-rays.com/ida-pro/";
-    license = licenses.unfree;
-    mainProgram = "ida";
-    maintainers = with maintainers; [ msanft ];
-    platforms = [ "x86_64-linux" ]; # Right now, the installation script only supports Linux.
-    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-  };
-}
+    meta = with lib; {
+      description = "Interactive Disassembler Pro";
+      homepage = "https://hex-rays.com/ida-pro/";
+      # license = licenses.unfree; # TODO: switch back when i fix it
+      license = licenses.gpl3;
+      platforms = platforms.linux;
+      maintainers = [];
+    };
+  }

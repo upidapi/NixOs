@@ -36,13 +36,6 @@
     sha256 = "1y4491g1l9jklhmai94x1rr4b2x1k6zd3xpi1zzjc1f3vn31brs1";
   };
 
-  ebpf-processor = fetchFromGitHub {
-    owner = "zandi";
-    repo = "eBPF_processor";
-    rev = "6cc4782";
-    hash = "sha256-C0cC+HPBr/LYCIE4cgy0fkdKCB8P/lkgRxtR4NiDlJ8=";
-  };
-
   # https://github.com/dracula/ida
   dracula-theme = fetchFromGitHub {
     owner = "dracula";
@@ -224,10 +217,10 @@ in
         patchelf --add-needed libsecret-1.so.0 $IDADIR/libida64.so
       fi
 
-      # add plugins
-      # cp ${ebpf-processor}/ebpf.py $out/opt/procs/
+      # TODO: maybe config this in a postInstall
+      #  in the main config
 
-      # add themes
+      add themes
       mkdir -p $out/opt/themes/dracula-v2
       cp ${dracula-theme}/theme.css $out/opt/themes/dracula-v2
 

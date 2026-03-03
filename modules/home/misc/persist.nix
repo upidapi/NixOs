@@ -43,6 +43,7 @@ in {
         ".config/sops"
 
         ".nuget"
+        ".idapro"
 
         ".local/share/zoxide" # zoxide history
 

@@ -220,7 +220,7 @@ in
       # TODO: maybe config this in a postInstall
       #  in the main config
 
-      add themes
+      # add themes
       mkdir -p $out/opt/themes/dracula-v2
       cp ${dracula-theme}/theme.css $out/opt/themes/dracula-v2
 

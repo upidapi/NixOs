@@ -364,13 +364,13 @@ in {
             # disable sponsored websites in search (zen)
             # https://github.com/zen-browser/desktop/discussions/8380#discussioncomment-13228893
             # breaks the empty hover search
-            "browser.newtabpage.activity-stream.feeds.system.topsites" = false;
+            "browser.newtabpage.activity-stream.feeds.system.topsites" = true;
             "browser.newtabpage.activity-stream.feeds.system.topstories" = false;
 
             # Dont show side/top bar on hover
-            "view.compact.show-sidebar-and-toolbar-on-hover" = true;
+            "view.compact.show-sidebar-and-toolbar-on-hover" = false;
             # "zen.view.compact.show-sidebar-and-toolbar-on-hover" = false;
-            "zen.view.compact.show-sidebar-and-toolbar-on-hover" = true; # no longer an issue
+            "zen.view.compact.show-sidebar-and-toolbar-on-hover" = false; # no longer an issue
 
             "zen.view.compact.enable-at-startup" = true;
 

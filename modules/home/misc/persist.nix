@@ -100,6 +100,9 @@ in {
 
         ".config/Necesse"
 
+        # distrobox (and podman?)
+        ".local/share/containers"
+
         ###### browsers
         # ".zen" # why cant they just put it in .config?!
         # ".mozilla/firefox"

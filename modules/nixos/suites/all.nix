@@ -106,7 +106,7 @@ in {
       virtualisation = {
         podman = enable;
         # vfio = enable;
-        qemu = enable;
+        # qemu = enable; # BROKEN: atm, fixed in master
         # waydroid = enable;
         distrobox = enable;
       };

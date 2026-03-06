@@ -101,9 +101,12 @@ in {
         ".config/Necesse"
 
         ###### browsers
-        ".zen" # why cant they just put it in .config?!
+        # ".zen" # why cant they just put it in .config?!
+        # ".mozilla/firefox"
 
-        ".mozilla/firefox"
+        # they did, yippie
+        ".config/zen"
+        ".config/mozilla"
 
         # used to save "initial run" config
         ".config/BraveSoftware/Brave-Browser/"

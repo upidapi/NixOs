@@ -9,7 +9,8 @@
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.vscode;
-  extensions = inputs.nix-vscode-extensions.extensions.${pkgs.system};
+  inherit (pkgs.stdenv.hostPlatform) system;
+  extensions = inputs.nix-vscode-extensions.extensions.${system};
 in {
   options.modules.home.apps.vscode =
     mkEnableOpt

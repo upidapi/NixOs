@@ -45,7 +45,7 @@ in {
 
       homepage-dashboard = {
         enable = true;
-        environmentFile = config.sops.templates."homepage-env".path;
+        environmentFiles = [config.sops.templates."homepage-env".path];
         listenPort = ports.homepage;
         openFirewall = false;
         allowedHosts = "upidapi.dev";

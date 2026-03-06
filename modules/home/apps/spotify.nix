@@ -10,7 +10,7 @@
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.spotify;
 
-  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in {
   options.modules.home.apps.spotify =
     mkEnableOpt

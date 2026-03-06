@@ -20,7 +20,19 @@
   requireFile,
   openssl,
   stdenv,
-  xorg,
+  libICE,
+  libSM,
+  libX11,
+  libXau,
+  libxcb,
+  libXext,
+  libXi,
+  libXrender,
+  xcbutilimage,
+  xcbutilkeysyms,
+  xcbutilrenderutil,
+  xcbutilwm,
+  xcbutil,
   xcb-util-cursor,
   zlib,
   #
@@ -118,19 +130,19 @@ in
       libxkbcommon
       openssl
       stdenv.cc.cc
-      xorg.libICE
-      xorg.libSM
-      xorg.libX11
-      xorg.libXau
-      xorg.libxcb
-      xorg.libXext
-      xorg.libXi
-      xorg.libXrender
-      xorg.xcbutilimage
-      xorg.xcbutilkeysyms
-      xorg.xcbutilrenderutil
-      xorg.xcbutilwm
-      xorg.xcbutil
+      libICE
+      libSM
+      libX11
+      libXau
+      libxcb
+      libXext
+      libXi
+      libXrender
+      xcbutilimage
+      xcbutilkeysyms
+      xcbutilrenderutil
+      xcbutilwm
+      xcbutil
       xcb-util-cursor
       zlib
       pythonForIDA

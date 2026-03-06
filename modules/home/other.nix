@@ -10,6 +10,7 @@
   inherit (mlib) mkEnableOpt enable;
   inherit (lib) mkIf;
   cfg = config.modules.home.other;
+  inherit (pkgs.stdenv.hostPlatform) system;
 in {
   options.modules.home.other =
     mkEnableOpt "enables config that i've not found a place for";
@@ -48,7 +49,7 @@ in {
       packages =
         [
           # used to formatt nix code
-          inputs.alejandra.defaultPackage.${pkgs.system}
+          inputs.alejandra.defaultPackage.${system}
           self'.packages.dev-shell
           self'.packages.qs
         ]

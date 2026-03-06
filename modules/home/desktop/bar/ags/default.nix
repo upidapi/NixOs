@@ -10,6 +10,7 @@
   inherit (mlib.misc) mapStylixColors;
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.bar.ags;
+  inherit (pkgs.stdenv.hostPlatform) system;
 in {
   options.modules.home.desktop.bar.ags =
     mkEnableOpt "enables ags, used to create a bar";
@@ -32,7 +33,7 @@ in {
         [
           bun
         ]
-        ++ (with inputs.ags.packages.${pkgs.system}; [
+        ++ (with inputs.ags.packages.${system}; [
           # most of these are unecesary
           apps
           auth

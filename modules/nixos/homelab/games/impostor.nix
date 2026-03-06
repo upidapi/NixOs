@@ -34,7 +34,7 @@ in {
     # TODO: automated backups
     services.postgresql = {
       enable = true;
-      port = ports.pg;
+      settings.port = ports.pg;
       ensureDatabases = ["games-site"];
       authentication = pkgs.lib.mkOverride 10 ''
         #type database  DBuser  auth-method

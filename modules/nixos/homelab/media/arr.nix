@@ -171,7 +171,7 @@ in {
       sonarr = {
         after = ["qbittorrent.service"];
         serviceConfig = {
-          UMask = 006;
+          UMask = lib.mkForce 006;
           SupplementaryGroups = ["qbittorrent"];
           ReadOnlyPaths = ["/raid/media/torrents"];
         };
@@ -179,7 +179,7 @@ in {
       radarr = {
         after = ["qbittorrent.service"];
         serviceConfig = {
-          UMask = 006;
+          UMask = lib.mkForce 006;
           SupplementaryGroups = ["qbittorrent"];
           ReadOnlyPaths = ["/raid/media/torrents"];
         };
@@ -187,7 +187,7 @@ in {
       lidarr = {
         after = ["qbittorrent.service"];
         serviceConfig = {
-          UMask = 006;
+          UMask = lib.mkForce 006;
           SupplementaryGroups = ["qbittorrent"];
           ReadOnlyPaths = ["/raid/media/torrents"];
         };

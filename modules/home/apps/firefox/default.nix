@@ -10,7 +10,8 @@
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.firefox;
 
-  firefox-pkgs = inputs.firefox-addons.packages.${pkgs.system};
+  inherit (pkgs.stdenv.hostPlatform) system;
+  firefox-pkgs = inputs.firefox-addons.packages.${system};
 in {
   options.modules.home.apps.firefox =
     mkEnableOpt "enables firefox";
@@ -63,6 +64,7 @@ in {
 
     programs.zen-browser = {
       enable = true;
+      suppressXdgMigrationWarning = true;
       policies = config.programs.firefox.policies;
       profiles =
         lib.mapAttrs (_: v: {
@@ -84,7 +86,7 @@ in {
       ".local/share/applications/zen.desktop".text = ''
         [Desktop Entry]
         Categories=Network;WebBrowser
-        Exec=zen --name "zen" -P "upidapi" %U
+        Exec=zen-beta --name "zen" -P "upidapi" %U
         GenericName=Web Browser
         Icon=zen
         Name=Zen
@@ -96,7 +98,7 @@ in {
       ".local/share/applications/zen-base.desktop".text = ''
         [Desktop Entry]
         Categories=Network;WebBrowser
-        Exec=zen --name "zen base" -P "base" %U
+        Exec=zen-beta --name "zen base" -P "base" %U
         GenericName=Web Browser
         Icon=zen
         Name=Zen Base

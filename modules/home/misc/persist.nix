@@ -95,6 +95,9 @@ in {
 
         ".config/unity3d"
 
+        # ".local/share/Steam/steamapps"
+        ".local/share/Terraria"
+
         # the factory must grow
         ".factorio"
 

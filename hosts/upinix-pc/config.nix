@@ -140,6 +140,8 @@ in {
       };
     };
 
+    virtualisation.qemu = enable;
+
     hardware = {
       cpu.amd = enable;
       gpu.nvidia = enable;

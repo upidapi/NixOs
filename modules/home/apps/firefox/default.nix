@@ -64,7 +64,6 @@ in {
 
     programs.zen-browser = {
       enable = true;
-      suppressXdgMigrationWarning = true;
       policies = config.programs.firefox.policies;
       profiles =
         lib.mapAttrs (_: v: {

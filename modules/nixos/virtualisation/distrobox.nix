@@ -19,7 +19,13 @@ in {
 
   distrobox create -Y --name Arch --image docker.io/library/archlinux:latest --absolutely-disable-root-password-i-am-really-positively-sure --root
   distrobox enter --root Arch
+
+  distrobox create --image ubuntu:latest --name ubuntu
+  distrobox enter ubuntu -- bash
   */
+
+  # you might need to patch some things to build
+  # C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu:/usr/include:$C_INCLUDE_PATH PATH="/usr/bin:/bin:$PATH" make
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       distrobox

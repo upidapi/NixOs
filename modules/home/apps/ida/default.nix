@@ -11,6 +11,8 @@
 in {
   options.modules.home.apps.ida = mkEnableOpt "";
 
+  # patching
+  # https://github.com/gaasedelen/patching
   config = mkIf cfg.enable {
     home.packages = [
       self'.packages.ida-pro

@@ -76,7 +76,8 @@ in {
           gdu
 
           # control audio nodes
-          helvum
+          # helvum # they fking removed it :(
+          crosspipe
 
           # control audio
           pavucontrol

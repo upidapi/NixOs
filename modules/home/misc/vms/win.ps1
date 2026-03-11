@@ -64,30 +64,11 @@ function run-winutil {
     $tempFile = New-TemporaryFile
     $winutilCfg | Out-File -FilePath $tempFile
 
-
-    # Invoke-Expression "& { $(irm 'https://christitus.com/win') } -Config $tempFile -Run -Noui"
-
-    Invoke-Command -ScriptBlock { 
-        & ([scriptblock]::Create($(irm "https://christitus.com/win"))) `
-            -Config $tempFile -Run -Noui
-    }
-
-    # # manual install
-    # # irm https://christitus.com/win | iex
-    #
-    # # let x = curl https://api.github.com/repos/upidapi/winutil-cli/releases | from json
-    # # curl -L $"https://github.com/upidapi/winutil-cli/releases/download/($x.0.tag_name)/winutil.ps1" | save script.ps1
-    #
-    # $tagName = (Invoke-WebRequest -UseBasicParsing -Uri "https://api.github.com/repos/upidapi/winutil-cli/releases" | ConvertFrom-Json)[0].tag_name
-    #
-    # $downloadUrl = "https://github.com/upidapi/winutil-cli/releases/download/$($tagName)/winutil.ps1"
-    #
-    # # Invoke-WebRequest -Uri $downloadUrl -OutFile "script.ps1"
-    # & ([scriptblock]::Create($(irm $downloadUrl))) -Config $tempFile -Run
-    #
-    # # irm christitus.com/win -Config $tempFile -Run -Debug | iex
-    # # iex "& { $(irm christitus.com/win) }
-    # # iex "& { $(irm christitus.com/windev) } -Config $tempFile -Run"
+    # & ([scriptblock]::Create($(irm "https://christitus.com/win"))) `
+    #     -Config $tempFile -Run -Noui
+        
+    $script = [scriptblock]::Create((irm "https://christitus.com/win"))
+    Start-Process pwsh -ArgumentList "-NoProfile -Command & { $($script) -Config $tempFile -Run -Noui }"
 }
 
 

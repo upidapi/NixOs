@@ -95,10 +95,15 @@ function run-winutil {
     # Start-Process powershell -Wait -ArgumentList `
     #     "-NoProfile -ExecutionPolicy Bypass -File `"$tempScript`" -Config `"$tempFile`" -Run -Noui"
 
-    powershell -Command {
-        & ([scriptblock]::Create($(irm "https://christitus.com/win"))) `
-            -Config $tempFile -Run -Noui
-    }
+    powershell -Command "
+         & ([scriptblock]::Create(`$(irm `"https://christitus.com/win`"))) `
+             -Config '$tempFile' -Run -Noui
+    "
+
+    # powershell -Command {
+    #     & ([scriptblock]::Create($(irm "https://christitus.com/win"))) `
+    #         -Config $tempFile -Run -Noui
+    # }
         
     # $script = [scriptblock]::Create((irm "https://christitus.com/win"))
     # Start-Process pwsh -ArgumentList "-NoProfile -Command & { $($script) -Config $tempFile -Run -Noui }"

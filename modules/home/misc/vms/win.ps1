@@ -1,3 +1,25 @@
+function Invoke-IsolatedScript {
+    param(
+        [Parameter(Mandatory)]
+        [ScriptBlock]$Script,
+
+        [Parameter(ValueFromRemainingArguments)]
+        $Args
+    )
+
+    # Create a temporary file for the script
+    $tempScript = New-TemporaryFile
+
+    # Write the scriptblock contents to the temp file
+    $Script.ToString() | Out-File $tempScript -Encoding UTF8
+
+    # Build argument list for the subprocess
+    $argList = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $tempScript) + $Args
+
+    # Start the subprocess
+    Start-Process powershell -ArgumentList $argList -Wait
+}
+
 function refresh-path {
     $env:Path =
         [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" +
@@ -63,12 +85,23 @@ function run-winutil {
 
     $tempFile = New-TemporaryFile
     $winutilCfg | Out-File -FilePath $tempFile
+    
+    # $script = irm "https://christitus.com/win"
+    # Invoke-IsolatedScript ([scriptblock]::Create($script) `
+    #    -Config $tempFile -Run -Noui
 
-    # & ([scriptblock]::Create($(irm "https://christitus.com/win"))) `
-    #     -Config $tempFile -Run -Noui
+    # $tempScript = New-TemporaryFile
+    # irm "https://christitus.com/win" | Out-File $tempScript -Encoding UTF8
+    # Start-Process powershell -Wait -ArgumentList `
+    #     "-NoProfile -ExecutionPolicy Bypass -File `"$tempScript`" -Config `"$tempFile`" -Run -Noui"
+
+    powershell -Command {
+        & ([scriptblock]::Create($(irm "https://christitus.com/win"))) `
+            -Config $tempFile -Run -Noui
+    }
         
-    $script = [scriptblock]::Create((irm "https://christitus.com/win"))
-    Start-Process pwsh -ArgumentList "-NoProfile -Command & { $($script) -Config $tempFile -Run -Noui }"
+    # $script = [scriptblock]::Create((irm "https://christitus.com/win"))
+    # Start-Process pwsh -ArgumentList "-NoProfile -Command & { $($script) -Config $tempFile -Run -Noui }"
 }
 
 

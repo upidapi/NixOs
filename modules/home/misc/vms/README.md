@@ -1,3 +1,6 @@
+## Debug
+Change video to QXL
+
 ## Virsh things
 the config is located at .config/libvirt/qemu
 
@@ -34,9 +37,9 @@ virsh pool-destroy home
 systemctl --user restart nixvirt
 ```
 
-Use `ctrl + alt + g` to escape the vm
 
 ## Windows 11 things
+Use `ctrl + alt + g` to escape the vm
 
 ### Create a debloated iso
 You can download the official iso 
@@ -48,14 +51,20 @@ Use `start ms-cxh:localonly` to bypass the account requirement
 - this no longer works
 - this does https://www.youtube.com/watch?v=aEWb1otLVPo
 
+### initial install
+Make sure that w11.isoName matches the iso
+
+During first boot you have to click it to start the install
+
+Add the drivers at VIRTOI-WIN/AMD64/W11
+
 ### Run win-utils
 ```bash
 irm "https://christitus.com/win" | iex
 ```
 
-Make sure that w11.isoName matches the iso
-
-During first boot you have to click it to start the install
-
-
-Add the drivers at VIRTOI-WIN/AMD64/W11
+### Run install script
+```ps1
+Set-ExecutionPolicy Unrestricted -Force # might need this, unsure
+irm "https://raw.githubusercontent/upidapi/nixos/main/modules/home/misc/vms/win.ps1" | iex
+```

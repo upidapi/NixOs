@@ -5,118 +5,83 @@ function refresh-path {
 }
 
 function run-winutil {
-    $winutilCfg = '{
-      "WPFInstall": [
-        "WPFInstallvesktop",
-        "WPFInstallstarship",
-        "WPFInstallthunderbird",
-        "WPFInstallnuget",
-        "WPFInstallvscode",
-        "WPFInstallnushell",
-        "WPFInstallpowershell",
-        "WPFInstallripgrep",
-        "WPFInstallalacritty",
-        "WPFInstallteams",
-        "WPFInstallneovim",
-        "WPFInstallputty",
-        "WPFInstallterminal",
-        "WPFInstallepicgames",
+    $winutilCfg = '[
         "WPFInstallbitwarden",
-        "WPFInstallventoy",
-        "WPFInstallpowertoys",
-        "WPFInstallZenBrowser",
-        "WPFInstallsteam",
-        "WPFInstallfirefox",
-        "WPFInstallgit",
-        "WPFInstallgithubcli",
-        "WPFInstallvlc",
-        "WPFInstallmatrix",
-        "WPFInstallvscodium",
+        "WPFInstallchromium",
+        "WPFInstalldevtoys",
+        "WPFInstallesearch",
         "WPFInstallfzf",
-        "WPFInstallitch",
-        "WPFInstallspotify",
+        "WPFInstallgit",
+        "WPFInstallnodejs",
+        "WPFInstallnuget",
+        "WPFInstallpowertoys",
         "WPFInstallpython3",
-        "WPFInstalledge",
-        "WPFInstallbat",
-        "WPFInstallslack",
-        "WPFInstalldockerdesktop"
-      ],
-      "WPFTweaks": [
-        "WPFTweaksRestorePoint",
-        "WPFTweaksDiskCleanup",
-        "WPFTweaksDisableNotifications",
-        "WPFTweaksRemoveEdge",
-        "WPFTweaksPowershell7",
-        "WPFTweaksEndTaskOnTaskbar",
-        "WPFTweaksDeleteTempFiles",
-        "WPFTweaksUTC",
-        "WPFTweaksPowershell7Tele",
-        "WPFTweaksAH",
-        "WPFTweaksServices",
+        "WPFInstallripgrep",
+        "WPFInstallsteam",
+        "WPFInstallventoy",
+        "WPFInstallvesktop",
+        "WPFInstallvscodium",
+        "WPFInstallZenBrowser",
+        "WPFTweaksActivity",
         "WPFTweaksConsumerFeatures",
-        "WPFTweaksRemoveCopilot",
-        "WPFTweaksEdgeDebloat",
-        "WPFTweaksWifi",
-        "WPFTweaksTele",
-        "WPFTweaksHiber",
-        "WPFTweaksHome",
-        "WPFTweaksRemoveOnedrive",
-        "WPFTweaksRightClickMenu",
-        "WPFTweaksRazerBlock",
-        "WPFTweaksRecallOff",
-        "WPFTweaksLoc",
+        "WPFTweaksDisableExplorerAutoDiscovery",
+        "WPFTweaksWPBT",
         "WPFTweaksDVR",
-        "WPFTweaksStorage",
-        "WPFTweaksDisableExplorerAutoDiscovery"
-      ],
-      "WPFToggle": [
-        "WPFToggleTaskView_0",
-        "WPFToggleHiddenFiles_1",
-        "WPFToggleBingSearch_0",
-        "WPFToggleSnapSuggestion_1",
-        "WPFToggleHideSettingsHome_1",
-        "WPFToggleSnapWindow_1",
-        "WPFToggleStartMenuRecommendations_0",
-        "WPFToggleMouseAcceleration_1",
-        "WPFToggleTaskbarWidgets_0",
-        "WPFToggleTaskbarSearch_0",
-        "WPFToggleTaskbarAlignment_0",
-        "WPFToggleNumLock_0",
-        "WPFToggleStickyKeys_0",
-        "WPFToggleDetailedBSoD_1",
-        "WPFToggleShowExt_1",
-        "WPFToggleDarkMode_1",
-        "WPFToggleVerboseLogon_1",
-        "WPFToggleSnapFlyout_1"
-      ],
-      "WPFFeature": [
+        "WPFTweaksLocation",
+        "WPFTweaksServices",
+        "WPFTweaksTelemetry",
+        "WPFTweaksDiskCleanup",
+        "WPFTweaksDeleteTempFiles",
+        "WPFTweaksEndTaskOnTaskbar",
+        "WPFTweaksRestorePoint",
+        "WPFTweaksPowershell7Tele",
+        "WPFTweaksRazerBlock",
+        "WPFTweaksBraveDebloat",
+        "WPFTweaksRemoveCopilot",
+        "WPFTweaksDisableNotifications",
+        "WPFTweaksUTC",
+        "WPFTweaksRightClickMenu",
+        "WPFTweaksRevertStartMenu",
+        "WPFTweaksRemoveOneDrive",
+        "WPFTweaksRemoveEdge",
+        "WPFTweaksRemoveHome",
+        "WPFTweaksRemoveGallery",
+        "WPFTweaksEdgeDebloat",
+        "WPFToggleStandbyFix",
+        "WPFToggleDarkMode",
+        "WPFToggleDetailedBSoD",
+        "WPFToggleVerboseLogon",
+        "WPFToggleShowExt",
+        "WPFToggleHiddenFiles",
         "WPFFeatureEnableLegacyRecovery",
-        "WPFFeatureDisableSearchSuggestions",
+        "WPFFeatureshyperv",
+        "WPFFeaturenfs",
         "WPFFeaturesSandbox",
         "WPFFeaturewsl",
-        "WPFFeatureshyperv"
-      ]
-    }'
+        "WPFFeaturesdotnet"
+    ]'
 
     $tempFile = New-TemporaryFile
     $winutilCfg | Out-File -FilePath $tempFile
 
-    # manual install
-    # irm https://christitus.com/win | iex
+    Invoke-Expression "& { $(irm 'https://christitus.com/win') } -Config $winutilCfg -Run -Noui"
 
-    # let x = curl https://api.github.com/repos/upidapi/winutil-cli/releases | from json
-    # curl -L $"https://github.com/upidapi/winutil-cli/releases/download/($x.0.tag_name)/winutil.ps1" | save script.ps1
-
-    $tagName = (Invoke-WebRequest -UseBasicParsing -Uri "https://api.github.com/repos/upidapi/winutil-cli/releases" | ConvertFrom-Json)[0].tag_name
-
-    $downloadUrl = "https://github.com/upidapi/winutil-cli/releases/download/$($tagName)/winutil.ps1"
-
-    # Invoke-WebRequest -Uri $downloadUrl -OutFile "script.ps1"
-    & ([scriptblock]::Create($(irm $downloadUrl))) -Config $tempFile -Run
-
-    # irm christitus.com/win -Config $tempFile -Run -Debug | iex
-    # iex "& { $(irm christitus.com/win) }
-    # iex "& { $(irm christitus.com/windev) } -Config $tempFile -Run"
+    # # manual install
+    # # irm https://christitus.com/win | iex
+    #
+    # # let x = curl https://api.github.com/repos/upidapi/winutil-cli/releases | from json
+    # # curl -L $"https://github.com/upidapi/winutil-cli/releases/download/($x.0.tag_name)/winutil.ps1" | save script.ps1
+    #
+    # $tagName = (Invoke-WebRequest -UseBasicParsing -Uri "https://api.github.com/repos/upidapi/winutil-cli/releases" | ConvertFrom-Json)[0].tag_name
+    #
+    # $downloadUrl = "https://github.com/upidapi/winutil-cli/releases/download/$($tagName)/winutil.ps1"
+    #
+    # # Invoke-WebRequest -Uri $downloadUrl -OutFile "script.ps1"
+    # & ([scriptblock]::Create($(irm $downloadUrl))) -Config $tempFile -Run
+    #
+    # # irm christitus.com/win -Config $tempFile -Run -Debug | iex
+    # # iex "& { $(irm christitus.com/win) }
+    # # iex "& { $(irm christitus.com/windev) } -Config $tempFile -Run"
 }
 
 

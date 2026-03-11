@@ -48,7 +48,11 @@ in {
       # VGA PCI Pass-through without an attached physical monitor,
       # keyboard nor mouse.
       looking-glass-client
+
+      virglrenderer # prob not needed
     ];
+
+    users.extraUsers.qemu-libvirtd.extraGroups = ["render" "video"];
 
     # REF: https://github.com/Lillecarl/nixos/blob/ba287ceaf13ee9ceb940db6454838582959c5d3e/hosts/_shared/libvirt.nix#L25
     virtualisation = {

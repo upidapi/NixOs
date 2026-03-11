@@ -99,21 +99,30 @@ in {
                   count = 8;
                 };
 
-                devices.filesystem = [
-                  {
-                    type = "mount";
-                    accessmode = "passthrough";
-                    driver = {
-                      type = "virtiofs";
-                    };
-                    source = {
-                      dir = "${home-persist}/vms/shared/${name}";
-                    };
-                    target = {
-                      dir = "host_share";
-                    };
-                  }
-                ];
+                devices = {
+                  # i get a black screen with default (virtio)
+                  # https://wiki.archlinux.org/title/Virt-manager#3D_acceleration
+                  # video.model = {
+                  #   type = "qxl";
+                  #   acceleration = {accel3d = true;};
+                  # };
+
+                  filesystem = [
+                    {
+                      type = "mount";
+                      accessmode = "passthrough";
+                      driver = {
+                        type = "virtiofs";
+                      };
+                      source = {
+                        dir = "${home-persist}/vms/shared/${name}";
+                      };
+                      target = {
+                        dir = "host_share";
+                      };
+                    }
+                  ];
+                };
               }
             );
           }))

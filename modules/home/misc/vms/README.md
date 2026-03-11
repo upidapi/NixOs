@@ -65,6 +65,5 @@ irm "https://christitus.com/win" | iex
 
 ### Run install script
 ```ps1
-Set-ExecutionPolicy Unrestricted -Force # might need this, unsure
-irm "https://raw.githubusercontent/upidapi/nixos/main/modules/home/misc/vms/win.ps1" | iex
+irm "https://raw.githubusercontent.com/upidapi/nixos/main/modules/home/misc/vms/win.ps1" | iex
 ```

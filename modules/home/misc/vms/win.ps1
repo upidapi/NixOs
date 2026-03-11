@@ -64,10 +64,10 @@ function run-winutil {
     $tempFile = New-TemporaryFile
     $winutilCfg | Out-File -FilePath $tempFile
 
-    Invoke-Expression "& { $(irm 'https://christitus.com/win') } -Config $tempFile -Run -Noui"
 
     & ([scriptblock]::Create("https://christitus.com/win")) -Config $tempFile -Run -Noui
 
+    # Invoke-Expression "& { $(irm 'https://christitus.com/win') } -Config $tempFile -Run -Noui"
     # # manual install
     # # irm https://christitus.com/win | iex
     #

@@ -195,6 +195,10 @@ disable-startup-apps
 Write-Host
 Write-Host "Installing drivers"
 # you may have to restart after this
+# missing?!
+# ..\Sysnative\pnputil.exe /add-driver E:\*.inf /install /subdirs 
+# could use this to pre sign, and therefore skip the verification part
+# https://superuser.com/questions/1420011/how-do-i-install-drivers-silently-with-pnputil-exe
 pnputil /add-driver E:\*.inf /install /subdirs 
 
 Write-Host

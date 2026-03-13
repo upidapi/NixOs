@@ -117,6 +117,8 @@ in {
       #   };
     };
 
+    virtualisation.qemu = enable;
+
     # os.services.syncthing = disable;
     misc.services.syncthing = enable;
 

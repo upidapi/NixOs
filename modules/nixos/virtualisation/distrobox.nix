@@ -22,6 +22,9 @@ in {
 
   distrobox create --image ubuntu:latest --name ubuntu
   distrobox enter ubuntu -- bash
+
+  # Error: default OCI runtime "crun" not found: invalid argument
+  fixed by adding --root
   */
 
   # you might need to patch some things to build
@@ -29,6 +32,7 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       distrobox
+      crun
     ];
 
     # taken from raf

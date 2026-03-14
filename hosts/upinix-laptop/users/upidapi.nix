@@ -11,6 +11,8 @@ in {
   modules.home = {
     suites.all = enable;
 
+    apps.ida = enable;
+
     misc.vms = {
       enable = true;
       w11 = enableAnd {

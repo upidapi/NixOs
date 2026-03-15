@@ -6,7 +6,7 @@
 }: let
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf mkDefault;
-  cfg = config.modules.nixos.suites.all;
+  cfg = config.modules.nixos.suites.base;
   enable = {
     enable = mkDefault true;
   };
@@ -14,7 +14,7 @@
   #   enable = mkDefault false;
   # };
 in {
-  options.modules.nixos.suites.all =
+  options.modules.nixos.suites.base =
     mkEnableOpt "";
 
   config = mkIf cfg.enable {

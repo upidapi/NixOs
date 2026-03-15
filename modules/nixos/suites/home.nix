@@ -6,7 +6,7 @@
 }: let
   inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf mkDefault;
-  cfg = config.modules.nixos.suites.all;
+  cfg = config.modules.nixos.suites.home;
   enable = {
     enable = mkDefault true;
   };
@@ -14,16 +14,11 @@
   #   enable = mkDefault false;
   # };
 in {
-  options.modules.nixos.suites.all =
+  options.modules.nixos.suites.home =
     mkEnableOpt "";
 
   config = mkIf cfg.enable {
     modules.nixos = {
-      programs = {
-        dotnet = enable;
-        steam = enable;
-      };
-
       env = {
         login = {
           # NOTE: greetd doesn't call it with env vars, so i have to do this
@@ -46,7 +41,14 @@ in {
         # distrobox = enable;
       };
 
-      misc.flatpak = enable;
+      misc = {
+        flatpak = enable;
+
+        programs = {
+          dotnet = enable;
+          steam = enable;
+        };
+      };
     };
   };
 }

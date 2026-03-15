@@ -66,6 +66,14 @@ export extern "pastebin" [
   --help
 ]
 
+export extern "xdg-open" [
+  file: path
+  --help
+  --manual
+  --version
+]
+
+
 # some completions are only available through a bridge
 # eg. tailscale
 # https://carapace-sh.github.io/carapac-bin/setup.html#nushell

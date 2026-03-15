@@ -48,6 +48,9 @@ in {
       dsu = "env NIXPKGS_ALLOW_UNFREE=1 dev-shell";
       pb = "pastebin";
 
+      g = "git";
+      xo = "xdg-open";
+
       py = "python";
 
       e = "$EDITOR";

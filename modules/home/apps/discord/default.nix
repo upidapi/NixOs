@@ -35,14 +35,19 @@ in {
 
     stylix.targets.vesktop.enable = false;
 
+    # BROKEN: does not start minimised, also starts on system update
+    #  may have fixed this
     systemd.user.services."start-vesktop" = {
       Unit.After = "graphical.target";
       Service = {
-        Type = "simple";
-        ExecStart = pkgs.writeShellScript "start-vesktop" "vesktop --start-minimized";
+        # Type = "simple";
+        ExecStart =
+          pkgs.writeShellScript
+          "start-vesktop"
+          "vesktop --start-minimized";
         Restart = "no";
       };
-      Install.WantedBy = ["default.target"];
+      Install.WantedBy = ["graphical-session.target"];
     };
 
     xdg.configFile = {

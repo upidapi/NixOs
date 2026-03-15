@@ -11,6 +11,7 @@
 in {
   options.modules.nixos.networking.firewall.ports = mkEnableOpt "open some ports";
 
+  # TODO: split this into modules?
   config = mkIf cfg.enable {
     networking.firewall = {
       allowedTCPPorts = [

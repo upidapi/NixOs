@@ -105,22 +105,11 @@ in {
   # seams to not be an issue anymore, i guess it was a skill issue
 
   modules.nixos = {
-    suites.all = enable;
-
-    homelab = {
-      # tofu = enable;
-      #   transfer-sh = enable;
-      #   media = enableAnd {
-      #     jellyfin = enable;
-      #     jellyseerr = enable;
-      #     arr = enable;
-      #   };
+    suites = {
+      base = enable;
+      # server = enable;
+      home = enable;
     };
-
-    virtualisation.qemu = enable;
-
-    # os.services.syncthing = disable;
-    misc.services.syncthing = enable;
 
     hardware = {
       cpu.amd = enable;

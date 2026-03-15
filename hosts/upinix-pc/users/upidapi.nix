@@ -14,10 +14,6 @@ in {
     # desktop.hypridle.lock = false;
     desktop.hypridle.suspend = false;
 
-    apps.ida = enable;
-    games.roblox = enable;
-    misc.flatpak = enable;
-
     misc.vms = {
       enable = true;
       w11 = enableAnd {

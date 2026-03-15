@@ -1,5 +1,7 @@
 {
   imports = [
-    ./all.nix
+    ./base.nix
+    ./home.nix
+    ./server.nix
   ];
 }

@@ -198,9 +198,6 @@ in {
       jellyfin.serviceConfig.SupplementaryGroups = ["sonarr" "radarr" "lidarr"];
     };
 
-    # TODO: IDEA: have a group on services with dynamic user, make that group
-    #  own the secrets, so that they can be accessed
-
     services = {
       sonarr = {
         enable = true;

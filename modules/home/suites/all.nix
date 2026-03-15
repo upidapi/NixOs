@@ -37,7 +37,10 @@ in {
 
         free-cad = enable;
         orca-slicer = enable;
+        ida = enable;
       };
+
+      games.roblox = enable;
 
       cli-apps = {
         color-pick = enable;
@@ -82,6 +85,7 @@ in {
         stylix = enable;
         mime = enable;
         keyd = enable;
+        flatpak = enable;
       };
 
       desktop = {

@@ -83,7 +83,12 @@ in {
   };
 
   modules.nixos = {
-    suites.all = enable;
+    suites = {
+      base = enable;
+      server = enable;
+      home = enable;
+    };
+
     /*
     os.virtualisation.vfio.devices = [
        "10de:2182"
@@ -92,53 +97,6 @@ in {
        "10de:1aed"
     ];
     */
-
-    misc.flatpak = enable;
-
-    homelab = {
-      media = enableAnd {
-        jellyfin = enable;
-        jellyseerr = enable;
-        arr = enable;
-        autobrr = enable;
-        unpackerr = enable;
-        qbit = enable;
-        cross-seed = enable;
-      };
-
-      infra = {
-        tofu = enable;
-
-        ddclient = enable;
-        caddy = enable;
-        authelia = enable;
-      };
-
-      services = {
-        transfer-sh = enable;
-        # wg-easy = enable;
-        homepage = enable;
-        thelounge = enable;
-      };
-
-      games = {
-        impostor = enable;
-        necesse = enable;
-        minecraft = enable;
-      };
-    };
-
-    networking = {
-      # wireguard.server = enable;
-      # vpn.mullvad = {
-      #   enable = true;
-      #   createNamespace = true;
-      # };
-
-      vpn.namespaces = enableAnd {
-        proton = true;
-      };
-    };
 
     virtualisation.qemu = enable;
 

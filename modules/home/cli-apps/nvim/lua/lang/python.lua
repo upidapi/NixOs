@@ -6,8 +6,9 @@
 -- })
 -- vim.lsp.enable("ruff")
 
--- TODO: look into pytefly (fast af type checker)
 -- TODO: look into ty
+--  pyrite seems just better atm 
+--  also is packaged in lspconfig
 
 --
 -- defer hover to pyright

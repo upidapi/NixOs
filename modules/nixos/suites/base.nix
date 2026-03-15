@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (mlib) mkEnableOpt enableAnd;
+  inherit (mlib) mkEnableOpt;
   inherit (lib) mkIf mkDefault;
   cfg = config.modules.nixos.suites.all;
   enable = {
@@ -15,9 +15,8 @@
   # };
 in {
   options.modules.nixos.suites.all =
-    mkEnableOpt "enables everything except for the hardware specific stuff";
+    mkEnableOpt "";
 
-  # could split this into parts when (or if) needed
   config = mkIf cfg.enable {
     modules.nixos = {
       hardware = {
@@ -36,16 +35,10 @@ in {
         nix-ld = enable;
         appimage = enable;
 
-        programs = {
-          dotnet = enable;
-          steam = enable;
-        };
-
         services = {
           ntpd = enable;
           syncthing = enable;
           restic = enable;
-          # caddy = enable;
         };
 
         nix = {
@@ -59,6 +52,11 @@ in {
         };
       };
 
+      os = {
+        primaryUser = "upidapi";
+        adminUser = "upidapi";
+      };
+
       env = {
         fonts = enable;
         locale = enable;
@@ -67,23 +65,14 @@ in {
 
         console = enable;
         noshell = enable;
-
-        login = {
-          # NOTE: greetd doesn't call it with env vars, so i have to do this
-          command = "zsh -c start-hyprland";
-          autoLogin = false;
-          greetd = enable;
-        };
-
-        graphical = {
-          hyprland = enable;
-          # xserver = enable;
-        };
       };
 
-      os = {
-        primaryUser = "upidapi";
-        adminUser = "upidapi";
+      security = {
+        # too annoying cant use --preserve-env
+        # sudo-rs = enable;
+        # keyring = enable;
+        cfg-perms = enable;
+        sudo = enable;
       };
 
       networking = {
@@ -106,17 +95,9 @@ in {
       virtualisation = {
         podman = enable;
         # vfio = enable;
-        # qemu = enable; # BROKEN: atm, fixed in master
+        # qemu = enable;
         # waydroid = enable;
         distrobox = enable;
-      };
-
-      security = {
-        # too annoying cant use --preserve-env
-        # sudo-rs = enable;
-        # keyring = enable;
-        cfg-perms = enable;
-        sudo = enable;
       };
 
       other = enable;

@@ -58,6 +58,9 @@ def store-edit [path: path] {
 }
 
 
+# REF: completions
+#  https://github.com/Paul-16098/Dotfiles/blob/45c9fbd66732c41c315271e62ffdf1e3af06832c/dot_config/nushell/autoload/user-completions.nu#L189
+
 export extern "pastebin" [
   --never(-n) # Disable expiry (never expire).
   --url(-u): string # URL to connect to."
@@ -72,6 +75,13 @@ export extern "xdg-open" [
   --manual
   --version
 ]
+
+# https://github.com/nushell/nushell/blob/746a4ced3021a90bfe07ccca670edbfa0eb0b44e/crates/nu-cli/src/completions/completer.rs#L664
+# how sudo is defined
+# TODO: make issue to expose sudo cmd handler
+# export extern "exec" [
+#
+# ]
 
 
 # some completions are only available through a bridge

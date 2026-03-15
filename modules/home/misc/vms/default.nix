@@ -106,7 +106,7 @@ in {
                   video.model = {
                     acceleration.accel3d = false;
                   };
-                  graphic.gl.enable = false;
+                  graphics.gl.enable = false;
 
                   filesystem = [
                     {

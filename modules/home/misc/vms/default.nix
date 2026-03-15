@@ -80,6 +80,7 @@ in {
                   nvram_path = "${home-persist}/vms/nvram/${name}.fd";
                   virtio_net = true;
                   virtio_drive = true;
+                  # virtio_video = false; # forces qxl
                   install_virtio = true;
                 }
               )
@@ -102,10 +103,10 @@ in {
                 devices = {
                   # i get a black screen with default (virtio)
                   # https://wiki.archlinux.org/title/Virt-manager#3D_acceleration
-                  # video.model = {
-                  #   type = "qxl";
-                  #   acceleration = {accel3d = true;};
-                  # };
+                  video.model = {
+                    acceleration.accel3d = false;
+                  };
+                  graphic.gl.enable = false;
 
                   filesystem = [
                     {

@@ -1,11 +1,15 @@
 -------------- lsp ----------------
-vim.lsp.config("ruff", {
-    init_options = {
-        settings = {},
-    },
-})
-vim.lsp.enable("ruff")
+-- vim.lsp.config("ruff", {
+--     init_options = {
+--         settings = {},
+--     },
+-- })
+-- vim.lsp.enable("ruff")
 
+-- TODO: look into pytefly (fast af type checker)
+-- TODO: look into ty
+
+--
 -- defer hover to pyright
 -- vim.api.nvim_create_autocmd("LspAttach", {
 --     group = vim.api.nvim_create_augroup(
@@ -25,24 +29,25 @@ vim.lsp.enable("ruff")
 --     desc = "LSP: Disable hover capability from Ruff",
 -- })
 --
-vim.lsp.config("pyright", {
-    settings = {
-        pyright = {
-            -- Using Ruff's import organizer
-            disableOrganizeImports = true,
-        },
-        python = {
-            analysis = {
-                -- Ignore all files for analysis to exclusively use Ruff for 
-                -- linting
-                ignore = { "*" },
-            },
-        },
-    },
-})
-vim.lsp.enable("pyright")
+-- vim.lsp.config("pyright", {
+--     settings = {
+--         pyright = {
+--             -- Using Ruff's import organizer
+--             disableOrganizeImports = true,
+--         },
+--         python = {
+--             analysis = {
+--                 -- Ignore all files for analysis to exclusively use Ruff for 
+--                 -- linting
+--                 ignore = { "*" },
+--             },
+--         },
+--     },
+-- })
+-- vim.lsp.enable("pyright")
+vim.lsp.enable('pyrefly')
 
-require("lint").linters_by_ft.python = { "dmypy" }
+-- require("lint").linters_by_ft.python = { "dmypy" }
 require("conform").formatters_by_ft = { "ruff" }
 
 require("dap-python").setup(require("passthrough").dap.python)

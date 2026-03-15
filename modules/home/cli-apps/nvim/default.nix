@@ -101,8 +101,9 @@ in {
 
         # python
         ruff
-        mypy
-        pyright
+        # mypy
+        # pyright
+        pyrefly
 
         # nu
         nufmt # not needed?

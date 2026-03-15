@@ -24,6 +24,7 @@
       };
     };
 
+    # asd
     cuda-pkgs = import inputs.nixpkgs {
       inherit system;
       config = {
@@ -31,6 +32,112 @@
         cudaSupport = true;
       };
     };
+
+    # tons of sec pkgs, for nix :)
+    # https://github.com/redcode-labs/RedNix/blob/master/packages.nix
+    secPkgs = _pkgs: (with _pkgs; [
+      ## forensics
+      imhex
+      file
+      binwalk
+      wireshark
+      # extract
+      cabextract
+      p7zip
+      unrar
+      unzip
+
+      ## radio
+      sdrpp # record audio
+      qsstv # audio <-> image
+      audacity # basic analysis, might remove
+      gnuradio # everything processing
+      sonic-visualiser
+
+      ## hardware
+      tio
+
+      ## pwn
+      pwninit
+      checksec
+
+      ## web
+      zap
+      brave
+      burpsuite
+
+      mitmproxy
+      sqlmap
+
+      hashcat
+      nmap # for ncat
+
+      ## rev
+      gdb
+      gef # gef extensions
+      # Borked (removed due to weird updates) pwndbg # gef extensions
+      # if you want to use pytorch-bin then you have to
+      # make sure that torch-vision is using that too
+      inputs'.pwndbg.packages.default
+
+      radare2
+      ghidra
+
+      # android / apk
+      apktool
+      dex2jar
+
+      # java decompilers
+      # https://kalilinuxtutorials.com/apk-sh/
+      # there is no longer a source for the upstream dep
+      # jd-cli
+      # jd-gui
+
+      # seams to be functionally objectively worse than jq-cli/gui
+      # jadx
+      cfr
+      # procyon
+      # bytecode-viewer
+
+      ## misc
+      strace
+      ltrace
+
+      udev
+      alsa-lib
+
+      # crypto
+      (sage.override {
+        requireSageTests = false;
+        extraPythonPackages = p:
+          with p; [
+            pwntools
+            pycryptodome
+            gmpy2
+          ];
+      })
+
+      (python3.withPackages (
+        python-pkgs:
+          with python-pkgs; [
+            pwntools
+
+            matplotlib
+            scipy
+
+            sage # borked
+            pycrypto
+            z3-solver
+
+            flask
+            requests
+            beautifulsoup4
+            pyyaml
+
+            pillow
+          ]
+      ))
+    ]);
   in {
     devShells = {
       buildarr = pkgs.mkShell {
@@ -161,6 +268,11 @@
         .env;
 
       sec =
+        # when using nix-ld, random binaries just work
+        # unless its 32bit, then they are fully broken
+        pkgs.mkShellNoCC {packages = secPkgs pkgs;};
+
+      sec-fhs =
         # https://www.alexghr.me/blog/til-nix-flake-fhs/
         # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
         # creates a fsh to run random (unpackaged) binarys
@@ -171,81 +283,7 @@
             runScript = pkgs.writeShellScript "fhs-init" ''
               name="cmp-prog-fhs"
             '';
-            targetPkgs = _pkgs: (with _pkgs; [
-              # forensics
-              imhex
-              binwalk
-              file
-              audacity
-              gnuradio
-              wireshark
-
-              # hardware
-              tio
-
-              # pwn
-              pwninit
-              checksec
-
-              # rev
-              gdb
-              gef # gef extensions
-              # Borked (removed due to weird updates) pwndbg # gef extensions
-              # if you want to use pytorch-bin then you have to
-              # make sure that torch-vision is using that too
-              inputs'.pwndbg.packages.default
-
-              radare2
-
-              ghidra
-              # android / apk
-              apktool
-              dex2jar
-
-              # java decompilers
-              # https://kalilinuxtutorials.com/apk-sh/
-              # there is no longer a source for the upstream dep
-              # jd-cli
-              # jd-gui
-
-              # seams to be functionally objectively worse than jq-cli/gui
-              # jadx
-              cfr
-              # procyon
-              # bytecode-viewer
-
-              strace
-              ltrace
-
-              # web
-              burpsuite
-              zap
-              brave
-
-              mitmproxy
-              sqlmap
-
-              # for compatibility
-              udev
-              alsa-lib
-
-              # ida-free
-
-              # crypto
-              # BROKEN sage
-
-              (python3.withPackages (
-                python-pkgs:
-                  with python-pkgs; [
-                    pycrypto
-                    requests
-                    pwntools
-                    pillow
-                    beautifulsoup4
-                    pyyaml
-                  ]
-              ))
-            ]);
+            targetPackages = secPkgs;
           })
         .env;
     };

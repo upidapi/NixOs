@@ -87,6 +87,8 @@
       apktool
       dex2jar
 
+      ilspycmd # c# decomp?
+
       # java decompilers
       # https://kalilinuxtutorials.com/apk-sh/
       # there is no longer a source for the upstream dep

@@ -74,16 +74,24 @@ in {
     root.hashedPasswordFile = config.sops.secrets."users/root".path;
   };
   # optimise for battery
-  #     green: efficiency
-  #     purple: balanced
-  #     blue: performance
+  #   green: efficiency
+  #   purple: balanced
+  #   blue: performance
 
+  # NOTE: fix the 544MHz locking after suspend
+  # which was caused by PROCHOT flag set
+  #   a hardware safety thing
+  #   that limits clock speed to minimum
+  # Since CPPC is disabled, and PMF fails to init,
+  # therefore linux cant tell AMD SMU to resume to normal power settings
+  #   and therefore cant unset the PROCHOT flag
+  # replication: plug out during suspend
   hardware = {
-    # tuxedo-drivers = enable; # doesn't do anything better
-    # tuxedo-rs = {
-    #   enable = true;
-    #   tailor-gui = enable;
-    # };
+    tuxedo-drivers = enable; # doesn't do anything better
+    tuxedo-rs = {
+      enable = true;
+      # tailor-gui = enable;
+    };
   };
 
   # probably fixes it

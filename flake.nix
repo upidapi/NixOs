@@ -24,7 +24,8 @@
     # works
     # nixpkgs.url = "github:nixos/nixpkgs/ee930f9755f58096ac6e8ca94a1887e0534e2d81";
 
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-25-05.url = "github:nixos/nixpkgs/nixos-25.05";
 
     nixpkgs-necesse.url = "github:nixos/nixpkgs/6484f0bbd03376d57804bfef5db9cf8da2f1c45c";
 
@@ -189,7 +190,7 @@
 
     ags = {
       url = "github:aylur/ags/v2.2.1";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs-25-05";
     };
   };
 }

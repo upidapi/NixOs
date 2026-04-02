@@ -24,6 +24,7 @@
         # broken and unused
         "tuxedo-drivers"
         "tuxedo-keyboard"
+        "vesktop"
       ];
 
       inherit (builtins) readDir;
@@ -47,7 +48,7 @@
     in
       autoImported
       // {
-        vesktop = inputs'.nixpkgs-stable.legacyPackages.callPackage ./vesktop {};
+        # vesktop = pkgs.callPackage ./vesktop {};
 
         mnw = self.nixosConfigurations.upinix-pc.config.home-manager.users.upidapi.programs.mnw.finalPackage;
       };

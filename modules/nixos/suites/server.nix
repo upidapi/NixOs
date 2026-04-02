@@ -22,13 +22,13 @@ in {
     modules.nixos = {
       homelab = {
         media = enableAnd {
-          jellyfin = enable;
-          jellyseerr = enable;
-          arr = enable;
-          autobrr = enable;
-          unpackerr = enable;
+          # jellyfin = enable;
+          # jellyseerr = enable;
+          # arr = enable;
+          # autobrr = enable;
+          # unpackerr = enable;
           qbit = enable;
-          cross-seed = enable;
+          # cross-seed = enable;
         };
 
         infra = {
@@ -42,7 +42,7 @@ in {
         services = {
           transfer-sh = enable;
           # wg-easy = enable;
-          homepage = enable;
+          # homepage = enable;
           thelounge = enable;
         };
 

@@ -7,7 +7,7 @@ vesktop.overrideAttrs (old: rec {
   patches =
     (old.patches or [])
     ++ [
-      ./fix-readonly.patch
+      # ./fix-readonly.patch
       # ./remove-splash.patch
       # ./tray-notifications.patch
     ];

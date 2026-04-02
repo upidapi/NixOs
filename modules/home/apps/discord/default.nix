@@ -15,7 +15,7 @@ in {
     // {
       package = mkOption {
         type = types.package;
-        default = self'.packages.vesktop.override {withSystemVencord = false;};
+        default = pkgs.vesktop; # self'.packages.vesktop.override {withSystemVencord = false;};
       };
 
       finalPackage = mkOption {

@@ -21,10 +21,11 @@ in {
       podman-tui
     ];
 
-    hardware.nvidia-container-toolkit.enable =
-      builtins.any
-      (driver: driver == "nvidia")
-      config.services.xserver.videoDrivers;
+    # BROKEN:
+    # hardware.nvidia-container-toolkit.enable =
+    #   builtins.any
+    #   (driver: driver == "nvidia")
+    #   config.services.xserver.videoDrivers;
 
     virtualisation = {
       # Registries to search for images on `podman pull`

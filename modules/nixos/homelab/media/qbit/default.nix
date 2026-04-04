@@ -38,29 +38,31 @@ in {
           # https://www.reddit.com/search/?q=Circumventing%20proton%20vpn%20ddos&cId=8f3a490d-e9e2-4649-84cf-92ee353b4968&iId=39143626-1f98-46d4-a015-03074afd4bc7
           # "DHT will trigger ProtonVPN Anti-ddos, disable it."
           DHTEnabled = false;
+          PeXEnabled = false;
+          LSDEnabled = false;
 
           # prefer to seed to fastest peers
           # https://www.reddit.com/r/qBittorrent/s/EZGMJKCSGR
 
-          ChokingAlgorithm = "RateBased";
-
-          # disable limits
-          MaxConnections = -1;
-          MaxConnectionsPerTorrent = -1;
-          MaxUploads = -1;
-          MaxUploadsPerTorrent = -1;
-
-          MaxActiveDownloads = 10;
-          MaxActiveUploads = 10;
-
-          MaxActiveTorrents = 1000;
-
-          BTProtocol = "TCP";
-
-          IgnoreLimitsOnLAN = true;
-          IgnoreSlowTorrentsForQueueing = true;
-          SlowTorrentsDownloadRate = 500;
-          SlowTorrentsUploadRate = 500;
+          # ChokingAlgorithm = "RateBased";
+          #
+          # # disable limits
+          # MaxConnections = -1;
+          # MaxConnectionsPerTorrent = -1;
+          # MaxUploads = -1;
+          # MaxUploadsPerTorrent = -1;
+          #
+          # MaxActiveDownloads = 10;
+          # MaxActiveUploads = 10;
+          #
+          # MaxActiveTorrents = 1000;
+          #
+          # BTProtocol = "TCP";
+          #
+          # IgnoreLimitsOnLAN = true;
+          # IgnoreSlowTorrentsForQueueing = true;
+          # SlowTorrentsDownloadRate = 500;
+          # SlowTorrentsUploadRate = 500;
         };
 
         Preferences.WebUI = {

@@ -129,6 +129,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # TODO: switch to github:hyprvm/Hyprland ?
+    #  https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1/main";
       # We use the cachix cache provided by hyprland instead

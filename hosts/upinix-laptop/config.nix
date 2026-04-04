@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (const) keys;
-  inherit (mlib) enable disable;
+  inherit (mlib) enable enableAnd;
 in {
   imports = [
     ./suspend-keyboard-fix.nix
@@ -19,7 +19,6 @@ in {
     # This seams to not be the case:
     #   i think that the update from 6.12.4 to 6.12.5 broke suspend
     #     but using the 6.11 kernel didn't seam to fix it
-
     # kernelPackages = pkgs.linuxPackages_6_11;
     kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems.zfs = lib.mkForce false;
@@ -88,10 +87,10 @@ in {
   # replication: plug out during suspend
   hardware = {
     tuxedo-drivers = enable; # doesn't do anything better
-    tuxedo-rs = {
-      enable = true;
-      # tailor-gui = enable;
-    };
+    # tuxedo-rs = {
+    #   enable = true;
+    #   # tailor-gui = enable;
+    # };
   };
 
   services.thermald.enable = lib.mkDefault true;
@@ -115,6 +114,15 @@ in {
   # seams to not be an issue anymore, i guess it was a skill issue
 
   modules.nixos = {
+    # homelab.media = {
+    #   enable = true;
+    #   qbit = enable;
+    # };
+    #
+    # networking.vpn.namespaces = enableAnd {
+    #   proton = true;
+    # };
+
     suites = {
       base = enable;
       # server = enable;

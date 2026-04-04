@@ -37,7 +37,7 @@ in {
 
         free-cad = enable;
         orca-slicer = enable;
-        ida = enable;
+        # ida = enable;
       };
 
       games.roblox = enable;

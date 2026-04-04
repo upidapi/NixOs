@@ -94,6 +94,8 @@ in {
     };
   };
 
+  services.thermald.enable = lib.mkDefault true;
+
   # probably fixes it
   # (2025-03-14) Randomly after a while my pc starts to lag (like 1fps)
   #  and the tty is no better

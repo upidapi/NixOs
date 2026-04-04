@@ -61,16 +61,16 @@ in {
           # "100.100.0.0/16"
           # "127.0.0.1/32"
         ];
-        portMappings = let
-          passthru = p: {
-            from = p;
-            to = p;
-          };
-        in [
-          (passthru ports.qbit)
-          (passthru ports.sonarr)
-          (passthru ports.radarr)
-        ];
+        portMappings =
+          lib.map (x: {
+            from = x;
+            to = x;
+          }) [
+            ports.qbit
+            ports.sonarr
+            ports.radarr
+          ]
+          ++ [];
         openVPNPorts = [
           # is this needed?
           # {

@@ -44,7 +44,7 @@ in {
     };
 
     # https://www.rapidseedbox.com/blog/jellyseerr-guide#01
-    services.jellyseerr = {
+    services.seerr = {
       enable = true;
       port = ports.jellyseerr;
       openFirewall = false;
@@ -61,7 +61,7 @@ in {
             "$.sonarr[*].apiKey"
           ];
           url = let
-            jcfg = config.services.jellyseerr;
+            jcfg = config.services.seerr;
           in "http://localhost:${toString jcfg.port}";
         };
 

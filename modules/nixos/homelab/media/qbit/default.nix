@@ -15,14 +15,19 @@
 in {
   options.modules.nixos.homelab.media.qbit = mkEnableOpt "";
 
-  # NOTE: chown -R qbittorrent:qbittorrent /raid/media/torrents + restart
-  #  fixed "device or resource busy" for all trackers
-  #  perms seam to not be an issue
+  # This randomly broke, indexers started showing
+  #   "device or resource busy" no config no nothing
+  #   fixed by disabling the netns
+  # Regenerating the proton wg config fixed it
+  #   I guess they silently changed something that broke my setup
+  #   Fml, spent too many hours on this
   config = mkIf cfg.enable {
     services.qbittorrent = {
       # package = inputs'.nixpkgs-stable.legacyPackages.qbittorrent-nox;
 
       enable = true;
+      profileDir = "/var/lib/qBittorrent";
+
       # group = "media";
       # package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
       webuiPort = ports.qbit;
@@ -38,31 +43,31 @@ in {
           # https://www.reddit.com/search/?q=Circumventing%20proton%20vpn%20ddos&cId=8f3a490d-e9e2-4649-84cf-92ee353b4968&iId=39143626-1f98-46d4-a015-03074afd4bc7
           # "DHT will trigger ProtonVPN Anti-ddos, disable it."
           DHTEnabled = false;
-          PeXEnabled = false;
-          LSDEnabled = false;
+          # PeXEnabled = false;
+          # LSDEnabled = false;
 
           # prefer to seed to fastest peers
           # https://www.reddit.com/r/qBittorrent/s/EZGMJKCSGR
 
-          # ChokingAlgorithm = "RateBased";
-          #
-          # # disable limits
-          # MaxConnections = -1;
-          # MaxConnectionsPerTorrent = -1;
-          # MaxUploads = -1;
-          # MaxUploadsPerTorrent = -1;
-          #
-          # MaxActiveDownloads = 10;
-          # MaxActiveUploads = 10;
-          #
-          # MaxActiveTorrents = 1000;
-          #
-          # BTProtocol = "TCP";
-          #
-          # IgnoreLimitsOnLAN = true;
-          # IgnoreSlowTorrentsForQueueing = true;
-          # SlowTorrentsDownloadRate = 500;
-          # SlowTorrentsUploadRate = 500;
+          ChokingAlgorithm = "RateBased";
+
+          # disable limits
+          MaxConnections = -1;
+          MaxConnectionsPerTorrent = -1;
+          MaxUploads = -1;
+          MaxUploadsPerTorrent = -1;
+
+          MaxActiveDownloads = 10;
+          MaxActiveUploads = 10;
+
+          MaxActiveTorrents = 1000;
+
+          BTProtocol = "TCP";
+
+          IgnoreLimitsOnLAN = true;
+          IgnoreSlowTorrentsForQueueing = true;
+          SlowTorrentsDownloadRate = 500;
+          SlowTorrentsUploadRate = 500;
         };
 
         Preferences.WebUI = {
@@ -93,10 +98,6 @@ in {
           vpnNamespace = "proton";
         };
 
-        # environment = {
-        #   BOOST_ASIO_DISABLE_IO_URING = "1";
-        # };
-
         serviceConfig = {
           UMask = 006;
           LimitNOFILE = 65535;
@@ -104,7 +105,7 @@ in {
       };
 
       "qbit-sync-port" = {
-        enable = false;
+        enable = true;
 
         vpnConfinement = enableAnd {
           vpnNamespace = "proton";

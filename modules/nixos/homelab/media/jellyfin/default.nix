@@ -39,6 +39,10 @@ in {
       };
     };
 
+    # NOTE: if transcoding fails, try to restsrt
+    #  >>> nvidia-smi
+    #  Failed to initialize NVML: Driver/library version mismatch
+    #  NVML library version: 595.58
     hardware = {
       graphics = {
         enable = true;

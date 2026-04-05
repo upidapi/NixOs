@@ -29,6 +29,7 @@ in {
           unpackerr = enable;
           qbit = enable;
           cross-seed = enable;
+          # profilarr = enable;
         };
 
         infra = {

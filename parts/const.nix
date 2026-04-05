@@ -52,6 +52,7 @@ in {
     qbit = 8509;
     cross-seed = 8510;
     autobrr = 8511;
+    profilarr = 8512;
 
     homepage = 8600;
     transfer-sh = 8601;

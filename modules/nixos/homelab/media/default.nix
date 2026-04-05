@@ -25,6 +25,7 @@ in {
     ./unpackerr
     ./qbit
     ./user-options.nix
+    ./profilarr.nix
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3

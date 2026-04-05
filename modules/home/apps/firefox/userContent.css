@@ -27,7 +27,7 @@
         color: rgb(0, 0, 0) !important;
         background-color: rgb(0, 0, 0) !important;
     }
-    
+
     /* Hide episode name */
     bdi > a[data-type="Episode"]:not(:hover) {
         color: #888888 !important;
@@ -42,6 +42,12 @@
     div.mediaInfoItem:first-child:not(:hover) {
         color: #888888 !important;
         background-color: #888888 !important;
+    }
+
+    /* Hide episode in player */
+    div.headerLeft > h3.pageTitle:not(:hover) {
+        color: #000 !important;
+        background-color: #000 !important;
     }
 }
 

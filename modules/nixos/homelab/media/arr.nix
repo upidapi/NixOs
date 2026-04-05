@@ -683,21 +683,21 @@ in {
               };
             };
             indexer = {
-              "TorrentLeech freeleech" = {
-                indexerName = "TorrentLeech";
-                implementation = "Cardigann";
-                priority = 20; # default 25
-                fields = {
-                  definitionFile = "torrentleech";
-
-                  freeleech = true;
-
-                  username = "upidapi";
-                  password = config.sops.secrets."prowlarr/indexers/torrentLeech/password_declarr".path;
-                };
-                tags = ["FlareSolverr"];
-                appProfileId = "Automatic";
-              };
+              # "TorrentLeech freeleech" = {
+              #   indexerName = "TorrentLeech";
+              #   implementation = "Cardigann";
+              #   priority = 20; # default 25
+              #   fields = {
+              #     definitionFile = "torrentleech";
+              #
+              #     freeleech = true;
+              #
+              #     username = "upidapi";
+              #     password = config.sops.secrets."prowlarr/indexers/torrentLeech/password_declarr".path;
+              #   };
+              #   tags = ["FlareSolverr"];
+              #   appProfileId = "Automatic";
+              # };
 
               "TorrentLeech" = {
                 indexerName = "TorrentLeech";
@@ -712,7 +712,7 @@ in {
                   password = config.sops.secrets."prowlarr/indexers/torrentLeech/password_declarr".path;
                 };
                 tags = ["FlareSolverr"];
-                appProfileId = "Interactive Search";
+                appProfileId = "Standard";
               };
 
               # "1337x" = {

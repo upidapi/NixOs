@@ -78,7 +78,7 @@
       # Borked (removed due to weird updates) pwndbg # gef extensions
       # if you want to use pytorch-bin then you have to
       # make sure that torch-vision is using that too
-      inputs'.pwndbg.packages.default
+      # inputs'.pwndbg.packages.default
 
       radare2
       ghidra

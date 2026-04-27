@@ -40,6 +40,9 @@
   python3,
   ...
 }: let
+  # cd /raid/media/torrents/ida93sp1/
+  # nix-store --add-fixed sha256 kg_patch/keygen.js
+  # nix-store --add-fixed sha256 ida-pro_93_x64linux.run
   # nix-hash --type sha256 --base64 keygen.js
   crack-js = requireFile {
     name = "keygen.js";
@@ -72,7 +75,7 @@ in
   stdenv.mkDerivation rec {
     pname = "ida-pro";
     # version = "9.0.240807";
-    version = "9.2";
+    version = "9.3";
 
     src = requireFile {
       name = "ida-pro_${lib.replaceStrings ["."] [""] version}_x64linux.run";

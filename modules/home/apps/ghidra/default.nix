@@ -10,8 +10,8 @@
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.home.apps.ghidra;
 
-  # ghidra = inputs'.nixpkgs-stable.legacyPackages.ghidra;
-  ghidra = pkgs.ghidra;
+  ghidra = inputs'.nixpkgs-stable.legacyPackages.ghidra;
+  # ghidra = pkgs.ghidra;
 in {
   options.modules.home.apps.ghidra =
     mkEnableOpt "Whether or not to enable ghidra";

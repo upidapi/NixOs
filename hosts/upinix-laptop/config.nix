@@ -129,6 +129,8 @@ in {
       home = enable;
     };
 
+    virtualisation.waydroid = enable;
+
     hardware = {
       cpu.amd = enable;
       gpu.nvidia = enable;

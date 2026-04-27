@@ -246,6 +246,8 @@ in
       mkdir -p $out/opt/themes/dracula-v2
       cp ${dracula-theme}/theme.css $out/opt/themes/dracula-v2
 
+      cp "$IDADIR/dbgsrv/linux_server" "$out/bin/ida-linux-server"
+
       runHook postInstall
     '';
 

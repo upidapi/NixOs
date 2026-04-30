@@ -28,6 +28,7 @@
   libXext,
   libXi,
   libXrender,
+  libxcrypt,
   xcbutilimage,
   xcbutilkeysyms,
   xcbutilrenderutil,
@@ -36,19 +37,62 @@
   xcb-util-cursor,
   zlib,
   #
+  # libice,
+  # libsm,
+  # libx11,
+  # libxau,
+  # libxcb,
+  # libxext,
+  # libxi,
+  # libxrender,
+  # libxcb-image,
+  # libxcb-keysyms,
+  # libxcb-render-util,
+  # libxcb-wm,
+  # zlib,
+  # curl,
+  # qt6,
+  #
   fetchFromGitHub,
   python3,
   ...
 }: let
+  version = "9.2";
+
   # cd /raid/media/torrents/ida93sp1/
+  # nix-hash --type sha256 --base32 kg_patch/keygen.js
+  # nix-hash --type sha256 --base32 ida-pro_93_x64linux.run
   # nix-store --add-fixed sha256 kg_patch/keygen.js
   # nix-store --add-fixed sha256 ida-pro_93_x64linux.run
-  # nix-hash --type sha256 --base64 keygen.js
+  # crack-js = requireFile {
+  #   name = "keygen.js";
+  #   # message = "ida92/kg_patch/keygen.js";
+  #   url = "https://auth.lol/ida/";
+  #   sha256 = "087ac071ffcbc146e4e95e81145ef3c5aa4a2fa8bb535d01070cab46019267c8";
+  # };
+
+  # TERM=kitty nix-store --query --hash (nix-store --add-fixed sha256 kg_patch/keygen.js)
+  # TERM=kitty nix-store --query --hash (nix-store --add-fixed sha256 ida-pro_93_x64linux.run)
+
+  # nix-prefetch-url --type sha256 file:///raid/media/torrents/ida93sp1/ida-pro_93_x64linux.run
+  # nix-hash --to-sri --type sha256 01ykiksvcz87k6bpyvmwgqrs6zfa9bv6afz43rm26ibn9c8zanq9
+
+  # this works
+  # nix-prefetch-url --type sha256 file:///raid/media/torrents/ida93sp1/ida-pro_93_x64linux.run | nix-hash --to-sri --type sha256 $in
+  # nix-prefetch-url --type sha256 file:///raid/media/torrents/ida93sp1/kg_patch/keygen.js | nix-hash --to-sri --type sha256 $in
+
   crack-js = requireFile {
     name = "keygen.js";
     # message = "ida92/kg_patch/keygen.js";
     url = "https://auth.lol/ida/";
-    sha256 = "1y4491g1l9jklhmai94x1rr4b2x1k6zd3xpi1zzjc1f3vn31brs1";
+    sha256 = "sha256-QecVht3DBSb/D/H20b6ZoYtFcg6dpKgqpFMmGl5IhPg=";
+  };
+
+  ida-pro = requireFile {
+    name = "ida-pro_${lib.replaceStrings ["."] [""] version}_x64linux.run";
+    url = "https://auth.lol/ida/";
+    # sha256 = "sha256:1hzg2bdvzqsy6n0p7dr713749i8sc834hdsxldk2bhna851klady";
+    sha256 = "sha256-qt0PiulyuE+U8ql0g0q/FhnzvZM7O02CdfnFAAjQWuE=";
   };
 
   ebpf-processor = fetchFromGitHub {
@@ -73,15 +117,11 @@
     ]);
 in
   stdenv.mkDerivation rec {
+    inherit version;
+
     pname = "ida-pro";
     # version = "9.0.240807";
-    version = "9.3";
-
-    src = requireFile {
-      name = "ida-pro_${lib.replaceStrings ["."] [""] version}_x64linux.run";
-      url = "https://auth.lol/ida/";
-      sha256 = "1qass0401igrfn14sfrvjfyz668npx586x59yaa4zf3jx650zpda";
-    };
+    src = ida-pro;
 
     icon = fetchurl {
       url = "https://web.archive.org/web/20221105181231if_/https://hex-rays.com/products/ida/news/8_1/images/icon_free.png";
@@ -111,6 +151,9 @@ in
       "libQt6Core.so.6"
       "libQt6Gui.so.6"
       "libQt6Widgets.so.6"
+      "libQt6Network.so.6"
+      "libQt6EglFSDeviceIntegration.so.6"
+      "libQt6WlShellIntegration.so.6"
     ];
 
     # We just get a runfile in $src, so no need to unpack it.
@@ -141,6 +184,7 @@ in
       libXext
       libXi
       libXrender
+      libxcrypt
       xcbutilimage
       xcbutilkeysyms
       xcbutilrenderutil
@@ -150,6 +194,45 @@ in
       zlib
       pythonForIDA
     ];
+
+    # REF: https://github.com/mnixry/nixos-config/blob/466285e15a14986922725b8c28d55e405c1dff93/desktop/packages/ida-pro.nix#L116
+    # REF:
+    # runtimeDependencies = [
+    #   cairo
+    #   dbus
+    #   fontconfig
+    #   freetype
+    #   glib
+    #   gtk3
+    #   libdrm
+    #   libGL
+    #   libkrb5
+    #   libsecret
+    #   qt6.qtbase
+    #   qt6.qtwayland
+    #   libunwind
+    #   libxkbcommon
+    #   libsecret
+    #   openssl.out
+    #   stdenv.cc.cc
+    #
+    #   libice
+    #   libsm
+    #   libx11
+    #   libxau
+    #   libxcb
+    #   libxext
+    #   libxi
+    #   libxrender
+    #   libxcb-image
+    #   libxcb-keysyms
+    #   libxcb-render-util
+    #   libxcb-wm
+    #
+    #   zlib
+    #   curl.out
+    #   pythonForIDA
+    # ];
 
     buildInputs =
       runtimeDependencies

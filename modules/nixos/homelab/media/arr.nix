@@ -711,7 +711,7 @@ in {
                   username = "upidapi";
                   password = config.sops.secrets."prowlarr/indexers/torrentLeech/password_declarr".path;
                 };
-                tags = ["FlareSolverr"];
+                tags = ["FlareSolverr" "anime" "general"];
                 appProfileId = "Standard";
               };
 
@@ -741,6 +741,7 @@ in {
                   # added after i got 200 ratio on a torrent
                   "torrentBaseSettings.seedRatio" = 10;
                 };
+                tags = ["general"];
                 appProfileId = "Interactive Search";
               };
               "The Pirate Bay" = {
@@ -752,6 +753,7 @@ in {
 
                   "torrentBaseSettings.seedRatio" = 10;
                 };
+                tags = ["general"];
                 appProfileId = "Interactive Search";
               };
               "YTS" = {
@@ -763,6 +765,20 @@ in {
 
                   "torrentBaseSettings.seedRatio" = 10;
                 };
+                tags = ["general"];
+                appProfileId = "Interactive Search";
+              };
+
+              "nyaasi" = {
+                indexerName = "nyaasi";
+                implementation = "Cardigann";
+                priority = 25; # default 25
+                fields = {
+                  definitionFile = "yts";
+
+                  "torrentBaseSettings.seedRatio" = 10;
+                };
+                tags = ["anime"];
                 appProfileId = "Interactive Search";
               };
             };

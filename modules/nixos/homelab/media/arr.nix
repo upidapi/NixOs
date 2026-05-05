@@ -730,6 +730,8 @@ in {
               #   appProfileId = "Standard";
               # };
               "LimeTorrents" = {
+                # TODO: maybe change this (in declarr) to be the 
+                #  "definitionName" and not just the name :)
                 indexerName = "LimeTorrents";
                 implementation = "Cardigann";
                 priority = 30; # default 25
@@ -774,7 +776,7 @@ in {
                 implementation = "Cardigann";
                 priority = 25; # default 25
                 fields = {
-                  definitionFile = "yts";
+                  definitionFile = "nyaasi";
 
                   "torrentBaseSettings.seedRatio" = 10;
                 };

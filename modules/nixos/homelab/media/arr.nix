@@ -769,8 +769,8 @@ in {
                 appProfileId = "Interactive Search";
               };
 
-              "nyaasi" = {
-                indexerName = "nyaasi";
+              "Nyaa.si" = {
+                indexerName = "Nyaa.si";
                 implementation = "Cardigann";
                 priority = 25; # default 25
                 fields = {

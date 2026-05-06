@@ -184,8 +184,10 @@ in {
             preventSearch = false;
             enableSeasonFolders = true;
 
-            tags = ["general"];
-            animeTags = ["anime"];
+            # tags = ["general"];
+            # animeTags = ["anime"];
+            tags = [];
+            animeTags = [];
             tagRequests = false;
 
             activeDirectory = "/raid/media/tv";

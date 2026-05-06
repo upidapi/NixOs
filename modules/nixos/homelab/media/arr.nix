@@ -711,7 +711,7 @@ in {
                   username = "upidapi";
                   password = config.sops.secrets."prowlarr/indexers/torrentLeech/password_declarr".path;
                 };
-                tags = ["FlareSolverr" "anime" "general"];
+                tags = ["FlareSolverr"]; # "anime" "general"];
                 appProfileId = "Standard";
               };
 
@@ -730,7 +730,7 @@ in {
               #   appProfileId = "Standard";
               # };
               "LimeTorrents" = {
-                # TODO: maybe change this (in declarr) to be the 
+                # TODO: maybe change this (in declarr) to be the
                 #  "definitionName" and not just the name :)
                 indexerName = "LimeTorrents";
                 implementation = "Cardigann";
@@ -743,7 +743,7 @@ in {
                   # added after i got 200 ratio on a torrent
                   "torrentBaseSettings.seedRatio" = 10;
                 };
-                tags = ["general"];
+                # tags = ["general"];
                 appProfileId = "Interactive Search";
               };
               "The Pirate Bay" = {
@@ -755,7 +755,7 @@ in {
 
                   "torrentBaseSettings.seedRatio" = 10;
                 };
-                tags = ["general"];
+                # tags = ["general"];
                 appProfileId = "Interactive Search";
               };
               "YTS" = {
@@ -767,7 +767,7 @@ in {
 
                   "torrentBaseSettings.seedRatio" = 10;
                 };
-                tags = ["general"];
+                # tags = ["general"];
                 appProfileId = "Interactive Search";
               };
 
@@ -780,7 +780,7 @@ in {
 
                   "torrentBaseSettings.seedRatio" = 10;
                 };
-                tags = ["anime"];
+                # tags = ["anime"];
                 appProfileId = "Interactive Search";
               };
             };

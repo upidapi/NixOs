@@ -23,7 +23,7 @@ in {
     ./jellyseerr.nix
     ./jellyfin
     # ./jellarr
-    ./jellarr.nix
+    # ./jellarr.nix
     ./unpackerr
     ./qbit
     ./user-options.nix

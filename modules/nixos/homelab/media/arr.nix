@@ -66,6 +66,11 @@ in {
     };
 
     sops.secrets = {
+      "jellyfin/jellyseerr-api-key_declarr" = {
+        key = "jellyfin/jellyseerr-api-key";
+        owner = config.services.declarr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
       "qbit/password_declarr" = {
         key = "qbit/password";
         owner = config.services.declarr.user;
@@ -246,7 +251,7 @@ in {
             declarr = {
               type = "jellyfin";
               url = "https://jellyfin.upidapi.dev";
-              apiKey = "6a8ca592b1bb4287b037e8a54fa6d707";
+              apiKey = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
             };
 
             pluginRepositories = {

@@ -22,6 +22,8 @@ in {
     ./cross-seed.nix
     ./jellyseerr.nix
     ./jellyfin
+    # ./jellarr
+    ./jellarr.nix
     ./unpackerr
     ./qbit
     ./user-options.nix

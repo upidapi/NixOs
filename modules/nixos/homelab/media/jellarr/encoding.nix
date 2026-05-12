@@ -5,7 +5,7 @@
   ...
 }:
 with lib; {
-  options.services.declarative-jellyfin.encoding = {
+  options.services.jellarr.encoding = {
     enableHardwareEncoding = mkOption {
       type = types.bool;
       default = true;

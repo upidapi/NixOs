@@ -242,6 +242,105 @@ in {
             formatDbBranch = "stable";
           };
 
+          jellyfin = {
+            declarr = {
+              type = "jellyfin";
+              url = "https://jellyfin.upidapi.dev";
+              apiKey = "6a8ca592b1bb4287b037e8a54fa6d707";
+            };
+
+            pluginRepositories = {
+              "Jellyfin Stable".url = "https://repo.jellyfin.org/releases/plugin/manifest-stable.json";
+              "Intro Skipper".url = "https://manifest.intro-skipper.org/manifest.json";
+              "Merge Versions Plugin".url = "https://raw.githubusercontent.com/danieladov/JellyfinPluginManifest/master/manifest.json";
+              "Meilisearch".url = "https://raw.githubusercontent.com/arnesacnussem/jellyfin-plugin-meilisearch/refs/heads/master/manifest.json";
+              "Air Times".url = "https://raw.githubusercontent.com/apteryxxyz/jellyfin-plugin-airtimes/main/manifest.json";
+              "InPlayerEpisodePreview".url = "https://raw.githubusercontent.com/Namo2/InPlayerEpisodePreview/master/manifest.json";
+              "Streamyfin".url = "https://raw.githubusercontent.com/streamyfin/jellyfin-plugin-streamyfin/main/manifest.json";
+              "Editor's Choice".url = "https://github.com/lachlandcp/jellyfin-editors-choice-plugin/raw/main/manifest.json";
+              "JS Injector".url = "https://raw.githubusercontent.com/n00bcodr/jellyfin-plugins/main/10.11/manifest.json";
+            };
+            plugins = {
+              "Studio Images" = {
+                RepositoryUrl = "https://raw.githubusercontent.com/jellyfin/emby-artwork/master/studios";
+              };
+              "MusicBrainz" = {
+                Server = "https://musicbrainz.org";
+                RateLimit = 1;
+                ReplaceArtistName = false;
+              };
+
+              "AudioDB".ReplaceAlbumName = "false";
+              "Air Times" = {};
+              "Intro Skipper" = {
+                AutoDetectIntros = true;
+                UpdateMediaSegments = true;
+                CacheFingerprints = true;
+
+                ScanCommercial = true;
+                ScanCredits = true;
+                ScanIntroduction = true;
+                ScanPreview = true;
+                ScanRecap = true;
+
+                filetransformationpluginenabled = false;
+                UseFileTransformationPlugin = false;
+              };
+              "Merge Versions" = {};
+              "Streamyfin" = {
+                Config.settings = {
+                  forwardSkipTime = {
+                    value = 5;
+                    locked = false;
+                  };
+                  rewindSkipTime = {
+                    value = 5;
+                    locked = false;
+                  };
+
+                  defaultBitrate = {
+                    locked = false;
+                    value = 2000000; # 2Mb/s (900MB/h)
+                  };
+
+                  jellyseerrServerUrl = {
+                    locked = true;
+                    value = "https://jellyseerr.upidapi.dev";
+                  };
+                  rememberAudioSelections = {
+                    locked = false;
+                    value = true;
+                  };
+                  rememberSubtitleSelections = {
+                    locked = false;
+                    value = true;
+                  };
+                };
+              };
+
+              "OMDb" = {
+                CastAndCrew = false;
+              };
+              "TheTVDB" = {};
+              "TMDb" = {
+                TmdbApiKey = "";
+                IncludeAdult = false;
+                ExcludeTagsSeries = false;
+                ExcludeTagsMovies = false;
+                ImportSeasonName = false;
+                MaxCastMembers = 15;
+                MaxCrewMembers = 15;
+                HideMissingCastMembers = false;
+                HideMissingCrewMembers = false;
+                PosterSize = "original";
+                BackdropSize = "original";
+                LogoSize = "original";
+                ProfileSize = "original";
+                StillSize = "original";
+              };
+            };
+          };
+
           sonarr = {
             declarr = {
               type = "sonarr";

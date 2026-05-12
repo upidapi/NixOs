@@ -10,7 +10,7 @@ with lib; let
       inherit default description;
     };
 in {
-  options.services.declarative-jellyfin.system = {
+  options.services.jellarr.system = {
     serverName = mkStrOption config.networking.hostName ''
       This name will be used to identify the server and will default to the server's hostname.
     '';

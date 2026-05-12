@@ -1,6 +1,6 @@
 {lib, ...}:
 with lib; {
-  options.services.declarative-jellyfin.network = {
+  options.services.jellarr.network = {
     baseUrl = mkOption {
       type = types.str;
       default = "";

@@ -23,6 +23,7 @@ in {
       homelab = {
         media = enableAnd {
           jellyfin = enable;
+          # jellarr = enable;
           jellyseerr = enable;
           arr = enable;
           # autobrr = enable;

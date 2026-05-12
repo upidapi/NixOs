@@ -24,12 +24,21 @@ in {
     # TODO: remove, see https://github.com/NixOS/nixpkgs/issues/404663
     nixpkgs.config.permittedInsecurePackages = [
       "ventoy-1.1.10"
+      "ventoy-1.1.12"
     ];
 
     # maybe make some gnome things work
     programs.dconf.enable = true;
     environment.systemPackages = [
       pkgs.adwaita-icon-theme
+    ];
+
+    nixpkgs.overlays = [
+      (_: prev: {
+        openldap = prev.openldap.overrideAttrs {
+          doCheck = !prev.stdenv.hostPlatform.isi686;
+        };
+      })
     ];
 
     # fixes

@@ -27,7 +27,8 @@ local mappings = {
         "n",
         "<F3>",
         function()
-            vim.lsp.buf.format({ async = true })
+            require("conform").format()
+            -- vim.lsp.buf.format({ async = true })
             -- require("conform").format()
         end,
     },

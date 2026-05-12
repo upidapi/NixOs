@@ -7,7 +7,7 @@
 -- vim.lsp.enable("ruff")
 
 -- TODO: look into ty
---  pyrite seems just better atm 
+--  pyrite seems just better atm
 --  also is packaged in lspconfig
 
 --
@@ -38,7 +38,7 @@
 --         },
 --         python = {
 --             analysis = {
---                 -- Ignore all files for analysis to exclusively use Ruff for 
+--                 -- Ignore all files for analysis to exclusively use Ruff for
 --                 -- linting
 --                 ignore = { "*" },
 --             },
@@ -48,7 +48,7 @@
 -- vim.lsp.enable("pyright")
 vim.lsp.enable('pyrefly')
 
--- require("lint").linters_by_ft.python = { "dmypy" }
-require("conform").formatters_by_ft = { "ruff" }
+require("lint").linters_by_ft.python = { "ruff" }
+require("conform").formatters_by_ft.python = { "ruff_format" } -- commenting out this "fixes the issue"
 
 require("dap-python").setup(require("passthrough").dap.python)

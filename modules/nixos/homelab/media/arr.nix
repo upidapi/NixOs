@@ -241,6 +241,7 @@ in {
               "$.*.applications.*.fields.apiKey"
               "$.*.indexer.*.fields.password"
               "$.*.downloadClient.*.fields.password"
+              "$.*.declarr.apiKey"
             ];
 
             formatDbRepo = "https://github.com/Dictionarry-Hub/Database";
@@ -251,7 +252,7 @@ in {
             declarr = {
               type = "jellyfin";
               url = "https://jellyfin.upidapi.dev";
-              apiKey = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
+              apiKey = config.sops.secrets."jellyfin/jellyseerr-api-key_declarr".path;
             };
 
             pluginRepositories = {
@@ -275,7 +276,7 @@ in {
                 ReplaceArtistName = false;
               };
 
-              "AudioDB".ReplaceAlbumName = "false";
+              "AudioDB".ReplaceAlbumName = false;
               "Air Times" = {};
               "Intro Skipper" = {
                 AutoDetectIntros = true;
@@ -293,7 +294,7 @@ in {
               };
               "Merge Versions" = {};
               "Streamyfin" = {
-                Config.settings = {
+                settings = {
                   forwardSkipTime = {
                     value = 5;
                     locked = false;
@@ -309,7 +310,7 @@ in {
                   };
 
                   jellyseerrServerUrl = {
-                    locked = true;
+                    locked = false;
                     value = "https://jellyseerr.upidapi.dev";
                   };
                   rememberAudioSelections = {

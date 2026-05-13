@@ -2,16 +2,15 @@
 -- where everything tries to do everything, but at the same time you need a ton
 -- of tools to get thing working.
 -- Why does prettier format like 15 different languages?
-require('nvim-ts-autotag').setup({
+require("nvim-ts-autotag").setup({
     opts = {
         -- Defaults
-        enable_close = true,      -- Auto close tags
-        enable_rename = true,     -- Auto rename pairs of tags
-        enable_close_on_slash = false -- Auto close on trailing </
+        enable_close = true, -- Auto close tags
+        enable_rename = true, -- Auto rename pairs of tags
+        enable_close_on_slash = false, -- Auto close on trailing </
     },
 })
 -- require('nvim-ts-autotag').setup()
-
 
 -- native (lua) implementation of the communication with tsserver
 require("typescript-tools").setup({})
@@ -58,14 +57,42 @@ vim.lsp.enable("svelte")
 --  reasons
 
 local js_things =
-{ "javascript", "javascriptreact", "typescript", "typescriptreact" }
+    { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+
+require("conform").formatters = {
+    ["biome"] = {
+        -- prepend_args = { "--indent-style", "space", "--indent-width", "4" },
+        -- indentStyle = "space",
+        -- indentSize = 4,
+
+        args = {
+            "format",
+            "--stdin-file-path",
+            "$FILENAME",
+            "--indent-style",
+            "space",
+            "--indent-width",
+            "4",
+            "--line-width",
+            "160",
+            "--javascript-formatter-quote-style",
+            "single",
+        },
+    },
+}
 
 for _, lang in
-ipairs(vim.list_extend({ "json", "yaml", "html", "css" }, js_things))
+    ipairs(vim.list_extend({ "json", "yaml", "html", "css" }, js_things))
 do
-    require("conform").formatters_by_ft[lang] = { "biome-check" }
+    require("conform").formatters_by_ft[lang] = { "biome" }
 end
 
-for _, lang in ipairs(js_things) do
-    require("lint").linters_by_ft[lang] = { "biomejs" }
-end
+-- require("lint").linters = {
+--     biome = {
+--         indentStyle = "space",
+--         indentSize = 4,
+--     },
+-- }
+-- for _, lang in ipairs(js_things) do
+--     require("lint").linters_by_ft[lang] = { "biomejs" }
+-- end

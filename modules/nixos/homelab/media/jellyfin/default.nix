@@ -22,7 +22,6 @@ in {
   ];
   # https://git.spoodythe.one/spoody/declarative-jellyfin
 
-  # TODO: look into jellarr, declarative config for jellyseerr
   config = mkIf cfg.enable {
     systemd.tmpfiles.settings = {
       "jellyfin-dir-create" = {

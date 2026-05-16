@@ -35,8 +35,6 @@ in {
 
     stylix.targets.vesktop.enable = false;
 
-    # BROKEN: does not start minimised, also starts on system update
-    #  may have fixed this
     systemd.user.services."start-vesktop" = {
       Unit.After = "graphical.target";
       Service = {

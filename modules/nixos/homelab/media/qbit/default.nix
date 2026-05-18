@@ -22,6 +22,41 @@ in {
   #   I guess they silently changed something that broke my setup
   #   Fml, spent too many hours on this
   config = mkIf cfg.enable {
+    systemd.tmpfiles.settings = {
+      "qbit-dir-create" = {
+        "/raid/media/torrents".d = {
+          group = "qbittorrent";
+          user = "qbittorrent";
+          mode = "771";
+        };
+        "/raid/media/torrents".Z = {
+          group = "qbittorrent";
+          user = "qbittorrent";
+          mode = "771";
+        };
+
+        "/raid/media/torrents/tv".d = {
+          group = "qbittorrent";
+          user = "qbittorrent";
+          mode = "771";
+        };
+        "/raid/media/torrents/movies".d = {
+          group = "qbittorrent";
+          user = "qbittorrent";
+          mode = "771";
+        };
+        "/raid/media/torrents/misc".d = {
+          group = "qbittorrent";
+          user = "qbittorrent";
+          mode = "771";
+        };
+        "/raid/media/torrents/tmp".d = {
+          group = "qbittorrent";
+          user = "qbittorrent";
+          mode = "771";
+        };
+      };
+    };
     services.qbittorrent = {
       # package = inputs'.nixpkgs-stable.legacyPackages.qbittorrent-nox;
 
@@ -37,8 +72,17 @@ in {
         Network.PortForwardingEnabled = false;
 
         BitTorrent.Session = {
-          DefaultSavePath = "/raid/media/torrents";
-          # TempPath = "/raid/media/torrents/tmp";
+          DefaultSavePath = "/raid/media/torrents/misc";
+
+          TempPathEnabled = true;
+          TempPath = "/raid/media/torrents/tmp";
+
+          DisableAutoTMMByDefault = false;
+          DisableAutoTMMTriggers = {
+            CategoryChanged = false;
+            CategorySavePathChanged = false;
+            DefaultSavePathChanged = false;
+          };
 
           # https://www.reddit.com/search/?q=Circumventing%20proton%20vpn%20ddos&cId=8f3a490d-e9e2-4649-84cf-92ee353b4968&iId=39143626-1f98-46d4-a015-03074afd4bc7
           # "DHT will trigger ProtonVPN Anti-ddos, disable it."

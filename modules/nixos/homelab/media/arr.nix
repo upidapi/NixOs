@@ -19,11 +19,12 @@ in {
   #  https://github.com/elliott-farrall/dotfiles/blob/c4699d8c61fbbb23d6cb8b244be054c0f39848a5/systems/x86_64-linux/broad/services/media/buildarr/config.yaml
 
   imports = [
-    # inputs.declarative-arr.nixosModules.default
     inputs.declarr.nixosModules.default
   ];
 
   config = mkIf cfg.enable {
+    # ^find /raid/media/movies -type f -links 1 | egrep -i "(.mpg|.avi|.mp4|.mkv)$" | egrep -iv "(sample)" | wc -l
+
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
         "/raid/media/movies".d = {

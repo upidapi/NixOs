@@ -6,7 +6,7 @@
   self,
   ...
 }: let
-  inherit (const) ports ips;
+  inherit (const) ports;
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.jellyseerr;

@@ -45,17 +45,6 @@ in {
           mode = "751";
         };
 
-        "/raid/media/torrents".d = {
-          group = "qbittorrent";
-          user = "qbittorrent";
-          mode = "771";
-        };
-        "/raid/media/torrents".Z = {
-          group = "qbittorrent";
-          user = "qbittorrent";
-          mode = "771";
-        };
-
         "/raid/media/usenet".d = {
           group = "media";
           mode = "751";

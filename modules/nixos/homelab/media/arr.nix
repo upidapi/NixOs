@@ -28,13 +28,13 @@ in {
     systemd.tmpfiles.settings = {
       "media-dir-create" = {
         "/raid/media/movies".d = {
-          group = "radarr";
           user = "radarr";
+          group = "media";
           mode = "771";
         };
         "/raid/media/movies".Z = {
-          group = "radarr";
           user = "radarr";
+          group = "media";
           mode = "771";
         };
         # "/raid/media/subtitles".d = {
@@ -43,24 +43,24 @@ in {
         #   mode = "751";
         # };
         "/raid/media/tv".d = {
-          group = "sonarr";
           user = "sonarr";
+          group = "media";
           mode = "771";
         };
         "/raid/media/tv".Z = {
-          group = "sonarr";
           user = "sonarr";
+          group = "media";
           mode = "771";
         };
 
         "/raid/media/music".d = {
-          group = "lidarr";
           user = "lidarr";
+          group = "media";
           mode = "771";
         };
         "/raid/media/music".Z = {
-          group = "lidarr";
           user = "lidarr";
+          group = "media";
           mode = "771";
         };
       };
@@ -145,6 +145,10 @@ in {
       };
     };
 
+    # users.users = {
+    #   radarr.extraGroups = ["qbittorrent"];
+    # };
+
     systemd.services = {
       # check if connected
       # sonarr.serviceConfig.ExecStartPre = pkgs.writeScript "test" ''
@@ -178,48 +182,54 @@ in {
         after = ["qbittorrent.service"];
         serviceConfig = {
           UMask = lib.mkForce 006;
-          SupplementaryGroups = ["qbittorrent"];
-          ReadOnlyPaths = ["/raid/media/torrents"];
+          # SupplementaryGroups = ["qbittorrent"];
+          # ReadOnlyPaths = ["/raid/media/torrents"];
+          ReadWritePaths = ["/raid/media"];
         };
       };
       radarr = {
         after = ["qbittorrent.service"];
         serviceConfig = {
           UMask = lib.mkForce 006;
-          SupplementaryGroups = ["qbittorrent"];
-          ReadOnlyPaths = ["/raid/media/torrents"];
+          # PrivateUsers = lib.mkForce false;
+          # ProtectProc = pkgs.lib.mkForce "default";
+          # RestrictNamespaces = pkgs.lib.mkForce false;
+          # SupplementaryGroups = ["qbittorrent"];
+          # ReadOnlyPaths = ["/raid/media/torrents"];
+          ReadWritePaths = ["/raid/media"];
         };
       };
       lidarr = {
         after = ["qbittorrent.service"];
         serviceConfig = {
           UMask = lib.mkForce 006;
-          SupplementaryGroups = ["qbittorrent"];
-          ReadOnlyPaths = ["/raid/media/torrents"];
+          # SupplementaryGroups = ["qbittorrent"];
+          # ReadOnlyPaths = ["/raid/media/torrents"];
+          ReadWritePaths = ["/raid/media"];
         };
       };
 
       prowlarr.after = ["qbittorrent.service" "lidarr.service" "sonarr.service" "radarr.service"];
 
-      jellyfin.serviceConfig.SupplementaryGroups = ["sonarr" "radarr" "lidarr"];
+      # jellyfin.serviceConfig.SupplementaryGroups = ["sonarr" "radarr" "lidarr"];
     };
 
     services = {
       sonarr = {
         enable = true;
-        # group = "media";
+        group = "media";
         apiKeyFile = config.sops.secrets."sonarr/api-key".path;
         settings.server.port = ports.sonarr;
       };
       radarr = {
         enable = true;
-        # group = "media";
+        group = "media";
         apiKeyFile = config.sops.secrets."radarr/api-key".path;
         settings.server.port = ports.radarr;
       };
       lidarr = {
         enable = true;
-        # group = "media";
+        group = "media";
         apiKeyFile = config.sops.secrets."lidarr/api-key".path;
         settings.server.port = ports.lidarr;
       };

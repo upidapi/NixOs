@@ -25,45 +25,44 @@ in {
     systemd.tmpfiles.settings = {
       "qbit-dir-create" = {
         "/raid/media/torrents".d = {
-          group = "qbittorrent";
           user = "qbittorrent";
+          group = "media";
           mode = "771";
         };
         "/raid/media/torrents".Z = {
-          group = "qbittorrent";
           user = "qbittorrent";
+          group = "media";
           mode = "771";
         };
 
         "/raid/media/torrents/tv".d = {
-          group = "qbittorrent";
           user = "qbittorrent";
+          group = "media";
           mode = "771";
         };
         "/raid/media/torrents/movies".d = {
-          group = "qbittorrent";
           user = "qbittorrent";
+          group = "media";
           mode = "771";
         };
         "/raid/media/torrents/misc".d = {
-          group = "qbittorrent";
           user = "qbittorrent";
+          group = "media";
           mode = "771";
         };
         "/raid/media/torrents/tmp".d = {
-          group = "qbittorrent";
           user = "qbittorrent";
+          group = "media";
           mode = "771";
         };
       };
     };
     services.qbittorrent = {
-      # package = inputs'.nixpkgs-stable.legacyPackages.qbittorrent-nox;
-
       enable = true;
+      group = "media";
       profileDir = "/var/lib/qBittorrent";
 
-      # group = "media";
+      # package = inputs'.nixpkgs-stable.legacyPackages.qbittorrent-nox;
       # package = inputs.qbit.legacyPackages.${pkgs.system}.qbittorrent-nox;
       webuiPort = ports.qbit;
       serverConfig = {

@@ -222,7 +222,7 @@ in {
         # "/srv/radarr"
         # "/srv/bazarr"
         # "/srv/qbit"
-        "/media"
+        # "/media"
 
         # "/etc/ssh" NOTE: this might break things
         {

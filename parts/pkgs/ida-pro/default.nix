@@ -59,27 +59,24 @@
 }: let
   version = "9.2";
 
-  # cd /raid/media/torrents/ida93sp1/
-  # nix-hash --type sha256 --base32 kg_patch/keygen.js
-  # nix-hash --type sha256 --base32 ida-pro_93_x64linux.run
-  # nix-store --add-fixed sha256 kg_patch/keygen.js
-  # nix-store --add-fixed sha256 ida-pro_93_x64linux.run
-  # crack-js = requireFile {
-  #   name = "keygen.js";
-  #   # message = "ida92/kg_patch/keygen.js";
-  #   url = "https://auth.lol/ida/";
-  #   sha256 = "087ac071ffcbc146e4e95e81145ef3c5aa4a2fa8bb535d01070cab46019267c8";
-  # };
+  # nu
+  /*
+  let base = "/raid/media/torrents/misc";
+  let files = ["ida92/ida-pro_92_x64linux.run", "ida92/kg_patch/keygen.js"]
+  # let files = ["ida93sp1/ida-pro_93_x64linux.run", "ida93sp1/kg_patch/keygen.js"]
 
-  # TERM=kitty nix-store --query --hash (nix-store --add-fixed sha256 kg_patch/keygen.js)
-  # TERM=kitty nix-store --query --hash (nix-store --add-fixed sha256 ida-pro_93_x64linux.run)
+  let gc_folder = "/nix/var/nix/gcroots/fetch-file";
+  mkdir $gc_folder
 
-  # nix-prefetch-url --type sha256 file:///raid/media/torrents/ida93sp1/ida-pro_93_x64linux.run
-  # nix-hash --to-sri --type sha256 01ykiksvcz87k6bpyvmwgqrs6zfa9bv6afz43rm26ibn9c8zanq9
+  $files | each {|f|
+    let url = nix-prefetch-url --type sha256 $"file://($base)/($f)" e> /dev/null
+    let hash = nix-hash --to-sri --type sha256 $url e> /dev/null
+    ln -sf $url $gc_folder
 
-  # this works
-  # nix-prefetch-url --type sha256 file:///raid/media/torrents/ida93sp1/ida-pro_93_x64linux.run | nix-hash --to-sri --type sha256 $in
-  # nix-prefetch-url --type sha256 file:///raid/media/torrents/ida93sp1/kg_patch/keygen.js | nix-hash --to-sri --type sha256 $in
+    print $"($hash) ($f)"
+  }
+  l $gc_folder
+  */
 
   crack-js = requireFile {
     name = "keygen.js";

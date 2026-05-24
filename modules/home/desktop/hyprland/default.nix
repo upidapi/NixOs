@@ -45,6 +45,8 @@ in {
       # Optional
       # Whether to enable hyprland-session.target on hyprland startup
       systemd.enable = true;
+
+      configType = "hyprlang";
     };
     # wayland.windowManager.hyprland.enable = true;
   };

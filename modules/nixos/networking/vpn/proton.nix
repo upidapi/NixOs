@@ -13,7 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      protonvpn-gui
+      proton-vpn
 
       proton-vpn-cli
     ];

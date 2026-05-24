@@ -64,6 +64,8 @@ in {
 
     programs.zen-browser = {
       enable = true;
+      # configPath = "${config.xdg.configHome}/zen";
+
       policies = config.programs.firefox.policies;
       profiles =
         lib.mapAttrs (_: v: {
@@ -134,6 +136,8 @@ in {
 
     programs.firefox = rec {
       enable = true;
+      configPath = "${config.xdg.configHome}/mozilla/firefox";
+
       policies = {
         # CaptivePortal = false;
         DisableFirefoxStudies = true;

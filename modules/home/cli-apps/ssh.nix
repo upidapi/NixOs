@@ -13,7 +13,9 @@ in {
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
+      # settings = {
       matchBlocks."*".addKeysToAgent = "5m";
+      # };
       # startAgent = true;
       # agentTimeout = "1m";
       # extraConfig = ''

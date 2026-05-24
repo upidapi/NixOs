@@ -21,6 +21,7 @@ in {
 
     gtk = {
       enable = true;
+      gtk4.theme = null;
       # stylix handles this
       # enable dark mode
       # theme = {

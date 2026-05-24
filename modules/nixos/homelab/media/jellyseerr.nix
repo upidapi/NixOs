@@ -18,17 +18,17 @@ in {
     sops.secrets = {
       "radarr/api-key_jellyseerr" = {
         key = "radarr/api-key";
-        owner = config.services.jellyseerr.user;
+        owner = config.services.seerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
       "sonarr/api-key_jellyseerr" = {
         key = "sonarr/api-key";
-        owner = config.services.jellyseerr.user;
+        owner = config.services.seerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
       "jellyseerr/api-key" = {
         key = "jellyseerr/api-key";
-        owner = config.services.jellyseerr.user;
+        owner = config.services.seerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
 
@@ -38,7 +38,7 @@ in {
 
       "jellyfin/users/admin/password_jellyseerr" = {
         key = "jellyfin/users/admin/password";
-        owner = config.services.jellyseerr.user;
+        owner = config.services.seerr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
     };

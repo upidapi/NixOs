@@ -11,9 +11,9 @@
   inherit (const) ports ips;
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
-  cfg = config.modules.nixos.homelab.media.arr;
+  cfg = config.modules.nixos.homelab.media.declarr;
 in {
-  options.modules.nixos.homelab.media.arr = mkEnableOpt "";
+  options.modules.nixos.homelab.media.declarr = mkEnableOpt "";
 
   # REF: buildarr referance
   #  https://github.com/elliott-farrall/dotfiles/blob/c4699d8c61fbbb23d6cb8b244be054c0f39848a5/systems/x86_64-linux/broad/services/media/buildarr/config.yaml
@@ -25,50 +25,9 @@ in {
   config = mkIf cfg.enable {
     # ^find /raid/media/movies -type f -links 1 | egrep -i "(.mpg|.avi|.mp4|.mkv)$" | egrep -iv "(sample)" | wc -l
 
-    systemd.tmpfiles.settings = {
-      "media-dir-create" = {
-        "/raid/media/movies".d = {
-          user = "radarr";
-          group = "media";
-          mode = "771";
-        };
-        "/raid/media/movies".Z = {
-          user = "radarr";
-          group = "media";
-          mode = "771";
-        };
-        # "/raid/media/subtitles".d = {
-        #   group = "media";
-        #   user = "bazarr";
-        #   mode = "751";
-        # };
-        "/raid/media/tv".d = {
-          user = "sonarr";
-          group = "media";
-          mode = "771";
-        };
-        "/raid/media/tv".Z = {
-          user = "sonarr";
-          group = "media";
-          mode = "771";
-        };
-
-        "/raid/media/music".d = {
-          user = "lidarr";
-          group = "media";
-          mode = "771";
-        };
-        "/raid/media/music".Z = {
-          user = "lidarr";
-          group = "media";
-          mode = "771";
-        };
-      };
-    };
-
     sops.secrets = {
-      "jellyfin/jellyseerr-api-key_declarr" = {
-        key = "jellyfin/jellyseerr-api-key";
+      "jellyfin/api-key_declarr" = {
+        key = "jellyfin/api-key";
         owner = config.services.declarr.user;
         sopsFile = "${self}/secrets/server.yaml";
       };
@@ -230,7 +189,8 @@ in {
       lidarr = {
         enable = true;
         group = "media";
-        apiKeyFile = config.sops.secrets."lidarr/api-key".path;
+        apiKeyFile = config.sops.
+        secrets."lidarr/api-key".path;
         settings.server.port = ports.lidarr;
       };
       prowlarr = {
@@ -257,105 +217,6 @@ in {
 
             formatDbRepo = "https://github.com/Dictionarry-Hub/Database";
             formatDbBranch = "stable";
-          };
-
-          jellyfin = {
-            declarr = {
-              type = "jellyfin";
-              url = "https://jellyfin.upidapi.dev";
-              apiKey = config.sops.secrets."jellyfin/jellyseerr-api-key_declarr".path;
-            };
-
-            pluginRepositories = {
-              "Jellyfin Stable".url = "https://repo.jellyfin.org/releases/plugin/manifest-stable.json";
-              "Intro Skipper".url = "https://manifest.intro-skipper.org/manifest.json";
-              "Merge Versions Plugin".url = "https://raw.githubusercontent.com/danieladov/JellyfinPluginManifest/master/manifest.json";
-              "Meilisearch".url = "https://raw.githubusercontent.com/arnesacnussem/jellyfin-plugin-meilisearch/refs/heads/master/manifest.json";
-              "Air Times".url = "https://raw.githubusercontent.com/apteryxxyz/jellyfin-plugin-airtimes/main/manifest.json";
-              "InPlayerEpisodePreview".url = "https://raw.githubusercontent.com/Namo2/InPlayerEpisodePreview/master/manifest.json";
-              "Streamyfin".url = "https://raw.githubusercontent.com/streamyfin/jellyfin-plugin-streamyfin/main/manifest.json";
-              "Editor's Choice".url = "https://github.com/lachlandcp/jellyfin-editors-choice-plugin/raw/main/manifest.json";
-              "JS Injector".url = "https://raw.githubusercontent.com/n00bcodr/jellyfin-plugins/main/10.11/manifest.json";
-            };
-            plugins = {
-              "Studio Images" = {
-                RepositoryUrl = "https://raw.githubusercontent.com/jellyfin/emby-artwork/master/studios";
-              };
-              "MusicBrainz" = {
-                Server = "https://musicbrainz.org";
-                RateLimit = 1;
-                ReplaceArtistName = false;
-              };
-
-              "AudioDB".ReplaceAlbumName = false;
-              "Air Times" = {};
-              "Intro Skipper" = {
-                AutoDetectIntros = true;
-                UpdateMediaSegments = true;
-                CacheFingerprints = true;
-
-                ScanCommercial = true;
-                ScanCredits = true;
-                ScanIntroduction = true;
-                ScanPreview = true;
-                ScanRecap = true;
-
-                filetransformationpluginenabled = false;
-                UseFileTransformationPlugin = false;
-              };
-              "Merge Versions" = {};
-              "Streamyfin" = {
-                settings = {
-                  forwardSkipTime = {
-                    value = 5;
-                    locked = false;
-                  };
-                  rewindSkipTime = {
-                    value = 5;
-                    locked = false;
-                  };
-
-                  defaultBitrate = {
-                    locked = false;
-                    value = 2000000; # 2Mb/s (900MB/h)
-                  };
-
-                  jellyseerrServerUrl = {
-                    locked = false;
-                    value = "https://jellyseerr.upidapi.dev";
-                  };
-                  rememberAudioSelections = {
-                    locked = false;
-                    value = true;
-                  };
-                  rememberSubtitleSelections = {
-                    locked = false;
-                    value = true;
-                  };
-                };
-              };
-
-              "OMDb" = {
-                CastAndCrew = false;
-              };
-              "TheTVDB" = {};
-              "TMDb" = {
-                TmdbApiKey = "";
-                IncludeAdult = false;
-                ExcludeTagsSeries = false;
-                ExcludeTagsMovies = false;
-                ImportSeasonName = false;
-                MaxCastMembers = 15;
-                MaxCrewMembers = 15;
-                HideMissingCastMembers = false;
-                HideMissingCrewMembers = false;
-                PosterSize = "original";
-                BackdropSize = "original";
-                LogoSize = "original";
-                ProfileSize = "original";
-                StillSize = "original";
-              };
-            };
           };
 
           sonarr = {

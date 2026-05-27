@@ -25,7 +25,7 @@ in {
           jellyfin = enable;
           # jellarr = enable;
           jellyseerr = enable;
-          arr = enable;
+          declarr = enable;
           # autobrr = enable;
           unpackerr = enable;
           qbit = enable;

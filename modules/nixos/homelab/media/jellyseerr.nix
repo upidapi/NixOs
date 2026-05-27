@@ -67,7 +67,7 @@ in {
 
         jellyfin = {
           name = "upinix-laptop";
-          apiKey = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
+          apiKey = config.sops.secrets."jellyfin/api-key".path;
 
           email = "videw@icloud.com";
           username = "admin";

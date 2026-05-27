@@ -2,11 +2,10 @@
   config,
   lib,
   mlib,
-  const,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (mlib) mkEnableOpt enable;
+  inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.infra.caddy;
 in {
   options.modules.nixos.homelab.infra.caddy =

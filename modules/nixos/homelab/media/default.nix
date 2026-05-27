@@ -17,7 +17,7 @@ in {
 
   # TODO: could add groups to users instead of putting it all in media
   imports = [
-    ./arr.nix
+    ./declarr.nix
     ./autobrr
     ./cross-seed.nix
     ./jellyseerr.nix
@@ -52,6 +52,43 @@ in {
         "/raid/media/usenet".Z = {
           group = "media";
           mode = "751";
+        };
+
+        "/raid/media/movies".d = {
+          user = "radarr";
+          group = "media";
+          mode = "771";
+        };
+        "/raid/media/movies".Z = {
+          user = "radarr";
+          group = "media";
+          mode = "771";
+        };
+        # "/raid/media/subtitles".d = {
+        #   group = "media";
+        #   user = "bazarr";
+        #   mode = "751";
+        # };
+        "/raid/media/tv".d = {
+          user = "sonarr";
+          group = "media";
+          mode = "771";
+        };
+        "/raid/media/tv".Z = {
+          user = "sonarr";
+          group = "media";
+          mode = "771";
+        };
+
+        "/raid/media/music".d = {
+          user = "lidarr";
+          group = "media";
+          mode = "771";
+        };
+        "/raid/media/music".Z = {
+          user = "lidarr";
+          group = "media";
+          mode = "771";
         };
       };
     };
@@ -98,6 +135,14 @@ in {
 
         "jellyseerr.upidapi.dev".extraConfig = ''
           reverse_proxy :${toString ports.jellyseerr}
+
+          header {
+            # 1. Strip the default restrictive headers sent by the backend
+            -X-Frame-Options
+              
+            # 2. Apply the correct CSP to allow framing exclusively by your domains
+            +Content-Security-Policy "frame-ancestors https://jellyfin.upidapi.dev https://*.upidapi.dev;"
+          }
         '';
         "jellyfin.upidapi.dev".extraConfig = ''
           encode zstd gzip

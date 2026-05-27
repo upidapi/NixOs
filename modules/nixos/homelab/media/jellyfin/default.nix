@@ -12,6 +12,7 @@
   inherit (lib) mkIf;
   inherit (mlib) mkEnableOpt;
   cfg = config.modules.nixos.homelab.media.jellyfin;
+  jcfg = config.services.declarative-jellyfin;
 in {
   options.modules.nixos.homelab.media.jellyfin =
     mkEnableOpt
@@ -74,7 +75,23 @@ in {
 
     sops.secrets =
       {
-        "jellyfin/jellyseerr-api-key" = {
+        "jellyfin/tmdb-api-key_declarr" = {
+          key = "jellyfin/tmdb-api-key";
+          owner = config.services.declarr.user;
+          sopsFile = "${self}/secrets/server.yaml";
+        };
+        "jellyseerr/api-key_declarr" = {
+          key = "jellyseerr/api-key";
+          owner = config.services.declarr.user;
+          sopsFile = "${self}/secrets/server.yaml";
+        };
+
+        "jellyfin/api-key" = {
+          owner = config.services.jellyfin.user;
+          sopsFile = "${self}/secrets/server.yaml";
+        };
+        "jellyseerr/api-key_jellyfin" = {
+          key = "jellyseerr/api-key";
           owner = config.services.jellyfin.user;
           sopsFile = "${self}/secrets/server.yaml";
         };
@@ -95,18 +112,45 @@ in {
         lib.listToAttrs
       ]);
 
-    systemd.services.jellyfin.serviceConfig.SupplementaryGroups = [
-      # Access to /dev/dri
-      "render"
-      "video"
-      # Access to /raid/media
-      "media"
-    ];
+    systemd.services.jellyfin.serviceConfig = {
+      SupplementaryGroups = [
+        # Access to /dev/dri
+        "render"
+        "video"
+        # Access to /raid/media
+        "media"
+      ];
+
+      # place a literal copy of jellyfin-web
+      # this allows for plugins to modify it
+      ExecStartPre = lib.mkBefore [
+        (pkgs.writeShellScript
+          "jellyfin-unpack-web"
+          ''
+            rm "${jcfg.dataDir}/jellyfin-web/*" -rf
+            mkdir "${jcfg.dataDir}/jellyfin-web"
+            cp -r \
+              ${jcfg.jellyfin-web}/share/jellyfin-web/* \
+              "${jcfg.dataDir}/jellyfin-web"
+          '')
+      ];
+    };
 
     services = {
       declarative-jellyfin = {
         enable = true;
         group = "media";
+
+        package = pkgs.jellyfin.overrideAttrs {
+          makeWrapperArgs = [
+            "--add-flags"
+            "--ffmpeg=${jcfg.jellyfin-ffmpeg}/bin/ffmpeg"
+            "--add-flags"
+            "--webdir=${jcfg.dataDir}/jellyfin-web"
+          ];
+          patches = [./remove-size-check.patch];
+        };
+
         system = {
           isStartupWizardCompleted = true;
           trickplayOptions = {
@@ -206,7 +250,210 @@ in {
           ];
         };
         apikeys = {
-          Jellyseerr.keyPath = config.sops.secrets."jellyfin/jellyseerr-api-key".path;
+          Jellyseerr.keyPath = config.sops.secrets."jellyfin/api-key".path;
+        };
+      };
+
+      declarr.config.jellyfin = {
+        declarr = {
+          type = "jellyfin";
+          url = "https://jellyfin.upidapi.dev";
+          apiKey = config.sops.secrets."jellyfin/api-key_declarr".path;
+          resolvePaths = [
+            ''$.plugins.["Jellyfin Enhanced"].TMDB_API_KEY''
+            ''$.plugins.["Jellyfin Enhanced"].JellyseerrApiKey''
+          ];
+        };
+
+        pluginRepositories = {
+          "Jellyfin Stable".url = "https://repo.jellyfin.org/releases/plugin/manifest-stable.json";
+          "Intro Skipper".url = "https://manifest.intro-skipper.org/manifest.json";
+          "Merge Versions Plugin".url = "https://raw.githubusercontent.com/danieladov/JellyfinPluginManifest/master/manifest.json";
+          "Meilisearch".url = "https://raw.githubusercontent.com/arnesacnussem/jellyfin-plugin-meilisearch/refs/heads/master/manifest.json";
+          "Air Times".url = "https://raw.githubusercontent.com/apteryxxyz/jellyfin-plugin-airtimes/main/manifest.json";
+          "InPlayerEpisodePreview".url = "https://raw.githubusercontent.com/Namo2/InPlayerEpisodePreview/master/manifest.json";
+          "Streamyfin".url = "https://raw.githubusercontent.com/streamyfin/jellyfin-plugin-streamyfin/main/manifest.json";
+          "Editor's Choice".url = "https://github.com/lachlandcp/jellyfin-editors-choice-plugin/raw/main/manifest.json";
+          # also Jellyfin Enhanced
+          "JS Injector".url = "https://raw.githubusercontent.com/n00bcodr/jellyfin-plugins/main/10.11/manifest.json";
+          "File Transformation".url = "https://www.iamparadox.dev/jellyfin/plugins/manifest.json";
+        };
+        plugins = {
+          "Studio Images" = {
+            RepositoryUrl = "https://raw.githubusercontent.com/jellyfin/emby-artwork/master/studios";
+          };
+          "MusicBrainz" = {
+            Server = "https://musicbrainz.org";
+            RateLimit = 1;
+            ReplaceArtistName = false;
+          };
+
+          "File Transformation" = {
+            DebugLoggingState = "Disabled";
+          };
+          "Plugin Pages" = {};
+          # REF: https://github.com/IAmParadox27/jellyfin-plugin-custom-tabs
+          # REF: https://github.com/IAmParadox27/jellyfin-plugin-home-sections#ive-installed-the-plugins-and-dont-get-any-options-or-changes-how-do-i-fix
+          "Custom Tabs".Tabs = [
+            {
+              Title = "Request";
+              ContentHtml = ''
+                <style>
+                .requestPageFix,
+                .requestPageFix * {
+                  margin: 0 !important;
+                  padding: 0 !important;
+                  box-sizing: border-box !important;
+                }
+
+                .requestPageFix {
+                  position: fixed !important;
+                  top: 80px !important;
+                  left: 0 !important;
+                  width: 100vw !important;
+                  height: calc(100vh - 80px) !important;
+                  overflow: hidden !important;
+                  z-index: 10 !important;
+                  background: transparent !important;
+                }
+
+                .requestIframe {
+                  width: 100% !important;
+                  height: 100% !important;
+                  border: 0 !important;
+                  background: transparent !important;
+                  display: block !important;
+                }
+
+                /* Desktop */
+                @media (min-width: 1000px) {
+                  .requestPageFix {
+                    top: 80px !important;
+                    height: calc(100vh - 80px) !important;
+                  }
+                }
+
+                /* Tablet: header + tabs */
+                @media (min-width: 600px) and (max-width: 999px) {
+                  .requestPageFix {
+                    top: 150px !important;
+                    height: calc(100vh - 150px) !important;
+                  }
+                }
+
+                /* Mobile: header + tabs */
+                @media (max-width: 599px) {
+                  .requestPageFix {
+                    top: 145px !important;
+                    height: calc(100vh - 145px) !important;
+                  }
+                }
+
+                .skinHeader {
+                  z-index: 1000 !important;
+                }
+
+                .skinHeader::after {
+                  pointer-events: none !important;
+                }
+                </style>
+
+                <div class="requestPageFix">
+                  <iframe
+                    class="requestIframe"
+                    src="https://jellyseerr.upidapi.dev">
+                  </iframe>
+                </div>
+              '';
+            }
+          ];
+
+          "Jellyfin Enhanced" = {
+            TMDB_API_KEY = config.sops.secrets."jellyfin/tmdb-api-key_declarr".path;
+            ShowReviews = true;
+
+            # ClearTranslationCacheTimestamp = 1779659439045;
+            AutoSkipIntro = true;
+            AutoSkipOutro = true;
+
+            JellyseerrEnabled = true;
+            JellyseerrUrls = "https://jellyseerr.upidapi.dev";
+            JellyseerrApiKey = config.sops.secrets."jellyseerr/api-key_declarr".path;
+
+            AutoSeasonRequestEnabled = true;
+            AutoMovieRequestEnabled = true;
+
+            DownloadsPageEnabled = true;
+          };
+
+          "AudioDB".ReplaceAlbumName = false;
+          "Air Times" = {};
+          "Intro Skipper" = {
+            AutoDetectIntros = true;
+            UpdateMediaSegments = true;
+            CacheFingerprints = true;
+
+            ScanCommercial = true;
+            ScanCredits = true;
+            ScanIntroduction = true;
+            ScanPreview = true;
+            ScanRecap = true;
+
+            filetransformationpluginenabled = false;
+            UseFileTransformationPlugin = false;
+          };
+          "Merge Versions" = {};
+          "Streamyfin" = {
+            settings = {
+              forwardSkipTime = {
+                value = 5;
+                locked = false;
+              };
+              rewindSkipTime = {
+                value = 5;
+                locked = false;
+              };
+
+              defaultBitrate = {
+                locked = false;
+                value = 2000000; # 2Mb/s (900MB/h)
+              };
+
+              jellyseerrServerUrl = {
+                locked = false;
+                value = "https://jellyseerr.upidapi.dev";
+              };
+              rememberAudioSelections = {
+                locked = false;
+                value = true;
+              };
+              rememberSubtitleSelections = {
+                locked = false;
+                value = true;
+              };
+            };
+          };
+
+          "OMDb" = {
+            CastAndCrew = false;
+          };
+          "TheTVDB" = {};
+          "TMDb" = {
+            TmdbApiKey = "";
+            IncludeAdult = false;
+            ExcludeTagsSeries = false;
+            ExcludeTagsMovies = false;
+            ImportSeasonName = false;
+            MaxCastMembers = 15;
+            MaxCrewMembers = 15;
+            HideMissingCastMembers = false;
+            HideMissingCrewMembers = false;
+            PosterSize = "original";
+            BackdropSize = "original";
+            LogoSize = "original";
+            ProfileSize = "original";
+            StillSize = "original";
+          };
         };
       };
     };

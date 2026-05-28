@@ -288,89 +288,19 @@ in {
             ReplaceArtistName = false;
           };
 
+          "Media Bar" = {
+            WebConfig.EnableTrailers = false;
+          };
           "File Transformation" = {
             DebugLoggingState = "Disabled";
           };
           "Plugin Pages" = {};
-          # REF: https://github.com/IAmParadox27/jellyfin-plugin-custom-tabs
-          # REF: https://github.com/IAmParadox27/jellyfin-plugin-home-sections#ive-installed-the-plugins-and-dont-get-any-options-or-changes-how-do-i-fix
-          "Custom Tabs".Tabs = [
-            {
-              Title = "Request";
-              ContentHtml = ''
-                <style>
-                .requestPageFix,
-                .requestPageFix * {
-                  margin: 0 !important;
-                  padding: 0 !important;
-                  box-sizing: border-box !important;
-                }
-
-                .requestPageFix {
-                  position: fixed !important;
-                  top: 80px !important;
-                  left: 0 !important;
-                  width: 100vw !important;
-                  height: calc(100vh - 80px) !important;
-                  overflow: hidden !important;
-                  z-index: 10 !important;
-                  background: transparent !important;
-                }
-
-                .requestIframe {
-                  width: 100% !important;
-                  height: 100% !important;
-                  border: 0 !important;
-                  background: transparent !important;
-                  display: block !important;
-                }
-
-                /* Desktop */
-                @media (min-width: 1000px) {
-                  .requestPageFix {
-                    top: 80px !important;
-                    height: calc(100vh - 80px) !important;
-                  }
-                }
-
-                /* Tablet: header + tabs */
-                @media (min-width: 600px) and (max-width: 999px) {
-                  .requestPageFix {
-                    top: 150px !important;
-                    height: calc(100vh - 150px) !important;
-                  }
-                }
-
-                /* Mobile: header + tabs */
-                @media (max-width: 599px) {
-                  .requestPageFix {
-                    top: 145px !important;
-                    height: calc(100vh - 145px) !important;
-                  }
-                }
-
-                .skinHeader {
-                  z-index: 1000 !important;
-                }
-
-                .skinHeader::after {
-                  pointer-events: none !important;
-                }
-                </style>
-
-                <div class="requestPageFix">
-                  <iframe
-                    class="requestIframe"
-                    src="https://jellyseerr.upidapi.dev">
-                  </iframe>
-                </div>
-              '';
-            }
-          ];
 
           "Jellyfin Enhanced" = {
             TMDB_API_KEY = config.sops.secrets."jellyfin/tmdb-api-key_declarr".path;
-            ShowReviews = true;
+
+            ElsewhereEnabled = false;
+            ShowReviews = false;
 
             # ClearTranslationCacheTimestamp = 1779659439045;
             AutoSkipIntro = true;
@@ -454,6 +384,153 @@ in {
             ProfileSize = "original";
             StillSize = "original";
           };
+
+          "JavaScript Injector".CustomJavaScripts = [
+            {
+              Name = "Add discover button";
+
+              Script = ''
+                (function() {
+                    'use strict';
+
+                    const targetUrl = 'https://jellyseerr.upidapi.dev';
+                    const targetTextLower = 'favorites';
+                    const newText = 'Discover';
+
+                    function replaceTextInNode(node, fromText, toText) {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            if (node.textContent.trim().toLowerCase() === fromText.toLowerCase()) {
+                                node.textContent = toText;
+                            }
+                        } else {
+                            for (let child of node.childNodes) {
+                                replaceTextInNode(child, fromText, toText);
+                            }
+                        }
+                    }
+
+                    function modifyFavoritesElements() {
+                        const selectors = 'a, button, .emby-tab-button, .navMenuOption, .lnkMediaFolder';
+                        const elements = document.querySelectorAll(selectors);
+
+                        elements.forEach(el => {
+                            const text = el.textContent ? el.textContent.trim() : "";
+
+                            if (text.toLowerCase() === targetTextLower && !el.dataset.discoverModified) {
+                                // Mark as modified to avoid registering duplicate event listeners
+                                el.dataset.discoverModified = 'true';
+
+                                // Safely update the text label
+                                replaceTextInNode(el, targetTextLower, newText);
+
+                                // Intercept the click event to open in a new tab
+                                el.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    window.open(targetUrl, '_blank'); 
+                                }, true); // "true" uses the capture phase to override the app's default router
+
+                                // Update anchor tag attributes if applicable
+                                if (el.tagName === 'A') {
+                                    el.setAttribute('href', targetUrl);
+                                    el.setAttribute('target', '_blank');
+                                    el.setAttribute('rel', 'noopener noreferrer');
+                                }
+                            }
+                        });
+                    }
+
+                    // Set up a MutationObserver to handle dynamic page loads and navigation
+                    const observer = new MutationObserver(() => {
+                        modifyFavoritesElements();
+                    });
+
+                    observer.observe(document.body, {
+                        childList: true,
+                        subtree: true
+                    });
+
+                    // Run once on load
+                    modifyFavoritesElements();
+                })();
+              '';
+            }
+          ];
+          # REF: https://github.com/IAmParadox27/jellyfin-plugin-custom-tabs
+          # REF: https://github.com/IAmParadox27/jellyfin-plugin-home-sections#ive-installed-the-plugins-and-dont-get-any-options-or-changes-how-do-i-fix
+          # "Custom Tabs".Tabs = [
+          #   {
+          #     Title = "Request";
+          #     ContentHtml = ''
+          #       <style>
+          #       .requestPageFix,
+          #       .requestPageFix * {
+          #         margin: 0 !important;
+          #         padding: 0 !important;
+          #         box-sizing: border-box !important;
+          #       }
+          #
+          #       .requestPageFix {
+          #         position: fixed !important;
+          #         top: 80px !important;
+          #         left: 0 !important;
+          #         width: 100vw !important;
+          #         height: calc(100vh - 80px) !important;
+          #         overflow: hidden !important;
+          #         z-index: 10 !important;
+          #         background: transparent !important;
+          #       }
+          #
+          #       .requestIframe {
+          #         width: 100% !important;
+          #         height: 100% !important;
+          #         border: 0 !important;
+          #         background: transparent !important;
+          #         display: block !important;
+          #       }
+          #
+          #       /* Desktop */
+          #       @media (min-width: 1000px) {
+          #         .requestPageFix {
+          #           top: 80px !important;
+          #           height: calc(100vh - 80px) !important;
+          #         }
+          #       }
+          #
+          #       /* Tablet: header + tabs */
+          #       @media (min-width: 600px) and (max-width: 999px) {
+          #         .requestPageFix {
+          #           top: 150px !important;
+          #           height: calc(100vh - 150px) !important;
+          #         }
+          #       }
+          #
+          #       /* Mobile: header + tabs */
+          #       @media (max-width: 599px) {
+          #         .requestPageFix {
+          #           top: 145px !important;
+          #           height: calc(100vh - 145px) !important;
+          #         }
+          #       }
+          #
+          #       .skinHeader {
+          #         z-index: 1000 !important;
+          #       }
+          #
+          #       .skinHeader::after {
+          #         pointer-events: none !important;
+          #       }
+          #       </style>
+          #
+          #       <div class="requestPageFix">
+          #         <iframe
+          #           class="requestIframe"
+          #           src="https://jellyseerr.upidapi.dev">
+          #         </iframe>
+          #       </div>
+          #     '';
+          #   }
+          # ];
         };
       };
     };

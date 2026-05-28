@@ -274,11 +274,21 @@ in {
           "InPlayerEpisodePreview".url = "https://raw.githubusercontent.com/Namo2/InPlayerEpisodePreview/master/manifest.json";
           "Streamyfin".url = "https://raw.githubusercontent.com/streamyfin/jellyfin-plugin-streamyfin/main/manifest.json";
           "Editor's Choice".url = "https://github.com/lachlandcp/jellyfin-editors-choice-plugin/raw/main/manifest.json";
-          # also Jellyfin Enhanced
-          "JS Injector".url = "https://raw.githubusercontent.com/n00bcodr/jellyfin-plugins/main/10.11/manifest.json";
+          "Jellyfin Enhanced".url = "https://raw.githubusercontent.com/n00bcodr/jellyfin-plugins/main/10.11/manifest.json";
           "File Transformation".url = "https://www.iamparadox.dev/jellyfin/plugins/manifest.json";
         };
         plugins = {
+          # there is also https://gitlab.com/DomiStyle/jellysearch
+          # but that requires setting up a rev proxy that captures trafic
+          # this seams just better atm
+          "Meilisearch" = {
+            ApiKey = "";
+            Url = "http://127.0.0.1:${ports.meilisearch}";
+            Debug = false;
+            IndexName = "";
+            MatchingStrategy = "last";
+          };
+
           "Studio Images" = {
             RepositoryUrl = "https://raw.githubusercontent.com/jellyfin/emby-artwork/master/studios";
           };

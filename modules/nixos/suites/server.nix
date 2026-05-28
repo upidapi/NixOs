@@ -31,6 +31,7 @@ in {
           qbit = enable;
           cross-seed = enable;
           # profilarr = enable;
+          meilisearch = enable;
         };
 
         infra = {

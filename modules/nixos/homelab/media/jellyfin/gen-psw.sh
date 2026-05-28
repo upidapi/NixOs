@@ -21,14 +21,14 @@ EOF
 }
 
 
-for j in {1..8}; do
+for j in {9..16}; do
   createUser "guest-$j"
 done
 
-for i in 0 10 13 17; do
-  for j in {1..4}; do
-    createUser "guest-$i-$j"
-  done
-done
+# for i in 0 10 13 17; do
+#   for j in {1..4}; do
+#     createUser "guest-$i-$j"
+#   done
+# done
 
 

@@ -191,6 +191,14 @@ in {
           guest-6 = {};
           guest-7 = {};
           guest-8 = {};
+          guest-9 = {};
+          guest-10 = {};
+          guest-11 = {};
+          guest-12 = {};
+          guest-13 = {};
+          guest-14 = {};
+          guest-15 = {};
+          guest-16 = {};
           # R
           guest-17-1.maxParentalRatingSubScore = 17;
           guest-17-2.maxParentalRatingSubScore = 17;

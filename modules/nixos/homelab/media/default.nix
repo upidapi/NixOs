@@ -140,7 +140,7 @@ in {
           header {
             # 1. Strip the default restrictive headers sent by the backend
             -X-Frame-Options
-                  
+              
             # 2. Apply the correct CSP to allow framing exclusively by your domains
             +Content-Security-Policy "frame-ancestors https://jellyfin.upidapi.dev https://*.upidapi.dev;"
           }

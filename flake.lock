@@ -166,6 +166,26 @@
         "type": "github"
       }
     },
+    "camasca": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779062478,
+        "narHash": "sha256-H1Z9yjkhwTyrijitsWZKqrYOjO9G9yvRdeOh+if5EM8=",
+        "owner": "uku3lig",
+        "repo": "camasca",
+        "rev": "27b3144f159c0dd7af153654f348f691da621d38",
+        "type": "github"
+      },
+      "original": {
+        "owner": "uku3lig",
+        "repo": "camasca",
+        "type": "github"
+      }
+    },
     "declarative-flatpak": {
       "locked": {
         "lastModified": 1769601081,
@@ -1340,6 +1360,7 @@
       "inputs": {
         "ags": "ags",
         "alejandra": "alejandra",
+        "camasca": "camasca",
         "declarative-flatpak": "declarative-flatpak",
         "declarative-jellyfin": "declarative-jellyfin",
         "declarr": "declarr",

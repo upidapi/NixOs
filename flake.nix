@@ -64,6 +64,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # for shlink
+    camasca = {
+      url = "github:uku3lig/camasca";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # declarative-arr = {
     #   url = "github:upidapi/declarative-arr";
     #   # url = "/persist/system/home/upidapi/persist/declarative-arr";

@@ -44,6 +44,7 @@ in {
 
         services = {
           transfer-sh = enable;
+          shlink = enable;
           # wg-easy = enable;
           homepage = enable;
           thelounge = enable;

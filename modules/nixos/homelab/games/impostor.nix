@@ -45,6 +45,10 @@ in {
 
         # Allow IPv6 localhost with password
         host    all     all     ::1/128         trust
+
+        # 2. Allow Podman container networks to reach the database
+        host    all     all     10.88.0.0/16    trust
+        host    all     all     10.89.0.0/16    trust
       '';
     };
 

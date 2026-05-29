@@ -37,6 +37,11 @@ in {
   };
 
   ports = {
+    # backend
+    meilisearch = 8403;
+    pg = 5432;
+
+    # media
     radarr = 8500;
     sonarr = 8501;
     lidarr = 8502;
@@ -54,20 +59,20 @@ in {
     autobrr = 8511;
     profilarr = 8512;
 
+    # homelab
     homepage = 8600;
     transfer-sh = 8601;
     the-lounge = 8602;
 
+    shlink = 8603;
+    shlink-web = 8604;
+
     game-site = 8610;
     game-site-beta = 8611;
-
-    meilisearch = 8400;
 
     syncthing = 8384;
     wireguard = 51820;
     wg-easy = 51821;
-
-    pg = 5432;
 
     mc-server = 25565;
     mc-server-b = 25566;

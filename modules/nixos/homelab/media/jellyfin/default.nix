@@ -260,6 +260,50 @@ in {
         apikeys = {
           Jellyseerr.keyPath = config.sops.secrets."jellyfin/api-key".path;
         };
+        branding.customCss = ''
+          /* -------------- https://github.com/stpnwf/ZestyTheme -------------- */
+          @import url('https://cdn.jsdelivr.net/gh/stpnwf/ZestyTheme@latest/theme.css');
+
+          /* @import url('https://cdn.jsdelivr.net/gh/stpnwf/ZestyTheme@latest/colorschemes/gray.css'); */
+          @import url('https://cdn.jsdelivr.net/gh/stpnwf/ZestyTheme@latest/login-alt.css');
+
+          /* fix black backdrop */
+          /* https://github.com/stpnwf/ZestyTheme/issues/52 */
+          .noBackdropTransparency .detailPagePrimaryContainer,
+          .noBackdropTransparency .detailPageSecondaryContainer {
+              background-color: transparent;
+          }
+
+          /* Revert "Next Up" section back to standard native layout flow */
+          .layout-desktop .nextUpSection {
+              position: relative !important;
+              left: auto !important;
+              right: auto !important;
+              top: auto !important;
+              margin: 2em 0 1em 0 !important;
+              /* Restores default top/bottom spacing */
+              padding: 0 !important;
+              background-color: transparent !important;
+              backdrop-filter: none !important;
+              border-radius: 0 !important;
+              width: auto !important;
+              max-width: none !important;
+          }
+
+          /* Reset individual Next Up card offsets */
+          .layout-desktop .nextUpSection .card.overflowBackdropCard.card-hoverable.card-withuserdata {
+              right: auto !important;
+              position: relative !important;
+          }
+
+          .layout-desktop .nextUpSection .cardBox-bottompadded {
+              margin-bottom: 1.5em !important;
+          }
+
+          .jellyseerr-media-badge {
+              display: none !important;
+          }
+        '';
       };
 
       declarr.config.jellyfin = {
@@ -291,7 +335,7 @@ in {
           # this seams just better atm
           "Meilisearch" = {
             ApiKey = "";
-            Url = "http://127.0.0.1:${ports.meilisearch}";
+            Url = "http://127.0.0.1:${toString ports.meilisearch}";
             Debug = false;
             IndexName = "";
             MatchingStrategy = "last";

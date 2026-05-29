@@ -61,7 +61,7 @@
 
   # nu
   /*
-  let base = "/raid/media/torrents/misc";
+  let base = "/raid/media/torrents/misc/";
   let files = ["ida92/ida-pro_92_x64linux.run", "ida92/kg_patch/keygen.js"]
   # let files = ["ida93sp1/ida-pro_93_x64linux.run", "ida93sp1/kg_patch/keygen.js"]
 
@@ -69,7 +69,7 @@
   mkdir $gc_folder
 
   $files | each {|f|
-    let url = nix-prefetch-url --type sha256 $"file://($base)/($f)" e> /dev/null
+    let url = nix-prefetch-url --type sha256 $"file://($base)($f)" e> /dev/null
     let hash = nix-hash --to-sri --type sha256 $url e> /dev/null
     ln -sf $url $gc_folder
 

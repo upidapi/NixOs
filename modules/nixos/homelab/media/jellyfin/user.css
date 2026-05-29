@@ -44,6 +44,14 @@
     display: none !important;
 }
 
+/* remove the glow on the ep number on cards */
+.countIndicator,
+.playedIndicator {
+    box-shadow: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+}
+
 /* -------------- https://github.com/CTalvio/Ultrachromic -------------- */
 @import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/fixes.css");
 @import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/jf_font.css");

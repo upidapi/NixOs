@@ -303,6 +303,14 @@ in {
           .jellyseerr-media-badge {
               display: none !important;
           }
+
+          /* remove the glow on the ep number on cards */
+          .countIndicator,
+          .playedIndicator {
+              box-shadow: none !important;
+              filter: none !important;
+              text-shadow: none !important;
+          }
         '';
       };
 

@@ -154,7 +154,7 @@ in {
 
             syncEnabled = true;
             preventSearch = false;
-            minimumAvailability = "inCinemas";
+            minimumAvailability = "released"; # announced, inCinemas, released
 
             tags = [];
             tagRequests = false;

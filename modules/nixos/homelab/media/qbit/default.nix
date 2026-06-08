@@ -15,6 +15,10 @@
 in {
   options.modules.nixos.homelab.media.qbit = mkEnableOpt "";
 
+  # qbit doesnt start when lockfile exists
+  #   https://github.com/qbittorrent/qBittorrent/issues/24164
+  #   rm /var/lib/qBittorrent/qBittorrent/config/lockfile
+
   # This randomly broke, indexers started showing
   #   "device or resource busy" no config no nothing
   #   fixed by disabling the netns

@@ -220,28 +220,7 @@ in {
           guest-0-3.maxParentalRatingSubScore = 0;
           guest-0-4.maxParentalRatingSubScore = 0;
         };
-        libraries = {
-          "Movies" = {
-            enabled = true;
-            contentType = "movies";
-            pathInfos = ["/raid/media/movies"];
-            enableChapterImageExtraction = true;
-            extractChapterImagesDuringLibraryScan = true;
-            enableTrickplayImageExtraction = true;
-            extractTrickplayImagesDuringLibraryScan = true;
-            saveTrickplayWithMedia = true;
-          };
-          "Shows" = {
-            enabled = true;
-            contentType = "tvshows";
-            pathInfos = ["/raid/media/tv"];
-            enableChapterImageExtraction = true;
-            extractChapterImagesDuringLibraryScan = true;
-            enableTrickplayImageExtraction = true;
-            extractTrickplayImagesDuringLibraryScan = true;
-            saveTrickplayWithMedia = true;
-          };
-        };
+
         encoding = {
           enableHardwareEncoding = true;
           hardwareAccelerationType = "nvenc";
@@ -325,6 +304,33 @@ in {
           ];
         };
 
+        libraries = {
+          "Movies" = {
+            enabled = true;
+            collectionType = "movies";
+            paths = ["/raid/media/movies"];
+            libraryOptions = {
+              enableChapterImageExtraction = true;
+              extractChapterImagesDuringLibraryScan = true;
+              enableTrickplayImageExtraction = true;
+              extractTrickplayImagesDuringLibraryScan = true;
+              saveTrickplayWithMedia = true;
+            };
+          };
+          "Shows" = {
+            enabled = true;
+            collectionType = "tvshows";
+            paths = ["/raid/media/tv"];
+            libraryOptions = {
+              enableChapterImageExtraction = true;
+              extractChapterImagesDuringLibraryScan = true;
+              enableTrickplayImageExtraction = true;
+              extractTrickplayImagesDuringLibraryScan = true;
+              saveTrickplayWithMedia = true;
+            };
+          };
+        };
+
         pluginRepositories = {
           "Jellyfin Stable".url = "https://repo.jellyfin.org/releases/plugin/manifest-stable.json";
           "Intro Skipper".url = "https://manifest.intro-skipper.org/manifest.json";
@@ -341,13 +347,15 @@ in {
           # there is also https://gitlab.com/DomiStyle/jellysearch
           # but that requires setting up a rev proxy that captures trafic
           # this seams just better atm
-          "Meilisearch" = {
-            ApiKey = "";
-            Url = "http://127.0.0.1:${toString ports.meilisearch}";
-            Debug = false;
-            IndexName = "";
-            MatchingStrategy = "last";
-          };
+
+          # Disabled since it breaks seerr search
+          # "Meilisearch" = {
+          #   ApiKey = "";
+          #   Url = "http://127.0.0.1:${toString ports.meilisearch}";
+          #   Debug = false;
+          #   IndexName = "";
+          #   MatchingStrategy = "last";
+          # };
 
           "Studio Images" = {
             RepositoryUrl = "https://raw.githubusercontent.com/jellyfin/emby-artwork/master/studios";

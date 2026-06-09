@@ -1,12 +1,13 @@
 # Description
 
 Welcome to my overengineerd configuration for my computer systems. A concoction
-of my better hallucinations, very carefully bashed together to (hopefully) do
-something that is partially useful. I've made this public primarily so that it
-can be used as a referance. Credits are always nice, but not at all a requirement
-I've based large parts of it on the work of others (see the Inspiration section
-bellow) So it feels like the only right thing to do. (and also so that I can
-install it faster on my friends computers when they are looking the other way)
+of my better hallucinations (to clarify it's my own hallucinations), very
+carefully bashed together to (hopefully) do something that is partially useful.
+I've made this public primarily so that it can be used as a referance. Credits
+are always nice, but not at all a requirement I've based large parts of it on
+the work of others (see the Inspiration section bellow) So it feels like the
+only right thing to do. (and also so that I can install it faster on my friends
+computers when they happen to looking the other way)
 
 <!----------------------this comment is 80 characters wide--------------------->
 
@@ -15,27 +16,24 @@ install it faster on my friends computers when they are looking the other way)
 > about nix. Things will be modified, updated, added, removed and restructured
 > without warning.
 >
-> I commit each time I (successfully) rebuild. So a large amount of commits are
-> incomplete and or broken. And as in any other code, there is definetly a ton
-> of mistakes sprinkled throughout the code :(.
->
 > I'm not gonna tell you not to just run it, but I'll warn you that there's a
 > good chance that it will break. This config is made for my machines, that have
 > their own quirks. So make sure you backup your data before trying.
->
-> You should probably avoid taking major parts of the code since it kinda
-> cripples your ability to make quick changes to it. And if you do, make
-> sure that you have some sort of overarching understanding of what it does.
 
 <!----------------------this comment is 80 characters wide--------------------->
 
-If there's anything you take out of this, (both figuratively and literally)
-Id recommend you to take a look at the quick-switch script (in /parts/pkgs/qs).
-Its a rebuild helper that commits each time you rebuild, while adding some
-useful metadata to each commit, like generation and kernel version, along with
-other things you probably want to do when rebuilding and working on your config.
-It might sound a bit to verbose but its really nice to have when you eventually
-mess something up.
+If there's anything you take from this, (either figuratively or literally) I'm
+particularly proud of my homelab setup and especially the media server part
+[modules/nixos/homelab](/modules/nixos/homelab). it is fully declarative. In
+theory, this means you should be able to just copy the configuration and end up
+with the exact same setup on your machine. This is mostly made possible by
+[declarr](https://github.com/updapi/declarr), a little side project of mine. It
+acts as a lightweight syncing engine, for managing the *arr suite, sonarr,
+radarr, (lidarr), seerr. Technically also jellyfin but that is only to fill in
+the cracks of
+[declarative-jellyfin](https://github.com/Sveske-Juice/declarative-jellyfin) a
+truly amazing project, but its limited in its approach. (Ik about jellarr, but
+it's also limited in its approach)
 
 ![document](https://github.com/upidapi/NixOs/blob/main/misc/images/desktop-minimal.png?raw=true)
 
@@ -43,6 +41,10 @@ mess something up.
 
 A list of some of the more notable features
 
+- homelab, fully declarative
+  - media server + full *arr suite
+  - configured using [declarr](https://github.com/upidapi/declarr), a
+    (relatively) simple syncing script.
 - [home-manager](https://github.com/nix-community/home-manager),
   used to configure users
 - [impermanence](https://github.com/nix-community/impermanence),
@@ -50,8 +52,6 @@ A list of some of the more notable features
 - modular, each thing is it's own module that you can enable
   - nixos modules are in modules/nixos
   - home-manager modules are in modules/home
-- [quick-switch](https://github.com/upidapi/NixOs/tree/main/parts/pkgs/qs),
-  a rebuild and config helper
 - [disko](https://github.com/nix-community/disko), for declarative disks
 - file hierarchy based hosts and users
   - logic in hosts/default.nix
@@ -59,22 +59,26 @@ A list of some of the more notable features
   - users defined in hosts/\${host name}/users/\${user name}
 - [ags](https://github.com/Aylur/ags), to create my top bar
 - [stylix](https://github.com/danth/stylix), for system styling
+  - although I'm moving away from this, I've noticed that I like the defaults
 - custom neovim config using [mnw](https://github.com/Gerg-L/mnw),
   a simple wrapper around neovim
 - [nix-portable](https://github.com/DavHau/nix-portable),
-  for when you don't have nix nor root (probably doesn't atm)
+  for when you don't have nix nor root
+  - probably doesn't work atm, been some time since i used it
 - [sops-nix](https://github.com/Mic92/sops-nix), used for declarative secrets
   - stored (encrypted) in /secrets
 
 ## Install
 
-```bash
+<!-- ```bash
+# Yeah dont use this, its you should use some other installer
+
 # This installs my config on any computer that has nix
 
 # Warning this will format your system with disko
 # see /parts/install for more info
 nix --extra-experimental-features "flakes " run github:upidapi/nixos#install
-```
+``` -->
 
 ## Create install iso
 
@@ -109,8 +113,6 @@ i typically check for examples in.
   config file structure, random things
 - [lokegustafsson](https://github.com/lokegustafsson/nixos-getting-started) -
   nix config, especially the global pining of nixpkgs
-- [ErrorNoInternet](https://github.com/ErrorNoInternet/configuration.nix) -
-  nixvim config used as a reference
 - [vimjoyer](https://www.youtube.com/@vimjoyer) -
   easy to follow guides for everything nix
 - [NoBoilerplate](https://www.youtube.com/@NoBoilerplate) -

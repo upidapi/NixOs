@@ -34,6 +34,8 @@ in {
         PAGER = "less";
         MANPAGER = "less";
 
+        # # deaults to xterm-kitty, for some reason breaks less in sudo
+        # TERM = "kitty";
         TERMINAL = "kitty"; # alacritty
         BROWSER = "zen-beta"; # firefox
         # BROWSER = "firefox";

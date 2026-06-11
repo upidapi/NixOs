@@ -61,11 +61,14 @@ in {
 
     # homelab
     homepage = 8600;
+
     transfer-sh = 8601;
-    the-lounge = 8602;
+    wastebin = 8602;
 
     shlink = 8603;
     shlink-web = 8604;
+
+    the-lounge = 8605;
 
     game-site = 8610;
     game-site-beta = 8611;

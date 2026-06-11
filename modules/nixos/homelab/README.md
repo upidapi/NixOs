@@ -1,7 +1,11 @@
 ## pastebin (done)
 - https://www.jrodal.com/posts/file-sharing-from-cml/
 - https://git.0x0.st/mia/0x0
+- https://github.com/solusipse/fiche
+  - powers termbin
 - https://github.com/dutchcoders/transfer.sh
+- https://github.com/szabodanika/microbin
+  - todo mb look into
 
 ## nas
 - local share?

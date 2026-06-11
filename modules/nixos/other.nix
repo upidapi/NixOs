@@ -25,6 +25,7 @@ in {
     nixpkgs.config.permittedInsecurePackages = [
       "ventoy-1.1.10"
       "ventoy-1.1.12"
+      "electron-39.8.10"
     ];
 
     # maybe make some gnome things work

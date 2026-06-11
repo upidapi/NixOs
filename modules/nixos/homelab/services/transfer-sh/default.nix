@@ -30,7 +30,7 @@ in {
         };
       };
       caddy.virtualHosts = {
-        "paste.upidapi.dev".extraConfig = ''
+        "p2.upidapi.dev".extraConfig = ''
           reverse_proxy :${toString ports.transfer-sh}
         '';
       };

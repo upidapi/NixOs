@@ -19,9 +19,17 @@ in {
       nix-index = {
         enable = true;
         symlinkToCacheHome = true;
+
+        # i dont want the command not found
+        enableBashIntegration = false;
+        enableFishIntegration = false;
+        enableZshIntegration = false;
+        enableNushellIntegration = false;
       };
 
       nix-index-database.comma.enable = true;
+
+      command-not-found.enable = false;
     };
   };
 }

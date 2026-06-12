@@ -79,6 +79,10 @@ in {
     })
 
     (lib.mkIf cfg.misc.enable {
+      # don't search nix index on missing command
+      # it feels unresponsive tbh, fail fast :)
+      programs.command-not-found.enable = false;
+
       environment.sessionVariables = {
         NIXOS_CONFIG_PATH = cfg.cfg-path;
       };

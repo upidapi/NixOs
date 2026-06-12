@@ -28,11 +28,14 @@ in {
   ];
 
   config = let
-    pkg = pkgs.ags.override {
-      extraPackages = with pkgs;
-        [
+    pkg = pkgs.ags.overrideAttrs (prev: {
+      # FROM: https://github.com/Aylur/ags/issues/681
+      patches = [./preserve-symlinks.patch];
+      buildInputs =
+        prev.buildInputs
+        ++ (with pkgs; [
           bun
-        ]
+        ])
         ++ (with inputs.ags.packages.${system}; [
           # most of these are unecesary
           apps
@@ -51,7 +54,7 @@ in {
       # astal3 = cfg.astal.gtk3Package;
       # astal-io = cfg.astal.ioPackage;
       # agsJsPackage = "${config.home.homeDirectory}/.local";
-    };
+    });
   in
     mkIf cfg.enable {
       # doesnt work for some reason

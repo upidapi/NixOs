@@ -1,0 +1,12 @@
+diff --git a/lib/esbuild.go b/lib/esbuild.go
+index b59a2d7..868ed59 100644
+--- a/lib/esbuild.go
++++ b/lib/esbuild.go
+@@ -156,6 +156,7 @@ func Bundle(opts BundleOpts) {
+ 		LogLevel:    api.LogLevelWarning,
+ 		EntryPoints: []string{opts.Infile},
+ 		Bundle:      true,
++		PreserveSymlinks:      true,
+ 		Outfile:     opts.Outfile,
+ 		Format:      api.FormatESModule,
+ 		Platform:    api.PlatformNeutral,

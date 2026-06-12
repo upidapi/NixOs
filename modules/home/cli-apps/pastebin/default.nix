@@ -16,15 +16,15 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = [
-      (pkgs.writeShellApplication {
-        name = "pastebin";
-
-        runtimeInputs = [
-          pkgs.zip
+      (pkgs.writers.writePython3Bin "pastebin" {
+        libraries = [
+          pkgs.python3Packages.requests
         ];
 
-        text = builtins.readFile ./transfer.sh;
-      })
+        # Optional: Disables the default flake8 linter check during build time.
+        # This prevents style or formatting errors from failing your build.
+        doCheck = false;
+      } (builtins.readFile ./pastebin.py))
     ];
   };
 }

@@ -61,12 +61,22 @@ def store-edit [path: path] {
 # REF: completions
 #  https://github.com/Paul-16098/Dotfiles/blob/45c9fbd66732c41c315271e62ffdf1e3af06832c/dot_config/nushell/autoload/user-completions.nu#L189
 
+def "nu-complete pastebin-backend" [] {
+  [ "p", "pastebin", "w", "wastebin" ]
+}
+
 export extern "pastebin" [
-  --never(-n) # Disable expiry (never expire).
-  --url(-u): string # URL to connect to."
-  --days(-d): int # Set days before expiry, defaults to 30.
-  --pass(-p): string # Decryption password.
-  --help
+  file?: path                         # File or directory to upload (optional, reads from stdin if omitted)
+  --once(-1)                          # Limit the download count to 1 (burn after reading)
+  --never(-n)                         # Disable expiry
+  --url(-u): string                   # Override URL to connect to
+  --expire(-e): string                # Time until expiry (default: 30d, supports e.g., 5m, 1h, 30d)
+  --pass(-p): string                  # Encrypt using a password
+  --pastebin(-P)                      # Use pastebin backend
+  --wastebin(-w)                      # Use wastebin backend
+  --type(-t): string@"nu-complete pastebin-backend" # Set the backend manually
+  --verbose(-v)                       # Enable verbose mode
+  --help(-h)                          # Display the help message and exit
 ]
 
 export extern "xdg-open" [

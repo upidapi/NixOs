@@ -202,7 +202,7 @@ def main():
         description="Uploads a file or directory to a server.", add_help=False
     )
     parser.add_argument(
-        "-1", dest="once", action="store_true", help="Limit the download count to 1."
+        "-1", "--once", dest="once", action="store_true", help="Limit the download count to 1."
     )
     parser.add_argument("-n", "--never", action="store_true", help="Disable expiry")
     parser.add_argument("-u", "--url", help="override URL to connect to.")
@@ -235,7 +235,7 @@ def main():
     )
     parser.add_argument("file", nargs="?", help="File or directory to upload.")
     parser.add_argument(
-        "--help", action="help", help="Display this help message and exit."
+        "-h", "--help", action="help", help="Display this help message and exit."
     )
 
     args = parser.parse_args()

@@ -36,7 +36,15 @@ in {
       };
 
       extraConfig = let
+        # TODO: remove once merged into nixos-unstable
+        #  prob in about a week or 2 (from 2026-06-12)
+        #  https://github.com/kovidgoyal/kitty/issues/10102
         kittyConfig = ''
+          # auto reload causes kitty to watch the entire store
+          # this exhausts all inotofy watchers gringding sytem to a halt
+          # resolved in master, but not yet pused to nixos-unstable
+          auto_reload_config -1
+
           map ctrl+shift+r no_op
 
           # places the "characters" of the window to the top left

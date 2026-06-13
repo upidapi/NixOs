@@ -129,7 +129,7 @@ in {
                 Jellyseerr = rec {
                   icon = "jellyseerr";
                   description = "Request Media Service";
-                  href = "https://jellyseerr.upidapi.dev";
+                  href = "https://seerr.upidapi.dev";
                   ping = href;
                 };
               }

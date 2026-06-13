@@ -191,34 +191,26 @@ in {
           guest-6 = {};
           guest-7 = {};
           guest-8 = {};
-          guest-9 = {};
-          guest-10 = {};
-          guest-11 = {};
-          guest-12 = {};
-          guest-13 = {};
-          guest-14 = {};
-          guest-15 = {};
-          guest-16 = {};
-          # R
-          guest-17-1.maxParentalRatingSubScore = 17;
-          guest-17-2.maxParentalRatingSubScore = 17;
-          guest-17-3.maxParentalRatingSubScore = 17;
-          guest-17-4.maxParentalRatingSubScore = 17;
-          # PG-13
-          guest-13-1.maxParentalRatingSubScore = 13;
-          guest-13-2.maxParentalRatingSubScore = 13;
-          guest-13-3.maxParentalRatingSubScore = 13;
-          guest-13-4.maxParentalRatingSubScore = 13;
-          # PG
-          guest-10-1.maxParentalRatingSubScore = 10;
-          guest-10-2.maxParentalRatingSubScore = 10;
-          guest-10-3.maxParentalRatingSubScore = 10;
-          guest-10-4.maxParentalRatingSubScore = 10;
-          # G
-          guest-0-1.maxParentalRatingSubScore = 0;
-          guest-0-2.maxParentalRatingSubScore = 0;
-          guest-0-3.maxParentalRatingSubScore = 0;
-          guest-0-4.maxParentalRatingSubScore = 0;
+          # # R
+          # guest-17-1.maxParentalRatingSubScore = 17;
+          # guest-17-2.maxParentalRatingSubScore = 17;
+          # guest-17-3.maxParentalRatingSubScore = 17;
+          # guest-17-4.maxParentalRatingSubScore = 17;
+          # # PG-13
+          # guest-13-1.maxParentalRatingSubScore = 13;
+          # guest-13-2.maxParentalRatingSubScore = 13;
+          # guest-13-3.maxParentalRatingSubScore = 13;
+          # guest-13-4.maxParentalRatingSubScore = 13;
+          # # PG
+          # guest-10-1.maxParentalRatingSubScore = 10;
+          # guest-10-2.maxParentalRatingSubScore = 10;
+          # guest-10-3.maxParentalRatingSubScore = 10;
+          # guest-10-4.maxParentalRatingSubScore = 10;
+          # # G
+          # guest-0-1.maxParentalRatingSubScore = 0;
+          # guest-0-2.maxParentalRatingSubScore = 0;
+          # guest-0-3.maxParentalRatingSubScore = 0;
+          # guest-0-4.maxParentalRatingSubScore = 0;
         };
 
         encoding = {
@@ -385,7 +377,7 @@ in {
             AutoSkipOutro = true;
 
             JellyseerrEnabled = true;
-            JellyseerrUrls = "https://jellyseerr.upidapi.dev";
+            JellyseerrUrls = "https://seerr.upidapi.dev";
             JellyseerrApiKey = config.sops.secrets."jellyseerr/api-key_declarr".path;
 
             AutoSeasonRequestEnabled = true;
@@ -429,7 +421,7 @@ in {
 
               jellyseerrServerUrl = {
                 locked = false;
-                value = "https://jellyseerr.upidapi.dev";
+                value = "https://seerr.upidapi.dev";
               };
               rememberAudioSelections = {
                 locked = false;
@@ -471,7 +463,7 @@ in {
                 (function() {
                     'use strict';
 
-                    const targetUrl = 'https://jellyseerr.upidapi.dev';
+                    const targetUrl = 'https://seerr.upidapi.dev';
                     const targetTextLower = 'favorites';
                     const newText = 'Discover';
 
@@ -603,7 +595,7 @@ in {
           #       <div class="requestPageFix">
           #         <iframe
           #           class="requestIframe"
-          #           src="https://jellyseerr.upidapi.dev">
+          #           src="https://seerr.upidapi.dev">
           #         </iframe>
           #       </div>
           #     '';

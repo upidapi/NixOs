@@ -141,7 +141,7 @@ in {
         enable = true;
         group = "media";
 
-        backup = false;
+        backups = false;
 
         package = pkgs.jellyfin.overrideAttrs {
           makeWrapperArgs = [

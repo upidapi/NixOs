@@ -212,6 +212,7 @@ in {
 
         "/var/lib/jellyfin"
         (toPrivateStateDirectory "/var/lib/jellyseerr")
+        "/var/lib/jfa-go"
 
         "/var/lib/minecraft/"
 

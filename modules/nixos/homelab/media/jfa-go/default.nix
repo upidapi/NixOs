@@ -60,9 +60,9 @@ in {
           <style>
             ${builtins.readFile ./style.css}
           </style>
-                  
+              
           # Welcome to Jellyfin!
-                  
+              
           <i>**Note:** You can also see this page on your [acccount page]({myAccountURL})</i>
 
           ${builtins.readFile ./content.md}
@@ -72,7 +72,7 @@ in {
           <style>
             ${builtins.readFile ./style.css}
           </style>
-                  
+              
           # Welcome to Jellyfin!
           ${builtins.readFile ./content.md}
         '';

@@ -26,6 +26,7 @@ in {
           ];
           exclude = [
             "/home/*/persist/tmp"
+            "/home/*/persist/vms"
           ];
           pruneOpts = [
             "--keep-daily=7"

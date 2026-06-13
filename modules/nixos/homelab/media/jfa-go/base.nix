@@ -379,6 +379,7 @@ in {
   config = lib.mkIf cfg.enable {
     systemd.tmpfiles.rules = [
       "d '${cfg.dataDir}' 0750 ${cfg.user} ${cfg.group} - -"
+      "Z '${cfg.dataDir}' 0750 ${cfg.user} ${cfg.group} - -"
     ];
 
     # NOTE: a hatch for sops templates
@@ -394,15 +395,6 @@ in {
     in
       toIni
       (lib.attrsets.recursiveUpdate defaults cfg.settings);
-
-    # systemd.tmpfiles.settings = {
-    #   "jfa-go-dir-create" = {
-    #     "/raid/media".d = {
-    #       group = "media";
-    #       mode = "751";
-    #     };
-    #   };
-    # };
 
     systemd.services.jfa-go = {
       description = "jfa-go";

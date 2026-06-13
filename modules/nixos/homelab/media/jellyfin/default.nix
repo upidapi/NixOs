@@ -183,6 +183,7 @@ in {
           # https://www.motionpictures.org/film-ratings/
 
           # NC-17 (adults only / anything)
+          guest = {};
           guest-1 = {};
           guest-2 = {};
           guest-3 = {};

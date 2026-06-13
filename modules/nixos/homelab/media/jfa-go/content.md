@@ -20,8 +20,8 @@ Depending on your device, I recommend using one of the following.
 #### Streamyfin (Mobile App)
 
 * **Best for:** iPhone, Android, Apple TV, and maybe macOS.
-* [Download for iOS (App Store)](https://apps.apple.com/se/app/streamyfin/id6593660679)
-* [Download for Android (Google Play Store)](https://play.google.com/store/apps/details?id=com.fredrikburmester.streamyfin&hl=en-US&pli=1)
+* [Download (App Store)](https://apps.apple.com/se/app/streamyfin/id6593660679)
+* [Download (Play Store)](https://play.google.com/store/apps/details?id=com.fredrikburmester.streamyfin&hl=en-US&pli=1)
 
 | Pros | Cons |
 | :--- | :--- |
@@ -52,7 +52,8 @@ or to request things that are missing from the library.
 * **Seerr Website:** [seerr.upidapi.dev](https://seerr.upidapi.dev)
 * **Login:** Use the **exact same** username and password as everything else 
 
-<i>**Note:** On the Jellyfin website, clicking the "Downloads" button in the top navigation bar acts as a direct shortcut to Seerr.</i>
+<i>**Note:** On the Jellyfin website, clicking the "Downloads" button in the top
+navigation bar acts as a direct shortcut to Seerr.</i>
 
 #### Seerr (app)
 Currently unavailable due to rebrand that took it out of the app stores. Idk 
@@ -63,8 +64,9 @@ Once you request something, the server will start downloading it automatically.
 
 * **Movies:** Usually ready to watch in **5 to 15 minutes**.
 * **TV Shows:** Delivery time depends on the number of episodes.
-* *Note: Please keep in mind it isn't magic. If a show is 100GB, it will take a
-while to download and process.*
+
+<i>**Note:** Please keep in mind it isn't magic. If a show is 100GB, it will
+take a while to download and process.</i>
 
 ### Requesting Unreleased Movies & Shows
 You can request media that hasn't even come out yet. The server will keep an eye

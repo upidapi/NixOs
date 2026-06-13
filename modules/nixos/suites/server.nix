@@ -30,7 +30,7 @@ in {
           unpackerr = enable;
           qbit = enable;
           cross-seed = enable;
-          wizarr = enable;
+          # wizarr = enable;
           jfa-go = enable;
           # profilarr = enable;
           meilisearch = enable;

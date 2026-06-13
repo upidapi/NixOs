@@ -1,0 +1,47 @@
+h1:first-of-type {
+    margin-top: 0 !important;
+}
+h1, h2, h3, h4 {
+    margin-top: 1.5rem !important;
+}
+
+h1 {
+  font-size: 2rem !important;
+}
+h2 {
+  font-size: 1.6rem !important;
+}
+h3 {
+  font-size: 1.25rem !important;
+}
+
+p, table, ul {
+    margin-top: 0.7rem !important;
+}
+p:empty,
+p:has(> br:only-child) {
+    margin-top: 0 !important;
+}
+
+h1 + *,
+h2 + *,
+h3 + *, 
+h4 + *,
+h5 + * {
+    margin-top: 0.1rem !important;
+}
+
+
+br {
+    content: "";
+    display: block !important;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%; /* Or any specific width you prefer, e.g., 600px */
+}
+th, td {
+  width: 50%;         /* Divides the two columns equally */
+  word-wrap: break-word; /* Prevents long text from overflowing the fixed width */
+}

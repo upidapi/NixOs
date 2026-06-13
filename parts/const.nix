@@ -58,6 +58,8 @@ in {
     cross-seed = 8510;
     autobrr = 8511;
     profilarr = 8512;
+    wizarr = 8513;
+    jfa-go = 8514;
 
     # homelab
     homepage = 8600;

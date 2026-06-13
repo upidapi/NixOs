@@ -29,6 +29,8 @@ in {
     ./qbit
     ./user-options.nix
     ./profilarr.nix
+    ./wizarr
+    ./jfa-go
     # remove once these get merged
     # https://github.com/NixOS/nixpkgs/pull/287923
     # https://github.com/fsnkty/nixpkgs/pull/3
@@ -126,6 +128,9 @@ in {
         "autobrr.upidapi.dev".extraConfig = ''
           reverse_proxy :${toString ports.autobrr}
         '';
+        "wizarr.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString ports.wizarr}
+        '';
 
         # "cross-seed.upidapi.dev".extraConfig = ''
         #   reverse_proxy :${toString ports.cross-seed}
@@ -133,8 +138,14 @@ in {
         "qbit.upidapi.dev".extraConfig = ''
           reverse_proxy ${ips.proton}:${toString ports.qbit}
         '';
+        "invite.upidapi.dev".extraConfig = ''
+          reverse_proxy :${toString ports.jfa-go}
+        '';
 
         "jellyseerr.upidapi.dev".extraConfig = ''
+          redir https://seerr.upidapi.dev permanent
+        '';
+        "seerr.upidapi.dev".extraConfig = ''
           reverse_proxy :${toString ports.jellyseerr}
 
           header {

@@ -43,6 +43,7 @@ in {
   imports = [
     (mkUserSettins "prowlarr")
     (mkUserSettins "seerr")
+    # (mkUserSettins "jfa-go")
     # (mkUserSettins "autobrr")
   ];
 }

@@ -141,6 +141,8 @@ in {
         enable = true;
         group = "media";
 
+        backup = false;
+
         package = pkgs.jellyfin.overrideAttrs {
           makeWrapperArgs = [
             "--add-flags"

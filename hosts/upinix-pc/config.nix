@@ -26,6 +26,13 @@ in {
   # services.resolved.enable = true;
 
   users.users = {
+    steam = {
+      isNormalUser = true;
+
+      hashedPasswordFile = config.sops.secrets."users/upidapi".path;
+      openssh.authorizedKeys.keys = [keys.users.upidapi];
+    };
+
     upidapi = {
       isNormalUser = true;
 

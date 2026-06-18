@@ -105,6 +105,14 @@ in {
   #  might be a temp fix
   #   cat /sys/kernel/debug/dri/1/amdgpu_gpu_recover
 
+  # didn't work
+  # boot = {
+  #   kernelParams = [
+  #     "amdgpu.dcdebugmask=0x10"
+  #     "amd_pstate=active"
+  #   ];
+  #   blacklistedKernelModules = ["amd_pmf"];
+  # };
   boot.kernelParams = [
     "amdgpu.dcdebugmask=0x10"
   ];

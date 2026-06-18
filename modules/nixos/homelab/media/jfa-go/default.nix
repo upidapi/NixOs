@@ -74,6 +74,7 @@ in {
           </style>
 
           # Welcome to Jellyfin!
+
           ${builtins.readFile ./content.md}
         '';
       };

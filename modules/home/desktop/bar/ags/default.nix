@@ -27,6 +27,10 @@ in {
     # inputs.ags.homeManagerModules.default
   ];
 
+  # TODO: migrate to v3 (or v4 by now lol)
+  # TODO: add vpn widget
+  # FIXME: the headphones icon doesn't always work
+
   config = let
     pkg = pkgs.ags.overrideAttrs (prev: {
       # FROM: https://github.com/Aylur/ags/issues/681

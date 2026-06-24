@@ -137,6 +137,7 @@ in {
 
           # for formatting a multiple iso usb
           ventoy
+          # TODO: look into https://github.com/Mexit/MultiOS-USB
 
           # find out what process is using a file
           lsof

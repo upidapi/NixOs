@@ -26,7 +26,6 @@ local base_cfg = {
     name = "Launch file",
     type = "codelldb",
     request = "launch",
-    -- FIXME: Doesnt work
     program = function()
         return require("dap.utils").pick_file({
             filter = ".*.out",

@@ -78,13 +78,13 @@ in {
   #   blue: performance
 
   # NOTE: fix the 544MHz locking after suspend
-  # which was caused by PROCHOT flag set
+  #  which was caused by PROCHOT flag set
   #   a hardware safety thing
   #   that limits clock speed to minimum
-  # Since CPPC is disabled, and PMF fails to init,
-  # therefore linux cant tell AMD SMU to resume to normal power settings
+  #  Since CPPC is disabled, and PMF fails to init,
+  #  therefore linux cant tell AMD SMU to resume to normal power settings
   #   and therefore cant unset the PROCHOT flag
-  # replication: plug out during suspend
+  #  replication: plug out during suspend
   hardware = {
     tuxedo-drivers = enable; # doesn't do anything better
     # tuxedo-rs = {

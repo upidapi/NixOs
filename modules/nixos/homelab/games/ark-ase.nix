@@ -14,21 +14,24 @@ in {
     systemd.tmpfiles.rules = [
       "d /var/lib/ark-ase/ 0755 1000 1000 -"
       "d /var/lib/ark-ase/backup 0755 1000 1000 -"
+
+      "d /var/lib/ark-ase-2/ 0755 1000 1000 -"
+      "d /var/lib/ark-ase-2/backup 0755 1000 1000 -"
     ];
 
     virtualisation.oci-containers.containers = {
-      ark-island = {
+      ark-island-2 = {
         image = "hermsi/ark-server:latest";
         volumes = [
-          "/var/lib/ark-ase:/app"
-          "/var/lib/ark-ase/backup:/home/steam/ARK-Backups"
+          "/var/lib/ark-ase-2:/app"
+          "/var/lib/ark-ase-2/backup:/home/steam/ARK-Backups"
         ];
         extraOptions = ["--network=host"];
         environment = {
           SESSION_NAME = "penis-o-atfc";
-          SERVER_MAP = "TheIsland";
-          SERVER_PASSWORD = "ensdfasdi";
-          ADMIN_PASSWORD = "ensdfasdi";
+          SERVER_MAP = "Valguero_P";
+          SERVER_PASSWORD = "hentai";
+          ADMIN_PASSWORD = "hentai";
           MAX_PLAYERS = "20";
           UPDATE_ON_START = "false";
           BACKUP_ON_STOP = "false";
@@ -41,11 +44,42 @@ in {
           SERVER_LIST_PORT = "6808";
           # UDP_SOCKET_PORT = "6808";
           RCON_PORT = "6809";
-          GAME_MOD_IDS = "558651608,1999447172";
-
-          # GAME_MOD_IDS = "679529026,902616446,1373744537,1445395055,848706943,558651608,1565015734,1300713111,1999447172,821530042";
+          # just s+
+          GAME_MOD_IDS = "731604991";
+          # all the mods
+          # GAME_MOD_IDS = "731604991,839162288,1315573129,1681125667,2200048898,1404697612,889745138";
         };
       };
+
+      # ark-island = {
+      #   image = "hermsi/ark-server:latest";
+      #   volumes = [
+      #     "/var/lib/ark-ase:/app"
+      #     "/var/lib/ark-ase/backup:/home/steam/ARK-Backups"
+      #   ];
+      #   extraOptions = ["--network=host"];
+      #   environment = {
+      #     SESSION_NAME = "penis-o-atfc";
+      #     SERVER_MAP = "TheIsland";
+      #     SERVER_PASSWORD = "ensdfasdi";
+      #     ADMIN_PASSWORD = "ensdfasdi";
+      #     MAX_PLAYERS = "20";
+      #     UPDATE_ON_START = "false";
+      #     BACKUP_ON_STOP = "false";
+      #     PRE_UPDATE_BACKUP = "true";
+      #     WARN_ON_STOP = "true";
+      #     ENABLE_CROSSPLAY = "false";
+      #     DISABLE_BATTLEYE = "true";
+      #     ARK_SERVER_VOLUME = "/app";
+      #     GAME_CLIENT_PORT = "6807";
+      #     SERVER_LIST_PORT = "6808";
+      #     # UDP_SOCKET_PORT = "6808";
+      #     RCON_PORT = "6809";
+      #     GAME_MOD_IDS = "558651608,1999447172";
+      #
+      #     # GAME_MOD_IDS = "679529026,902616446,1373744537,1445395055,848706943,558651608,1565015734,1300713111,1999447172,821530042";
+      #   };
+      # };
     };
   };
 }

@@ -43,10 +43,11 @@ in {
     ];
 
     # for eg proton vpn
-    services.gnome = {
-      gnome-keyring.enable = true;
-      gcr-ssh-agent.enable = false; # i use programs.ssh.startAgent
-    };
+    # FIXME: breaks bitwarden
+    # services.gnome = {
+    #   gnome-keyring.enable = true;
+    #   gcr-ssh-agent.enable = false; # i use programs.ssh.startAgent
+    # };
 
     # fixes
     # (arr-init)[42900]: Directory "/var/lib/private" already exists, but has mode 0755 that is too permissive (0700 was requested), refusing.

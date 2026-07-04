@@ -14,7 +14,6 @@ in {
   ];
 
   system.stateVersion = "23.11";
-
   boot = {
     # This seams to not be the case:
     #   i think that the update from 6.12.4 to 6.12.5 broke suspend
@@ -93,7 +92,26 @@ in {
     # };
   };
 
-  services.thermald.enable = lib.mkDefault true;
+  services = {
+    # dummy config for testing
+    # sonarr = {
+    #   # apiKeyFile = "";
+    #   settings.auth.apikey = "fwdv95oeuhvkxv2lk9q0gncfx7cdqo4x";
+    #   enable = true;
+    # };
+    # radarr = {
+    #   # apiKeyFile = "";
+    #   settings.auth.apikey = "fwdv95oeuhvkxv2lk9q0gncfx7cdqo4x";
+    #   enable = true;
+    # };
+    # prowlarr = {
+    #   # apiKeyFile = "";
+    #   settings.auth.apikey = "fwdv95oeuhvkxv2lk9q0gncfx7cdqo4x";
+    #   enable = true;
+    # };
+
+    thermald.enable = lib.mkDefault true;
+  };
 
   # probably fixes it
   # (2025-03-14) Randomly after a while my pc starts to lag (like 1fps)

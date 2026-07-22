@@ -25,6 +25,7 @@ in {
     ./starship.nix
     ./tmux
     ./zsh.nix
+    ./nix-your-shell.nix
   ];
 
   config = {

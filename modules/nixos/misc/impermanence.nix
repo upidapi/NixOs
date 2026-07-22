@@ -219,6 +219,9 @@ in {
         "/var/lib/caddy"
         "/var/lib/wg-easy"
 
+        "/var/lib/ark-ase"
+        "/var/lib/ark-ase-2"
+
         # "/srv/sonarr"
         # "/srv/radarr"
         # "/srv/bazarr"

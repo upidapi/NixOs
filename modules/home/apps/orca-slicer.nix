@@ -42,6 +42,13 @@ in {
   options.modules.home.apps.orca-slicer = mkEnableOpt "";
 
   config = mkIf cfg.enable {
-    home.packages = [orca-slicer];
+    home.packages = [
+      (pkgs.orca-slicer.override {
+        withNvidiaGLWorkaround = true; # I have nvidia
+        glew = pkgs.glew.override {
+          enableEGL = false;
+        };
+      })
+    ];
   };
 }

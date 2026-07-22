@@ -1,4 +1,4 @@
--- BROKEN: 
+-- BROKEN:
 --  local nvim_tree_select = require("nvim-treesitter.incremental_selection")
 local dap = require("dap")
 
@@ -27,8 +27,8 @@ local mappings = {
         "n",
         "<F3>",
         function()
-            require("conform").format()
             -- vim.lsp.buf.format({ async = true })
+            require("conform").format({ async = true })
             -- require("conform").format()
         end,
     },

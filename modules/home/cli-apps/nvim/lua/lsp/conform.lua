@@ -10,7 +10,9 @@ require("conform").setup({
         -- ["*"] = { "codespell" },
         -- Use the "_" filetype to run formatters on filetypes that don't
         -- have other formatters configured.
-        ["_"] = { "trim_whitespace" },
+        -- NOTE: this causes the lsp_format fallback to break
+        -- TODO: submit issue
+        -- ["_"] = { "trim_whitespace" },
 
         -- formatter for injected code
         injected = { options = { ignore_errors = true } },

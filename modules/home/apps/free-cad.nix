@@ -11,12 +11,12 @@
 
   freecad = let
     pname = "freecad";
-    version = "weekly-2026.01.07";
+    version = "weekly-2026.07.01";
 
     # https://github.com/FreeCAD/FreeCAD/releases/download/weekly-2026.01.07/FreeCAD_weekly-2026.01.07-Linux-x86_64-py311.AppImage
     src = pkgs.fetchurl {
-      url = "https://github.com/FreeCAD/FreeCAD/releases/download/${version}/FreeCAD_${version}-Linux-x86_64-py311.AppImage";
-      hash = "sha256-js5TMASYoWcJWZw9xnTmXD8Bpr7bgV4fdEPLwSCqoIE=";
+      url = "https://github.com/FreeCAD/FreeCAD/releases/download/${version}/FreeCAD_${version}-Linux-x86_64.AppImage";
+      hash = "sha256-lopikcSjtOgKwPKs5rsdRABYiQXXcW0ir5gUroaNaf8==";
     };
 
     appimageContents = pkgs.appimageTools.extractType2 {inherit pname version src;};

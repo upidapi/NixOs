@@ -73,6 +73,7 @@ in {
         direnv = enable;
         tmux = enable;
         starship = enable;
+        nix-your-shell = enable;
       };
 
       services = {

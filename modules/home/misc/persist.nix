@@ -39,6 +39,9 @@ in {
         ".local/share/keyrings" # stores passwords (keys)
         ".local/share/direnv"
 
+        # Bad idea?
+        ".local/state/wireplumber" # persist sound config
+
         # sops keys, (it seams like this isn't needed)
         ".config/sops"
 

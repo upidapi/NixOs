@@ -186,14 +186,14 @@ in {
 
           # NC-17 (adults only / anything)
           guest = {};
-          guest-1 = {};
-          guest-2 = {};
-          guest-3 = {};
-          guest-4 = {};
-          guest-5 = {};
-          guest-6 = {};
-          guest-7 = {};
-          guest-8 = {};
+          # guest-1 = {};
+          # guest-2 = {};
+          # guest-3 = {};
+          # guest-4 = {};
+          # guest-5 = {};
+          # guest-6 = {};
+          # guest-7 = {};
+          # guest-8 = {};
           # # R
           # guest-17-1.maxParentalRatingSubScore = 17;
           # guest-17-2.maxParentalRatingSubScore = 17;

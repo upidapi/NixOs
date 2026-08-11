@@ -79,8 +79,11 @@ in {
     wireguard = 51820;
     wg-easy = 51821;
 
-    mc-server = 25565;
+    mc-server-a = 25565;
     mc-server-b = 25566;
+    mc-server-c = 25567;
+    mc-server-d = 25568;
+    mc-server-e = 25569;
   };
 
   ips = {

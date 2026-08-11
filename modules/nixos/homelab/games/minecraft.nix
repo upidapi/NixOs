@@ -32,8 +32,8 @@ in {
         group = "minecraft";
       };
     };
-    systemd.services = {
-      "mc-server" = {
+    systemd.services = let
+      mkMcServer = dir: script: {
         after = ["network.target"];
         wantedBy = ["multi-user.target"];
         path = [pkgs.jre pkgs.jre8];
@@ -41,26 +41,23 @@ in {
           User = "minecraft";
           Group = "minecraft";
 
-          WorkingDirectory = "/var/lib/minecraft/SAM-1b-so";
-          ExecStart = pkgs.writeShellScript "run-mc-server" ''
-            java -jar fabric-server-launch.jar nogui --port ${toString ports.mc-server}
-          '';
+          WorkingDirectory = dir;
+          ExecStart = pkgs.writeShellScript "run-mc-server" script;
         };
       };
-      "mc-server-b" = {
-        after = ["network.target"];
-        wantedBy = ["multi-user.target"];
-        path = [pkgs.jre pkgs.jre8];
-        serviceConfig = {
-          User = "minecraft";
-          Group = "minecraft";
+    in {
+      # "mc-server-SAM-1b" = mkMcServer "/var/lib/minecraft/SAM-1b-so" ''
+      #   java -jar fabric-server-launch.jar nogui --port ${toString ports.mc-server}
+      # '';
+      #
+      # "mc-server-nore" = mkMcServer "/var/lib/minecraft/nore" ''
+      #   java -jar fabric-server-launch.jar nogui --port ${toString ports.mc-server-b}
+      # '';
 
-          WorkingDirectory = "/var/lib/minecraft/nore";
-          ExecStart = pkgs.writeShellScript "run-mc-server" ''
-            java -jar fabric-server-launch.jar nogui --port ${toString ports.mc-server-b}
-          '';
-        };
-      };
+      "mc-server-sam" = mkMcServer "/var/lib/minecraft/sam-person" ''
+        java -jar fabric-server-launch.jar nogui \
+          --port ${toString ports.mc-server-c}
+      '';
     };
   };
 }

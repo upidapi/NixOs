@@ -12,9 +12,8 @@
   cfg = config.modules.home.desktop.hyprland;
 in {
   imports = [
-    ./config.nix
-    ./binds.nix
     ./monitors.nix
+    ./cofig.nix
     inputs.hyprland.homeManagerModules.default
   ];
 
@@ -32,6 +31,7 @@ in {
       brightnessctl
       hyprpicker
       grimblast
+      tesseract
     ];
 
     wayland.windowManager.hyprland = {
@@ -46,7 +46,11 @@ in {
       # Whether to enable hyprland-session.target on hyprland startup
       systemd.enable = true;
 
-      configType = "hyprlang";
+      configType = "lua";
+
+      extraLuaFiles = {
+        "binds.lua" = ./binds.lua;
+      };
     };
     # wayland.windowManager.hyprland.enable = true;
   };

@@ -21,7 +21,7 @@ in {
 
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
-      exec-once = ["bash ${startSwww}/bin/start-swww"];
+      # exec-once = ["bash ${startSwww}/bin/start-swww"];
     };
 
     home.packages = with pkgs; [

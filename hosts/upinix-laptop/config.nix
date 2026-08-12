@@ -39,6 +39,8 @@ in {
   sops.secrets."users/root".neededForUsers = true;
   sops.secrets."users/upidapi".neededForUsers = true;
 
+  # services.desktopManager.plasma6.enable = true;
+
   users.users = {
     upidapi = {
       isNormalUser = true;

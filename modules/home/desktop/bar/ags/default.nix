@@ -69,7 +69,7 @@ in {
       # ];
 
       wayland.windowManager.hyprland.settings = {
-        exec-once = ["ags run"];
+        # exec-once = ["ags run"];
       };
 
       home.packages = with pkgs; [

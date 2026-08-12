@@ -52,9 +52,8 @@
   # zlib,
   # curl,
   # qt6,
-  #
   fetchFromGitHub,
-  python3,
+  python313,
   ...
 }: let
   version = "9.2";
@@ -107,7 +106,7 @@
     hash = "sha256-Usru4URPGUXcF9Asi6Ok/NA9s7IX8S2LhmpigFe/r58=";
   };
 
-  pythonForIDA = python3.withPackages (ps:
+  pythonForIDA = python313.withPackages (ps:
     with ps; [
       rpyc
       pyelftools

@@ -7,6 +7,10 @@
   cfg = config.services.unpackerr;
   format = pkgs.formats.toml {};
 in {
+  # module got unstreamed
+  # idc, my thing works
+  disabledModules = ["services/misc/unpackerr.nix"];
+
   options = {
     services.unpackerr = {
       enable = lib.mkEnableOption "unpackerr";

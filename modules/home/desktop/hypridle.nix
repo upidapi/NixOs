@@ -25,12 +25,13 @@ in {
     };
 
   config = mkIf cfg.enable {
-    wayland.windowManager.hyprland.settings = {
-      # exec-once = [
-      #   # don't idle while playing audio
-      #   "sway-audio-idle-inhibit"
-      # ];
-    };
+    wayland.windowManager.hyprland.extraConfig =
+      # lua
+      ''
+        hl.on("hyprland.start", function () 
+          hl.exec_cmd("sway-audio-idle-inhibit")
+        end)
+      '';
 
     home.packages = with pkgs; [
       hypridle

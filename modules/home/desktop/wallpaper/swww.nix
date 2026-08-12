@@ -20,9 +20,13 @@ in {
     mkEnableOpt "enables swww, a wallpaper daemion";
 
   config = mkIf cfg.enable {
-    wayland.windowManager.hyprland.settings = {
-      # exec-once = ["bash ${startSwww}/bin/start-swww"];
-    };
+    wayland.windowManager.hyprland.extraConfig =
+      # lua
+      ''
+        hl.on("hyprland.start", function () 
+          hl.exec_cmd("bash ${startSwww}/bin/start-swww")
+        end)
+      '';
 
     home.packages = with pkgs; [
       swww # wallpaper daemions

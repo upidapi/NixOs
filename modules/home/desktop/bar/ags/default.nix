@@ -68,9 +68,13 @@ in {
       #   })
       # ];
 
-      wayland.windowManager.hyprland.settings = {
-        # exec-once = ["ags run"];
-      };
+      wayland.windowManager.hyprland.extraConfig =
+        # lua
+        ''
+          hl.on("hyprland.start", function () 
+            hl.exec_cmd("ags run")
+          end)
+        '';
 
       home.packages = with pkgs; [
         pkg

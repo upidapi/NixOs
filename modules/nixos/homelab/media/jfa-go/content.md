@@ -13,11 +13,11 @@ To log in to any of the apps below, you will need the server address:
 
 <i>**Note:** Everything uses the **exact same** password and username</i>
 
-### Recommended Ways to Watch
+## Recommended Ways to Watch
 
 Depending on your device, I recommend using one of the following.
 
-#### Streamyfin (Mobile App)
+### Streamyfin (Mobile App)
 
 * **Best for:** iPhone, Android, Apple TV, and maybe macOS.
 * [Download (App Store)](https://apps.apple.com/se/app/streamyfin/id6593660679)
@@ -28,7 +28,7 @@ Depending on your device, I recommend using one of the following.
 | 🟢 Supports downloading for offline viewing | 🔴 Slightly buggy at times |
 | 🟢 Modern, polished interface | |
 
-#### Jellyfin Web (Website & Official App)
+### Jellyfin Web (Website & Official App)
 
 * **Best for:** Computers
 * **Link:** [jellyfin.upidapi.dev](https://jellyfin.upidapi.dev)
@@ -44,7 +44,7 @@ android</i>
 
 
 
-# Requesting New Content (Seerr)
+## Requesting New Content (Seerr)
 What happens when you don't know what to watch, or the show you want isn't on
 Jellyfin? That's where Seerr comes in. You can use it to discover new content,
 or to request things that are missing from the library.
@@ -55,11 +55,11 @@ or to request things that are missing from the library.
 <i>**Note:** On the Jellyfin website, clicking the "Downloads" button in the top
 navigation bar acts as a direct shortcut to Seerr.</i>
 
-#### Seerr (app)
+### Seerr (app)
 Currently unavailable due to rebrand that took it out of the app stores. Idk 
 when it will be again, just use the website. 
 
-## How Requesting Works
+### How Requesting Works
 Once you request something, the server will start downloading it automatically.
 
 * **Movies:** Usually ready to watch in **5 to 15 minutes**.

@@ -48,8 +48,11 @@ in {
         25507
         25508
         25509
-        const.ports.mc-server
+        const.ports.mc-server-a
         const.ports.mc-server-b
+        const.ports.mc-server-c
+        const.ports.mc-server-d
+        const.ports.mc-server-e
 
         # REF: https://forum.bambulab.com/t/orca-slicer-or-die/135872/270
         # REF: https://www.reddit.com/r/BambuLab/comments/1i4vp5i/lan_mode_with_live_view_remote_monitoringcontrol/

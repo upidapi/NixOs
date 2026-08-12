@@ -46,7 +46,7 @@ in {
       # Whether to enable hyprland-session.target on hyprland startup
       systemd.enable = true;
 
-       onfigType = "lua";
+      configType = "lua";
 
       extraLuaFiles = {
         "binds.lua" = ./binds.lua;

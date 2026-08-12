@@ -117,10 +117,10 @@ in {
         # disable
         # https://github.com/hyprwm/Hyprland/issues/5958
         # https://github.com/hyprwm/Hyprland/issues/6032
-        "Unknown-1" = {
-          enabled = false;
-          workspace = -1;
-        };
+        # "Unknown-1" = {
+        #   enabled = false;
+        #   workspace = -1;
+        # };
         "desc:Dell Inc. DELL U2312HM 59DJP23QCZFL" = {
           # for some reason the names change when using sops
           # therefore use desc to match instead

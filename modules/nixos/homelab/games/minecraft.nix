@@ -33,10 +33,10 @@ in {
       };
     };
     systemd.services = let
-      mkMcServer = dir: script: {
+      mkMcServer = dir: pk: script: {
         after = ["network.target"];
         wantedBy = ["multi-user.target"];
-        path = [pkgs.jre pkgs.jre8];
+        path = pk;
         serviceConfig = {
           User = "minecraft";
           Group = "minecraft";
@@ -54,10 +54,13 @@ in {
       #   java -jar fabric-server-launch.jar nogui --port ${toString ports.mc-server-b}
       # '';
 
-      "mc-server-sam" = mkMcServer "/var/lib/minecraft/sam-person" ''
-        java -jar fabric-server-launch.jar nogui \
-          --port ${toString ports.mc-server-c}
-      '';
+      "mc-server-sam" =
+        mkMcServer
+        "/var/lib/minecraft/sam-person"
+        [pkgs.openjdk25_headless] ''
+          java -jar fabric-server-launch.jar nogui \
+            --port ${toString ports.mc-server-c}
+        '';
     };
   };
 }

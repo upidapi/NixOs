@@ -54,9 +54,9 @@ in {
         };
 
         games = {
-          ark-ase = enable;
+          # ark-ase = enable;
           impostor = enable;
-          necesse = enable;
+          # necesse = enable;
           minecraft = enable;
         };
       };

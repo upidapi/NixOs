@@ -7,7 +7,7 @@
         hl.animation({ leaf = "workspaces", enabled = false })
         hl.animation({ leaf = "fade", enabled = false })
         hl.animation({ leaf = "windows", enabled = false })
-          
+        
         -- disable animations for the images (that are actually
         -- wayland windows) created by ueberzugpp
         hl.window_rule({

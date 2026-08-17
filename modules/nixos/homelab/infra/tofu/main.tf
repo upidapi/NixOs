@@ -91,7 +91,8 @@ resource "cloudflare_dns_record" "vpn_upidapi_dev_a_record" {
   lifecycle { ignore_changes = [content] }
 }
 
-
+# forward *.upidapi.dev:{80,443}
+# they don't allow for other ports (they do but only some related to http(s))
 resource "cloudflare_dns_record" "wild_upidapi_dev_a_record" {
   zone_id = local.zone_data["upidapi.dev"].id
   name    = "*"
@@ -101,3 +102,7 @@ resource "cloudflare_dns_record" "wild_upidapi_dev_a_record" {
   proxied = true 
   lifecycle { ignore_changes = [content] }
 }
+
+# Could use cloudflare 0 trust for ssh
+# or Cloudflare Spectrum for everything
+# but that costs money, then i might as well use a cheap vps proxy

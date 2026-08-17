@@ -69,7 +69,7 @@ local function mkScreenshotBind(core)
 	return (
 		[[mkdir images; GRIMBLAST_HIDE_CURSOR=1 grimblast ]] --
 		.. core --
-		.. [[images/$(date "+%Y-%m-%-d_%H:%M:%S").png]]
+		.. [[ images/$(date "+%Y-%m-%-d_%H:%M:%S").png]]
 	)
 end
 

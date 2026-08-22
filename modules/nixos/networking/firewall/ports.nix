@@ -12,6 +12,7 @@ in {
   options.modules.nixos.networking.firewall.ports = mkEnableOpt "open some ports";
 
   # TODO: split this into modules?
+  # NOTE: don't forget that there's separate settings for opening TCP and UDP
   config = mkIf cfg.enable {
     networking.firewall = {
       allowedTCPPorts = [
@@ -83,6 +84,12 @@ in {
         6807
         6808
         6809
+
+        const.ports.mc-server-a
+        const.ports.mc-server-b
+        const.ports.mc-server-c
+        const.ports.mc-server-d
+        const.ports.mc-server-e
 
         # bambu
         2021 # discovery

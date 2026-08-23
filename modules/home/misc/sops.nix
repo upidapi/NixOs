@@ -55,7 +55,7 @@ in {
     home.file = {
       # technically not sops related,
       # but this feel like the sane place to put it
-      ".ssh/id_ed25519.pub" = const.keys.users.${config.home.username};
+      ".ssh/id_ed25519.pub".text = const.keys.users.${config.home.username};
       ".ssh/id_ed25519" = {
         source =
           config.lib.file.mkOutOfStoreSymlink

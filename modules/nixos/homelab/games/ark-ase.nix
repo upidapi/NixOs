@@ -40,10 +40,10 @@ in {
           ENABLE_CROSSPLAY = "false";
           DISABLE_BATTLEYE = "true";
           ARK_SERVER_VOLUME = "/app";
-          GAME_CLIENT_PORT = "6807";
-          SERVER_LIST_PORT = "6808";
-          # UDP_SOCKET_PORT = "6808";
-          RCON_PORT = "6809";
+          GAME_CLIENT_PORT = throw "define ports to use ase";
+          SERVER_LIST_PORT = "";
+          RCON_PORT = "";
+          # UDP_SOCKET_PORT = "";
           # just s+
           GAME_MOD_IDS = "731604991,1786522940,1787443195";
           # all the mods
@@ -71,10 +71,10 @@ in {
       #     ENABLE_CROSSPLAY = "false";
       #     DISABLE_BATTLEYE = "true";
       #     ARK_SERVER_VOLUME = "/app";
-      #     GAME_CLIENT_PORT = "6807";
-      #     SERVER_LIST_PORT = "6808";
-      #     # UDP_SOCKET_PORT = "6808";
-      #     RCON_PORT = "6809";
+      #     GAME_CLIENT_PORT = throw "define ports to use ase";
+      #     SERVER_LIST_PORT = "";
+      #     RCON_PORT = "";
+      #     # UDP_SOCKET_PORT = "";
       #     GAME_MOD_IDS = "558651608,1999447172";
       #
       #     # GAME_MOD_IDS = "679529026,902616446,1373744537,1445395055,848706943,558651608,1565015734,1300713111,1999447172,821530042";

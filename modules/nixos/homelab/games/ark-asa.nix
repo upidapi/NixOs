@@ -325,9 +325,9 @@ in {
           SessionName = "penis-o-atfc";
           ServerPassword = "ensdfasdi";
           ServerAdminPassword = "ensdfasdi";
-          Port = 6807; # + 1 is used for raw trafik
-          QueryPort = 6808;
-          RCONPort = 6809;
+          Port = throw "define ports to use ase"; # 6807; # + 1 is used for raw trafik
+          QueryPort = 0; # 6808;
+          RCONPort = 0; # 6809;
           RCONEnabled = "True";
         } [
           "-WinLiveMaxPlayers=20"

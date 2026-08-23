@@ -496,7 +496,7 @@ in {
 
                         // Target the last tab button
                         const lastTab = document.querySelector('.headerTabs .emby-tab-button:last-child');
-                            
+                          
                         if (lastTab && !lastTab.dataset.discoverModified) {
                             lastTab.dataset.discoverModified = 'true';
 

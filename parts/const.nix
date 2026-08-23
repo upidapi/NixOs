@@ -79,6 +79,7 @@ in {
     wireguard = 51820;
     wg-easy = 51821;
 
+    # 25500 - 25599 is assigned to game servers
     mc-server-a = 25565;
     mc-server-b = 25566;
     mc-server-c = 25567;

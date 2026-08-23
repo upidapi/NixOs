@@ -15,6 +15,20 @@ in {
   # NOTE: don't forget that there's separate settings for opening TCP and UDP
   config = mkIf cfg.enable {
     networking.firewall = {
+      # for game servers
+      allowedTCPPortRanges = [
+        {
+          from = 25500;
+          to = 25599;
+        }
+      ];
+      allowedUDPPortRanges = [
+        {
+          from = 25500;
+          to = 25599;
+        }
+      ];
+
       allowedTCPPorts = [
         7071 # for azure func api
         7072
@@ -25,35 +39,6 @@ in {
         3501
         3502
         3503
-
-        # for game servers
-        6800
-        6801
-        6802
-        6803
-        6804
-        6805
-        6806
-        6807
-        6808
-        6809
-
-        # for mc servers
-        25500
-        25501
-        25502
-        25503
-        25504
-        25505
-        25506
-        25507
-        25508
-        25509
-        const.ports.mc-server-a
-        const.ports.mc-server-b
-        const.ports.mc-server-c
-        const.ports.mc-server-d
-        const.ports.mc-server-e
 
         # REF: https://forum.bambulab.com/t/orca-slicer-or-die/135872/270
         # REF: https://www.reddit.com/r/BambuLab/comments/1i4vp5i/lan_mode_with_live_view_remote_monitoringcontrol/
@@ -72,24 +57,6 @@ in {
         3501
         3502
         3503
-
-        # for game servers
-        6800
-        6801
-        6802
-        6803
-        6804
-        6805
-        6806
-        6807
-        6808
-        6809
-
-        const.ports.mc-server-a
-        const.ports.mc-server-b
-        const.ports.mc-server-c
-        const.ports.mc-server-d
-        const.ports.mc-server-e
 
         # bambu
         2021 # discovery

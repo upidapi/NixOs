@@ -5,6 +5,7 @@
   lib,
   inputs,
   # pkgs,
+  const,
   self,
   ...
 }: let
@@ -52,12 +53,9 @@ in {
     */
 
     home.file = {
-      /*
-      "test" = {
-        text = "test";
-      };
-      */
-
+      # technically not sops related,
+      # but this feel like the sane place to put it
+      ".ssh/id_ed25519.pub" = const.keys.users.${config.home.username};
       ".ssh/id_ed25519" = {
         source =
           config.lib.file.mkOutOfStoreSymlink

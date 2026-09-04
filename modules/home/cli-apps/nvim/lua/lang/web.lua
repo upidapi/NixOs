@@ -13,7 +13,7 @@ require("nvim-ts-autotag").setup({
 -- require('nvim-ts-autotag').setup()
 
 -- native (lua) implementation of the communication with tsserver
-require("typescript-tools").setup({})
+-- require("typescript-tools").setup({})
 
 vim.lsp.enable("tailwindcss")
 
@@ -49,6 +49,32 @@ vim.lsp.config("yamlls", {
 vim.lsp.enable("yamlls")
 
 vim.lsp.enable("svelte")
+
+local vue_language_server_path = vim.fn.exepath("vue-language-server")
+
+local vue_plugin = {
+    name = "@vue/typescript-plugin",
+    location = vue_language_server_path,
+    languages = { "vue" },
+    configNamespace = "typescript",
+}
+
+vim.lsp.config("ts_ls", {
+    init_options = {
+        plugins = {
+            vue_plugin,
+        },
+    },
+    filetypes = {
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue",
+    },
+})
+
+vim.lsp.enable({ "ts_ls", "vue_ls" })
 
 -- NOTE: deno_fmt is actually dprint which is quite similar to prettier
 --  so might switch to that eventually

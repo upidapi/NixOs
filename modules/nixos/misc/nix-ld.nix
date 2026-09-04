@@ -10,6 +10,7 @@ nix run github:thiagokokada/nix-alien -- yourprogram
   config,
   lib,
   mlib,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -19,6 +20,8 @@ in {
   options.modules.nixos.misc.nix-ld = mkEnableOpt "";
 
   config = mkIf cfg.enable {
+    environment.systemPackages = [pkgs.nix-alien];
+
     programs.nix-ld.enable = true;
   };
 }

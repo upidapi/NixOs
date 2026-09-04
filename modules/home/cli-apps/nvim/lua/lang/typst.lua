@@ -8,6 +8,8 @@ vim.lsp.config("tinymist", {
 })
 vim.lsp.enable("tinymist")
 
-require("typst-preview").setup({})
+require("typst-preview").setup({
+    debug = true,
+})
 
 -- https://github.com/OXY2DEV/markview.nvim?

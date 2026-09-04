@@ -98,6 +98,7 @@ in {
 
         # ts / js
         typescript
+        typescript-language-server
 
         # python
         ruff
@@ -177,6 +178,7 @@ in {
         # prettierd
         biome
         svelte-language-server
+        vue-language-server
 
         tailwindcss-language-server
 

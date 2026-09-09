@@ -20,7 +20,8 @@ in {
   options.modules.nixos.misc.nix-ld = mkEnableOpt "";
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [pkgs.nix-alien];
+    # TODO: add nix-alien
+    # environment.systemPackages = [pkgs.nix-alien];
 
     programs.nix-ld.enable = true;
   };

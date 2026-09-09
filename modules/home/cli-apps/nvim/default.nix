@@ -100,6 +100,9 @@ in {
         typescript
         typescript-language-server
 
+        # pug
+        emmet-language-server
+
         # python
         ruff
         # mypy
@@ -258,6 +261,8 @@ in {
                 typescript
                 tsx
                 svelte
+                vue
+                pug
 
                 html
                 css

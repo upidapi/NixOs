@@ -4,6 +4,9 @@
   # dirwnv allow
 
   flake.templates = {
+    base = {
+      path = ./base;
+    };
     python-venv = {
       path = ./python-venv;
     };

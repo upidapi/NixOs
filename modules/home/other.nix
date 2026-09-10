@@ -27,6 +27,8 @@ in {
 
       # grep but better and faster
       ripgrep = enable;
+
+      devenv = enable;
     };
 
     home = {

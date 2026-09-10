@@ -1,11 +1,7 @@
-vim.lsp.enable("rust_analyzer")
-
 local dap = require("dap")
--- maybe dont do this since it might be set by rustaceanvim
 dap.configurations.rust = dap.configurations.cpp
 
--- https://github.com/Saecki/crates.nvim
--- A neovim plugin that helps managing crates.io dependencies.
+-- Crates management
 require("crates").setup({
     completion = {
         crates = {
@@ -20,11 +16,14 @@ require("crates").setup({
     },
 })
 
+-- Formatter is fine
 require("conform").formatters_by_ft.rust = { "rustfmt" }
-require("lint").linters_by_ft.rust = { "clippy" }
 
+-- IMPORTANT: Remove "clippy" from nvim-lint to prevent target/ lock contention!
+-- require("lint").linters_by_ft.rust = { "clippy" } -- REMOVED
+
+-- Rustaceanvim automatically starts rust-analyzer (DO NOT use vim.lsp.enable)
 vim.g.rustaceanvim = {
-    -- LSP
     tools = {
         hover_actions = {
             replace_builtin_hover = false,
@@ -40,20 +39,18 @@ vim.g.rustaceanvim = {
             end, { desc = "Rust Debuggables", buffer = bufnr })
         end,
         default_settings = {
-            -- rust-analyzer language server configuration
             ["rust-analyzer"] = {
+                -- Let rust-analyzer run clippy on save instead of nvim-lint
+                check = {
+                    command = "clippy",
+                    extraArgs = { "--no-deps" }, -- Speeds up checks by ignoring external deps
+                },
                 cargo = {
                     allFeatures = true,
                     loadOutDirsFromCheck = true,
                     buildScripts = {
                         enable = true,
                     },
-                },
-                -- Add clippy lints for Rust if using rust-analyzer
-                checkOnSave = true,
-                -- Enable diagnostics if using rust-analyzer
-                diagnostics = {
-                    enable = true,
                 },
                 procMacro = {
                     enable = true,
@@ -79,13 +76,4 @@ vim.g.rustaceanvim = {
             },
         },
     },
-    -- dap = {
-    --     adapter = {
-    --         type = "executable",
-    --         command = "lldb-dap",
-    --         name = "rustacean_lldb"
-    --     }
-    -- }
 }
-
-dap.configurations.rust = dap.configurations.cpp

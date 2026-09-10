@@ -285,6 +285,26 @@ in {
               filter: none !important;
               text-shadow: none !important;
           }
+
+          .jellyseerr-icon-on-card {
+              display: none !important;
+          }
+
+          /* hide episodes and seasons from search */
+          #searchPage .verticalSection:has([data-type="Episode"]),
+          #searchPage .verticalSection:has([data-type="Person"]) {
+              display: none !important;
+          }
+
+          /* hide the ugly collection badge */
+          .jellyseerr-collection-badge {
+              display: none !important;
+          }
+
+          /* hide seerr search icon */
+          #jellyseerr-search-icon {
+              display: none !important;
+          }
         '';
       };
 
@@ -467,64 +487,39 @@ in {
                     'use strict';
 
                     const targetUrl = 'https://seerr.upidapi.dev';
-                    const targetTextLower = 'favorites';
                     const newText = 'Discover';
 
-                    function replaceTextInNode(node, fromText, toText) {
-                        if (node.nodeType === Node.TEXT_NODE) {
-                            if (node.textContent.trim().toLowerCase() === fromText.toLowerCase()) {
-                                node.textContent = toText;
-                            }
-                        } else {
-                            for (let child of node.childNodes) {
-                                replaceTextInNode(child, fromText, toText);
-                            }
+                    function modifyLastTab() {
+                        // Only run if the active page is the Home/Main page
+                        const isHomePage = document.querySelector('#indexPage:not(.hide)');
+                        if (!isHomePage) return;
+
+                        // Target the last tab button
+                        const lastTab = document.querySelector('.headerTabs .emby-tab-button:last-child');
+                              
+                        if (lastTab && !lastTab.dataset.discoverModified) {
+                            lastTab.dataset.discoverModified = 'true';
+
+                            // Update label
+                            const label = lastTab.querySelector('.emby-button-foreground') || lastTab;
+                            label.textContent = newText;
+
+                            // Open URL in new tab on click
+                            lastTab.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                window.open(targetUrl, '_blank');
+                            }, true);
                         }
                     }
 
-                    function modifyFavoritesElements() {
-                        const selectors = 'a, button, .emby-tab-button, .navMenuOption, .lnkMediaFolder';
-                        const elements = document.querySelectorAll(selectors);
-
-                        elements.forEach(el => {
-                            const text = el.textContent ? el.textContent.trim() : "";
-
-                            if (text.toLowerCase() === targetTextLower && !el.dataset.discoverModified) {
-                                // Mark as modified to avoid registering duplicate event listeners
-                                el.dataset.discoverModified = 'true';
-
-                                // Safely update the text label
-                                replaceTextInNode(el, targetTextLower, newText);
-
-                                // Intercept the click event to open in a new tab
-                                el.addEventListener('click', function(e) {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    window.open(targetUrl, '_blank'); 
-                                }, true); // "true" uses the capture phase to override the app's default router
-
-                                // Update anchor tag attributes if applicable
-                                if (el.tagName === 'A') {
-                                    el.setAttribute('href', targetUrl);
-                                    el.setAttribute('target', '_blank');
-                                    el.setAttribute('rel', 'noopener noreferrer');
-                                }
-                            }
-                        });
-                    }
-
-                    // Set up a MutationObserver to handle dynamic page loads and navigation
-                    const observer = new MutationObserver(() => {
-                        modifyFavoritesElements();
-                    });
-
-                    observer.observe(document.body, {
+                    // Observe navigation and dynamic page changes
+                    new MutationObserver(modifyLastTab).observe(document.body, {
                         childList: true,
                         subtree: true
                     });
 
-                    // Run once on load
-                    modifyFavoritesElements();
+                    modifyLastTab();
                 })();
               '';
             }

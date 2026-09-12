@@ -87,6 +87,10 @@ in {
             DefaultSavePathChanged = false;
           };
 
+          # prevent qbit from eating all my ram
+          # which in turn causes system lag / unresponsiveness
+          DiskIOReadMode = "DisableOSCache";
+
           # https://www.reddit.com/search/?q=Circumventing%20proton%20vpn%20ddos&cId=8f3a490d-e9e2-4649-84cf-92ee353b4968&iId=39143626-1f98-46d4-a015-03074afd4bc7
           # "DHT will trigger ProtonVPN Anti-ddos, disable it."
           DHTEnabled = false;

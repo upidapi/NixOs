@@ -66,11 +66,12 @@ in {
 
     transfer-sh = 8601;
     wastebin = 8602;
+    upi-paste = 8603;
 
-    shlink = 8603;
-    shlink-web = 8604;
+    shlink = 8604;
+    shlink-web = 8605;
 
-    the-lounge = 8605;
+    the-lounge = 8606;
 
     game-site = 8610;
     game-site-beta = 8611;

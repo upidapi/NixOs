@@ -7,6 +7,7 @@
     ./obsidian-livesync.nix
     ./wg-easy.nix
     ./shlink.nix
+    ./upi-paste.nix
     ./wastebin.nix
   ];
 }

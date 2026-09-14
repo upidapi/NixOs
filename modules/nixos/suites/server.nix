@@ -47,6 +47,7 @@ in {
         services = {
           transfer-sh = enable;
           wastebin = enable;
+          upi-paste = enable;
           shlink = enable;
           # wg-easy = enable;
           homepage = enable;

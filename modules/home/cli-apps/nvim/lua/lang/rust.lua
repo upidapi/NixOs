@@ -1,3 +1,6 @@
+-- rustaceanvim calls this
+-- vim.lsp.enable("rust_analyzer")
+
 local dap = require("dap")
 dap.configurations.rust = dap.configurations.cpp
 
@@ -18,6 +21,8 @@ require("crates").setup({
 
 -- Formatter is fine
 require("conform").formatters_by_ft.rust = { "rustfmt" }
+-- rust-analyzer does this
+-- require("lint").linters_by_ft.rust = { "clippy" }
 
 -- IMPORTANT: Remove "clippy" from nvim-lint to prevent target/ lock contention!
 -- require("lint").linters_by_ft.rust = { "clippy" } -- REMOVED

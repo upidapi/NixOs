@@ -171,7 +171,7 @@
             sudo --preserve-env sops $path
           '')
 
-          inputs'.deploy-rs.packages.default
+          pkgs.deploy-rs
         ];
       };
 

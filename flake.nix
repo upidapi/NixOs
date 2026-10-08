@@ -38,11 +38,6 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     declarative-flatpak = {
       url = "github:in-a-dil-emma/declarative-flatpak/latest";
     };
@@ -59,8 +54,9 @@
     };
 
     declarative-jellyfin = {
-      # url = "github:upidapi/declarative-jellyfin";
-      url = "github:Sveske-Juice/declarative-jellyfin";
+      url = "github:upidapi/declarative-jellyfin";
+      # https://github.com/provokateurin/declarative-jellyfin/tree/support-12.x
+      # url = "github:Sveske-Juice/declarative-jellyfin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -116,7 +112,7 @@
     };
 
     noshell = {
-      url = "github:viperML/noshell";
+      url = "git+https://codeberg.org/viperML/noshell.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

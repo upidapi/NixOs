@@ -60,7 +60,7 @@ in {
           {
             url = "http://127.0.0.1:${toString ports.radarr}";
             # api_key = "0123456789abcdef0123456789abcdef";
-            paths = ["/raid/media/torrents"];
+            paths = ["/raid/media/movies"];
             # protocols = "torrent";
             # timeout = "10s";
             # delete_delay = "5m";
@@ -73,7 +73,7 @@ in {
           {
             url = "http://127.0.0.1:${toString ports.sonarr}";
             # api_key = "0123456789abcdef0123456789abcdef";
-            paths = ["/raid/media/torrents"];
+            paths = ["/raid/media/tv"];
             # protocols = "torrent";
             # timeout = "10s";
             # delete_delay = "5m";

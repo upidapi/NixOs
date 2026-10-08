@@ -4,6 +4,7 @@
   lib,
   pkgs,
   self,
+  inputs',
   ...
 }: let
   inherit (mlib) mkEnableOpt enable;
@@ -25,6 +26,7 @@ in {
     nixpkgs.config.permittedInsecurePackages = [
       "ventoy-1.1.10"
       "ventoy-1.1.12"
+      "ventoy-1.1.17"
       "electron-39.8.10"
     ];
 
@@ -36,9 +38,12 @@ in {
 
     nixpkgs.overlays = [
       (_: prev: {
+        # FIXME: probably unnecessary
         openldap = prev.openldap.overrideAttrs {
           doCheck = !prev.stdenv.hostPlatform.isi686;
         };
+        # FIXME: remove once merged https://github.com/NixOS/nixpkgs/pull/569719
+        inherit (inputs'.nixpkgs-stable.legacyPackages) contour;
       })
     ];
 

@@ -131,11 +131,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      # We use the cachix cache provided by hyprland instead
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # hyprland = {
+    #   url = "github:hyprwm/Hyprland";
+    #   # We use the cachix cache provided by hyprland instead
+    #   # inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     open-bamboo-networking = {
       url = "git+https://codeberg.org/TomSievers/open-bamboo-networking-nixos.git?ref=develop";

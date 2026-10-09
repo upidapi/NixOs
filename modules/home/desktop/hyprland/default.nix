@@ -14,7 +14,7 @@ in {
   imports = [
     ./monitors.nix
     ./cofig.nix
-    inputs.hyprland.homeManagerModules.default
+    # inputs.hyprland.homeManagerModules.default
   ];
 
   options.modules.home.desktop.hyprland =

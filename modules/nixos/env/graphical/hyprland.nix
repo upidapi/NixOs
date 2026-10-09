@@ -13,7 +13,7 @@ in {
     mkEnableOpt "enable system support for hyprland";
 
   imports = [
-    inputs.hyprland.nixosModules.default
+    # inputs.hyprland.nixosModules.default
   ];
 
   config = mkIf cfg.enable {

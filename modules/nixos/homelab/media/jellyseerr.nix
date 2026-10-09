@@ -36,6 +36,11 @@ in {
         sopsFile = "${self}/secrets/server.yaml";
       };
 
+      "jellyfin/api-key_jellyseerr" = {
+        key = "jellyfin/api-key";
+        owner = config.services.seerr.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
       "jellyfin/users/admin/password_jellyseerr" = {
         key = "jellyfin/users/admin/password";
         owner = config.services.seerr.user;
@@ -57,6 +62,7 @@ in {
           resolvePaths = [
             "$.main.apiKey"
             "$.jellyfin.password"
+            "$.jellyfin.apiKey"
             "$.radarr[*].apiKey"
             "$.sonarr[*].apiKey"
           ];
@@ -67,7 +73,7 @@ in {
 
         jellyfin = {
           name = "upinix-laptop";
-          apiKey = config.sops.secrets."jellyfin/api-key".path;
+          apiKey = config.sops.secrets."jellyfin/api-key_jellyseerr".path;
 
           email = "videw@icloud.com";
           username = "admin";

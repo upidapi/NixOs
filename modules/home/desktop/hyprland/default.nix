@@ -30,6 +30,7 @@ in {
     home.packages = with pkgs; [
       brightnessctl
       hyprpicker
+
       grimblast
       tesseract
     ];

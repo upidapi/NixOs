@@ -22,7 +22,7 @@ in {
       UN_RADARR_0_API_KEY=${config.sops.placeholder."radarr/api-key"}
     '';
 
-    users.users.unpackerr.extraGroups = ["qbittorrent"];
+    users.users.unpackerr.extraGroups = ["qbittorrent" "media"];
     services.unpackerr = {
       enable = true;
       # group = "media";
@@ -60,7 +60,7 @@ in {
           {
             url = "http://127.0.0.1:${toString ports.radarr}";
             # api_key = "0123456789abcdef0123456789abcdef";
-            paths = ["/raid/media/movies"];
+            paths = ["/raid/media/torrents/movies"];
             # protocols = "torrent";
             # timeout = "10s";
             # delete_delay = "5m";
@@ -73,7 +73,7 @@ in {
           {
             url = "http://127.0.0.1:${toString ports.sonarr}";
             # api_key = "0123456789abcdef0123456789abcdef";
-            paths = ["/raid/media/tv"];
+            paths = ["/raid/media/torrents/tv"];
             # protocols = "torrent";
             # timeout = "10s";
             # delete_delay = "5m";

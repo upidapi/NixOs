@@ -200,11 +200,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1791493813,
-        "narHash": "sha256-CpZkAJ8O2r0ce4BSVoaq5qkivqAeUjVGC1hLshGK6TU=",
+        "lastModified": 1791583420,
+        "narHash": "sha256-8h7r0ZcRj+tk6RDOkOoVI72kMN0lewT5CmZYNdg6RrE=",
         "owner": "upidapi",
         "repo": "declarr",
-        "rev": "6a586f05c7f4fc597b599acc66c6f7c6d09a1036",
+        "rev": "f21dfb3694b66ec496381e222f9a50948b51d514",
         "type": "github"
       },
       "original": {

@@ -209,6 +209,7 @@ in {
               "$.*.config.host.password"
               "$.*.config.host.passwordConfirmation"
               "$.*.config.host.apiKey"
+              "$.*.notification.*.fields.apiKey"
               "$.*.applications.*.fields.apiKey"
               "$.*.indexer.*.fields.password"
               "$.*.downloadClient.*.fields.password"
@@ -319,12 +320,31 @@ in {
               };
             };
             notification = {
-              discord = {
-                implementation = "Discord";
+              # notify jellyfin when movie/tv is added/changed
+              # makes it show up as soon as it exists in sonarr/radarr
+              jellyfin = {
+                implementation = "MediaBrowser";
                 fields = {
-                  # webHookUrl = config.sops.secrets."sonarr/discord-webhook_declarr".path;
-                  webHookUrl = "https://discord.com/api/webhooks/1453131389921919228/QdTSKjeeo6TlVlwxgRziL8ZkOd6OcIRtaeqCjGjn_dZ3VOMeXYjYZglNrt_6mwNNyk6V";
+                  host = "127.0.0.1";
+                  port = ports.jellyfin;
+                  apiKey = config.sops.secrets."jellyfin/api-key_declarr".path;
                 };
+
+                # defaults
+                onGrab = true;
+                onDownload = true;
+                onUpgrade = true;
+                onImportComplete = true;
+                onRename = true;
+                onSeriesAdd = true;
+                onSeriesDelete = true;
+                onEpisodeFileDelete = true;
+                onEpisodeFileDeleteForUpgrade = true;
+                onHealthIssue = false;
+                includeHealthWarnings = false;
+                onHealthRestored = false;
+                onApplicationUpdate = true;
+                onManualInteractionRequired = false;
               };
             };
             config = {
@@ -491,7 +511,7 @@ in {
 
             rootFolder = ["/raid/media/movies"];
 
-            inherit (sonarr) downloadClient;
+            inherit (sonarr) downloadClient notification;
 
             customFormat = {};
             qualityProfile = {
@@ -714,8 +734,8 @@ in {
                 priority = 30; # default 25
                 fields = {
                   definitionFile = "limetorrents";
-                  downloadlink = 1; # magnet
-                  downloadlink2 = 0; # iTorrents.org
+                  primarydownloadlink = 1; # magnet
+                  fallbackdownloadlink = 0; # iTorrents.org
 
                   # added after i got 200 ratio on a torrent
                   "torrentBaseSettings.seedRatio" = 10;

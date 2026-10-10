@@ -56,6 +56,13 @@ in {
 
           # dont show the paste promt
           paste_actions filter
+
+          # dont start maximised
+          start_as_fullscreen no
+          start_as_maximized no
+          remember_window_size no
+          initial_window_width 900
+          initial_window_height 600
         '';
         colorConfig = with config.lib.stylix.colors.withHashtag; ''
           # window colors

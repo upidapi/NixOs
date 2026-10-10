@@ -35,6 +35,8 @@
           };
         };
       };
+      # FIXME: doesn't reflect current dist geometry
+      #  one drive failed and was replaced
       raid-disk-1 = {
         type = "disk";
         device = "/dev/disk/by-id/ata-ST18000NM003D-3DL103_ZVTAZSKF";

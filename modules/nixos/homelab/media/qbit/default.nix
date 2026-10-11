@@ -61,6 +61,19 @@ in {
         };
       };
     };
+
+    sops.secrets = {
+      "radarr/api-key_qbit" = {
+        key = "radarr/api-key";
+        owner = config.services.qbittorrent.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+      "sonarr/api-key_qbit" = {
+        key = "sonarr/api-key";
+        owner = config.services.qbittorrent.user;
+        sopsFile = "${self}/secrets/server.yaml";
+      };
+    };
     services.qbittorrent = {
       enable = true;
       group = "media";
@@ -73,6 +86,54 @@ in {
         LegalNotice.Accepted = true;
 
         Network.PortForwardingEnabled = false;
+
+        AutoRun = {
+          enabled = true;
+          program = let
+            radarrApiKeyFile = config.sops.secrets."radarr/api-key_qbit".path;
+            sonarrApiKeyFile = config.sops.secrets."sonarr/api-key_qbit".path;
+            x = pkgs.writeShellScript "qbit-sync-port" ''
+              #!/usr/bin/env bash
+              # shellcheck shell=bash
+
+              RADARR_URL="http://127.0.0.1:${toString ports.radarr}"
+              RADARR_API_KEY="$(cat "${radarrApiKeyFile}")"
+              RADARR_CATEGORY="radarr"
+
+              SONARR_URL="http://127.0.0.1:${toString ports.sonarr}"
+              SONARR_API_KEY="$(cat "${sonarrApiKeyFile}")"
+              SONARR_CATEGORY="tv-sonarr"
+
+              # qBittorrent parameters:
+              # %N = Torrent name ($1), %L = Category ($2)
+              TORRENT_NAME="$1"
+              CATEGORY="$2"
+
+              case "$CATEGORY" in
+                  "$RADARR_CATEGORY")
+                      curl -s -X POST "$RADARR_URL/api/v3/command" \
+                           -H "X-Api-Key: $RADARR_API_KEY" \
+                           -H "Content-Type: application/json" \
+                           -d '{"name": "RefreshMonitoredDownloads"}' > /dev/null 2>&1
+                      ;;
+
+                  "$SONARR_CATEGORY")
+                      curl -s -X POST "$SONARR_URL/api/v3/command" \
+                           -H "X-Api-Key: $SONARR_API_KEY" \
+                           -H "Content-Type: application/json" \
+                           -d '{"name": "RefreshMonitoredDownloads"}' > /dev/null 2>&1
+                      ;;
+
+                  *)
+                      # Torrent from another category or untagged; do nothing
+                      exit 0
+                      ;;
+              esac
+
+              exit 0
+            '';
+          in "${x} \\\"%N\\\" \\\"%L\\\"";
+        };
 
         BitTorrent.Session = {
           DefaultSavePath = "/raid/media/torrents/misc";

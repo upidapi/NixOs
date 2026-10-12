@@ -79,6 +79,9 @@ in {
           # tui for recursive directive sizes
           gdu
 
+          # spaced repetition app
+          anki
+
           # control audio nodes
           # helvum # they fking removed it :(
           crosspipe

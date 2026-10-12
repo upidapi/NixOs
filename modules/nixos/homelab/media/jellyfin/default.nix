@@ -159,6 +159,9 @@ in {
             enableHwAcceleration = true;
             enableHwEncoding = true;
           };
+          # wait only 5s from notification of new movie, to trying to add it
+          # delay exists to let the fs settle, default 60s
+          libraryMonitorDelay = 5;
           UICulture = "en";
           # REF: https://github.com/kra3/nix-configs/blob/7936d4527fe5814b2fd7f6afe4329a515b2d2fc6/modules/services/media/players/server/jellyfin.nix#L64
           # REF: https://github.com/matt1432/nixos-configs/blob/005b55fa0e0ae8601c11b557253a041e79fb1729/configurations/nos/modules/jellyfin/jellarr.nix#L166
@@ -496,7 +499,7 @@ in {
 
                         // Target the last tab button
                         const lastTab = document.querySelector('.headerTabs .emby-tab-button:last-child');
-                
+                    
                         if (lastTab && !lastTab.dataset.discoverModified) {
                             lastTab.dataset.discoverModified = 'true';
 

@@ -48,11 +48,12 @@ vim.g.rustaceanvim = {
                 -- Let rust-analyzer run clippy on save instead of nvim-lint
                 check = {
                     command = "clippy",
-                    extraArgs = { "--no-deps" }, -- Speeds up checks by ignoring external deps
+                    -- extraArgs = { "--no-deps" }, -- Speeds up checks by ignoring external deps
                 },
                 cargo = {
                     allFeatures = true,
                     loadOutDirsFromCheck = true,
+                    targetDir = true,
                     buildScripts = {
                         enable = true,
                     },

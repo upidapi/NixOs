@@ -24,9 +24,7 @@ in {
 
     # TODO: remove, see https://github.com/NixOS/nixpkgs/issues/404663
     nixpkgs.config.permittedInsecurePackages = [
-      "ventoy-1.1.10"
-      "ventoy-1.1.12"
-      "ventoy-1.1.17"
+      "ventoy-1.1.18"
       "electron-39.8.10"
     ];
 

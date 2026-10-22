@@ -65,15 +65,16 @@ in {
       # can change install dir at ./.local/share/lutris/system.yml
       # system:
       #   game_path: /home/upidapi/Games/lutris
-      (lutris.override {
-        extraPkgs = pkgs: [
-          # List package dependencies here
-          # This recompiles wine, which is really slow (30m+)
-          # if not relly needed ill keep them commented out
-          # wineWowPackages.stable
-          # winetricks
-        ];
-      })
+      # FIXME: dependency (pyrate-limiter-4.5.0) broken
+      # (lutris.override {
+      #   extraPkgs = pkgs: [
+      #     # List package dependencies here
+      #     # This recompiles wine, which is really slow (30m+)
+      #     # if not relly needed ill keep them commented out
+      #     # wineWowPackages.stable
+      #     # winetricks
+      #   ];
+      # })
     ];
 
     # environment.systemPackages = [

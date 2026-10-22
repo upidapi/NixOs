@@ -48,7 +48,7 @@ in {
           transfer-sh = enable;
           wastebin = enable;
           upi-paste = enable;
-          shlink = enable;
+          # shlink = enable; # FIXME: removed due to php vuln
           # wg-easy = enable;
           homepage = enable;
           thelounge = enable;

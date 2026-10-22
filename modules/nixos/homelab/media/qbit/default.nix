@@ -251,6 +251,7 @@ in {
               # python
               ''
                 import qbittorrentapi
+                import time
 
                 # prioritise torrents that have not been seeded for 7d
                 # this is to make sure i do not get HnRs

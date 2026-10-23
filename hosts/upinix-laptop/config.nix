@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (const) keys;
-  inherit (mlib) enable enableAnd;
+  inherit (mlib) enable;
 in {
   imports = [
     ./suspend-keyboard-fix.nix
@@ -15,10 +15,6 @@ in {
 
   system.stateVersion = "23.11";
   boot = {
-    # This seams to not be the case:
-    #   i think that the update from 6.12.4 to 6.12.5 broke suspend
-    #     but using the 6.11 kernel didn't seam to fix it
-    # kernelPackages = pkgs.linuxPackages_6_11;
     kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems.zfs = lib.mkForce false;
   };
@@ -30,16 +26,92 @@ in {
   #   }
   # ];
 
-  # performance/battery optimisation
   # https://github.com/SeniorMatt/Matthew-s-NixOS
-
-  # the performance issues (low clock speeds) seem to disappear when charging
-  # (possibly to full)
 
   sops.secrets."users/root".neededForUsers = true;
   sops.secrets."users/upidapi".neededForUsers = true;
 
-  # services.desktopManager.plasma6.enable = true;
+  hardware = {
+    tuxedo-drivers = enable; # doesn't do anything better
+    # tuxedo-rs = {
+    #   enable = true;
+    #   # tailor-gui = enable;
+    # };
+
+    nvidia = {
+      modesetting.enable = true;
+
+      # power management for dynamic RTX 4060 shutdown (D3cold)
+      powerManagement.enable = true;
+      powerManagement.finegrained = true;
+
+      # Use proprietary drivers on mobile RTX 40-series to prevent suspend/D3cold bugs
+      open = false;
+
+      prime = {
+        offload = {
+          enable = true;
+          enableOffloadCmd = true; # nvidia-offload <app>
+        };
+
+        amdgpuBusId = "PCI:6:0:0"; # AMD HawkPoint
+        nvidiaBusId = "PCI:1:0:0"; # Nvidia RTX 4060
+      };
+    };
+  };
+
+  powerManagement.powertop.enable = true;
+
+  services = {
+    # add deterministic symlink gpu(s)
+    udev.extraRules = ''
+      SUBSYSTEM=="drm", KERNEL=="card*", KERNELS=="0000:06:00.0", SYMLINK="dri/amd-igpu"
+      SUBSYSTEM=="drm", KERNEL=="card*", KERNELS=="0000:01:00.0", SYMLINK="dri/nvidia-dgpu"
+    '';
+
+    power-profiles-daemon.enable = true;
+    thermald.enable = lib.mkDefault true;
+  };
+
+  boot.kernelParams = [
+    "amdgpu.dcdebugmask=0x10"
+
+    # battery things
+    "pcie_aspm=force"
+    "pcie_aspm.policy=powersave"
+
+    # allow samsung 980 to enter PS4, might cause issues
+    # https://wiki.archlinux.org/title/Solid_state_drive/NVMe#Power_management
+    "nvme_core.default_ps_max_latency_us=5500"
+
+    # Force S0ix power management
+    # save power during suspend
+    "nvidia.NVreg_EnableS0ixPowerManagement=1"
+  ];
+
+  environment.sessionVariables = {
+    # Force Hyprland backend to use the AMD iGpu
+    # AQ_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu";
+    # WLR_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu";
+    AQ_DRM_DEVICES = "/dev/dri/amd-igpu";
+    WLR_DRM_DEVICES = "/dev/dri/amd-igpu";
+
+    XDG_SESSION_TYPE = "wayland";
+
+    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json";
+    __EGL_VENDOR_LIBRARY_FILENAMES = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
+
+    # ensure Wayland apps talk to the AMD graphics driver
+    LIBVA_DRIVER_NAME = "radeonsi";
+    MESA_LOADER_DRIVER_OVERRIDE = "radeonsi";
+    __GLX_VENDOR_LIBRARY_NAME = "mesa";
+
+    # force Mesa/Vulkan/Electron apps to use igou
+    DRI_PRIME = "pci-0000_06_00_0";
+
+    # Run electron apps with waylans for propper gpu support
+    NIXOS_OZONE_WL = "1";
+  };
 
   users.users = {
     upidapi = {
@@ -86,71 +158,12 @@ in {
   #  therefore linux cant tell AMD SMU to resume to normal power settings
   #   and therefore cant unset the PROCHOT flag
   #  replication: plug out during suspend
-  hardware = {
-    tuxedo-drivers = enable; # doesn't do anything better
-    # tuxedo-rs = {
-    #   enable = true;
-    #   # tailor-gui = enable;
-    # };
-  };
-
-  services = {
-    # dummy config for testing
-    # sonarr = {
-    #   # apiKeyFile = "";
-    #   settings.auth.apikey = "fwdv95oeuhvkxv2lk9q0gncfx7cdqo4x";
-    #   enable = true;
-    # };
-    # radarr = {
-    #   # apiKeyFile = "";
-    #   settings.auth.apikey = "fwdv95oeuhvkxv2lk9q0gncfx7cdqo4x";
-    #   enable = true;
-    # };
-    # prowlarr = {
-    #   # apiKeyFile = "";
-    #   settings.auth.apikey = "fwdv95oeuhvkxv2lk9q0gncfx7cdqo4x";
-    #   enable = true;
-    # };
-
-    thermald.enable = lib.mkDefault true;
-  };
-
-  # probably fixes it
-  # (2025-03-14) Randomly after a while my pc starts to lag (like 1fps)
-  #  and the tty is no better
-  #   https://chatgpt.com/c/67d44dfe-939c-800b-9564-fd1d3f020feb
-  #   https://community.frame.work/t/kworker-events-unbound-stuck-at-100-cpu-laptop-slows-to-1-fps/63464/6
-  #   https://bbs.archlinux.org/viewtopic.php?id=302615
-  #  started a few days ago, probably the update from 6.13.4 -> 6.13.6
-  #  might be a temp fix
-  #   cat /sys/kernel/debug/dri/1/amdgpu_gpu_recover
-
-  # didn't work
-  # boot = {
-  #   kernelParams = [
-  #     "amdgpu.dcdebugmask=0x10"
-  #     "amd_pstate=active"
-  #   ];
-  #   blacklistedKernelModules = ["amd_pmf"];
-  # };
-  boot.kernelParams = [
-    "amdgpu.dcdebugmask=0x10"
-  ];
 
   # figure out how to prevent the accidental touches of the touchpad while
   # typing
   # seams to not be an issue anymore, i guess it was a skill issue
 
   modules.nixos = {
-    # homelab.media = {
-    #   enable = true;
-    #   qbit = enable;
-    # };
-    #
-    # networking.vpn.namespaces = enableAnd {
-    #   proton = true;
-    # };
-
     suites = {
       base = enable;
       # server = enable;
@@ -169,7 +182,7 @@ in {
         "desc:BOE 0x0C8E" = {
           width = 2560;
           height = 1600;
-          refreshRate = 240;
+          refreshRate = 60;
           x = 0;
           y = 0;
           scale = 1.333333;

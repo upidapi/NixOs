@@ -13,7 +13,7 @@
 in {
   imports = [
     ./monitors.nix
-    ./cofig.nix
+    ./config.nix
     # inputs.hyprland.homeManagerModules.default
   ];
 

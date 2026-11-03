@@ -32,7 +32,8 @@ in {
   sops.secrets."users/upidapi".neededForUsers = true;
 
   hardware = {
-    tuxedo-drivers = enable; # doesn't do anything better
+    # FIXME: broken
+    # tuxedo-drivers = enable; # doesn't do anything better
     # tuxedo-rs = {
     #   enable = true;
     #   # tailor-gui = enable;

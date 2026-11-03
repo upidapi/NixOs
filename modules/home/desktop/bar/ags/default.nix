@@ -11,6 +11,7 @@
   inherit (lib) mkIf;
   cfg = config.modules.home.desktop.bar.ags;
   inherit (pkgs.stdenv.hostPlatform) system;
+  apkgs = inputs.ags.packages.${system};
 in {
   options.modules.home.desktop.bar.ags =
     mkEnableOpt "enables ags, used to create a bar";
@@ -32,7 +33,7 @@ in {
   # FIXME: the headphones icon doesn't always work
 
   config = let
-    pkg = pkgs.ags.overrideAttrs (prev: {
+    pkg = apkgs.ags.overrideAttrs (prev: {
       # FROM: https://github.com/Aylur/ags/issues/681
       patches = [./preserve-symlinks.patch];
       buildInputs =
@@ -40,7 +41,7 @@ in {
         ++ (with pkgs; [
           bun
         ])
-        ++ (with inputs.ags.packages.${system}; [
+        ++ (with apkgs; [
           # most of these are unecesary
           apps
           auth

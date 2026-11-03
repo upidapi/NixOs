@@ -68,7 +68,7 @@ vim.cmd("set nosmartindent")
 
 -- use gq[G] to format
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "text", "markdown" },
+    pattern = { "text", "markdown", "typst" },
     callback = function()
         vim.opt_local.textwidth = 80
 

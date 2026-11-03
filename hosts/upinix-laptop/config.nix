@@ -91,10 +91,10 @@ in {
 
   environment.sessionVariables = {
     # Force Hyprland backend to use the AMD iGpu
-    # AQ_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu";
-    # WLR_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu";
-    AQ_DRM_DEVICES = "/dev/dri/amd-igpu";
-    WLR_DRM_DEVICES = "/dev/dri/amd-igpu";
+    AQ_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu";
+    WLR_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu";
+    # AQ_DRM_DEVICES = "/dev/dri/amd-igpu";
+    # WLR_DRM_DEVICES = "/dev/dri/amd-igpu";
 
     XDG_SESSION_TYPE = "wayland";
 

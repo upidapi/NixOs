@@ -100,11 +100,12 @@ in {
       systemd.services.transfer-sh = {
         after = ["network.target"];
         wantedBy = ["multi-user.target"];
-        environment = mapAttrs (_: v:
-          if isBool v
-          then boolToString v
-          else toString v)
-        cfg.settings;
+        environment =
+          mapAttrs (_: v:
+            if isBool v
+            then boolToString v
+            else toString v)
+          cfg.settings;
         serviceConfig =
           {
             DevicePolicy = "closed";

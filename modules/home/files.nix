@@ -113,30 +113,30 @@ in {
       createStandAloneFiles =
         lib.hm.dag.entryAfter ["linkGeneration"]
         (concatStringsSep "\n" (map (f:
-          if !f.enable
-          then ""
-          else
-            /*
-            bash
-            */
-            ''
-              text=${escapeShellArg f.text}
-              target=${escapeShellArg f.target}
-              override=${escapeShellArg (
-                if f.override
-                then "1"
-                else "0"
-              )}
+            if !f.enable
+            then ""
+            else
+              /*
+              bash
+              */
+              ''
+                text=${escapeShellArg f.text}
+                target=${escapeShellArg f.target}
+                override=${escapeShellArg (
+                  if f.override
+                  then "1"
+                  else "0"
+                )}
 
-              mkdir -p "$(dirname "$target")"
+                mkdir -p "$(dirname "$target")"
 
-              # only place content in file if its empty or if override is true
-              if [ "$override" -eq 1 ] || [ ! -e "$target" ]; then
-                  echo "$text" > "$target"
-              fi
+                # only place content in file if its empty or if override is true
+                if [ "$override" -eq 1 ] || [ ! -e "$target" ]; then
+                    echo "$text" > "$target"
+                fi
 
-            '')
-        (attrValues cfg)));
+              '')
+          (attrValues cfg)));
     };
   };
 }

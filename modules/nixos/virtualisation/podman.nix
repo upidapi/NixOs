@@ -29,11 +29,20 @@ in {
 
     virtualisation = {
       # Registries to search for images on `podman pull`
-      containers.registries.search = [
-        "docker.io"
-        "quay.io"
-        "ghcr.io"
-        "gcr.io"
+
+      containers.registries.settings.registry = [
+        {
+          location = "docker.io";
+        }
+        {
+          location = "quay.io";
+        }
+        {
+          location = "ghcr.io";
+        }
+        {
+          location = "gcr.io";
+        }
       ];
 
       oci-containers.backend = "podman";

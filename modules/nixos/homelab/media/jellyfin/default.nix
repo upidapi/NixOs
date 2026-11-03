@@ -486,43 +486,43 @@ in {
               Name = "Add discover button";
 
               Script = ''
-                                (function() {
-                                    'use strict';
+                (function() {
+                    'use strict';
 
-                                    const targetUrl = 'https://seerr.upidapi.dev';
-                                    const newText = 'Discover';
+                    const targetUrl = 'https://seerr.upidapi.dev';
+                    const newText = 'Discover';
 
-                                    function modifyLastTab() {
-                                        // Only run if the active page is the Home/Main page
-                                        const isHomePage = document.querySelector('#indexPage:not(.hide)');
-                                        if (!isHomePage) return;
+                    function modifyLastTab() {
+                        // Only run if the active page is the Home/Main page
+                        const isHomePage = document.querySelector('#indexPage:not(.hide)');
+                        if (!isHomePage) return;
 
-                                        // Target the last tab button
-                                        const lastTab = document.querySelector('.headerTabs .emby-tab-button:last-child');
-                                        if (lastTab && !lastTab.dataset.discoverModified) {
-                                            lastTab.dataset.discoverModified = 'true';
+                        // Target the last tab button
+                        const lastTab = document.querySelector('.headerTabs .emby-tab-button:last-child');
+                        if (lastTab && !lastTab.dataset.discoverModified) {
+                            lastTab.dataset.discoverModified = 'true';
 
-                                            // Update label
-                                            const label = lastTab.querySelector('.emby-button-foreground') || lastTab;
-                                            label.textContent = newText;
+                            // Update label
+                            const label = lastTab.querySelector('.emby-button-foreground') || lastTab;
+                            label.textContent = newText;
 
-                                            // Open URL in new tab on click
-                                            lastTab.addEventListener('click', function(e) {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                window.open(targetUrl, '_blank');
-                                            }, true);
-                                        }
-                                    }
+                            // Open URL in new tab on click
+                            lastTab.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                window.open(targetUrl, '_blank');
+                            }, true);
+                        }
+                    }
 
-                                    // Observe navigation and dynamic page changes
-                                    new MutationObserver(modifyLastTab).observe(document.body, {
-                                        childList: true,
-                                        subtree: true
-                                    });
+                    // Observe navigation and dynamic page changes
+                    new MutationObserver(modifyLastTab).observe(document.body, {
+                        childList: true,
+                        subtree: true
+                    });
 
-                                    modifyLastTab();
-                                })();
+                    modifyLastTab();
+                })();
               '';
             }
           ];

@@ -76,6 +76,8 @@ in {
     game-site = 8610;
     game-site-beta = 8611;
 
+    harmonia = 8620;
+
     syncthing = 8384;
     wireguard = 51820;
     wg-easy = 51821;

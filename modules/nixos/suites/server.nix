@@ -39,6 +39,8 @@ in {
         infra = {
           tofu = enable;
 
+          harmonia = enable;
+
           ddclient = enable;
           caddy = enable;
           authelia = enable;

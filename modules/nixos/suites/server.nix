@@ -47,8 +47,8 @@ in {
         };
 
         services = {
-          transfer-sh = enable;
-          wastebin = enable;
+          # transfer-sh = enable;
+          # wastebin = enable;
           upi-paste = enable;
           # shlink = enable; # FIXME: removed due to php vuln
           # wg-easy = enable;

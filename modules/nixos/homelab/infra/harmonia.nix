@@ -28,6 +28,9 @@ in {
         enable = true;
         # nix-store --generate-binary-cache-key cache.yourdomain.tld-1 harmonia.secret harmonia.pub
         signKeyPaths = [config.sops.secrets."harmonia/key-priv".path];
+        settings = {
+          bind = "127.0.0.1:${toString ports.harmonia}";
+        };
       };
 
       caddy.virtualHosts = {

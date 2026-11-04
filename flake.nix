@@ -77,6 +77,11 @@
       url = "github:upidapi/declarr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    upi-paste = {
+      # url = "/home/upidapi/persist/prog/projects/upi-paste";
+      url = "github:upidapi/upi-paste";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     jellarr = {
       url = "github:venkyr77/jellarr";

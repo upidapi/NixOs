@@ -74,7 +74,7 @@ vim.g.rustaceanvim = {
                         ".gitlab",
                         "bin",
                         "node_modules",
-                        "target",
+                        -- "target",
                         "venv",
                         ".venv",
                     },

@@ -286,9 +286,11 @@ in {
                             over_7d.append(t.hash)
 
                 if over_7d:
-                    qbt.torrents_bottom_priority(torrent_hashes=over_7d)
+                    qbt.torrents_set_force_start(enable=True, torrent_hashes=under_7d)
+                    qbt.torrents_add_tags(tags="prio-seed", torrent_hashes=under_7d)
                 if under_7d:
-                    qbt.torrents_top_priority(torrent_hashes=under_7d)
+                  qbt.torrents_set_force_start(enable=False, torrent_hashes=over_7d)
+                  qbt.torrents_remove_tags(tags="prio-seed", torrent_hashes=over_7d)
 
                 print(
                     f"Updated queue: {len(under_7d)} prioritized, {len(over_7d)} demoted to back."

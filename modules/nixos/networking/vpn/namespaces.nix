@@ -55,7 +55,7 @@ in {
         wireguardConfigFile = config.sops.secrets.proton-wg.path;
         namespaceAddress = ips.proton;
 
-        accessibleFrom = [
+        allowedIngress = [
           # "192.168.0.0/16"
           # "10.0.0.0/8" # colides with proton vpn dns (10.2.0.1)
           # "100.100.0.0/16"

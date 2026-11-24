@@ -112,7 +112,7 @@ in {
       bazarr = {
         group = "media";
         enable = true;
-        listenPort = ports.bazarr;
+        settings.general.port = ports.bazarr;
       };
       caddy.virtualHosts = {
         "sonarr.upidapi.dev".extraConfig = ''

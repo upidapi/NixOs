@@ -21,7 +21,8 @@ in {
     # {remote}:{type}/{ref}/[{arch}]/{branch}[:{commit}]
     services.flatpak = {
       enable = true;
-      forceRunOnActivation = false;
+      runWithoutGui = false;
+      alwaysRunOnActivation = false;
       remotes = {
         "flathub" = "https://dl.flathub.org/repo/flathub.flatpakrepo";
         "flathub-beta" = "https://dl.flathub.org/beta-repo/flathub-beta.flatpakrepo";

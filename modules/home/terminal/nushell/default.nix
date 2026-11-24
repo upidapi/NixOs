@@ -18,12 +18,12 @@ in {
         enable = true;
 
         extraConfig = builtins.readFile ./config.nu;
+        loadSessionVariables = false;
 
         # the default is broken, set in config.nu instead
+        # NOTE: maybe use loadSessionVariables
         shellAliases =
-          builtins.removeAttrs
-          config.modules.home.terminal.shellAliases
-          ["e"];
+          removeAttrs config.modules.home.terminal.shellAliases ["e"];
       };
 
       # multi-shell multi-command argument completer

@@ -19,7 +19,7 @@
       hash = "sha256-zrcu/Ust0PK9BhIKo4MNyzMbzaQBYetIuhiqplHK8mQ=";
     };
 
-    appimageContents = pkgs.appimageTools.extractType2 {inherit pname version src;};
+    appimageContents = pkgs.appimageTools.extract {inherit pname version src;};
   in
     pkgs.appimageTools.wrapType2 {
       inherit pname version src;

@@ -22,6 +22,14 @@ in {
       flatpak
       gnome-software
     ];
+
+    systemd.user.services.manage-flatpaks-activation = {
+      # prevent flatpack update from delaying graphical session targets
+      Unit = {
+        After = ["graphical-session.target"];
+        Wants = ["network-online.target"];
+      };
+    };
     # flatpak pkg format
     # {remote}:{type}/{ref}/[{arch}]/{branch}[:{commit}]
     services.flatpak = {
